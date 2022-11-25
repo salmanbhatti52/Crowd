@@ -1,0 +1,7 @@
+{
+  "name": "crowd",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
