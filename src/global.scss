@@ -24,3 +24,72 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+
+@font-face {
+    font-family: "work-sans";
+    font-style: normal;
+    font-weight: lighter;
+    src: url("assets/fonts/WorkSans-VariableFont_wght.ttf");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC,
+      U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  .work_sans {
+    font-family: "work-sans" !important;
+  }
+
+ion-input {
+    font-family: "work-sans" !important;
+  }
+
+.btnbg{
+    --background: #531C7C;
+    opacity: 0.8;
+    --border-radius: 22px;
+    width: 100%;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+}
+
+.btnsimple{
+    --border-width: 2px;
+    --border-radius: 28px;
+    --background: #15d31500;
+    --border-color: white;
+    --border-style: solid;
+    width: 100%;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+}
+
+.divbgimg{
+    // background-image: url(img_parallax.svg);
+    // height: 100%;
+}
+    
+
+.inputfield{
+    border: 2px solid white;
+    border-radius: 52px;
+  }
+  .input{
+    text-align: left;
+    --placeholder-color:#ffffff;
+    --placeholder-font-weight:400;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+  }

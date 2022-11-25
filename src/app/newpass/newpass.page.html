@@ -1,0 +1,84 @@
+<ion-content>
+  <div class="bg">
+    <div style="width: 90%; margin: 0px auto">
+      <div style="text-align: center">
+        <img style="margin-top: 100px" src="assets/imgs/logo.svg" />
+      </div>
+
+      <p
+        style="
+          margin-top: 20px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 21px;
+          text-align: center;
+          letter-spacing: -0.3px;
+
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        New Password?
+      </p>
+
+      <p
+        style="
+          margin: 20px 0px;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 127.3%;
+          text-align: center;
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        Please create new password for <br />
+        your account.
+      </p>
+
+      <div
+        class="inputfield"
+        style="
+          height: 52px;
+          display: flex;
+          margin-top: 30px;
+          flex-direction: row-reverse;
+        "
+      >
+        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
+        <ion-input class="input" type="password" placeholder="New Password"
+          ><img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/lock.svg"
+          />
+        </ion-input>
+      </div>
+      <div
+        class="inputfield"
+        style="
+          height: 52px;
+          display: flex;
+          margin-top: 20px;
+          flex-direction: row-reverse;
+        "
+      >
+        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
+        <ion-input class="input" type="password" placeholder="Confirm Password"
+          ><img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/lock.svg"
+          />
+        </ion-input>
+      </div>
+
+      <ion-button
+        (click)="goToLogin()"
+        style="margin-top: 130px"
+        class="btnbg work_sans"
+        >Reset</ion-button
+      >
+    </div>
+  </div>
+</ion-content>

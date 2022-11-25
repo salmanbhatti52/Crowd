@@ -11,6 +11,34 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'start',
+    loadChildren: () => import('./start/start.module').then( m => m.StartPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'signup',
+    loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
+    path: 'newpass',
+    loadChildren: () => import('./newpass/newpass.module').then( m => m.NewpassPageModule)
+  },
+  {
+    path: 'forgetpass',
+    loadChildren: () => import('./forgetpass/forgetpass.module').then( m => m.ForgetpassPageModule)
+  },
+  {
+    path: 'getstart',
+    loadChildren: () => import('./getstart/getstart.module').then( m => m.GetstartPageModule)
+  },
+  {
+    path: 'otp',
+    loadChildren: () => import('./otp/otp.module').then( m => m.OtpPageModule)
+  },
 ];
 
 @NgModule({

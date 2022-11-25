@@ -1,0 +1,44 @@
+
+.bg {
+    /* The image used */
+    background-image: url(../../assets/imgs/bg.svg);
+  
+    /* Full height */
+    height: 100%; 
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .or_cls{
+    margin-left: 15px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-right: 15px;
+  }
+
+  @media (orientation: landscape) {
+    .btm{
+        text-align: center;
+        margin-top: 30px;
+      }
+  }
+
+
+  @media (orientation: portrait) {
+    .btm{
+        text-align: center;
+        position: absolute;
+        bottom: 20px;
+        width: 90%;
+      }
+  }
+  

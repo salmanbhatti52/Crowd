@@ -1,0 +1,131 @@
+<ion-content>
+  <div class="bg">
+    <div style="width: 90%; margin: 0px auto">
+      <div style="text-align: center">
+        <img style="margin-top: 100px" src="assets/imgs/logo.svg" />
+      </div>
+
+      <div class="inputfield" style="height: 52px; margin-top: 50px">
+        <ion-input class="input" type="text" placeholder="Email"
+          ><img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/email.svg"
+          />
+        </ion-input>
+      </div>
+
+      <div
+        class="inputfield"
+        style="
+          height: 52px;
+          display: flex;
+          margin-top: 20px;
+          flex-direction: row-reverse;
+        "
+      >
+        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
+        <ion-input class="input" type="password" placeholder="Password"
+          ><img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/lock.svg"
+          />
+        </ion-input>
+      </div>
+
+      <ion-button
+        (click)="getStart()"
+        style="margin-top: 20px"
+        class="btnbg work_sans"
+        >Sign In</ion-button
+      >
+
+      <p
+        (click)="goToForgetpass()"
+        style="
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 19px;
+          letter-spacing: -0.3px;
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        Forgot Password?
+      </p>
+
+      <p
+        style="
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 19px;
+          letter-spacing: -0.3px;
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        Don’t have an account?
+        <span
+          (click)="goToSignup()"
+          style="
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19px;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+          "
+          >Register Now</span
+        >
+      </p>
+
+      <div style="display: flex; align-items: center">
+        <hr style="background: white; height: 1.5px; width: 60%" />
+        <p class="or_cls work_sans">Or</p>
+        <hr style="background: white; height: 1.5px; width: 60%" />
+      </div>
+
+      <ion-row style="margin-top: 45px">
+        <ion-col style="text-align: center">
+          <img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/facebook.svg"
+          />
+        </ion-col>
+
+        <ion-col style="text-align: center">
+          <img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/gmail.svg"
+          />
+        </ion-col>
+
+        <ion-col style="text-align: center">
+          <img
+            style="margin: 17px 17px 17px 15px"
+            src="/assets/imgs/apple.svg"
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="btm">
+        <p
+          style="
+            margin: 31px 0px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 127.3%;
+            text-align: center;
+            color: #ffffff;
+          "
+          class="work_sans"
+        >
+          By SIgning you agree to our Terms of Service, Privacy Policy and
+          Cookie Policy.
+        </p>
+      </div>
+    </div>
+  </div>
+</ion-content>
