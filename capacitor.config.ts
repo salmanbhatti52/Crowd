@@ -1,10 +1,10 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'crowd',
-  webDir: 'www',
-  bundledWebRuntime: false
+  appId: "io.crowd.mi",
+  appName: "MiCrowd",
+  webDir: "www",
+  bundledWebRuntime: false,
 };
 
 export default config;
