@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar class="bg">
+    <ion-row>
+      <ion-col size="2"> </ion-col>
+
+      <ion-col size="8" style="text-align: center">
+        <ion-label class="titlefont work_sans">Crowded notifications</ion-label>
+      </ion-col>
+      <ion-col size="2" style="text-align: center">
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/user.svg"
+        />
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div style="margin-top: 90px; padding: 30px">
+    <p
+      style="
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 23px;
+        text-align: center;
+        text-transform: capitalize;
+        color: #ffffff;
+      "
+      class="work_sans"
+    >
+      Keep an eye out and we will notify you when a local Venue becomes busy!
+    </p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-tabs style="top: 10px !important">
+    <ion-tab-bar slot="bottom" class="ion-no-border">
+      <hr />
+      <ion-tab-button (click)="tab1Click()">
+        <img src="assets/imgs/home.svg" class="img" />
+        <ion-label class="font work_sans">Venue</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab2Click()">
+        <img src="assets/imgs/location.svg" class="activeimg" />
+        <ion-label class="font work_sans">Location</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab3Click()">
+        <img src="assets/imgs/heart.svg" class="img" />
+        <ion-label class="font work_sans">Saved</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab4Click()">
+        <img src="assets/imgs/bellactive.svg" class="img" />
+        <ion-label class="fontactive work_sans">Notification</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>

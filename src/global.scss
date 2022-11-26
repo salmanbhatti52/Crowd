@@ -83,6 +83,11 @@ ion-input {
     border: 2px solid white;
     border-radius: 52px;
   }
+
+  .inputfieldblack{
+    border-radius: 52px;
+    background: black;
+  }
   .input{
     text-align: left;
     --placeholder-color:#ffffff;
@@ -93,3 +98,5 @@ ion-input {
     letter-spacing: -0.3px;
     color: #FFFFFF;
   }
+
+

@@ -1,13 +1,15 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: "app-saved",
+  templateUrl: "./saved.page.html",
+  styleUrls: ["./saved.page.scss"],
 })
-export class HomePage {
+export class SavedPage implements OnInit {
   constructor(public router: Router) {}
+
+  ngOnInit() {}
 
   tab1Click() {
     this.router.navigate(["home"]);

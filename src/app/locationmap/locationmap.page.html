@@ -1,0 +1,111 @@
+<ion-content style="--background: #262626">
+  <div class="bg">
+    <ion-row style="padding-top: 20px">
+      <ion-col size="2" style="text-align: center">
+        <img
+          style="height: 25px; width: 25px"
+          src="assets/imgs/treeeline.svg"
+        />
+      </ion-col>
+
+      <ion-col size="8" style="text-align: center"> </ion-col>
+      <ion-col size="2" style="text-align: center">
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/user.svg"
+        />
+      </ion-col>
+    </ion-row>
+
+    <div
+      style="
+        background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+        display: flex;
+        margin: 10px;
+        border-radius: 20px;
+        position: absolute;
+        width: 94%;
+        bottom: 110px;
+      "
+    >
+      <img
+        style="
+          border-radius: 22px;
+          height: 100px;
+          width: 100px;
+          padding: 10px;
+          object-fit: cover;
+        "
+        src="assets/imgs/glass.png"
+      />
+
+      <div style="margin-top: 11px">
+        <p
+          style="
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 21px;
+            color: #ffffff;
+          "
+          class="work_sans"
+        >
+          The Ivy Bar
+        </p>
+
+        <ion-badge
+          style="
+            padding: 8px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border-radius: 20px;
+            background: #7825cb;
+          "
+          >No Discount</ion-badge
+        >
+        <img
+          style="position: absolute; bottom: 10px; right: 20px"
+          src="assets/imgs/heartwhite.svg"
+        />
+
+        <div style="display: flex; margin-top: 10px">
+          <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
+          <p class="work_sans titlesub">1.2 Miles</p>
+        </div>
+        <div style="display: flex; margin-top: 10px">
+          <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
+          <p class="work_sans titlesub">Open till 1 PM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-tabs style="top: 10px !important">
+    <ion-tab-bar slot="bottom" class="ion-no-border">
+      <hr />
+      <ion-tab-button (click)="tab1Click()">
+        <img src="assets/imgs/home.svg" class="img" />
+        <ion-label class="font work_sans">Venue</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab2Click()">
+        <img src="assets/imgs/locationactive.svg" class="activeimg" />
+        <ion-label class="fontactive work_sans">Location</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab3Click()">
+        <img src="assets/imgs/heart.svg" class="img" />
+        <ion-label class="font work_sans">Saved</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="tab4Click()">
+        <img src="assets/imgs/bell.svg" class="img" />
+        <ion-label class="font work_sans">Notification</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>
