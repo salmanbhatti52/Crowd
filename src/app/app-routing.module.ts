@@ -77,6 +77,14 @@ const routes: Routes = [
         (m) => m.ChangepassPageModule
       ),
   },
+  {
+    path: 'eventdetail',
+    loadChildren: () => import('./eventdetail/eventdetail.module').then( m => m.EventdetailPageModule)
+  },
+  {
+    path: 'venuedetail',
+    loadChildren: () => import('./venuedetail/venuedetail.module').then( m => m.VenuedetailPageModule)
+  },
 ];
 
 @NgModule({

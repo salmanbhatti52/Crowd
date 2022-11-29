@@ -1,0 +1,68 @@
+<ion-content style="--background: #262626">
+  <div style="position: relative">
+    <ion-row style="position: absolute; z-index: 999; width: 100%">
+      <ion-col size="2" style="text-align: center">
+        <img
+          (click)="goBack()"
+          style="height: 25px; width: 25px; margin-right: 15px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="4" style="text-align: center"> </ion-col>
+      <ion-col size="6" style="text-align: right">
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px; margin-right: 15px"
+          src="assets/imgs/user.svg"
+        />
+
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/heartww.svg"
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-badge class="bdg">{{detailObj.off}} Off </ion-badge>
+
+    <ion-row>
+      <ion-col class="slider_main">
+        <ion-slides pager="true" style="height: 341px">
+          <ion-slide *ngFor="let p of detailObj.detailimg; let i = index">
+            <div class="slide">
+              <img src="{{p.img}}" style="width: 100%" class="s_img" />
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div style="width: 90%; margin: 5% auto">
+    <p>{{detailObj.name}}</p>
+    <p>{{detailObj.name2}}</p>
+
+    <ion-row>
+      <ion-col>
+        <div style="display: flex">
+          <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
+          <p class="work_sans titlesub">{{detailObj.distance}} Miles</p>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div style="display: flex">
+          <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
+          <p class="work_sans titlesub">Open till {{detailObj.opentime}}</p>
+        </div>
+      </ion-col>
+      <ion-col>
+        <ion-badge class="bdgw">
+          <img style="margin-right: 7px" src="assets/imgs/g.svg" />
+          {{detailObj.off}} Off
+          <img style="height: 16px; margin-left: 7px" src="assets/imgs/s.svg" />
+        </ion-badge>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

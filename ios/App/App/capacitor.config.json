@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "crowd",
+	"appId": "io.crowd.mi",
+	"appName": "MiCrowd",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

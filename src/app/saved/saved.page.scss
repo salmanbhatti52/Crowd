@@ -1,16 +1,15 @@
+.titlefont{
+  font-weight: 700;
+  font-size: 19px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #FFFFFF;
+}
 
-.bg {
-    /* The image used */
-    background-image: url(../../assets/imgs/bg.svg);
-  
-    /* Full height */  
-    height: 100%; 
-  
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+.bg{
+  --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+  padding: 0px 0px 0px 0px;
+}
   
   .or_cls{
     margin-left: 15px;
@@ -177,3 +176,43 @@
     text-align: center;
     color: #AC3DBA;
   }
+
+  .bdg{
+    background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 10px;
+    border-radius: 22px;
+  }
+
+  .imgcls{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+  }
+
+  .title1{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 0px;
+    color: #FFFFFF;
+  }
+
+  .title2{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 4px;
+    color: #FFFFFF;
+  }
+
+  .heighclassbig{
+    height: 259px !important;
+  }
+  .heighclasssmall{
+    // margin-top: -40px;
+    height: 214px !important;
+  }
+ 
