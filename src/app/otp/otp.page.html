@@ -19,7 +19,7 @@
         "
         class="work_sans"
       >
-        Forgot Password?
+        OTP
       </p>
 
       <p
@@ -34,8 +34,8 @@
         "
         class="work_sans"
       >
-        Enter the Email address associated with your account. You will receive a
-        confirmation code
+        A message has been sent to your <br />
+        Email Address with CODE...
       </p>
 
       <ion-row style="display: flex; justify-content: center; margin-top: 5%">
@@ -44,12 +44,38 @@
           [config]="{length:4,allowNumbersOnly:true}"
         ></ng-otp-input>
       </ion-row>
+      <p
+        style="
+          margin-top: 35px;
+          text-align: center;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 19px;
+          letter-spacing: -0.3px;
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        Didn’t received the code?
+        <span
+          style="
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 19px;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+          "
+          >RESEND</span
+        >
+      </p>
 
       <ion-button
         (click)="newPass()"
-        style="margin-top: 130px"
+        style="margin-top: 110px"
         class="btnbg work_sans"
-        >Next</ion-button
+        >Verify</ion-button
       >
     </div>
   </div>

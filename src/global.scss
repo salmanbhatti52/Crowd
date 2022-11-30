@@ -44,6 +44,7 @@ ion-input {
   }
 
 .btnbg{
+  text-transform:none !important;
   height: 53px;
       --background: #531C7C;
     opacity: 0.8;
@@ -60,7 +61,7 @@ ion-input {
 
 .btnsimple{  
   height: 53px;
-
+  text-transform:none !important;
     --border-width: 2px;
     --border-radius: 28px;
     --background: #15d31500;
@@ -141,4 +142,8 @@ ion-input {
   height: 8px;
   border-radius: 6px;
   background: white;
+}
+ 
+.divboxshadowinside{
+  box-shadow: inset -21px -78px 82px -20px rgb(0 0 0 / 90%)
 }

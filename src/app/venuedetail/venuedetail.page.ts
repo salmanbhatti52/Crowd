@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Platform } from "@ionic/angular";
+import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
 
 @Component({
@@ -37,7 +37,7 @@ export class VenuedetailPage implements OnInit {
   claimDrag() {
     this.num++;
     console.log("dragggggg---", this.num);
-    if (this.num >= 30) {
+    if (this.num >= 20) {
       this.displaydiv = true;
       this.num = 0;
     }
@@ -69,5 +69,11 @@ export class VenuedetailPage implements OnInit {
   dismiss() {
     this.displaydiv = false;
     console.log("dragggggg");
+  }
+
+  closeslide(slidingItem: IonItemSliding) {
+    this.dismiss();
+    this.num = 0;
+    slidingItem.close();
   }
 }

@@ -2,5 +2,13 @@
 	"appId": "io.crowd.mi",
 	"appName": "MiCrowd",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"backgroundColor": "#A8B400",
+			"launchAutoHide": false,
+			"showSpinner": false,
+			"androidScaleType": "CENTER_CROP"
+		}
+	}
 }

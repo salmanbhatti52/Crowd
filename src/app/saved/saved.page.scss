@@ -10,6 +10,7 @@
   background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
   padding: 10px 0px 10px 0px;
 }
+  
   .or_cls{
     margin-left: 15px;
     font-style: normal;
@@ -183,6 +184,8 @@
     top: 10px;
     padding: 10px;
     border-radius: 22px;
+    font-weight: 400;
+    font-size: 10px;
   }
 
   .imgcls{
@@ -193,22 +196,23 @@
 
   .title1{
     font-style: normal;
-    font-weight: 700;
-    font-size: 19px;
+    font-weight: 600;
+    font-size: 14px;
     line-height: 0px;
     color: #FFFFFF;
   }
 
   .title2{
     font-style: normal;
-    font-weight: 600;
-    font-size: 13px;
+    font-weight: 300;
+    font-size: 10px;
     line-height: 4px;
     color: #FFFFFF;
   }
 
   .heighclassbig{
-    height: 259px !important;
+   // height: 259px !important;
+   height: 214px !important;
   }
   .heighclasssmall{
     // margin-top: -40px;

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">crowd</string>
-    <string name="title_activity_main">crowd</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">MiCrowd</string>
+    <string name="title_activity_main">MiCrowd</string>
+    <string name="package_name">io.crowd.mi</string>
+    <string name="custom_url_scheme">io.crowd.mi</string>
 </resources>

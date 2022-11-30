@@ -9,6 +9,7 @@ import { RestService } from "../rest.service";
 })
 export class HomePage {
   segmentModel = "venu";
+  showfilter = false;
   venuarr = [
     {
       name: "BarBQ",
@@ -492,5 +493,13 @@ export class HomePage {
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["eventdetail"]);
+  }
+
+  showHideFilter() {
+    if (this.showfilter) {
+      this.showfilter = false;
+    } else {
+      this.showfilter = true;
+    }
   }
 }
