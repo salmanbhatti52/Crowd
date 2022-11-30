@@ -1,9 +1,14 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar class="bg">
     <ion-row>
-      <ion-col size="2" style="text-align: center"> </ion-col>
+      <ion-col size="2" style="text-align: center">
+        <img
+          style="height: 25px; width: 25px"
+          src="assets/imgs/treeeline.svg"
+        />
+      </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Saved</ion-label>
+        <ion-label class="titlefont work_sans">Home</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center">
         <img
@@ -64,10 +69,80 @@
       </ion-segment>
     </div>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content style="--background: #262626">
-  <div style="margin: 4% auto; width: 95%">
+  <div class="bg" style="position: fixed; width: 100%; z-index: 9999">
+    <ion-row>
+      <ion-col size="2" style="text-align: center">
+        <img
+          style="height: 25px; width: 25px"
+          src="assets/imgs/treeeline.svg"
+        />
+      </ion-col>
+      <ion-col size="8" style="text-align: center">
+        <ion-label class="titlefont work_sans">Home</ion-label>
+      </ion-col>
+      <ion-col size="2" style="text-align: center">
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/user.svg"
+        />
+      </ion-col>
+    </ion-row>
+
+    <div style="margin: 10px 0px; text-align: -webkit-center">
+      <ion-segment
+        style="
+          height: 48px;
+          width: 64%;
+          background: white;
+          padding: 3px 5px;
+          border-radius: 200px;
+        "
+        scrollable="true"
+        mode="ios"
+        [(ngModel)]="segmentModel"
+        (ionChange)="segmentChanged($event)"
+        value="venu"
+      >
+        <ion-segment-button
+          style="
+            --indicator-color: #611ea5;
+            --color: #000000;
+            --color-checked: #fff;
+            --border-radius: 20px;
+            --background-checked: #611ea5;
+          "
+          value="venu"
+        >
+          <ion-label>Venues</ion-label>
+        </ion-segment-button>
+        <ion-segment-button
+          style="
+            --indicator-color: linear-gradient(
+              89.73deg,
+              #ebd87a -0.24%,
+              #956b1c 99.77%
+            );
+            --color: #000000;
+            --color-checked: #fff;
+            --border-radius: 20px;
+            --background-checked: linear-gradient(
+              89.73deg,
+              #ebd87a -0.24%,
+              #956b1c 99.77%
+            ); ;
+          "
+          value="event"
+        >
+          <ion-label>Events</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </div>
+  <div style="margin: 140px auto 18% auto; width: 95%">
     <div *ngIf="segmentModel === 'venu'">
       <ion-row>
         <ion-col
@@ -77,6 +152,7 @@
           *ngFor="let opt of venuarr; let i = index"
         >
           <div
+            (click)="goToDetail(opt)"
             style=" 
             position: relative;
            height: 100%;
@@ -116,6 +192,7 @@
           *ngFor="let opt of eventarr; let i = index"
         >
           <div
+            (click)="goToDetailevent(opt)"
             style=" 
             position: relative;
            height: 100%;

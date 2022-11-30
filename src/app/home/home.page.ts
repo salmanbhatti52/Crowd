@@ -46,7 +46,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -82,7 +83,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -118,7 +120,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -154,7 +157,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -230,7 +234,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -266,7 +271,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -302,7 +308,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -338,7 +345,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -374,7 +382,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -410,7 +419,8 @@ export class HomePage {
         },
       ],
       like: 0,
-    }, {
+    },
+    {
       name: "BarBQ",
       name2: "venue Name",
       opentime: "1 PM",
@@ -476,5 +486,11 @@ export class HomePage {
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["venuedetail"]);
+  }
+
+  goToDetailevent(opt: any) {
+    console.log(opt);
+    this.rest.detail = opt;
+    this.router.navigate(["eventdetail"]);
   }
 }
