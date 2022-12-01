@@ -1,8 +1,14 @@
 <ion-content style="--background: #262626">
   <div class="bg">
+    <div *ngIf="showfilter" class="filterdivstyle">
+      <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Quiet</p>
+    </div>
     <ion-row style="padding-top: 20px">
       <ion-col size="2" style="text-align: center">
         <img
+          (click)="showHideFilter()"
           style="height: 25px; width: 25px"
           src="assets/imgs/treeeline.svg"
         />
@@ -73,7 +79,6 @@
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
           <p class="work_sans titlesub">1.2 Miles</p>
-          
         </div>
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />

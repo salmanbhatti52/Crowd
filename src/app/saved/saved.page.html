@@ -73,15 +73,21 @@
 
 <ion-content style="--background: #262626">
   <div class="bg" style="position: fixed; width: 100%; z-index: 9999">
+    <div *ngIf="showfilter" class="filterdivstyle">
+      <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Quiet</p>
+    </div>
     <ion-row>
       <ion-col size="2" style="text-align: center">
         <img
+          (click)="showHideFilter()"
           style="height: 25px; width: 25px"
           src="assets/imgs/treeeline.svg"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Home</ion-label>
+        <ion-label class="titlefont work_sans">Saved</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center">
         <img
@@ -173,7 +179,7 @@
                 *ngIf="opt.like==1"
                 src="assets/imgs/heartactive.svg"
               />
-              <ion-badge class="bdg">{{opt.off}} Off {{i}}</ion-badge>
+              <ion-badge class="bdg">{{opt.off}} Off </ion-badge>
             </div>
 
             <div style="position: absolute; bottom: 5px; left: 15px">
@@ -214,7 +220,7 @@
                 *ngIf="opt.like==1"
                 src="assets/imgs/heartactive.svg"
               />
-              <ion-badge class="bdg">{{opt.off}} Off {{i}}</ion-badge>
+              <ion-badge class="bdg">{{opt.off}} Off </ion-badge>
             </div>
 
             <div style="position: absolute; bottom: 5px; left: 15px">

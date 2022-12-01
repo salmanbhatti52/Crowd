@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
   styleUrls: ["./locationmap.page.scss"],
 })
 export class LocationmapPage implements OnInit {
+  showfilter = false;
+
   constructor(public router: Router) {}
 
   ngOnInit() {}
@@ -25,5 +27,13 @@ export class LocationmapPage implements OnInit {
   }
   goToProfile() {
     this.router.navigate(["profile"]);
+  }
+
+  showHideFilter() {
+    if (this.showfilter) {
+      this.showfilter = false;
+    } else {
+      this.showfilter = true;
+    }
   }
 }

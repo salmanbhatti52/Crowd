@@ -13,6 +13,7 @@ export class SavedPage implements OnInit {
   ngOnInit() {}
 
   segmentModel = "venu";
+  showfilter = false;
   venuarr = [
     {
       name: "BarBQ",
@@ -495,5 +496,12 @@ export class SavedPage implements OnInit {
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["eventdetail"]);
+  }
+  showHideFilter() {
+    if (this.showfilter) {
+      this.showfilter = false;
+    } else {
+      this.showfilter = true;
+    }
   }
 }

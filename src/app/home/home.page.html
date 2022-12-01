@@ -73,19 +73,11 @@
 
 <ion-content style="--background: #262626">
   <div class="bg" style="position: fixed; width: 100%; z-index: 9999">
-    <div
-      *ngIf="showfilter"
-      style="
-        position: absolute;
-        background: rgb(255, 255, 255);
-        height: 100px;
-        width: 100px;
-        left: 50px;
-        top: 32px;
-        z-index: 999;
-        border-radius: 10px;
-      "
-    ></div>
+    <div *ngIf="showfilter" class="filterdivstyle">
+      <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Busy</p>
+      <p class="filtertext" (click)="showHideFilter()">Quiet</p>
+    </div>
     <ion-row>
       <ion-col size="2" style="text-align: center">
         <img

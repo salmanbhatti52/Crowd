@@ -147,3 +147,41 @@ ion-input {
 .divboxshadowinside{
   box-shadow: inset -21px -78px 82px -20px rgb(0 0 0 / 90%)
 }
+
+.otp-input[_ngcontent-ukr-c143] {
+  font-size: 18px !important;
+  margin-right: 10px !important;
+  background: #00000029 !important;
+  height: 45px !important;
+  width: 60px !important;
+  border-radius: 28px !important; 
+  color: white !important;
+}
+
+.otp-input{
+  font-size: 18px !important;
+  margin-right: 10px !important;
+  background: #00000029 !important;
+  height: 56px !important;
+  width: 71px !important;
+  border-radius: 28px !important; 
+  color: white !important;
+  border: 2px solid white !important;
+
+}
+.otp-input:focus-within {
+  background: #00000029 !important;
+}
+
+
+.filterdivstyle{
+  position: absolute;
+  background: rgb(255, 255, 255);
+  height: auto;
+  width: auto;
+  left: 50px;
+  top: 32px;
+  z-index: 999;
+  border-radius: 10px;
+  padding: 3px 21px;
+}
