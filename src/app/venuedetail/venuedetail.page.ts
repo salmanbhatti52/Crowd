@@ -34,14 +34,16 @@ export class VenuedetailPage implements OnInit {
     this.router.navigate(["profile"]);
   }
 
-  claimDrag() {
-    this.num++;
-    console.log("dragggggg---", this.num);
-    if (this.num >= 20) {
+  claimDrag(slidingItem: IonItemSliding, event: any) {
+    let ratio = event.detail.ratio;
+
+    if (ratio == -1) {
       this.displaydiv = true;
       this.num = 0;
+      console.log("if---if", ratio);
     }
-    console.log("dragggggg---44444", this.num);
+
+    console.log("dragggggg---44444", ratio);
   }
 
   public goLocation() {
@@ -75,5 +77,13 @@ export class VenuedetailPage implements OnInit {
     this.dismiss();
     this.num = 0;
     slidingItem.close();
+  }
+
+  openSlider(slidingItem: IonItemSliding) {
+    console.log("opne");
+
+    this.num = 0;
+    slidingItem.close();
+    console.log("else---else", this.num);
   }
 }

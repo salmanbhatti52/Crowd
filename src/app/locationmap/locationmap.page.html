@@ -1,11 +1,33 @@
 <ion-content style="--background: #262626">
   <div class="bg">
-    <div *ngIf="showfilter" class="filterdivstyle">
+    <div
+      *ngIf="showfilter"
+      style="
+        position: absolute;
+        background: rgb(255, 255, 255);
+        height: auto;
+        width: auto;
+        left: 50px;
+        top: 32px;
+        z-index: 999;
+        border-radius: 10px;
+        padding: 3px 21px 12px;
+      "
+    >
       <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
       <p class="filtertext" (click)="showHideFilter()">Busy</p>
       <p class="filtertext" (click)="showHideFilter()">Quiet</p>
     </div>
-    <ion-row style="padding-top: 20px">
+    <div class="boxshadow"></div>
+
+    <ion-row
+      style="
+        position: absolute;
+        z-index: 999999;
+        padding-top: 20px;
+        width: 100%;
+      "
+    >
       <ion-col size="2" style="text-align: center">
         <img
           (click)="showHideFilter()"

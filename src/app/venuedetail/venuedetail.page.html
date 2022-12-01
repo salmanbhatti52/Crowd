@@ -1,5 +1,6 @@
 <ion-content style="--background: #262626">
   <div style="position: relative">
+    <div class="boxshadow"></div>
     <ion-row
       style="margin-top: 10px; position: absolute; z-index: 999; width: 100%"
     >
@@ -104,7 +105,11 @@
     </div>
 
     <ion-list class="btnbg1 work_sans">
-      <ion-item-sliding #slidingItem (ionDrag)="claimDrag()">
+      <ion-item-sliding
+        #slidingItem
+        (ionDrag)="claimDrag(slidingItem, $event)"
+        (ionOpen)="openSlider(slidingItem)"
+      >
         <ion-item-options side="start">
           <ion-item-option
             style="
