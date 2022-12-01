@@ -85,6 +85,10 @@ const routes: Routes = [
     path: 'venuedetail',
     loadChildren: () => import('./venuedetail/venuedetail.module').then( m => m.VenuedetailPageModule)
   },
+  {
+    path: 'deletact',
+    loadChildren: () => import('./deletact/deletact.module').then( m => m.DeletactPageModule)
+  },
 ];
 
 @NgModule({

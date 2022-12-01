@@ -11,14 +11,19 @@
       <ion-col size="8" class="centerall">
         <ion-title class="titlefont work_sans">Profile</ion-title>
       </ion-col>
-      <ion-col size="2"> </ion-col>
+      <ion-col class="centerall" size="2">
+        <img
+          (click)="goLogout()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/logout.svg"
+      /></ion-col>
     </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="--background: #262626">
   <div style="text-align: center; margin-top: 20px">
-    <img style="height: 179px" src="assets/imgs/addimg.png" />
+    <img style="height: 174px" src="assets/imgs/addimg.svg" />
     <!-- <img style="border-radius: 50%;
     height: 160px;
     width: 160px;
@@ -118,6 +123,13 @@
     >
     <ion-button style="margin-top: 20px" class="btnbg work_sans"
       >SAVE</ion-button
+    >
+
+    <ion-button
+      style="margin-top: 20px"
+      (click)="godelete()"
+      class="btnbgred work_sans"
+      >Delete Account</ion-button
     >
   </div>
 </ion-content>

@@ -19,4 +19,11 @@ export class ProfilePage implements OnInit {
   changePass() {
     this.router.navigate(["changepass"]);
   }
+  goLogout() {
+    this.router.navigate(["login"]);
+  }
+
+  godelete() {
+    this.router.navigate(["deletact"]);
+  }
 }
