@@ -23,7 +23,11 @@
       </p>
 
       <div class="inputfield" style="height: 52px; margin-top: 30px">
-        <ion-input class="input" type="text" placeholder="Email"
+        <ion-input
+          [(ngModel)]="email"
+          class="input"
+          type="text"
+          placeholder="Email"
           ><img
             style="margin: 17px 17px 17px 15px"
             src="/assets/imgs/email.svg"
@@ -41,7 +45,11 @@
         "
       >
         <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
-        <ion-input class="input" type="password" placeholder="Password"
+        <ion-input
+          [(ngModel)]="pass"
+          class="input"
+          type="password"
+          placeholder="Password"
           ><img
             style="margin: 17px 17px 17px 15px"
             src="/assets/imgs/lock.svg"
@@ -49,7 +57,10 @@
         </ion-input>
       </div>
 
-      <ion-button style="margin-top: 20px" class="btnbg work_sans"
+      <ion-button
+        (click)="submit()"
+        style="margin-top: 20px"
+        class="btnbg work_sans"
         >Register</ion-button
       >
 

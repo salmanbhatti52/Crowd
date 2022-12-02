@@ -1,3 +1,4 @@
+import { RestService } from "./../rest.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -7,7 +8,9 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.page.scss"],
 })
 export class LoginPage implements OnInit {
-  constructor(public router: Router) {}
+  email: any = "";
+  pass: any = "";
+  constructor(public router: Router, public rest: RestService) {}
 
   ngOnInit() {}
 
@@ -20,5 +23,31 @@ export class LoginPage implements OnInit {
   }
   getStart() {
     this.router.navigate(["getstart"]);
+  }
+
+  submit() {
+    if (this.email == "") {
+      this.rest.presentToast("Please enter valid email.");
+    }
+
+    if (this.pass == "") {
+      this.rest.presentToast("Please enter password.");
+    }
+
+    if (this.email == "" || this.pass == "") {
+      this.rest.presentToast("Please enter required fields.");
+    } else {
+      var ss = JSON.stringify({
+        email: this.email,
+        password: this.pass,
+        // account_type: "SignupWithApp",
+        // one_signal_id: localStorage.getItem("onesignaluserid"),
+        // one_signal_id: "test",
+      });
+
+      this.rest.login(ss).subscribe((res: any) => {
+        console.log("res---", res);
+      });
+    }
   }
 }
