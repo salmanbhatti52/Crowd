@@ -9,7 +9,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 export class RestService {
   detail: any = "";
-  baseURL = "http://microwd.eigix.net/api/";
+  heroko: any = "https://cors-anywhere.herokuapp.com/";
+  baseURL = this.heroko + "https://microwd.eigix.net/api/";
 
   constructor(
     public toastCtrl: ToastController,

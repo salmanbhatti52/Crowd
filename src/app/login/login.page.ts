@@ -26,28 +26,30 @@ export class LoginPage implements OnInit {
   }
 
   submit() {
-    if (this.email == "") {
-      this.rest.presentToast("Please enter valid email.");
-    }
+    this.router.navigate(["home"]);
 
-    if (this.pass == "") {
-      this.rest.presentToast("Please enter password.");
-    }
+    // if (this.email == "") {
+    //   this.rest.presentToast("Please enter valid email.");
+    // }
 
-    if (this.email == "" || this.pass == "") {
-      this.rest.presentToast("Please enter required fields.");
-    } else {
-      var ss = JSON.stringify({
-        email: this.email,
-        password: this.pass,
-        // account_type: "SignupWithApp",
-        // one_signal_id: localStorage.getItem("onesignaluserid"),
-        // one_signal_id: "test",
-      });
+    // if (this.pass == "") {
+    //   this.rest.presentToast("Please enter password.");
+    // }
 
-      this.rest.login(ss).subscribe((res: any) => {
-        console.log("res---", res);
-      });
-    }
+    // if (this.email == "" || this.pass == "") {
+    //   this.rest.presentToast("Please enter required fields.");
+    // } else {
+    //   var ss = JSON.stringify({
+    //     email: this.email,
+    //     password: this.pass,
+    //     // account_type: "SignupWithApp",
+    //     // one_signal_id: localStorage.getItem("onesignaluserid"),
+    //     // one_signal_id: "test",
+    //   });
+
+    //   this.rest.login(ss).subscribe((res: any) => {
+    //     console.log("res---", res);
+    //   });
+    // }
   }
 }
