@@ -26,7 +26,7 @@ export class LoginPage implements OnInit {
   }
 
   submit() {
-    this.router.navigate(["home"]);
+    this.router.navigate(["getstart"]);
 
     // if (this.email == "") {
     //   this.rest.presentToast("Please enter valid email.");

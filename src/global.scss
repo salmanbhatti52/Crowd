@@ -47,6 +47,12 @@ ion-input {
   text-transform:none !important;
   height: 53px;
       --background: #531C7C;
+
+      --background-activated: #351150;
+    --background-focused: #351150;
+    --background-hover: #351150;
+
+
     opacity: 0.8;
     --border-radius: 42px;
     width: 100%;
@@ -63,6 +69,11 @@ ion-input {
   text-transform:none !important;
   height: 53px;
       --background: #FF285C;
+
+      --background-activated: #d2224e;
+      --background-focused: #d2224e;
+      --background-hover: #d2224e;
+
     opacity: 0.8;
     --border-radius: 42px;
     width: 100%;
@@ -81,6 +92,11 @@ ion-input {
     --border-width: 2px;
     --border-radius: 28px;
     --background: #15d31500;
+
+    --background-activated: #531C7C36;
+    --background-focused: #531C7C36;
+    --background-hover: #531C7C36;
+
     --border-color: white;
     --border-style: solid;
     width: 100%;
@@ -209,4 +225,8 @@ ion-input {
   position: absolute;
   z-index: 99;
   background: black;
+}
+
+.ios .paddingtop{
+  padding-top: 15px !important;
 }

@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.microwd.app",
-  appName: "MiCrowd",
+  appName: "Crowd",
   webDir: "www",
   bundledWebRuntime: false,
   plugins: {

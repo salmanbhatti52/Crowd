@@ -8,6 +8,12 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
+import { Geolocation } from "@awesome-cordova-plugins/geolocation/ngx";
+import {
+  NativeGeocoder,
+  NativeGeocoderResult,
+  NativeGeocoderOptions,
+} from "@awesome-cordova-plugins/native-geocoder/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +25,8 @@ import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
   ],
   providers: [
     OneSignal,
+    // Geolocation,
+    NativeGeocoder,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
