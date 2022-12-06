@@ -37,8 +37,19 @@ export class SignupPage implements OnInit {
         one_signal_id: "test",
       });
 
-      this.rest.signup(ss).subscribe((res: any) => {
-        console.log("res---", res);
+      let data = {
+        email: this.email,
+        password: this.pass,
+        account_type: "SignupWithApp",
+        // one_signal_id: localStorage.getItem("onesignaluserid"),
+        one_signal_id: "test",
+      };
+      //microwd.eigix.net/api/system_settings
+      https: this.rest.sendRequest("signup", data).subscribe((res: any) => {
+        console.log(res);
+
+        if (res.status == "success") {
+        }
       });
     }
   }

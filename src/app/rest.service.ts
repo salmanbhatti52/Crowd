@@ -9,8 +9,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 export class RestService {
   detail: any = "";
-  heroko: any = "https://cors-anywhere.herokuapp.com/";
-  baseURL = this.heroko + "https://microwd.eigix.net/api/";
+  //heroko: any = "https://cors-anywhere.herokuapp.com/";
+  baseURL = "https://microwd.eigix.net/api";
+  domain = "https://app.transusdrives.com/webservices/";
 
   constructor(
     public toastCtrl: ToastController,
@@ -37,12 +38,24 @@ export class RestService {
     await alert.present();
   }
 
-  signup(data: any) {
-    let headers = {
-      "Content-Type": "application/json",
-    };
+  allVehicles(data: any) {
+    return this.http.post(this.domain + "list_approved_veh", data);
+  }
 
-    return this.http.post(this.baseURL + "signup/", data, { headers });
+  signup(data: any) {
+    let header;
+
+    header = new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    });
+
+    header.append("Access-Control-Allow-Origin", "*");
+    header.append("Access-Control-Allow-Methods", "*");
+    header.append("Access-Control-Allow-Headers", "*");
+
+    return this.http.post(this.baseURL + "signup", data);
+    // return this.http.get(this.domain + "paymentsGatewaysNew");
   }
 
   login(data: any) {
@@ -65,6 +78,30 @@ export class RestService {
     // };
 
     return this.http.post(this.baseURL + "signin/", data, {
+      headers: header,
+    });
+  }
+
+  sendRequest(action: any, data?: any) {
+    let header;
+
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+
+    return this.http.post(`${this.baseURL}/${action}`, JSON.stringify(data), {
+      headers: header,
+    });
+  }
+
+  getData(action: any) {
+    let header;
+
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+
+    return this.http.get(`${this.baseURL}/${action}`, {
       headers: header,
     });
   }
