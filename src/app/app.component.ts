@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { Platform } from "@ionic/angular";
 
 import OneSignal from "onesignal-cordova-plugin";
-
+// import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -14,13 +14,39 @@ export class AppComponent {
   oneSignalFirebaseId = "46465632729";
   identy: any = "";
 
-  constructor(public platform: Platform) {
+  constructor(
+    public platform: Platform
+  ) // public lottieSplashScreen: LottieSplashScreen
+  {
     this.platform.ready().then(() => {
       this.initializeApp();
+      this.showsplash();
     });
   }
 
+  async showsplash() {
+    await this.platform.ready();
+
+    // this.lottieSplashScreen.show("assets/lottiscreen.json", false, 1024, 768);
+    const lottie = (window as any).lottie;
+    if (this.platform.is("ios") && lottie) {
+      await lottie.hoide();
+      await lottie.show("public/assets/lottiscreen.json", false);
+    }
+  }
+
   initializeApp() {
+    // this.lottieSplashScreen.show(
+    //   "assets/imgs/lottiscreen.json",
+    //   false,
+    //   1024,
+    //   768
+    // );
+
+    // setTimeout(() => {
+    //   this.lottieSplashScreen.hide();
+    // }, 5000);
+
     // if (this.userid == '' || this.userid == null) {
     //   this.navCtrl.navigateRoot('signin');
     // } else {

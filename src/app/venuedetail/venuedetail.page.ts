@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
+import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 
 @Component({
   selector: "app-venuedetail",
@@ -18,7 +19,8 @@ export class VenuedetailPage implements OnInit {
     public router: Router,
     public location: Location,
     public rest: RestService,
-    public platform: Platform
+    public platform: Platform,
+    public iab: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class VenuedetailPage implements OnInit {
 
   public goLocation() {
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-    var geocoords = this.detailObj.lat + "," + this.detailObj.long;
+    var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
 
     if (this.platform.is("ios")) {
       window.open("maps://?q=" + geocoords, "_system");
@@ -61,7 +63,8 @@ export class VenuedetailPage implements OnInit {
   }
 
   goWeb() {
-    console.log("dragggggg");
+    console.log("dragggggg", this.detailObj.website);
+    const browser = this.iab.create(this.detailObj.website);
   }
 
   goCall() {

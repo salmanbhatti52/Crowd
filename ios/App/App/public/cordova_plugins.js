@@ -10,6 +10,14 @@
         ]
         },
       {
+          "id": "cordova-plugin-inappbrowser.inappbrowser",
+          "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+          "pluginId": "cordova-plugin-inappbrowser",
+        "clobbers": [
+          "cordova.InAppBrowser.open"
+        ]
+        },
+      {
           "id": "cordova-plugin-nativegeocoder.NativeGeocoder",
           "file": "plugins/cordova-plugin-nativegeocoder/www/NativeGeocoder.js",
           "pluginId": "cordova-plugin-nativegeocoder",
@@ -69,6 +77,7 @@
     // TOP OF METADATA
     {
       "cordova-plugin-geolocation": "4.1.0",
+      "cordova-plugin-inappbrowser": "5.0.0",
       "cordova-plugin-nativegeocoder": "3.4.1",
       "onesignal-cordova-plugin": "3.2.0"
     };

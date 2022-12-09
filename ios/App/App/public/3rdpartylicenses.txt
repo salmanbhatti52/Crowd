@@ -16,6 +16,9 @@ MIT
 @awesome-cordova-plugins/core
 MIT
 
+@awesome-cordova-plugins/in-app-browser
+MIT
+
 @awesome-cordova-plugins/native-geocoder
 MIT
 

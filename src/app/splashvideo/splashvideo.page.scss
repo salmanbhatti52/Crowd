@@ -1,0 +1,52 @@
+.main-div {
+    margin-top:15%;
+    position: absolute;
+}
+// ion-content{
+//     --background: url(../../assets/images/family.png) 0 0/100% no-repeat !important;
+// }
+.para-div{
+    // text-align: center;
+    // width: 90%;
+    // margin: 55% auto 20%;
+    position: fixed;
+    bottom: 33%;
+    left: 15%;
+
+}
+.span1{
+    font-size: 42px;
+    font-weight: 400;
+    color: #A9BB46;
+    font-family: Bliss Pro;
+}
+.span2{
+
+    font-size: 32px;
+    font-weight: 400;
+    color:#FFFFFF;
+    font-family: Bliss Pro;
+    // font-style: italic;
+
+}
+.btn{
+    // margin: 60px auto 12px;
+    height: 48px;
+    width: 45%;
+    --border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    text-transform: capitalize;
+    --background: #B0B500;
+    font-family: Bliss Pro;
+    position: fixed;
+    bottom: 40px;
+    left: 100px;
+}
+
+
+video {
+ height: 100%;
+ width: 100%;
+ object-fit: cover;
+}

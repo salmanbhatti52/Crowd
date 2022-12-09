@@ -10,5 +10,12 @@
 			"showSpinner": false,
 			"androidScaleType": "CENTER_CROP"
 		}
+	},
+	"cordova": {
+		"preferences": {
+			"LottieFullScreen": "true",
+			"LottieHideAfterAnimationEnd": "true",
+			"LottieAnimationLocation": "public/assets/lottiscreen.json"
+		}
 	}
 }

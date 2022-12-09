@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
 
@@ -7,460 +7,43 @@ import { RestService } from "../rest.service";
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   segmentModel = "venu";
   showfilter = false;
-  venuarr = [
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-  ];
+  venuarr: any = "";
 
-  eventarr = [
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-    {
-      name: "BarBQ",
-      name2: "venue Name",
-      opentime: "1 PM",
-      location: "Pancreae Rd, London N1C 4TB",
-      lat: "12123.3",
-      long: "12122.1",
-      web: "www.google.com",
-      phone: "020221212",
-      checkedinpeople: "",
-      googleRating: "",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis. Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar, aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.",
-      distance: "1.2",
-      off: "30%",
-      img: "https://images.ctfassets.net/86mn0qn5b7d0/featured-img-of-post-152543/436cf88c49f85eb46d1ab04748cbf8e6/featured-img-of-post-152543.jpg",
-      detailimg: [
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-        {
-          img: "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=170667a&w=0&k=20&c=fx-caeGfzahlZarBeZ_3Jl43xO85t2cs3dmIS4b4FL0=",
-        },
-      ],
-      like: 0,
-    },
-  ];
+  eventarr: any = "";
   constructor(public router: Router, public rest: RestService) {}
+  ngOnInit() {
+    //this.rest.presentLoader();
+    var ss = JSON.stringify({
+      // longitude: localStorage.getItem("longitude"),
+      // lattitude: localStorage.getItem("lattitude"),
+      users_customers_id: "1",
+      longitude: "71.513317",
+      lattitude: "30.204700",
+    });
 
+    this.rest.events(ss).subscribe((res: any) => {
+      console.log("events---", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        this.eventarr = res.data;
+      } else {
+        this.rest.presentToast(res.message);
+      }
+    });
+
+    this.rest.venues(ss).subscribe((res: any) => {
+      console.log("venues---", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        this.venuarr = res.data;
+      } else {
+        this.rest.presentToast(res.message);
+      }
+    });
+  }
   tab1Click() {
     this.router.navigate(["home"]);
   }
@@ -501,5 +84,12 @@ export class HomePage {
     } else {
       this.showfilter = true;
     }
+  }
+
+  like(opt: any) {
+    console.log("like---", opt);
+  }
+  likeout(opt: any) {
+    console.log("likeout---", opt);
   }
 }

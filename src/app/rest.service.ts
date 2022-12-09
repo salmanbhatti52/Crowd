@@ -3,21 +3,45 @@ import { ToastController } from "@ionic/angular";
 import { AlertController } from "@ionic/angular";
 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { LoadingController } from "@ionic/angular";
 
 @Injectable({
   providedIn: "root",
 })
 export class RestService {
   detail: any = "";
-  //heroko: any = "https://cors-anywhere.herokuapp.com/";
-  baseURL = "https://microwd.eigix.net/api";
-  domain = "https://app.transusdrives.com/webservices/";
+  baseURL = "https://crowd.eigix.net/api/";
+  baseURLimg = "https://crowd.eigix.net/";
 
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
-    public alertcontroller: AlertController
+    public alertcontroller: AlertController,
+    public loadingController: LoadingController
   ) {}
+
+  presentLoader() {
+    this.loadingController
+      .create({
+        message: "Please wait...",
+        cssClass: "loader-css-class",
+        backdropDismiss: true,
+      })
+      .then((res) => {
+        res.present();
+      });
+  }
+
+  dismissLoader() {
+    this.loadingController
+      .dismiss()
+      .then((response) => {
+        console.log("Loader closed!", response);
+      })
+      .catch((err) => {
+        console.log("Error occured : ", err);
+      });
+  }
 
   async presentToast(msg: any) {
     const toast = await this.toastCtrl.create({
@@ -38,70 +62,66 @@ export class RestService {
     await alert.present();
   }
 
-  allVehicles(data: any) {
-    return this.http.post(this.domain + "list_approved_veh", data);
-  }
-
   signup(data: any) {
     let header;
-
     header = new HttpHeaders({
-      Accept: "application/json",
       "Content-Type": "application/json",
     });
+    return this.http.post(this.baseURL + "signup", data, {
+      headers: header,
+    });
+  }
 
-    header.append("Access-Control-Allow-Origin", "*");
-    header.append("Access-Control-Allow-Methods", "*");
-    header.append("Access-Control-Allow-Headers", "*");
+  venues(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "venues", data, {
+      headers: header,
+    });
+  }
 
-    return this.http.post(this.baseURL + "signup", data);
-    // return this.http.get(this.domain + "paymentsGatewaysNew");
+  events(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "events", data, {
+      headers: header,
+    });
   }
 
   login(data: any) {
     let header;
 
     header = new HttpHeaders({
-      Accept: "application/json",
       "Content-Type": "application/json",
     });
 
-    header.append("Access-Control-Allow-Origin", "*");
-    header.append("Access-Control-Allow-Methods", "*");
-    // header.append('Access-Control-Allow-Headers');
-
-    // return this.http.post(this.authurl, myData, {
-    //   headers: header,
-    // });
-    // let headers = {
-    //   "Content-Type": "application/json",
-    // };
-
-    return this.http.post(this.baseURL + "signin/", data, {
+    return this.http.post(this.baseURL + "signin", data, {
       headers: header,
     });
   }
 
-  sendRequest(action: any, data?: any) {
+  delete_account(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "delete_account", data, {
+      headers: header,
+    });
+  }
+
+  system_setting(data: any) {
     let header;
 
     header = new HttpHeaders({
       "Content-Type": "application/json",
     });
 
-    return this.http.post(`${this.baseURL}/${action}`, JSON.stringify(data), {
-      headers: header,
-    });
-  }
-
-  getData(action: any) {
-    let header;
-
-    header = new HttpHeaders({
-      "Content-Type": "application/json",
-    });
-
-    return this.http.get(`${this.baseURL}/${action}`, {
+    return this.http.get(this.baseURL + "system_settings", {
       headers: header,
     });
   }

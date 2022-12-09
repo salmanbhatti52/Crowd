@@ -6,6 +6,11 @@
     <param name="ios-package" value="CDVLocation"/>
   </feature>
 
+  <feature name="InAppBrowser">
+    <param name="ios-package" value="CDVWKInAppBrowser"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="NativeGeocoder">
     <param name="ios-package" value="NativeGeocoder"/>
   </feature>
@@ -15,4 +20,7 @@
   </feature>
 
   
+  <preference name="LottieFullScreen" value="true" />
+  <preference name="LottieHideAfterAnimationEnd" value="true" />
+  <preference name="LottieAnimationLocation" value="public/assets/lottiscreen.json" />
 </widget>

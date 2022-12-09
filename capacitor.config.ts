@@ -13,6 +13,13 @@ const config: CapacitorConfig = {
       androidScaleType: "CENTER_CROP",
     },
   },
+  cordova: {
+    preferences: {
+      LottieFullScreen: "true",
+      LottieHideAfterAnimationEnd: "true",
+      LottieAnimationLocation: "public/assets/lottiscreen.json",
+    },
+  },
 };
 
 export default config;

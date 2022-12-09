@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
+import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+
 @Component({
   selector: "app-eventdetail",
   templateUrl: "./eventdetail.page.html",
@@ -17,7 +19,8 @@ export class EventdetailPage implements OnInit {
     public router: Router,
     public location: Location,
     public rest: RestService,
-    public platform: Platform
+    public platform: Platform,
+    public iab: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -45,7 +48,7 @@ export class EventdetailPage implements OnInit {
 
   public goLocation() {
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-    var geocoords = this.detailObj.lat + "," + this.detailObj.long;
+    var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
 
     if (this.platform.is("ios")) {
       window.open("maps://?q=" + geocoords, "_system");
@@ -58,7 +61,8 @@ export class EventdetailPage implements OnInit {
   }
 
   goWeb() {
-    console.log("dragggggg");
+    console.log("dragggggg", this.detailObj.website);
+    const browser = this.iab.create(this.detailObj.website);
   }
 
   goCall() {
@@ -68,5 +72,12 @@ export class EventdetailPage implements OnInit {
   dismiss() {
     this.displaydiv = false;
     console.log("dragggggg");
+  }
+
+  like() {
+    console.log("like---", this.detailObj);
+  }
+  likeout() {
+    console.log("likeout---", this.detailObj);
   }
 }

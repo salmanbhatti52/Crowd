@@ -10,6 +10,7 @@ const routes: Routes = [
   {
     path: "",
     redirectTo: "start",
+    // redirectTo: "splashvideo",
     pathMatch: "full",
   },
   {
@@ -78,16 +79,30 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'eventdetail',
-    loadChildren: () => import('./eventdetail/eventdetail.module').then( m => m.EventdetailPageModule)
+    path: "eventdetail",
+    loadChildren: () =>
+      import("./eventdetail/eventdetail.module").then(
+        (m) => m.EventdetailPageModule
+      ),
   },
   {
-    path: 'venuedetail',
-    loadChildren: () => import('./venuedetail/venuedetail.module').then( m => m.VenuedetailPageModule)
+    path: "venuedetail",
+    loadChildren: () =>
+      import("./venuedetail/venuedetail.module").then(
+        (m) => m.VenuedetailPageModule
+      ),
   },
   {
-    path: 'deletact',
-    loadChildren: () => import('./deletact/deletact.module').then( m => m.DeletactPageModule)
+    path: "deletact",
+    loadChildren: () =>
+      import("./deletact/deletact.module").then((m) => m.DeletactPageModule),
+  },
+  {
+    path: "splashvideo",
+    loadChildren: () =>
+      import("./splashvideo/splashvideo.module").then(
+        (m) => m.SplashvideoPageModule
+      ),
   },
 ];
 

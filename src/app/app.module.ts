@@ -14,6 +14,8 @@ import {
   NativeGeocoderResult,
   NativeGeocoderOptions,
 } from "@awesome-cordova-plugins/native-geocoder/ngx";
+import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+// import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,8 @@ import {
   providers: [
     OneSignal,
     // Geolocation,
+    // LottieSplashScreen,
+    InAppBrowser,
     NativeGeocoder,
     {
       provide: RouteReuseStrategy,

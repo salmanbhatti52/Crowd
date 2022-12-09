@@ -33,7 +33,7 @@ export class GetstartPage implements OnInit {
   longitude: any;
   location: any;
   placeid: any;
-  from: any;
+  from: any = "";
   locationishidden: boolean = false;
   constructor(
     public router: Router,
@@ -48,7 +48,11 @@ export class GetstartPage implements OnInit {
   ngOnInit() {}
 
   goToHome() {
-    this.router.navigate(["home"]);
+    if (this.from == "") {
+      this.restService.presentToast("Please enter the location");
+    } else {
+      this.router.navigate(["home"]);
+    }
   }
 
   selectSearchResultFrom(item: any) {
@@ -74,6 +78,9 @@ export class GetstartPage implements OnInit {
             " and longitude=" +
             result[0].longitude
         );
+
+        localStorage.setItem("longitude", result[0].longitude);
+        localStorage.setItem("lattitude", result[0].latitude);
 
         alert(
           "The coordinates are latitude=" +

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { NavController } from "@ionic/angular";
 import { RestService } from "../rest.service";
 
 @Component({
@@ -10,7 +11,11 @@ import { RestService } from "../rest.service";
 export class SignupPage implements OnInit {
   email: any = "";
   pass: any = "";
-  constructor(public router: Router, public rest: RestService) {}
+  constructor(
+    public router: Router,
+    public rest: RestService,
+    public navCtrl: NavController
+  ) {}
 
   ngOnInit() {}
   goToLogin() {
@@ -29,26 +34,24 @@ export class SignupPage implements OnInit {
     if (this.email == "" || this.pass == "") {
       this.rest.presentToast("Please enter required fields.");
     } else {
+      this.rest.presentLoader();
       var ss = JSON.stringify({
         email: this.email,
         password: this.pass,
         account_type: "SignupWithApp",
-        // one_signal_id: localStorage.getItem("onesignaluserid"),
-        one_signal_id: "test",
+        one_signal_id: localStorage.getItem("onesignaluserid"),
       });
 
-      let data = {
-        email: this.email,
-        password: this.pass,
-        account_type: "SignupWithApp",
-        // one_signal_id: localStorage.getItem("onesignaluserid"),
-        one_signal_id: "test",
-      };
-      //microwd.eigix.net/api/system_settings
-      https: this.rest.sendRequest("signup", data).subscribe((res: any) => {
+      this.rest.signup(ss).subscribe((res: any) => {
         console.log(res);
 
+        this.rest.dismissLoader();
+
         if (res.status == "success") {
+          localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+          this.navCtrl.navigateRoot(["login"]);
+        } else {
+          this.rest.presentToast(res.message);
         }
       });
     }
