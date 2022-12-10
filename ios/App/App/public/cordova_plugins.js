@@ -79,7 +79,7 @@
       "cordova-plugin-geolocation": "4.1.0",
       "cordova-plugin-inappbrowser": "5.0.0",
       "cordova-plugin-nativegeocoder": "3.4.1",
-      "onesignal-cordova-plugin": "3.2.0"
+      "onesignal-cordova-plugin": "3.3.0"
     };
     // BOTTOM OF METADATA
     });

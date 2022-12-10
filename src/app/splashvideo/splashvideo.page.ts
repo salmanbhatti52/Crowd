@@ -17,13 +17,15 @@ export class SplashvideoPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    console.log("video");
+
     setTimeout(() => {
       if (localStorage.getItem("userdata")) {
         this.navCtrl.navigateRoot(["/getstart"]);
       } else {
         this.navCtrl.navigateRoot(["/start"]);
       }
-    }, 10000);
+    }, 8000);
   }
   ionViewWillLeave() {
     // enable the root left menu when leaving this page
