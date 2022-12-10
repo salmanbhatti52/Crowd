@@ -44,11 +44,23 @@
           flex-direction: row-reverse;
         "
       >
-        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
+        <img
+          *ngIf="!showPass3"
+          (click)="togglePass3()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eyeoff.svg"
+        />
+
+        <img
+          *ngIf="showPass3"
+          (click)="togglePass3()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eye.svg"
+        />
         <ion-input
           [(ngModel)]="pass"
           class="input"
-          type="password"
+          type="{{showPass3 ? 'text':'password' }}"
           placeholder="Password"
           ><img
             style="margin: 17px 17px 17px 15px"

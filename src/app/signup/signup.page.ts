@@ -11,6 +11,7 @@ import { RestService } from "../rest.service";
 export class SignupPage implements OnInit {
   email: any = "";
   pass: any = "";
+  showPass3 = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -55,5 +56,9 @@ export class SignupPage implements OnInit {
         }
       });
     }
+  }
+
+  togglePass3() {
+    this.showPass3 = !this.showPass3;
   }
 }

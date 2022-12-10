@@ -11,6 +11,7 @@ import { NavController } from "@ionic/angular";
 export class LoginPage implements OnInit {
   email: any = "";
   pass: any = "";
+  showPass3 = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -73,5 +74,9 @@ export class LoginPage implements OnInit {
     this.rest.system_setting(ss).subscribe((res: any) => {
       console.log("res---", res);
     });
+  }
+
+  togglePass3() {
+    this.showPass3 = !this.showPass3;
   }
 }

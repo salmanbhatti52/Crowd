@@ -53,6 +53,7 @@
     >
 
     <ion-toggle
+      (ionChange)="notitoggle($event)"
       mode="ios"
       style="
         --handle-background-checked: white;
@@ -73,7 +74,11 @@
         flex-direction: row-reverse;
       "
     >
-      <ion-input class="input" type="text" placeholder="User Name"
+      <ion-input
+        [(ngModel)]="uname"
+        class="input"
+        type="text"
+        placeholder="User Name"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/userblue.svg"
@@ -90,7 +95,7 @@
         flex-direction: row-reverse;
       "
     >
-      <ion-input class="input" type="text" placeholder="Name"
+      <ion-input [(ngModel)]="name" class="input" type="text" placeholder="Name"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/userblue.svg"
@@ -107,7 +112,11 @@
         flex-direction: row-reverse;
       "
     >
-      <ion-input class="input" type="text" placeholder="Email"
+      <ion-input
+        [(ngModel)]="email"
+        class="input"
+        type="text"
+        placeholder="Email"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/emailblue.svg"
@@ -121,7 +130,10 @@
       class="btnbg work_sans"
       >Change Password</ion-button
     >
-    <ion-button style="margin-top: 20px" class="btnbg work_sans"
+    <ion-button
+      (click)="save()"
+      style="margin-top: 20px"
+      class="btnbg work_sans"
       >SAVE</ion-button
     >
 

@@ -11,7 +11,7 @@ import { LoadingController } from "@ionic/angular";
 export class RestService {
   detail: any = "";
   baseURL = "https://crowd.eigix.net/api/";
-  baseURLimg = "https://crowd.eigix.net/";
+  baseURLimg = "https://crowd.eigix.net/public/";
 
   constructor(
     public toastCtrl: ToastController,
@@ -78,6 +78,36 @@ export class RestService {
       "Content-Type": "application/json",
     });
     return this.http.post(this.baseURL + "venues", data, {
+      headers: header,
+    });
+  }
+
+  events_saved(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "events_saved", data, {
+      headers: header,
+    });
+  }
+
+  venues_saved(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "venues_saved", data, {
+      headers: header,
+    });
+  }
+
+  change_password(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "change_password", data, {
       headers: header,
     });
   }

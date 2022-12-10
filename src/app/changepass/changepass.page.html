@@ -41,8 +41,24 @@
         flex-direction: row-reverse;
       "
     >
-      <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/eye.svg" />
-      <ion-input class="input" type="password" placeholder="Old Password"
+      <img
+        *ngIf="!showPass1"
+        (click)="togglePass1()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eyeoff.svg"
+      />
+
+      <img
+        *ngIf="showPass1"
+        (click)="togglePass1()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eye.svg"
+      />
+      <ion-input
+        [(ngModel)]="oldpass"
+        class="input"
+        type="{{showPass1 ? 'text':'password' }}"
+        placeholder="Old Password"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/lockblue.svg"
@@ -59,8 +75,24 @@
         flex-direction: row-reverse;
       "
     >
-      <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/eye.svg" />
-      <ion-input class="input" type="password" placeholder="New Password"
+      <img
+        *ngIf="!showPass2"
+        (click)="togglePass2()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eyeoff.svg"
+      />
+
+      <img
+        *ngIf="showPass2"
+        (click)="togglePass2()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eye.svg"
+      />
+      <ion-input
+        [(ngModel)]="newpass"
+        class="input"
+        type="{{showPass2 ? 'text':'password' }}"
+        placeholder="New Password"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/lockblue.svg"
@@ -77,8 +109,24 @@
         flex-direction: row-reverse;
       "
     >
-      <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/eye.svg" />
-      <ion-input class="input" type="password" placeholder="Confirm Password"
+      <img
+        *ngIf="!showPass3"
+        (click)="togglePass3()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eyeoff.svg"
+      />
+
+      <img
+        *ngIf="showPass3"
+        (click)="togglePass3()"
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/eye.svg"
+      />
+      <ion-input
+        [(ngModel)]="confirmpass"
+        class="input"
+        type="{{showPass3 ? 'text':'password' }}"
+        placeholder="Confirm Password"
         ><img
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/lockblue.svg"
@@ -86,6 +134,6 @@
       </ion-input>
     </div>
 
-    <ion-button class="btm btnbg work_sans">SAVE</ion-button>
+    <ion-button (click)="submit()" class="btm btnbg work_sans">SAVE</ion-button>
   </div>
 </ion-content>

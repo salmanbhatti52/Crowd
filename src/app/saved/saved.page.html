@@ -90,7 +90,7 @@
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Saved</ion-label>
+        <ion-label class="titlefont work_sans">Home</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center">
         <img
@@ -161,33 +161,42 @@
           *ngFor="let opt of venuarr; let i = index"
         >
           <div
+            style="
+              position: absolute;
+              width: 100%;
+              z-index: 9;
+              top: 5px;
+              right: 1px;
+            "
+          >
+            <img
+              (click)="like(opt)"
+              class="imgcls"
+              *ngIf="opt.likes==0"
+              src="assets/imgs/heartww.svg"
+            />
+            <img
+              (click)="likeout(opt)"
+              class="imgcls"
+              *ngIf="opt.likes!=0"
+              src="assets/imgs/heartactive.svg"
+            />
+            <ion-badge class="bdg">{{opt.discount_percentage}} Off </ion-badge>
+          </div>
+          <div
             class="divboxshadowinside"
             (click)="goToDetail(opt)"
             style=" 
             position: relative;
            height: 100%;
-        border-radius: 15px;
-        background-size: cover;
-        background-image: url('{{opt.img}}');
+          border-radius: 15px;
+          background-size: cover;
+          background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
           >
-            <div>
-              <img
-                class="imgcls"
-                *ngIf="opt.like!=1"
-                src="assets/imgs/heartww.svg"
-              />
-              <img
-                class="imgcls"
-                *ngIf="opt.like==1"
-                src="assets/imgs/heartactive.svg"
-              />
-              <ion-badge class="bdg">{{opt.off}} Off </ion-badge>
-            </div>
-
             <div style="position: absolute; bottom: 5px; left: 15px">
               <p class="title1 work_sans">{{opt.name}}</p>
-              <p class="title2 work_sans">{{opt.distance}} Miles</p>
+              <p class="title2 work_sans">{{opt.distance}}</p>
             </div>
           </div>
         </ion-col>
@@ -202,6 +211,29 @@
           *ngFor="let opt of eventarr; let i = index"
         >
           <div
+            style="
+              position: absolute;
+              width: 100%;
+              z-index: 9;
+              top: 5px;
+              right: 1px;
+            "
+          >
+            <img
+              (click)="like(opt)"
+              class="imgcls"
+              *ngIf="opt.likes==0"
+              src="assets/imgs/heartww.svg"
+            />
+            <img
+              (click)="likeout(opt)"
+              class="imgcls"
+              *ngIf="opt.likes!=0"
+              src="assets/imgs/heartactive.svg"
+            />
+            <ion-badge class="bdg">{{opt.discount_percentage}} Off</ion-badge>
+          </div>
+          <div
             class="divboxshadowinside"
             (click)="goToDetailevent(opt)"
             style=" 
@@ -209,26 +241,12 @@
            height: 100%;
         border-radius: 15px;
         background-size: cover;
-        background-image: url('{{opt.img}}');
+        background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
           >
-            <div>
-              <img
-                class="imgcls"
-                *ngIf="opt.like!=1"
-                src="assets/imgs/heartww.svg"
-              />
-              <img
-                class="imgcls"
-                *ngIf="opt.like==1"
-                src="assets/imgs/heartactive.svg"
-              />
-              <ion-badge class="bdg">{{opt.off}} Off </ion-badge>
-            </div>
-
             <div style="position: absolute; bottom: 5px; left: 15px">
               <p class="title1 work_sans">{{opt.name}}</p>
-              <p class="title2 work_sans">{{opt.distance}} Miles</p>
+              <p class="title2 work_sans">{{opt.distance}}</p>
             </div>
           </div>
         </ion-col>
