@@ -33,7 +33,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge class="bdg">{{detailObj.discount_percentage}} Off </ion-badge>
+    <ion-badge class="bdg">{{detailObj.discount_percentage}}% Off </ion-badge>
 
     <ion-row>
       <ion-col class="slider_main">
@@ -78,7 +78,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 10px">
+    <ion-row style="margin-top: 0px">
       <ion-col size="8" style="display: flex; align-items: center">
         <p class="work_sans titlesub">{{detailObj.location}}</p>
       </ion-col>
@@ -132,7 +132,11 @@
           >
         </ion-item-options>
 
-        <ion-item lines="none" class="btnbg margintopcls work_sans">
+        <ion-item
+          style="color: white; opacity: 1"
+          lines="none"
+          class="btnbg margintopcls work_sans"
+        >
           <ion-label>Claim Discount</ion-label>
           <img
             (click)="goToProfile()"

@@ -9,7 +9,7 @@
         style="
           margin-top: 20px;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           font-size: 18px;
           line-height: 21px;
           text-align: center;
@@ -47,13 +47,29 @@
           flex-direction: row-reverse;
         "
       >
-        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
-        <ion-input class="input" type="password" placeholder="New Password"
-          ><img
-            style="margin: 17px 17px 17px 15px"
-            src="/assets/imgs/lock.svg"
-          />
+        <img
+          *ngIf="!showPass1"
+          (click)="togglePass1()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eyeoff.svg"
+        />
+
+        <img
+          *ngIf="showPass1"
+          (click)="togglePass1()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eye.svg"
+        />
+        <ion-input
+          class="input"
+          type="{{showPass1 ? 'text':'password' }}"
+          placeholder="New Password"
+        >
         </ion-input>
+        <img
+          style="height: 21px; margin: 12px 19px 17px 15px"
+          src="/assets/imgs/lock.svg"
+        />
       </div>
       <div
         class="inputfield"
@@ -64,13 +80,29 @@
           flex-direction: row-reverse;
         "
       >
-        <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/eye.svg" />
-        <ion-input class="input" type="password" placeholder="Confirm Password"
-          ><img
-            style="margin: 17px 17px 17px 15px"
-            src="/assets/imgs/lock.svg"
-          />
+        <img
+          *ngIf="!showPass2"
+          (click)="togglePass2()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eyeoff.svg"
+        />
+
+        <img
+          *ngIf="showPass2"
+          (click)="togglePass2()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eye.svg"
+        />
+        <ion-input
+          class="input"
+          type="{{showPass2 ? 'text':'password' }}"
+          placeholder="Confirm Password"
+        >
         </ion-input>
+        <img
+          style="height: 21px; margin: 12px 19px 17px 15px"
+          src="/assets/imgs/lock.svg"
+        />
       </div>
 
       <ion-button

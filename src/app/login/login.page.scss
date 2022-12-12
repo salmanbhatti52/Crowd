@@ -5,7 +5,7 @@ ion-content.background{
   .or_cls{
     margin-left: 15px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 12px;
     line-height: 14px;
     text-align: center;
@@ -25,10 +25,13 @@ ion-content.background{
 
   @media (orientation: portrait) {
     .btm{
+        // text-align: center;
+        // position: fixed;
+        // bottom: 20px;
+        // width: 90%;
+
         text-align: center;
-        position: absolute;
-        bottom: 20px;
-        width: 90%;
+        margin-top: 10px;
       }
   }
   

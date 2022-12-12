@@ -57,7 +57,7 @@ ion-input {
     --border-radius: 42px;
     width: 100%;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     line-height: 21px;
     text-align: center;
@@ -78,7 +78,7 @@ ion-input {
     --border-radius: 42px;
     width: 100%;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     line-height: 21px;
     text-align: center;
@@ -101,7 +101,7 @@ ion-input {
     --border-style: solid;
     width: 100%;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     line-height: 21px;
     text-align: center;
@@ -116,7 +116,7 @@ ion-input {
     
 
 .inputfield{
-    border: 2px solid white;
+    border: 1px solid white;
     border-radius: 52px;
   }
 
@@ -127,6 +127,7 @@ ion-input {
   .input{
     text-align: left;
     --placeholder-color:#ffffff;
+    --placeholder-opacity: 1;
     --placeholder-font-weight:400;
     font-weight: 400;
     font-size: 16px;
@@ -235,4 +236,7 @@ ion-input {
    --background:#531C7C;
    --spinner-color:#ffffff;
    color: #ffffff;
+}
+.slide{
+  width: 100% !important;
 }

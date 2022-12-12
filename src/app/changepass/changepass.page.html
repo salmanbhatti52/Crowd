@@ -54,16 +54,18 @@
         style="margin: 17px 17px 17px 15px"
         src="/assets/imgs/eye.svg"
       />
+
       <ion-input
         [(ngModel)]="oldpass"
         class="input"
         type="{{showPass1 ? 'text':'password' }}"
         placeholder="Old Password"
-        ><img
-          style="margin: 17px 17px 17px 15px"
-          src="/assets/imgs/lockblue.svg"
-        />
+      >
       </ion-input>
+      <img
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/lockblue.svg"
+      />
     </div>
 
     <div
@@ -93,11 +95,12 @@
         class="input"
         type="{{showPass2 ? 'text':'password' }}"
         placeholder="New Password"
-        ><img
-          style="margin: 17px 17px 17px 15px"
-          src="/assets/imgs/lockblue.svg"
-        />
+      >
       </ion-input>
+      <img
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/lockblue.svg"
+      />
     </div>
 
     <div
@@ -127,11 +130,12 @@
         class="input"
         type="{{showPass3 ? 'text':'password' }}"
         placeholder="Confirm Password"
-        ><img
-          style="margin: 17px 17px 17px 15px"
-          src="/assets/imgs/lockblue.svg"
-        />
+      >
       </ion-input>
+      <img
+        style="margin: 17px 17px 17px 15px"
+        src="/assets/imgs/lockblue.svg"
+      />
     </div>
 
     <ion-button (click)="submit()" class="btm btnbg work_sans">SAVE</ion-button>

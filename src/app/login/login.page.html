@@ -5,16 +5,17 @@
         <img style="margin-top: 100px" src="assets/imgs/logo.svg" />
       </div>
 
-      <div class="inputfield" style="height: 52px; margin-top: 50px">
+      <div
+        class="inputfield"
+        style="height: 52px; margin-top: 50px; display: flex"
+      >
+        <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/email.svg" />
         <ion-input
           [(ngModel)]="email"
           class="input"
           type="text"
           placeholder="Email"
-          ><img
-            style="margin: 17px 17px 17px 15px"
-            src="/assets/imgs/email.svg"
-          />
+        >
         </ion-input>
       </div>
 
@@ -45,11 +46,13 @@
           class="input"
           type="{{showPass3 ? 'text':'password' }}"
           placeholder="Password"
-          ><img
-            style="margin: 17px 17px 17px 15px"
-            src="/assets/imgs/lock.svg"
-          />
+        >
         </ion-input>
+
+        <img
+          style="height: 21px; margin: 12px 19px 17px 15px"
+          src="/assets/imgs/lock.svg"
+        />
       </div>
 
       <ion-button
@@ -63,7 +66,7 @@
         (click)="goToForgetpass()"
         style="
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           font-size: 16px;
           line-height: 19px;
           letter-spacing: -0.3px;
@@ -78,7 +81,7 @@
         style="
           font-style: normal;
           font-weight: 400;
-          font-size: 16px;
+          font-size: 15px;
           line-height: 19px;
           letter-spacing: -0.3px;
           color: #ffffff;
@@ -90,7 +93,7 @@
           (click)="goToSignup()"
           style="
             font-style: normal;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 16px;
             line-height: 19px;
             letter-spacing: -0.3px;
