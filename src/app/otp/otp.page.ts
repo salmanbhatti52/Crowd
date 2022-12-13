@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { RestService } from "../rest.service";
 
 @Component({
   selector: "app-otp",
@@ -8,7 +9,7 @@ import { Router } from "@angular/router";
 })
 export class OtpPage implements OnInit {
   otpp: any = "";
-  constructor(public router: Router) {}
+  constructor(public router: Router, public rest: RestService) {}
 
   ngOnInit() {}
 
@@ -18,6 +19,12 @@ export class OtpPage implements OnInit {
   }
 
   newPass() {
-    this.router.navigate(["newpass"]);
+    if (this.otpp == "") {
+      this.rest.presentToast("Please enter OTP");
+    } else if (this.otpp != localStorage.getItem("otp")) {
+      this.rest.presentToast("Please enter correct OTP");
+    } else {
+      this.router.navigate(["newpass"]);
+    }
   }
 }

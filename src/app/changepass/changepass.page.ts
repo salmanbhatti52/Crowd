@@ -54,7 +54,7 @@ export class ChangepassPage implements OnInit {
         console.log(res);
 
         if (res.status == "success") {
-          this.rest.presentToast(res.message);
+          this.rest.presentToast("Password updated successfully.");
         } else {
           this.rest.presentToast(res.message);
         }

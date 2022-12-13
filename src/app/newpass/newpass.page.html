@@ -61,6 +61,7 @@
           src="/assets/imgs/eye.svg"
         />
         <ion-input
+          [(ngModel)]="pass1"
           class="input"
           type="{{showPass1 ? 'text':'password' }}"
           placeholder="New Password"
@@ -94,6 +95,7 @@
           src="/assets/imgs/eye.svg"
         />
         <ion-input
+          [(ngModel)]="pass2"
           class="input"
           type="{{showPass2 ? 'text':'password' }}"
           placeholder="Confirm Password"

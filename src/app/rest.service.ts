@@ -112,6 +112,26 @@ export class RestService {
     });
   }
 
+  forgot_password(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "forgot_password", data, {
+      headers: header,
+    });
+  }
+
+  modify_password(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "modify_password", data, {
+      headers: header,
+    });
+  }
+
   events(data: any) {
     let header;
     header = new HttpHeaders({

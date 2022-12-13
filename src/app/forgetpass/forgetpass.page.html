@@ -43,7 +43,13 @@
         style="height: 52px; margin-top: 50px; display: flex"
       >
         <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/email.svg" />
-        <ion-input class="input" type="text" placeholder="Email"> </ion-input>
+        <ion-input
+          [(ngModel)]="email"
+          class="input"
+          type="text"
+          placeholder="Email"
+        >
+        </ion-input>
       </div>
 
       <ion-button
