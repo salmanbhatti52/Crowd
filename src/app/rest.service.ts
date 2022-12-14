@@ -132,6 +132,26 @@ export class RestService {
     });
   }
 
+  events_like_unlike(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "events_like_unlike", data, {
+      headers: header,
+    });
+  }
+
+  venues_like_unlike(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "venues_like_unlike", data, {
+      headers: header,
+    });
+  }
+
   events(data: any) {
     let header;
     header = new HttpHeaders({

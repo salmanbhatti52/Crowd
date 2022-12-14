@@ -1,6 +1,7 @@
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { NavController } from "@ionic/angular";
 
 @Component({
   selector: "app-profile",
@@ -13,7 +14,11 @@ export class ProfilePage implements OnInit {
   uname: any = "";
   name: any = "";
   email: any = "";
-  constructor(public location: Location, public router: Router) {}
+  constructor(
+    public location: Location,
+    public router: Router,
+    public navCtrl: NavController
+  ) {}
 
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
@@ -34,6 +39,7 @@ export class ProfilePage implements OnInit {
     this.router.navigate(["changepass"]);
   }
   goLogout() {
+    localStorage.clear();
     this.router.navigate(["login"]);
   }
 
@@ -46,6 +52,8 @@ export class ProfilePage implements OnInit {
 
     if (event.detail.checked) {
       this.noti = "Yes";
+      localStorage.removeItem("location");
+      this.navCtrl.navigateRoot(["/getstart"]);
     } else {
       this.noti = "No";
     }

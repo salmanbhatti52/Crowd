@@ -15,6 +15,9 @@ export class VenuedetailPage implements OnInit {
   displaydiv = false;
   num = 0;
 
+  userdata: any = "";
+  userID: any = "";
+
   constructor(
     public router: Router,
     public location: Location,
@@ -22,6 +25,12 @@ export class VenuedetailPage implements OnInit {
     public platform: Platform,
     public iab: InAppBrowser
   ) {}
+
+  ionViewWillEnter() {
+    this.userdata = localStorage.getItem("userdata");
+    console.log("userdata----", this.userdata);
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+  }
 
   ngOnInit() {
     this.detailObj = this.rest.detail;
@@ -88,5 +97,35 @@ export class VenuedetailPage implements OnInit {
     this.num = 0;
     slidingItem.close();
     console.log("else---else", this.num);
+  }
+
+  likevenu() {
+    console.log("likevenu", this.detailObj);
+
+    if (this.detailObj.likes == 0) {
+      this.detailObj.likes = 1;
+      this.likeDislikeUServenu(this.detailObj.venues_id);
+    }
+  }
+  likeoutvenu() {
+    console.log("likeoutvenu", this.detailObj);
+
+    if (this.detailObj.likes == 1) {
+      this.detailObj.likes = 0;
+      this.likeDislikeUServenu(this.detailObj.venues_id);
+    }
+  }
+
+  likeDislikeUServenu(events_id: any) {
+    console.log(events_id);
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: events_id,
+    });
+
+    console.log(ss);
+    this.rest.venues_like_unlike(ss).subscribe((res: any) => {
+      console.log(res);
+    });
   }
 }

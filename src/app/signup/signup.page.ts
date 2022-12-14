@@ -50,7 +50,11 @@ export class SignupPage implements OnInit {
 
         if (res.status == "success") {
           localStorage.setItem("userdata", JSON.stringify(res.data[0]));
-          this.navCtrl.navigateRoot(["home"]);
+          if (localStorage.getItem("location")) {
+            this.navCtrl.navigateRoot(["/home"]);
+          } else {
+            this.navCtrl.navigateRoot(["/getstart"]);
+          }
         } else {
           this.rest.presentToast(res.message);
         }

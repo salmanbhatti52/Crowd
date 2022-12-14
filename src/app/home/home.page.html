@@ -77,14 +77,15 @@
     style="position: fixed; width: 100%; z-index: 9999"
   >
     <div *ngIf="showfilter" class="filterdivstyle">
-      <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
-      <p class="filtertext" (click)="showHideFilter()">Busy</p>
-      <p class="filtertext" (click)="showHideFilter()">Quiet</p>
+      <p class="filtertext" (click)="showHideFilter('Very Busy')">Very Busy</p>
+      <p class="filtertext" (click)="showHideFilter('Busy')">Busy</p>
+      <p class="filtertext" (click)="showHideFilter('Quite')">Quite</p>
     </div>
     <ion-row>
       <ion-col size="2" style="text-align: center">
         <img
-          (click)="showHideFilter()"
+          *ngIf="segmentModel == 'venu'"
+          (click)="showHideFilterN()"
           style="height: 25px; width: 25px"
           src="assets/imgs/treeeline.svg"
         />
@@ -153,6 +154,14 @@
   </div>
   <div class="margincls">
     <div *ngIf="segmentModel === 'venu'">
+      <p
+        *ngIf="filtertype != 'no';"
+        class="filtertextClear"
+        (click)="clearFilter()"
+      >
+        Clear Filter
+      </p>
+
       <ion-row>
         <ion-col
           size="6"
@@ -170,18 +179,18 @@
             "
           >
             <img
-              (click)="like(opt)"
+              (click)="likevenu(opt)"
               class="imgcls"
               *ngIf="opt.likes==0"
               src="assets/imgs/heartww.svg"
             />
             <img
-              (click)="likeout(opt)"
+              (click)="likeoutvenu(opt)"
               class="imgcls"
               *ngIf="opt.likes!=0"
               src="assets/imgs/heartactive.svg"
             />
-            <ion-badge class="bdg">{{opt.discount_percentage}} Off </ion-badge>
+            <ion-badge class="bdg">{{opt.discount_percentage}}% Off </ion-badge>
           </div>
           <div
             class="divboxshadowinside"
@@ -220,18 +229,18 @@
             "
           >
             <img
-              (click)="like(opt)"
+              (click)="likeevent(opt)"
               class="imgcls"
               *ngIf="opt.likes==0"
               src="assets/imgs/heartww.svg"
             />
             <img
-              (click)="likeout(opt)"
+              (click)="likeoutevent(opt)"
               class="imgcls"
               *ngIf="opt.likes!=0"
               src="assets/imgs/heartactive.svg"
             />
-            <ion-badge class="bdg">{{opt.discount_percentage}} Off</ion-badge>
+            <ion-badge class="bdg">{{opt.discount_percentage}}% Off</ion-badge>
           </div>
           <div
             class="divboxshadowinside"

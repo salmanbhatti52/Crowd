@@ -22,13 +22,13 @@
         />
 
         <img
-          (click)="like()"
+          (click)="likeevent()"
           *ngIf="detailObj.likes==0"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartww.svg"
         />
         <img
-          (click)="likeout()"
+          (click)="likeoutevent()"
           *ngIf="detailObj.likes!=0"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartactive.svg"

@@ -38,8 +38,12 @@
         autocapitalize="words"
         [(ngModel)]="from"
         (ionInput)="updateSearchResultsEventFrom($event)"
-        ><img style="margin: 17px 17px 17px 15px" src="/assets/imgs/pin.svg" />
+      >
       </ion-input>
+      <img
+        style="height: 24px; margin: 13px 17px 17px 15px"
+        src="/assets/imgs/pin.svg"
+      />
     </div>
 
     <ion-list [hidden]="listishiddenFrom">

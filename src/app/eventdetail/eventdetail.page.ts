@@ -15,6 +15,9 @@ export class EventdetailPage implements OnInit {
   displaydiv = false;
   num = 0;
 
+  userdata: any = "";
+  userID: any = "";
+
   constructor(
     public router: Router,
     public location: Location,
@@ -22,6 +25,12 @@ export class EventdetailPage implements OnInit {
     public platform: Platform,
     public iab: InAppBrowser
   ) {}
+
+  ionViewWillEnter() {
+    this.userdata = localStorage.getItem("userdata");
+    console.log("userdata----", this.userdata);
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+  }
 
   ngOnInit() {
     this.detailObj = this.rest.detail;
@@ -79,5 +88,37 @@ export class EventdetailPage implements OnInit {
   }
   likeout() {
     console.log("likeout---", this.detailObj);
+  }
+
+  likeevent() {
+    console.log("likeevent", this.detailObj);
+
+    if (this.detailObj.likes == 0) {
+      this.detailObj.likes = 1;
+      this.likeDislikeUSerEvents(this.detailObj.events_id);
+    }
+  }
+  likeoutevent() {
+    console.log("likeoutevent", this.detailObj);
+
+    if (this.detailObj.likes == 1) {
+      this.detailObj.likes = 0;
+      this.likeDislikeUSerEvents(this.detailObj.events_id);
+    }
+  }
+
+  likeDislikeUSerEvents(events_id: any) {
+    console.log(events_id);
+
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      events_id: events_id,
+    });
+
+    console.log(ss);
+
+    this.rest.events_like_unlike(ss).subscribe((res: any) => {
+      console.log(res);
+    });
   }
 }
