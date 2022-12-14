@@ -21,7 +21,11 @@ export class SplashvideoPage implements OnInit {
 
     setTimeout(() => {
       if (localStorage.getItem("userdata")) {
-        this.navCtrl.navigateRoot(["/getstart"]);
+        if (localStorage.getItem("location")) {
+          this.navCtrl.navigateRoot(["/home"]);
+        } else {
+          this.navCtrl.navigateRoot(["/getstart"]);
+        }
       } else {
         this.navCtrl.navigateRoot(["/start"]);
       }

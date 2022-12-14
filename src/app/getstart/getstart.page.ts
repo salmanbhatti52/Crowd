@@ -79,6 +79,7 @@ export class GetstartPage implements OnInit {
             result[0].longitude
         );
 
+        localStorage.setItem("location", this.location);
         localStorage.setItem("longitude", result[0].longitude);
         localStorage.setItem("lattitude", result[0].latitude);
 
