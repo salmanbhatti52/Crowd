@@ -23,8 +23,21 @@
 
 <ion-content style="--background: #262626">
   <div style="text-align: center; margin-top: 20px">
-    <img style="height: 174px" src="assets/imgs/addimg.svg" />
-    <!-- <img style="border-radius: 50%;
+    <img
+      (click)="addimg()"
+      style="
+        height: 174px;
+        width: 174px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid white;
+      "
+      src="{{imgdataComing}}"
+    />
+
+    <!--
+      
+      <img style="border-radius: 50%;
     height: 160px;
     width: 160px;
     object-fit: cover;"

@@ -152,6 +152,16 @@ export class RestService {
     });
   }
 
+  update_profile(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "update_profile", data, {
+      headers: header,
+    });
+  }
+
   events(data: any) {
     let header;
     header = new HttpHeaders({
