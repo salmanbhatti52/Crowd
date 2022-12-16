@@ -15,7 +15,7 @@ import {
 import { AlertController } from "@ionic/angular";
 
 import { Platform } from "@ionic/angular";
-import { google } from "google-maps";
+// import { google } from "google-maps";
 
 declare var google: any;
 

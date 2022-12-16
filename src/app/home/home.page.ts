@@ -183,6 +183,8 @@ export class HomePage implements OnInit {
       if (res.status == "success") {
         this.venuarr = res.data;
         this.venuarrOrg = res.data;
+
+        this.rest.venuArrHome = res.data;
       } else {
         this.rest.presentToast(res.message);
       }

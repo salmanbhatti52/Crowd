@@ -10,6 +10,7 @@ import { LoadingController } from "@ionic/angular";
 })
 export class RestService {
   detail: any = "";
+  venuArrHome: any = "";
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";
 
