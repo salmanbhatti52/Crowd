@@ -17,9 +17,23 @@
       padding: 3px 21px 12px;
     "
   >
-    <p class="filtertext" (click)="showHideFilter()">Very Busy</p>
-    <p class="filtertext" (click)="showHideFilter()">Busy</p>
-    <p class="filtertext" (click)="showHideFilter()">Quiet</p>
+    <p class="filtertext" (click)="showHideFilter('Very Busy')">Very Busy</p>
+    <p class="filtertext" (click)="showHideFilter('Busy')">Busy</p>
+    <p class="filtertext" (click)="showHideFilter('Quite')">Quite</p>
+    <p
+      style="
+        font-size: 7px;
+        text-align: right;
+        margin-right: -12px;
+        margin-top: 5px;
+        margin-bottom: -3px;
+      "
+      class="filtertext"
+      *ngIf="filtertype != 'no';"
+      (click)="clearFilter()"
+    >
+      Clear Filter
+    </p>
   </div>
   <div class="boxshadow"></div>
 
@@ -28,7 +42,7 @@
   >
     <ion-col size="2" style="text-align: center">
       <img
-        (click)="showHideFilter()"
+        (click)="showHideFilterN()"
         style="height: 25px; width: 25px"
         src="assets/imgs/treeeline.svg"
       />

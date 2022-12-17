@@ -18,6 +18,8 @@ export class LocationmapPage implements OnInit {
   venuarr: any = "";
   venuarrOrg: any = "";
 
+  filtertype = "no";
+
   markerscheck = [
     {
       coordinate: {
@@ -97,22 +99,51 @@ export class LocationmapPage implements OnInit {
   }
 
   tab1Click() {
+    this.HideFilter();
     this.router.navigate(["home"]);
   }
   tab2Click() {
+    this.HideFilter();
     this.router.navigate(["locationmap"]);
   }
   tab3Click() {
+    this.HideFilter();
     this.router.navigate(["saved"]);
   }
   tab4Click() {
+    this.HideFilter();
     this.router.navigate(["noti"]);
   }
   goToProfile() {
+    this.HideFilter();
     this.router.navigate(["profile"]);
   }
 
-  showHideFilter() {
+  goToDetail() {
+    this.HideFilter();
+    this.router.navigate(["venuedetail"]);
+  }
+
+  clearFilter() {
+    this.HideFilter();
+    this.filtertype = "no";
+    this.venuarr = this.venuarrOrg;
+    console.log("133---", this.venuarr);
+  }
+
+  showHideFilter(item: any) {
+    this.searchAndFilterItems(item);
+
+    this.filtertype = item;
+
+    if (this.showfilter) {
+      this.showfilter = false;
+    } else {
+      this.showfilter = true;
+    }
+  }
+
+  showHideFilterN() {
     if (this.showfilter) {
       this.showfilter = false;
     } else {
@@ -123,6 +154,8 @@ export class LocationmapPage implements OnInit {
   searchAndFilterItems(searchTerm: any) {
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
+      console.log("156");
+
       if (
         this.venuarrOrg[i].availability.toLowerCase() ==
         searchTerm.toLowerCase()
@@ -130,8 +163,27 @@ export class LocationmapPage implements OnInit {
         this.venuarr.push(this.venuarrOrg[i]);
       }
     }
+    console.log("item------152", this.venuarr);
 
-    console.log("item------", this.venuarr);
+    var newVenuArr = [];
+    for (var i = 0; i < this.venuarr.length; i++) {
+      console.log("168");
+
+      var obj = {
+        coordinate: {
+          lat: this.venuarr[i].lattitude,
+          lng: this.venuarr[i].longitude,
+        },
+        snippet: "1",
+        title: this.venuarr[i].name,
+      };
+
+      newVenuArr.push(obj);
+    }
+    this.venuarr = [];
+    this.venuarr = newVenuArr;
+    console.log("item------166", this.venuarr);
+    console.log("itemOrg------166", this.venuarrOrg);
   }
 
   makeMarkerArray() {
@@ -149,7 +201,11 @@ export class LocationmapPage implements OnInit {
       this.venuarr.push(obj);
     }
 
-    console.log("item------", this.venuarr);
+    console.log("item------148", this.venuarr);
     // this.markerscheck = this.venuarr;
+  }
+
+  HideFilter() {
+    this.showfilter = false;
   }
 }

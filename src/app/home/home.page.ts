@@ -19,34 +19,42 @@ export class HomePage implements OnInit {
   constructor(public router: Router, public rest: RestService) {}
   ngOnInit() {}
   tab1Click() {
+    this.HideFilter();
     this.router.navigate(["home"]);
   }
   tab2Click() {
+    this.HideFilter();
     this.router.navigate(["locationmap"]);
   }
   tab3Click() {
+    this.HideFilter();
     this.router.navigate(["saved"]);
   }
   tab4Click() {
+    this.HideFilter();
     this.router.navigate(["noti"]);
   }
 
   goToProfile() {
+    this.HideFilter();
     this.router.navigate(["profile"]);
   }
   segmentChanged(event: any) {
+    this.HideFilter();
     console.log("rrr", this.segmentModel);
     // this.type = ev
     console.log("eee", event);
   }
 
   goToDetail(opt: any) {
+    this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["venuedetail"]);
   }
 
   goToDetailevent(opt: any) {
+    this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["eventdetail"]);
@@ -72,7 +80,12 @@ export class HomePage implements OnInit {
     }
   }
 
+  HideFilter() {
+    this.showfilter = false;
+  }
+
   likeevent(obj: any) {
+    this.HideFilter();
     console.log("likeevent", obj);
 
     if (obj.likes == 0) {
@@ -81,6 +94,7 @@ export class HomePage implements OnInit {
     }
   }
   likeoutevent(obj: any) {
+    this.HideFilter();
     console.log("likeoutevent", obj);
 
     if (obj.likes == 1) {
@@ -105,6 +119,7 @@ export class HomePage implements OnInit {
   }
 
   likevenu(obj: any) {
+    this.HideFilter();
     console.log("likevenu", obj);
 
     if (obj.likes == 0) {
@@ -113,6 +128,7 @@ export class HomePage implements OnInit {
     }
   }
   likeoutvenu(obj: any) {
+    this.HideFilter();
     console.log("likeoutvenu", obj);
 
     if (obj.likes == 1) {
