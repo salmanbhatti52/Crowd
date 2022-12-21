@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
 
+import * as moment from "moment";
+
 @Component({
   selector: "app-noti",
   templateUrl: "./noti.page.html",
@@ -63,6 +65,10 @@ export class NotiPage implements OnInit {
   }
 
   calculatedate(opt: any) {
-    //moment(opt, "YYYYMMDD").fromNow(); // 11 years ago
+    var dd = moment(opt, "YYYYMMDD").fromNow(); // 11 years ago
+
+    console.log("dd--------", dd);
+
+    return dd;
   }
 }

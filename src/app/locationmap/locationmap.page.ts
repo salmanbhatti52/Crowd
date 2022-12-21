@@ -222,7 +222,7 @@ export class LocationmapPage implements OnInit {
         this.searchObject = this.venuarrOrg[i];
       }
     }
-    console.log("searchObject------224", this.searchObject);
+    console.log("searchObject------224ali", this.searchObject);
   }
 
   gotodetail() {
@@ -230,5 +230,9 @@ export class LocationmapPage implements OnInit {
     console.log(this.searchObject);
     this.rest.detail = this.searchObject;
     this.router.navigate(["venuedetail"]);
+  }
+
+  mapClick() {
+    console.log("mapclick");
   }
 }

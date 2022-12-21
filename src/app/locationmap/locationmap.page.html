@@ -1,7 +1,7 @@
 <ion-content style="--background: none">
   <!-- <div class="bg paddingtop"> -->
 
-  <capacitor-google-map #map></capacitor-google-map>
+  <capacitor-google-map #map (click)="mapClick()"></capacitor-google-map>
 
   <div
     *ngIf="showfilter"
