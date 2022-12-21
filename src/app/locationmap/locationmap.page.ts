@@ -20,6 +20,8 @@ export class LocationmapPage implements OnInit {
 
   filtertype = "no";
 
+  searchObject: any = "";
+
   markerscheck = [
     {
       coordinate: {
@@ -27,7 +29,7 @@ export class LocationmapPage implements OnInit {
         lng: 71.4848884,
       },
       snippet: "1",
-      title: "Kozi haleem 6 number",
+      title: "test venue",
     },
     {
       coordinate: {
@@ -35,7 +37,7 @@ export class LocationmapPage implements OnInit {
         lng: 71.4699251,
       },
       snippet: "2",
-      title: "Bundu khan multan",
+      title: "test venue",
     },
     {
       coordinate: {
@@ -43,7 +45,7 @@ export class LocationmapPage implements OnInit {
         lng: 71.462651,
       },
       snippet: "hellow i am here dear",
-      title: "9 number hotel",
+      title: "test venue",
     },
   ];
 
@@ -71,7 +73,7 @@ export class LocationmapPage implements OnInit {
     this.map = await GoogleMap.create({
       id: "my-map", // Unique identifier for this map instance
       element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element
-      apiKey: "AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54", // Your Google Maps API Key
+      apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
       forceCreate: true,
       config: {
         center: {
@@ -92,6 +94,7 @@ export class LocationmapPage implements OnInit {
     this.map.setOnMarkerClickListener(async (marker: any) => {
       console.log(marker);
       this.title = marker.title;
+      this.filterArrypin(marker.title);
     });
     this.map.setOnInfoWindowClickListener(async (marker: any) => {
       console.log("info", marker);
@@ -207,5 +210,25 @@ export class LocationmapPage implements OnInit {
 
   HideFilter() {
     this.showfilter = false;
+  }
+
+  filterArrypin(searchTerm: any) {
+    console.log("searchTerm---", searchTerm);
+
+    for (var i = 0; i < this.venuarrOrg.length; i++) {
+      console.log("156");
+
+      if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
+        this.searchObject = this.venuarrOrg[i];
+      }
+    }
+    console.log("searchObject------224", this.searchObject);
+  }
+
+  gotodetail() {
+    this.HideFilter();
+    console.log(this.searchObject);
+    this.rest.detail = this.searchObject;
+    this.router.navigate(["venuedetail"]);
   }
 }

@@ -256,3 +256,7 @@ ion-input {
     --padding-start: 0;
     font-size: inherit;
 }
+
+.md body, .ios body {
+  --ion-background-color: none;
+}

@@ -101,7 +101,7 @@ export class SavedPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    //this.rest.presentLoader();
+    this.rest.presentLoader();
     var ss = JSON.stringify({
       // longitude: localStorage.getItem("longitude"),
       // lattitude: localStorage.getItem("lattitude"),

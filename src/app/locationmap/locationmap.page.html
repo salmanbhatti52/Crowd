@@ -1,7 +1,7 @@
-<ion-content style="--background: #262626">
+<ion-content style="--background: none">
   <!-- <div class="bg paddingtop"> -->
 
-  <capacitor-google-map id="map" #map></capacitor-google-map>
+  <capacitor-google-map #map></capacitor-google-map>
 
   <div
     *ngIf="showfilter"
@@ -59,6 +59,8 @@
   </ion-row>
 
   <div
+    *ngIf="searchObject"
+    (click)="gotodetail()"
     style="
       background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
       display: flex;
@@ -77,7 +79,7 @@
         padding: 10px;
         object-fit: cover;
       "
-      src="assets/imgs/glass.png"
+      src="{{rest.baseURLimg}}{{searchObject.cover_images}}"
     />
 
     <div style="margin-top: 11px">
@@ -91,7 +93,7 @@
         "
         class="work_sans"
       >
-        {{title}}
+        {{searchObject.name}}
       </p>
 
       <ion-badge
@@ -103,20 +105,25 @@
           border-radius: 20px;
           background: #7825cb;
         "
-        >No Discount</ion-badge
+        >{{searchObject.discount_percentage}}% off</ion-badge
       >
       <img
+        *ngIf="searchObject.likes == 0"
         style="position: absolute; bottom: 10px; right: 20px"
         src="assets/imgs/heartwhite.svg"
       />
-
+      <img
+        *ngIf="searchObject.likes != 0"
+        style="position: absolute; bottom: 10px; right: 20px"
+        src="assets/imgs/heartactive.svg"
+      />
       <div style="display: flex; margin-top: 10px">
         <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-        <p class="work_sans titlesub">1.2 Miles</p>
+        <p class="work_sans titlesub">{{searchObject.distance}}</p>
       </div>
       <div style="display: flex; margin-top: 10px">
         <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-        <p class="work_sans titlesub">Open till 1 PM</p>
+        <p class="work_sans titlesub">Open till {{searchObject.close_hours}}</p>
       </div>
     </div>
   </div>

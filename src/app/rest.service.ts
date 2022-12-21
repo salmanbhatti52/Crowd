@@ -73,6 +73,16 @@ export class RestService {
     });
   }
 
+  notifications(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "notifications", data, {
+      headers: header,
+    });
+  }
+
   venues(data: any) {
     let header;
     header = new HttpHeaders({

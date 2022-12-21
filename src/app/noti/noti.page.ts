@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { RestService } from "../rest.service";
 
 @Component({
   selector: "app-noti",
@@ -7,7 +8,41 @@ import { Router } from "@angular/router";
   styleUrls: ["./noti.page.scss"],
 })
 export class NotiPage implements OnInit {
-  constructor(public router: Router) {}
+  userdata: any = "";
+  userid: any = "";
+  notiArr: any = "";
+  noticount = 0;
+  constructor(public router: Router, public rest: RestService) {}
+
+  ionViewWillEnter() {
+    this.noticount = 0;
+
+    this.userdata = localStorage.getItem("userdata");
+
+    this.userid = JSON.parse(this.userdata).users_customers_id;
+
+    console.log("userid----", this.userid);
+
+    var ss = JSON.stringify({
+      users_customers_id: this.userid,
+    });
+
+    this.rest.presentLoader();
+
+    this.rest.notifications(ss).subscribe((res: any) => {
+      console.log("res-----", res);
+
+      this.rest.dismissLoader();
+
+      if (res.status == "error") {
+        this.noticount = 1;
+        this.rest.presentToast("No notifications found");
+      } else {
+        this.noticount = 2;
+        //this.notiArr = res.
+      }
+    });
+  }
 
   ngOnInit() {}
   goToProfile() {
