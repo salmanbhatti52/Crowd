@@ -26,6 +26,7 @@ export class NotiPage implements OnInit {
     var ss = JSON.stringify({
       users_customers_id: this.userid,
     });
+    console.log("ss-----", ss);
 
     this.rest.presentLoader();
 
@@ -39,7 +40,7 @@ export class NotiPage implements OnInit {
         this.rest.presentToast("No notifications found");
       } else {
         this.noticount = 2;
-        //this.notiArr = res.
+        this.notiArr = res.data;
       }
     });
   }
@@ -59,5 +60,9 @@ export class NotiPage implements OnInit {
   }
   tab4Click() {
     this.router.navigate(["noti"]);
+  }
+
+  calculatedate(opt: any) {
+    //moment(opt, "YYYYMMDD").fromNow(); // 11 years ago
   }
 }

@@ -18,6 +18,22 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
+  <div style="width: 90%; margin: 5% auto">
+    <div *ngIf="noticount == 2">
+      <div class="div1" *ngFor="let noti of notiArr">
+        <ion-row>
+          <ion-col size="3">
+            <img class="imgg" src="{{rest.baseURLimg}}{{noti.cover_images}}" />
+          </ion-col>
+
+          <ion-col size="9">
+            <p class="work_sans title1">{{noti.message}}</p>
+            <p class="work_sans title2">{{noti.date_added}}</p>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+  </div>
   <div *ngIf="noticount == 1" style="margin-top: 90px; padding: 30px">
     <p
       style="
