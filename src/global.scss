@@ -134,6 +134,7 @@ ion-input {
     line-height: 19px;
     letter-spacing: -0.3px;
     --color: #ffffff !important;
+    color: white !important;
  }
 
 
@@ -247,6 +248,10 @@ ion-input {
     --padding-bottom: 0px;
     --padding-start: 0;
     font-size: inherit;
+    --placeholder-color:#ffffff;
+    --placeholder-opacity: 1;
+    --color: #ffffff !important;
+    color: white !important;
 }
 
 .sc-ion-input-md-h {
@@ -255,6 +260,10 @@ ion-input {
     --padding-bottom: 0px;
     --padding-start: 0;
     font-size: inherit;
+    --placeholder-color:#ffffff;
+    --placeholder-opacity: 1;
+    --color: #ffffff !important;
+    color: white !important;
 }
 
 .md body, .ios body {

@@ -60,7 +60,7 @@ export class ProfilePage implements OnInit {
   }
   goLogout() {
     localStorage.clear();
-    this.router.navigate(["login"]);
+    this.navCtrl.navigateRoot(["login"]);
   }
 
   godelete() {

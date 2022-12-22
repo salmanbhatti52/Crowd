@@ -27,4 +27,23 @@ export class OtpPage implements OnInit {
       this.router.navigate(["newpass"]);
     }
   }
+
+  resenOTP() {
+    this.rest.presentLoader();
+    var ss = JSON.stringify({
+      email: localStorage.getItem("otpemail"),
+    });
+
+    this.rest.forgot_password(ss).subscribe((res: any) => {
+      this.rest.dismissLoader();
+      console.log(res);
+
+      if (res.status == "success") {
+        this.rest.presentToast(res.data.message);
+        localStorage.setItem("otp", res.data.otp);
+      } else {
+        this.rest.presentToast(res.message);
+      }
+    });
+  }
 }

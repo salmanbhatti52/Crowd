@@ -27,6 +27,20 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need to access photo library to allow user to upload profile picture.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user.</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+
+
 	<array>
 		<string>armv7</string>
 	</array>
