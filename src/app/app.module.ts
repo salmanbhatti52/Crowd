@@ -15,6 +15,7 @@ import {
   NativeGeocoderOptions,
 } from "@awesome-cordova-plugins/native-geocoder/ngx";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+import { PininfoPageModule } from "./pininfo/pininfo.module";
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 
 @NgModule({
@@ -24,6 +25,7 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    PininfoPageModule,
   ],
   providers: [
     OneSignal,

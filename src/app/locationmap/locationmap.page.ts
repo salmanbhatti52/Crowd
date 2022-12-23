@@ -1,8 +1,10 @@
+import { PininfoPage } from "./../pininfo/pininfo.page";
 import { RestService } from "./../rest.service";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { GoogleMap } from "@capacitor/google-maps";
+import { ModalController } from "@ionic/angular";
 
 @Component({
   selector: "app-locationmap",
@@ -29,7 +31,7 @@ export class LocationmapPage implements OnInit {
         lng: 71.4848884,
       },
       snippet: "1",
-      title: "test venue",
+      title: "test venue 1",
     },
     {
       coordinate: {
@@ -37,7 +39,7 @@ export class LocationmapPage implements OnInit {
         lng: 71.4699251,
       },
       snippet: "2",
-      title: "test venue",
+      title: "test venue 2",
     },
     {
       coordinate: {
@@ -45,11 +47,15 @@ export class LocationmapPage implements OnInit {
         lng: 71.462651,
       },
       snippet: "hellow i am here dear",
-      title: "test venue",
+      title: "test venue 3",
     },
   ];
 
-  constructor(public router: Router, public rest: RestService) {}
+  constructor(
+    public router: Router,
+    public rest: RestService,
+    public modalCtrl: ModalController
+  ) {}
 
   ngOnInit() {}
 
@@ -208,8 +214,9 @@ export class LocationmapPage implements OnInit {
     // this.markerscheck = this.venuarr;
   }
 
-  HideFilter() {
+  async HideFilter() {
     this.showfilter = false;
+    await this.modalCtrl.dismiss();
   }
 
   filterArrypin(searchTerm: any) {
@@ -223,6 +230,22 @@ export class LocationmapPage implements OnInit {
       }
     }
     console.log("searchObject------224ali", this.searchObject);
+
+    this.rest.pinobject = this.searchObject;
+
+    // this.router.navigate(["pininfo"]);
+
+    this.goTOinfopage();
+  }
+
+  async goTOinfopage() {
+    this.HideFilter();
+
+    const modal = await this.modalCtrl.create({
+      component: PininfoPage,
+      cssClass: "pinModal",
+    });
+    await modal.present();
   }
 
   gotodetail() {

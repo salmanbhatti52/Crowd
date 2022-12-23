@@ -104,6 +104,10 @@ const routes: Routes = [
         (m) => m.SplashvideoPageModule
       ),
   },
+  {
+    path: 'pininfo',
+    loadChildren: () => import('./pininfo/pininfo.module').then( m => m.PininfoPageModule)
+  },
 ];
 
 @NgModule({

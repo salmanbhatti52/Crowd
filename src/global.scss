@@ -269,3 +269,198 @@ ion-input {
 .md body, .ios body {
   --ion-background-color: none;
 }
+
+
+
+
+//////////////iphonbne media query
+/// 
+/// 
+/// 
+
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    .pinModal{
+  margin-top: 154%;
+  height: 110px;
+  margin-right: 15px;
+  --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+  margin-left: 13px;
+  border-radius: 20px;
+}
+
+}
+
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .pinModal{
+      margin-top: 123%;
+      height: 110px;
+      margin-right: 15px;
+      --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+      margin-left: 13px;
+      border-radius: 20px;
+    }
+
+}
+
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    .pinModal{
+      margin-top: 160%;
+      height: 110px;
+      margin-right: 15px;
+      --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+      margin-left: 13px;
+      border-radius: 20px;
+    }
+
+}
+
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .pinModal{
+      margin-top: 154%;
+      height: 110px;
+      margin-right: 15px;
+      --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+      margin-left: 13px;
+      border-radius: 20px;
+    }
+
+}
+
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .pinModal{
+      margin-top: 154%;
+      height: 110px;
+      margin-right: 15px;
+      --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+      margin-left: 13px;
+      border-radius: 20px;
+    }
+
+}
+
+/* 2340x1080 pixels at 476ppi */
+@media only screen 
+    and (device-width: 375px) 
+    and (device-height: 812px) 
+    and (-webkit-device-pixel-ratio: 3) {
+
+      .pinModal{
+        margin-top: 154%;
+        height: 110px;
+        margin-right: 15px;
+        --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+        margin-left: 13px;
+        border-radius: 20px;
+      }
+
+     }
+
+     /* 2532x1170 pixels at 460ppi */
+@media only screen 
+and (device-width: 390px) 
+and (device-height: 844px) 
+and (-webkit-device-pixel-ratio: 3) { 
+
+  .pinModal{
+    margin-top: 154%;
+    height: 110px;
+    margin-right: 15px;
+    --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    margin-left: 13px;
+    border-radius: 20px;
+  }
+}
+
+/* 2778x1284 pixels at 458ppi */
+@media only screen 
+    and (device-width: 428px) 
+    and (device-height: 926px) 
+    and (-webkit-device-pixel-ratio: 3) {
+
+      .pinModal{
+        margin-top: 154%;
+        height: 110px;
+        margin-right: 15px;
+        --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+        margin-left: 13px;
+        border-radius: 20px;
+      }
+     }
+
+     /* 1792x828px at 326ppi */
+@media only screen 
+and (device-width: 414px) 
+and (device-height: 896px) 
+and (-webkit-device-pixel-ratio: 2) { .pinModal{
+  margin-top: 154%;
+  height: 110px;
+  margin-right: 15px;
+  --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+  margin-left: 13px;
+  border-radius: 20px;
+} }
+
+/* 2436x1125px at 458ppi */
+@media only screen 
+    and (device-width: 375px) 
+    and (device-height: 812px) 
+    and (-webkit-device-pixel-ratio: 3) { .pinModal{
+      margin-top: 154%;
+      height: 110px;
+      margin-right: 15px;
+      --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+      margin-left: 13px;
+      border-radius: 20px;
+    } }
+
+
+    /* 2688x1242px at 458ppi */
+@media only screen 
+and (device-width: 414px) 
+and (device-height: 896px) 
+and (-webkit-device-pixel-ratio: 3) {  .pinModal{
+  margin-top: 154%;
+  height: 110px;
+  margin-right: 15px;
+  --background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+  margin-left: 13px;
+  border-radius: 20px;
+}}
+
+
