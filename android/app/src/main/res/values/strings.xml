@@ -4,4 +4,8 @@
     <string name="title_activity_main">Crowd</string>
     <string name="package_name">com.microwd.app</string>
     <string name="custom_url_scheme">com.microwd.app</string>
+      <string
+    name="server_client_id"
+  >219864729095-351aj206lltjpl9t7n9a4reffekde9gi.apps.googleusercontent.com</string>
+
 </resources>

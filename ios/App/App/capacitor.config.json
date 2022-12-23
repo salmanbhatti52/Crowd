@@ -4,18 +4,13 @@
 	"webDir": "www",
 	"bundledWebRuntime": false,
 	"plugins": {
-		"SplashScreen": {
-			"backgroundColor": "#A8B400",
-			"launchAutoHide": false,
-			"showSpinner": false,
-			"androidScaleType": "CENTER_CROP"
-		}
-	},
-	"cordova": {
-		"preferences": {
-			"LottieFullScreen": "true",
-			"LottieHideAfterAnimationEnd": "true",
-			"LottieAnimationLocation": "public/assets/lottiscreen.json"
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "219864729095-351aj206lltjpl9t7n9a4reffekde9gi.apps.googleusercontent.com",
+			"forceCodeForRefreshToken": true
 		}
 	}
 }

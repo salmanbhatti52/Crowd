@@ -20,7 +20,4 @@
   </feature>
 
   
-  <preference name="LottieFullScreen" value="true" />
-  <preference name="LottieHideAfterAnimationEnd" value="true" />
-  <preference name="LottieAnimationLocation" value="public/assets/lottiscreen.json" />
 </widget>
