@@ -196,6 +196,22 @@ export class RestService {
     });
   }
 
+  users_customers_signup_social(data: any) {
+    let header;
+
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+
+    return this.http.post(
+      this.baseURL + "users_customers_signup_social",
+      data,
+      {
+        headers: header,
+      }
+    );
+  }
+
   delete_account(data: any) {
     let header;
     header = new HttpHeaders({

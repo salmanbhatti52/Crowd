@@ -21,6 +21,8 @@ export class ProfilePage implements OnInit {
   imgdataComing: any = "";
   userid: any = "";
   imageupdate = 0;
+  onesignalid: any = "";
+
   constructor(
     public location: Location,
     public router: Router,
@@ -59,7 +61,9 @@ export class ProfilePage implements OnInit {
     this.router.navigate(["changepass"]);
   }
   goLogout() {
+    this.onesignalid = localStorage.getItem("onesignaluserid");
     localStorage.clear();
+    localStorage.setItem("onesignaluserid", this.onesignalid);
     this.navCtrl.navigateRoot(["login"]);
   }
 

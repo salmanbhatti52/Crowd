@@ -8,4 +8,6 @@
     name="server_client_id"
   >219864729095-351aj206lltjpl9t7n9a4reffekde9gi.apps.googleusercontent.com</string>
 
+<string name="facebook_app_id">828272794912378</string>
+<string name="facebook_client_token">fb828272794912378</string>
 </resources>

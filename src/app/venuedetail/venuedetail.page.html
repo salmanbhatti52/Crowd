@@ -35,7 +35,12 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge class="bdg">{{detailObj.discount_percentage}}% Off </ion-badge>
+    <ion-badge *ngIf="detailObj.discount_percentage == 0" class="bdg"
+      >No Discount</ion-badge
+    >
+    <ion-badge *ngIf="detailObj.discount_percentage != 0" class="bdg"
+      >{{detailObj.discount_percentage}}% Off
+    </ion-badge>
 
     <ion-row>
       <ion-col class="slider_main">
@@ -177,7 +182,12 @@
       <img src="assets/imgs/disc.svg" alt="" />
       <p class="one">Discount Claim!</p>
       <p class="two">Instant</p>
-      <p class="three">{{detailObj.discount_percentage}}% off</p>
+      <p *ngIf="detailObj.discount_percentage == 0" class="three">
+        No Discount
+      </p>
+      <p *ngIf="detailObj.discount_percentage != 0" class="three">
+        {{detailObj.discount_percentage}}% off
+      </p>
     </div>
   </div>
 </div>

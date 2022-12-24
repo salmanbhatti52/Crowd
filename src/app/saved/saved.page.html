@@ -190,7 +190,12 @@
               *ngIf="opt.likes!=0"
               src="assets/imgs/heartactive.svg"
             />
-            <ion-badge class="bdg">{{opt.discount_percentage}} Off </ion-badge>
+            <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+              >No Discount
+            </ion-badge>
+            <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+              >{{opt.discount_percentage}}% Off
+            </ion-badge>
           </div>
           <div
             class="divboxshadowinside"
@@ -240,7 +245,12 @@
               *ngIf="opt.likes!=0"
               src="assets/imgs/heartactive.svg"
             />
-            <ion-badge class="bdg">{{opt.discount_percentage}}% Off</ion-badge>
+            <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+              >No Discount
+            </ion-badge>
+            <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+              >{{opt.discount_percentage}}% Off
+            </ion-badge>
           </div>
           <div
             class="divboxshadowinside"

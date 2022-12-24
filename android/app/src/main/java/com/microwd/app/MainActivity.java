@@ -10,5 +10,9 @@ public class MainActivity extends BridgeActivity {
     super.onCreate(savedInstanceState);
 
     registerPlugin(GoogleAuth.class);
+
+    registerPlugin(
+      com.getcapacitor.community.facebooklogin.FacebookLogin.class
+    );
   }
 }

@@ -25,30 +25,30 @@ export class LocationmapPage implements OnInit {
   searchObject: any = "";
 
   markerscheck = [
-    {
-      coordinate: {
-        lat: 30.2396588,
-        lng: 71.4848884,
-      },
-      snippet: "1",
-      title: "test venue 1",
-    },
-    {
-      coordinate: {
-        lat: 30.208124,
-        lng: 71.4699251,
-      },
-      snippet: "2",
-      title: "test venue 2",
-    },
-    {
-      coordinate: {
-        lat: 30.2164073,
-        lng: 71.462651,
-      },
-      snippet: "hellow i am here dear",
-      title: "test venue 3",
-    },
+    // {
+    //   coordinate: {
+    //     lat: 30.2396588,
+    //     lng: 71.4848884,
+    //   },
+    //   snippet: "1",
+    //   title: "test venue 1",
+    // },
+    // {
+    //   coordinate: {
+    //     lat: 30.208124,
+    //     lng: 71.4699251,
+    //   },
+    //   snippet: "2",
+    //   title: "test venue 2",
+    // },
+    // {
+    //   coordinate: {
+    //     lat: 30.2164073,
+    //     lng: 71.462651,
+    //   },
+    //   snippet: "hellow i am here dear",
+    //   title: "test venue 3",
+    // },
   ];
 
   constructor(
@@ -211,7 +211,7 @@ export class LocationmapPage implements OnInit {
     }
 
     console.log("item------148", this.venuarr);
-    // this.markerscheck = this.venuarr;
+    this.markerscheck = this.venuarr;
   }
 
   async HideFilter() {

@@ -25,6 +25,7 @@
     </p>
 
     <ion-badge
+      *ngIf="searchObject.discount_percentage != 0"
       style="
         padding: 8px;
         position: absolute;
@@ -34,6 +35,19 @@
         background: #7825cb;
       "
       >{{searchObject.discount_percentage}}% off</ion-badge
+    >
+
+    <ion-badge
+      *ngIf="searchObject.discount_percentage == 0"
+      style="
+        padding: 8px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border-radius: 20px;
+        background: #7825cb;
+      "
+      >No Discount</ion-badge
     >
     <img
       *ngIf="searchObject.likes == 0"
