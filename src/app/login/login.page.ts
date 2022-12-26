@@ -6,6 +6,12 @@ import { NavController, Platform } from "@ionic/angular";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { FacebookLoginResponse } from "@capacitor-community/facebook-login";
+import {
+  SignInWithApple,
+  SignInWithAppleResponse,
+  SignInWithAppleOptions,
+} from "@capacitor-community/apple-sign-in";
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -203,5 +209,28 @@ export class LoginPage implements OnInit {
         }
       });
     });
+  }
+
+  signinwithapple() {
+    console.log("signinwithapple");
+
+    let options: SignInWithAppleOptions = {
+      clientId: "com.microwd.app",
+      redirectURI: "https://www.yourfrontend.com/login",
+      scopes: "email name",
+      state: "12345",
+      nonce: "nonce",
+    };
+
+    SignInWithApple.authorize(options)
+      .then((result: SignInWithAppleResponse) => {
+        console.log(result);
+
+        // Handle user information
+        // Validate token with server and create new session
+      })
+      .catch((error) => {
+        // Handle error
+      });
   }
 }
