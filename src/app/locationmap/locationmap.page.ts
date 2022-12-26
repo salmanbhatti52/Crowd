@@ -138,6 +138,28 @@ export class LocationmapPage implements OnInit {
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
     console.log("133---", this.venuarr);
+
+    var newVenuArr = [];
+    for (var i = 0; i < this.venuarr.length; i++) {
+      console.log("168");
+
+      var obj = {
+        coordinate: {
+          lat: this.venuarr[i].lattitude,
+          lng: this.venuarr[i].longitude,
+        },
+        snippet: "1",
+        title: this.venuarr[i].name,
+      };
+
+      newVenuArr.push(obj);
+    }
+    this.venuarr = [];
+    this.venuarr = newVenuArr;
+    console.log("item------166", this.venuarr);
+    console.log("itemOrg------166", this.venuarrOrg);
+    this.markerscheck = this.venuarr;
+    this.createMap();
   }
 
   showHideFilter(item: any) {
@@ -152,7 +174,8 @@ export class LocationmapPage implements OnInit {
     }
   }
 
-  showHideFilterN() {
+  async showHideFilterN() {
+    await this.modalCtrl.dismiss();
     if (this.showfilter) {
       this.showfilter = false;
     } else {
@@ -193,6 +216,8 @@ export class LocationmapPage implements OnInit {
     this.venuarr = newVenuArr;
     console.log("item------166", this.venuarr);
     console.log("itemOrg------166", this.venuarrOrg);
+    this.markerscheck = this.venuarr;
+    this.createMap();
   }
 
   makeMarkerArray() {
@@ -219,7 +244,8 @@ export class LocationmapPage implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  filterArrypin(searchTerm: any) {
+  async filterArrypin(searchTerm: any) {
+    // await this.modalCtrl.dismiss();
     console.log("searchTerm---", searchTerm);
 
     for (var i = 0; i < this.venuarrOrg.length; i++) {
@@ -246,6 +272,8 @@ export class LocationmapPage implements OnInit {
       cssClass: "pinModal",
     });
     await modal.present();
+
+    // modal.onDidDismiss().then(() => this.modalCtrl.dismiss());
   }
 
   gotodetail() {
