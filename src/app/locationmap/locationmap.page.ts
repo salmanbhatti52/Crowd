@@ -24,6 +24,8 @@ export class LocationmapPage implements OnInit {
 
   searchObject: any = "";
 
+  dismissmodal = 0;
+
   markerscheck = [
     // {
     //   coordinate: {
@@ -65,7 +67,6 @@ export class LocationmapPage implements OnInit {
 
   ionViewWillEnter() {
     this.venuarrOrg = this.rest.venuArrHome;
-
     this.makeMarkerArray();
   }
 
@@ -75,6 +76,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async createMap() {
+    this.dismissmodal = 0;
     // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
     this.map = await GoogleMap.create({
       id: "my-map", // Unique identifier for this map instance
@@ -98,13 +100,12 @@ export class LocationmapPage implements OnInit {
   async addmarkers() {
     await this.map.addMarkers(this.markerscheck);
     this.map.setOnMarkerClickListener(async (marker: any) => {
-      console.log(marker);
+      console.log("setOnMarkerClickListener", marker);
+      this.dismissmodal++;
       this.title = marker.title;
       this.filterArrypin(marker.title);
     });
-    this.map.setOnInfoWindowClickListener(async (marker: any) => {
-      console.log("info", marker);
-    });
+    this.map.setOnInfoWindowClickListener(async (marker: any) => {});
   }
 
   tab1Click() {
@@ -137,12 +138,9 @@ export class LocationmapPage implements OnInit {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
-    console.log("133---", this.venuarr);
 
     var newVenuArr = [];
     for (var i = 0; i < this.venuarr.length; i++) {
-      console.log("168");
-
       var obj = {
         coordinate: {
           lat: this.venuarr[i].lattitude,
@@ -156,9 +154,9 @@ export class LocationmapPage implements OnInit {
     }
     this.venuarr = [];
     this.venuarr = newVenuArr;
-    console.log("item------166", this.venuarr);
-    console.log("itemOrg------166", this.venuarrOrg);
     this.markerscheck = this.venuarr;
+    this.map.destroy();
+
     this.createMap();
   }
 
@@ -175,19 +173,18 @@ export class LocationmapPage implements OnInit {
   }
 
   async showHideFilterN() {
-    await this.modalCtrl.dismiss();
     if (this.showfilter) {
       this.showfilter = false;
     } else {
       this.showfilter = true;
     }
+
+    await this.modalCtrl.dismiss();
   }
 
   searchAndFilterItems(searchTerm: any) {
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      console.log("156");
-
       if (
         this.venuarrOrg[i].availability.toLowerCase() ==
         searchTerm.toLowerCase()
@@ -195,12 +192,9 @@ export class LocationmapPage implements OnInit {
         this.venuarr.push(this.venuarrOrg[i]);
       }
     }
-    console.log("item------152", this.venuarr);
 
     var newVenuArr = [];
     for (var i = 0; i < this.venuarr.length; i++) {
-      console.log("168");
-
       var obj = {
         coordinate: {
           lat: this.venuarr[i].lattitude,
@@ -214,9 +208,9 @@ export class LocationmapPage implements OnInit {
     }
     this.venuarr = [];
     this.venuarr = newVenuArr;
-    console.log("item------166", this.venuarr);
-    console.log("itemOrg------166", this.venuarrOrg);
     this.markerscheck = this.venuarr;
+    this.map.destroy();
+
     this.createMap();
   }
 
@@ -235,7 +229,6 @@ export class LocationmapPage implements OnInit {
       this.venuarr.push(obj);
     }
 
-    console.log("item------148", this.venuarr);
     this.markerscheck = this.venuarr;
   }
 
@@ -245,17 +238,15 @@ export class LocationmapPage implements OnInit {
   }
 
   async filterArrypin(searchTerm: any) {
+    console.log("dismissmodal---", this.dismissmodal);
+
     // await this.modalCtrl.dismiss();
-    console.log("searchTerm---", searchTerm);
 
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      console.log("156");
-
       if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
         this.searchObject = this.venuarrOrg[i];
       }
     }
-    console.log("searchObject------224ali", this.searchObject);
 
     this.rest.pinobject = this.searchObject;
 
@@ -278,12 +269,7 @@ export class LocationmapPage implements OnInit {
 
   gotodetail() {
     this.HideFilter();
-    console.log(this.searchObject);
     this.rest.detail = this.searchObject;
     this.router.navigate(["venuedetail"]);
-  }
-
-  mapClick() {
-    console.log("mapclick");
   }
 }
