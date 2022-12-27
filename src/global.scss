@@ -115,9 +115,33 @@ ion-input {
 }
     
 
-.inputfield{
-    border: 1px solid white;
-    border-radius: 52px;
+.inputfield {
+  margin: 2% 0% 4% 0%;
+  background: #000000;
+  border-radius: 12px;
+}
+input{
+  width: 100%;
+    border-radius: 0px 20px 20px 0px;
+    background: no-repeat;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
+}
+.in-text {
+    --color: #ffffff;
+    --placeholder-color: #ffffff;
+    --padding-start: 7%;
+    --padding-top: 5%;
+    --padding-bottom: 5%;
+    font-size: 16px;
+    font-weight: 400;
+    --placeholder-font-weight: 400;
+    // --placeholder-opacity: 100%;
   }
 
   .inputfieldblack{
@@ -125,13 +149,13 @@ ion-input {
     background: black;
   }
   .input{
-    text-align: left;
+    // text-align: left;
     --placeholder-color:#ffffff;
     --placeholder-opacity: 1;
     --placeholder-font-weight:400;
     font-weight: 400;
     font-size: 16px;
-    line-height: 19px;
+    // line-height: 19px;
     letter-spacing: -0.3px;
     --color: #ffffff !important;
     color: white !important;

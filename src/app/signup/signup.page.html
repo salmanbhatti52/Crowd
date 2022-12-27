@@ -27,13 +27,12 @@
         style="height: 52px; margin-top: 30px; display: flex"
       >
         <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/email.svg" />
-        <ion-input
+        <input
           [(ngModel)]="email"
           class="input"
           type="text"
           placeholder="Email"
-        >
-        </ion-input>
+        />
       </div>
 
       <div
@@ -58,13 +57,12 @@
           style="margin: 17px 17px 17px 15px"
           src="/assets/imgs/eye.svg"
         />
-        <ion-input
+        <input
           [(ngModel)]="pass"
           class="input"
           type="{{showPass3 ? 'text':'password' }}"
           placeholder="Password"
-        >
-        </ion-input>
+        />
         <img
           style="height: 21px; margin: 12px 19px 17px 15px"
           src="/assets/imgs/lock.svg"

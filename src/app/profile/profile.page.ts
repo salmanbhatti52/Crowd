@@ -23,6 +23,8 @@ export class ProfilePage implements OnInit {
   imageupdate = 0;
   onesignalid: any = "";
 
+  polnum:any = ""
+
   constructor(
     public location: Location,
     public router: Router,
