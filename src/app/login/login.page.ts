@@ -213,6 +213,7 @@ export class LoginPage implements OnInit {
 
   signinwithapple() {
     console.log("signinwithapple");
+    alert("signinwithapple");
 
     let options: SignInWithAppleOptions = {
       clientId: "com.microwd.app",
@@ -225,6 +226,8 @@ export class LoginPage implements OnInit {
     SignInWithApple.authorize(options)
       .then((result: SignInWithAppleResponse) => {
         console.log(result);
+        alert(result);
+        alert(JSON.stringify(result));
 
         // Handle user information
         // Validate token with server and create new session
