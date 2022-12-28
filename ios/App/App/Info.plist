@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Crowd</string>
+	<string>Crowd</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -18,33 +18,37 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.219864729095-so7dl4l5k2m0he7jjubdr559ia140g6m</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need to access photo library to allow user to upload profile picture.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
-		<array>
+	<array>
 		<string>armv7</string>
 	</array>
-
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to access photo library to allow user to upload profile picture.</string>
-
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user.</string>
-
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
-
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
-
-
-
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
