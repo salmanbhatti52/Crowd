@@ -32,6 +32,7 @@
     >
       <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/target.svg" />
       <input
+        *ngIf="platformcheck == 'ios'"
         class="input"
         type="text"
         placeholder="Search your area"
@@ -39,6 +40,17 @@
         [(ngModel)]="from"
         (keypress)="updateSearchResultsEventFrom($event)"
       />
+
+      <ion-input
+        *ngIf="platformcheck == 'android'"
+        class="input"
+        type="text"
+        placeholder="Search your area ali"
+        autocapitalize="words"
+        [(ngModel)]="from"
+        (ionInput)="updateSearchResultsEventFrom($event)"
+      >
+      </ion-input>
       <img
         style="height: 24px; margin: 13px 17px 17px 15px"
         src="/assets/imgs/pin.svg"

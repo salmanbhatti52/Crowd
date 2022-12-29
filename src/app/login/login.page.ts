@@ -25,6 +25,7 @@ export class LoginPage implements OnInit {
   token: any;
   fbuser: any = "";
   googleUser: any = "";
+  platformcheck: any = "android";
   constructor(
     public router: Router,
     public rest: RestService,
@@ -33,6 +34,11 @@ export class LoginPage implements OnInit {
     public http: HttpClient
   ) {
     this.initializeApp();
+    if (this.platform.is("ios")) {
+      this.platformcheck = "ios";
+    } else {
+      this.platformcheck = "android";
+    }
   }
 
   ngOnInit() {}
@@ -58,16 +64,15 @@ export class LoginPage implements OnInit {
     //this.getSystemSetting();
     //this.router.navigate(["getstart"]);
 
-    if (this.email == "") {
+    var re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!re.test(this.email)) {
+      this.rest.presentToast("Enter valid email.");
+    } else if (this.email == "") {
       this.rest.presentToast("Please enter valid email.");
-    }
-
-    if (this.pass == "") {
+    } else if (this.pass == "") {
       this.rest.presentToast("Please enter password.");
-    }
-
-    if (this.email == "" || this.pass == "") {
-      this.rest.presentToast("Please enter required fields.");
     } else {
       this.rest.presentLoader();
       var ss = JSON.stringify({

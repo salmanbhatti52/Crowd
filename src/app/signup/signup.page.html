@@ -101,6 +101,7 @@
       <ion-row style="margin-top: 10px">
         <ion-col style="text-align: center">
           <img
+            (click)="fbLogin()"
             style="margin: 17px 17px 17px 15px"
             src="/assets/imgs/facebook.svg"
           />
@@ -108,12 +109,13 @@
 
         <ion-col style="text-align: center">
           <img
+            (click)="googleSignIn()"
             style="margin: 17px 17px 17px 15px"
             src="/assets/imgs/gmail.svg"
           />
         </ion-col>
 
-        <ion-col style="text-align: center">
+        <ion-col *ngIf="platformcheck == 'ios'" style="text-align: center">
           <img
             style="margin: 17px 17px 17px 15px"
             src="/assets/imgs/apple.svg"

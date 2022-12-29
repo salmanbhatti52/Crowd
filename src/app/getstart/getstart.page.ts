@@ -34,6 +34,8 @@ export class GetstartPage implements OnInit {
   location: any;
   placeid: any;
   from: any = "";
+  platformcheck: any = "android";
+
   locationishidden: boolean = false;
   constructor(
     public router: Router,
@@ -43,7 +45,13 @@ export class GetstartPage implements OnInit {
     private zone: NgZone,
     public alertcontroller: AlertController,
     public platform: Platform
-  ) {}
+  ) {
+    if (this.platform.is("ios")) {
+      this.platformcheck = "ios";
+    } else {
+      this.platformcheck = "android";
+    }
+  }
 
   ngOnInit() {}
 

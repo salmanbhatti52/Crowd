@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   imageupdate = 0;
   onesignalid: any = "";
 
-  polnum:any = ""
+  polnum: any = "";
 
   constructor(
     public location: Location,
@@ -88,12 +88,17 @@ export class ProfilePage implements OnInit {
   }
 
   save() {
-    if (this.uname == "") {
+    var re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (this.uname == "" || this.uname == null) {
       this.rest.presentToast("Please enter user name.");
-    } else if (this.name == "") {
+    } else if (this.name == "" || this.name == null) {
       this.rest.presentToast("Please enter name.");
-    } else if (this.email == "") {
+    } else if (this.email == "" || this.email == null) {
       this.rest.presentToast("Please enter email.");
+    } else if (!re.test(this.email)) {
+      this.rest.presentToast("Enter valid email.");
     } else {
       var ss = JSON.stringify({
         users_customers_id: this.userid,

@@ -124,7 +124,7 @@
           />
         </ion-col>
 
-        <ion-col style="text-align: center">
+        <ion-col *ngIf="platformcheck == 'ios'" style="text-align: center">
           <img
             (click)="signinwithapple()"
             style="margin: 17px 17px 17px 15px"
