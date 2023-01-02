@@ -194,4 +194,12 @@ export class SavedPage implements OnInit {
       console.log(res);
     });
   }
+
+  handleRefresh(ev: any) {
+    console.log("ev-----", ev);
+    setTimeout(() => {
+      ev.target.complete();
+    }, 1000);
+    this.ionViewWillEnter();
+  }
 }

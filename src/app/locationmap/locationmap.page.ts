@@ -81,7 +81,7 @@ export class LocationmapPage implements OnInit {
     // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
     this.map = await GoogleMap.create({
       id: "my-map", // Unique identifier for this map instance
-      element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element
+      element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element,
       apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
       forceCreate: true,
       config: {
@@ -146,7 +146,7 @@ export class LocationmapPage implements OnInit {
           lat: this.venuarr[i].lattitude,
           lng: this.venuarr[i].longitude,
         },
-        snippet: "1",
+        snippet: this.venuarr[i].public_check_ins,
         title: this.venuarr[i].name,
       };
 
@@ -203,7 +203,7 @@ export class LocationmapPage implements OnInit {
           lat: this.venuarr[i].lattitude,
           lng: this.venuarr[i].longitude,
         },
-        snippet: "1",
+        snippet: this.venuarr[i].public_check_ins,
         title: this.venuarr[i].name,
       };
 
@@ -225,7 +225,7 @@ export class LocationmapPage implements OnInit {
           lat: this.venuarrOrg[i].lattitude,
           lng: this.venuarrOrg[i].longitude,
         },
-        snippet: "1",
+        snippet: this.venuarrOrg[i].public_check_ins,
         title: this.venuarrOrg[i].name,
       };
 

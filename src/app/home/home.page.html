@@ -72,6 +72,9 @@
 </ion-header> -->
 
 <ion-content style="--background: #262626">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div
     class="bg paddingtop"
     style="position: fixed; width: 100%; z-index: 9999"
@@ -153,7 +156,7 @@
     </div>
   </div>
   <div class="margincls">
-    <div *ngIf="segmentModel === 'venu'">
+    <div style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'venu'">
       <p
         *ngIf="filtertype != 'no';"
         class="filtertextClear"
@@ -162,114 +165,115 @@
         Clear Filter
       </p>
 
-      <ion-row>
-        <ion-col
-          size="6"
-          [class.heighclassbig]="i % 2 != 0"
-          [class.heighclasssmall]="i % 2 == 0"
-          *ngFor="let opt of venuarr; let i = index"
+      <div
+        style="width: 50%; position: relative"
+        [class.heighclassbig]="i % 2 != 0"
+        [class.heighclasssmall]="i % 2 == 0"
+        *ngFor="let opt of venuarr; let i = index"
+        [style.margin-top.px]="i % 2 == 0? -i*22:0"
+      >
+        <div
+          style="
+            position: absolute;
+            width: 100%;
+            z-index: 9;
+            top: 5px;
+            right: 1px;
+          "
         >
-          <div
-            style="
-              position: absolute;
-              width: 100%;
-              z-index: 9;
-              top: 5px;
-              right: 1px;
-            "
-          >
-            <img
-              (click)="likevenu(opt)"
-              class="imgcls"
-              *ngIf="opt.likes==0"
-              src="assets/imgs/heartww.svg"
-            />
-            <img
-              (click)="likeoutvenu(opt)"
-              class="imgcls"
-              *ngIf="opt.likes!=0"
-              src="assets/imgs/heartactive.svg"
-            />
-            <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
-              >No Discount
-            </ion-badge>
-            <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
-              >{{opt.discount_percentage}}% Off
-            </ion-badge>
-          </div>
-          <div
-            class="divboxshadowinside"
-            (click)="goToDetail(opt)"
-            style=" 
+          <img
+            (click)="likevenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes==0"
+            src="assets/imgs/heartww.svg"
+          />
+          <img
+            (click)="likeoutvenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes!=0"
+            src="assets/imgs/heartactive.svg"
+          />
+          <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+            >No Discount
+          </ion-badge>
+          <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+            >{{opt.discount_percentage}}% Off
+          </ion-badge>
+        </div>
+        <div
+          class="divboxshadowinside"
+          (click)="goToDetail(opt)"
+          style=" 
             position: relative;
            height: 100%;
           border-radius: 15px;
           background-size: cover;
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
-          >
-            <div style="position: absolute; bottom: 5px; left: 15px">
-              <p class="title1 work_sans">{{opt.name}}</p>
-              <p class="title2 work_sans">{{opt.distance}}</p>
-            </div>
-          </div>
-        </ion-col>
-      </ion-row>
-    </div>
-    <div *ngIf="segmentModel === 'event'">
-      <ion-row>
-        <ion-col
-          size="6"
-          [class.heighclassbig]="i % 2 != 0"
-          [class.heighclasssmall]="i % 2 == 0"
-          *ngFor="let opt of eventarr; let i = index"
         >
-          <div
-            style="
-              position: absolute;
-              width: 100%;
-              z-index: 9;
-              top: 5px;
-              right: 1px;
-            "
-          >
-            <img
-              (click)="likeevent(opt)"
-              class="imgcls"
-              *ngIf="opt.likes==0"
-              src="assets/imgs/heartww.svg"
-            />
-            <img
-              (click)="likeoutevent(opt)"
-              class="imgcls"
-              *ngIf="opt.likes!=0"
-              src="assets/imgs/heartactive.svg"
-            />
-            <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
-              >No Discount
-            </ion-badge>
-            <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
-              >{{opt.discount_percentage}}% Off
-            </ion-badge>
+          <div style="position: absolute; bottom: 5px; left: 15px">
+            <p class="title1 work_sans">{{opt.name}}</p>
+            <p class="title2 work_sans">{{opt.distance}}</p>
           </div>
-          <div
-            class="divboxshadowinside"
-            (click)="goToDetailevent(opt)"
-            style=" 
+        </div>
+      </div>
+    </div>
+    <div
+      style="display: flex; flex-wrap: wrap"
+      *ngIf="segmentModel === 'event'"
+    >
+      <div
+        style="position: relative; width: 50%"
+        [class.heighclassbig]="i % 2 != 0"
+        [class.heighclasssmall]="i % 2 == 0"
+        *ngFor="let opt of eventarr; let i = index"
+        [style.margin-top.px]="i % 2 == 0? -i*22:0"
+      >
+        <div
+          style="
+            position: absolute;
+            width: 100%;
+            z-index: 9;
+            top: 5px;
+            right: 1px;
+          "
+        >
+          <img
+            (click)="likeevent(opt)"
+            class="imgcls"
+            *ngIf="opt.likes==0"
+            src="assets/imgs/heartww.svg"
+          />
+          <img
+            (click)="likeoutevent(opt)"
+            class="imgcls"
+            *ngIf="opt.likes!=0"
+            src="assets/imgs/heartactive.svg"
+          />
+          <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+            >No Discount
+          </ion-badge>
+          <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+            >{{opt.discount_percentage}}% Off
+          </ion-badge>
+        </div>
+        <div
+          class="divboxshadowinside"
+          (click)="goToDetail(opt)"
+          style=" 
             position: relative;
            height: 100%;
-        border-radius: 15px;
-        background-size: cover;
-        background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
+          border-radius: 15px;
+          background-size: cover;
+          background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
-          >
-            <div style="position: absolute; bottom: 5px; left: 15px">
-              <p class="title1 work_sans">{{opt.name}}</p>
-              <p class="title2 work_sans">{{opt.distance}}</p>
-            </div>
+        >
+          <div style="position: absolute; bottom: 5px; left: 15px">
+            <p class="title1 work_sans">{{opt.name}}</p>
+            <p class="title2 work_sans">{{opt.distance}}</p>
           </div>
-        </ion-col>
-      </ion-row>
+        </div>
+      </div>
     </div>
   </div>
 </ion-content>

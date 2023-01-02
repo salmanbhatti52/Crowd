@@ -206,4 +206,12 @@ export class HomePage implements OnInit {
       }
     });
   }
+
+  handleRefresh(ev: any) {
+    console.log("ev-----", ev);
+    setTimeout(() => {
+      ev.target.complete();
+    }, 1000);
+    this.ionViewWillEnter();
+  }
 }

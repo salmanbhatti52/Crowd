@@ -28,7 +28,7 @@
     <p
       style="
         font-style: normal;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 18px;
         line-height: 21px;
         color: #ffffff;
@@ -41,12 +41,14 @@
     <ion-badge
       *ngIf="searchObject.discount_percentage != 0"
       style="
+        font-size: 10px;
         padding: 8px;
         position: absolute;
         right: 10px;
         top: 10px;
         border-radius: 20px;
         background: #7825cb;
+        font-weight: 400;
       "
       >{{searchObject.discount_percentage}}% off</ion-badge
     >
@@ -54,12 +56,14 @@
     <ion-badge
       *ngIf="searchObject.discount_percentage == 0"
       style="
+        font-size: 10px;
         padding: 8px;
         position: absolute;
         right: 10px;
         top: 10px;
         border-radius: 20px;
         background: #7825cb;
+        font-weight: 400;
       "
       >No Discount</ion-badge
     >
