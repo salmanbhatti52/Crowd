@@ -25,6 +25,7 @@ export class LocationmapPage implements OnInit {
   searchObject: any = "";
 
   dismissmodal = 0;
+  modalopen = 0;
 
   markerscheck = [
     // {
@@ -100,7 +101,6 @@ export class LocationmapPage implements OnInit {
   async addmarkers() {
     await this.map.addMarkers(this.markerscheck);
     this.map.setOnMarkerClickListener(async (marker: any) => {
-      console.log("setOnMarkerClickListener", marker);
       this.dismissmodal++;
       this.title = marker.title;
       this.filterArrypin(marker.title);
@@ -179,7 +179,10 @@ export class LocationmapPage implements OnInit {
       this.showfilter = true;
     }
 
-    await this.modalCtrl.dismiss();
+    if (this.modalopen == 1) {
+      await this.modalCtrl.dismiss();
+    }
+    this.modalopen = 0;
   }
 
   searchAndFilterItems(searchTerm: any) {
@@ -234,14 +237,15 @@ export class LocationmapPage implements OnInit {
 
   async HideFilter() {
     this.showfilter = false;
-    await this.modalCtrl.dismiss();
+    console.log("modalopen-----", this.modalopen);
+
+    if (this.modalopen == 1) {
+      await this.modalCtrl.dismiss();
+      this.modalopen = 0;
+    }
   }
 
   async filterArrypin(searchTerm: any) {
-    console.log("dismissmodal---", this.dismissmodal);
-
-    // await this.modalCtrl.dismiss();
-
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
         this.searchObject = this.venuarrOrg[i];
@@ -249,8 +253,6 @@ export class LocationmapPage implements OnInit {
     }
 
     this.rest.pinobject = this.searchObject;
-
-    // this.router.navigate(["pininfo"]);
 
     this.goTOinfopage();
   }
@@ -264,7 +266,7 @@ export class LocationmapPage implements OnInit {
     });
     await modal.present();
 
-    // modal.onDidDismiss().then(() => this.modalCtrl.dismiss());
+    this.modalopen = 1;
   }
 
   gotodetail() {
