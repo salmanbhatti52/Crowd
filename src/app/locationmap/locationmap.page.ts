@@ -33,6 +33,8 @@ export class LocationmapPage implements OnInit {
   @ViewChild(MapInfoWindow, { static: false })
   info!: MapInfoWindow;
 
+  userID: any = "";
+  userdata: any = "";
   address = "";
   latitude!: any;
   longitude!: any;
@@ -107,6 +109,10 @@ export class LocationmapPage implements OnInit {
   ionViewWillEnter() {
     this.venuarrOrg = this.rest.venuArrHome;
     this.makeMarkerArray();
+    this.userdata = localStorage.getItem("userdata");
+    console.log("userdata----", this.userdata);
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+    console.log("userID---------", this.userID);
   }
 
   ionViewWillLeave() {
@@ -181,8 +187,8 @@ export class LocationmapPage implements OnInit {
     for (var i = 0; i < this.venuarr.length; i++) {
       var obj = {
         position: {
-          lat: this.venuarr[i].lattitude,
-          lng: this.venuarr[i].longitude,
+          lat: parseFloat(this.venuarr[i].lattitude),
+          lng: parseFloat(this.venuarr[i].longitude),
         },
         title: "" + this.venuarr[i].public_check_ins,
         name: this.venuarr[i].name,
@@ -243,8 +249,8 @@ export class LocationmapPage implements OnInit {
     for (var i = 0; i < this.venuarr.length; i++) {
       var obj = {
         position: {
-          lat: this.venuarr[i].lattitude,
-          lng: this.venuarr[i].longitude,
+          lat: parseFloat(this.venuarr[i].lattitude),
+          lng: parseFloat(this.venuarr[i].longitude),
         },
         title: "" + this.venuarr[i].public_check_ins,
         name: this.venuarr[i].name,
@@ -269,8 +275,8 @@ export class LocationmapPage implements OnInit {
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
-          lat: this.venuarrOrg[i].lattitude,
-          lng: this.venuarrOrg[i].longitude,
+          lat: parseFloat(this.venuarrOrg[i].lattitude),
+          lng: parseFloat(this.venuarrOrg[i].longitude),
         },
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
@@ -378,8 +384,8 @@ export class LocationmapPage implements OnInit {
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
-          lat: this.venuarr[i].lattitude,
-          lng: this.venuarr[i].longitude,
+          lat: parseFloat(this.venuarr[i].lattitude),
+          lng: parseFloat(this.venuarr[i].longitude),
         },
         title: "" + this.venuarr[i].public_check_ins,
         name: this.venuarr[i].name,
@@ -457,5 +463,35 @@ export class LocationmapPage implements OnInit {
     this.rest.pinobject = this.searchObject;
 
     // this.goTOinfopage();
+  }
+
+  likevenu() {
+    console.log("likevenu", this.searchObject);
+
+    if (this.searchObject.likes == 0) {
+      this.searchObject.likes = 1;
+      this.likeDislikeUServenu(this.searchObject.venues_id);
+    }
+  }
+  likeoutvenu() {
+    console.log("likeoutvenu", this.searchObject);
+
+    if (this.searchObject.likes == 1) {
+      this.searchObject.likes = 0;
+      this.likeDislikeUServenu(this.searchObject.venues_id);
+    }
+  }
+
+  likeDislikeUServenu(events_id: any) {
+    console.log(events_id);
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: events_id,
+    });
+
+    console.log(ss);
+    this.rest.venues_like_unlike(ss).subscribe((res: any) => {
+      console.log(res);
+    });
   }
 }
