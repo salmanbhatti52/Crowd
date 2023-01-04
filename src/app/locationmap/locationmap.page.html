@@ -1,7 +1,55 @@
-<ion-content style="--background: none">
+<ion-content [fullscreen]="true">
   <!-- <div class="bg paddingtop"> -->
 
-  <capacitor-google-map #map></capacitor-google-map>
+  <!-- <capacitor-google-map #map></capacitor-google-map> -->
+
+  <google-map
+    height="100%"
+    width="100%"
+    #myGoogleMap
+    [zoom]="zoom"
+    [center]="center"
+    [options]="options"
+    (mapClick)="eventHandler($event,'mapClick')"
+    (mapDblclick)="eventHandler($event,'mapDblclick')"
+    (mapDrag)="eventHandler($event,'mapDrag')"
+    (mapDragend)="eventHandler($event,'mapDragend')"
+    (mapRightclick)="eventHandler($event,'mapRightclick')"
+    (positionChanged)="eventHandler($event,'marker_positionChanged')"
+    (zoomChanged)="eventHandler($event,'zoomChanged')"
+  >
+    <map-marker
+      #markerElem="mapMarker"
+      *ngFor="let marker of markers"
+      [position]="marker.position"
+      [label]="marker.label"
+      [title]="marker.title"
+      [options]="marker.options"
+      (mapDrag)="eventHandler($event,'mapDragMarker')"
+      (mapDragend)="eventHandler($event,'mapDragend')"
+      (mapClick)="openInfo(markerElem, marker.title, marker)"
+    >
+    </map-marker>
+
+    <map-info-window>
+      <div style="display: flex; align-items: center">
+        <img
+          style="height: 30px; width: 30px; margin-right: 5px"
+          src="assets/imgs/maphuman.svg"
+        />
+        <ion-label
+          style="
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 26px;
+            text-align: center;
+            color: #7825cb;
+          "
+          >{{ infoContent }}</ion-label
+        >
+      </div>
+    </map-info-window>
+  </google-map>
 
   <div
     *ngIf="showfilter"
@@ -58,7 +106,7 @@
     </ion-col>
   </ion-row>
 
-  <!-- <div
+  <div
     *ngIf="searchObject"
     (click)="gotodetail()"
     style="
@@ -97,15 +145,33 @@
       </p>
 
       <ion-badge
+        *ngIf="searchObject.discount_percentage != 0"
         style="
+          font-size: 10px;
           padding: 8px;
           position: absolute;
           right: 10px;
           top: 10px;
           border-radius: 20px;
           background: #7825cb;
+          font-weight: 400;
         "
         >{{searchObject.discount_percentage}}% off</ion-badge
+      >
+
+      <ion-badge
+        *ngIf="searchObject.discount_percentage == 0"
+        style="
+          font-size: 10px;
+          padding: 8px;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          border-radius: 20px;
+          background: #7825cb;
+          font-weight: 400;
+        "
+        >No Discount</ion-badge
       >
       <img
         *ngIf="searchObject.likes == 0"
@@ -115,7 +181,7 @@
       <img
         *ngIf="searchObject.likes != 0"
         style="position: absolute; bottom: 10px; right: 20px"
-        src="assets/imgs/heartactive.svg"
+        src="assets/imgs/likemapheart.svg"
       />
       <div style="display: flex; margin-top: 10px">
         <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
@@ -126,7 +192,7 @@
         <p class="work_sans titlesub">Open till {{searchObject.close_hours}}</p>
       </div>
     </div>
-  </div> -->
+  </div>
   <!-- </div> -->
 </ion-content>
 

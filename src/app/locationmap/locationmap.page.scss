@@ -215,3 +215,13 @@ capacitor-google-map {
   z-index: 99;
   background: black;
 }
+
+:ng-deep .map-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ios[_ngcontent-oyb-c160] .container[_ngcontent-oyb-c160] {
+  width: 85%;
+  margin: 0px;
+}
