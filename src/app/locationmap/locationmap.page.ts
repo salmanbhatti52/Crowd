@@ -67,10 +67,32 @@ export class LocationmapPage implements OnInit {
   dismissmodal = 0;
   modalopen = 0;
 
-  markerscheck = [];
-
-  databaseLatii: any = "";
-  databaseLongi: any = "";
+  markerscheck = [
+    // {
+    //   coordinate: {
+    //     lat: 30.2396588,
+    //     lng: 71.4848884,
+    //   },
+    //   snippet: "1",
+    //   title: "test venue 1",
+    // },
+    // {
+    //   coordinate: {
+    //     lat: 30.208124,
+    //     lng: 71.4699251,
+    //   },
+    //   snippet: "2",
+    //   title: "test venue 2",
+    // },
+    // {
+    //   coordinate: {
+    //     lat: 30.2164073,
+    //     lng: 71.462651,
+    //   },
+    //   snippet: "hellow i am here dear",
+    //   title: "test venue 3",
+    // },
+  ];
 
   constructor(
     public router: Router,
@@ -85,8 +107,6 @@ export class LocationmapPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.databaseLongi = localStorage.getItem("longitude");
-    this.databaseLongi = localStorage.getItem("lattitude");
     this.venuarrOrg = this.rest.venuArrHome;
     this.makeMarkerArray();
     this.userdata = localStorage.getItem("userdata");
@@ -95,11 +115,42 @@ export class LocationmapPage implements OnInit {
     console.log("userID---------", this.userID);
   }
 
-  ionViewWillLeave() {}
+  ionViewWillLeave() {
+    // enable the root left menu when leaving this page
+    // this.map.destroy();
+  }
 
   async createMap() {
     this.dismissmodal = 0;
+    // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
+    // this.map = await GoogleMap.create({
+    //   id: "my-map", // Unique identifier for this map instance
+    //   element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element,
+    //   apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
+    //   forceCreate: true,
+    //   config: {
+    //     center: {
+    //       // The initial position to be rendered by the map
+    //       lat: 30.2398469,
+    //       lng: 71.4703882,
+    //     },
+
+    //     zoom: 12, // The initial zoom level to be rendered by the map
+    //   },
+    // });
+
+    // this.addmarkers();
   }
+
+  // async addmarkers() {
+  //   await this.map.addMarkers(this.markerscheck);
+  //   this.map.setOnMarkerClickListener(async (marker: any) => {
+  //     this.dismissmodal++;
+  //     this.title = marker.title;
+  //     this.filterArrypin(marker.title);
+  //   });
+  //   this.map.setOnInfoWindowClickListener(async (marker: any) => {});
+  // }
 
   tab1Click() {
     this.HideFilter();
@@ -271,14 +322,45 @@ export class LocationmapPage implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.setMarkerPosition(
-      parseFloat(this.databaseLatii),
-      parseFloat(this.databaseLongi)
-    );
+    // Binding autocomplete to search input control
+    // let autocomplete = new google.maps.places.Autocomplete(
+    //   this.searchElementRef.nativeElement
+    // );
+    // Align search box to center
+    // this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+    //   this.searchElementRef.nativeElement
+    // );
+    // autocomplete.addListener("place_changed", () => {
+    //   this.ngZone.run(() => {
+    //     //get the place result
+    //     let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+    //     //verify result
+    //     if (place.geometry === undefined || place.geometry === null) {
+    //       return;
+    //     }
+
+    //     console.log({ place }, place.geometry.location?.lat());
+
+    //     //set latitude, longitude and zoom
+    //     this.latitude = place.geometry.location?.lat();
+    //     this.longitude = place.geometry.location?.lng();
+
+    //     // Set marker position
+    //     this.setMarkerPosition(30.048418, 72.3129359);
+
+    //     this.center = {
+    //       lat: 30.048418,
+    //       lng: 72.3129359,
+    //     };
+    //   });
+    // });
+
+    this.setMarkerPosition(30.2088837, 71.4689853);
 
     this.center = {
-      lat: parseFloat(this.databaseLatii),
-      lng: parseFloat(this.databaseLongi),
+      lat: 30.2088837,
+      lng: 71.4689853,
     };
   }
 
@@ -287,14 +369,11 @@ export class LocationmapPage implements OnInit {
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
       this.center = {
-        lat: parseFloat(this.databaseLatii),
-        lng: parseFloat(this.databaseLatii),
+        lat: 30.2088837,
+        lng: 71.4689853,
       };
       // Set marker position
-      this.setMarkerPosition(
-        parseFloat(this.databaseLatii),
-        parseFloat(this.databaseLongi)
-      );
+      this.setMarkerPosition(30.2088837, 71.4689853);
     });
   }
 
