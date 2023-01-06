@@ -91,12 +91,12 @@ export class GetstartPage implements OnInit {
         localStorage.setItem("longitude", result[0].longitude);
         localStorage.setItem("lattitude", result[0].latitude);
 
-        alert(
-          "The coordinates are latitude=" +
-            result[0].latitude +
-            " and longitude=" +
-            result[0].longitude
-        );
+        // alert(
+        //   "The coordinates are latitude=" +
+        //     result[0].latitude +
+        //     " and longitude=" +
+        //     result[0].longitude
+        // );
       })
       .catch((error: any) => console.log(error));
   }

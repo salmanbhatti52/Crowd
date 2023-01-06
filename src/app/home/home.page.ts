@@ -176,11 +176,11 @@ export class HomePage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.rest.presentLoader();
     var ss = JSON.stringify({
-      // longitude: localStorage.getItem("longitude"),
-      // lattitude: localStorage.getItem("lattitude"),
+      longitude: localStorage.getItem("longitude"),
+      lattitude: localStorage.getItem("lattitude"),
       users_customers_id: this.userID,
-      longitude: "71.513317",
-      lattitude: "30.204700",
+      // longitude: "71.513317",
+      // lattitude: "30.204700",
     });
     console.log(ss);
     this.rest.events(ss).subscribe((res: any) => {
