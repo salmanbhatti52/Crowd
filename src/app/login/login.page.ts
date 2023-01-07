@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
   async initializeApp() {
     this.platform.ready().then(async () => {
       GoogleAuth.initialize();
-      await FacebookLogin.initialize({ appId: "828272794912378" });
+      await FacebookLogin.initialize({ appId: '828272794912378' });
     });
   }
   goToSignup() {
