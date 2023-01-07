@@ -10,13 +10,6 @@
     [zoom]="zoom"
     [center]="center"
     [options]="options"
-    (mapClick)="eventHandler($event,'mapClick')"
-    (mapDblclick)="eventHandler($event,'mapDblclick')"
-    (mapDrag)="eventHandler($event,'mapDrag')"
-    (mapDragend)="eventHandler($event,'mapDragend')"
-    (mapRightclick)="eventHandler($event,'mapRightclick')"
-    (positionChanged)="eventHandler($event,'marker_positionChanged')"
-    (zoomChanged)="eventHandler($event,'zoomChanged')"
   >
     <map-marker
       #markerElem="mapMarker"

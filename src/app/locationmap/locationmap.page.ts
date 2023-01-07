@@ -67,32 +67,13 @@ export class LocationmapPage implements OnInit {
   dismissmodal = 0;
   modalopen = 0;
 
-  markerscheck = [
-    // {
-    //   coordinate: {
-    //     lat: 30.2396588,
-    //     lng: 71.4848884,
-    //   },
-    //   snippet: "1",
-    //   title: "test venue 1",
-    // },
-    // {
-    //   coordinate: {
-    //     lat: 30.208124,
-    //     lng: 71.4699251,
-    //   },
-    //   snippet: "2",
-    //   title: "test venue 2",
-    // },
-    // {
-    //   coordinate: {
-    //     lat: 30.2164073,
-    //     lng: 71.462651,
-    //   },
-    //   snippet: "hellow i am here dear",
-    //   title: "test venue 3",
-    // },
-  ];
+  markerscheck = [];
+
+  dbLati: any = "";
+  dbLong: any = "";
+
+  a: any = "";
+  b: any = "";
 
   constructor(
     public router: Router,
@@ -106,13 +87,24 @@ export class LocationmapPage implements OnInit {
     this.createMap();
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.a = localStorage.getItem("lattitude");
+    this.b = localStorage.getItem("longitude");
+    this.dbLati = parseFloat(this.a);
+    this.dbLong = parseFloat(this.b);
     this.venuarrOrg = this.rest.venuArrHome;
     this.makeMarkerArray();
     this.userdata = localStorage.getItem("userdata");
-    console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    console.log("userID---------", this.userID);
+    console.log("dbLati---------", this.dbLati);
+    console.log("dbLong---------", this.dbLong);
+
+    await this.setMarkerPosition(this.dbLati, this.dbLong);
+
+    this.center = {
+      lat: this.dbLati,
+      lng: this.dbLong,
+    };
   }
 
   ionViewWillLeave() {
@@ -321,74 +313,33 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["venuedetail"]);
   }
 
-  ngAfterViewInit(): void {
-    // Binding autocomplete to search input control
-    // let autocomplete = new google.maps.places.Autocomplete(
-    //   this.searchElementRef.nativeElement
-    // );
-    // Align search box to center
-    // this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-    //   this.searchElementRef.nativeElement
-    // );
-    // autocomplete.addListener("place_changed", () => {
-    //   this.ngZone.run(() => {
-    //     //get the place result
-    //     let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  ngAfterViewInit(): void {}
 
-    //     //verify result
-    //     if (place.geometry === undefined || place.geometry === null) {
-    //       return;
-    //     }
-
-    //     console.log({ place }, place.geometry.location?.lat());
-
-    //     //set latitude, longitude and zoom
-    //     this.latitude = place.geometry.location?.lat();
-    //     this.longitude = place.geometry.location?.lng();
-
-    //     // Set marker position
-    //     this.setMarkerPosition(30.048418, 72.3129359);
-
-    //     this.center = {
-    //       lat: 30.048418,
-    //       lng: 72.3129359,
-    //     };
-    //   });
+  async ngOnInit() {
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //   this.latitude = position.coords.latitude;
+    //   this.longitude = position.coords.longitude;
+    //   this.center = {
+    //     lat: this.dbLati,
+    //     lng: this.dbLong,
+    //   };
+    //   // Set marker position
+    //   await this.setMarkerPosition(this.dbLati, this.dbLong);
     // });
-
-    this.setMarkerPosition(30.2088837, 71.4689853);
-
-    this.center = {
-      lat: 30.2088837,
-      lng: 71.4689853,
-    };
-  }
-
-  ngOnInit() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
-      this.center = {
-        lat: 30.2088837,
-        lng: 71.4689853,
-      };
-      // Set marker position
-      this.setMarkerPosition(30.2088837, 71.4689853);
-    });
   }
 
   setMarkerPosition(latitude: any, longitude: any) {
-    // Set marker position
+    console.log("marker position");
 
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
-          lat: parseFloat(this.venuarr[i].lattitude),
-          lng: parseFloat(this.venuarr[i].longitude),
+          lat: parseFloat(this.venuarrOrg[i].lattitude),
+          lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarr[i].public_check_ins,
-        name: this.venuarr[i].name,
+        title: "" + this.venuarrOrg[i].public_check_ins,
+        name: this.venuarrOrg[i].name,
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
