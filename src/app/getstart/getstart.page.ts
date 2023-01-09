@@ -1,8 +1,8 @@
+import { RestService } from "./../rest.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Location } from "@angular/common";
-import { RestService } from "../rest.service";
 
 import { NgZone } from "@angular/core";
 import { Geolocation } from "@awesome-cordova-plugins/geolocation/ngx";
@@ -44,7 +44,8 @@ export class GetstartPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private zone: NgZone,
     public alertcontroller: AlertController,
-    public platform: Platform
+    public platform: Platform,
+    public rest: RestService
   ) {
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -56,7 +57,7 @@ export class GetstartPage implements OnInit {
   ngOnInit() {}
 
   goToHome() {
-    if (this.from == "") {
+    if (this.from == "" && localStorage.getItem("longitude")) {
       this.restService.presentToast("Please enter the location");
     } else {
       this.router.navigate(["home"]);
@@ -75,11 +76,16 @@ export class GetstartPage implements OnInit {
     console.log("placeid" + this.placeid);
     this.location = item.description;
     console.log("aaaaaaaaaaaaaaaaaaa", this.location);
+
+    this.rest.presentLoader();
+
     this.nativeGeocoder
       .forwardGeocode(this.location)
       .then((result: NativeGeocoderResult[]) => {
         this.latitude = result[0].latitude;
         this.longitude = result[0].longitude;
+
+        this.rest.dismissLoader();
         console.log(
           "The coordinates are latitude=" +
             result[0].latitude +
@@ -98,7 +104,10 @@ export class GetstartPage implements OnInit {
         //     result[0].longitude
         // );
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => {
+        this.rest.dismissLoader();
+        console.log(error);
+      });
   }
 
   updateSearchResultsEventFrom(ev: any) {
