@@ -35,6 +35,12 @@ export class VenuedetailPage implements OnInit {
   ngOnInit() {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
+
+    this.userdata = localStorage.getItem("userdata");
+    console.log("userdata----", this.userdata);
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+
+    this.updatevVisitor();
   }
 
   goBack() {
@@ -52,9 +58,37 @@ export class VenuedetailPage implements OnInit {
       this.displaydiv = true;
       this.num = 0;
       console.log("if---if", ratio);
+
+      this.claimDiscount();
     }
 
     console.log("dragggggg---44444", ratio);
+  }
+
+  claimDiscount() {
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: this.detailObj.venues_id,
+    });
+
+    console.log("ss claim discount-----", ss);
+
+    this.rest.claim_discount(ss).subscribe((res: any) => {
+      console.log("res claim discount-----", res);
+    });
+  }
+
+  updatevVisitor() {
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: this.detailObj.venues_id,
+    });
+
+    console.log("ss updatevVisitor-----", ss);
+
+    this.rest.update_visitors(ss).subscribe((res: any) => {
+      console.log("res updatevVisitor-----", res);
+    });
   }
 
   public goLocation() {

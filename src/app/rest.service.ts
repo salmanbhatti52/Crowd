@@ -222,6 +222,26 @@ export class RestService {
     });
   }
 
+  claim_discount(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "claim_discount", data, {
+      headers: header,
+    });
+  }
+
+  update_visitors(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "update_visitors", data, {
+      headers: header,
+    });
+  }
+
   system_setting(data: any) {
     let header;
 
