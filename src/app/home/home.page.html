@@ -156,15 +156,15 @@
     </div>
   </div>
   <div class="margincls">
+    <p
+      *ngIf="filtertype != 'no' && segmentModel === 'venu'"
+      class="filtertextClear"
+      (click)="clearFilter()"
+    >
+      Clear Filter
+    </p>
     <div style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'venu'">
-      <p
-        *ngIf="filtertype != 'no';"
-        class="filtertextClear"
-        (click)="clearFilter()"
-      >
-        Clear Filter
-      </p>
-
+      <p *ngIf="noevenu == 1" class="notFound work_sans">No Venus Found</p>
       <div
         style="width: 50%; position: relative"
         [class.heighclassbig]="i % 2 != 0"
@@ -213,7 +213,9 @@
         >
           <div style="position: absolute; bottom: 5px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">{{opt.distance}}</p>
+            <p class="title2 work_sans">
+              {{opt.distance | number : '1.2-2'}} Miles
+            </p>
           </div>
         </div>
       </div>
@@ -222,6 +224,7 @@
       style="display: flex; flex-wrap: wrap"
       *ngIf="segmentModel === 'event'"
     >
+      <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
       <div
         style="position: relative; width: 50%"
         [class.heighclassbig]="i % 2 != 0"
@@ -270,7 +273,9 @@
         >
           <div style="position: absolute; bottom: 5px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">{{opt.distance}}</p>
+            <p class="title2 work_sans">
+              {{opt.distance | number : '1.2-2'}} Miles
+            </p>
           </div>
         </div>
       </div>

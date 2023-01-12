@@ -15,6 +15,10 @@ export class SavedPage implements OnInit {
 
   eventarr: any = "";
   filtertype: any = "no";
+
+  noevent = 0;
+  noevenu = 0;
+
   constructor(public router: Router, public rest: RestService) {}
   ngOnInit() {}
   tab1Click() {
@@ -98,6 +102,8 @@ export class SavedPage implements OnInit {
   userdata: any = "";
   userID: any = "";
   ionViewWillEnter() {
+    this.noevent = 0;
+    this.noevenu = 0;
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -118,6 +124,7 @@ export class SavedPage implements OnInit {
         this.eventarr = res.data;
       } else {
         this.rest.presentToast(res.message);
+        this.noevent = 1;
       }
     });
 
@@ -129,6 +136,7 @@ export class SavedPage implements OnInit {
         this.venuarrOrg = res.data;
       } else {
         this.rest.presentToast(res.message);
+        this.noevenu = 1;
       }
     });
   }

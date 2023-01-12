@@ -71,7 +71,9 @@
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
-          <p class="work_sans titlesub">{{detailObj.distance}}</p>
+          <p class="work_sans titlesub">
+            {{detailObj.distance | number : '1.2-2'}} Miles
+          </p>
         </div>
       </ion-col>
       <ion-col style="display: flex; align-items: center">
@@ -80,7 +82,9 @@
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/watch.svg"
           />
-          <p class="work_sans titlesub">Open till {{detailObj.event_time}}</p>
+          <p class="work_sans titlesub">
+            {{detailObj.event_date}} | {{detailObj.event_time}}
+          </p>
         </div>
       </ion-col>
     </ion-row>

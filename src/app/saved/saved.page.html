@@ -156,13 +156,17 @@
     </div>
   </div>
   <div class="margincls">
+    <p
+      *ngIf="filtertype != 'no' && segmentModel === 'venu'"
+      class="filtertextClear"
+      (click)="clearFilter()"
+    >
+      Clear Filter
+    </p>
+
     <div style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'venu'">
-      <p
-        *ngIf="filtertype != 'no';"
-        class="filtertextClear"
-        (click)="clearFilter()"
-      >
-        Clear Filter
+      <p *ngIf="noevenu == 1" class="notFound work_sans">
+        No Saved Venus Found
       </p>
 
       <div
@@ -222,6 +226,10 @@
       style="display: flex; flex-wrap: wrap"
       *ngIf="segmentModel === 'event'"
     >
+      <p *ngIf="noevent == 1" class="notFound work_sans">
+        No Saved Events Found
+      </p>
+
       <div
         style="position: relative; width: 50%"
         [class.heighclassbig]="i % 2 != 0"

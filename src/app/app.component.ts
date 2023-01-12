@@ -15,9 +15,8 @@ export class AppComponent {
   identy: any = "";
 
   constructor(
-    public platform: Platform
-  ) // public lottieSplashScreen: LottieSplashScreen
-  {
+    public platform: Platform // public lottieSplashScreen: LottieSplashScreen
+  ) {
     this.platform.ready().then(() => {
       this.initializeApp();
       this.showsplash();
@@ -71,6 +70,15 @@ export class AppComponent {
       console.log("incoming onesignl uidd-----", osUser.userId);
 
       localStorage.setItem("onesignaluserid", osUser.userId);
+    });
+
+    OneSignal.addSubscriptionObserver(async (event) => {
+      console.log("OneSignal: subscription changed:", event);
+      if (event.to.isSubscribed) {
+        await OneSignal.getDeviceState((res) => {
+          console.log("addSubscriptionObserver--------------", res);
+        });
+      }
     });
     // this.oneSignal.startInit(this.oneSignalAppId, this.sender_id);
 
