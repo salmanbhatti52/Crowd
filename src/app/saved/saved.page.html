@@ -217,7 +217,9 @@
         >
           <div style="position: absolute; bottom: 5px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">{{opt.distance}}</p>
+            <p class="title2 work_sans">
+              {{opt.distance | number : '1.2-2'}} Miles
+            </p>
           </div>
         </div>
       </div>
@@ -278,7 +280,9 @@
         >
           <div style="position: absolute; bottom: 5px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">{{opt.distance}}</p>
+            <p class="title2 work_sans">
+              {{opt.distance | number : '1.2-2'}} Miles
+            </p>
           </div>
         </div>
       </div>
