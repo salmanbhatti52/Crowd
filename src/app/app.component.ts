@@ -76,7 +76,8 @@ export class AppComponent {
       console.log("OneSignal: subscription changed:", event);
       if (event.to.isSubscribed) {
         await OneSignal.getDeviceState((res) => {
-          console.log("addSubscriptionObserver--------------", res);
+          console.log("AppToken---------", res.userId);
+          localStorage.setItem("onesignaluserid", res.userId);
         });
       }
     });
