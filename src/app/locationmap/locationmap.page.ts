@@ -105,6 +105,15 @@ export class LocationmapPage implements OnInit {
       lat: this.dbLati,
       lng: this.dbLong,
     };
+
+    alert(
+      "Localstorage The coordinates are latitude=" +
+        localStorage.getItem("longitude") +
+        " and longitude=" +
+        localStorage.getItem("lattitude") +
+        " and location=" +
+        localStorage.getItem("location")
+    );
   }
 
   ionViewWillLeave() {
@@ -326,6 +335,13 @@ export class LocationmapPage implements OnInit {
     //   // Set marker position
     //   await this.setMarkerPosition(this.dbLati, this.dbLong);
     // });
+
+    // await this.setMarkerPosition(this.dbLati, this.dbLong);
+
+    this.center = {
+      lat: this.dbLati,
+      lng: this.dbLong,
+    };
   }
 
   setMarkerPosition(latitude: any, longitude: any) {

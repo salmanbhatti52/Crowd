@@ -183,7 +183,9 @@
 
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-          <p class="work_sans titlesub">{{searchObject.distance}}</p>
+          <p class="work_sans titlesub">
+            {{searchObject.distance | number : '1.2-2'}} Miles
+          </p>
         </div>
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
