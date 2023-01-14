@@ -1,5 +1,5 @@
 import { RestService } from "./../rest.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Location } from "@angular/common";
@@ -36,13 +36,19 @@ export class GetstartPage implements OnInit {
   from: any = "";
   platformcheck: any = "android";
 
+  @ViewChild("search")
+  public searchElementRef!: ElementRef;
+
+  placenewali: any;
+  title: string = "AGM project";
+
   locationishidden: boolean = false;
   constructor(
     public router: Router,
     public restService: RestService,
     public locationBk: Location,
     private nativeGeocoder: NativeGeocoder,
-    private zone: NgZone,
+    private ngZone: NgZone,
     public alertcontroller: AlertController,
     public platform: Platform,
     public rest: RestService
@@ -55,6 +61,49 @@ export class GetstartPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ngAfterViewInit(): void {
+    // Binding autocomplete to search input control
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        console.log({ place }, place.geometry.location?.lat());
+
+        //set latitude, longitude and zoom
+        this.latitude = place.geometry.location?.lat();
+        this.longitude = place.geometry.location?.lng();
+
+        localStorage.setItem(
+          "location",
+          JSON.stringify(place.geometry.location?.lat())
+        );
+        localStorage.setItem("longitude", this.longitude);
+        localStorage.setItem("lattitude", this.latitude);
+
+        // alert(
+        //   "----lat----" +
+        //     this.latitude +
+        //     "----long----" +
+        //     this.longitude +
+        //     "formatted_address----" +
+        //     place.formatted_address
+        // );
+
+        // Set marker position
+      });
+    });
+  }
 
   goToHome() {
     if (this.from == "" && localStorage.getItem("longitude")) {
@@ -97,21 +146,21 @@ export class GetstartPage implements OnInit {
         localStorage.setItem("longitude", result[0].longitude);
         localStorage.setItem("lattitude", result[0].latitude);
 
-        alert(
-          "Simple The coordinates are latitude=" +
-            result[0].latitude +
-            " and longitude=" +
-            result[0].longitude
-        );
+        // alert(
+        //   "Simple The coordinates are latitude=" +
+        //     result[0].latitude +
+        //     " and longitude=" +
+        //     result[0].longitude
+        // );
 
-        alert(
-          "Localstorage The coordinates are latitude=" +
-            localStorage.getItem("longitude") +
-            " and longitude=" +
-            localStorage.getItem("lattitude") +
-            " and location=" +
-            localStorage.getItem("location")
-        );
+        // alert(
+        //   "Localstorage The coordinates are latitude=" +
+        //     localStorage.getItem("longitude") +
+        //     " and longitude=" +
+        //     localStorage.getItem("lattitude") +
+        //     " and location=" +
+        //     localStorage.getItem("location")
+        // );
       })
       .catch((error: any) => {
         this.rest.dismissLoader();
@@ -132,7 +181,7 @@ export class GetstartPage implements OnInit {
         { input: this.from },
         (predictions: any, status: any) => {
           this.autocompleteItems = [];
-          this.zone.run(() => {
+          this.ngZone.run(() => {
             predictions.forEach((prediction: any) => {
               this.autocompleteItems.push(prediction);
             });

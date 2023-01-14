@@ -21,6 +21,8 @@
       Let’s get you started.
     </p>
 
+    <div></div>
+
     <div
       class="inputfieldtransparent"
       style="
@@ -31,7 +33,7 @@
       "
     >
       <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/target.svg" />
-      <input
+      <!-- <input
         *ngIf="platformcheck == 'ios'"
         class="input"
         type="text"
@@ -39,6 +41,18 @@
         autocapitalize="words"
         [(ngModel)]="from"
         (keypress)="updateSearchResultsEventFrom($event)"
+      /> -->
+
+      <input
+        *ngIf="platformcheck == 'ios'"
+        type="text"
+        class="input"
+        (keydown.enter)="$event.preventDefault()"
+        placeholder="Search your area"
+        autocapitalize="words"
+        type="text"
+        [(ngModel)]="from"
+        #search
       />
 
       <ion-input

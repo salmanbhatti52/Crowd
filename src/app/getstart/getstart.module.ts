@@ -7,9 +7,16 @@ import { IonicModule } from "@ionic/angular";
 import { GetstartPageRoutingModule } from "./getstart-routing.module";
 
 import { GetstartPage } from "./getstart.page";
+import { GoogleMapsModule } from "@angular/google-maps";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, GetstartPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    GetstartPageRoutingModule,
+    GoogleMapsModule,
+  ],
   declarations: [GetstartPage],
 })
 export class GetstartPageModule {}
