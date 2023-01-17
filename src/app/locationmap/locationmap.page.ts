@@ -106,14 +106,14 @@ export class LocationmapPage implements OnInit {
       lng: this.dbLong,
     };
 
-    alert(
-      "Localstorage The coordinates are latitude=" +
-        localStorage.getItem("longitude") +
-        " and longitude=" +
-        localStorage.getItem("lattitude") +
-        " and location=" +
-        localStorage.getItem("location")
-    );
+    // alert(
+    //   "Localstorage The coordinates are latitude=" +
+    //     localStorage.getItem("longitude") +
+    //     " and longitude=" +
+    //     localStorage.getItem("lattitude") +
+    //     " and location=" +
+    //     localStorage.getItem("location")
+    // );
   }
 
   ionViewWillLeave() {

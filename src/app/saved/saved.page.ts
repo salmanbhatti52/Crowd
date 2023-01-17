@@ -21,35 +21,46 @@ export class SavedPage implements OnInit {
 
   constructor(public router: Router, public rest: RestService) {}
   ngOnInit() {}
+  HideFilter() {
+    this.showfilter = false;
+  }
   tab1Click() {
+    this.HideFilter();
     this.router.navigate(["home"]);
   }
   tab2Click() {
+    this.HideFilter();
     this.router.navigate(["locationmap"]);
   }
   tab3Click() {
+    this.HideFilter();
     this.router.navigate(["saved"]);
   }
   tab4Click() {
+    this.HideFilter();
     this.router.navigate(["noti"]);
   }
 
   goToProfile() {
+    this.HideFilter();
     this.router.navigate(["profile"]);
   }
   segmentChanged(event: any) {
+    this.HideFilter();
     console.log(this.segmentModel);
 
     console.log(event);
   }
 
   goToDetail(opt: any) {
+    this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["venuedetail"]);
   }
 
   goToDetailevent(opt: any) {
+    this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["eventdetail"]);
@@ -66,9 +77,11 @@ export class SavedPage implements OnInit {
   }
 
   like(opt: any) {
+    this.HideFilter();
     console.log("like---", opt);
   }
   likeout(opt: any) {
+    this.HideFilter();
     console.log("likeout---", opt);
   }
 
@@ -95,6 +108,7 @@ export class SavedPage implements OnInit {
   }
 
   clearFilter() {
+    this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
   }
@@ -102,6 +116,7 @@ export class SavedPage implements OnInit {
   userdata: any = "";
   userID: any = "";
   ionViewWillEnter() {
+    this.HideFilter();
     this.noevent = 0;
     this.noevenu = 0;
     this.userdata = localStorage.getItem("userdata");

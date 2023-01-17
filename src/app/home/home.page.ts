@@ -168,6 +168,7 @@ export class HomePage implements OnInit {
   }
 
   clearFilter() {
+    this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
   }
