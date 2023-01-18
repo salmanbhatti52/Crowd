@@ -6,11 +6,13 @@ import { NavController, Platform } from "@ionic/angular";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { FacebookLoginResponse } from "@capacitor-community/facebook-login";
+
 import {
   SignInWithApple,
-  SignInWithAppleResponse,
-  SignInWithAppleOptions,
-} from "@capacitor-community/apple-sign-in";
+  AppleSignInResponse,
+  AppleSignInErrorResponse,
+  ASAuthorizationAppleIDRequest,
+} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 
 @Component({
   selector: "app-signup",
@@ -32,7 +34,8 @@ export class SignupPage implements OnInit {
     public rest: RestService,
     public navCtrl: NavController,
     public platform: Platform,
-    public http: HttpClient
+    public http: HttpClient,
+    public signInWithApple: SignInWithApple
   ) {
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -190,28 +193,62 @@ export class SignupPage implements OnInit {
     });
   }
   signinwithapple() {
-    console.log("signinwithapple");
-    alert("signinwithapple");
-
-    let options: SignInWithAppleOptions = {
-      clientId: "com.microwd.app",
-      redirectURI: "https://www.yourfrontend.com/login",
-      scopes: "email name",
-      state: "12345",
-      nonce: "nonce",
-    };
-
-    SignInWithApple.authorize(options)
-      .then((result: SignInWithAppleResponse) => {
-        console.log(result);
-        alert(result);
-        alert(JSON.stringify(result));
-
-        // Handle user information
-        // Validate token with server and create new session
+    this.signInWithApple
+      .signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+        ],
       })
-      .catch((error) => {
-        // Handle error
+      .then((res: AppleSignInResponse) => {
+        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+        // alert("AppleSignInResponse-----: " + res);
+        // alert("Send token to apple for verification----: " + res.identityToken);
+        console.log(res);
+        this.fbuser = res;
+
+        console.log("Apple User--------------", this.fbuser);
+
+        var ss = {
+          email: this.fbuser.email,
+          one_signal_id: localStorage.getItem("onesignaluserid"),
+          google_access_token: this.fbuser.identitytoken,
+          account_type: "SignupWithSocial",
+          social_acc_type: "Apple",
+          password: "dummy",
+          status: "Active",
+          verify_code: "dummy",
+        };
+
+        if (ss.email == undefined) {
+          ss.email = "dummyemail@gmail.com";
+        }
+
+        var s2 = JSON.stringify(ss);
+
+        console.log("googlesignup---------", ss);
+
+        this.rest.presentLoader();
+
+        this.rest.users_customers_signup_social(s2).subscribe((res: any) => {
+          console.log(res);
+
+          this.rest.dismissLoader();
+          if (res.status == "success") {
+            localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+            if (localStorage.getItem("location")) {
+              this.navCtrl.navigateRoot(["/home"]);
+            } else {
+              this.navCtrl.navigateRoot(["/getstart"]);
+            }
+          } else {
+            this.rest.presentToast(res.message);
+          }
+        });
+      })
+      .catch((error: AppleSignInErrorResponse) => {
+        // alert(error.code + " " + error.localizedDescription);
+        // console.error(error);
       });
   }
 }

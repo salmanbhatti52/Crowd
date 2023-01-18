@@ -229,13 +229,53 @@ export class LoginPage implements OnInit {
       })
       .then((res: AppleSignInResponse) => {
         // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-        alert("AppleSignInResponse-----: " + JSON.stringify(res));
-        alert("Send token to apple for verification----: " + res.identityToken);
+        // alert("AppleSignInResponse-----: " + res);
+        // alert("Send token to apple for verification----: " + res.identityToken);
         console.log(res);
+        this.fbuser = res;
+
+        console.log("fbUser--------------", this.fbuser);
+
+        var ss = {
+          email: this.fbuser.email,
+          one_signal_id: localStorage.getItem("onesignaluserid"),
+          google_access_token: this.fbuser.identitytoken,
+          account_type: "SignupWithSocial",
+          social_acc_type: "Apple",
+          password: "dummy",
+          status: "Active",
+          verify_code: "dummy",
+        };
+
+        if (ss.email == undefined) {
+          ss.email = "dummyemail@gmail.com";
+        }
+
+        var s2 = JSON.stringify(ss);
+
+        console.log("googlesignup---------", ss);
+
+        this.rest.presentLoader();
+
+        this.rest.users_customers_signup_social(s2).subscribe((res: any) => {
+          console.log(res);
+
+          this.rest.dismissLoader();
+          if (res.status == "success") {
+            localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+            if (localStorage.getItem("location")) {
+              this.navCtrl.navigateRoot(["/home"]);
+            } else {
+              this.navCtrl.navigateRoot(["/getstart"]);
+            }
+          } else {
+            this.rest.presentToast(res.message);
+          }
+        });
       })
       .catch((error: AppleSignInErrorResponse) => {
-        alert(error.code + " " + error.localizedDescription);
-        console.error(error);
+        // alert(error.code + " " + error.localizedDescription);
+        // console.error(error);
       });
   }
 }
