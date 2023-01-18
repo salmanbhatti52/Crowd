@@ -220,7 +220,7 @@ export class SignupPage implements OnInit {
           verify_code: "dummy",
         };
 
-        if (ss.email == undefined) {
+        if (ss.email == undefined || ss.email == "") {
           ss.email = "dummyemail@gmail.com";
         }
 

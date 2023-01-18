@@ -64,14 +64,6 @@ export class AppComponent {
       console.log("promptForPushNotificationsWithUserResponse: " + accepted);
     });
 
-    OneSignal.getDeviceState((resp: any) => {
-      const osUser: any = resp;
-      console.log("incoming onesignl resp-----", resp);
-      console.log("incoming onesignl uidd-----", osUser.userId);
-
-      localStorage.setItem("onesignaluserid", osUser.userId);
-    });
-
     OneSignal.addSubscriptionObserver(async (event) => {
       console.log("OneSignal: subscription changed:", event);
       if (event.to.isSubscribed) {
