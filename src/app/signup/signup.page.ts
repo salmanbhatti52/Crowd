@@ -28,6 +28,7 @@ export class SignupPage implements OnInit {
   fbuser: any = "";
   googleUser: any = "";
   platformcheck: any = "android";
+  social_login_status: any = "No";
 
   constructor(
     public router: Router,
@@ -37,6 +38,8 @@ export class SignupPage implements OnInit {
     public http: HttpClient,
     public signInWithApple: SignInWithApple
   ) {
+    this.social_login_status = localStorage.getItem("social_login_status");
+    console.log("login----social_login_status---", this.social_login_status);
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
     } else {

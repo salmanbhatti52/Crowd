@@ -1,3 +1,4 @@
+import { RestService } from "./rest.service";
 import { Component } from "@angular/core";
 // import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
 import { Platform } from "@ionic/angular";
@@ -15,11 +16,22 @@ export class AppComponent {
   identy: any = "";
 
   constructor(
-    public platform: Platform // public lottieSplashScreen: LottieSplashScreen
+    public platform: Platform, // public lottieSplashScreen: LottieSplashScreen
+    public rest: RestService
   ) {
     this.platform.ready().then(() => {
       this.initializeApp();
       this.showsplash();
+    });
+    this.rest.system_settings().subscribe((res: any) => {
+      console.log("system_settings----", res);
+
+      for (var i = 0; i < res.data.length; i++) {
+        if (res.data[i].type == "social_login") {
+          console.log("res.data[i].description---", res.data[i].description);
+          localStorage.setItem("social_login_status", res.data[i].description);
+        }
+      }
     });
   }
 
@@ -64,14 +76,14 @@ export class AppComponent {
       console.log("promptForPushNotificationsWithUserResponse: " + accepted);
     });
 
-    OneSignal.addSubscriptionObserver(async (event:any) => {
+    OneSignal.addSubscriptionObserver(async (event: any) => {
       console.log("OneSignal: subscription changed:", event);
       localStorage.setItem("onesignaluserid", event.userId);
       //if (event.to.isSubscribed) {
-        await OneSignal.getDeviceState((res) => {
-          console.log("AppToken---------", res.userId);
-          localStorage.setItem("onesignaluserid", res.userId);
-        });
+      await OneSignal.getDeviceState((res) => {
+        console.log("AppToken---------", res.userId);
+        localStorage.setItem("onesignaluserid", res.userId);
+      });
       //}
     });
     // this.oneSignal.startInit(this.oneSignalAppId, this.sender_id);

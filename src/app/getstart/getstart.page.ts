@@ -106,10 +106,21 @@ export class GetstartPage implements OnInit {
   }
 
   goToHome() {
-    if (this.from == "" && localStorage.getItem("longitude")) {
-      this.restService.presentToast("Please enter the location");
+    console.log("from--", this.from);
+    console.log(
+      "localStorage.getItem('longitude')--",
+      localStorage.getItem("longitude")
+    );
+    // return;
+
+    if (this.from) {
+      if (localStorage.getItem("longitude")) {
+        this.router.navigate(["home"]);
+      } else {
+        this.restService.presentToast("Please enter the location.");
+      }
     } else {
-      this.router.navigate(["home"]);
+      this.restService.presentToast("Please enter the location.");
     }
   }
 
@@ -197,5 +208,9 @@ export class GetstartPage implements OnInit {
       this.autocompleteItems = [];
       console.log("lllllllllllllllll", this.location);
     }
+  }
+
+  getCurrentLocatiuon() {
+    console.log("getCurrentLocatiuon()");
   }
 }

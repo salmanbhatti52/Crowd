@@ -32,7 +32,11 @@
         flex-direction: row-reverse;
       "
     >
-      <img style="margin: 13px 17px 13px 15px" src="/assets/imgs/target.svg" />
+      <img
+        (click)="getCurrentLocatiuon()"
+        style="margin: 13px 17px 13px 15px"
+        src="/assets/imgs/target.svg"
+      />
       <!-- <input
         *ngIf="platformcheck == 'ios'"
         class="input"

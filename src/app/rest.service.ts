@@ -242,7 +242,7 @@ export class RestService {
     });
   }
 
-  system_setting(data: any) {
+  system_settings() {
     let header;
 
     header = new HttpHeaders({

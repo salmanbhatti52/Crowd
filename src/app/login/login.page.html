@@ -107,7 +107,7 @@
         <hr style="background: white; height: 1.5px; width: 60%" />
       </div>
 
-      <ion-row  style="margin-top: 10px">
+      <ion-row *ngIf="social_login_status == 'Yes'" style="margin-top: 10px">
         <ion-col style="text-align: center">
           <img
             (click)="fbLogin()"

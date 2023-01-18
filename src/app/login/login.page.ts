@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
   fbuser: any = "";
   googleUser: any = "";
   platformcheck: any = "android";
+  social_login_status: any = "No";
   constructor(
     public router: Router,
     public rest: RestService,
@@ -36,6 +37,9 @@ export class LoginPage implements OnInit {
     public http: HttpClient,
     public signInWithApple: SignInWithApple
   ) {
+    this.social_login_status = localStorage.getItem("social_login_status");
+    console.log("login----social_login_status---", this.social_login_status);
+
     this.initializeApp();
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -104,10 +108,8 @@ export class LoginPage implements OnInit {
   }
 
   getSystemSetting() {
-    var ss = JSON.stringify({});
-
-    this.rest.system_setting(ss).subscribe((res: any) => {
-      console.log("res---", res);
+    this.rest.system_settings().subscribe((res: any) => {
+      console.log("res---system_settings----", res);
     });
   }
 
