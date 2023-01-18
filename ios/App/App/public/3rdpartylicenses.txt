@@ -50,6 +50,9 @@ MIT
 @awesome-cordova-plugins/onesignal
 MIT
 
+@awesome-cordova-plugins/sign-in-with-apple
+MIT
+
 @babel/runtime
 MIT
 MIT License
