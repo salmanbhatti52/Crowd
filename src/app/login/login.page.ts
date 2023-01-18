@@ -229,7 +229,7 @@ export class LoginPage implements OnInit {
       })
       .then((res: AppleSignInResponse) => {
         // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-        alert("AppleSignInResponse-----: " + res);
+        alert("AppleSignInResponse-----: " + JSON.stringify(res));
         alert("Send token to apple for verification----: " + res.identityToken);
         console.log(res);
       })
