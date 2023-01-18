@@ -239,7 +239,7 @@ export class LoginPage implements OnInit {
         var ss = {
           email: this.fbuser.email,
           one_signal_id: localStorage.getItem("onesignaluserid"),
-          google_access_token: this.fbuser.identitytoken,
+          google_access_token: this.fbuser.identityToken,
           account_type: "SignupWithSocial",
           social_acc_type: "Apple",
           password: "dummy",
@@ -247,7 +247,7 @@ export class LoginPage implements OnInit {
           verify_code: "dummy",
         };
 
-        if (ss.email == undefined) {
+        if (ss.email == undefined || ss.email == "") {
           ss.email = "dummyemail@gmail.com";
         }
 

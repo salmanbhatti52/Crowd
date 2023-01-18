@@ -212,7 +212,7 @@ export class SignupPage implements OnInit {
         var ss = {
           email: this.fbuser.email,
           one_signal_id: localStorage.getItem("onesignaluserid"),
-          google_access_token: this.fbuser.identitytoken,
+          google_access_token: this.fbuser.identityToken,
           account_type: "SignupWithSocial",
           social_acc_type: "Apple",
           password: "dummy",

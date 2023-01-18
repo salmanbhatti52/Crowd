@@ -64,14 +64,15 @@ export class AppComponent {
       console.log("promptForPushNotificationsWithUserResponse: " + accepted);
     });
 
-    OneSignal.addSubscriptionObserver(async (event) => {
+    OneSignal.addSubscriptionObserver(async (event:any) => {
       console.log("OneSignal: subscription changed:", event);
-      if (event.to.isSubscribed) {
+      localStorage.setItem("onesignaluserid", event.userId);
+      //if (event.to.isSubscribed) {
         await OneSignal.getDeviceState((res) => {
           console.log("AppToken---------", res.userId);
           localStorage.setItem("onesignaluserid", res.userId);
         });
-      }
+      //}
     });
     // this.oneSignal.startInit(this.oneSignalAppId, this.sender_id);
 
