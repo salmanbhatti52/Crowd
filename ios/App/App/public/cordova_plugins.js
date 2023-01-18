@@ -18,6 +18,14 @@
         ]
         },
       {
+          "id": "cordova-plugin-sign-in-with-apple.SignInWithApple",
+          "file": "plugins/cordova-plugin-sign-in-with-apple/www/sign-in-with-apple.js",
+          "pluginId": "cordova-plugin-sign-in-with-apple",
+        "clobbers": [
+          "cordova.plugins.SignInWithApple"
+        ]
+        },
+      {
           "id": "cordova-plugin-nativegeocoder.NativeGeocoder",
           "file": "plugins/cordova-plugin-nativegeocoder/www/NativeGeocoder.js",
           "pluginId": "cordova-plugin-nativegeocoder",
@@ -79,6 +87,7 @@
       "cordova-plugin-geolocation": "4.1.0",
       "cordova-plugin-inappbrowser": "5.0.0",
       "cordova-plugin-nativegeocoder": "3.4.1",
+      "cordova-plugin-sign-in-with-apple": "0.1.2",
       "onesignal-cordova-plugin": "3.2.0"
     };
     // BOTTOM OF METADATA

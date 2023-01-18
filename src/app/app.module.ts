@@ -18,6 +18,8 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 import { PininfoPageModule } from "./pininfo/pininfo.module";
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 
+import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,6 +30,7 @@ import { PininfoPageModule } from "./pininfo/pininfo.module";
     PininfoPageModule,
   ],
   providers: [
+    SignInWithApple,
     OneSignal,
     // Geolocation,
     // LottieSplashScreen,

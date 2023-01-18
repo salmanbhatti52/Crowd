@@ -6,11 +6,13 @@ import { NavController, Platform } from "@ionic/angular";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { FacebookLoginResponse } from "@capacitor-community/facebook-login";
+
 import {
   SignInWithApple,
-  SignInWithAppleResponse,
-  SignInWithAppleOptions,
-} from "@capacitor-community/apple-sign-in";
+  AppleSignInResponse,
+  AppleSignInErrorResponse,
+  ASAuthorizationAppleIDRequest,
+} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 
 @Component({
   selector: "app-login",
@@ -31,7 +33,8 @@ export class LoginPage implements OnInit {
     public rest: RestService,
     public navCtrl: NavController,
     public platform: Platform,
-    public http: HttpClient
+    public http: HttpClient,
+    public signInWithApple: SignInWithApple
   ) {
     this.initializeApp();
     if (this.platform.is("ios")) {
@@ -46,7 +49,7 @@ export class LoginPage implements OnInit {
   async initializeApp() {
     this.platform.ready().then(async () => {
       GoogleAuth.initialize();
-      await FacebookLogin.initialize({ appId: '828272794912378' });
+      await FacebookLogin.initialize({ appId: "828272794912378" });
     });
   }
   goToSignup() {
@@ -217,28 +220,22 @@ export class LoginPage implements OnInit {
   }
 
   signinwithapple() {
-    console.log("signinwithapple");
-    alert("signinwithapple");
-
-    let options: SignInWithAppleOptions = {
-      clientId: "com.microwd.app",
-      redirectURI: "https://www.yourfrontend.com/login",
-      scopes: "email name",
-      state: "12345",
-      nonce: "nonce",
-    };
-
-    SignInWithApple.authorize(options)
-      .then((result: SignInWithAppleResponse) => {
-        console.log(result);
-        alert(result);
-        alert(JSON.stringify(result));
-
-        // Handle user information
-        // Validate token with server and create new session
+    this.signInWithApple
+      .signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+        ],
       })
-      .catch((error) => {
-        // Handle error
+      .then((res: AppleSignInResponse) => {
+        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+        alert("AppleSignInResponse-----: " + res);
+        alert("Send token to apple for verification----: " + res.identityToken);
+        console.log(res);
+      })
+      .catch((error: AppleSignInErrorResponse) => {
+        alert(error.code + " " + error.localizedDescription);
+        console.error(error);
       });
   }
 }
