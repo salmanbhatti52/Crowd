@@ -15,6 +15,7 @@ import {
 import { AlertController } from "@ionic/angular";
 
 import { Platform } from "@ionic/angular";
+import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
 // import { google } from "google-maps";
 
 declare var google: any;
@@ -43,6 +44,7 @@ export class GetstartPage implements OnInit {
   title: string = "AGM project";
 
   locationishidden: boolean = false;
+  currentaddress: any;
   constructor(
     public router: Router,
     public restService: RestService,
@@ -51,7 +53,8 @@ export class GetstartPage implements OnInit {
     private ngZone: NgZone,
     public alertcontroller: AlertController,
     public platform: Platform,
-    public rest: RestService
+    public rest: RestService,
+    private geoCoder: MapGeocoder
   ) {
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -212,5 +215,45 @@ export class GetstartPage implements OnInit {
 
   getCurrentLocatiuon() {
     console.log("getCurrentLocatiuon()");
+    this.rest.presentLoader();
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.rest.dismissLoader();
+      this.getAddress(this.latitude, this.longitude);
+    });
+  }
+
+  getAddress(latitude: any, longitude: any) {
+    console.log("lat======", latitude);
+    console.log("long======", longitude);
+    this.rest.presentLoader();
+    this.geoCoder
+      .geocode({ location: { lat: latitude, lng: longitude } })
+      .subscribe(
+        (addr: MapGeocoderResponse) => {
+          this.rest.dismissLoader();
+          if (addr.status === "OK") {
+            if (addr.results[0]) {
+              console.log("addr======", addr.results[0].formatted_address);
+
+              this.currentaddress = addr.results[0].formatted_address;
+              this.from = this.currentaddress;
+              localStorage.setItem("location", this.currentaddress);
+              localStorage.setItem("longitude", longitude);
+              localStorage.setItem("lattitude", latitude);
+            } else {
+              this.currentaddress = "";
+              window.alert("No results found");
+            }
+          } else {
+            this.currentaddress = "";
+            window.alert("Geocoder failed due to: " + addr.status);
+          }
+        },
+        (err) => {
+          this.rest.dismissLoader();
+        }
+      );
   }
 }
