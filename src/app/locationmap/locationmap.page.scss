@@ -225,3 +225,18 @@ capacitor-google-map {
   width: 85%;
   margin: 0px;
 }
+
+button{
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  text-transform: none;
+  appearance: none;
+  position: absolute;
+  cursor: pointer;
+  user-select: none;
+  top: -6px;
+  right: -6px;
+  width: 30px;
+  height: 0px;
+}
