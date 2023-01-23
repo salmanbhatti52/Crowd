@@ -48,7 +48,6 @@
       /> -->
 
       <input
-        *ngIf="platformcheck == 'ios'"
         type="text"
         class="input"
         (keydown.enter)="$event.preventDefault()"
@@ -59,7 +58,7 @@
         #search
       />
 
-      <ion-input
+      <!-- <ion-input
         *ngIf="platformcheck == 'android'"
         class="input"
         type="text"
@@ -68,7 +67,7 @@
         [(ngModel)]="from"
         (ionInput)="updateSearchResultsEventFrom($event)"
       >
-      </ion-input>
+      </ion-input> -->
       <img
         style="height: 24px; margin: 13px 17px 17px 15px"
         src="/assets/imgs/pin.svg"
