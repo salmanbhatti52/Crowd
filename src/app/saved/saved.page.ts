@@ -110,7 +110,10 @@ export class SavedPage implements OnInit {
   clearFilter() {
     this.HideFilter();
     this.filtertype = "no";
-    this.venuarr = this.venuarrOrg;
+    this.venuarr = this.venuarrOrg.sort((a: any, b: any) => {
+      console.log("testppppppppppopopopopopoopopopopopopopopo");
+      return a.distance - b.distance;
+    });
   }
 
   userdata: any = "";
@@ -136,9 +139,12 @@ export class SavedPage implements OnInit {
       console.log("events---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.eventarr = res.data;
+        this.eventarr = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
       } else {
-        this.rest.presentToast(res.message);
+        // this.rest.presentToast(res.message);
         this.noevent = 1;
       }
     });
@@ -147,10 +153,16 @@ export class SavedPage implements OnInit {
       console.log("venues---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.venuarr = res.data;
-        this.venuarrOrg = res.data;
+        this.venuarr = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
+        this.venuarrOrg = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
       } else {
-        this.rest.presentToast(res.message);
+        // this.rest.presentToast(res.message);
         this.noevenu = 1;
       }
     });

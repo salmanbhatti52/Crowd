@@ -14,11 +14,13 @@ export class HomePage implements OnInit {
   venuarr: any = [];
   venuarrOrg: any = "";
 
-  eventarr: any = "";
+  eventarr: any = [];
   filtertype: any = "no";
 
   noevent = 0;
   noevenu = 0;
+
+  pageNumber = 1;
   constructor(public router: Router, public rest: RestService) {}
   ngOnInit() {}
   tab1Click() {
@@ -174,11 +176,15 @@ export class HomePage implements OnInit {
   }
   userdata: any = "";
   userID: any = "";
+  records_limit: any = 0;
   ionViewWillEnter() {
+    this.filtertype = "no";
+    this.records_limit = localStorage.getItem("records_limit");
     this.noevent = 0;
     this.noevenu = 0;
     this.userdata = localStorage.getItem("userdata");
-    console.log("userdata----", this.userdata);
+    this.pageNumber = 1;
+    console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.rest.presentLoader();
     var ss = JSON.stringify({
@@ -187,15 +193,19 @@ export class HomePage implements OnInit {
       users_customers_id: this.userID,
       // longitude: "71.513317",
       // lattitude: "30.204700",
+      page_number: this.pageNumber,
     });
-    console.log(ss);
+    console.log("aliiiiiiiiiiiiiii", ss);
     this.rest.events(ss).subscribe((res: any) => {
       console.log("events---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.eventarr = res.data;
+        this.eventarr = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
       } else {
-        this.rest.presentToast(res.message);
+        // this.rest.presentToast(res.message);
         this.noevent = 1;
       }
     });
@@ -204,12 +214,21 @@ export class HomePage implements OnInit {
       console.log("venues---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.venuarr = res.data;
-        this.venuarrOrg = res.data;
+        this.venuarr = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
+        this.venuarrOrg = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
 
-        this.rest.venuArrHome = res.data;
+        this.rest.venuArrHome = res.data.sort((a: any, b: any) => {
+          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
       } else {
-        this.rest.presentToast(res.message);
+        // this.rest.presentToast(res.message);
         this.noevenu = 1;
       }
     });
@@ -221,5 +240,67 @@ export class HomePage implements OnInit {
       ev.target.complete();
     }, 1000);
     this.ionViewWillEnter();
+  }
+  onIonInfinite(ev: any) {
+    this.pageNumber++;
+    console.log("ev-----", this.pageNumber);
+    console.log("records_limit-----", localStorage.getItem("records_limit"));
+    setTimeout(() => {
+      ev.target.complete();
+    }, 1000);
+    this.rest.presentLoader();
+    var ss = JSON.stringify({
+      longitude: localStorage.getItem("longitude"),
+      lattitude: localStorage.getItem("lattitude"),
+      users_customers_id: this.userID,
+      // longitude: "71.513317",
+      // lattitude: "30.204700",
+      page_number: this.pageNumber,
+    });
+    console.log("aliiiiiiiiiiiiiii", ss);
+    this.rest.events(ss).subscribe((res: any) => {
+      console.log("events---", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        this.eventarr = this.eventarr.concat(
+          res.data.sort((a: any, b: any) => {
+            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            return a.distance - b.distance;
+          })
+        );
+      } else {
+        // this.rest.presentToast(res.message);
+        // this.noevent = 1;
+      }
+    });
+
+    this.rest.venues(ss).subscribe((res: any) => {
+      console.log("venues---", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        this.venuarr = this.venuarr.concat(
+          res.data.sort((a: any, b: any) => {
+            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            return a.distance - b.distance;
+          })
+        );
+        this.venuarrOrg = this.venuarr.concat(
+          res.data.sort((a: any, b: any) => {
+            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            return a.distance - b.distance;
+          })
+        );
+
+        this.rest.venuArrHome = this.venuarr.concat(
+          res.data.sort((a: any, b: any) => {
+            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            return a.distance - b.distance;
+          })
+        );
+      } else {
+        // this.rest.presentToast(res.message);
+        // this.noevenu = 1;
+      }
+    });
   }
 }

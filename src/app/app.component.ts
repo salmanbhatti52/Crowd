@@ -31,6 +31,10 @@ export class AppComponent {
           console.log("res.data[i].description---", res.data[i].description);
           localStorage.setItem("social_login_status", res.data[i].description);
         }
+        if (res.data[i].type == "records_limit") {
+          console.log("res.data[i].records_limit---", res.data[i].description);
+          localStorage.setItem("records_limit", res.data[i].description);
+        }
       }
     });
   }
