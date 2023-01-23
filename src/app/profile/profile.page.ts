@@ -22,6 +22,7 @@ export class ProfilePage implements OnInit {
   userid: any = "";
   imageupdate = 0;
   onesignalid: any = "";
+  social_login_status: any = "";
 
   polnum: any = "";
 
@@ -64,8 +65,11 @@ export class ProfilePage implements OnInit {
   }
   goLogout() {
     this.onesignalid = localStorage.getItem("onesignaluserid");
+    this.social_login_status = localStorage.getItem("social_login_status");
+
     localStorage.clear();
     localStorage.setItem("onesignaluserid", this.onesignalid);
+    localStorage.setItem("social_login_status", this.social_login_status);
     this.navCtrl.navigateRoot(["login"]);
   }
 
