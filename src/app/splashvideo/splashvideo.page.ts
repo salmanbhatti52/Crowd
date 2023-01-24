@@ -29,7 +29,7 @@ export class SplashvideoPage implements OnInit {
       } else {
         this.navCtrl.navigateRoot(["/start"]);
       }
-    }, 8000);
+    }, 2000);
   }
   ionViewWillLeave() {
     // enable the root left menu when leaving this page
