@@ -25,6 +25,22 @@
     margin-right: 15px;
   }
 
+  .app_title{
+    font-family: "work-sans";
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+
+  .title_info{
+    font-family: "work-sans";
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #A0A0A0;
+  }
+
   @media (orientation: landscape) {
     .btm{
         text-align: center;

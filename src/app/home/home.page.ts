@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { ModalController } from "@ionic/angular";
 import { AnyARecord } from "dns";
 import { RestService } from "../rest.service";
-
+import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -21,7 +22,8 @@ export class HomePage implements OnInit {
   noevenu = 0;
 
   pageNumber = 1;
-  constructor(public router: Router, public rest: RestService) {}
+  constructor(public router: Router, public rest: RestService,
+    public modalCtrlr:ModalController) {}
   ngOnInit() {}
   tab1Click() {
     this.HideFilter();
@@ -51,7 +53,26 @@ export class HomePage implements OnInit {
     console.log("eee", event);
   }
 
+  async selectVenueModal(){
+    const modal = await this.modalCtrlr.create({
+      component:SelectVenuePopupPage,
+      cssClass: 'select_venue',
+      // cssClass: (result>24)? 'cancel_booking' : 'cancel_booking2',
+      // componentProps: {booking_id:bookingId, hours_left:result} ,
+      showBackdrop:true
+    });
+    modal.present();
+    const {data, role} = await modal.onWillDismiss();
+    if(role === 'cancelBooking'){
+      console.log(data);
+      // this.location.back();
+    }
+  }
+
   goToDetail(opt: any) {
+
+    // this.selectVenueModal();
+
     this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
