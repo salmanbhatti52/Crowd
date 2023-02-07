@@ -22,6 +22,19 @@ export class RestService {
     public loadingController: LoadingController
   ) {}
 
+  sendRequest(action: any, data?: any){
+    let header;
+    
+    header = new HttpHeaders({
+      "Content-Type" : "application/json",
+    });
+
+    return this.http.post(`${this.baseURL}${action}`,JSON.stringify(data), {
+      headers:header,
+    });
+
+  }
+
   presentLoader() {
     this.loadingController
       .create({

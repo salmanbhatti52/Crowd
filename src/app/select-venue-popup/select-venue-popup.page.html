@@ -9,17 +9,20 @@
     <!-- <ion-list class="ion_select">
       <ion-item> -->
         <div class="align_center">
-          <ion-select  class="ion_select work_sans" placeholder="Venue Name">
-            <ion-select-option value="apples">Pizza Shop</ion-select-option>
-            <ion-select-option value="oranges">Cafeteria</ion-select-option>
-            <ion-select-option value="bananas">Bata</ion-select-option>
+          <ion-select (ionChange)="selectedValue($event)"  class="ion_select work_sans" placeholder="Venue Name">
+            <div *ngFor="let data of venue_list">
+              <ion-select-option  >{{data.name}}</ion-select-option>
+              <!-- <ion-select-option value="oranges">Cafeteria</ion-select-option>
+              <ion-select-option value="bananas">Bata</ion-select-option> -->
+            </div>
+            
           </ion-select>
         </div>
         
       <!-- </ion-item>
     </ion-list> -->
     <div class="align_center">
-      <ion-button class="ion_button work_sans">OK</ion-button>
+      <ion-button class="ion_button work_sans" (click)="sendValue()">OK</ion-button>
     </div>
     
   </div>

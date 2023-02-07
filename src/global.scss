@@ -43,12 +43,55 @@ ion-input {
     font-family: "work-sans" !important;
   }
 
-// .select_venue{
-//   --height: 320px;
-//   --border-radius: 20px;
-//   --width: 90%;
-//   background: rgba(15, 23, 42, 0.5);
-// }
+.sc-ion-alert-md-h {
+  --background: white !important;
+  --max-width: 280px;
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.32);
+  font-size: 14px;
+  font-family: "work-sans" !important;
+  color: black !important;
+}
+.sc-ion-alert-ios-h {
+  --background: white !important;
+  --max-width: 270px;
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.3);
+  font-size: 14px;
+  font-family: "work-sans" !important;
+  color: black !important;
+}
+.alert-radio-label.sc-ion-alert-md {
+  padding-left: 52px;
+  padding-right: 26px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 16px;
+  color: #262626 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.alert-radio-label.sc-ion-alert-ios {
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-order: 0;
+  order: 0;
+  color: #262626 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.select_venue{
+  --height: 320px;
+  --border-radius: 20px;
+  --width: 90%;
+  background: rgba(15, 23, 42, 0.5);
+}
 .btnbg{
   text-transform:none !important;
   height: 53px;
