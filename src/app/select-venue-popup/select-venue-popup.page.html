@@ -1,29 +1,45 @@
-
 <ion-content>
   <div class="wrapper">
-    <div class="cross_icon">
-      <img (click)="dismiss()" src="../../assets/imgs/cross.svg" alt="">
+    <div style="position: fixed; z-index: 9999; background: white; width: 90%">
+      <div class="cross_icon">
+        <img (click)="dismiss()" src="../../assets/imgs/cross.svg" alt="" />
+      </div>
+      <div class="popup_heading work_sans">Which Venue?</div>
+      <div class="popup_desc work_sans">
+        There are multiple venues within your location. Please choose the one
+        you are in.
+      </div>
     </div>
-    <div class="popup_heading work_sans">Select Venue</div>
-    <div class="popup_desc work_sans">There are multiple venues within your location. Please choose the one you are in</div>
     <!-- <ion-list class="ion_select">
       <ion-item> -->
-        <div class="align_center">
-          <ion-select (ionChange)="selectedValue($event)"  class="ion_select work_sans" placeholder="Venue Name">
-            <div *ngFor="let data of venue_list">
-              <ion-select-option  >{{data.name}}</ion-select-option>
-              <!-- <ion-select-option value="oranges">Cafeteria</ion-select-option>
+
+    <div style="text-align: center">
+      <div class="align_center">
+        <!-- <ion-select
+        (ionChange)="selectedValue($event)"
+        class="ion_select work_sans"
+        placeholder="Venue Name"
+      > -->
+        <div *ngFor="let data of venue_list">
+          <ion-button
+            class="ion_button work_sans"
+            (click)="sendValue(data.name)"
+            >{{data.name}}</ion-button
+          >
+          <!-- <ion-select-option>{{data.name}}</ion-select-option> -->
+          <!-- <ion-select-option value="oranges">Cafeteria</ion-select-option>
               <ion-select-option value="bananas">Bata</ion-select-option> -->
-            </div>
-            
-          </ion-select>
         </div>
-        
-      <!-- </ion-item>
-    </ion-list> -->
-    <div class="align_center">
-      <ion-button class="ion_button work_sans" (click)="sendValue()">OK</ion-button>
+        <!-- </ion-select> -->
+      </div>
     </div>
-    
+
+    <!-- </ion-item>
+    </ion-list> -->
+    <!-- <div class="align_center">
+      <ion-button class="ion_button work_sans" (click)="sendValue()"
+        >OK</ion-button
+      >
+    </div> -->
   </div>
 </ion-content>

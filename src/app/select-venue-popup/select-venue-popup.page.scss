@@ -2,10 +2,11 @@ ion-content{
     --background: #FFFFFF !important
 }
 .wrapper{
-    margin: 20px;
+    margin: 0px 20px 20px 20px;
 }
 .cross_icon{
     text-align: right;
+    margin-top: 10px;
 }
 .popup_heading{
     color: #7825CB;
@@ -47,5 +48,6 @@ ion-content{
 }
 .align_center{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    padding-top: 160px;
 }
