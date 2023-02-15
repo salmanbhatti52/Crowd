@@ -48,7 +48,237 @@ export class LocationmapPage implements OnInit {
     disableDoubleClickZoom: true,
     mapTypeId: "roadmap",
     disableDefaultUI: true,
+    styles: [
+      { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+      { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+      { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+      {
+        featureType: "administrative.locality",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#d59563" }],
+      },
+      {
+        featureType: "poi",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#d59563" }],
+      },
+      {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [{ color: "#263c3f" }],
+      },
+      {
+        featureType: "poi.park",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#6b9a76" }],
+      },
+      {
+        featureType: "road",
+        elementType: "geometry",
+        stylers: [{ color: "#38414e" }],
+      },
+      {
+        featureType: "road",
+        elementType: "geometry.stroke",
+        stylers: [{ color: "#212a37" }],
+      },
+      {
+        featureType: "road",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#9ca5b3" }],
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [{ color: "#746855" }],
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry.stroke",
+        stylers: [{ color: "#1f2835" }],
+      },
+      {
+        featureType: "road.highway",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#f3d19c" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "geometry",
+        stylers: [{ color: "#2f3948" }],
+      },
+      {
+        featureType: "transit.station",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#d59563" }],
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [{ color: "#17263c" }],
+      },
+      {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#515c6d" }],
+      },
+      {
+        featureType: "water",
+        elementType: "labels.text.stroke",
+        stylers: [{ color: "#17263c" }],
+      },
+    ],
   };
+
+  public styleDark = [
+    {
+      elementType: "geometry",
+      stylers: [
+        {
+          hue: "#ff4400",
+        },
+        {
+          saturation: -100,
+        },
+        {
+          lightness: -4,
+        },
+        {
+          gamma: 0.72,
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "labels.icon",
+    },
+    {
+      featureType: "landscape.man_made",
+      elementType: "geometry",
+      stylers: [
+        {
+          hue: "#0077ff",
+        },
+        {
+          gamma: 3.1,
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      stylers: [
+        {
+          hue: "#000000",
+        },
+        {
+          gamma: 0.44,
+        },
+        {
+          saturation: -33,
+        },
+      ],
+    },
+    {
+      featureType: "poi.park",
+      stylers: [
+        {
+          hue: "#44ff00",
+        },
+        {
+          saturation: -23,
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          hue: "#007fff",
+        },
+        {
+          gamma: 0.77,
+        },
+        {
+          saturation: 65,
+        },
+        {
+          lightness: 99,
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          gamma: 0.11,
+        },
+        {
+          weight: 5.6,
+        },
+        {
+          saturation: 99,
+        },
+        {
+          hue: "#0091ff",
+        },
+        {
+          lightness: -86,
+        },
+      ],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "geometry",
+      stylers: [
+        {
+          lightness: -48,
+        },
+        {
+          hue: "#ff5e00",
+        },
+        {
+          gamma: 1.2,
+        },
+        {
+          saturation: -23,
+        },
+      ],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          saturation: -64,
+        },
+        {
+          hue: "#ff9100",
+        },
+        {
+          lightness: 16,
+        },
+        {
+          gamma: 0.47,
+        },
+        {
+          weight: 2.7,
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#222222",
+        },
+      ],
+    },
+  ];
+
+  public defaultStyle = [];
   markers = [] as any;
 
   //// angular map

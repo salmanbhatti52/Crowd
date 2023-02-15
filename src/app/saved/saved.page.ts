@@ -237,4 +237,10 @@ export class SavedPage implements OnInit {
     }, 1000);
     this.ionViewWillEnter();
   }
+
+  clearTheURLEncode(val: any) {
+    console.log("clearTheURLEncode----", encodeURI(val));
+
+    // return encodeURI(val);
+  }
 }

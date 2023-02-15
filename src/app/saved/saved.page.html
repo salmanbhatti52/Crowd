@@ -215,10 +215,10 @@
             *ngIf="opt.likes!=0"
             src="assets/imgs/heartactive.svg"
           />
-          <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
             >No Discount
           </ion-badge>
-          <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
         </div>
@@ -278,10 +278,10 @@
             *ngIf="opt.likes!=0"
             src="assets/imgs/heartactive.svg"
           />
-          <ion-badge *ngIf="opt.discount_percentage == 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
             >No Discount
           </ion-badge>
-          <ion-badge *ngIf="opt.discount_percentage != 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
         </div>
