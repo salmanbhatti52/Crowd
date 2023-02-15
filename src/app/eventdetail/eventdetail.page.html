@@ -36,10 +36,10 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge *ngIf="detailObj.discount_percentage == 0" class="bdg"
+    <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
       >No Discount</ion-badge
     >
-    <ion-badge *ngIf="detailObj.discount_percentage != 0" class="bdg"
+    <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
       >{{detailObj.discount_percentage}}% Off</ion-badge
     >
 

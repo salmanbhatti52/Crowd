@@ -35,10 +35,10 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge *ngIf="detailObj.discount_percentage == 0" class="bdg"
+    <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
       >No Discount</ion-badge
     >
-    <ion-badge *ngIf="detailObj.discount_percentage != 0" class="bdg"
+    <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
       >{{detailObj.discount_percentage}}% Off
     </ion-badge>
 
@@ -184,10 +184,10 @@
       <img src="assets/imgs/disc.svg" alt="" />
       <p class="one">Discount Claim!</p>
       <p class="two">Instant</p>
-      <p *ngIf="detailObj.discount_percentage == 0" class="three">
+      <p *ngIf="detailObj.discount_percentage <= 0" class="three">
         No Discount
       </p>
-      <p *ngIf="detailObj.discount_percentage != 0" class="three">
+      <p *ngIf="detailObj.discount_percentage > 0" class="three">
         {{detailObj.discount_percentage}}% off
       </p>
     </div>
