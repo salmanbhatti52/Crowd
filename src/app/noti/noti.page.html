@@ -18,9 +18,12 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div style="width: 90%; margin: 5% auto">
     <div *ngIf="noticount == 2">
-      <div class="div1" *ngFor="let noti of notiArr">
+      <div class="div1" *ngFor="let noti of notiArr" (click)="goToDetail(noti)">
         <ion-row>
           <ion-col size="3">
             <img class="imgg" src="{{rest.baseURLimg}}{{noti.cover_images}}" />

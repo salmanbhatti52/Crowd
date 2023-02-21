@@ -4,7 +4,7 @@ import { ModalController } from "@ionic/angular";
 import { AnyARecord } from "dns";
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation } from "@capacitor/geolocation";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -26,11 +26,13 @@ export class HomePage implements OnInit {
   latitude: any;
   longitude: any;
   venueList: any;
-  selectedVenue= {};
-  selectedVenueName =  '';
-  constructor(public router: Router, public rest: RestService,
-    public modalCtrlr:ModalController,
-    ) {}
+  selectedVenue = {};
+  selectedVenueName = "";
+  constructor(
+    public router: Router,
+    public rest: RestService,
+    public modalCtrlr: ModalController
+  ) {}
   ngOnInit() {}
   tab1Click() {
     this.HideFilter();
@@ -49,18 +51,17 @@ export class HomePage implements OnInit {
     this.router.navigate(["noti"]);
   }
 
-  async getCurrentPosition(){
+  async getCurrentPosition() {
     const getCurrentLocation = await Geolocation.getCurrentPosition({
-      enableHighAccuracy:true
+      enableHighAccuracy: true,
     });
-    console.log('Current Location: ',getCurrentLocation);
+    console.log("Current Location: ", getCurrentLocation);
     this.latitude = getCurrentLocation.coords.latitude;
     this.longitude = getCurrentLocation.coords.longitude;
-    console.log('Latitude: ',this.latitude);
-    console.log('Longitude: ',this.longitude);
+    console.log("Latitude: ", this.latitude);
+    console.log("Longitude: ", this.longitude);
 
     // console.log("printCurrentPosition: ",printCurrentPosition);
-    
   }
 
   goToProfile() {
@@ -74,85 +75,79 @@ export class HomePage implements OnInit {
     console.log("eee", event);
   }
 
-  async showVenueModal(){
+  async showVenueModal() {
     const modal = await this.modalCtrlr.create({
-      component:SelectVenuePopupPage,
-      cssClass: 'select_venue',
-      componentProps: {venue_list:this.venueList} ,
-      
+      component: SelectVenuePopupPage,
+      cssClass: "select_venue",
+      componentProps: { venue_list: this.venueList },
+
       // cssClass: (result>24)? 'cancel_booking' : 'cancel_booking2',
-      showBackdrop:true
+      showBackdrop: true,
     });
     modal.present();
-    const {data, role} = await modal.onWillDismiss();
-    if(role === 'value_sent'){
+    const { data, role } = await modal.onWillDismiss();
+    if (role === "value_sent") {
       console.log(data);
       this.selectedVenueName = data;
-      console.log("selectedVenueName:",this.selectedVenueName);
-      for(let dt of this.venueList){
-          console.log("selectedVenueNameinLoop:",this.selectedVenueName);
-          console.log("Entered in loop");
-          console.log(dt);
-          console.log(dt.name);
-          // console.log(this.selectedVenue);
-          this.selectedVenue = {};
+      console.log("selectedVenueName:", this.selectedVenueName);
+      for (let dt of this.venueList) {
+        console.log("selectedVenueNameinLoop:", this.selectedVenueName);
+        console.log("Entered in loop");
+        console.log(dt);
+        console.log(dt.name);
+        // console.log(this.selectedVenue);
+        this.selectedVenue = {};
+        console.log(this.selectedVenue);
+
+        if (dt.name == this.selectedVenueName) {
+          this.selectedVenue = dt;
+          this.HideFilter();
           console.log(this.selectedVenue);
-          
-          if(dt.name == this.selectedVenueName){
-            this.selectedVenue = dt;
-            this.HideFilter();
-            console.log(this.selectedVenue);
-            this.rest.detail = this.selectedVenue;
-            this.router.navigate(["venuedetail"]);
-          }
+          this.rest.detail = this.selectedVenue;
+          this.router.navigate(["venuedetail"]);
         }
+      }
     }
   }
-  getVenuesSuggested(opt:any){
-    
+  getVenuesSuggested(opt: any) {
     let data = {
       // longitude:"71.4706624",
       // lattitude:"30.2170521",
-      longitude:this.longitude,
-      lattitude:this.latitude,
-      venues_id:opt.venues_id,
-      users_customers_id:this.userID   
-    }
+      longitude: this.longitude,
+      lattitude: this.latitude,
+      venues_id: opt.venues_id,
+      users_customers_id: this.userID,
+    };
     this.rest.presentLoader();
-    this.rest.sendRequest('venues_suggested',data).subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log("Response venues_suggested : ",res);
-      if(res.status == 'success'){
-        this.venueList = res.data;
-        this.showVenueModal();
-        
-        
-      }else{
-        this.venueList = []
-        this.HideFilter();
-        console.log(opt);
-        this.rest.detail = opt;
-        this.router.navigate(["venuedetail"]);
+    this.rest.sendRequest("venues_suggested", data).subscribe(
+      (res: any) => {
+        this.rest.dismissLoader();
+        console.log("Response venues_suggested : ", res);
+        if (res.status == "success") {
+          this.venueList = res.data;
+          this.showVenueModal();
+        } else {
+          this.venueList = [];
+          this.HideFilter();
+          console.log(opt);
+          this.rest.detail = opt;
+          this.router.navigate(["venuedetail"]);
+        }
+      },
+      (err) => {
+        this.rest.dismissLoader();
+        console.log("API Errror: ", err);
       }
-      
-    },(err)=>{
-      this.rest.dismissLoader();
-      console.log("API Errror: ",err);
-      
-    })
-    
+    );
   }
-  
 
   goToDetail(opt: any) {
     this.getVenuesSuggested(opt);
 
-      // this.HideFilter();
-      // console.log(opt);
-      // this.rest.detail = opt;
-      // // this.router.navigate(["venuedetail"]);
-    
-    
+    // this.HideFilter();
+    // console.log(opt);
+    // this.rest.detail = opt;
+    // // this.router.navigate(["venuedetail"]);
   }
 
   goToDetailevent(opt: any) {

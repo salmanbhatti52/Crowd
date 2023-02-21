@@ -72,13 +72,13 @@
 </ion-header> -->
 
 <ion-content style="--background: #262626">
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
   <div
     class="bg paddingtop"
     style="position: fixed; width: 100%; z-index: 9999"
   >
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
       <p
         style="margin-bottom: 8px"

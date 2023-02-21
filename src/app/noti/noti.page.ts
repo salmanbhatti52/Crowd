@@ -71,4 +71,19 @@ export class NotiPage implements OnInit {
 
     return dd;
   }
+
+  handleRefresh(ev: any) {
+    console.log("ev-----", ev);
+    setTimeout(() => {
+      ev.target.complete();
+    }, 1000);
+    this.ionViewWillEnter();
+  }
+
+  goToDetail(val: any) {
+    this.rest.detail = val;
+    console.log(val);
+
+    // this.router.navigate(["venuedetail"]);
+  }
 }
