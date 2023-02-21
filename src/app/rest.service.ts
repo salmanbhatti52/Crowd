@@ -22,17 +22,16 @@ export class RestService {
     public loadingController: LoadingController
   ) {}
 
-  sendRequest(action: any, data?: any){
+  sendRequest(action: any, data?: any) {
     let header;
-    
+
     header = new HttpHeaders({
-      "Content-Type" : "application/json",
+      "Content-Type": "application/json",
     });
 
-    return this.http.post(`${this.baseURL}${action}`,JSON.stringify(data), {
-      headers:header,
+    return this.http.post(`${this.baseURL}${action}`, JSON.stringify(data), {
+      headers: header,
     });
-
   }
 
   presentLoader() {
@@ -251,6 +250,16 @@ export class RestService {
       "Content-Type": "application/json",
     });
     return this.http.post(this.baseURL + "update_visitors", data, {
+      headers: header,
+    });
+  }
+
+  venues_by_idAPI(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "venues_by_id", data, {
       headers: header,
     });
   }

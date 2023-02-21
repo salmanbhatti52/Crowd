@@ -82,7 +82,19 @@ export class NotiPage implements OnInit {
 
   goToDetail(val: any) {
     this.rest.detail = val;
-    console.log(val);
+
+    var ss = JSON.stringify({
+      venues_id: val.venues_id,
+    });
+
+    this.rest.presentLoader();
+
+    this.rest.venues_by_idAPI(ss).subscribe((res: any) => {
+      this.rest.dismissLoader();
+      console.log("ali---------", res.data[0]);
+      this.rest.detail = res.data[0];
+      this.router.navigate(["venuedetail"]);
+    });
 
     // this.router.navigate(["venuedetail"]);
   }
