@@ -19,6 +19,7 @@ import { PininfoPageModule } from "./pininfo/pininfo.module";
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 
 import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+import { BeseenPageModule } from "./beseen/beseen.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx
     IonicModule.forRoot(),
     AppRoutingModule,
     PininfoPageModule,
+    BeseenPageModule,
   ],
   providers: [
     SignInWithApple,

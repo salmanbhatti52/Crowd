@@ -46,7 +46,8 @@ export class LocationmapPage implements OnInit {
     zoomControl: true,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    mapTypeId: "roadmap",
+    // mapTypeId: "roadmap",
+    mapTypeId: google.maps.MapTypeId.TERRAIN,
     disableDefaultUI: true,
     styles: [
       { elementType: "geometry", stylers: [{ color: "#242f3e" }] },

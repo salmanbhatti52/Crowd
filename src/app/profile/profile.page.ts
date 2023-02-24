@@ -1,7 +1,8 @@
+import { BeseenPage } from "./../beseen/beseen.page";
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { NavController } from "@ionic/angular";
+import { ModalController, NavController } from "@ionic/angular";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { RestService } from "../rest.service";
 
@@ -30,7 +31,8 @@ export class ProfilePage implements OnInit {
     public location: Location,
     public router: Router,
     public navCtrl: NavController,
-    public rest: RestService
+    public rest: RestService,
+    public modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -89,6 +91,24 @@ export class ProfilePage implements OnInit {
     }
 
     console.log(this.noti);
+  }
+
+  beseentoggle(event: any) {
+    console.log(event.detail.checked);
+
+    if (event.detail.checked) {
+      this.showPoint();
+    }
+  }
+
+  async showPoint() {
+    console.log("model");
+    const modal = await this.modalCtrl.create({
+      component: BeseenPage,
+      cssClass: "riz",
+    });
+
+    await modal.present();
   }
 
   save() {

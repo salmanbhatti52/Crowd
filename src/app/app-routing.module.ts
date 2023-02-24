@@ -111,6 +111,14 @@ const routes: Routes = [
     path: 'select-venue-popup',
     loadChildren: () => import('./select-venue-popup/select-venue-popup.module').then( m => m.SelectVenuePopupPageModule)
   },
+  {
+    path: 'beseen',
+    loadChildren: () => import('./beseen/beseen.module').then( m => m.BeseenPageModule)
+  },
+  {
+    path: 'seepeople',
+    loadChildren: () => import('./seepeople/seepeople.module').then( m => m.SeepeoplePageModule)
+  },
 
 ];
 

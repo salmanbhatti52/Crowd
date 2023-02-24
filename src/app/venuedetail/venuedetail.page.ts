@@ -162,4 +162,8 @@ export class VenuedetailPage implements OnInit {
       console.log(res);
     });
   }
+
+  goToSee() {
+    this.router.navigate(["seepeople"]);
+  }
 }

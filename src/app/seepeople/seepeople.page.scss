@@ -1,0 +1,18 @@
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+    
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

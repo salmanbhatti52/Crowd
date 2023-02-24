@@ -50,31 +50,59 @@
       margin-top: 30px;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
     "
   >
-    <ion-label
-      style="
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 16px;
-        color: #ffffff;
-      "
-      class="work_sans"
-      >I'm out</ion-label
-    >
+    <div style="display: flex; align-items: center">
+      <ion-label
+        style="
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: #ffffff;
+          text-transform: uppercase;
+        "
+        class="work_sans"
+        >Be seen</ion-label
+      >
 
-    <ion-toggle
-      (ionChange)="notitoggle($event)"
-      mode="ios"
-      style="
-        --handle-background-checked: white;
-        --background: #9d9d9d;
-        --background-checked: #ac3dba;
-        margin-left: 20px;
-      "
-    ></ion-toggle>
+      <ion-toggle
+        (ionChange)="beseentoggle($event)"
+        mode="ios"
+        style="
+          --handle-background-checked: white;
+          --background: #9d9d9d;
+          --background-checked: #ac3dba;
+          margin-left: 20px;
+        "
+      ></ion-toggle>
+    </div>
+    <div style="display: flex; align-items: center">
+      <ion-label
+        style="
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: #ffffff;
+          text-transform: uppercase;
+        "
+        class="work_sans"
+        >I'm out</ion-label
+      >
+
+      <ion-toggle
+        (ionChange)="notitoggle($event)"
+        mode="ios"
+        style="
+          --handle-background-checked: white;
+          --background: #9d9d9d;
+          --background-checked: #ac3dba;
+          margin-left: 20px;
+        "
+      ></ion-toggle>
+    </div>
   </div>
 
   <div style="width: 90%; margin: 0% auto">
