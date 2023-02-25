@@ -234,6 +234,16 @@ export class RestService {
     });
   }
 
+  get_visitors_list(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "get_visitors_list", data, {
+      headers: header,
+    });
+  }
+
   claim_discount(data: any) {
     let header;
     header = new HttpHeaders({

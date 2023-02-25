@@ -46,8 +46,7 @@ export class LocationmapPage implements OnInit {
     zoomControl: true,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    // mapTypeId: "roadmap",
-    mapTypeId: google.maps.MapTypeId.TERRAIN,
+    mapTypeId: "roadmap",
     disableDefaultUI: true,
     styles: [
       { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
@@ -58,11 +57,7 @@ export class LocationmapPage implements OnInit {
         elementType: "labels.text.fill",
         stylers: [{ color: "#d59563" }],
       },
-      {
-        featureType: "poi",
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
-      },
+
       {
         featureType: "poi.park",
         elementType: "geometry",
@@ -127,6 +122,11 @@ export class LocationmapPage implements OnInit {
         featureType: "water",
         elementType: "labels.text.stroke",
         stylers: [{ color: "#17263c" }],
+      },
+      {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
       },
     ],
   };

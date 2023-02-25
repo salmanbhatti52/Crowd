@@ -26,6 +26,10 @@ export class ProfilePage implements OnInit {
   social_login_status: any = "";
 
   polnum: any = "";
+  seenToggleChecked = false;
+  be_seen = "";
+
+  beeseenToggleValue = "No";
 
   constructor(
     public location: Location,
@@ -52,6 +56,15 @@ export class ProfilePage implements OnInit {
         this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
     } else {
       this.imgdataComing = "assets/imgs/addimg.svg";
+    }
+
+    this.be_seen = JSON.parse(this.userdata).be_seen;
+
+    if (this.be_seen == "No") {
+      this.seenToggleChecked = false;
+    } else {
+      this.seenToggleChecked = true;
+      this.beeseenToggleValue = "Yes";
     }
 
     console.log("email----", this.email);
@@ -97,7 +110,14 @@ export class ProfilePage implements OnInit {
     console.log(event.detail.checked);
 
     if (event.detail.checked) {
-      this.showPoint();
+      if (this.be_seen == "No") {
+        this.showPoint();
+      }
+
+      this.beeseenToggleValue = "Yes";
+    } else {
+      this.be_seen = "No";
+      this.beeseenToggleValue = "No";
     }
   }
 
@@ -131,9 +151,8 @@ export class ProfilePage implements OnInit {
         username: this.uname,
         notifications: "Yes",
         profile_picture: this.imgdata,
+        be_seen: this.beeseenToggleValue,
       });
-
-      console.log(ss);
 
       this.rest.update_profile(ss).subscribe((res: any) => {
         console.log(res);

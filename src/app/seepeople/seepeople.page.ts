@@ -4,13 +4,13 @@ import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
 
 @Component({
-  selector: 'app-seepeople',
-  templateUrl: './seepeople.page.html',
-  styleUrls: ['./seepeople.page.scss'],
+  selector: "app-seepeople",
+  templateUrl: "./seepeople.page.html",
+  styleUrls: ["./seepeople.page.scss"],
 })
 export class SeepeoplePage implements OnInit {
-
   userdata: any = "";
+  visitorArr: any = "";
   constructor(
     public location: Location,
     public router: Router,
@@ -23,30 +23,31 @@ export class SeepeoplePage implements OnInit {
     this.location.back();
   }
 
-  godelete() {
-    this.userdata = localStorage.getItem("userdata");
-    console.log("userdata----", this.userdata);
-
-    var email = JSON.parse(this.userdata).email;
-    console.log("email----", email);
-
+  ionViewWillEnter() {
     var ss = JSON.stringify({
-      user_email: email,
-      delete_reason: "test delete",
-      comments: "Hello",
+      venues_id: this.rest.detail.venues_id,
     });
+    console.log("ionvire enter", this.rest.detail.venues_id);
 
     this.rest.presentLoader();
-    this.rest.delete_account(ss).subscribe((res: any) => {
+    this.rest.get_visitors_list(ss).subscribe((res: any) => {
       this.rest.dismissLoader();
       console.log(res);
 
       if (res.status == "success") {
         this.rest.presentToast(res.message);
-        this.location.back();
+        this.visitorArr = res.data;
       } else {
         this.rest.presentToast(res.message);
       }
     });
+  }
+
+  handleImgError2(ev: any, item: any) {
+    console.log("hloooooo");
+
+    const source = ev.srcElement;
+    const imgSrc = `assets/imgs/inplace.jpeg`;
+    source.src = imgSrc;
   }
 }
