@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: "com.microwd.app",
   appName: "Crowd",
   webDir: "www",
+
   bundledWebRuntime: false,
   plugins: {
     GoogleAuth: {
@@ -13,6 +14,10 @@ const config: CapacitorConfig = {
       iosClientId:
         "219864729095-so7dl4l5k2m0he7jjubdr559ia140g6m.apps.googleusercontent.com",
       forceCodeForRefreshToken: true,
+    },
+    SplashScreen: {
+      launchShowDuration: 0,
+      launchAutoHide: true,
     },
   },
 };
