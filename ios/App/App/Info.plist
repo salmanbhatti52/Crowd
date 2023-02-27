@@ -66,25 +66,25 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to access photo library to allow user to upload profile picture.</string>
+	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user.</string>
+	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need to access location to show nearby venues and events to user and allow user to select the user location also.</string>
+	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Need to access photo library to allow user to upload profile picture.</string>
+	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to access photo library to allow user to upload profile picture.</string>
+	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Need to access user latitude and longitude</string>
+	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need to access user latitude and longitude</string>
+	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
