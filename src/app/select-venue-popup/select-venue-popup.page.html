@@ -20,12 +20,13 @@
         class="ion_select work_sans"
         placeholder="Venue Name"
       > -->
-        <div *ngFor="let data of venue_list">
-          <ion-button
-            class="ion_button work_sans"
-            (click)="sendValue(data.name)"
-            >{{data.name}}</ion-button
-          >
+        <div
+          style="display: flex; justify-content: center"
+          *ngFor="let data of venue_list"
+        >
+          <p class="ion_button work_sans" (click)="sendValue(data.name)">
+            {{data.name}}
+          </p>
           <!-- <ion-select-option>{{data.name}}</ion-select-option> -->
           <!-- <ion-select-option value="oranges">Cafeteria</ion-select-option>
               <ion-select-option value="bananas">Bata</ion-select-option> -->

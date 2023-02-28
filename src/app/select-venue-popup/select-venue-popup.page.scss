@@ -35,16 +35,19 @@ ion-content{
     --padding-end: 20px;
 }
 .ion_button{
-    height: 48px !important;
     width: 85% !important;
-    margin-top: 14px;
+    margin-top: 0px;
     text-align: center;
-    --background: #531C7C !important;
+    background: #531C7C !important;
     font-size: 18px;
     font-weight: 500;
-    --color: #FFFFFF !important;
+    color: #FFFFFF !important;
     text-transform: uppercase !important;
-    --border-radius: 28px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 2px;
 }
 .align_center{
     display: flex;
