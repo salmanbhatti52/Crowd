@@ -35,7 +35,7 @@ export class SeepeoplePage implements OnInit {
       console.log(res);
 
       if (res.status == "success") {
-        this.rest.presentToast(res.message);
+        // this.rest.presentToast(res.message);
         this.visitorArr = res.data;
       } else {
         this.rest.presentToast(res.message);

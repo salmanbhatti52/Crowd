@@ -18,14 +18,16 @@
 
 <ion-content style="--background: #262626">
   <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div class="mainDiv" *ngFor="let opt of visitorArr">
-      <img
-        class="uimg"
-        src="{{opt.profile_picture}}"
-        (error)="handleImgError2($event, opt.profile_picture)"
-      />
+    <div *ngFor="let opt of visitorArr">
+      <div class="mainDiv" *ngIf="opt.be_seen ==  'Yes'">
+        <img
+          class="uimg"
+          src="{{rest.baseURLimg}}{{opt.profile_picture}}"
+          (error)="handleImgError2($event, opt.profile_picture)"
+        />
 
-      <p class="uname work_sans">{{opt.username}}</p>
+        <p class="uname work_sans">{{opt.username}}</p>
+      </div>
     </div>
   </div>
 </ion-content>
