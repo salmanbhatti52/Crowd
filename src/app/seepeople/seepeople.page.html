@@ -17,6 +17,9 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div style="width: 90%; text-align: center; margin: 5% auto">
     <div *ngFor="let opt of visitorArr">
       <div class="mainDiv" *ngIf="opt.be_seen ==  'Yes'">

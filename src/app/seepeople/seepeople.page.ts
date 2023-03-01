@@ -43,6 +43,14 @@ export class SeepeoplePage implements OnInit {
     });
   }
 
+  handleRefresh(ev: any) {
+    console.log("ev-----", ev);
+    setTimeout(() => {
+      ev.target.complete();
+    }, 1000);
+    this.ionViewWillEnter();
+  }
+
   handleImgError2(ev: any, item: any) {
     console.log("hloooooo");
 
