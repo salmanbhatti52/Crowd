@@ -427,6 +427,13 @@ export class LocationmapPage implements OnInit {
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
+          icon: {
+            url: "assets/imgs/locpin.svg",
+            size: {
+              height: 120,
+              width: 30,
+            },
+          },
         },
       };
 
@@ -489,6 +496,13 @@ export class LocationmapPage implements OnInit {
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
+          icon: {
+            url: "assets/imgs/locpin.svg",
+            size: {
+              height: 120,
+              width: 30,
+            },
+          },
         },
       };
       newVenuArr.push(obj);
@@ -512,9 +526,26 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
+        // size: new google.maps.Size(48, 59),
+        // anchor: new google.maps.Point(24, 59),
+        // url: "assets/imgs/treeeline.svg",
+        icon: {
+          url: "assets/imgs/locpin.svg",
+          size: {
+            height: 120,
+            width: 30,
+          },
+        },
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
+          icon: {
+            url: "assets/imgs/locpin.svg",
+            size: {
+              height: 120,
+              width: 30,
+            },
+          },
         },
       };
 
@@ -587,9 +618,23 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
+        icon: {
+          url: "assets/imgs/locpin.svg",
+          size: {
+            height: 120,
+            width: 30,
+          },
+        },
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
+          icon: {
+            url: "assets/imgs/locpin.svg",
+            size: {
+              height: 120,
+              width: 30,
+            },
+          },
         },
       };
 
