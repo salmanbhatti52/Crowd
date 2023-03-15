@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        ><img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans">Bar/Restaurant Name</ion-label>
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div style="width: 90%; text-align: center; margin: 5% auto">
+    <p class="makeBook">Make a booking</p>
+    <p class="inputTitle">No. of diners</p>
+
+    <div
+      class="inputfieldtransparent"
+      style="
+        height: 52px;
+        margin-top: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <p class="people">{{people}}</p>
+
+      <img
+        style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+        src="/assets/imgs/downw.svg"
+      />
+    </div>
+
+    <p class="inputTitle">Select Date</p>
+    <!-- <ionic-horizontal-calendar 
+  locale="de" 
+  [minDate]="minDate"
+  class="calendar"
+  [firstDayAutoSelected]="true"
+  displayMode="daily"
+  >
+    <ion-label header #header>
+        Calendar Demo
+    </ion-label>
+</ionic-horizontal-calendar> -->
+
+    <p class="inputTitle">Select Time</p>
+    <ion-datetime presentation="time" locale="en-US"></ion-datetime>
+  </div>
+</ion-content>

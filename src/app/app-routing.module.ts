@@ -119,6 +119,10 @@ const routes: Routes = [
     path: 'seepeople',
     loadChildren: () => import('./seepeople/seepeople.module').then( m => m.SeepeoplePageModule)
   },
+  {
+    path: 'booking1',
+    loadChildren: () => import('./booking1/booking1.module').then( m => m.Booking1PageModule)
+  },
 
 ];
 

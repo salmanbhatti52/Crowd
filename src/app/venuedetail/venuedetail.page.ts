@@ -166,4 +166,10 @@ export class VenuedetailPage implements OnInit {
   goToSee() {
     this.router.navigate(["seepeople"]);
   }
+
+  bookTable() {
+    console.log("hell");
+
+    this.router.navigate(["booking1"]);
+  }
 }

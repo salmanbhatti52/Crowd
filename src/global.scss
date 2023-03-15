@@ -114,6 +114,30 @@ ion-input {
     color: #FFFFFF;
 }
 
+
+.btnwhite{
+  text-transform:none !important;
+  height: 53px;
+      --background: #ffffff;
+
+      --background-activated: #dddddd;
+    --background-focused: #dddddd;
+    --background-hover: #dddddd;
+
+
+   
+    --border-radius: 42px;
+    width: 100%;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: #531C7C;
+
+}
+
 .btnbgred{
   text-transform:none !important;
   height: 53px;
