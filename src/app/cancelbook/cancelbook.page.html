@@ -1,0 +1,40 @@
+<ion-content style="--background: #00000059">
+  <div
+    style="
+      position: absolute;
+      top: 31%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    "
+  >
+    <div
+      style="
+        background: white;
+        padding: 20px 20px 20px 20px;
+        border-radius: 20px;
+        margin: 20px;
+      "
+    >
+      <div style="display: flex; justify-content: flex-end">
+        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
+      </div>
+      <p style="margin: 25px 0px 15px 0px" class="sure work_sans">
+        Are you sure you want to cancel this booking?
+      </p>
+      <ion-button
+        (click)="closeModel()"
+        style="margin-top: 20px"
+        class="btnbg work_sans"
+        >No</ion-button
+      >
+
+      <ion-button
+        (click)="closeModel()"
+        style="margin-top: 20px"
+        class="btnbgred work_sans"
+        >Yes</ion-button
+      >
+    </div>
+  </div>
+</ion-content>

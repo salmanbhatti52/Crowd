@@ -78,9 +78,39 @@
   margin: 0px 0px 0px 24px;
 }
 
+.pp{
+  margin: 20px 0px;
+  color: #FFFFFF;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.3px;
+}
+
 
 ion-datetime {
   color: #000000  !important;
   --background: none;
+}
+
+.unselectedDate{
+  padding: 10px 31px;
+  background: #F7F8F8;
+  border-radius: 10px;
+  margin-right: 10px;
+  color: #7B6F72;
+}
+
+.selectedDate{
+  padding: 10px 31px;
+  background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%) !important;
+  border-radius: 10px;
+  margin-right: 10px;
+  color: #FFFFFF !important;
+}
+
+.dateClas{
+  margin: 0px;
 }
 

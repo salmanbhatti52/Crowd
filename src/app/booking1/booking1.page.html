@@ -22,6 +22,7 @@
     <p class="inputTitle">No. of diners</p>
 
     <div
+      (click)="hideShowPeople()"
       class="inputfieldtransparent"
       style="
         height: 52px;
@@ -31,7 +32,7 @@
         align-items: center;
       "
     >
-      <p class="people">{{people}}</p>
+      <p class="people">{{people}} people</p>
 
       <img
         style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
@@ -39,7 +40,51 @@
       />
     </div>
 
-    <p class="inputTitle">Select Date</p>
+    <div
+      style="
+        position: absolute;
+        width: 87%;
+        background: #3a3a3a;
+        z-index: 999;
+        border-radius: 0px 0px 20px 20px;
+      "
+      *ngIf="peopleShow"
+    >
+      <p class="pp" (click)="peopleClick(a)" *ngFor="let a of peopleArr">
+        {{a.people}} {{a.name}}
+      </p>
+    </div>
+
+    <p style="margin: 20px 0px" class="inputTitle">Select Date</p>
+
+    <div style="display: flex; overflow: scroll">
+      <div
+        (click)="dateSelected(i)"
+        class="unselectedDate"
+        [class.selectedDate]="selectedIndexDate == i"
+        *ngFor="let dd of datesArr; let i = index;"
+      >
+        <p class="dateClas">{{getDay1(dd)}}</p>
+        <p class="dateClas">{{getDay2(dd)}}</p>
+        <p class="dateClas">{{getDay3(dd)}}</p>
+        <p class="dateClas">{{getDay4(dd)}}</p>
+      </div>
+    </div>
+    <p style="margin: 20px 0px" class="inputTitle">Select Time</p>
+    <ion-datetime
+      presentation="time"
+      [preferWheel]="true"
+      locale="en-US"
+    ></ion-datetime>
+
+    <div style="margin-top: 50px">
+      <ion-button
+        (click)="bookTable()"
+        style="margin-top: 20px"
+        class="btnwhite work_sans"
+        >Book Table</ion-button
+      >
+    </div>
     <!-- <ionic-horizontal-calendar
       locale="de"
       [minDate]="minDate"
@@ -50,7 +95,12 @@
       <ion-label header #header> Calendar Demo </ion-label>
     </ionic-horizontal-calendar> -->
 
-    <p class="inputTitle">Select Time</p>
-    <ion-datetime presentation="time" locale="en-US"></ion-datetime>
+    <!-- <ng-scroll-calendar
+      [config]="config"
+      (onSelect)="onDateChange($event)"
+    ></ng-scroll-calendar> -->
+
+    <!-- <p class="inputTitle">Select Time</p>
+    <ion-datetime presentation="time" locale="en-US"></ion-datetime> -->
   </div>
 </ion-content>

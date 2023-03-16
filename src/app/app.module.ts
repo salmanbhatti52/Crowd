@@ -1,3 +1,4 @@
+import { CancelbookPageModule } from "./cancelbook/cancelbook.module";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
@@ -21,6 +22,8 @@ import { PininfoPageModule } from "./pininfo/pininfo.module";
 import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 import { BeseenPageModule } from "./beseen/beseen.module";
 
+import { NgScrollCalendarModule } from "ng-scroll-calendar";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,6 +33,8 @@ import { BeseenPageModule } from "./beseen/beseen.module";
     AppRoutingModule,
     PininfoPageModule,
     BeseenPageModule,
+    NgScrollCalendarModule,
+    CancelbookPageModule,
   ],
   providers: [
     SignInWithApple,

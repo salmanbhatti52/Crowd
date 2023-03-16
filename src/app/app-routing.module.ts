@@ -123,6 +123,18 @@ const routes: Routes = [
     path: 'booking1',
     loadChildren: () => import('./booking1/booking1.module').then( m => m.Booking1PageModule)
   },
+  {
+    path: 'booking2',
+    loadChildren: () => import('./booking2/booking2.module').then( m => m.Booking2PageModule)
+  },
+  {
+    path: 'cancelbook',
+    loadChildren: () => import('./cancelbook/cancelbook.module').then( m => m.CancelbookPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
 
 ];
 
