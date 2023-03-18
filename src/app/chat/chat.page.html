@@ -9,13 +9,124 @@
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Bar/Restaurant Name</ion-label>
+        <ion-label class="titlefont work_sans"
+          >{{selectedVenue.name}}</ion-label
+        >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="--background: #262626">
-  <div style="width: 90%; text-align: center; margin: 5% auto"></div>
+<ion-content #IonContent style="--background: #262626">
+  <div class="container">
+    <ng-container *ngIf="!showSkeleton">
+      <div class="chat" style="display: grid; grid-row-gap: 4px">
+        <ng-container *ngFor="let msg of allMessages">
+          <div
+            class="reciever_message_container reciever_message_cont"
+            *ngIf="msg.userId!=currentUser"
+          >
+            <div class="reciever">
+              <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
+                {{msg.message}}
+              </ion-text>
+              <div *ngIf="msg.msgType=='attachment'">
+                <img class="attachment_receiver" src="{{msg.message}}" />
+              </div>
+            </div>
+            <ion-text class="messageTime">{{msg.time}}</ion-text>
+          </div>
+          <div class="sender" *ngIf="msg.userId==currentUser">
+            <div class="sender_message_container">
+              <div class="senderMessage">
+                <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
+                  {{msg.message}}
+                </ion-text>
+                <div *ngIf="msg.msgType=='attachment'">
+                  <img class="attachment_sender" src="{{msg.message}}" />
+                </div>
+              </div>
+            </div>
+
+            <ion-row style="padding: 0px">
+              <ion-col style="text-align: right; padding: 0px">
+                <ion-text class="messageTimeSender">{{msg.time}}</ion-text>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="showSkeleton">
+      <div class="chat" style="display: grid; grid-gap: 15px">
+        <div class="reciever_message_container">
+          <ion-skeleton-text class="skel_receiver" animated></ion-skeleton-text>
+          <ion-text class="messageTime"></ion-text>
+          <!-- <div class="reciever">
+                <p class="textMessage">Hi Moaviz skeleton. How are you?</p>
+              </div> -->
+        </div>
+
+        <div class="sender">
+          <div class="sender_message_container">
+            <ion-skeleton-text
+              style="height: 97px"
+              class="skel_sender"
+              animated
+            ></ion-skeleton-text>
+          </div>
+        </div>
+        <div class="reciever_message_container">
+          <ion-skeleton-text class="skel_receiver" animated></ion-skeleton-text>
+        </div>
+
+        <div class="sender">
+          <div class="sender_message_container">
+            <ion-skeleton-text class="skel_sender" animated>
+            </ion-skeleton-text>
+          </div>
+        </div>
+        <div class="reciever_message_container">
+          <ion-skeleton-text
+            style="height: 97px"
+            class="skel_receiver"
+            animated
+          ></ion-skeleton-text>
+        </div>
+
+        <div class="sender">
+          <div class="sender_message_container">
+            <ion-skeleton-text class="skel_sender" animated></ion-skeleton-text>
+          </div>
+        </div>
+        <div class="reciever_message_container">
+          <ion-skeleton-text
+            style="height: 97px"
+            class="skel_receiver"
+            animated
+          ></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </ion-content>
+
+<ion-footer translucent>
+  <div
+    class="inputfieldblack"
+    style="
+      height: 52px;
+      display: flex;
+      /* margin-top: 20px;
+      width: 92%;
+      position: absolute;
+      bottom: 20px;
+      left: 4%; */
+    "
+  >
+    <img style="margin: 7px 7px 7px 12px" src="/assets/imgs/uploadchat.svg" />
+    <input class="input" type="text" placeholder="Type a message here" />
+    <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/sendmsg.svg" />
+  </div>
+</ion-footer>

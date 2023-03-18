@@ -103,14 +103,36 @@ ion-datetime {
 }
 
 .selectedDate{
-  padding: 10px 31px;
   background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%) !important;
   border-radius: 10px;
   margin-right: 10px;
+  height: 100px;
   color: #FFFFFF !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80px;
 }
 
 .dateClas{
   margin: 0px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 21px;
+  color: #FFFFFF;
+}
+.dateClas1{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
 }
 
+.selectedDatePlease{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #ADA4A5;
+}

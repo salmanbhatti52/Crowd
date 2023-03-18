@@ -40,3 +40,220 @@
     padding-bottom: 10px;
     padding-top: 10px;
   }
+
+  .btn {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    color: black;
+    font-size: 14pt;
+    box-shadow: 0px 4px 10px #0000001f;
+    border-radius: 10px;
+    opacity: 1;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.inp {
+    padding: 10px;
+    background: #2d2d39;
+    box-shadow: 0px 4px 10px #0000001f;
+    border-radius: 8px;
+    opacity: 1;
+}
+
+.sc-ion-input-md-h {
+    --padding-top: 13px;
+    --padding-end: 13px;
+    --padding-bottom: 13px;
+    --padding-start: 13px;
+    font-size: inherit;
+}
+
+.sc-ion-input-ios-h {
+    --padding-top: 13px;
+    --padding-end: 13px;
+    --padding-bottom: 13px;
+    --padding-start: 13px;
+    font-size: inherit;
+}
+
+.header,
+.footer,
+ion-content {
+    --background: #000;
+}
+.header {
+    padding: 10px 10px;
+    border: none;
+}
+.header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.backBtn,
+.sideMenu {
+    position: absolute;
+}
+.sideMenu {
+    right: 0px;
+}
+.container {
+    width: 90%;
+    margin: auto;
+}
+.title {
+    width: 100%;
+}
+.userName {
+    color: #c5e2ee;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 600;
+}
+.footerAction {
+    display: grid;
+    grid-template-columns: 1.5fr 7fr 1.5fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 0px;
+}
+.attachments {
+    grid-area: 1 / 1 / 2 / 2;
+}
+.message {
+    grid-area: 1 / 2 / 2 / 3;
+}
+.sendMessage {
+    grid-area: 1 / 3 / 2 / 4;
+}
+.attachments,
+.sendMessage {
+    height: 50px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    border: 1px solid #ffffff;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.attachSvg,
+.sendSvg {
+    text-align: center;
+}
+.input {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    border-radius: 10px;
+    /* border: 1px solid #c5e2ee; */
+    /* background-color: #1a1a1a; */
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    margin: auto;
+    padding-top: 0px;
+}
+.footer {
+    padding-bottom: 20px;
+}
+.chat {
+    margin-top: 20px;
+}
+.reciever {
+    background-color: #333333;
+    /* border: 1px solid #c5e2ee; */
+    color: #ffffff;
+    font-size: 14px;
+    /* font-weight: 400; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    /* border-bottom-left-radius: 5px; */
+    width: auto;
+    padding: 15px;
+    text-align: justify;
+    max-width: 320px;
+}
+.messageTime {
+    font-size: 10px;
+    color: #7a7a7a;
+}
+.messageTimeSender {
+    font-size: 10px;
+    color: #7a7a7a;
+    text-align: end;
+}
+.sender_message_container {
+    display: flex;
+    justify-content: flex-end;
+}
+.senderMessage {
+    background-color: #333333;
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 400;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 10px;
+    /* border-bottom-right-radius: 5px; */
+    border-bottom-left-radius: 20px;
+    width: auto;
+    padding: 15px;
+    text-align: justify;
+    max-width: 320px;
+}
+.attachment_sender {
+    height: 200px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 20px;
+    object-fit: cover;
+}
+.attachment_receiver {
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 5px;
+    object-fit: cover;
+}
+
+// skeleton css
+.skel_receiver {
+    color: #c5e2ee;
+    font-size: 14px;
+    font-weight: 400;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 5px;
+    width: 65%;
+    padding: 15px;
+    background-color: #212628;
+}
+.skel_sender {
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 400;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 20px;
+    width: 65%;
+    padding: 19px;
+    background-color: #212628;
+}
+.reciever_message_cont {
+    display: grid;
+    justify-content: flex-start;
+}
+
+
+ion-footer{
+  background: #262626;
+  padding: 0px 20px 20px 20px;
+} 

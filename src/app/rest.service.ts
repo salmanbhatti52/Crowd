@@ -12,6 +12,7 @@ export class RestService {
   detail: any = "";
   venuArrHome: any = "";
   pinobject: any = "";
+
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";
 
@@ -260,6 +261,26 @@ export class RestService {
       "Content-Type": "application/json",
     });
     return this.http.post(this.baseURL + "update_visitors", data, {
+      headers: header,
+    });
+  }
+
+  update_visitors_events(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "update_visitors_events", data, {
+      headers: header,
+    });
+  }
+
+  get_visitors_events_list(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "get_visitors_events_list", data, {
       headers: header,
     });
   }

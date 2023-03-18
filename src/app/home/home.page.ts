@@ -28,6 +28,8 @@ export class HomePage implements OnInit {
   venueList: any;
   selectedVenue = {};
   selectedVenueName = "";
+
+  filteredvenuarr: any = "";
   constructor(
     public router: Router,
     public rest: RestService,
@@ -148,6 +150,12 @@ export class HomePage implements OnInit {
     // console.log(opt);
     // this.rest.detail = opt;
     // // this.router.navigate(["venuedetail"]);
+  }
+
+  goToDetailFilter(ev: any) {
+    console.log(ev);
+    this.rest.detail = ev;
+    this.router.navigate(["booking1"]);
   }
 
   goToDetailevent(opt: any) {
@@ -316,6 +324,7 @@ export class HomePage implements OnInit {
           return a.distance - b.distance;
         });
 
+        this.filteredvenuarr = this.venuarrOrg;
         this.rest.venuArrHome = res.data.sort((a: any, b: any) => {
           console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
@@ -395,5 +404,23 @@ export class HomePage implements OnInit {
         // this.noevenu = 1;
       }
     });
+  }
+
+  eventHandler(event: any) {
+    this.filteredvenuarr = [];
+    for (var i = 0; i < this.venuarrOrg.length; i++) {
+      console.log(this.venuarrOrg[i].name.toLowerCase());
+      console.log(event.target.value.toLowerCase());
+
+      if (
+        this.venuarrOrg[i].name
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
+      ) {
+        this.filteredvenuarr.push(this.venuarrOrg[i]);
+      }
+    }
+
+    console.log("item------", this.filteredvenuarr);
   }
 }

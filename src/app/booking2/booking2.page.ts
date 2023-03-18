@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
+import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 
 @Component({
   selector: "app-booking2",
@@ -13,12 +14,18 @@ import { RestService } from "../rest.service";
 export class Booking2Page implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
+  selectedVenue: any = "";
   constructor(
     public location: Location,
     public router: Router,
     public rest: RestService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public iab: InAppBrowser
   ) {}
+
+  ionViewWillEnter() {
+    this.selectedVenue = this.rest.detail;
+  }
 
   ngOnInit() {}
 
@@ -50,5 +57,7 @@ export class Booking2Page implements OnInit {
 
   openBrowserLink() {
     console.log("opennnnn");
+
+    this.iab.create(this.selectedVenue.website, "_blank");
   }
 }

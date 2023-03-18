@@ -30,6 +30,8 @@ export class EventdetailPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
+
+    this.updatevVisitor()
   }
 
   ngOnInit() {
@@ -119,6 +121,23 @@ export class EventdetailPage implements OnInit {
 
     this.rest.events_like_unlike(ss).subscribe((res: any) => {
       console.log(res);
+    });
+  }
+
+  goToSee() {
+    this.router.navigate(["seepeopleevent"]);
+  }
+
+  updatevVisitor() {
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      events_id: this.detailObj.events_id,
+    });
+
+    console.log("ss updatevVisitor-----", ss);
+
+    this.rest.update_visitors_events(ss).subscribe((res: any) => {
+      console.log("res updatevVisitor-----", res);
     });
   }
 }

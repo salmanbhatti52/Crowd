@@ -24,6 +24,8 @@ import { BeseenPageModule } from "./beseen/beseen.module";
 
 import { NgScrollCalendarModule } from "ng-scroll-calendar";
 
+import { DatePicker } from "@ionic-native/date-picker/ngx";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -39,6 +41,7 @@ import { NgScrollCalendarModule } from "ng-scroll-calendar";
   providers: [
     SignInWithApple,
     OneSignal,
+    DatePicker,
     // Geolocation,
     // LottieSplashScreen,
     InAppBrowser,

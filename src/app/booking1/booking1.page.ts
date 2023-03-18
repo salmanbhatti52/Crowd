@@ -5,6 +5,8 @@ import { RestService } from "../rest.service";
 
 import * as moment from "moment";
 
+import { DatePicker } from "@ionic-native/date-picker/ngx";
+
 @Component({
   selector: "app-booking1",
   templateUrl: "./booking1.page.html",
@@ -25,6 +27,8 @@ export class Booking1Page implements OnInit {
 
   datesArr: any = "";
   selectedIndexDate = -1;
+
+  myDate: any = "Select Date";
 
   peopleArr = [
     {
@@ -69,10 +73,13 @@ export class Booking1Page implements OnInit {
     },
   ];
 
+  selectedVenue: any = "";
+
   constructor(
     public location: Location,
     public router: Router,
-    public rest: RestService
+    public rest: RestService,
+    public datePicker: DatePicker
   ) {}
 
   ngOnInit() {}
@@ -82,6 +89,7 @@ export class Booking1Page implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.selectedVenue = this.rest.detail;
     this.datesArr = this.getDate();
   }
 
@@ -125,12 +133,16 @@ export class Booking1Page implements OnInit {
     return moment(val).format("YYYY");
   }
 
+  dateFormate(val: any) {
+    return moment(val).format("MMMM YYYY");
+  }
+
   dateSelected(val: any) {
     this.selectedIndexDate = val;
   }
 
   bookTable() {
-    this.router.navigate(['booking2'])
+    this.router.navigate(["booking2"]);
   }
 
   peopleClick(a: any) {
@@ -145,5 +157,25 @@ export class Booking1Page implements OnInit {
     } else {
       this.peopleShow = true;
     }
+  }
+
+  showDatepicker1() {
+    this.datePicker
+      .show({
+        date: new Date(),
+        mode: "date",
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
+        okText: "Save Date",
+        // todayText: "Set Today",
+      })
+      .then(
+        (date) => {
+          this.myDate = moment(date).format("YYYY-MM-DD");
+
+          console.log("date----", date);
+          console.log("date----", this.myDate);
+        },
+        (err) => console.log("Error occurred while getting date: ", err)
+      );
   }
 }

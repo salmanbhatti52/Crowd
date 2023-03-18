@@ -9,7 +9,9 @@
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Bar/Restaurant Name</ion-label>
+        <ion-label class="titlefont work_sans"
+          >{{selectedVenue.name}}</ion-label
+        >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -57,7 +59,60 @@
 
     <p style="margin: 20px 0px" class="inputTitle">Select Date</p>
 
-    <div style="display: flex; overflow: scroll">
+    <div
+      *ngIf="myDate == 'Select Date'"
+      style="display: flex; align-items: center; justify-content: center"
+      (click)="showDatepicker1()"
+    >
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/leftarr.svg"
+      />
+      <p style="margin: 0px 20px" class="selectedDatePlease">Select Date</p>
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/rightarr.svg"
+      />
+    </div>
+
+    <div
+      *ngIf="myDate != 'Select Date'"
+      style="display: flex; align-items: center; justify-content: center"
+      (click)="showDatepicker1()"
+    >
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/leftarr.svg"
+      />
+      <p style="margin: 0px 20px" class="selectedDatePlease">
+        {{dateFormate(myDate)}}
+      </p>
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/rightarr.svg"
+      />
+    </div>
+
+    <div
+      *ngIf="myDate != 'Select Date'"
+      style="
+        display: flex;
+        overflow: scroll;
+        justify-content: center;
+        margin-top: 20px;
+      "
+    >
+      <div class="selectedDate">
+        <p class="dateClas">{{getDay1(myDate)}}</p>
+        <p style="margin-top: 13px; margin-bottom: 0px" class="dateClas1">
+          {{getDay2(myDate)}}
+        </p>
+        <!-- <p class="dateClas">{{getDay3(myDate)}}</p>
+        <p class="dateClas">{{getDay4(myDate)}}</p> -->
+      </div>
+    </div>
+
+    <!-- <div style="display: flex; overflow: scroll">
       <div
         (click)="dateSelected(i)"
         class="unselectedDate"
@@ -69,7 +124,7 @@
         <p class="dateClas">{{getDay3(dd)}}</p>
         <p class="dateClas">{{getDay4(dd)}}</p>
       </div>
-    </div>
+    </div> -->
     <p style="margin: 20px 0px" class="inputTitle">Select Time</p>
     <ion-datetime
       presentation="time"

@@ -127,7 +127,7 @@
       <ion-segment
         style="
           height: 48px;
-          width: 64%;
+          width: 80%;
           background: white;
           padding: 3px 5px;
           border-radius: 200px;
@@ -150,6 +150,20 @@
         >
           <ion-label>Venues</ion-label>
         </ion-segment-button>
+
+        <ion-segment-button
+          style="
+            --indicator-color: #262626;
+            --color: #000000;
+            --color-checked: #ffffff;
+            --border-radius: 20px;
+            --background-checked: #262626;
+          "
+          value="Reservation"
+        >
+          <ion-label>Reservation</ion-label>
+        </ion-segment-button>
+
         <ion-segment-button
           style="
             --indicator-color: linear-gradient(
@@ -181,6 +195,99 @@
     >
       Clear Filter
     </p>
+    <div
+      style="display: flex; flex-wrap: wrap"
+      *ngIf="segmentModel === 'Reservation'"
+    >
+      <div
+        class="inputfieldtransparent"
+        style="
+          width: 93%;
+          height: 52px;
+          margin: 10px 0px 15px 0px;
+          display: flex;
+          padding-left: 20px;
+          position: fixed;
+          z-index: 9999;
+          background: #262626;
+        "
+      >
+        <ion-input
+          (ionInput)="eventHandler($event)"
+          class="input"
+          type="text"
+          placeholder="Search Venues"
+        ></ion-input>
+
+        <img
+          style="margin: 15px 22px 14px 15px"
+          src="/assets/imgs/search.svg"
+        />
+      </div>
+      <div
+        style="
+          width: 100%;
+          margin-top: 77px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        "
+      >
+        <div
+          style="width: 50%; position: relative"
+          [class.heighclassbig]="i % 2 != 0"
+          [class.heighclasssmall]="i % 2 == 0"
+          *ngFor="let opt of filteredvenuarr; let i = index"
+          [style.margin-top.px]="i % 2 == 0? -i*22:0"
+        >
+          <!-- <div
+          style="
+            position: absolute;
+            width: 100%;
+            z-index: 9;
+            top: 5px;
+            right: 1px;
+          ">
+          <img
+            (click)="likevenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes==0"
+            src="assets/imgs/heartww.svg"
+          />
+          <img
+            (click)="likeoutvenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes!=0"
+            src="assets/imgs/heartactive.svg"
+          />
+          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
+            >No Discount
+          </ion-badge>
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+            >{{opt.discount_percentage}}% Off
+          </ion-badge>
+         </div> -->
+          <div
+            class="divboxshadowinside"
+            (click)="goToDetailFilter(opt)"
+            style=" 
+          position: relative;
+         height: 100%;
+          border-radius: 15px;
+          background-size: cover;
+          background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
+          "
+          >
+            <div style="position: absolute; bottom: 5px; left: 15px">
+              <p class="title1 work_sans">{{opt.name}}</p>
+              <p class="title2 work_sans">
+                {{opt.distance | number : '1.2-2'}} Miles
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'venu'">
       <p *ngIf="noevenu == 1" class="notFound work_sans">No Venus Found</p>
       <div
@@ -313,7 +420,7 @@
       <hr />
       <ion-tab-button (click)="tab1Click()">
         <img src="assets/imgs/homeactive.svg" class="img" />
-        <ion-label class="fontactive work_sans">Venue</ion-label>
+        <ion-label class="fontactive work_sans">Home</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab2Click()">

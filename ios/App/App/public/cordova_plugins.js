@@ -26,6 +26,14 @@
         ]
         },
       {
+          "id": "cordova-plugin-datepicker.DatePicker",
+          "file": "plugins/cordova-plugin-datepicker/www/ios/DatePicker.js",
+          "pluginId": "cordova-plugin-datepicker",
+        "clobbers": [
+          "datePicker"
+        ]
+        },
+      {
           "id": "cordova-plugin-nativegeocoder.NativeGeocoder",
           "file": "plugins/cordova-plugin-nativegeocoder/www/NativeGeocoder.js",
           "pluginId": "cordova-plugin-nativegeocoder",
@@ -84,6 +92,7 @@
     module.exports.metadata =
     // TOP OF METADATA
     {
+      "cordova-plugin-datepicker": "0.9.3",
       "cordova-plugin-geolocation": "4.1.0",
       "cordova-plugin-inappbrowser": "5.0.0",
       "cordova-plugin-nativegeocoder": "3.4.1",

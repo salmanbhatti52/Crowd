@@ -185,4 +185,8 @@ export class ProfilePage implements OnInit {
     this.imageupdate = 1;
     // Can be set to the src of an image now
   }
+
+  gotoReservation(){
+    this.router.navigate(['myreservations'])
+  }
 }

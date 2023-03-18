@@ -135,6 +135,14 @@ const routes: Routes = [
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
+  {
+    path: 'myreservations',
+    loadChildren: () => import('./myreservations/myreservations.module').then( m => m.MyreservationsPageModule)
+  },
+  {
+    path: 'seepeopleevent',
+    loadChildren: () => import('./seepeopleevent/seepeopleevent.module').then( m => m.SeepeopleeventPageModule)
+  },
 
 ];
 
