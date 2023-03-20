@@ -123,11 +123,11 @@
       </ion-col>
     </ion-row>
 
-    <div style="margin: 10px 0px; text-align: -webkit-center">
+    <div style="margin: 10px 0px 2px; text-align: -webkit-center">
       <ion-segment
         style="
           height: 48px;
-          width: 80%;
+          width: 90%;
           background: white;
           padding: 3px 5px;
           border-radius: 200px;
@@ -200,29 +200,30 @@
       *ngIf="segmentModel === 'Reservation'"
     >
       <div
-        class="inputfieldtransparent"
         style="
-          width: 93%;
-          height: 52px;
-          margin: 10px 0px 15px 0px;
-          display: flex;
-          padding-left: 20px;
           position: fixed;
           z-index: 9999;
           background: #262626;
+          width: 94%;
+          top: 116px;
+          padding-top: 20px;
+          padding-bottom: 15px;
         "
       >
-        <ion-input
-          (ionInput)="eventHandler($event)"
-          class="input"
-          type="text"
-          placeholder="Search Venues"
-        ></ion-input>
+        <div class="inputfieldtransparent" style="display: flex">
+          <ion-input
+            style="padding-left: 15px !important"
+            (ionInput)="eventHandler($event)"
+            class="input"
+            type="text"
+            placeholder="Search Venues"
+          ></ion-input>
 
-        <img
-          style="margin: 15px 22px 14px 15px"
-          src="/assets/imgs/search.svg"
-        />
+          <img
+            style="margin: 15px 22px 14px 15px"
+            src="/assets/imgs/search.svg"
+          />
+        </div>
       </div>
       <div
         style="
@@ -278,7 +279,7 @@
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
           "
           >
-            <div style="position: absolute; bottom: 5px; left: 15px">
+            <div style="position: absolute; bottom: 0px; left: 15px">
               <p class="title1 work_sans">{{opt.name}}</p>
               <p class="title2 work_sans">
                 {{opt.distance | number : '1.2-2'}} Miles
@@ -336,7 +337,7 @@
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
         >
-          <div style="position: absolute; bottom: 5px; left: 15px">
+          <div style="position: absolute; bottom: 0px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
             <p class="title2 work_sans">
               {{opt.distance | number : '1.2-2'}} Miles
@@ -396,7 +397,7 @@
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
         >
-          <div style="position: absolute; bottom: 5px; left: 15px">
+          <div style="position: absolute; bottom: 0px; left: 15px">
             <p class="title1 work_sans">{{opt.name}}</p>
             <p class="title2 work_sans">
               {{opt.distance | number : '1.2-2'}} Miles

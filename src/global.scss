@@ -118,24 +118,40 @@ ion-input {
 .btnwhite{
   text-transform:none !important;
   height: 53px;
-      --background: #ffffff;
+  --background: #ffffff;
+  --background-activated: #dddddd;
+  --background-focused: #dddddd;
+  --background-hover: #dddddd;
+  --border-radius: 42px;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: #531C7C;
 
-      --background-activated: #dddddd;
-    --background-focused: #dddddd;
-    --background-hover: #dddddd;
+}
 
-
-   
-    --border-radius: 42px;
-    width: 100%;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    letter-spacing: -0.3px;
-    color: #531C7C;
-
+.btnGold{
+  border-radius: 28px;
+  text-transform:none !important;
+  height: 53px;
+  --background: linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);
+  --background-activated: #ebd87a73;
+  --background-focused: #ebd87a73;
+  --background-hover: #ebd87a73;
+  --border-radius: 42px;
+  width: 100%;
+  opacity: 0.8;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: #ffffff;
 }
 
 .btnbgred{
