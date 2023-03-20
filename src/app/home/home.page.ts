@@ -1,3 +1,4 @@
+import { FilterPage } from "./../filter/filter.page";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
@@ -422,5 +423,15 @@ export class HomePage implements OnInit {
     }
 
     console.log("item------", this.filteredvenuarr);
+  }
+
+  async goToFilter() {
+    console.log("model");
+    const modal = await this.modalCtrlr.create({
+      component: FilterPage,
+      cssClass: "riz",
+    });
+
+    await modal.present();
   }
 }

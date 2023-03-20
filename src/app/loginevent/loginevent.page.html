@@ -1,0 +1,81 @@
+<ion-content class="background">
+  <div>
+    <div style="width: 90%; margin: 0px auto">
+      <div style="text-align: center">
+        <img style="margin-top: 100px" src="assets/imgs/logo.svg" />
+      </div>
+
+      <div
+        class="inputfieldtransparent"
+        style="height: 52px; margin-top: 80px; display: flex"
+      >
+        <img style="margin: 17px 17px 17px 15px" src="/assets/imgs/email.svg" />
+        <input
+          [(ngModel)]="email"
+          class="input"
+          type="text"
+          placeholder="Email"
+        />
+      </div>
+
+      <div
+        class="inputfieldtransparent"
+        style="
+          height: 52px;
+          display: flex;
+          margin-top: 20px;
+          flex-direction: row-reverse;
+        "
+      >
+        <img
+          *ngIf="!showPass3"
+          (click)="togglePass3()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eyeoff.svg"
+        />
+
+        <img
+          *ngIf="showPass3"
+          (click)="togglePass3()"
+          style="margin: 17px 17px 17px 15px"
+          src="/assets/imgs/eye.svg"
+        />
+        <input
+          [(ngModel)]="pass"
+          class="input"
+          type="{{showPass3 ? 'text':'password' }}"
+          placeholder="Password"
+        />
+
+        <img
+          style="height: 21px; margin: 12px 19px 17px 15px"
+          src="/assets/imgs/lock.svg"
+        />
+      </div>
+
+      <ion-button
+        (click)="submit()"
+        style="margin-top: 20px"
+        class="btnbg work_sans"
+        >Sign In</ion-button
+      >
+
+      <div class="btm">
+        <p
+          style="
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 127.3%;
+            text-align: center;
+            color: #ffffff;
+          "
+          class="work_sans"
+        >
+          By SIgning you agree to our Terms of Service, Privacy Policy and
+          Cookie Policy.
+        </p>
+      </div>
+    </div>
+  </div>
+</ion-content>

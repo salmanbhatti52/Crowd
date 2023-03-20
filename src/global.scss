@@ -609,4 +609,26 @@ google-map{
 }
 
 
+ion-badge{
+  color: #FFFFFF !important;
+}
+
+button.days-btn:after {
+  background: red !important;
+  opacity: 1;
+}
+button.days-btn:before {
+  background: red !important;
+  opacity: 1;
+}
+
+// button.days-btn.is-last{
+//   background: radial-gradient(red, transparent);
+// }.on-selected{
+//   background: radial-gradient(red, transparent);
+// }
+button.days-btn p{
+  color:rgb(0, 0, 0) !important;
+}
+
 

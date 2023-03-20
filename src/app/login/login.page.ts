@@ -280,4 +280,8 @@ export class LoginPage implements OnInit {
         // console.error(error);
       });
   }
+
+  EventLogin() {
+    this.router.navigate(["loginevent"]);
+  }
 }

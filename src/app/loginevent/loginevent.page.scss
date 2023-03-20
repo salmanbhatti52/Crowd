@@ -1,0 +1,43 @@
+ion-content.background{
+    --background: url(../../assets/imgs/bg.svg) 100%/100%;
+  }
+  
+    .or_cls{
+      margin-left: 15px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      text-align: center;
+      letter-spacing: -0.3px;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-right: 15px;
+      margin-bottom: 0px;
+    }
+  
+    @media (orientation: landscape) {
+      .btm{
+          text-align: center;
+          margin-top: 10px;
+        }
+    }
+  
+  
+    @media (orientation: portrait) {
+      .btm{
+          // text-align: center;
+          // position: fixed;
+          // bottom: 20px;
+          // width: 90%;
+  
+          text-align: center;
+          margin-top: 10px;
+          position: absolute;
+          bottom: 10px;
+          width: 90%;
+        }
+    }
+    
+  
+   

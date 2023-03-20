@@ -143,6 +143,14 @@ const routes: Routes = [
     path: 'seepeopleevent',
     loadChildren: () => import('./seepeopleevent/seepeopleevent.module').then( m => m.SeepeopleeventPageModule)
   },
+  {
+    path: 'loginevent',
+    loadChildren: () => import('./loginevent/loginevent.module').then( m => m.LogineventPageModule)
+  },
+  {
+    path: 'filter',
+    loadChildren: () => import('./filter/filter.module').then( m => m.FilterPageModule)
+  },
 
 ];
 

@@ -1,0 +1,116 @@
+<ion-content style="--background: #00000059">
+  <div
+    style="
+      position: absolute;
+      top: 21%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    "
+  >
+    <div
+      style="
+        background: white;
+        padding: 20px 20px 20px 20px;
+        border-radius: 20px;
+        margin: 20px;
+        width: 100%;
+      "
+    >
+      <div style="display: flex; justify-content: flex-end">
+        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
+      </div>
+      <p style="margin: 0px" class="sure work_sans">Filter</p>
+
+      <div
+        (click)="hideShowusercity()"
+        class="inputfieldtransparent"
+        style="
+          height: 52px;
+          margin-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #bababa;
+        "
+      >
+        <p style="margin: 0px 0px 0px 20px" class="people">{{usercity}}</p>
+
+        <img
+          style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+          src="/assets/imgs/downw.svg"
+        />
+      </div>
+
+      <div class="floatingDiv" *ngIf="usercityShow">
+        <p class="people" (click)="cityClick(a)" *ngFor="let a of cityArr">
+          {{a.usercity}}
+        </p>
+      </div>
+
+      <div
+        (click)="hideShowuserdate()"
+        class="inputfieldtransparent"
+        style="
+          height: 52px;
+          margin-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #bababa;
+        "
+      >
+        <p style="margin: 0px 0px 0px 20px" class="people">{{userdate}}</p>
+
+        <img
+          style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+          src="/assets/imgs/downw.svg"
+        />
+      </div>
+
+      <div style="padding: 0px" class="floatingDiv" *ngIf="userdateShow">
+        <ion-calendar
+          [(ngModel)]="date"
+          [options]="optionsRange"
+          (change)="onChange($event)"
+          [format]="'YYYY-MM-DD'"
+          color="dark"
+        >
+        </ion-calendar>
+      </div>
+
+      <div
+        (click)="hideShowcat()"
+        class="inputfieldtransparent"
+        style="
+          height: 52px;
+          margin-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #bababa;
+        "
+      >
+        <p style="margin: 0px 0px 0px 20px" class="people">{{userCategory}}</p>
+
+        <img
+          style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+          src="/assets/imgs/downw.svg"
+        />
+      </div>
+
+      <div class="floatingDiv" *ngIf="userCatShow">
+        <p class="people" (click)="catClick(a)" *ngFor="let a of catArr">
+          {{a.catname}}
+        </p>
+      </div>
+
+      <ion-button
+        (click)="closeModel()"
+        style="margin-top: 20px; opacity: 1"
+        class="btnbg work_sans"
+        >Apply</ion-button
+      >
+    </div>
+  </div>
+</ion-content>

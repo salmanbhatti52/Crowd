@@ -208,9 +208,15 @@
           top: 116px;
           padding-top: 20px;
           padding-bottom: 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         "
       >
-        <div class="inputfieldtransparent" style="display: flex">
+        <div
+          class="inputfieldtransparent"
+          style="display: flex; height: 40px; width: 90%"
+        >
           <ion-input
             style="padding-left: 15px !important"
             (ionInput)="eventHandler($event)"
@@ -219,11 +225,13 @@
             placeholder="Search Venues"
           ></ion-input>
 
-          <img
-            style="margin: 15px 22px 14px 15px"
-            src="/assets/imgs/search.svg"
-          />
+          <img style="margin: 10px" src="/assets/imgs/search.svg" />
         </div>
+        <img
+          (click)="goToFilter()"
+          style="margin: 15px 22px 14px 15px"
+          src="/assets/imgs/tune.svg"
+        />
       </div>
       <div
         style="

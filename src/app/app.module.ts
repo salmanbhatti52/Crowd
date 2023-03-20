@@ -1,3 +1,4 @@
+import { FilterPageModule } from "./filter/filter.module";
 import { CancelbookPageModule } from "./cancelbook/cancelbook.module";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
@@ -37,6 +38,7 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
     BeseenPageModule,
     NgScrollCalendarModule,
     CancelbookPageModule,
+    FilterPageModule,
   ],
   providers: [
     SignInWithApple,

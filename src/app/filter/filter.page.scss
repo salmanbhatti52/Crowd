@@ -1,0 +1,29 @@
+.sure{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 30px;
+    text-align: center;
+    color: #7825CB;
+}
+
+.people{
+   
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+}
+
+
+.floatingDiv{
+    position: absolute;
+    width: 76%;
+    background: #bababa;
+    z-index: 999;
+    border-radius: 0px 0px 20px 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
