@@ -187,7 +187,7 @@
       </ion-segment>
     </div>
   </div>
-  <div class="margincls">
+  <div class="margincls" [class.topCls]="segmentModel === 'venu'">
     <p
       *ngIf="filtertype != 'no' && segmentModel === 'venu'"
       class="filtertextClear"
@@ -199,20 +199,7 @@
       style="display: flex; flex-wrap: wrap"
       *ngIf="segmentModel === 'Reservation'"
     >
-      <div
-        style="
-          position: fixed;
-          z-index: 9999;
-          background: #262626;
-          width: 94%;
-          top: 116px;
-          padding-top: 20px;
-          padding-bottom: 15px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
+      <div class="searchtop" style="width: 105%">
         <div
           class="inputfieldtransparent"
           style="display: flex; height: 40px; width: 90%"
@@ -227,11 +214,6 @@
 
           <img style="margin: 10px" src="/assets/imgs/search.svg" />
         </div>
-        <img
-          (click)="goToFilter()"
-          style="margin: 15px 22px 14px 15px"
-          src="/assets/imgs/tune.svg"
-        />
       </div>
       <div
         style="
@@ -359,57 +341,89 @@
       *ngIf="segmentModel === 'event'"
     >
       <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
+
+      <div class="searchtop" style="width: 94%">
+        <div
+          class="inputfieldtransparent"
+          style="display: flex; height: 40px; width: 90%"
+        >
+          <ion-input
+            style="padding-left: 15px !important"
+            (ionInput)="eventHandler($event)"
+            class="input"
+            type="text"
+            placeholder="Search Events"
+          ></ion-input>
+
+          <img style="margin: 10px" src="/assets/imgs/search.svg" />
+        </div>
+        <img
+          (click)="goToFilter()"
+          style="margin: 15px 22px 14px 15px"
+          src="/assets/imgs/tune.svg"
+        />
+      </div>
       <div
-        style="position: relative; width: 50%"
-        [class.heighclassbig]="i % 2 != 0"
-        [class.heighclasssmall]="i % 2 == 0"
-        *ngFor="let opt of eventarr; let i = index"
-        [style.margin-top.px]="i % 2 == 0? -i*22:0"
+        style="
+          width: 100%;
+          margin-top: 77px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        "
       >
         <div
-          style="
-            position: absolute;
-            width: 100%;
-            z-index: 9;
-            top: 5px;
-            right: 1px;
-          "
+          style="position: relative; width: 50%"
+          [class.heighclassbig]="i % 2 != 0"
+          [class.heighclasssmall]="i % 2 == 0"
+          *ngFor="let opt of eventarr; let i = index"
+          [style.margin-top.px]="i % 2 == 0? -i*22:0"
         >
-          <img
-            (click)="likeevent(opt)"
-            class="imgcls"
-            *ngIf="opt.likes==0"
-            src="assets/imgs/heartww.svg"
-          />
-          <img
-            (click)="likeoutevent(opt)"
-            class="imgcls"
-            *ngIf="opt.likes!=0"
-            src="assets/imgs/heartactive.svg"
-          />
-          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
-            >No Discount
-          </ion-badge>
-          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
-            >{{opt.discount_percentage}}% Off
-          </ion-badge>
-        </div>
-        <div
-          class="divboxshadowinside"
-          (click)="goToDetailevent(opt)"
-          style=" 
+          <div
+            style="
+              position: absolute;
+              width: 100%;
+              z-index: 9;
+              top: 5px;
+              right: 1px;
+            "
+          >
+            <img
+              (click)="likeevent(opt)"
+              class="imgcls"
+              *ngIf="opt.likes==0"
+              src="assets/imgs/heartww.svg"
+            />
+            <img
+              (click)="likeoutevent(opt)"
+              class="imgcls"
+              *ngIf="opt.likes!=0"
+              src="assets/imgs/heartactive.svg"
+            />
+            <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
+              >No Discount
+            </ion-badge>
+            <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+              >{{opt.discount_percentage}}% Off
+            </ion-badge>
+          </div>
+          <div
+            class="divboxshadowinside"
+            (click)="goToDetailevent(opt)"
+            style=" 
             position: relative;
            height: 100%;
           border-radius: 15px;
           background-size: cover;
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
-        >
-          <div style="position: absolute; bottom: 0px; left: 15px">
-            <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">
-              {{opt.distance | number : '1.2-2'}} Miles
-            </p>
+          >
+            <div style="position: absolute; bottom: 0px; left: 15px">
+              <p class="title1 work_sans">{{opt.name}}</p>
+              <p class="title2 work_sans">
+                {{opt.distance | number : '1.2-2'}} Miles
+              </p>
+            </div>
           </div>
         </div>
       </div>

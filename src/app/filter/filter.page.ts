@@ -111,6 +111,7 @@ export class FilterPage implements OnInit {
   }
 
   catClick(a: any) {
+    this.userCatShow = false;
     this.userCategory = a.catname;
   }
 }

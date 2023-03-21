@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        ><img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans"
+          >{{selectedVenue.name}}</ion-label
+        >
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div style="width: 90%; text-align: center; margin: 5% auto">
+    <div style="display: flex; margin-top: 30px">
+      <img
+        style="
+          width: 104px;
+          height: 104px;
+          border-radius: 16px;
+          margin-right: 10px;
+        "
+        src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+      />
+
+      <div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            margin-bottom: 13px;
+            margin-top: 10px;
+          "
+        >
+          <img class="imm" src="assets/imgs/pinwhite.svg" />
+          <p class="date work_sans">
+            {{selectedVenue.distance | number : '1.2-2'}} Miles
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 13px">
+          <img class="imm" src="assets/imgs/ccc.svg" />
+          <p class="date work_sans">{{selectedVenue.event_date }}</p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 8px">
+          <img class="imm" src="assets/imgs/watch.svg" />
+          <p class="date work_sans">{{selectedVenue.event_time }}</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
+      Amount Detail
+    </p>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0px 0px;
+      "
+    >
+      <p style="margin: 0px" class="dd work_sans">Regular Ticket</p>
+      <p style="margin: 0px" class="dd work_sans">02x£25</p>
+      <p style="margin: 0px" class="dd work_sans">£25</p>
+    </div>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0px 0px;
+      "
+    >
+      <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
+      <p style="margin: 0px" class="dd work_sans">02x£15</p>
+      <p style="margin: 0px" class="dd work_sans">£20</p>
+    </div>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0px 0px;
+      "
+    >
+      <p style="margin: 0px" class="dd work_sans">Table For 6</p>
+      <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
+    </div>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0px 0px;
+      "
+    >
+      <p style="margin: 0px" class="dd work_sans">Crowd Fees</p>
+      <p style="margin: 0px" class="dd work_sans">£5</p>
+    </div>
+
+    <div
+      style="
+        background: #000000;
+        border-radius: 15px;
+        height: 112px;
+        align-items: center;
+        padding: 0px 20px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding-top: 22px;
+      "
+    >
+      <div style="display: flex; justify-content: space-between">
+        <p style="margin: 0px" class="total work_sans">Total Amount</p>
+        <p style="margin: 0px" class="total work_sans">£170</p>
+      </div>
+      <hr style="border-bottom: 0.6px solid #f0f0f0; margin: 10px 0px" />
+      <div style="display: flex; justify-content: space-between">
+        <p style="margin: 0px" class="total work_sans">Pre-Pay</p>
+        <p style="margin: 0px" class="total work_sans">£100</p>
+      </div>
+    </div>
+
+    <ion-button
+      (click)="goToNext()"
+      style="margin-top: 10px; opacity: 1"
+      class="btnbg work_sans"
+      >Next</ion-button
+    >
+  </div>
+</ion-content>

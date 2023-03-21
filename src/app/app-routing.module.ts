@@ -151,6 +151,18 @@ const routes: Routes = [
     path: 'filter',
     loadChildren: () => import('./filter/filter.module').then( m => m.FilterPageModule)
   },
+  {
+    path: 'booking1event',
+    loadChildren: () => import('./booking1event/booking1event.module').then( m => m.Booking1eventPageModule)
+  },
+  {
+    path: 'booking2event',
+    loadChildren: () => import('./booking2event/booking2event.module').then( m => m.Booking2eventPageModule)
+  },
+  {
+    path: 'booking3event',
+    loadChildren: () => import('./booking3event/booking3event.module').then( m => m.Booking3eventPageModule)
+  },
 
 ];
 

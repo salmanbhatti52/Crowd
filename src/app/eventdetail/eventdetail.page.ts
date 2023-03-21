@@ -31,7 +31,7 @@ export class EventdetailPage implements OnInit {
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.updatevVisitor()
+    this.updatevVisitor();
   }
 
   ngOnInit() {
@@ -139,5 +139,10 @@ export class EventdetailPage implements OnInit {
     this.rest.update_visitors_events(ss).subscribe((res: any) => {
       console.log("res updatevVisitor-----", res);
     });
+  }
+
+  buyTicket() {
+    console.log("buy");
+    this.router.navigate(['booking1event'])
   }
 }

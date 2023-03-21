@@ -242,12 +242,12 @@
 }
 
 .ios .margincls{
-  margin: 170px auto 110px auto;
+  margin: 150px auto 110px auto;
   width: 95%;
 }
 
 .md .margincls{
-  margin: 128px auto 80px auto;
+  margin: 110px auto 80px auto;
   width: 95%;
 }
 
@@ -261,3 +261,38 @@
   text-transform: capitalize;
   color: #ffffff;
 }
+
+
+.md .searchtop{
+  position: fixed;
+  z-index: 9999;
+  background: #262626;
+  width: 105%;
+  top: 116px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ios .searchtop{
+  position: fixed;
+  z-index: 9999;
+  background: #262626;
+  width: 105%;
+  top: 145px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.md .topCls{
+  margin-top: 130px !important;
+} 
+
+.ios .topCls{
+  margin-top: 160px !important;
+} 
