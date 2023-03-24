@@ -163,6 +163,22 @@ const routes: Routes = [
     path: 'booking3event',
     loadChildren: () => import('./booking3event/booking3event.module').then( m => m.Booking3eventPageModule)
   },
+  {
+    path: 'paymentmethod',
+    loadChildren: () => import('./paymentmethod/paymentmethod.module').then( m => m.PaymentmethodPageModule)
+  },
+  {
+    path: 'addcard',
+    loadChildren: () => import('./addcard/addcard.module').then( m => m.AddcardPageModule)
+  },
+  {
+    path: 'paymentsuccess',
+    loadChildren: () => import('./paymentsuccess/paymentsuccess.module').then( m => m.PaymentsuccessPageModule)
+  },
+  {
+    path: 'showticket',
+    loadChildren: () => import('./showticket/showticket.module').then( m => m.ShowticketPageModule)
+  },
 
 ];
 

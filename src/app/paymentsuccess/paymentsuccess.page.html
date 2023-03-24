@@ -1,0 +1,37 @@
+<ion-content style="--background: #00000059">
+  <div
+    style="
+      position: absolute;
+      top: 31%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    "
+  >
+    <div
+      style="
+        background: white;
+        padding: 20px 20px 20px 20px;
+        border-radius: 20px;
+        margin: 20px;
+      "
+    >
+      <div style="display: flex; justify-content: flex-end">
+        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
+      </div>
+      <p style="margin: 10px 0px 5px 0px" class="hh work_sans">
+        Payment Successful
+      </p>
+
+      <p style="margin: 10px 0px 5px 0px" class="sure work_sans">
+        You have completed your payment successfully.
+      </p>
+      <ion-button
+        (click)="closeModel()"
+        style="margin-top: 20px; opacity: 1"
+        class="btnbg work_sans"
+        >Show Ticket</ion-button
+      >
+    </div>
+  </div>
+</ion-content>

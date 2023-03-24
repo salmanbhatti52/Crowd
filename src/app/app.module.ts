@@ -1,3 +1,4 @@
+import { PaymentmethodPageModule } from "./paymentmethod/paymentmethod.module";
 import { FilterPageModule } from "./filter/filter.module";
 import { CancelbookPageModule } from "./cancelbook/cancelbook.module";
 import { NgModule } from "@angular/core";
@@ -39,6 +40,7 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
     NgScrollCalendarModule,
     CancelbookPageModule,
     FilterPageModule,
+    PaymentmethodPageModule,
   ],
   providers: [
     SignInWithApple,

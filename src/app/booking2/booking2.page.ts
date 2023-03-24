@@ -6,6 +6,8 @@ import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 
+import * as moment from "moment";
+
 @Component({
   selector: "app-booking2",
   templateUrl: "./booking2.page.html",
@@ -15,6 +17,11 @@ export class Booking2Page implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
+  selectedBooking: any = "";
+
+  mdate: any = "";
+  mtime: any = "";
+
   constructor(
     public location: Location,
     public router: Router,
@@ -25,6 +32,13 @@ export class Booking2Page implements OnInit {
 
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
+    this.selectedBooking = this.rest.selectedBooking;
+    console.log(this.selectedBooking);
+
+    this.mdate = moment(this.selectedBooking.bookings_date).format(
+      "MMM DD YYYY"
+    );
+    this.mtime = moment(this.selectedBooking.bookings_time).format("hh:mm");
   }
 
   ngOnInit() {}

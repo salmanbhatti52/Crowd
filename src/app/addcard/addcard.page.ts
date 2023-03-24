@@ -5,12 +5,13 @@ import { Router } from "@angular/router";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+
 @Component({
-  selector: "app-booking3event",
-  templateUrl: "./booking3event.page.html",
-  styleUrls: ["./booking3event.page.scss"],
+  selector: "app-addcard",
+  templateUrl: "./addcard.page.html",
+  styleUrls: ["./addcard.page.scss"],
 })
-export class Booking3eventPage implements OnInit {
+export class AddcardPage implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
@@ -49,31 +50,6 @@ export class Booking3eventPage implements OnInit {
     });
 
     await modal.present();
-  }
-
-  goToChat() {
-    this.router.navigate(["chat"]);
-  }
-
-  openBrowserLink() {
-    console.log("opennnnn");
-
-    this.iab.create(this.selectedVenue.website, "_blank");
-  }
-
-  public goLocation() {
-    // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-    var geocoords =
-      this.selectedVenue.lattitude + "," + this.selectedVenue.longitude;
-
-    if (this.platform.is("ios")) {
-      window.open("maps://?q=" + geocoords, "_system");
-    } else {
-      var label = encodeURI(this.selectedVenue.location); // encode the label!
-      window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
-
-      // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
-    }
   }
 
   buyTicket() {

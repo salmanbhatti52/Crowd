@@ -28,7 +28,10 @@ export class Booking1Page implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  myDate: any = "Select Date";
+  // myDate: any = "Select Date";
+  myDate: any = "2023-04-02";
+
+  usertime: any = "";
 
   peopleArr = [
     {
@@ -74,6 +77,7 @@ export class Booking1Page implements OnInit {
   ];
 
   selectedVenue: any = "";
+  userID: any = "";
 
   constructor(
     public location: Location,
@@ -89,6 +93,8 @@ export class Booking1Page implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.userdata = localStorage.getItem("userdata");
+    this.userID = JSON.parse(this.userdata).users_customers_id;
     this.selectedVenue = this.rest.detail;
     this.datesArr = this.getDate();
   }
@@ -142,7 +148,33 @@ export class Booking1Page implements OnInit {
   }
 
   bookTable() {
-    this.router.navigate(["booking2"]);
+    if (this.myDate == "Select Date") {
+      this.rest.presentToast("Please select date");
+    } else if (this.usertime == "") {
+      this.rest.presentToast("Please select time");
+    } else {
+      var tt = moment(this.usertime).format("h:mm");
+      var ss = JSON.stringify({
+        venues_id: this.selectedVenue.venues_id,
+        users_customers_id: this.userID,
+        no_of_diners: this.people,
+        bookings_date: this.myDate,
+        bookings_time: tt,
+      });
+
+      console.log(ss);
+
+      this.rest.bookings_add(ss).subscribe((res: any) => {
+        console.log(res);
+
+        if (res.status == "success") {
+          this.rest.selectedBooking = res.data;
+          this.router.navigate(["booking2"]);
+        } else {
+          this.rest.presentToast("Error");
+        }
+      });
+    }
   }
 
   peopleClick(a: any) {

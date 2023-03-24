@@ -1,3 +1,4 @@
+import { PaymentsuccessPage } from "./../paymentsuccess/paymentsuccess.page";
 import { ModalController, Platform } from "@ionic/angular";
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
@@ -5,12 +6,13 @@ import { Router } from "@angular/router";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+
 @Component({
-  selector: "app-booking3event",
-  templateUrl: "./booking3event.page.html",
-  styleUrls: ["./booking3event.page.scss"],
+  selector: "app-paymentmethod",
+  templateUrl: "./paymentmethod.page.html",
+  styleUrls: ["./paymentmethod.page.scss"],
 })
-export class Booking3eventPage implements OnInit {
+export class PaymentmethodPage implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
@@ -41,39 +43,14 @@ export class Booking3eventPage implements OnInit {
     source.src = imgSrc;
   }
 
-  async cancelBooking() {
+  async paynow() {
     console.log("model");
     const modal = await this.modalCtrl.create({
-      component: CancelbookPage,
+      component: PaymentsuccessPage,
       cssClass: "riz",
     });
 
     await modal.present();
-  }
-
-  goToChat() {
-    this.router.navigate(["chat"]);
-  }
-
-  openBrowserLink() {
-    console.log("opennnnn");
-
-    this.iab.create(this.selectedVenue.website, "_blank");
-  }
-
-  public goLocation() {
-    // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-    var geocoords =
-      this.selectedVenue.lattitude + "," + this.selectedVenue.longitude;
-
-    if (this.platform.is("ios")) {
-      window.open("maps://?q=" + geocoords, "_system");
-    } else {
-      var label = encodeURI(this.selectedVenue.location); // encode the label!
-      window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
-
-      // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
-    }
   }
 
   buyTicket() {
@@ -82,5 +59,8 @@ export class Booking3eventPage implements OnInit {
 
   goToNext() {
     this.router.navigate(["paymentmethod"]);
+  }
+  addcard() {
+    this.router.navigate(["addcard"]);
   }
 }
