@@ -1,0 +1,139 @@
+
+
+
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+    
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .uname{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    margin: 0px;
+  }
+  
+  .uimg{
+    width: 43px;
+    height: 39.98px;
+    border-radius: 10px;
+    margin-right: 15px;
+  }
+  
+  .mainDiv{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+  
+  
+  .makeBook{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 23px;
+    text-transform: capitalize;
+    color: #FFFFFF;
+    margin-bottom: 2rem;
+  
+  }
+  
+  
+  .inputTitle{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+    margin: 0px;
+    text-align: left;
+  }
+  
+  .people{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+    margin: 0px 0px 0px 24px;
+  }
+  
+  .pp{
+    margin: 20px 0px;
+    color: #FFFFFF;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+  }
+  
+  
+  ion-datetime {
+    color: #000000  !important;
+    --background: none;
+  }
+  
+  .unselectedDate{
+    padding: 10px 31px;
+    background: #F7F8F8;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: #7B6F72;
+  }
+  
+  .selectedDate{
+    background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%) !important;
+    border-radius: 10px;
+    margin-right: 10px;
+    height: 100px;
+    color: #FFFFFF !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80px;
+  }
+  
+  .dateClas{
+    margin: 0px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    color: #FFFFFF;
+  }
+  .dateClas1{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+  }
+  
+  .selectedDatePlease{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #ADA4A5;
+  }
+  

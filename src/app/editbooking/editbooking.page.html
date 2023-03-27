@@ -1,0 +1,162 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        ><img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans"
+          >{{selectedVenue.name}}</ion-label
+        >
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div style="width: 90%; text-align: center; margin: 5% auto">
+    <p class="makeBook">Make a booking</p>
+    <p class="inputTitle">No. of diners</p>
+
+    <div
+      (click)="hideShowPeople()"
+      class="inputfieldtransparent"
+      style="
+        height: 52px;
+        margin-top: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <p class="people">{{people}} people</p>
+
+      <img
+        style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+        src="/assets/imgs/downw.svg"
+      />
+    </div>
+
+    <div
+      style="
+        position: absolute;
+        width: 87%;
+        background: #3a3a3a;
+        z-index: 999;
+        border-radius: 0px 0px 20px 20px;
+      "
+      *ngIf="peopleShow"
+    >
+      <p class="pp" (click)="peopleClick(a)" *ngFor="let a of peopleArr">
+        {{a.people}} {{a.name}}
+      </p>
+    </div>
+
+    <p style="margin: 20px 0px" class="inputTitle">Select Date</p>
+
+    <div
+      *ngIf="myDate == 'Select Date'"
+      style="display: flex; align-items: center; justify-content: center"
+      (click)="showDatepicker1()"
+    >
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/leftarr.svg"
+      />
+      <p style="margin: 0px 20px" class="selectedDatePlease">Select Date</p>
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/rightarr.svg"
+      />
+    </div>
+
+    <div
+      *ngIf="myDate != 'Select Date'"
+      style="display: flex; align-items: center; justify-content: center"
+      (click)="showDatepicker1()"
+    >
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/leftarr.svg"
+      />
+      <p style="margin: 0px 20px" class="selectedDatePlease">
+        {{dateFormate(myDate)}}
+      </p>
+      <img
+        style="width: 9.81px; height: 15.81px"
+        src="/assets/imgs/rightarr.svg"
+      />
+    </div>
+
+    <div
+      *ngIf="myDate != 'Select Date'"
+      style="
+        display: flex;
+        overflow: scroll;
+        justify-content: center;
+        margin-top: 20px;
+      "
+    >
+      <div class="selectedDate">
+        <p class="dateClas">{{getDay1(myDate)}}</p>
+        <p style="margin-top: 13px; margin-bottom: 0px" class="dateClas1">
+          {{getDay2(myDate)}}
+        </p>
+        <!-- <p class="dateClas">{{getDay3(myDate)}}</p>
+        <p class="dateClas">{{getDay4(myDate)}}</p> -->
+      </div>
+    </div>
+
+    <!-- <div style="display: flex; overflow: scroll">
+      <div
+        (click)="dateSelected(i)"
+        class="unselectedDate"
+        [class.selectedDate]="selectedIndexDate == i"
+        *ngFor="let dd of datesArr; let i = index;"
+      >
+        <p class="dateClas">{{getDay1(dd)}}</p>
+        <p class="dateClas">{{getDay2(dd)}}</p>
+        <p class="dateClas">{{getDay3(dd)}}</p>
+        <p class="dateClas">{{getDay4(dd)}}</p>
+      </div>
+    </div> -->
+    <p style="margin: 20px 0px" class="inputTitle">Select Time</p>
+    <ion-datetime
+      presentation="time"
+      [preferWheel]="true"
+      locale="en-US"
+      [(ngModel)]="usertime"
+    ></ion-datetime>
+
+    <div style="margin-top: 10px">
+      <ion-button
+        (click)="bookTable()"
+        style="margin-top: 20px"
+        class="btnwhite work_sans"
+        >Modify</ion-button
+      >
+    </div>
+    <!-- <ionic-horizontal-calendar
+      locale="de"
+      [minDate]="minDate"
+      class="calendar"
+      [firstDayAutoSelected]="true"
+      displayMode="daily"
+    >
+      <ion-label header #header> Calendar Demo </ion-label>
+    </ionic-horizontal-calendar> -->
+
+    <!-- <ng-scroll-calendar
+      [config]="config"
+      (onSelect)="onDateChange($event)"
+    ></ng-scroll-calendar> -->
+
+    <!-- <p class="inputTitle">Select Time</p>
+    <ion-datetime presentation="time" locale="en-US"></ion-datetime> -->
+  </div>
+</ion-content>

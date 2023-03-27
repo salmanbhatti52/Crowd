@@ -8,11 +8,11 @@ import * as moment from "moment";
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 
 @Component({
-  selector: "app-booking1",
-  templateUrl: "./booking1.page.html",
-  styleUrls: ["./booking1.page.scss"],
+  selector: "app-editbooking",
+  templateUrl: "./editbooking.page.html",
+  styleUrls: ["./editbooking.page.scss"],
 })
-export class Booking1Page implements OnInit {
+export class EditbookingPage implements OnInit {
   config = {
     show: false,
     weekOffset: -2,
@@ -28,10 +28,11 @@ export class Booking1Page implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  // myDate: any = "Select Date";
-  myDate: any = "2022-04-02";
+  myDate: any = "Select Date";
 
   usertime: any = "";
+
+  selectedBooking: any = "";
 
   peopleArr = [
     {
@@ -78,6 +79,7 @@ export class Booking1Page implements OnInit {
 
   selectedVenue: any = "";
   userID: any = "";
+  mtime: string = "";
 
   constructor(
     public location: Location,
@@ -93,10 +95,20 @@ export class Booking1Page implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.datesArr = this.getDate();
+    this.selectedVenue = this.rest.detail;
+    this.selectedBooking = this.rest.selectedBooking;
+    console.log(this.selectedBooking);
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.selectedVenue = this.rest.detail;
-    this.datesArr = this.getDate();
+
+    this.myDate = this.selectedBooking.bookings_date;
+    this.mtime = moment(this.selectedBooking.bookings_time).format("hh:mm");
+    this.usertime = this.selectedBooking.bookings_time;
+
+    this.people = this.selectedBooking.no_of_diners;
+
+    console.log("this.usertime------", this.usertime);
   }
 
   getDate() {
@@ -153,18 +165,19 @@ export class Booking1Page implements OnInit {
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     } else {
-      var tt = moment(this.usertime).format("h:mm");
+      console.log("this.usertime------tttttttttttttt", this.usertime);
+
+      // var tt = moment(this.usertime).format("h:mm");
       var ss = JSON.stringify({
-        venues_id: this.selectedVenue.venues_id,
-        users_customers_id: this.userID,
+        venues_bookings_id: this.selectedBooking.venues_bookings_id,
         no_of_diners: this.people,
         bookings_date: this.myDate,
-        bookings_time: tt,
+        bookings_time: this.usertime,
       });
 
       console.log(ss);
 
-      this.rest.bookings_add(ss).subscribe((res: any) => {
+      this.rest.bookings_edit(ss).subscribe((res: any) => {
         console.log(res);
 
         if (res.status == "success") {

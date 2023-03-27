@@ -118,6 +118,56 @@ export class RestService {
     });
   }
 
+  user_chat(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "user_chat", data, {
+      headers: header,
+    });
+  }
+
+  bookings_edit(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "bookings_edit", data, {
+      headers: header,
+    });
+  }
+
+  bookings_cancel(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "bookings_cancel", data, {
+      headers: header,
+    });
+  }
+
+  bookings_upcoming(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "bookings_upcoming", data, {
+      headers: header,
+    });
+  }
+
+  bookings_previous(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "bookings_previous", data, {
+      headers: header,
+    });
+  }
+
   events_saved(data: any) {
     let header;
     header = new HttpHeaders({

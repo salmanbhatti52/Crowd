@@ -1,3 +1,4 @@
+import { CancelReservationPageModule } from "./cancel-reservation/cancel-reservation.module";
 import { PaymentmethodPageModule } from "./paymentmethod/paymentmethod.module";
 import { FilterPageModule } from "./filter/filter.module";
 import { CancelbookPageModule } from "./cancelbook/cancelbook.module";
@@ -41,6 +42,7 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
     CancelbookPageModule,
     FilterPageModule,
     PaymentmethodPageModule,
+    CancelReservationPageModule,
   ],
   providers: [
     SignInWithApple,

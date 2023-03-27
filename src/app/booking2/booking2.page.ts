@@ -21,6 +21,7 @@ export class Booking2Page implements OnInit {
 
   mdate: any = "";
   mtime: any = "";
+  userID: any = "";
 
   constructor(
     public location: Location,
@@ -34,6 +35,8 @@ export class Booking2Page implements OnInit {
     this.selectedVenue = this.rest.detail;
     this.selectedBooking = this.rest.selectedBooking;
     console.log(this.selectedBooking);
+    this.userdata = localStorage.getItem("userdata");
+    this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.mdate = moment(this.selectedBooking.bookings_date).format(
       "MMM DD YYYY"
@@ -66,12 +69,26 @@ export class Booking2Page implements OnInit {
   }
 
   goToChat() {
-    this.router.navigate(["chat"]);
+    var ss = JSON.stringify({
+      requestType: "startChat",
+      users_customers_id: this.userID,
+      other_users_customers_id: this.selectedVenue.users_business_id,
+      venues_id: this.selectedVenue.users_business_id,
+    });
+
+    this.rest.user_chat(ss).subscribe((res: any) => {
+      console.log(res);
+      if (res.status == "success") this.router.navigate(["chat"]);
+    });
   }
 
   openBrowserLink() {
     console.log("opennnnn");
 
     this.iab.create(this.selectedVenue.website, "_blank");
+  }
+
+  editbooking() {
+    this.router.navigate(["editbooking"]);
   }
 }

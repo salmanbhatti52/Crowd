@@ -179,6 +179,14 @@ const routes: Routes = [
     path: 'showticket',
     loadChildren: () => import('./showticket/showticket.module').then( m => m.ShowticketPageModule)
   },
+  {
+    path: 'cancel-reservation',
+    loadChildren: () => import('./cancel-reservation/cancel-reservation.module').then( m => m.CancelReservationPageModule)
+  },
+  {
+    path: 'editbooking',
+    loadChildren: () => import('./editbooking/editbooking.module').then( m => m.EditbookingPageModule)
+  },
 
 ];
 

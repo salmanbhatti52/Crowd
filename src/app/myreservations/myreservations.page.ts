@@ -1,9 +1,11 @@
+import { RestService } from "./../rest.service";
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
-import { RestService } from "../rest.service";
+
+import * as moment from "moment";
 
 @Component({
   selector: "app-myreservations",
@@ -12,7 +14,42 @@ import { RestService } from "../rest.service";
 })
 export class MyreservationsPage implements OnInit {
   segmentModel = "Upcoming";
-  constructor(public location: Location, public modalCtrl: ModalController) {}
+
+  upcomingArr: any = "";
+  previousArr: any = "";
+
+  userdata: any = "";
+  userID: any = "";
+
+  constructor(
+    public location: Location,
+    public modalCtrl: ModalController,
+    public rest: RestService
+  ) {}
+
+  ionViewWillEnter() {
+    this.userdata = localStorage.getItem("userdata");
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+    });
+
+    this.rest.bookings_upcoming(ss).subscribe((res: any) => {
+      console.log("bookings_upcoming------", res);
+      if (res.status == "success") {
+        this.upcomingArr = res.data;
+      }
+    });
+
+    this.rest.bookings_previous(ss).subscribe((res: any) => {
+      console.log("bookings_previous------", res);
+
+      if (res.status == "success") {
+        this.previousArr = res.data;
+      }
+    });
+  }
 
   ngOnInit() {}
   goBack() {
@@ -29,5 +66,9 @@ export class MyreservationsPage implements OnInit {
     });
 
     await modal.present();
+  }
+
+  getDate(aa: any) {
+    return moment(aa).format("MMM DD YYYY");
   }
 }

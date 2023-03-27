@@ -73,7 +73,7 @@
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
-    <div class="elementBg">
+    <div class="elementBg" *ngFor="let aa of upcomingArr">
       <img
         style="
           width: 104px;
@@ -81,7 +81,7 @@
           border-radius: 16px;
           margin-right: 10px;
         "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
+        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
       />
 
       <div>
@@ -92,250 +92,14 @@
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
+          <p class="date work_sans">{{aa.no_of_diners}} people</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: -8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p class="canc work_sans">Modify</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
+          <p class="date work_sans">
+            {{getDate(aa.bookings_date) }} at {{aa.bookings_time}}
+          </p>
         </div>
 
         <div style="display: flex; margin-top: 20px">
@@ -357,7 +121,7 @@
     "
     *ngIf="segmentModel === 'Previous'"
   >
-    <div class="elementBg">
+    <div class="elementBg" *ngFor="let aa of previousArr">
       <img
         style="
           width: 104px;
@@ -365,7 +129,7 @@
           border-radius: 16px;
           margin-right: 10px;
         "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
+        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
       />
 
       <div>
@@ -376,272 +140,32 @@
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
+          <p class="date work_sans">{{aa.no_of_diners}} people</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: -8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
+          <p class="date work_sans">
+            {{getDate(aa.bookings_date) }} at {{aa.bookings_time}}
+          </p>
         </div>
 
         <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
-        </div>
-      </div>
-    </div>
-    <div class="elementBg">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
-      />
-
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">2 people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">Tue, 14 Mar at 18:30</p>
-        </div>
-
-        <div style="display: flex; margin-top: 20px">
-          <p class="completed work_sans">Completed</p>
+          <p *ngIf="aa.status == 'Pending'" class="canc work_sans">
+            {{aa.status}}
+          </p>
+          <p *ngIf="aa.status == 'Completed'" class="completed work_sans">
+            {{aa.status}}
+          </p>
+          <p *ngIf="aa.status == 'Cancelled'" class="canc work_sans">
+            {{aa.status}}
+          </p>
+          <p *ngIf="aa.status == 'Accepted'" class="canc work_sans">
+            {{aa.status}}
+          </p>
+          <p *ngIf="aa.status == 'Rejected'" class="canc work_sans">
+            {{aa.status}}
+          </p>
         </div>
       </div>
     </div>

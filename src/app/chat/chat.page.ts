@@ -25,7 +25,7 @@ export class ChatPage implements OnInit {
   checkType = "chatList";
   authToken: any;
   senderUserName: any;
-  senderUserID: any;
+
   showSkeleton = true;
   noChatlistFlag = false;
   allMessages: any = [];
@@ -42,6 +42,9 @@ export class ChatPage implements OnInit {
   user: any = "";
   selectedVenue: any = "";
 
+  userdata: any = "";
+  userID: any = "";
+
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -52,8 +55,8 @@ export class ChatPage implements OnInit {
     private location: Location,
     public platform: Platform
   ) {
-    this.currentUser = localStorage.getItem("loggedinUserID");
-    // this.currentUser = 15
+    this.userdata = localStorage.getItem("userdata");
+    this.currentUser = JSON.parse(this.userdata).users_customers_id;
 
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log("Handler was called!");
@@ -82,19 +85,13 @@ export class ChatPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.userdata = localStorage.getItem("userdata");
+    this.userID = JSON.parse(this.userdata).users_customers_id;
+
     this.selectedVenue = this.restService.detail;
-    this.uu = localStorage.getItem("loggedinUserData");
-    this.user = JSON.parse(this.uu);
-
-    console.log("user daata -------", this.user);
-
-    this.senderUserName = this.user.full_name;
-    this.senderUserID = parseInt(this.user.users_customers_id);
-
-    console.log("user daata -------", this.userIMG);
 
     // Get all  messages....
-    this.getMessages(this.senderUserID);
+    this.getMessages(this.userID);
     this.autoSaveInterval = setInterval(() => {
       this.updateMessages();
     }, 3000);
@@ -110,18 +107,13 @@ export class ChatPage implements OnInit {
   changeFunction(ev: any) {}
   updateMessages() {
     // geting all chats Messages
-
     var data = JSON.stringify({
-      // request_type: "getMessages",
-      request_type: "getUnreadMessages",
-      users_customers_id: localStorage.getItem("loggedinUserID"),
-      // users_customers_id: 15,
-      reciever_users_customers_id: "admin",
+      requestType: "updateMessages",
+      users_customers_id: this.userID,
+      other_users_customers_id: this.selectedVenue.users_business_id,
     });
-
     console.log("datttttttaaaaaaaaaaaa-----", data);
-
-    this.restService.login(data).subscribe(
+    this.restService.user_chat(data).subscribe(
       async (res: any) => {
         this.showSkeleton = false;
         if (res.status == "success") {
@@ -158,21 +150,20 @@ export class ChatPage implements OnInit {
     // geting all chats Messages
 
     var data = JSON.stringify({
-      request_type: "getMessages",
-      users_customers_id: localStorage.getItem("loggedinUserID"),
-      // users_customers_id: 15,
-      reciever_users_customers_id: "admin",
+      requestType: "getMessages",
+      users_customers_id: this.userID,
+      other_users_customers_id: this.selectedVenue.users_business_id,
     });
 
     console.log("getAll Msg data-------", data);
 
-    this.restService.login(data).subscribe(
+    this.restService.user_chat(data).subscribe(
       async (res: any) => {
         this.showSkeleton = false;
         console.log("response", res);
 
         if (res.status == "success") {
-          this.allMessages = res.data.chat_messages;
+          this.allMessages = res.data;
 
           console.log("receving All chats messages", this.allMessages);
           // this.allMessages.map((messages, index) => {
@@ -219,10 +210,12 @@ export class ChatPage implements OnInit {
         msgType: "text",
       });
 
+      console.log("aaaaa-------", this.allMessages);
+
       let msgToSend = this.user_input;
       this.user_input = "";
       this.scrollDown();
-      this.sendMessage(parseInt(this.senderUserID), msgToSend, "text");
+      this.sendMessage(parseInt(this.userID), msgToSend, "text");
     }
   }
   scrollDown() {
@@ -236,19 +229,20 @@ export class ChatPage implements OnInit {
     // localStorage.setItem('remainingSMS', this.remainingSMS.toString())
 
     var data = JSON.stringify({
-      request_type: "sendMessage",
-      sender_users_customers_id: localStorage.getItem("loggedinUserID"),
-      // sender_users_customers_id: 15,
-      reciever_users_customers_id: "admin",
-      msgType: type,
-      chatMsg: msg,
+      requestType: "sendMessage",
+      venues_id: this.selectedVenue.venues_id,
+      sender_type: "Users",
+      messageType: "1",
+      users_customers_id: this.userID,
+      other_users_customers_id: this.selectedVenue.users_business_id,
+      content: msg,
     });
 
     console.log("my msg", data);
 
-    this.restService.login(data).subscribe(
+    this.restService.user_chat(data).subscribe(
       async (res: any) => {
-        console.log("response", res);
+        console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
         this.scrollDown();
       },
       (err) => {
