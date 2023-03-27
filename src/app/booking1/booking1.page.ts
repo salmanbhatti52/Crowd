@@ -28,8 +28,8 @@ export class Booking1Page implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  // myDate: any = "Select Date";
-  myDate: any = "2022-04-02";
+  myDate: any = "Select Date";
+  // myDate: any = "2022-04-02";
 
   usertime: any = "";
 

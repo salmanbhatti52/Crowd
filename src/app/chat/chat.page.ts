@@ -208,6 +208,8 @@ export class ChatPage implements OnInit {
         time: this.currentTime,
         message: this.user_input,
         msgType: "text",
+        date: "Now",
+        users_data: JSON.parse(this.userdata),
       });
 
       console.log("aaaaa-------", this.allMessages);

@@ -24,10 +24,12 @@ export class MyreservationsPage implements OnInit {
   constructor(
     public location: Location,
     public modalCtrl: ModalController,
-    public rest: RestService
+    public rest: RestService,
+    public router: Router
   ) {}
 
   ionViewWillEnter() {
+    this.rest.presentLoader();
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
@@ -37,6 +39,7 @@ export class MyreservationsPage implements OnInit {
 
     this.rest.bookings_upcoming(ss).subscribe((res: any) => {
       console.log("bookings_upcoming------", res);
+      this.rest.dismissLoader();
       if (res.status == "success") {
         this.upcomingArr = res.data;
       }
@@ -44,7 +47,7 @@ export class MyreservationsPage implements OnInit {
 
     this.rest.bookings_previous(ss).subscribe((res: any) => {
       console.log("bookings_previous------", res);
-
+      this.rest.dismissLoader();
       if (res.status == "success") {
         this.previousArr = res.data;
       }
@@ -58,11 +61,19 @@ export class MyreservationsPage implements OnInit {
 
   handleRefresh(ev: any) {}
 
-  async cancelBooking() {
+  async cancelBooking(aa: any) {
+    this.rest.selectedBooking = aa;
     console.log("model");
+    this.rest.comingFrom = "myreservation";
     const modal = await this.modalCtrl.create({
       component: CancelbookPage,
       cssClass: "riz",
+    });
+    modal.onDidDismiss().then((data) => {
+      console.log("aaaaaaaaaaaaaa");
+      this.ionViewWillEnter();
+
+      const user = data["data"]; // Here's your selected user!
     });
 
     await modal.present();
@@ -70,5 +81,10 @@ export class MyreservationsPage implements OnInit {
 
   getDate(aa: any) {
     return moment(aa).format("MMM DD YYYY");
+  }
+
+  editbooking(aa: any) {
+    this.rest.selectedBooking = aa;
+    this.router.navigate(["editbooking"]);
   }
 }

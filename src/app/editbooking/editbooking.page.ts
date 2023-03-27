@@ -182,7 +182,7 @@ export class EditbookingPage implements OnInit {
 
         if (res.status == "success") {
           this.rest.selectedBooking = res.data;
-          this.router.navigate(["booking2"]);
+          this.location.back();
         } else {
           this.rest.presentToast("Error");
         }
