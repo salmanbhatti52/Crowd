@@ -13,7 +13,7 @@
     android:theme="@style/AppTheme"
   >
 
-        <meta-data
+         <meta-data
       android:name="com.facebook.sdk.ApplicationId"
       android:value="@string/facebook_app_id"
     />
@@ -49,19 +49,9 @@
         android:resource="@xml/file_paths"
       />
         </provider>
-
-         <meta-data
-      android:name="com.google.android.geo.API_KEY"
-      android:value="AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c"
-    />
     </application>
 
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.location.gps" />
 </manifest>
