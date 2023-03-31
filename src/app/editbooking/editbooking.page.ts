@@ -182,6 +182,7 @@ export class EditbookingPage implements OnInit {
 
         if (res.status == "success") {
           this.rest.selectedBooking = res.data;
+          this.rest.selectedBooking.coming_from = 'other';
           this.location.back();
         } else {
           this.rest.presentToast("Error");

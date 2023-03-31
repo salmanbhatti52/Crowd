@@ -49,10 +49,17 @@
           </p>
         </div>
 
-        <div style="display: flex; margin-top: 20px">
+        <div style="display: flex; margin-top: 20px" *ngIf="selectedBooking.status != 'Cancelled'">
           <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
           <p class="canc work_sans" style="margin: 0px 10px">|</p>
           <p (click)="editbooking()" class="canc work_sans">Modify</p>
+        </div>
+
+        <div
+          *ngIf="selectedBooking.status == 'Cancelled'"
+          style="display: flex; margin-top: 20px"
+        >
+          <p class="canc work_sans">Cancelled</p>
         </div>
       </div>
     </div>
@@ -110,5 +117,16 @@
 
     <p class="title2 work_sans">Restaurant Note</p>
     <p class="desc2 work_sans">{{selectedVenue.description}}</p>
+    
+    <div style="margin-top: 10px" *ngIf="selectedBooking.coming_from == 'other'">
+
+      <ion-button
+      (click)="gotoReservations()"
+      style="--background:#7825CB !important; margin-top: 20px; margin-bottom: 30px"
+      class="btnbg work_sans"
+      >Confirm</ion-button>
+    
+    </div>
+
   </div>
 </ion-content>

@@ -41,6 +41,7 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/date-picker": "^5.36.0",
     "@ionic/angular": "^6.1.9",
+    "@ionic/pwa-elements": "^3.1.1",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-inappbrowser": "^5.0.0",

@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
     } else if (this.pass == "") {
       this.rest.presentToast("Please enter password.");
     } else {
-      this.rest.presentLoader();
+      this.rest.presentLoaderWd();
       var ss = JSON.stringify({
         email: this.email,
         password: this.pass,

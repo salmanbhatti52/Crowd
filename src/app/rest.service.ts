@@ -37,12 +37,26 @@ export class RestService {
     });
   }
 
+  
   presentLoader() {
     this.loadingController
       .create({
         message: "Please wait...",
         cssClass: "loader-css-class",
         backdropDismiss: true,
+      })
+      .then((res) => {
+        res.present();
+      });
+  }
+
+  presentLoaderWd() {
+    this.loadingController
+      .create({
+        message: "Please wait...",
+        cssClass: "loader-css-class",
+        backdropDismiss: true,
+        duration:3000
       })
       .then((res) => {
         res.present();

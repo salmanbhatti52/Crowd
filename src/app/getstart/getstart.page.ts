@@ -215,7 +215,7 @@ export class GetstartPage implements OnInit {
 
   getCurrentLocatiuon() {
     console.log("getCurrentLocatiuon()");
-    this.rest.presentLoader();
+    this.rest.presentLoaderWd();
     navigator.geolocation.getCurrentPosition((position) => {
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
@@ -227,7 +227,7 @@ export class GetstartPage implements OnInit {
   getAddress(latitude: any, longitude: any) {
     console.log("lat======", latitude);
     console.log("long======", longitude);
-    this.rest.presentLoader();
+    this.rest.presentLoaderWd();
     this.geoCoder
       .geocode({ location: { lat: latitude, lng: longitude } })
       .subscribe(

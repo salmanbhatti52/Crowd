@@ -4,7 +4,7 @@
   </ion-refresher>
   <div
     class="bg paddingtop"
-    style="position: fixed; width: 100%; z-index: 9999"
+    style="position: fixed; width: 100%; z-index: 9999; "
   >
     <ion-row>
       <ion-col style="text-align: center" size="2" class="centerall"
@@ -65,16 +65,18 @@
 
   <div
     style="
+      /* padding-top: 15px; */
       display: flex;
       flex-wrap: wrap;
       width: 96%;
       margin-top: 130px;
       margin-left: 3%;
+      padding-bottom: 15px;
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
     <div class="elementBg" *ngFor="let aa of upcomingArr">
-      <img
+      <img (click)="gotoBookingDetails(aa)"
         style="
           width: 104px;
           height: 104px;

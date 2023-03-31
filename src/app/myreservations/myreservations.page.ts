@@ -54,6 +54,16 @@ export class MyreservationsPage implements OnInit {
     });
   }
 
+  gotoBookingDetails(data:any){
+    // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
+    // console.log(data);
+    this.rest.selectedBooking = data;
+    this.rest.selectedBooking.coming_from = 'reservations'; 
+    this.rest.detail = this.rest.selectedBooking.venues_details;
+    console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
+    this.router.navigate(['/booking2']);
+  }
+
   ngOnInit() {}
   goBack() {
     this.location.back();

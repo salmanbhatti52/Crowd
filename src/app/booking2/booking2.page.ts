@@ -33,6 +33,9 @@ export class Booking2Page implements OnInit {
 
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
+    // if(this.selectedVenue == ""){
+    //   this.selectedVenue = this.rest.selectedBooking.venues_details;
+    // }
     this.selectedBooking = this.rest.selectedBooking;
     console.log(this.selectedBooking);
     this.userdata = localStorage.getItem("userdata");
@@ -48,6 +51,10 @@ export class Booking2Page implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  gotoReservations(){
+    this.router.navigate(['/myreservations']);
   }
 
   handleImgError2(ev: any, item: any) {

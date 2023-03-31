@@ -169,6 +169,7 @@ export class Booking1Page implements OnInit {
 
         if (res.status == "success") {
           this.rest.selectedBooking = res.data;
+          this.rest.selectedBooking.coming_from = 'other';
           this.router.navigate(["booking2"]);
         } else {
           this.rest.presentToast("Error");
