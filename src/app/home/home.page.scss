@@ -8,7 +8,7 @@
 
 .bg{
   background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
-  padding: 10px 0px 10px 0px;
+  // padding: 10px 0px 10px 0px;
 }
   
   .or_cls{
@@ -231,7 +231,7 @@
 }
 
 .filtertextClear{
-  margin-top: 153px;
+  // margin-top: 153px;
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -242,12 +242,12 @@
 }
 
 .ios .margincls{
-  margin: 150px auto 110px auto;
+  margin: 0px auto 40px auto;
   width: 95%;
 }
 
 .md .margincls{
-  margin: 110px auto 80px auto;
+  margin: 20px auto 15px auto;
   width: 95%;
 }
 
@@ -264,12 +264,12 @@
 
 
 .md .searchtop{
-  position: fixed;
+  // position: fixed;
   z-index: 9999;
   background: #262626;
   width: 105%;
-  top: 116px;
-  padding-top: 20px;
+  // top: 116px;
+  // padding-top: 20px;
   padding-bottom: 15px;
   display: flex;
   justify-content: space-between;
@@ -277,11 +277,11 @@
 }
 
 .ios .searchtop{
-  position: fixed;
+  // position: fixed;
   z-index: 9999;
   background: #262626;
   width: 105%;
-  top: 145px;
+  // top: 145px;
   padding-top: 20px;
   padding-bottom: 15px;
   display: flex;
@@ -290,9 +290,9 @@
 }
 
 .md .topCls{
-  margin-top: 130px !important;
+  margin-top: 20px !important;
 } 
 
 .ios .topCls{
-  margin-top: 160px !important;
+  margin-top: 20px !important;
 } 

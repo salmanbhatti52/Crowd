@@ -81,7 +81,12 @@ export class MyreservationsPage implements OnInit {
 
  
   goBack() {
-    this.location.back();
+    if(this.rest.comfrom == 'booking2'){
+      this.router.navigate(['/home']);
+      this.rest.comfrom = '';
+    }else{
+      this.location.back();
+    }
   }
 
   handleRefresh(ev: any) {}

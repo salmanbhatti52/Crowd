@@ -15,7 +15,7 @@ export class RestService {
   selectedBooking: any = "";
   comingFrom: any = "";
   venuesArray:any = [];
-
+  comfrom = '';
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";
 

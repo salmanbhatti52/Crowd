@@ -1,6 +1,104 @@
-<!-- <ion-header>
+<ion-header>
   <ion-toolbar class="bg">
+    <div
+    class="bg paddingtop"
+    style=" width: 100%; z-index: 9999; padding: 10px 0px 15px;"
+  >
+    <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
+      <p
+        style="margin-bottom: 8px"
+        class="filtertext"
+        (click)="showHideFilter('Very Busy')"
+      >
+        Very Busy
+      </p>
+      <p
+        style="margin-bottom: 8px"
+        class="filtertext"
+        (click)="showHideFilter('Busy')"
+      >
+        Busy
+      </p>
+      <p
+        style="margin-bottom: 8px"
+        class="filtertext"
+        (click)="showHideFilter('Quite')"
+      >
+        Quite
+      </p>
+    </div>
     <ion-row>
+      <ion-col size="2" style="text-align: center">
+        <img
+          *ngIf="segmentModel == 'venu'"
+          (click)="showHideFilterN()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/treeeline.svg"
+        />
+      </ion-col>
+      <ion-col size="8" style="text-align: center">
+        <ion-label class="titlefont work_sans">Saved</ion-label>
+      </ion-col>
+      <ion-col size="2" style="text-align: center">
+        <img
+          (click)="goToProfile()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/user.svg"
+        />
+      </ion-col>
+    </ion-row>
+
+    <div style="margin: 10px 0px 0px; text-align: -webkit-center">
+      <ion-segment
+        style="
+          height: 48px;
+          width: 64%;
+          background: white;
+          padding: 3px 5px;
+          border-radius: 200px;
+        "
+        scrollable="true"
+        mode="ios"
+        [(ngModel)]="segmentModel"
+        (ionChange)="segmentChanged($event)"
+        value="venu"
+      >
+        <ion-segment-button
+          style="
+            --indicator-color: #611ea5;
+            --color: #000000;
+            --color-checked: #fff;
+            --border-radius: 20px;
+            --background-checked: #611ea5;
+          "
+          value="venu"
+        >
+          <ion-label>Venues</ion-label>
+        </ion-segment-button>
+        <ion-segment-button
+          style="
+            --indicator-color: linear-gradient(
+              89.73deg,
+              #ebd87a -0.24%,
+              #956b1c 99.77%
+            );
+            --color: #000000;
+            --color-checked: #fff;
+            --border-radius: 20px;
+            --background-checked: linear-gradient(
+              89.73deg,
+              #ebd87a -0.24%,
+              #956b1c 99.77%
+            ); ;
+          "
+          value="event"
+        >
+          <ion-label>Events</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </div>
+    <!-- <ion-row>
       <ion-col size="2" style="text-align: center">
         <img
           style="height: 25px; width: 25px"
@@ -67,112 +165,15 @@
           <ion-label>Events</ion-label>
         </ion-segment-button>
       </ion-segment>
-    </div>
+    </div> -->
   </ion-toolbar>
-</ion-header> -->
+</ion-header>
 
 <ion-content style="--background: #262626">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div
-    class="bg paddingtop"
-    style="position: fixed; width: 100%; z-index: 9999"
-  >
-    <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
-      <p
-        style="margin-bottom: 8px"
-        class="filtertext"
-        (click)="showHideFilter('Very Busy')"
-      >
-        Very Busy
-      </p>
-      <p
-        style="margin-bottom: 8px"
-        class="filtertext"
-        (click)="showHideFilter('Busy')"
-      >
-        Busy
-      </p>
-      <p
-        style="margin-bottom: 8px"
-        class="filtertext"
-        (click)="showHideFilter('Quite')"
-      >
-        Quite
-      </p>
-    </div>
-    <ion-row>
-      <ion-col size="2" style="text-align: center">
-        <img
-          *ngIf="segmentModel == 'venu'"
-          (click)="showHideFilterN()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/treeeline.svg"
-        />
-      </ion-col>
-      <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Saved</ion-label>
-      </ion-col>
-      <ion-col size="2" style="text-align: center">
-        <img
-          (click)="goToProfile()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/user.svg"
-        />
-      </ion-col>
-    </ion-row>
-
-    <div style="margin: 10px 0px; text-align: -webkit-center">
-      <ion-segment
-        style="
-          height: 48px;
-          width: 64%;
-          background: white;
-          padding: 3px 5px;
-          border-radius: 200px;
-        "
-        scrollable="true"
-        mode="ios"
-        [(ngModel)]="segmentModel"
-        (ionChange)="segmentChanged($event)"
-        value="venu"
-      >
-        <ion-segment-button
-          style="
-            --indicator-color: #611ea5;
-            --color: #000000;
-            --color-checked: #fff;
-            --border-radius: 20px;
-            --background-checked: #611ea5;
-          "
-          value="venu"
-        >
-          <ion-label>Venues</ion-label>
-        </ion-segment-button>
-        <ion-segment-button
-          style="
-            --indicator-color: linear-gradient(
-              89.73deg,
-              #ebd87a -0.24%,
-              #956b1c 99.77%
-            );
-            --color: #000000;
-            --color-checked: #fff;
-            --border-radius: 20px;
-            --background-checked: linear-gradient(
-              89.73deg,
-              #ebd87a -0.24%,
-              #956b1c 99.77%
-            ); ;
-          "
-          value="event"
-        >
-          <ion-label>Events</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </div>
-  </div>
+  
   <div class="margincls">
     <p
       *ngIf="filtertype != 'no' && segmentModel === 'venu'"

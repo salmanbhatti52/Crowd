@@ -54,6 +54,7 @@ export class Booking2Page implements OnInit {
   }
 
   gotoReservations(){
+    this.rest.comfrom = 'booking2';
     this.router.navigate(['/myreservations']);
   }
 

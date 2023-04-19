@@ -389,6 +389,8 @@ input{
   padding-top: 40px !important;
 }
 
+
+
 .loader-css-class {
    --background:#531C7C;
    --spinner-color:#ffffff;
@@ -441,7 +443,13 @@ ion-modal::part(backdrop) {
   background: rgba(38, 38, 38,1);
   opacity: 1;
 }
-
+ion-toolbar{
+  --padding-start: 0px !important;
+    --padding-end: 0px !important;
+    --padding-top: 0px !important;
+    --padding-bottom: 0px !important;
+    --border-width: 0px !important;
+}
 // =====================done=====================
 .sc-ion-input-ios-h {
     --padding-top: 0px;
