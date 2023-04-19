@@ -51,6 +51,7 @@ export class PaymentmethodPage implements OnInit {
     });
 
     await modal.present();
+    this.router.navigate(['/ticket']);
   }
 
   buyTicket() {

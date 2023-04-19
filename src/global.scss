@@ -92,10 +92,35 @@ ion-input {
   --width: 90%;
   background: rgba(15, 23, 42, 0.5);
 }
+
+
 .btnbg{
+  --box-shadow: none !important;
   text-transform:none !important;
   height: 53px;
       --background: #531C7C;
+
+      --background-activated: #351150;
+    --background-focused: #351150;
+    --background-hover: #351150;
+
+
+    opacity: 0.8;
+    --border-radius: 42px;
+    width: 100%;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+}
+.btnbgred{
+  --box-shadow: none !important;
+  text-transform:none !important;
+  height: 53px;
+      --background: #FF285C;
 
       --background-activated: #351150;
     --background-focused: #351150;
@@ -373,6 +398,51 @@ input{
   width: 100% !important;
 }
 
+// ion-datetime{
+
+//   --ion-color-base: none !important;
+//   --ion-color-base-rgb: none !important;
+//   --ion-color-contrast: none !important;
+//   --ion-color-contrast-rgb: none !important;
+//   --ion-color-shade: none !important;
+//   --ion-color-tint: none !important;
+// }
+
+ ion-datetime::part(.picker-item-active) {
+  // color: var(--ion-color-base);
+  color: #3880ff !important;
+}
+// ===================ion modal==================
+.message_note_popup{
+  --width: 88%;
+  --height: 242px;
+  
+}
+
+.refund_popup{
+  --width: 88%;
+  --height: 265px;
+}
+
+.expiry_date{
+  --width: 88%;
+  --height: 323px;
+  --border-style: solid;
+  --border-color: white;
+  --border-width: 2px;
+}
+ion-modal {
+  --border-radius: 16px;
+  // --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --backdrop-opacity: 0.9;
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(38, 38, 38,1);
+  opacity: 1;
+}
+
+// =====================done=====================
 .sc-ion-input-ios-h {
     --padding-top: 0px;
     --padding-end: 10px;

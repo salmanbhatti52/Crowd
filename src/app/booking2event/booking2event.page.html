@@ -20,7 +20,7 @@
 
 <ion-content style="--background: #262626">
   <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div style="display: flex; margin-top: 30px">
+    <div style="display: flex; margin-top: 20px;align-items:center ;">
       <img
         style="
           width: 104px;
@@ -32,6 +32,11 @@
       />
 
       <div>
+        
+        <div class="venue_label">
+          {{selectedVenue.venue_name}}
+        </div>
+
         <div
           style="
             display: flex;
@@ -65,9 +70,22 @@
     <div
       style="display: flex; justify-content: space-between; align-items: center"
     >
-      <p style="margin: 0px" class="dd work_sans">Regular Ticket</p>
+      <p style="margin: 0px" class="dd work_sans">Standard Ticket name</p>
       <p style="margin: 0px" class="dd work_sans">£25</p>
       <input class="ddi work_sans" placeholder="02" type="tel" />
+    </div>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+      "
+    >
+      <p style="margin: 0px" class="dd work_sans">VIP Ticket name</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
+      <input class="ddi work_sans" placeholder="01" type="tel" />
     </div>
 
     <div
@@ -103,7 +121,7 @@
 
         <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£10</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
     </div>
 
     <div
@@ -122,7 +140,7 @@
 
         <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£10</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
     </div>
 
     <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
@@ -145,7 +163,7 @@
 
         <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£10</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
     </div>
 
     <div
@@ -164,7 +182,7 @@
 
         <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£10</p>
+      <p style="margin: 0px" class="dd work_sans">£50</p>
     </div>
 
     <div
@@ -181,7 +199,7 @@
       "
     >
       <p style="margin: 0px" class="total work_sans">Total Amount</p>
-      <p style="margin: 0px" class="total work_sans">£ 170</p>
+      <p style="margin: 0px" class="total work_sans">£ 220</p>
     </div>
 
     <ion-button

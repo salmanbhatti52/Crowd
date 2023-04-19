@@ -25,9 +25,9 @@
         <ng-container *ngFor="let msg of allMessages">
           <div
             class="reciever_message_container reciever_message_cont"
-            *ngIf="msg.users_data.users_customers_id!=currentUser"
+            *ngIf="msg.sender_type!='Users'"
           >
-            <div class="reciever">
+            <div class="reciever" >
               <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
                 {{msg.message}}
               </ion-text>
@@ -35,13 +35,13 @@
                 <img class="attachment_receiver" src="{{msg.message}}" />
               </div>
             </div>
-            <!-- <ion-text class="messageTime">{{msg.time}}</ion-text> -->
+            
           </div>
           <div
             class="sender"
-            *ngIf="msg.users_data.users_customers_id==currentUser"
+            *ngIf="msg.sender_type =='Users'"
           >
-            <div class="sender_message_container">
+            <div class="sender_message_container" >
               <div class="senderMessage">
                 <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
                   {{msg.message}}

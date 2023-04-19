@@ -34,6 +34,10 @@ export class Booking1eventPage implements OnInit {
     this.location.back();
   }
 
+  gotoOrganizerEvents(){
+    this.router.navigate(['/organizer-events']);
+  }
+
   handleImgError2(ev: any, item: any) {
     console.log("hloooooo");
 
@@ -51,7 +55,9 @@ export class Booking1eventPage implements OnInit {
 
     await modal.present();
   }
-
+  dismissModal(){
+    this.modalCtrl.dismiss();
+  }
   goToChat() {
     this.router.navigate(["chat"]);
   }

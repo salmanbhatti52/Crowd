@@ -75,7 +75,7 @@
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
-    <div class="elementBg" *ngFor="let aa of upcomingArr">
+    <div class="elementBg" *ngFor="let aa of orderd_upcomingArr">
       <img (click)="gotoBookingDetails(aa)"
         style="
           width: 104px;
@@ -132,7 +132,7 @@
     "
     *ngIf="segmentModel === 'Previous'"
   >
-    <div class="elementBg" *ngFor="let aa of previousArr">
+    <div class="elementBg" *ngFor="let aa of orderd_previousArr">
       <img
         style="
           width: 104px;

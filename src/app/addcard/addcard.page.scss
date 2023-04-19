@@ -125,11 +125,12 @@
   .ddi{
     width: 78px;
     height: 34px;
-    background: #000000;
-    border-radius: 17px;
-    color: white;
-    text-align: center;
-    padding: 0px 16px;
+    --background: #000000;
+    --border-radius: 47px;
+    border-radius: 47px;
+    --color: white;
+    --padding-start: 16px;
+    --padding-end: 16px;
   }
 
 
@@ -139,6 +140,35 @@
     font-size: 14px;
     line-height: 22px;
     color: #F0F0F0;
+  }
+  .sub_container{
+    padding: 20px;
+    background:#262626 !important;
+    border-radius: 16px;
+  }
+  .date_label{
+    font-family: 'Poppins',sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 6px;
+  }
+  ion-datetime.md{
+    --background: #262626;
+    color: #464646;
+  }
+  ion-datetime.ios{
+    --background: #262626;
+    color: #464646;
+  }
+
+  .select_date{
+    margin-right: 16px;
+    width: 48%;
+    height: 56px;
+    padding: 15px 20px 15px 22px;
+    background: #000000;
+    border-radius: 47px;
   }
 
 
@@ -162,9 +192,10 @@
     .ddi{
       width: 100%;
       height: 56px;
-      background: #000000;
-      border-radius: 47px;
-      color: white;
-      text-align: left;
-      padding: 0px 26px;
+      --background: #000000;
+      --border-radius: 47px;
+      --color: white;
+      // text-align: left;
+      --padding-start: 22px;
+      --padding-end: 23px;
     }

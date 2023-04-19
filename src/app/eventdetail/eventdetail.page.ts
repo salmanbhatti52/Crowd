@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Platform } from "@ionic/angular";
+import { Platform,IonItemSliding } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 
@@ -38,7 +38,49 @@ export class EventdetailPage implements OnInit {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
   }
+  // =======================came from venue detail =================
+  claimDrag2(slidingItem: IonItemSliding, event: any) {
+    let ratio = event.detail.ratio;
 
+    if (ratio == -1) {
+      this.displaydiv = true;
+      this.num = 0;
+      console.log("if---if", ratio);
+
+      this.claimDiscount();
+    }
+
+    console.log("dragggggg---44444", ratio);
+  }
+
+  claimDiscount() {
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: this.detailObj.venues_id,
+    });
+
+    console.log("ss claim discount-----", ss);
+
+    this.rest.claim_discount(ss).subscribe((res: any) => {
+      console.log("res claim discount-----", res);
+    });
+  }
+
+  openSlider(slidingItem: IonItemSliding) {
+    console.log("opne");
+
+    this.num = 0;
+    slidingItem.close();
+    console.log("else---else", this.num);
+  }
+
+  closeslide(slidingItem: IonItemSliding) {
+    this.dismiss();
+    this.num = 0;
+    slidingItem.close();
+  }
+
+  ////======================done==================================//
   goBack() {
     this.location.back();
   }

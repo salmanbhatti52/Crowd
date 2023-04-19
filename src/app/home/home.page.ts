@@ -61,6 +61,8 @@ export class HomePage implements OnInit {
     console.log("Current Location: ", getCurrentLocation);
     this.latitude = getCurrentLocation.coords.latitude;
     this.longitude = getCurrentLocation.coords.longitude;
+    console.log("getCurrentPositionCalled");
+    
     console.log("Latitude: ", this.latitude);
     console.log("Longitude: ", this.longitude);
 
@@ -276,7 +278,7 @@ export class HomePage implements OnInit {
     this.venuarr = this.venuarrOrg;
   }
   userdata: any = "";
-  userID: any = "";
+ userID : any = "";
   records_limit: any = 0;
   ionViewWillEnter() {
     this.getCurrentPosition();
@@ -289,6 +291,7 @@ export class HomePage implements OnInit {
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.rest.presentLoader();
+
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
@@ -298,6 +301,12 @@ export class HomePage implements OnInit {
       page_number: this.pageNumber,
     });
     console.log("aliiiiiiiiiiiiiii", ss);
+    console.log("localStorage longitude: ",localStorage.getItem("longitude"));
+    console.log("localStorage lattitude: ",localStorage.getItem("lattitude"));
+    console.log("longitude ", this.longitude);
+    console.log("lattitude ", this.latitude );
+    
+    
     this.rest.events(ss).subscribe((res: any) => {
       console.log("events---", res);
       this.rest.dismissLoader();
@@ -314,12 +323,17 @@ export class HomePage implements OnInit {
 
     this.rest.venues(ss).subscribe((res: any) => {
       console.log("venues---", res);
+      
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.venuarr = res.data.sort((a: any, b: any) => {
           console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
+
         });
+        console.log('venuArray: ',this.venuarr);
+        
+        this.rest.venuesArray = this.venuarr;
         this.venuarrOrg = res.data.sort((a: any, b: any) => {
           console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
@@ -400,6 +414,8 @@ export class HomePage implements OnInit {
             return a.distance - b.distance;
           })
         );
+        
+
       } else {
         // this.rest.presentToast(res.message);
         // this.noevenu = 1;

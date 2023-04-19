@@ -36,9 +36,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
+    <!-- <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
       >No Discount</ion-badge
-    >
+    > -->
     <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
       >{{detailObj.discount_percentage}}% Off</ion-badge
     >
@@ -125,17 +125,79 @@
           border-radius: 20px;
         "
       >
-        <p class="see work_sans">See who’s out!</p>
+        <p class="see work_sans">See who's out!</p>
       </div>
     </div>
 
+    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1">
+      <ion-item-sliding
+        #slidingItem
+        (ionDrag)="claimDrag2(slidingItem, $event)"
+        (ionOpen)="openSlider(slidingItem)"
+      >
+        <ion-item-options side="start">
+          <ion-item-option
+            style="
+              color: #531c7c;
+              margin-top: -10px;
+              background: #531c7c;
+              margin-left: 5px;
+            "
+            expandable
+            >Claim</ion-item-option
+          >
+        </ion-item-options>
+
+        <ion-item
+          style="color: white; opacity: 1"
+          lines="none"
+          class="btnbg margintopcls work_sans"
+        >
+          <ion-label>Claim Discount</ion-label>
+          <img
+            (click)="goToProfile()"
+            style="
+              rotate: 180deg;
+              height: 25px;
+              width: 25px;
+              margin-right: 20px;
+            "
+            src="assets/imgs/backbtn.svg"
+          />
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+
     <ion-button
       (click)="buyTicket()"
-      style="margin-top: 30px; opacity: 1"
-      class="btnbg work_sans"
+      style="margin-top: 22px; opacity: 1"
+      class="btnwhite work_sans"
       >Buy Ticket</ion-button
     >
 
     <p class="work_sans des">{{detailObj.description}}</p>
   </div>
 </ion-content>
+
+<div
+  *ngIf="displaydiv"
+  style="height: 100%; width: 100%; background: #262626; opacity: 0.9"
+>
+  <div class="v-center">
+    <div class="icondiv" (click)="closeslide(slidingItem)">
+      <img src="assets/imgs/cross.svg" alt="" />
+    </div>
+
+    <div style="text-align: center">
+      <img src="assets/imgs/disc.svg" alt="" />
+      <p class="one">Discount Claim!</p>
+      <p class="two">Instant</p>
+      <p *ngIf="detailObj.discount_percentage <= 0" class="three">
+        No Discount
+      </p>
+      <p *ngIf="detailObj.discount_percentage > 0" class="three">
+        {{detailObj.discount_percentage}}% off
+      </p>
+    </div>
+  </div>
+</div>

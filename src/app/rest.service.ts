@@ -14,6 +14,7 @@ export class RestService {
   pinobject: any = "";
   selectedBooking: any = "";
   comingFrom: any = "";
+  venuesArray:any = [];
 
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";

@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        ><img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans">Ticket</ion-label>
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+<div class="container">
+  <div class="center">
+    <img src="../../assets/imgs/ticket.svg" alt="">
+  </div>
+  <div class="flex_center">
+    <ion-button id="open-modal" (click)="goToHome()"
+        style="margin-top: 10px;margin-right: 11px; opacity: 1"
+        class="btnbgred work_sans"
+        >Request Refund</ion-button
+      >
+      <img src="../../assets/imgs/download_btn.svg" alt="">
+  </div>
+  <ion-modal class="refund_popup" #modal trigger="open-modal">
+    <ng-template>
+      <ion-content style="--background: white !important;">
+        <div class="modal_popup">
+          <div class="right">
+            <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
+          </div>
+          <div class="msg_btn_sec">
+            <div class="work_sans modal_title">Refund?</div>
+            <div class="work_sans modal_desc">Are you sure you want to refund the ticket?</div>
+            <ion-button (click)="dismissModal()" style="margin-top: 20px;
+            opacity: 1;" class="work_sans btnbgred">Continue</ion-button>
+          </div>
+          
+        </div>
+        
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</div>
+</ion-content>

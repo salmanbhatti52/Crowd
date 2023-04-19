@@ -20,7 +20,7 @@
 
 <ion-content style="--background: #262626">
   <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div style="display: flex; margin-top: 30px">
+    <div style="display: flex; margin-top: 20px; align-items:center ;">
       <img
         style="
           width: 104px;
@@ -32,6 +32,11 @@
       />
 
       <div>
+
+        <div class="venue_label">
+          {{selectedVenue.venue_name}}
+        </div>
+
         <div
           style="
             display: flex;
@@ -58,14 +63,16 @@
       </div>
     </div>
 
+    <!-- (click)="goToChat()" -->
     <div
-      (click)="goToChat()"
+    id="open-modal"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 40px;
+        margin-top: 20px;
+        opacity: 0.5;
       "
     >
       <div
@@ -76,7 +83,25 @@
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
-
+  <ion-modal class="message_note_popup" #modal trigger="open-modal">
+    <ng-template>
+      <ion-content style="--background: white !important;">
+        <div class="modal_popup">
+          <div class="right">
+            <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
+          </div>
+          <div class="msg_btn_sec">
+            <div class="work_sans" style="font-weight: 400;
+            font-size: 18px;color: #262626;">You can chat with the event organizer once the ticket is purchased.</div>
+            <ion-button (click)="dismissModal()" style="margin-top: 20px;
+            opacity: 1;" class="work_sans btnbg">OK</ion-button>
+          </div>
+          
+        </div>
+        
+      </ion-content>
+    </ng-template>
+  </ion-modal>
     <div
       (click)="goLocation()"
       style="
@@ -133,7 +158,7 @@
       <div>
         <p class="username work_sans">John Doe</p>
 
-        <p class="buyTicket work_sans">See All Events</p>
+        <p (click)="gotoOrganizerEvents()" class="buyTicket work_sans">See All Events</p>
       </div>
     </div>
   </div>

@@ -19,101 +19,122 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div style="display: flex; margin-top: 30px">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
-      />
-
-      <div>
-        <div
+  <div style="display: flex; flex-direction: column;height: 94%; width: 90%; text-align: center; margin: 5% auto; justify-content: space-between;">
+    <div>
+      <div style="display: flex; margin-top: 4px; align-items: center;">
+        <img
           style="
-            display: flex;
-            align-items: center;
-            margin-bottom: 13px;
-            margin-top: 10px;
+            width: 104px;
+            height: 104px;
+            border-radius: 16px;
+            margin-right: 10px;
           "
-        >
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="date work_sans">
-            {{selectedVenue.distance | number : '1.2-2'}} Miles
-          </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 13px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{selectedVenue.event_date }}</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">{{selectedVenue.event_time }}</p>
+          src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+        />
+  
+        <div>
+  
+          <div class="venue_label">
+            {{selectedVenue.venue_name}}
+          </div>
+  
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              margin-bottom: 13px;
+              margin-top: 10px;
+            "
+          >
+            <img class="imm" src="assets/imgs/pinwhite.svg" />
+            <p class="date work_sans">
+              {{selectedVenue.distance | number : '1.2-2'}} Miles
+            </p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 13px">
+            <img class="imm" src="assets/imgs/ccc.svg" />
+            <p class="date work_sans">{{selectedVenue.event_date }}</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="assets/imgs/watch.svg" />
+            <p class="date work_sans">{{selectedVenue.event_time }}</p>
+          </div>
         </div>
       </div>
+  
+      <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
+        Amount Detail
+      </p>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">Regular Ticket</p>
+        <p style="margin: 0px" class="dd work_sans">02x£25</p>
+        <p style="margin: 0px" class="dd work_sans">£25</p>
+      </div>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">VIP Ticket</p>
+        <p style="margin: 0px" class="dd work_sans">01x£50</p>
+        <p style="margin: 0px" class="dd work_sans">£50</p>
+      </div>
+      
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
+        <p style="margin: 0px" class="dd work_sans">02x£10</p>
+        <p style="margin: 0px" class="dd work_sans">£20</p>
+      </div>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">Table For 6</p>
+        <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
+        <p style="margin: 0px" class="dd work_sans">£50</p>
+      </div>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">Crowd Fees</p>
+        <p style="margin: 0px" class="dd work_sans">£5</p>
+      </div>
+  
     </div>
-
-    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
-      Amount Detail
-    </p>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">Regular Ticket</p>
-      <p style="margin: 0px" class="dd work_sans">02x£25</p>
-      <p style="margin: 0px" class="dd work_sans">£25</p>
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
-      <p style="margin: 0px" class="dd work_sans">02x£15</p>
-      <p style="margin: 0px" class="dd work_sans">£20</p>
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">Table For 6</p>
-      <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
-      <p style="margin: 0px" class="dd work_sans">£50</p>
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">Crowd Fees</p>
-      <p style="margin: 0px" class="dd work_sans">£5</p>
-    </div>
-
-    <div
+    <div>
+      <div
       style="
         background: #000000;
         border-radius: 15px;
@@ -127,7 +148,7 @@
     >
       <div style="display: flex; justify-content: space-between">
         <p style="margin: 0px" class="total work_sans">Total Amount</p>
-        <p style="margin: 0px" class="total work_sans">£170</p>
+        <p style="margin: 0px" class="total work_sans">£ 220</p>
       </div>
       <hr style="border-bottom: 0.6px solid #f0f0f0; margin: 10px 0px" />
       <div style="display: flex; justify-content: space-between">
@@ -142,5 +163,7 @@
       class="btnbg work_sans"
       >Next</ion-button
     >
+    </div>
+    
   </div>
 </ion-content>

@@ -75,6 +75,18 @@ export class ProfilePage implements OnInit {
     this.location.back();
   }
 
+  gotoEvents(){
+    this.router.navigate(["my-events"]);
+  }
+
+  gotoAddPaymentMethods(){
+    this.router.navigate(["payment-methods"]);
+  }
+
+  gotoRefundPage(){
+    this.router.navigate(["my-refunds"]);
+  }
+
   changePass() {
     this.router.navigate(["changepass"]);
   }

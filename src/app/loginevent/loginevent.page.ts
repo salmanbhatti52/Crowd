@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NavController, Platform } from "@ionic/angular";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import { Location } from "@angular/common";
 @Component({
   selector: "app-loginevent",
   templateUrl: "./loginevent.page.html",
@@ -24,7 +25,8 @@ export class LogineventPage implements OnInit {
     public rest: RestService,
     public navCtrl: NavController,
     public platform: Platform,
-    public http: HttpClient
+    public http: HttpClient,
+    public location:Location
   ) {
     this.social_login_status = localStorage.getItem("social_login_status");
     console.log("login----social_login_status---", this.social_login_status);
@@ -38,6 +40,9 @@ export class LogineventPage implements OnInit {
 
   ngOnInit() {}
 
+  goBack(){
+    this.location.back();
+  }
   goToSignup() {
     this.router.navigate(["signup"]);
   }
@@ -78,9 +83,10 @@ export class LogineventPage implements OnInit {
         if (res.status == "success") {
           localStorage.setItem("userdata", JSON.stringify(res.data));
           if (localStorage.getItem("location")) {
-            this.navCtrl.navigateRoot(["/home"]);
+            this.navCtrl.navigateRoot(["/scan-tickets"]);
           } else {
-            this.navCtrl.navigateRoot(["/getstart"]);
+            this.navCtrl.navigateRoot(["/scan-tickets"]);
+            // this.navCtrl.navigateRoot(["/getstart"]);
           }
         } else {
           this.rest.presentToast(res.message);

@@ -1,8 +1,11 @@
 <ion-content class="background">
-  <div>
+  <div style="display: flex; height: 100%; flex-direction: column;justify-content: space-between;">
     <div style="width: 90%; margin: 0px auto">
+      <div>
+        <img (click)="goBack()" style="margin-top: 30px" src="../../assets/imgs/backbtn.svg" alt="">
+      </div>
       <div style="text-align: center">
-        <img style="margin-top: 100px" src="assets/imgs/logo.svg" />
+        <img style="margin-top: 60px" src="assets/imgs/logo.svg" />
       </div>
 
       <div
@@ -31,14 +34,14 @@
           *ngIf="!showPass3"
           (click)="togglePass3()"
           style="margin: 17px 17px 17px 15px"
-          src="/assets/imgs/eyeoff.svg"
+          src="/assets/imgs/eye.svg"
         />
 
         <img
           *ngIf="showPass3"
           (click)="togglePass3()"
           style="margin: 17px 17px 17px 15px"
-          src="/assets/imgs/eye.svg"
+          src="/assets/imgs/eyeoff.svg"
         />
         <input
           [(ngModel)]="pass"
@@ -60,22 +63,23 @@
         >Sign In</ion-button
       >
 
-      <div class="btm">
-        <p
-          style="
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 127.3%;
-            text-align: center;
-            color: #ffffff;
-          "
-          class="work_sans"
-        >
-          By SIgning you agree to our Terms of Service, Privacy Policy and
-          Cookie Policy.
-        </p>
-      </div>
+      
+    </div>
+    <div class="btm">
+      <p
+        style="
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 127.3%;
+          text-align: center;
+          color: #ffffff;
+        "
+        class="work_sans"
+      >
+        By SIgning you agree to our Terms of Service, Privacy Policy and
+        Cookie Policy.
+      </p>
     </div>
   </div>
 </ion-content>

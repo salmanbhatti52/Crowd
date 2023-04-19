@@ -81,7 +81,7 @@ export class Booking2Page implements OnInit {
       requestType: "startChat",
       users_customers_id: this.userID,
       other_users_customers_id: this.selectedVenue.users_business_id,
-      venues_id: this.selectedVenue.users_business_id,
+      venues_id: this.selectedVenue.venues_id,
     });
 
     this.rest.user_chat(ss).subscribe((res: any) => {

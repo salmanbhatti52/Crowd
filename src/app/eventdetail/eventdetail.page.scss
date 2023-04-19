@@ -258,9 +258,13 @@ color: #FFFFFF;
   font-size: 20px;
   line-height: 23px;
   text-transform: capitalize;
-  background: -webkit-linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);;
+  background: -webkit-linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;}
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
 .titlemain2{
   font-style: normal;
   font-weight: 400;
@@ -268,6 +272,10 @@ color: #FFFFFF;
   line-height: 21px;
   text-transform: capitalize;
   color: #AC3DBA;
+}
+
+.hide{
+  display: none;
 }
 
 .titlesub{
@@ -299,8 +307,8 @@ p {
 }
 
 .btnbg1{
-  margin: 20px 0px;
-  height: 64px;
+  margin: 25px 0px 0px;
+  height: 53px;
   background: #531C7C;
   opacity: 0.8;
   border-radius: 42px;
@@ -312,6 +320,13 @@ p {
   text-align: center;
   letter-spacing: -0.3px;
   color: #FFFFFF;
+}
+
+.ios .margintopcls {
+  margin-top: 3px;
+}
+.md .margintopcls {
+  margin-top: -6px;
 }
 
 .des{

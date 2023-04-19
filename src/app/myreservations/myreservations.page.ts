@@ -15,8 +15,10 @@ import * as moment from "moment";
 export class MyreservationsPage implements OnInit {
   segmentModel = "Upcoming";
 
-  upcomingArr: any = "";
-  previousArr: any = "";
+  upcomingArr: any = [];
+  orderd_upcomingArr: any = [];
+  previousArr: any = [];
+  orderd_previousArr: any =[];
 
   userdata: any = "";
   userID: any = "";
@@ -28,6 +30,8 @@ export class MyreservationsPage implements OnInit {
     public router: Router
   ) {}
 
+  ngOnInit() {}
+  
   ionViewWillEnter() {
     this.rest.presentLoader();
     this.userdata = localStorage.getItem("userdata");
@@ -42,6 +46,12 @@ export class MyreservationsPage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.upcomingArr = res.data;
+        for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
+          this.orderd_upcomingArr[j] = this.upcomingArr[i];
+          j++;        
+        }
+        console.log("orderd_upcomingArr: ",this.orderd_upcomingArr);
+        
       }
     });
 
@@ -50,6 +60,11 @@ export class MyreservationsPage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.previousArr = res.data;
+        for(let i= this.previousArr.length-1, j=0; i>=0; i--){
+          this.orderd_previousArr[j] = this.previousArr[i];
+          j++;        
+        }
+        console.log("orderd_previousArr: ",this.orderd_previousArr);
       }
     });
   }
@@ -64,7 +79,7 @@ export class MyreservationsPage implements OnInit {
     this.router.navigate(['/booking2']);
   }
 
-  ngOnInit() {}
+ 
   goBack() {
     this.location.back();
   }

@@ -35,9 +35,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
+    <!-- <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
       >No Discount</ion-badge
-    >
+    > -->
     <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
       >{{detailObj.discount_percentage}}% Off
     </ion-badge>
@@ -144,11 +144,11 @@
           border-radius: 20px;
         "
       >
-        <p class="see work_sans">See who’s out!</p>
+        <p class="see work_sans">See who's out!</p>
       </div>
     </div>
 
-    <ion-list class="btnbg1 work_sans">
+    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1">
       <ion-item-sliding
         #slidingItem
         (ionDrag)="claimDrag(slidingItem, $event)"
@@ -190,7 +190,7 @@
     <div>
       <ion-button
         (click)="bookTable()"
-        style="margin-top: 20px; margin-bottom: 20px"
+        style="margin-top: 22px; margin-bottom: 20px"
         class="btnwhite work_sans"
         >Book Table</ion-button
       >

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <div class="title_bar">
+      <div>
+        <img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="../../assets/imgs/backbtn.svg"
+        />
+      </div>
+      <!-- <div class="titlefont work_sans">Scan Tickets</div> -->
+      <div>
+        <img
+          (click)="goLogout()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/logout.svg"
+      />
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div class="container">
+    <div  class="dummy_text work_sans"><span (click)="gotoScannedTickets()">Ticket Detail will be shown here
+      after scan</span> </div>
+  </div>
+</ion-content>

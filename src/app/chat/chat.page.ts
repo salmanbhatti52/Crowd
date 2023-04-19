@@ -44,7 +44,8 @@ export class ChatPage implements OnInit {
 
   userdata: any = "";
   userID: any = "";
-
+  previousMsgsCount: any;
+  NewMsgsCount: any;
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -93,7 +94,8 @@ export class ChatPage implements OnInit {
     // Get all  messages....
     this.getMessages(this.userID);
     this.autoSaveInterval = setInterval(() => {
-      this.updateMessages();
+      // this.updateMessages();
+      this.getMessagesAgain(this.userID)
     }, 3000);
   }
   ionViewWillLeave() {
@@ -153,6 +155,7 @@ export class ChatPage implements OnInit {
       requestType: "getMessages",
       users_customers_id: this.userID,
       other_users_customers_id: this.selectedVenue.users_business_id,
+      venues_id: this.selectedVenue.venues_id
     });
 
     console.log("getAll Msg data-------", data);
@@ -164,7 +167,8 @@ export class ChatPage implements OnInit {
 
         if (res.status == "success") {
           this.allMessages = res.data;
-
+          this.scrollDown();
+          this.previousMsgsCount = res.data.length
           console.log("receving All chats messages", this.allMessages);
           // this.allMessages.map((messages, index) => {
           //   if (messages.msgType == "attachment") {
@@ -174,7 +178,6 @@ export class ChatPage implements OnInit {
           //   }
           // });
           console.log("allMsg array ", this.chatImagesArray);
-          this.scrollDown();
 
           this.noChatlistFlag = false;
         } else {
@@ -187,7 +190,54 @@ export class ChatPage implements OnInit {
       }
     );
   }
+  getMessagesAgain(senderUserID: any) {
+    console.log("logged in user", this.currentUser);
+    // geting all chats Messages
 
+    var data = JSON.stringify({
+      requestType: "getMessages",
+      users_customers_id: this.userID,
+      other_users_customers_id: this.selectedVenue.users_business_id,
+      venues_id: this.selectedVenue.venues_id
+    });
+
+    console.log("getAll Msg data-------", data);
+
+    this.restService.user_chat(data).subscribe(
+      async (res: any) => {
+        this.showSkeleton = false;
+        console.log("response", res);
+
+        if (res.status == "success") {
+          this.allMessages = res.data;
+          this.NewMsgsCount = res.data.length;
+          if(this.previousMsgsCount < this.NewMsgsCount){
+            this.previousMsgsCount = this.NewMsgsCount;
+            console.log("receving All chats messages", this.allMessages);
+            console.log("allMsg array ", this.chatImagesArray);
+            this.scrollDown();
+          }
+          
+          // this.allMessages.map((messages, index) => {
+          //   if (messages.msgType == "attachment") {
+          //     this.chatImagesArray.push({
+          //       image: messages.message,
+          //     });
+          //   }
+          // });
+          
+
+          this.noChatlistFlag = false;
+        } else {
+          this.noChatlistFlag = true;
+        }
+      },
+      (err) => {
+        this.restService.dismissLoader();
+        this.restService.presentToast("Network error occured");
+      }
+    );
+  }
   back() {
     this.location.back();
     clearInterval(this.autoSaveInterval);
@@ -195,33 +245,36 @@ export class ChatPage implements OnInit {
   sendMsg() {
     console.log("remainong smssss---", this.remainingSMS);
 
-    var time = new Date();
-    this.currentTime = time.toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
-    console.log(this.currentTime, "curent");
-    if (this.user_input !== "") {
-      this.allMessages.push({
-        userId: this.currentUser,
-        time: this.currentTime,
-        message: this.user_input,
-        msgType: "text",
-        date: "Now",
-        users_data: JSON.parse(this.userdata),
-      });
-
-      console.log("aaaaa-------", this.allMessages);
+    // var time = new Date();
+    // this.currentTime = time.toLocaleString("en-US", {
+    //   hour: "numeric",
+    //   minute: "numeric",
+    //   hour12: true,
+    // });
+    // console.log(this.currentTime, "curent");
+    // if (this.user_input !== "") {
+      // this.allMessages.push({
+      //   userId: this.currentUser,
+      //   time: this.currentTime,
+      //   message: this.user_input,
+      //   msgType: "text",
+      //   date: "Now",
+      //   sender_type: 'Users',
+      //   users_data: JSON.parse(this.userdata),
+      // });
+      // this.previousMsgsCount = this.allMessages.length
+      // this.scrollDown();
+      // console.log("aaaaa-------", this.allMessages);
 
       let msgToSend = this.user_input;
       this.user_input = "";
-      this.scrollDown();
+      
       this.sendMessage(parseInt(this.userID), msgToSend, "text");
-    }
+    // }
   }
   scrollDown() {
-    this.content.scrollToBottom();
+    // this.content.scrollToBottom();
+    // this.content.scrollToBottom();
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 100);
@@ -241,11 +294,12 @@ export class ChatPage implements OnInit {
     });
 
     console.log("my msg", data);
-
+    this.restService.presentLoader();
     this.restService.user_chat(data).subscribe(
       async (res: any) => {
         console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
-        this.scrollDown();
+        this.getMessages(this.userID);
+        this.restService.dismissLoader();
       },
       (err) => {
         this.restService.dismissLoader();

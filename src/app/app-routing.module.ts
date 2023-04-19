@@ -187,6 +187,42 @@ const routes: Routes = [
     path: 'editbooking',
     loadChildren: () => import('./editbooking/editbooking.module').then( m => m.EditbookingPageModule)
   },
+  {
+    path: 'scan-tickets',
+    loadChildren: () => import('./scan-tickets/scan-tickets.module').then( m => m.ScanTicketsPageModule)
+  },
+  {
+    path: 'ticket-detail',
+    loadChildren: () => import('./ticket-detail/ticket-detail.module').then( m => m.TicketDetailPageModule)
+  },
+  {
+    path: 'scanned-tickets',
+    loadChildren: () => import('./scanned-tickets/scanned-tickets.module').then( m => m.ScannedTicketsPageModule)
+  },
+  {
+    path: 'organizer-events',
+    loadChildren: () => import('./organizer-events/organizer-events.module').then( m => m.OrganizerEventsPageModule)
+  },
+  {
+    path: 'ticket',
+    loadChildren: () => import('./ticket/ticket.module').then( m => m.TicketPageModule)
+  },
+  {
+    path: 'payment-methods',
+    loadChildren: () => import('./payment-methods/payment-methods.module').then( m => m.PaymentMethodsPageModule)
+  },
+  {
+    path: 'event-detail',
+    loadChildren: () => import('./event-detail/event-detail.module').then( m => m.EventDetailPageModule)
+  },
+  {
+    path: 'my-events',
+    loadChildren: () => import('./my-events/my-events.module').then( m => m.MyEventsPageModule)
+  },
+  {
+    path: 'my-refunds',
+    loadChildren: () => import('./my-refunds/my-refunds.module').then( m => m.MyRefundsPageModule)
+  },
 
 ];
 

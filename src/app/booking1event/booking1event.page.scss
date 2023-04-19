@@ -10,14 +10,36 @@
     --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
     padding: 0px 0px 0px 0px;
   }
-    
+  
+  .venue_label{
+    text-align: left;
+    font-weight: 500;
+    font-size: 16px;
+    color: #FFFFFF;
+    // width: 212px;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // display: block;
+    // white-space: nowrap;
+  }
   .centerall{
     display: flex;
     justify-content: center;
     align-items: center;
   }
+  .right{
+    margin-right:15px;
+    margin-top: 17px;
+    text-align: right;
+  }
+  // .modal_popup{
 
+  // }
 
+  .msg_btn_sec{
+    text-align: center;
+    padding: 15px 28px 25px;
+  }
   .date{
     font-style: normal;
     font-weight: 400;

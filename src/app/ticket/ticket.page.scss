@@ -1,0 +1,59 @@
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+    
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center{
+    text-align: center;
+  }
+
+  .container{
+    padding: 40px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .flex_center{
+    display: flex;
+    align-items: center;
+  }
+
+  .right{
+    margin-right:15px;
+    margin-top: 17px;
+    text-align: right;
+  }
+
+  .msg_btn_sec{
+    text-align: center;
+    padding: 15px 28px 25px;
+  }
+
+  .modal_title{
+    font-weight: 600;
+    font-size: 20px;
+    color: #000000;
+  }
+
+  .modal_desc{
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    color: #262626;
+  }
