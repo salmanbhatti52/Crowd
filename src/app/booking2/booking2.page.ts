@@ -1,4 +1,4 @@
-import { ModalController } from "@ionic/angular";
+import { ModalController, NavController } from "@ionic/angular";
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
@@ -28,7 +28,8 @@ export class Booking2Page implements OnInit {
     public router: Router,
     public rest: RestService,
     public modalCtrl: ModalController,
-    public iab: InAppBrowser
+    public iab: InAppBrowser,
+    public navCtrl:NavController
   ) {}
 
   ionViewWillEnter() {
@@ -55,7 +56,8 @@ export class Booking2Page implements OnInit {
 
   gotoReservations(){
     this.rest.comfrom = 'booking2';
-    this.router.navigate(['/myreservations']);
+    // this.router.navigate(['/myreservations']);
+    this.navCtrl.navigateRoot('myreservations');
   }
 
   handleImgError2(ev: any, item: any) {

@@ -32,7 +32,7 @@ export class Booking1Page implements OnInit {
   // myDate: any = "2022-04-02";
 
   usertime: any = "";
-
+  userdate: any = "";
   peopleArr = [
     {
       id: 1,

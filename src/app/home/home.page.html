@@ -384,7 +384,7 @@
       style="display: flex; flex-wrap: wrap"
       *ngIf="segmentModel === 'event'"
     >
-      <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
+      
 
       <div class="searchtop" style="width: 100%">
         <div
@@ -407,6 +407,8 @@
           src="/assets/imgs/tune.svg"
         />
       </div>
+
+      <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
       <div
         style="
           width: 100%;
