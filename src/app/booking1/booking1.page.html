@@ -63,8 +63,11 @@
       presentation="date"
       [preferWheel]="true"
       locale="en-US"
-      [(ngModel)]="userdate"
+      #datetime min="{{minDate}}" max="2080" 
+      (ionChange)="formattedString(datetime.value)"
+      
     ></ion-datetime>
+    <!-- [(ngModel)]="userdate" -->
     <!-- (click)="showDatepicker1()" -->
     <!-- <div
       *ngIf="myDate == 'Select Date'"

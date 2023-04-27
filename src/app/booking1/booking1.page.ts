@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
-
+import {format, parseISO,addDays,isDate, getDate,getMonth,getYear} from 'date-fns';
 import * as moment from "moment";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
@@ -13,6 +13,7 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
   styleUrls: ["./booking1.page.scss"],
 })
 export class Booking1Page implements OnInit {
+  minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
   config = {
     show: false,
     weekOffset: -2,
@@ -28,7 +29,7 @@ export class Booking1Page implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  myDate: any = "Select Date";
+  myDate: any = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
   // myDate: any = "2022-04-02";
 
   usertime: any = "";
@@ -192,23 +193,31 @@ export class Booking1Page implements OnInit {
     }
   }
 
-  showDatepicker1() {
-    this.datePicker
-      .show({
-        date: new Date(),
-        mode: "date",
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
-        okText: "Save Date",
-        // todayText: "Set Today",
-      })
-      .then(
-        (date) => {
-          this.myDate = moment(date).format("YYYY-MM-DD");
+  // showDatepicker1() {
+  //   this.datePicker
+  //     .show({
+  //       date: new Date(),
+  //       mode: "date",
+  //       androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
+  //       okText: "Save Date",
+  //       // todayText: "Set Today",
+  //     })
+  //     .then(
+  //       (date) => {
+  //         this.myDate = moment(date).format("YYYY-MM-DD");
 
-          console.log("date----", date);
-          console.log("date----", this.myDate);
-        },
-        (err) => console.log("Error occurred while getting date: ", err)
-      );
+  //         console.log("date----", date);
+  //         console.log("date----", this.myDate);
+  //       },
+  //       (err) => console.log("Error occurred while getting date: ", err)
+  //     );
+  // }
+
+  formattedString(dateVal:any){
+
+    this.myDate = format(parseISO(dateVal), 'yyyy-MM-dd');
+    console.log('DateValues: ',dateVal);
+    console.log(this.myDate);
+    
   }
 }
