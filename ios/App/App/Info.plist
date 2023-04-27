@@ -85,6 +85,8 @@
 	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need to access location to show nearby venues and events to user. User can see the nearby venues and events according to his/her location.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need to access your location to get best match of events and venues near your location.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
