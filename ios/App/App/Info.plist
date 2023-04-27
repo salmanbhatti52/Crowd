@@ -67,7 +67,12 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
-	
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need to access your location to get best match of events and venues near your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need to access your location to get best match of events and venues near your location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to access your location to get best match of events and venues near your location.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -76,16 +81,8 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Need to access your location to get best match of events and venues near your location.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need to access your location to get best match of events and venues near your location.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Need to access your location to get best match of events and venues near your location.</string>
 	
 	<key>UIBackgroundModes</key>
-
 	<array>
 		<string>remote-notification</string>
 	</array>
