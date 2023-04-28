@@ -153,15 +153,18 @@
     color: white;
     margin-bottom: 6px;
   }
-  ion-datetime.md{
-    --background: #262626;
-    color: #464646;
+  // ion-datetime.md{
+  //   --background: #262626;
+  //   color: #464646;
+  // }
+  // ion-datetime.ios{
+  //   --background: #262626;
+  //   color: #464646;
+  // }
+  ion-datetime {
+    color: #000000  !important;
+    --background: none;
   }
-  ion-datetime.ios{
-    --background: #262626;
-    color: #464646;
-  }
-
   .select_date{
     margin-right: 16px;
     width: 48%;
