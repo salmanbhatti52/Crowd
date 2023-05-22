@@ -18,13 +18,33 @@ export class RestService {
   comfrom = '';
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";
-
+  mapsKey = 'AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c'
+  mapsBaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
     public alertcontroller: AlertController,
     public loadingController: LoadingController
   ) {}
+
+  getNearbyVenues(params: any){
+    let header;
+    
+    header = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'text/plain',
+    });
+    // header.append("Access-Control-Allow-Origin", "*");
+    // header.append(
+    //   "Access-Control-Allow-Methods",
+    //   "POST, GET, DELETE, PUT,OPTIONS"
+    // );
+    
+    return this.http.get(`${this.mapsBaseURL}${params}${this.mapsKey}`,  {
+      headers: header,
+    });
+
+  }
 
   sendRequest(action: any, data?: any) {
     let header;
@@ -37,7 +57,6 @@ export class RestService {
       headers: header,
     });
   }
-
   
   presentLoader() {
     this.loadingController

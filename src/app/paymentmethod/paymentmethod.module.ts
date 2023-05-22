@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PaymentmethodPageRoutingModule } from './paymentmethod-routing.module';
-
+// import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { PaymentmethodPage } from './paymentmethod.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { PaymentmethodPage } from './paymentmethod.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PaymentmethodPageRoutingModule
+    PaymentmethodPageRoutingModule,
+    // GooglePayButtonModule
   ],
   declarations: [PaymentmethodPage]
 })

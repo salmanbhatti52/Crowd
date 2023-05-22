@@ -18,10 +18,8 @@
       "
       class="work_sans"
     >
-      Let’s get you started.
+      Let's get you started.
     </p>
-
-    <div></div>
 
     <div
       class="inputfieldtransparent"
@@ -33,7 +31,7 @@
       "
     >
       <img
-        (click)="getCurrentLocatiuon()"
+        (click)="getCurrentLocation()"
         style="margin: 13px 17px 13px 15px"
         src="/assets/imgs/target.svg"
       />
@@ -48,14 +46,13 @@
       /> -->
 
       <input
+        #search
         type="text"
         class="input"
-        (keydown.enter)="$event.preventDefault()"
         placeholder="Search your area"
-        autocapitalize="words"
-        type="text"
+        (keydown.enter)="$event.preventDefault()"
         [(ngModel)]="from"
-        #search
+        autocapitalize="words"
       />
 
       <!-- <ion-input
@@ -74,16 +71,16 @@
       />
     </div>
 
-    <ion-list [hidden]="listishiddenFrom">
+    <!-- *ngFor="let item of autocompleteItems" -->
+    <!-- (click)="selectSearchResultFrom(item)" -->
+    <!-- <ion-list [hidden]="listishiddenFrom">
       <ion-item
-        *ngFor="let item of autocompleteItems"
         tappable
-        (click)="selectSearchResultFrom(item)"
         style="--background: black; color: white"
       >
         {{ item.description }}
       </ion-item>
-    </ion-list>
+    </ion-list> -->
 
     <ion-button
       (click)="goToHome()"

@@ -1,14 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
-import { CalendarComponentOptions } from "ion2-calendar";
-
+// import { CalendarComponentOptions } from "ion2-calendar";
+import {format, parseISO,addDays,isDate, getDate,getMonth,getYear} from 'date-fns';
 @Component({
   selector: "app-filter",
   templateUrl: "./filter.page.html",
   styleUrls: ["./filter.page.scss"],
 })
 export class FilterPage implements OnInit {
+  minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  myDate: any = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  // userdate: any = "";
   cityArr = [
     {
       id: 1,
@@ -54,9 +57,9 @@ export class FilterPage implements OnInit {
   userdate = "Date";
   userCategory = "Category";
 
-  optionsRange: CalendarComponentOptions = {
-    pickMode: "range",
-  };
+  // optionsRange: CalendarComponentOptions = {
+  //   pickMode: "range",
+  // };
 
   date: string = "";
   type = "string"; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
@@ -69,6 +72,14 @@ export class FilterPage implements OnInit {
 
   closeModel() {
     this.modalCtrl.dismiss();
+  }
+
+  formattedString(dateVal:any){
+
+    this.myDate = format(parseISO(dateVal), 'yyyy-MM-dd');
+    console.log('DateValues: ',dateVal);
+    console.log(this.myDate);
+    
   }
 
   logout() {

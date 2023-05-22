@@ -2,7 +2,7 @@ import { FilterPage } from "./../filter/filter.page";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
-import { AnyARecord } from "dns";
+// import { AnyARecord } from "dns";
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
 import { Geolocation } from "@capacitor/geolocation";
@@ -15,8 +15,9 @@ export class HomePage implements OnInit {
   segmentModel = "venu";
   showfilter = false;
   venuarr: any = [];
+  venusNearUserLoc: any = [];
   venuarrOrg: any = "";
-
+  number = "123";
   eventarr: any = [];
   filtertype: any = "no";
 
@@ -54,6 +55,17 @@ export class HomePage implements OnInit {
     this.router.navigate(["noti"]);
   }
 
+  getVenuesOfCurrentLocation(){
+    console.log("getVenuesOfCurrentLocationCalled");
+
+   this.rest.getNearbyVenues(`location=${this.latitude}%2C${this.longitude}&radius=1500&type=restaurant&keyword=cruise&key=`).subscribe(res=>{
+  //  this.rest.getNearbyVenues(`location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=`).subscribe(res=>{
+    
+  console.log("venuesNearCurrentLocation: ",res);
+    
+   });
+  }
+
   async getCurrentPosition() {
     const getCurrentLocation = await Geolocation.getCurrentPosition({
       enableHighAccuracy: true,
@@ -63,9 +75,9 @@ export class HomePage implements OnInit {
     this.longitude = getCurrentLocation.coords.longitude;
     console.log("getCurrentPositionCalled");
     
-    console.log("Latitude: ", this.latitude);
-    console.log("Longitude: ", this.longitude);
-
+    console.log("Latitude123: ", this.latitude);
+    console.log("Longitude123: ", this.longitude);
+    this.getVenuesOfCurrentLocation();
     // console.log("printCurrentPosition: ",printCurrentPosition);
   }
 
@@ -80,40 +92,15 @@ export class HomePage implements OnInit {
     console.log("eee", event);
   }
 
-  async showVenueModal() {
-    const modal = await this.modalCtrlr.create({
-      component: SelectVenuePopupPage,
-      cssClass: "select_venue",
-      componentProps: { venue_list: this.venueList },
+  goToVenuDetail(opt: any) {
+    this.getVenuesSuggested(opt);
 
-      // cssClass: (result>24)? 'cancel_booking' : 'cancel_booking2',
-      showBackdrop: true,
-    });
-    modal.present();
-    const { data, role } = await modal.onWillDismiss();
-    if (role === "value_sent") {
-      console.log(data);
-      this.selectedVenueName = data;
-      console.log("selectedVenueName:", this.selectedVenueName);
-      for (let dt of this.venueList) {
-        console.log("selectedVenueNameinLoop:", this.selectedVenueName);
-        console.log("Entered in loop");
-        console.log(dt);
-        console.log(dt.name);
-        // console.log(this.selectedVenue);
-        this.selectedVenue = {};
-        console.log(this.selectedVenue);
-
-        if (dt.name == this.selectedVenueName) {
-          this.selectedVenue = dt;
-          this.HideFilter();
-          console.log(this.selectedVenue);
-          this.rest.detail = this.selectedVenue;
-          this.router.navigate(["venuedetail"]);
-        }
-      }
-    }
+    // this.HideFilter();
+    // console.log(opt);
+    // this.rest.detail = opt;
+    // // this.router.navigate(["venuedetail"]);
   }
+
   getVenuesSuggested(opt: any) {
     let data = {
       // longitude:"71.4706624",
@@ -130,11 +117,13 @@ export class HomePage implements OnInit {
         console.log("Response venues_suggested : ", res);
         if (res.status == "success") {
           this.venueList = res.data;
+          console.log("Response venues_suggested123: ",this.venueList);
+          
           this.showVenueModal();
         } else {
           this.venueList = [];
           this.HideFilter();
-          console.log(opt);
+          console.log("opt: ",opt);
           this.rest.detail = opt;
           this.router.navigate(["venuedetail"]);
         }
@@ -146,22 +135,47 @@ export class HomePage implements OnInit {
     );
   }
 
-  goToDetail(opt: any) {
-    this.getVenuesSuggested(opt);
+  async showVenueModal() {
+    const modal = await this.modalCtrlr.create({
+      component: SelectVenuePopupPage,
+      cssClass: "select_venue",
+      componentProps: { venue_list: this.venueList },
 
-    // this.HideFilter();
-    // console.log(opt);
-    // this.rest.detail = opt;
-    // // this.router.navigate(["venuedetail"]);
+      // cssClass: (result>24)? 'cancel_booking' : 'cancel_booking2',
+      showBackdrop: true,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === "value_sent") {
+      console.log("data123: ",data);
+      this.selectedVenueName = data;
+      console.log("selectedVenueName:", this.selectedVenueName);
+      for (let dt of this.venueList) {
+        // console.log("selectedVenueNameinLoop:", this.selectedVenueName);
+        console.log("Entered in loop");
+        // console.log(dt);
+        // console.log(dt.name);
+        this.selectedVenue = {};
+        // console.log(this.selectedVenue);
+
+        if (dt.name == this.selectedVenueName) {
+          this.selectedVenue = dt;
+          this.HideFilter();
+          console.log(this.selectedVenue);
+          this.rest.detail = this.selectedVenue;
+          this.router.navigate(["venuedetail"]);
+        }
+      }
+    }
   }
 
-  goToDetailFilter(ev: any) {
+  goToReservationDetail(ev: any) {
     console.log(ev);
     this.rest.detail = ev;
     this.router.navigate(["booking1"]);
   }
 
-  goToDetailevent(opt: any) {
+  goToEventDetail(opt: any) {
     this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
@@ -277,9 +291,11 @@ export class HomePage implements OnInit {
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
   }
+  
   userdata: any = "";
- userID : any = "";
+  userID : any = "";
   records_limit: any = 0;
+  
   ionViewWillEnter() {
     this.getCurrentPosition();
     this.filtertype = "no";
@@ -296,11 +312,10 @@ export class HomePage implements OnInit {
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
       users_customers_id: this.userID,
-      // longitude: "71.513317",
-      // lattitude: "30.204700",
       page_number: this.pageNumber,
     });
-    console.log("aliiiiiiiiiiiiiii", ss);
+    
+    console.log("payload: ", ss);
     console.log("localStorage longitude: ",localStorage.getItem("longitude"));
     console.log("localStorage lattitude: ",localStorage.getItem("lattitude"));
     console.log("longitude ", this.longitude);
@@ -312,7 +327,7 @@ export class HomePage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.eventarr = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          // console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
         });
       } else {
@@ -326,39 +341,46 @@ export class HomePage implements OnInit {
       
       this.rest.dismissLoader();
       if (res.status == "success") {
+        
         this.venuarr = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
-
         });
+
         console.log('venuArray: ',this.venuarr);
         
-        this.rest.venuesArray = this.venuarr;
-        this.venuarrOrg = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
-          return a.distance - b.distance;
-        });
+        // //FILTER VENUES NEAR USER LOCATION
+        // this.getVenuesNearUserLocation();
 
+        this.rest.venuesArray = this.venuarr;
+        console.log("this.rest.venuesArray: ",this.rest.venuesArray);
+        
+        this.venuarrOrg = this.venuarr;
+        console.log('venuarrOrg: ',this.venuarrOrg);
+        
         this.filteredvenuarr = this.venuarrOrg;
-        this.rest.venuArrHome = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
-          return a.distance - b.distance;
-        });
+        this.rest.venuArrHome = this.venuarr;
+        
+        console.log('venuArrHome: ',this.rest.venuArrHome);
       } else {
         // this.rest.presentToast(res.message);
         this.noevenu = 1;
       }
     });
+    
+
   }
 
   handleRefresh(ev: any) {
-    console.log("ev-----", ev);
+    console.log("ev123-----", ev);
     setTimeout(() => {
       ev.target.complete();
     }, 1000);
     this.ionViewWillEnter();
   }
+  
   onIonInfinite(ev: any) {
+    console.log("ev123InFinite",ev);
+    
     this.pageNumber++;
     console.log("ev-----", this.pageNumber);
     console.log("records_limit-----", localStorage.getItem("records_limit"));
@@ -370,18 +392,17 @@ export class HomePage implements OnInit {
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
       users_customers_id: this.userID,
-      // longitude: "71.513317",
-      // lattitude: "30.204700",
       page_number: this.pageNumber,
     });
-    console.log("aliiiiiiiiiiiiiii", ss);
+    console.log("OnIonInfiniete data ss", ss);
+    
     this.rest.events(ss).subscribe((res: any) => {
       console.log("events---", res);
       this.rest.dismissLoader();
+      
       if (res.status == "success") {
         this.eventarr = this.eventarr.concat(
           res.data.sort((a: any, b: any) => {
-            console.log("testppppppppppopopopopopoopopopopopopopopo");
             return a.distance - b.distance;
           })
         );
@@ -392,25 +413,28 @@ export class HomePage implements OnInit {
     });
 
     this.rest.venues(ss).subscribe((res: any) => {
-      console.log("venues---", res);
+      console.log("updated venues response---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.venuarr = this.venuarr.concat(
           res.data.sort((a: any, b: any) => {
-            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            // console.log("testppppppppppopopopopopoopopopopopopopopo");
             return a.distance - b.distance;
           })
         );
+        // this.getVenuesNearUserLocation();
+        console.log("Updated Venu Array",this.venuarr);
+        
         this.venuarrOrg = this.venuarr.concat(
           res.data.sort((a: any, b: any) => {
-            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            // console.log("testppppppppppopopopopopoopopopopopopopopo");
             return a.distance - b.distance;
           })
         );
 
         this.rest.venuArrHome = this.venuarr.concat(
           res.data.sort((a: any, b: any) => {
-            console.log("testppppppppppopopopopopoopopopopopopopopo");
+            // console.log("testppppppppppopopopopopoopopopopopopopopo");
             return a.distance - b.distance;
           })
         );
@@ -421,12 +445,14 @@ export class HomePage implements OnInit {
         // this.noevenu = 1;
       }
     });
+
+    
   }
 
-  eventHandler(event: any) {
+  searchReservations(event: any) {
     this.filteredvenuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      console.log(this.venuarrOrg[i].name.toLowerCase());
+      // console.log(this.venuarrOrg[i].name.toLowerCase());
       console.log(event.target.value.toLowerCase());
 
       if (
@@ -441,8 +467,26 @@ export class HomePage implements OnInit {
     console.log("item------", this.filteredvenuarr);
   }
 
+  searchEvents(event: any) {
+    // this.filteredvenuarr = [];
+    // for (var i = 0; i < this.venuarrOrg.length; i++) {
+    //   // console.log(this.venuarrOrg[i].name.toLowerCase());
+    //   console.log(event.target.value.toLowerCase());
+
+    //   if (
+    //     this.venuarrOrg[i].name
+    //       .toLowerCase()
+    //       .includes(event.target.value.toLowerCase())
+    //   ) {
+    //     this.filteredvenuarr.push(this.venuarrOrg[i]);
+    //   }
+    // }
+
+    // console.log("item------", this.filteredvenuarr);
+  }
+
   async goToFilter() {
-    console.log("model");
+    console.log("model123fdd");
     const modal = await this.modalCtrlr.create({
       component: FilterPage,
       cssClass: "riz",
@@ -450,4 +494,13 @@ export class HomePage implements OnInit {
 
     await modal.present();
   }
+
+
+  gotoEventDetail(){
+    this.router.navigate(["eventdetail"]);
+  }
+
 }
+
+
+

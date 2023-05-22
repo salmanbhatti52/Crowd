@@ -251,7 +251,7 @@
         >
           <ion-input
             style="padding-left: 15px !important"
-            (ionInput)="eventHandler($event)"
+            (ionInput)="searchReservations($event)"
             class="input"
             type="text"
             placeholder="Search Venues"
@@ -304,7 +304,7 @@
          </div> -->
           <div
             class="divboxshadowinside"
-            (click)="goToDetailFilter(opt)"
+            (click)="goToReservationDetail(opt)"
             style=" 
           position: relative;
          height: 100%;
@@ -362,7 +362,7 @@
         </div>
         <div
           class="divboxshadowinside"
-          (click)="goToDetail(opt)"
+          (click)="goToVenuDetail(opt)"
           style=" 
             position: relative;
            height: 100%;
@@ -393,7 +393,7 @@
         >
           <ion-input
             style="padding-left: 15px !important"
-            (ionInput)="eventHandler($event)"
+            (ionInput)="searchEvents($event)"
             class="input"
             type="text"
             placeholder="Search Events"
@@ -408,7 +408,7 @@
         />
       </div>
 
-      <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
+      <p *ngIf="noevent == 1" (click)="gotoEventDetail()" class="notFound work_sans">No Events Found</p>
       <div
         style="
           width: 100%;
@@ -454,7 +454,7 @@
           </div>
           <div
             class="divboxshadowinside"
-            (click)="goToDetailevent(opt)"
+            (click)="goToEventDetail(opt)"
             style=" 
             position: relative;
            height: 100%;

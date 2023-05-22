@@ -17,11 +17,17 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
+  <!-- <google-pay-button
+  environment="TEST"
+  buttonColor="default"
+  buttonType="buy"
+></google-pay-button> -->
+
   <div style="width: 90%; text-align: center; margin: 5% auto">
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-      <p class="title work_sans">Cards</p>
+      <div class="title work_sans">Cards</div>
 
       <img (click)="addcard()" src="assets/imgs/plus.svg" />
     </div>
@@ -64,7 +70,8 @@
 
     <div class="bt">
       <div style="display: flex; flex-direction: column; align-items: center">
-        <div
+        <!-- (click)="handleGooglePay()" -->
+        <div 
           style="
             background: #000000;
             align-items: center;
@@ -80,11 +87,20 @@
             height: 50px;
           "
         >
-          <p style="margin: 0px" class="title ork_sans">
-            Pay with <img src="../../assets/imgs/google_pay_icon.svg" />
+          <p style="margin: 0px" class="title roboto">
+            Pay with <img style="margin-left: 4px;" src="../../assets/imgs/google_pay_icon.svg" />
           </p>
         </div>
-
+        
+        <!-- <google-pay-button
+        environment="TEST"
+        buttonColor="black"
+        buttonType="pay"
+        buttonSizeMode="fill"
+        [paymentRequest]="paymentRequest"
+        (loadpaymentdata)="onLoadPaymentData($event)"
+        ></google-pay-button> -->
+        
         <div
           style="
             background: #000000;
@@ -101,8 +117,8 @@
             height: 50px;
           "
         >
-          <p style="margin: 0px" class="title work_sans">
-            Pay with <img src="../../assets/imgs/apple_pay_icon.svg" />
+          <p style="margin: 0px" class="title roboto">
+            Pay with <img style="margin-left: 4px;" src="../../assets/imgs/apple_pay_icon.svg" />
           </p>
         </div>
       </div>

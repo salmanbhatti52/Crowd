@@ -1,4 +1,3 @@
-import { PininfoPage } from "./../pininfo/pininfo.page";
 import { RestService } from "./../rest.service";
 import {
   Component,
@@ -295,8 +294,8 @@ export class LocationmapPage implements OnInit {
 
   searchObject: any = "";
 
-  dismissmodal = 0;
-  modalopen = 0;
+  // dismissmodal = 0;
+  // modalopen = 0;
 
   markerscheck = [];
 
@@ -314,9 +313,9 @@ export class LocationmapPage implements OnInit {
     private geoCoder: MapGeocoder
   ) {}
 
-  ionViewDidEnter() {
-    this.createMap();
-  }
+  // ionViewDidEnter() {
+  //   this.createMap();
+  // }
 
   async ionViewWillEnter() {
     this.a = localStorage.getItem("lattitude");
@@ -330,7 +329,7 @@ export class LocationmapPage implements OnInit {
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
 
-    await this.setMarkerPosition(this.dbLati, this.dbLong);
+    // await this.setMarkerPosition(this.dbLati, this.dbLong);
 
     this.center = {
       lat: this.dbLati,
@@ -347,32 +346,32 @@ export class LocationmapPage implements OnInit {
     // );
   }
 
-  ionViewWillLeave() {
-    // enable the root left menu when leaving this page
-    // this.map.destroy();
-  }
+  // ionViewWillLeave() {
+  //   // enable the root left menu when leaving this page
+  //   // this.map.destroy();
+  // }
 
-  async createMap() {
-    this.dismissmodal = 0;
-    // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
-    // this.map = await GoogleMap.create({
-    //   id: "my-map", // Unique identifier for this map instance
-    //   element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element,
-    //   apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
-    //   forceCreate: true,
-    //   config: {
-    //     center: {
-    //       // The initial position to be rendered by the map
-    //       lat: 30.2398469,
-    //       lng: 71.4703882,
-    //     },
+  // async createMap() {
+  //   this.dismissmodal = 0;
+  //   // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
+  //   // this.map = await GoogleMap.create({
+  //   //   id: "my-map", // Unique identifier for this map instance
+  //   //   element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element,
+  //   //   apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
+  //   //   forceCreate: true,
+  //   //   config: {
+  //   //     center: {
+  //   //       // The initial position to be rendered by the map
+  //   //       lat: 30.2398469,
+  //   //       lng: 71.4703882,
+  //   //     },
 
-    //     zoom: 12, // The initial zoom level to be rendered by the map
-    //   },
-    // });
+  //   //     zoom: 12, // The initial zoom level to be rendered by the map
+  //   //   },
+  //   // });
 
-    // this.addmarkers();
-  }
+  //   // this.addmarkers();
+  // }
 
   // async addmarkers() {
   //   await this.map.addMarkers(this.markerscheck);
@@ -405,16 +404,18 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["profile"]);
   }
 
-  goToDetail() {
-    this.HideFilter();
-    this.router.navigate(["venuedetail"]);
-  }
+  // goToDetail() {
+  //   this.HideFilter();
+  //   this.router.navigate(["venuedetail"]);
+  // }
 
   clearFilter() {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
-
+    console.log("this.venuarr",this.venuarr);
+    
+    
     var newVenuArr = [];
     for (var i = 0; i < this.venuarr.length; i++) {
       var obj = {
@@ -444,7 +445,7 @@ export class LocationmapPage implements OnInit {
     this.markers = this.venuarr;
     // this.map.destroy();
 
-    this.createMap();
+    // this.createMap();
   }
 
   showHideFilter(item: any) {
@@ -467,10 +468,10 @@ export class LocationmapPage implements OnInit {
       this.showfilter = true;
     }
 
-    if (this.modalopen == 1) {
-      await this.modalCtrl.dismiss();
-    }
-    this.modalopen = 0;
+    // if (this.modalopen == 1) {
+    //   await this.modalCtrl.dismiss();
+    // }
+    // this.modalopen = 0;
   }
 
   searchAndFilterItems(searchTerm: any) {
@@ -513,11 +514,13 @@ export class LocationmapPage implements OnInit {
     this.markers = this.venuarr;
     // this.map.destroy();
 
-    this.createMap();
+    // this.createMap();
   }
 
   makeMarkerArray() {
     this.venuarr = [];
+    console.log("Venuarr ORG: ",this.venuarrOrg);
+    
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
@@ -529,13 +532,15 @@ export class LocationmapPage implements OnInit {
         // size: new google.maps.Size(48, 59),
         // anchor: new google.maps.Point(24, 59),
         // url: "assets/imgs/treeeline.svg",
-        icon: {
-          url: "assets/imgs/locpin.svg",
-          size: {
-            height: 120,
-            width: 30,
-          },
-        },
+        //=============== comment by gharsheen start
+        // icon: {
+        //   url: "assets/imgs/locpin.svg",
+        //   size: {
+        //     height: 120,
+        //     width: 30,
+        //   },
+        // },
+        // =================done=========
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
@@ -553,30 +558,32 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.venuarr;
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
   }
 
   async HideFilter() {
     this.searchObject = "";
     this.showfilter = false;
-    console.log("modalopen-----", this.modalopen);
+    // console.log("modalopen-----", this.modalopen);
 
-    if (this.modalopen == 1) {
-      await this.modalCtrl.dismiss();
-      this.modalopen = 0;
-    }
+    // if (this.modalopen == 1) {
+    //   await this.modalCtrl.dismiss();
+    //   this.modalopen = 0;
+    // }
   }
 
-  async goTOinfopage() {
-    this.HideFilter();
+  // async goTOinfopage() {
+  //   this.HideFilter();
 
-    const modal = await this.modalCtrl.create({
-      component: PininfoPage,
-      cssClass: "pinModal",
-    });
-    await modal.present();
+  //   const modal = await this.modalCtrl.create({
+  //     component: PininfoPage,
+  //     cssClass: "pinModal",
+  //   });
+  //   await modal.present();
 
-    this.modalopen = 1;
-  }
+  //   this.modalopen = 1;
+  // }
 
   gotodetail() {
     this.rest.detail = this.searchObject;
@@ -606,46 +613,46 @@ export class LocationmapPage implements OnInit {
     };
   }
 
-  setMarkerPosition(latitude: any, longitude: any) {
-    console.log("marker position");
+  // setMarkerPosition(latitude: any, longitude: any) {
+  //   console.log("marker position");
 
-    this.venuarr = [];
-    for (var i = 0; i < this.venuarrOrg.length; i++) {
-      var obj = {
-        position: {
-          lat: parseFloat(this.venuarrOrg[i].lattitude),
-          lng: parseFloat(this.venuarrOrg[i].longitude),
-        },
-        title: "" + this.venuarrOrg[i].public_check_ins,
-        name: this.venuarrOrg[i].name,
-        icon: {
-          url: "assets/imgs/locpin.svg",
-          size: {
-            height: 120,
-            width: 30,
-          },
-        },
-        options: {
-          animation: google.maps.Animation.DROP,
-          draggable: false,
-          icon: {
-            url: "assets/imgs/locpin.svg",
-            size: {
-              height: 120,
-              width: 30,
-            },
-          },
-        },
-      };
+  //   this.venuarr = [];
+  //   for (var i = 0; i < this.venuarrOrg.length; i++) {
+  //     var obj = {
+  //       position: {
+  //         lat: parseFloat(this.venuarrOrg[i].lattitude),
+  //         lng: parseFloat(this.venuarrOrg[i].longitude),
+  //       },
+  //       title: "" + this.venuarrOrg[i].public_check_ins,
+  //       name: this.venuarrOrg[i].name,
+  //       icon: {
+  //         url: "assets/imgs/locpin.svg",
+  //         size: {
+  //           height: 120,
+  //           width: 30,
+  //         },
+  //       },
+  //       options: {
+  //         animation: google.maps.Animation.DROP,
+  //         draggable: false,
+  //         icon: {
+  //           url: "assets/imgs/locpin.svg",
+  //           size: {
+  //             height: 120,
+  //             width: 30,
+  //           },
+  //         },
+  //       },
+  //     };
 
-      this.venuarr.push(obj);
-    }
+  //     this.venuarr.push(obj);
+  //   }
 
-    this.markers = this.venuarr;
-  }
+  //   this.markers = this.venuarr;
+  // }
 
   eventHandler(event: any, name: string) {
-    // console.log(event, name);
+    console.log("event123", event);
 
     switch (name) {
       case "mapDblclick": // Add marker on double click event
@@ -667,6 +674,8 @@ export class LocationmapPage implements OnInit {
     this.geoCoder
       .geocode({ location: { lat: latitude, lng: longitude } })
       .subscribe((addr: MapGeocoderResponse) => {
+        console.log("MapGeocoderResponse addr: ",addr);
+        
         if (addr.status === "OK") {
           if (addr.results[0]) {
             this.zoom = 13;
@@ -691,7 +700,7 @@ export class LocationmapPage implements OnInit {
     this.infoContent = content;
     this.infoWindow.open(marker);
     console.log("markerobj-----------", markerobj);
-    console.log("content-----------", content);
+    console.log("content title-----------", content);
 
     this.filterArrypin(markerobj.name);
   }
@@ -702,7 +711,8 @@ export class LocationmapPage implements OnInit {
         this.searchObject = this.venuarrOrg[i];
       }
     }
-
+    console.log("this.searchObject: ",this.searchObject);
+    
     this.rest.pinobject = this.searchObject;
 
     // this.goTOinfopage();

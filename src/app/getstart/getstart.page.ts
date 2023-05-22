@@ -65,6 +65,7 @@ export class GetstartPage implements OnInit {
 
   ngOnInit() {}
 
+   
   ngAfterViewInit(): void {
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(
@@ -81,35 +82,22 @@ export class GetstartPage implements OnInit {
           return;
         }
 
-        console.log({ place }, place.geometry.location?.lat());
+        console.log("place and geometery locationnnnnnn lat: ",{ place }, place.geometry.location?.lat());
+        console.log("place and geometery locationnnnnnn lng: ",{ place }, place.geometry.location?.lng());
 
         //set latitude, longitude and zoom
         this.latitude = place.geometry.location?.lat();
         this.longitude = place.geometry.location?.lng();
 
-        localStorage.setItem(
-          "location",
-          JSON.stringify(place.geometry.location?.lat())
-        );
-        localStorage.setItem("longitude", this.longitude);
-        localStorage.setItem("lattitude", this.latitude);
-
-        // alert(
-        //   "----lat----" +
-        //     this.latitude +
-        //     "----long----" +
-        //     this.longitude +
-        //     "formatted_address----" +
-        //     place.formatted_address
-        // );
-
-        // Set marker position
+        this.getAddress(this.latitude, this.longitude);
+        
       });
     });
   }
 
   goToHome() {
     console.log("from--", this.from);
+    
     console.log(
       "localStorage.getItem('longitude')--",
       localStorage.getItem("longitude")
@@ -117,6 +105,7 @@ export class GetstartPage implements OnInit {
     // return;
 
     if (this.from) {
+      // localStorage.setItem("location", this.from);
       if (localStorage.getItem("longitude")) {
         this.router.navigate(["home"]);
       } else {
@@ -127,96 +116,99 @@ export class GetstartPage implements OnInit {
     }
   }
 
-  selectSearchResultFrom(item: any) {
-    this.listishiddenFrom = true;
-    this.autocompleteItems = [];
-    console.log("itemmmmmmmmmmmmmmmmmmmmmmmmm", item);
-    this.location = item;
-    this.from = this.location.description;
-    this.listishiddenFrom = true;
-    console.log("location", this.location.latitude);
-    this.placeid = this.location.place_id;
-    console.log("placeid" + this.placeid);
-    this.location = item.description;
-    console.log("aaaaaaaaaaaaaaaaaaa", this.location);
+  // selectSearchResultFrom(item: any) {
+  //   this.listishiddenFrom = true;
+  //   this.autocompleteItems = [];
+  //   console.log("itemmmmmm", item);
+  //   this.location = item;
+  //   this.from = this.location.description;
+  //   this.listishiddenFrom = true;
+  //   console.log("location", this.location.latitude);
+  //   this.placeid = this.location.place_id;
+  //   console.log("placeid" + this.placeid);
+  //   this.location = item.description;
+  //   console.log("aaaaaa", this.location);
 
-    this.rest.presentLoader();
+  //   this.rest.presentLoader();
 
-    this.nativeGeocoder
-      .forwardGeocode(this.location)
-      .then((result: NativeGeocoderResult[]) => {
-        this.latitude = result[0].latitude;
-        this.longitude = result[0].longitude;
+  //   this.nativeGeocoder
+  //     .forwardGeocode(this.location)
+  //     .then((result: NativeGeocoderResult[]) => {
+  //       this.latitude = result[0].latitude;
+  //       this.longitude = result[0].longitude;
 
-        this.rest.dismissLoader();
-        console.log(
-          "The coordinates are latitude=" +
-            result[0].latitude +
-            " and longitude=" +
-            result[0].longitude
-        );
+  //       this.rest.dismissLoader();
+  //       console.log(
+  //         "The coordinates are latitude=" +
+  //           result[0].latitude +
+  //           " and longitude=" +
+  //           result[0].longitude
+  //       );
 
-        localStorage.setItem("location", this.location);
-        localStorage.setItem("longitude", result[0].longitude);
-        localStorage.setItem("lattitude", result[0].latitude);
+  //       localStorage.setItem("location", this.location);
+  //       localStorage.setItem("longitude", result[0].longitude);
+  //       localStorage.setItem("lattitude", result[0].latitude);
 
-        // alert(
-        //   "Simple The coordinates are latitude=" +
-        //     result[0].latitude +
-        //     " and longitude=" +
-        //     result[0].longitude
-        // );
+  //       // alert(
+  //       //   "Simple The coordinates are latitude=" +
+  //       //     result[0].latitude +
+  //       //     " and longitude=" +
+  //       //     result[0].longitude
+  //       // );
 
-        // alert(
-        //   "Localstorage The coordinates are latitude=" +
-        //     localStorage.getItem("longitude") +
-        //     " and longitude=" +
-        //     localStorage.getItem("lattitude") +
-        //     " and location=" +
-        //     localStorage.getItem("location")
-        // );
-      })
-      .catch((error: any) => {
-        this.rest.dismissLoader();
-        console.log(error);
-      });
-  }
+  //       // alert(
+  //       //   "Localstorage The coordinates are latitude=" +
+  //       //     localStorage.getItem("longitude") +
+  //       //     " and longitude=" +
+  //       //     localStorage.getItem("lattitude") +
+  //       //     " and location=" +
+  //       //     localStorage.getItem("location")
+  //       // );
+  //     })
+  //     .catch((error: any) => {
+  //       this.rest.dismissLoader();
+  //       console.log(error);
+  //     });
+  // }
 
-  updateSearchResultsEventFrom(ev: any) {
-    console.log(ev);
-    if (ev.target.value.length > 0) {
-      console.log(
-        "greatrtt    00000000000",
-        ev.detail.value,
-        ev.target.value.length
-      );
-      this.listishiddenFrom = false;
-      this.GoogleAutocomplete.getPlacePredictions(
-        { input: this.from },
-        (predictions: any, status: any) => {
-          this.autocompleteItems = [];
-          this.ngZone.run(() => {
-            predictions.forEach((prediction: any) => {
-              this.autocompleteItems.push(prediction);
-            });
-          });
-        }
-      );
-    } else {
-      console.log("eeeeeeeeeeeeeeeeeeeeeeeee", ev.detail.value);
-      this.listishiddenFrom = true;
-      console.log("khaallllllooiiiiiiiiiii");
-      this.locationishidden = false;
-      this.location = "";
-      this.autocompleteItems = [];
-      console.log("lllllllllllllllll", this.location);
-    }
-  }
+  // updateSearchResultsEventFrom(ev: any) {
+  //   console.log(ev);
+  //   if (ev.target.value.length > 0) {
+  //     console.log(
+  //       "greatrtt    00000000000",
+  //       ev.detail.value,
+  //       ev.target.value.length
+  //     );
+  //     this.listishiddenFrom = false;
+  //     this.GoogleAutocomplete.getPlacePredictions(
+  //       { input: this.from },
+  //       (predictions: any, status: any) => {
+  //         this.autocompleteItems = [];
+  //         this.ngZone.run(() => {
+  //           predictions.forEach((prediction: any) => {
+  //             this.autocompleteItems.push(prediction);
+  //           });
+  //         });
+  //         console.log("prediction", this.autocompleteItems);
+  //       }
+  //     );
+  //   } else {
+  //     console.log("eeeeeeeeeeeeeeeeeeeeeeeee", ev.detail.value);
+  //     this.listishiddenFrom = true;
+  //     console.log("khaallllllooiiiiiiiiiii");
+  //     this.locationishidden = false;
+  //     this.location = "";
+  //     this.autocompleteItems = [];
+  //     console.log("lllllllllllllllll", this.location);
+  //   }
+  // }
 
-  getCurrentLocatiuon() {
-    console.log("getCurrentLocatiuon()");
+  getCurrentLocation() {
+    console.log("getCurrentLocationCalled");
     this.rest.presentLoaderWd();
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log("position: ",position);
+      
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
       this.rest.dismissLoader();
@@ -225,20 +217,27 @@ export class GetstartPage implements OnInit {
   }
 
   getAddress(latitude: any, longitude: any) {
-    console.log("lat======", latitude);
-    console.log("long======", longitude);
+    let address:any;
     this.rest.presentLoaderWd();
     this.geoCoder
       .geocode({ location: { lat: latitude, lng: longitude } })
       .subscribe(
         (addr: MapGeocoderResponse) => {
           this.rest.dismissLoader();
-          if (addr.status === "OK") {
-            if (addr.results[0]) {
-              console.log("addr======", addr.results[0].formatted_address);
+          console.log("Addressss: ",addr);
+          address = addr;
+          
+          if (address.status === "OK") {
+            if (address.results.length) {
+              for(let i = 0; i<address.results.length; i++){ 
+                if(address.results[i].types.length == 3){
+                  console.log("address found===", address.results[i].formatted_address);
+                  this.currentaddress = address.results[i].formatted_address;
+                  this.from = this.currentaddress;
+                }
+              }
+              console.log("curr addr===", this.currentaddress);
 
-              this.currentaddress = addr.results[0].formatted_address;
-              this.from = this.currentaddress;
               localStorage.setItem("location", this.currentaddress);
               localStorage.setItem("longitude", longitude);
               localStorage.setItem("lattitude", latitude);
@@ -256,4 +255,5 @@ export class GetstartPage implements OnInit {
         }
       );
   }
+
 }

@@ -69,14 +69,22 @@
       </div>
 
       <div style="padding: 0px" class="floatingDiv" *ngIf="userdateShow">
-        <ion-calendar
+        <!-- <ion-datetime></ion-datetime> -->
+        <ion-datetime
+        presentation="date"
+        locale="en-US"
+        #datetime min="{{minDate}}" max="2080" 
+        (ionChange)="formattedString(datetime.value)"
+        
+      ></ion-datetime>
+        <!-- <ion-calendar
           [(ngModel)]="date"
           [options]="optionsRange"
           (change)="onChange($event)"
           [format]="'YYYY-MM-DD'"
           color="dark"
         >
-        </ion-calendar>
+        </ion-calendar> -->
       </div>
 
       <div
