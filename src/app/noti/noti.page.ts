@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
+import { formatDistance } from "date-fns";
 
-import * as moment from "moment";
+// import * as moment from "moment";
 
 @Component({
   selector: "app-noti",
@@ -33,7 +34,7 @@ export class NotiPage implements OnInit {
     this.rest.presentLoader();
 
     this.rest.notifications(ss).subscribe((res: any) => {
-      console.log("res-----", res);
+      console.log("res noti-----", res);
 
       this.rest.dismissLoader();
 
@@ -65,9 +66,12 @@ export class NotiPage implements OnInit {
   }
 
   calculatedate(opt: any) {
-    var dd = moment(opt, "YYYYMMDD").fromNow(); // 11 years ago
+    // console.log("optttttttttt------",opt);
+    // console.log("date-fns formatDistance------",formatDistance(new Date(),new Date(opt)));
+    var dd = formatDistance(new Date(),new Date(opt))
+    // var dd = moment(opt, "YYYYMMDD").fromNow(); // 11 years ago
 
-    console.log("dd--------", dd);
+    // console.log("dd--ffff------", dd);
 
     return dd;
   }

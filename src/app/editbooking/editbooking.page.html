@@ -59,7 +59,15 @@
 
     <p style="margin: 20px 0px" class="inputTitle">Select Date</p>
 
-    <div
+    <ion-datetime
+      presentation="date"
+      [preferWheel]="true"
+      locale="en-US"
+      [(ngModel)]="dateIsoStirng"
+      #datetime min="{{minDate}}" max="2080" 
+      (ionChange)="formattedString($event)"
+    ></ion-datetime>
+    <!-- <div
       *ngIf="myDate == 'Select Date'"
       style="display: flex; align-items: center; justify-content: center"
       (click)="showDatepicker1()"
@@ -106,11 +114,11 @@
         <p class="dateClas">{{getDay1(myDate)}}</p>
         <p style="margin-top: 13px; margin-bottom: 0px" class="dateClas1">
           {{getDay2(myDate)}}
-        </p>
+        </p> -->
         <!-- <p class="dateClas">{{getDay3(myDate)}}</p>
         <p class="dateClas">{{getDay4(myDate)}}</p> -->
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
 
     <!-- <div style="display: flex; overflow: scroll">
       <div

@@ -99,6 +99,8 @@ export class VenuedetailPage implements OnInit {
       window.open("maps://?q=" + geocoords, "_system");
     } else {
       var label = encodeURI(this.detailObj.location); // encode the label!
+      console.log("labellll: ",label);
+      
       window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
 
       // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
@@ -126,7 +128,7 @@ export class VenuedetailPage implements OnInit {
   }
 
   openSlider(slidingItem: IonItemSliding) {
-    console.log("opne");
+    console.log("opnessssssssssssssssss");
 
     this.num = 0;
     slidingItem.close();

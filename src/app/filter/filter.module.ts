@@ -7,7 +7,6 @@ import { IonicModule } from "@ionic/angular";
 import { FilterPageRoutingModule } from "./filter-routing.module";
 
 import { FilterPage } from "./filter.page";
-import { CalendarModule } from "ion2-calendar";
 
 @NgModule({
   imports: [
@@ -15,10 +14,6 @@ import { CalendarModule } from "ion2-calendar";
     FormsModule,
     IonicModule,
     FilterPageRoutingModule,
-    CalendarModule.forRoot({
-      doneLabel: "Save",
-      closeIcon: true,
-    }),
   ],
   declarations: [FilterPage],
 })

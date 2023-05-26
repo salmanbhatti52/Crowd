@@ -21,7 +21,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div style="width: 90%; margin: 5% auto">
+  <div style="margin-bottom: 58px;" class="ion-padding">
     <div *ngIf="noticount == 2">
       <div class="div1" *ngFor="let noti of notiArr" (click)="goToDetail(noti)">
         <ion-row>

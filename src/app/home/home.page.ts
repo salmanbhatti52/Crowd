@@ -6,6 +6,8 @@ import { ModalController } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
 import { Geolocation } from "@capacitor/geolocation";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -20,7 +22,8 @@ export class HomePage implements OnInit {
   number = "123";
   eventarr: any = [];
   filtertype: any = "no";
-
+  // venusArray:any = []
+  venues!: Observable<any>
   noevent = 0;
   noevenu = 0;
 
@@ -35,8 +38,29 @@ export class HomePage implements OnInit {
   constructor(
     public router: Router,
     public rest: RestService,
-    public modalCtrlr: ModalController
-  ) {}
+    public modalCtrlr: ModalController,
+    private http:HttpClient
+  ) {
+    // const apiUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+    // const params = {
+    //   location: '-33.8670522,151.1957362',
+    //   radius: '1500',
+    //   type: 'restaurant',
+    //   keyword: 'cruise',
+    //   key: 'AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c' // Replace with your actual API key
+    // };
+
+    // this.http.get(apiUrl, { params }).subscribe(
+    //   (response: any) => {
+    //     // Handle the response data here
+    //     console.log("Ressss: ",response);
+    //   },
+    //   (error: any) => {
+    //     // Handle any errors
+    //     console.error("Errrr: ",error);
+    //   }
+    // );
+  }
   ngOnInit() {}
   tab1Click() {
     this.HideFilter();
@@ -58,10 +82,10 @@ export class HomePage implements OnInit {
   getVenuesOfCurrentLocation(){
     console.log("getVenuesOfCurrentLocationCalled");
 
-   this.rest.getNearbyVenues(`location=${this.latitude}%2C${this.longitude}&radius=1500&type=restaurant&keyword=cruise&key=`).subscribe(res=>{
+    this.rest.getNearbyVenues(`location=${this.latitude}%2C${this.longitude}&radius=1500&type=restaurant&key=`).subscribe(res=>{
   //  this.rest.getNearbyVenues(`location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=`).subscribe(res=>{
     
-  console.log("venuesNearCurrentLocation: ",res);
+    console.log("venuesNearCurrentLocation: ",res);
     
    });
   }

@@ -63,8 +63,8 @@
       presentation="date"
       [preferWheel]="true"
       locale="en-US"
-      #datetime min="{{minDate}}" max="2080" 
-      (ionChange)="formattedString(datetime.value)"
+      min="{{minDate}}" max="2080" 
+      (ionChange)="formattedString($event)"
       
     ></ion-datetime>
     <!-- [(ngModel)]="userdate" -->

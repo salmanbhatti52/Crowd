@@ -87,8 +87,8 @@
       <ion-col size="3" style="display: flex; justify-content: flex-end">
         <ion-badge class="bdgw">
           <img style="margin-right: 7px" src="assets/imgs/g.svg" />
-          {{detailObj.googleRating}}
-          <img style="height: 11px; margin-left: 2px" src="assets/imgs/s.svg" />
+          <span style="color:#262626">{{detailObj.googleRating}}</span>
+          <img style="height: 11px; margin-left: 5px" src="assets/imgs/s.svg" />
         </ion-badge>
       </ion-col>
     </ion-row>
@@ -174,7 +174,6 @@
         >
           <ion-label>Claim Discount</ion-label>
           <img
-            (click)="goToProfile()"
             style="
               rotate: 180deg;
               height: 25px;

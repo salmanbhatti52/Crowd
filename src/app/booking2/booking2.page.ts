@@ -5,8 +5,8 @@ import { Router } from "@angular/router";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+import { format, parseISO } from "date-fns";
 
-import * as moment from "moment";
 
 @Component({
   selector: "app-booking2",
@@ -42,10 +42,11 @@ export class Booking2Page implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.mdate = moment(this.selectedBooking.bookings_date).format(
-      "MMM DD YYYY"
-    );
-    this.mtime = moment(this.selectedBooking.bookings_time).format("hh:mm");
+    this.mdate = format(parseISO(new Date(this.selectedBooking.bookings_date).toISOString()) ,"MMM dd yyyy");
+    console.log("this.mdate Fff", this.mdate);
+
+    this.mtime = this.selectedBooking.bookings_time.substring(0,5);
+    console.log("this.selectedBooking.bookings_time", this.mtime);
   }
 
   ngOnInit() {}

@@ -1,11 +1,12 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
-
-import * as moment from "moment";
+import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, formatISO} from 'date-fns';
+// import * as moment from "moment";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
+import { IonDatetime } from "@ionic/angular";
 
 @Component({
   selector: "app-editbooking",
@@ -13,6 +14,8 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
   styleUrls: ["./editbooking.page.scss"],
 })
 export class EditbookingPage implements OnInit {
+  @ViewChild('datetime') dateTime!:IonDatetime;
+  minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
   config = {
     show: false,
     weekOffset: -2,
@@ -80,13 +83,16 @@ export class EditbookingPage implements OnInit {
   selectedVenue: any = "";
   userID: any = "";
   mtime: string = "";
+  dateIsoStirng: any;
 
   constructor(
     public location: Location,
     public router: Router,
     public rest: RestService,
     public datePicker: DatePicker
-  ) {}
+  ) {
+    this.loadPageData();
+  }
 
   ngOnInit() {}
 
@@ -94,7 +100,7 @@ export class EditbookingPage implements OnInit {
     this.location.back();
   }
 
-  ionViewWillEnter() {
+  loadPageData() {
     this.datesArr = this.getDate();
     this.selectedVenue = this.rest.detail;
     this.selectedBooking = this.rest.selectedBooking;
@@ -102,8 +108,9 @@ export class EditbookingPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.myDate = this.selectedBooking.bookings_date;
-    this.mtime = moment(this.selectedBooking.bookings_time).format("hh:mm");
+    this.dateIsoStirng = this.selectedBooking.bookings_date;
+    
+    // this.mtime = format(parseISO(this.selectedBooking.bookings_time), "HH:mm");
     this.usertime = this.selectedBooking.bookings_time;
 
     this.people = this.selectedBooking.no_of_diners;
@@ -138,22 +145,22 @@ export class EditbookingPage implements OnInit {
     this.config.show = true;
   }
 
-  getDay1(val: any) {
-    return moment(val).format("ddd");
-  }
-  getDay2(val: any) {
-    return moment(val).format("DD");
-  }
-  getDay3(val: any) {
-    return moment(val).format("MMM");
-  }
-  getDay4(val: any) {
-    return moment(val).format("YYYY");
-  }
+  // getDay1(val: any) {
+  //   return moment(val).format("ddd");
+  // }
+  // getDay2(val: any) {
+  //   return moment(val).format("DD");
+  // }
+  // getDay3(val: any) {
+  //   return moment(val).format("MMM");
+  // }
+  // getDay4(val: any) {
+  //   return moment(val).format("YYYY");
+  // }
 
-  dateFormate(val: any) {
-    return moment(val).format("MMMM YYYY");
-  }
+  // dateFormate(val: any) {
+  //   return moment(val).format("MMMM YYYY");
+  // }
 
   dateSelected(val: any) {
     this.selectedIndexDate = val;
@@ -205,23 +212,30 @@ export class EditbookingPage implements OnInit {
     }
   }
 
-  showDatepicker1() {
-    this.datePicker
-      .show({
-        date: new Date(),
-        mode: "date",
-        androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
-        okText: "Save Date",
-        // todayText: "Set Today",
-      })
-      .then(
-        (date) => {
-          this.myDate = moment(date).format("YYYY-MM-DD");
+  // showDatepicker1() {
+  //   this.datePicker
+  //     .show({
+  //       date: new Date(),
+  //       mode: "date",
+  //       androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
+  //       okText: "Save Date",
+  //       // todayText: "Set Today",
+  //     })
+  //     .then(
+  //       (date) => {
+  //         this.myDate = moment(date).format("YYYY-MM-DD");
 
-          console.log("date----", date);
-          console.log("date----", this.myDate);
-        },
-        (err) => console.log("Error occurred while getting date: ", err)
-      );
+  //         console.log("date----", date);
+  //         console.log("date----", this.myDate);
+  //       },
+  //       (err) => console.log("Error occurred while getting date: ", err)
+  //     );
+  // }
+
+  formattedString(ev:any){
+
+    this.myDate = format(parseISO(ev.detail.value), 'yyyy-MM-dd');
+    console.log('DateValues: ',ev.detail.value);
+    console.log(this.myDate);
   }
 }

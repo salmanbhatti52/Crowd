@@ -3,7 +3,6 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
 import {format, parseISO,addDays,isDate, getDate,getMonth,getYear} from 'date-fns';
-import * as moment from "moment";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 
@@ -29,7 +28,7 @@ export class Booking1Page implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  myDate: any = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  myDate: any = '';
   // myDate: any = "2022-04-02";
 
   usertime: any = "";
@@ -85,7 +84,10 @@ export class Booking1Page implements OnInit {
     public router: Router,
     public rest: RestService,
     public datePicker: DatePicker
-  ) {}
+  ) {
+    console.log("this.minDate",this.minDate);
+
+  }
 
   ngOnInit() {}
 
@@ -127,22 +129,22 @@ export class Booking1Page implements OnInit {
     this.config.show = true;
   }
 
-  getDay1(val: any) {
-    return moment(val).format("ddd");
-  }
-  getDay2(val: any) {
-    return moment(val).format("DD");
-  }
-  getDay3(val: any) {
-    return moment(val).format("MMM");
-  }
-  getDay4(val: any) {
-    return moment(val).format("YYYY");
-  }
+  // getDay1(val: any) {
+  //   return moment(val).format("ddd");
+  // }
+  // getDay2(val: any) {
+  //   return moment(val).format("DD");
+  // }
+  // getDay3(val: any) {
+  //   return moment(val).format("MMM");
+  // }
+  // getDay4(val: any) {
+  //   return moment(val).format("YYYY");
+  // }
 
-  dateFormate(val: any) {
-    return moment(val).format("MMMM YYYY");
-  }
+  // dateFormate(val: any) {
+  //   return moment(val).format("MMMM YYYY");
+  // }
 
   dateSelected(val: any) {
     this.selectedIndexDate = val;
@@ -154,7 +156,8 @@ export class Booking1Page implements OnInit {
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     } else {
-      var tt = moment(this.usertime).format("h:mm");
+      var tt  = format(parseISO(this.usertime), "HH:mm");
+      // var tt = moment(this.usertime).format("h:mm");
       var ss = JSON.stringify({
         venues_id: this.selectedVenue.venues_id,
         users_customers_id: this.userID,
@@ -213,10 +216,10 @@ export class Booking1Page implements OnInit {
   //     );
   // }
 
-  formattedString(dateVal:any){
-
-    this.myDate = format(parseISO(dateVal), 'yyyy-MM-dd');
-    console.log('DateValues: ',dateVal);
+  formattedString(ev:any){
+    
+    this.myDate = format(parseISO(ev.detail.value), 'yyyy-MM-dd');
+    console.log('DateValues: ',ev.detail.value);
     console.log(this.myDate);
     
   }

@@ -4,7 +4,8 @@ import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
-import * as moment from "moment";
+// import * as moment from "moment";
+import { format, parseISO } from 'date-fns';
 @Component({
   selector: 'app-my-events',
   templateUrl: './my-events.page.html',
@@ -103,7 +104,10 @@ export class MyEventsPage implements OnInit {
   }
 
   getDate(aa: any) {
-    return moment(aa).format("MMM DD YYYY");
+    return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
+  }
+  getTime(aa:any){
+    return aa.substring(0,5);
   }
 
   editbooking(aa: any) {
