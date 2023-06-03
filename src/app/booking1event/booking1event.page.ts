@@ -12,9 +12,12 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
   styleUrls: ["./booking1event.page.scss"],
 })
 export class Booking1eventPage implements OnInit {
+  userId:any;
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
+  latitude: any;
+  longitude: string | null | undefined;
   constructor(
     public location: Location,
     public router: Router,
@@ -25,6 +28,11 @@ export class Booking1eventPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.userdata = localStorage.getItem('userdata');
+    this.userId = JSON.parse(this.userdata).users_customers_id;
+    this.latitude = localStorage.getItem('lattitude');
+    this.longitude = localStorage.getItem('longitude');
+
     this.selectedVenue = this.rest.detail;
   }
 
@@ -35,7 +43,28 @@ export class Booking1eventPage implements OnInit {
   }
 
   gotoOrganizerEvents(){
-    this.router.navigate(['/organizer-events']);
+    this.rest.orgEventsArr = [];
+    let data = {
+      users_business_id:this.selectedVenue.users_business_id,
+      users_customers_id:this.userId,
+      longitude:this.longitude,
+      lattitude:this.latitude,
+      page_number:"1"
+    }
+    console.log("Api dataa: ",data);
+    this.rest.presentLoader();
+    this.rest.sendRequest('get_business_events',data).subscribe((res:any)=>{
+      this.rest.dismissLoader();
+      console.log("Org events REssssss: ",res);
+      
+      this.rest.orgEventsArr = res.data;
+      this.router.navigate(['/organizer-events']);
+      
+    },(err)=>{
+      this.rest.dismissLoader();
+      console.log("errrr: ",err);
+      
+    })
   }
 
   handleImgError2(ev: any, item: any) {

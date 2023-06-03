@@ -223,6 +223,10 @@ const routes: Routes = [
     path: 'my-refunds',
     loadChildren: () => import('./my-refunds/my-refunds.module').then( m => m.MyRefundsPageModule)
   },
+  {
+    path: 'test-nearby-search',
+    loadChildren: () => import('./test-nearby-search/test-nearby-search.module').then( m => m.TestNearbySearchPageModule)
+  },
 
 ];
 

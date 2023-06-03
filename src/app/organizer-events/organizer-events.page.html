@@ -35,7 +35,7 @@
       style="width: 50%; position: relative"
       [class.heighclassbig]="i % 2 != 0"
       [class.heighclasssmall]="i % 2 == 0"
-      *ngFor="let opt of rest.venuesArray; let i = index"
+      *ngFor="let opt of rest.orgEventsArr; let i = index"
       [style.margin-top.px]="i % 2 == 0? -i*22:0"
     >
       <div

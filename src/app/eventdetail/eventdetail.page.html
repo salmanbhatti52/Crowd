@@ -65,7 +65,7 @@
     <p class="titlesubmain work_sans">{{detailObj.venue_name}}</p>
 
     <ion-row>
-      <ion-col style="display: flex; align-items: center">
+      <ion-col size="4.5" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
@@ -76,27 +76,43 @@
           </p>
         </div>
       </ion-col>
-      <ion-col style="display: flex; align-items: center">
+      <ion-col size="4.5" style="display: flex; align-items: center">
+        <div style="display: flex">
+          <img
+            style="height: 15px; margin-right: 10px; width: 12px"
+            src="assets/imgs/icons/calendar.svg"
+          />
+          <p class="work_sans titlesub">
+            {{detailObj.event_date}}
+          </p>
+        </div>
+      </ion-col>
+      <ion-col size="3" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/watch.svg"
           />
           <p class="work_sans titlesub">
-            {{detailObj.event_date}} | {{detailObj.event_time}}
+            {{getTime(detailObj.event_time)}}
           </p>
         </div>
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 10px">
-      <ion-col size="8" style="display: flex; align-items: center">
+    <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
+      <div style="display: flex; align-items: center; width: 65%;">
         <p class="work_sans titlesub">{{detailObj.location}}</p>
-      </ion-col>
-    </ion-row>
+      </div>
+      <div style="display: flex; align-items: center">
+        <img style="margin-right: 14px;" src="../../assets/imgs/icons/people.svg" alt="">
+        <p style="margin-right: 10px;" class="work_sans titlesub">0</p>
+      </div>
+
+    </div>
 
     <div
-      style="margin-top: 10px; display: flex; justify-content: space-between"
+      style="margin-top: 16px; display: flex; justify-content: space-between"
     >
       <div>
         <img
@@ -155,7 +171,6 @@
         >
           <ion-label>Claim Discount</ion-label>
           <img
-            (click)="goToProfile()"
             style="
               rotate: 180deg;
               height: 25px;

@@ -28,7 +28,7 @@
         />
         <img
           (click)="likeoutvenu()"
-          *ngIf="detailObj.likes!=0"
+          *ngIf="detailObj.likes==1"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartactive.svg"
         />
@@ -42,13 +42,28 @@
       >{{detailObj.discount_percentage}}% Off
     </ion-badge>
 
-    <ion-row>
+    <ion-row *ngIf="detailObj.venues_id != null">
       <ion-col class="slider_main">
         <ion-slides pager="true" style="height: 250px">
           <ion-slide *ngFor="let p of detailObj.images; let i = index">
             <div class="slide">
               <img
                 src="{{rest.baseURLimg}}{{p.name}}"
+                style="width: 100%"
+                class="s_img"
+              />
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="detailObj.venues_id == null">
+      <ion-col class="slider_main">
+        <ion-slides pager="true" style="height: 250px">
+          <ion-slide >
+            <div class="slide">
+              <img
+                src="{{detailObj.cover_images}}"
                 style="width: 100%"
                 class="s_img"
               />
@@ -76,7 +91,7 @@
         </div>
       </ion-col>
       <ion-col size="5" style="display: flex; align-items: center">
-        <div style="display: flex">
+        <div style="display: flex" *ngIf="detailObj.venues_id != null">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/watch.svg"
@@ -97,7 +112,7 @@
       <ion-col size="8" style="display: flex; align-items: center">
         <p class="work_sans titlesub">{{detailObj.location}}</p>
       </ion-col>
-      <ion-col
+      <ion-col *ngIf="detailObj.venues_id != null"
         size="4"
         style="display: flex; align-items: center; justify-content: flex-end"
       >
@@ -123,20 +138,20 @@
           style="height: 25px; width: 25px; margin-right: 20px"
           src="assets/imgs/target.svg"
         />
-        <img
+        <img *ngIf="detailObj.venues_id != null"
           (click)="goWeb()"
           style="height: 25px; width: 25px; margin-right: 20px"
           src="assets/imgs/web.svg"
         />
 
-        <a href="tel:{{detailObj.phone_number}}"
+        <a *ngIf="detailObj.venues_id != null" href="tel:{{detailObj.phone_number}}"
           ><img
             style="height: 25px; width: 25px; margin-right: 20px"
             src="assets/imgs/call.svg"
         /></a>
       </div>
 
-      <div
+      <div *ngIf="detailObj.venues_id != null"
         (click)="goToSee()"
         style="
           border: 1px solid #ffffff;
@@ -186,10 +201,10 @@
       </ion-item-sliding>
     </ion-list>
 
-    <div>
+    <div *ngIf="detailObj.venues_id != null">
       <ion-button
         (click)="bookTable()"
-        style="margin-top: 22px; margin-bottom: 20px"
+        style="margin-top: 22px;"
         class="btnwhite work_sans"
         >Book Table</ion-button
       >

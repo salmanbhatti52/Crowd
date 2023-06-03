@@ -19,7 +19,7 @@ export class OrganizerEventsPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
   }  
   ngOnInit() {
-    console.log("rest.venuesArray: ",this.rest.venuesArray);
+    console.log("rest.venuesArray: ",this.rest.orgEventsArr);
   }
 
   goBack(){

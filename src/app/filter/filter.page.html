@@ -23,31 +23,40 @@
       <p style="margin: 0px" class="sure work_sans">Filter</p>
 
       <div
-        (click)="hideShowusercity()"
-        class="inputfieldtransparent"
-        style="
-          height: 52px;
-          margin-top: 14px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #bababa;
-        "
-      >
-        <p style="margin: 0px 0px 0px 20px" class="people">{{usercity}}</p>
+      class="inputfieldtransparent"
+      style="
+        height: 52px;
+        margin-top: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #bababa;
+        flex-direction: row-reverse;
+      "
+    >
+      <img
+        (click)="getAddress()"
+        style="margin: 13px 17px 13px 15px"
+        src="/assets/imgs/target.svg"
+      />
+      
+      <input
+        #search
+        type="text"
+        class="people"
+        placeholder="Search your area"
+        (keydown.enter)="$event.preventDefault()"
+        [(ngModel)]="address"
+        autocapitalize="words"
+      />
 
-        <img
-          style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
-          src="/assets/imgs/downw.svg"
-        />
-      </div>
-
-      <div class="floatingDiv" *ngIf="usercityShow">
-        <p class="people" (click)="cityClick(a)" *ngFor="let a of cityArr">
-          {{a.usercity}}
-        </p>
-      </div>
-
+      <span style="height: 24px; margin: 8px 9px 7px 8px;"></span>
+      <!-- <img
+        style="height: 24px; margin: 13px 17px 17px 15px"
+        src="/assets/imgs/pin.svg"
+      /> -->
+    </div>
+    
       <div
         (click)="hideShowuserdate()"
         class="inputfieldtransparent"
@@ -69,25 +78,19 @@
       </div>
 
       <div style="padding: 0px" class="floatingDiv" *ngIf="userdateShow">
-        <!-- <ion-datetime></ion-datetime> -->
+        
         <ion-datetime
         presentation="date"
         locale="en-US"
         #datetime min="{{minDate}}" max="2080" 
+        
         (ionChange)="formattedString(datetime.value)"
         
       ></ion-datetime>
-        <!-- <ion-calendar
-          [(ngModel)]="date"
-          [options]="optionsRange"
-          (change)="onChange($event)"
-          [format]="'YYYY-MM-DD'"
-          color="dark"
-        >
-        </ion-calendar> -->
+      
       </div>
 
-      <div
+      <!-- <div
         (click)="hideShowcat()"
         class="inputfieldtransparent"
         style="
@@ -111,10 +114,10 @@
         <p class="people" (click)="catClick(a)" *ngFor="let a of catArr">
           {{a.catname}}
         </p>
-      </div>
+      </div> -->
 
       <ion-button
-        (click)="closeModel()"
+        (click)="filterEvents()"
         style="margin-top: 20px; opacity: 1"
         class="btnbg work_sans"
         >Apply</ion-button

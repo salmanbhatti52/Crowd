@@ -4,21 +4,25 @@ import { AlertController } from "@ionic/angular";
 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LoadingController } from "@ionic/angular";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class RestService {
+  filterEvArr:any;
   detail: any = "";
   venuArrHome: any = "";
   pinobject: any = "";
   selectedBooking: any = "";
   comingFrom: any = "";
   venuesArray:any = [];
+  orgEventsArr:any = [];
+
   comfrom = '';
   baseURL = "https://crowd.eigix.net/api/";
   baseURLimg = "https://crowd.eigix.net/public/";
-  mapsKey = 'AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c'
+  mapsKey = 'AIzaSyDfMmdgRpcZCRBxqthG4RmQHeFsYFVy4V4'
   mapsBaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
   constructor(
     public toastCtrl: ToastController,
@@ -27,6 +31,11 @@ export class RestService {
     public loadingController: LoadingController
   ) {}
 
+  getVenues(latitude: number, longitude: number, radius: number): Observable<any> {
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&key=${this.mapsKey}`;
+    return this.http.get<any>(url);
+  }
+  
   getNearbyVenues(params: any){
     let header;
     

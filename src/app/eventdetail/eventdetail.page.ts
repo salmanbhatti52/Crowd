@@ -54,16 +54,17 @@ export class EventdetailPage implements OnInit {
   }
 
   claimDiscount() {
-    var ss = JSON.stringify({
+    var ss = {
       users_customers_id: this.userID,
-      venues_id: this.detailObj.venues_id,
-    });
+      events_id: this.detailObj.events_id,
+    };
 
     console.log("ss claim discount-----", ss);
 
-    this.rest.claim_discount(ss).subscribe((res: any) => {
-      console.log("res claim discount-----", res);
-    });
+    this.rest.sendRequest("events_claim_discount",ss).subscribe((res:any)=>{
+      console.log("res claim discount for events-----", res);
+    })
+    
   }
 
   openSlider(slidingItem: IonItemSliding) {
@@ -83,6 +84,10 @@ export class EventdetailPage implements OnInit {
   ////======================done==================================//
   goBack() {
     this.location.back();
+  }
+
+  getTime(val:any){
+    return val.substring(0,5);
   }
 
   goToProfile() {

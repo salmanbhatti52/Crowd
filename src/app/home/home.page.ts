@@ -8,6 +8,9 @@ import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.p
 import { Geolocation } from "@capacitor/geolocation";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
+declare var google: any;
+
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -22,6 +25,7 @@ export class HomePage implements OnInit {
   number = "123";
   eventarr: any = [];
   filtertype: any = "no";
+  filterTypeEv: any = "no";
   // venusArray:any = []
   venues!: Observable<any>
   noevent = 0;
@@ -35,33 +39,150 @@ export class HomePage implements OnInit {
   selectedVenueName = "";
 
   filteredvenuarr: any = "";
+  eventsArray: any;
+  eventsArrayCopy: any;
+  venuesFromGoogle:any = [];
   constructor(
     public router: Router,
     public rest: RestService,
     public modalCtrlr: ModalController,
-    private http:HttpClient
-  ) {
-    // const apiUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-    // const params = {
-    //   location: '-33.8670522,151.1957362',
-    //   radius: '1500',
-    //   type: 'restaurant',
-    //   keyword: 'cruise',
-    //   key: 'AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c' // Replace with your actual API key
-    // };
-
-    // this.http.get(apiUrl, { params }).subscribe(
-    //   (response: any) => {
-    //     // Handle the response data here
-    //     console.log("Ressss: ",response);
-    //   },
-    //   (error: any) => {
-    //     // Handle any errors
-    //     console.error("Errrr: ",error);
-    //   }
-    // );
+    private http:HttpClient,
+    private geoCoder: MapGeocoder
+  ) {}
+  
+  ngOnInit() {
+    
   }
-  ngOnInit() {}
+
+  map!: google.maps.Map;
+  service!: google.maps.places.PlacesService;
+
+  initialize() {
+    var pyrmont = new google.maps.LatLng(this.latitude,this.longitude);
+
+    this.map = new google.maps.Map(document.getElementById('map'), {
+        center: pyrmont,
+        // zoom: 15
+      });
+
+    let request = {
+      location: pyrmont,
+      radius: 2415,
+      type: 'restaurant'
+    };
+
+    this.service = new google.maps.places.PlacesService(this.map);
+    this.service.nearbySearch(request, this.callback);
+  }
+
+  callback = (results:google.maps.places.PlaceResult[] | null, status:google.maps.places.PlacesServiceStatus) => {
+    console.log("nearByyyyyyy Results: ",results);
+    
+    this.venuesFromGoogle = results;
+    this.addMissingVal();
+  }
+
+  addMissingVal(){
+    
+    for(let i=0; i<this.venuesFromGoogle.length; i++){
+
+      this.venuesFromGoogle[i].likes = null;
+      this.venuesFromGoogle[i].discount_percentage = null;
+      this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].icon;
+      // this.venuesFromGoogle[i].cover_image = this.venuesFromGoogle[i].photos[0].getUrl();
+      this.venuesFromGoogle[i].lattitude = this.venuesFromGoogle[i].geometry.location?.lat();
+      this.venuesFromGoogle[i].longitude = this.venuesFromGoogle[i].geometry.location?.lng();
+
+      // Venue coordinates
+      const venueLatitude = this.venuesFromGoogle[i].lattitude // Venue's latitude
+      const venueLongitude = this.venuesFromGoogle[i].longitude // Venue's longitude
+
+      // Calculate the distance between the user and the venue
+      const distance = this.calculateDistance(this.latitude, this.longitude, venueLatitude, venueLongitude);
+
+      // console.log('Distance (in miles):', distance);
+      this.venuesFromGoogle[i].distance = distance
+      this.venuesFromGoogle[i].googleRating = this.venuesFromGoogle[i].rating
+      this.venuesFromGoogle[i].google_place_id = this.venuesFromGoogle[i].place_id
+      this.venuesFromGoogle[i].close_hours = this.venuesFromGoogle[i].opening_hours?.isOpen();
+      
+      this.venuesFromGoogle[i].location = this.venuesFromGoogle[i].vicinity  
+      
+      if(this.venuesFromGoogle[i].types){
+        this.venuesFromGoogle[i].description = this.venuesFromGoogle[i].types.join(', ')
+      }
+      
+      this.venuesFromGoogle[i].status =  this.venuesFromGoogle[i].business_status;
+      this.venuesFromGoogle[i].venues_id =  null;
+      
+    }
+
+    console.log("venuesFromGoogle: ",this.venuesFromGoogle);
+    this.venuarr = this.venuarr.concat(
+      this.venuesFromGoogle.sort((a: any, b: any) => {
+        // console.log("testppppppppppopopopopopoopopopopopopopopo");
+        return a.distance - b.distance;
+      })
+    );
+  }
+
+  async getAddress(lat:any, lng:any) {
+    let address:any;
+    this.geoCoder
+      .geocode({ location: { lat: lat, lng: lng } })
+      .subscribe(
+        (addr: MapGeocoderResponse) => {
+          console.log("Addressss: ",addr);
+          address = addr;
+          
+          if (address.status === "OK") {
+            if (address.results.length) {
+              for(let i = 0; i<address.results.length; i++){ 
+                if(address.results[i].types.length == 3){
+                  console.log("address found===", address.results[i].formatted_address);
+                  return address.results[i].formatted_address;
+                }
+              }
+            } else {
+              return "";
+              window.alert("No results found");
+            }
+          } else {
+            return "";
+            window.alert("Geocoder failed due to: " + addr.status);
+          }
+        },
+        (err) => {
+          console.log("Errrrr",err);
+        }
+      );
+  }
+
+  // Function to calculate the distance between two coordinates using the Haversine formula
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+    const dLat = this.toRad(lat2 - lat1);
+    const dLon = this.toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+    
+    //  Convert the distance from kilometers to miles
+    const distanceInMiles = distance * 0.621371;
+    return distanceInMiles;
+  }
+
+  // Function to convert degrees to radians
+  toRad(degrees: number): number {
+    return (degrees * Math.PI) / 180;
+  }
+
+  
+
   tab1Click() {
     this.HideFilter();
     this.router.navigate(["home"]);
@@ -79,16 +200,6 @@ export class HomePage implements OnInit {
     this.router.navigate(["noti"]);
   }
 
-  getVenuesOfCurrentLocation(){
-    console.log("getVenuesOfCurrentLocationCalled");
-
-    this.rest.getNearbyVenues(`location=${this.latitude}%2C${this.longitude}&radius=1500&type=restaurant&key=`).subscribe(res=>{
-  //  this.rest.getNearbyVenues(`location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=`).subscribe(res=>{
-    
-    console.log("venuesNearCurrentLocation: ",res);
-    
-   });
-  }
 
   async getCurrentPosition() {
     const getCurrentLocation = await Geolocation.getCurrentPosition({
@@ -101,14 +212,15 @@ export class HomePage implements OnInit {
     
     console.log("Latitude123: ", this.latitude);
     console.log("Longitude123: ", this.longitude);
-    this.getVenuesOfCurrentLocation();
-    // console.log("printCurrentPosition: ",printCurrentPosition);
+    
+  
   }
 
   goToProfile() {
     this.HideFilter();
     this.router.navigate(["profile"]);
   }
+
   segmentChanged(event: any) {
     this.HideFilter();
     console.log("rrr", this.segmentModel);
@@ -140,7 +252,14 @@ export class HomePage implements OnInit {
         this.rest.dismissLoader();
         console.log("Response venues_suggested : ", res);
         if (res.status == "success") {
-          this.venueList = res.data;
+          this.venueList = [];
+          this.venueList.push(opt);
+          for(let i=0; i<res.data.length; i++){
+            this.venueList[i+1] = res.data[i];
+          }
+          // res.data.push(opt);
+          // this.venueList = res.data;
+          // // this.venueList.push(res.data);
           console.log("Response venues_suggested123: ",this.venueList);
           
           this.showVenueModal();
@@ -239,6 +358,7 @@ export class HomePage implements OnInit {
       this.likeDislikeUSerEvents(obj.events_id);
     }
   }
+
   likeoutevent(obj: any) {
     this.HideFilter();
     console.log("likeoutevent", obj);
@@ -273,6 +393,7 @@ export class HomePage implements OnInit {
       this.likeDislikeUServenu(obj.venues_id);
     }
   }
+
   likeoutvenu(obj: any) {
     this.HideFilter();
     console.log("likeoutvenu", obj);
@@ -315,6 +436,11 @@ export class HomePage implements OnInit {
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
   }
+
+  clearFilterEv(){
+    this.filterTypeEv = 'no'
+    this.eventarr = this.eventsArrayCopy
+  }
   
   userdata: any = "";
   userID : any = "";
@@ -354,6 +480,7 @@ export class HomePage implements OnInit {
           // console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
         });
+        this.eventsArrayCopy = this.eventarr
       } else {
         // this.rest.presentToast(res.message);
         this.noevent = 1;
@@ -365,7 +492,9 @@ export class HomePage implements OnInit {
       
       this.rest.dismissLoader();
       if (res.status == "success") {
-        
+        for(let i=0; i<res.data.length; i++){
+          res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+        }
         this.venuarr = res.data.sort((a: any, b: any) => {
           return a.distance - b.distance;
         });
@@ -389,6 +518,7 @@ export class HomePage implements OnInit {
         // this.rest.presentToast(res.message);
         this.noevenu = 1;
       }
+      this.initialize();
     });
     
 
@@ -440,6 +570,9 @@ export class HomePage implements OnInit {
       console.log("updated venues response---", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
+        for(let i=0; i<res.data.length; i++){
+          res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+        }
         this.venuarr = this.venuarr.concat(
           res.data.sort((a: any, b: any) => {
             // console.log("testppppppppppopopopopopoopopopopopopopopo");
@@ -492,19 +625,20 @@ export class HomePage implements OnInit {
   }
 
   searchEvents(event: any) {
-    // this.filteredvenuarr = [];
-    // for (var i = 0; i < this.venuarrOrg.length; i++) {
-    //   // console.log(this.venuarrOrg[i].name.toLowerCase());
+    
+    this.eventarr = [];
+    for (var i = 0; i < this.eventsArrayCopy.length; i++) {
+      // console.log(this.venuarrOrg[i].name.toLowerCase());
     //   console.log(event.target.value.toLowerCase());
 
-    //   if (
-    //     this.venuarrOrg[i].name
-    //       .toLowerCase()
-    //       .includes(event.target.value.toLowerCase())
-    //   ) {
-    //     this.filteredvenuarr.push(this.venuarrOrg[i]);
-    //   }
-    // }
+      if (
+        this.eventsArrayCopy[i].name
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
+      ) {
+        this.eventarr.push(this.eventsArrayCopy[i]);
+      }
+    }
 
     // console.log("item------", this.filteredvenuarr);
   }
@@ -517,6 +651,21 @@ export class HomePage implements OnInit {
     });
 
     await modal.present();
+
+    const {data,role} = await modal.onWillDismiss();
+    if(role == 'success'){
+      this.filterTypeEv = 'yes';
+      this.eventarr = data;
+      console.log("Ev Arr...", this.eventarr);
+    }else if(role == 'error'){
+      this.filterTypeEv = 'yes';
+      this.eventarr = data;
+      console.log("Ev Arr...", this.eventarr);
+    }else{
+
+    }
+
+
   }
 
 

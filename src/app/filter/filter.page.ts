@@ -1,16 +1,32 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { NgZone } from "@angular/core";
 import { ModalController } from "@ionic/angular";
+import {
+  NativeGeocoder,
+  NativeGeocoderResult,
+  NativeGeocoderOptions,
+} from "@awesome-cordova-plugins/native-geocoder/ngx";
+import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
+declare var google: any;
+
 // import { CalendarComponentOptions } from "ion2-calendar";
 import {format, parseISO,addDays,isDate, getDate,getMonth,getYear} from 'date-fns';
+import { RestService } from "../rest.service";
 @Component({
   selector: "app-filter",
   templateUrl: "./filter.page.html",
   styleUrls: ["./filter.page.scss"],
 })
 export class FilterPage implements OnInit {
+  GoogleAutocomplete = new google.maps.places.AutocompleteService();
+  autocompleteItems: any;
+
+  @ViewChild("search")
+  public searchElementRef!: ElementRef;
+
   minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
-  myDate: any = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  // myDate: any = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
   // userdate: any = "";
   cityArr = [
     {
@@ -60,45 +76,110 @@ export class FilterPage implements OnInit {
   // optionsRange: CalendarComponentOptions = {
   //   pickMode: "range",
   // };
-
+  usercity = "Search City";
   date: string = "";
   type = "string"; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  latitude: any;
+  longitude: any;
+  currentaddress: any;
+  from: any;
+  userId: any;
+  address:any;
+  constructor(public modalCtrl: ModalController, public router: Router,
+    private ngZone: NgZone,
+    public rest: RestService,
+    private geoCoder: MapGeocoder) {}
 
-  constructor(public modalCtrl: ModalController, public router: Router) {}
+  
 
-  usercity = "Select City";
-
-  ngOnInit() {}
-
-  closeModel() {
-    this.modalCtrl.dismiss();
-  }
-
-  formattedString(dateVal:any){
-
-    this.myDate = format(parseISO(dateVal), 'yyyy-MM-dd');
-    console.log('DateValues: ',dateVal);
-    console.log(this.myDate);
+  ngOnInit() {
     
   }
-
-  logout() {
-    localStorage.clear();
-    this.modalCtrl.dismiss();
-    this.router.navigate(["login"]);
+  ionViewWillEnter(){
+    let userdata = localStorage.getItem('userdata');
+    this.userId = JSON.parse(userdata!).users_customers_id;
+    this.latitude = Number(localStorage.getItem("lattitude")) ;
+    this.longitude = Number(localStorage.getItem("longitude"));
+    console.log('userid', this.userId);
   }
 
-  cityClick(a: any) {
-    this.usercityShow = false;
-    this.usercity = a.usercity;
+  // getCurrentLatLng() {
+  //   console.log("getCurrentLatLng");
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     console.log("position: ",position);
+      
+  //     this.latitude = position.coords.latitude;
+  //     this.longitude = position.coords.longitude;
+  //   });
+  // }
+
+  ngAfterViewInit(): void {
+    // Binding autocomplete to search input control
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+        console.log("placeeeeee",place);
+        
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        console.log("place and geometery locationnnnnnn lat: ",{ place }, place.geometry.location?.lat());
+        console.log("place and geometery locationnnnnnn lng: ",{ place }, place.geometry.location?.lng());
+
+        this.address = place.name + ", "+ place.formatted_address
+        // this.address = place.formatted_address;
+        console.log(this.address);
+        
+      });
+    });
   }
 
-  hideShowusercity() {
-    if (this.usercityShow) {
-      this.usercityShow = false;
-    } else {
-      this.usercityShow = true;
-    }
+  getAddress() {
+    let address:any;
+    this.rest.presentLoaderWd();
+    this.geoCoder
+      .geocode({ location: { lat: this.latitude, lng: this.longitude } })
+      .subscribe(
+        (addr: MapGeocoderResponse) => {
+          this.rest.dismissLoader();
+          console.log("Addressss: ",addr);
+          address = addr;
+          
+          if (address.status === "OK") {
+            if (address.results.length) {
+              for(let i = 0; i<address.results.length; i++){ 
+                if(address.results[i].types.length == 3){
+                  console.log("address found===", address.results[i].formatted_address);
+                  this.address = address.results[i].formatted_address;
+                }
+              }
+              console.log("curr addr===", this.address);
+
+              // localStorage.setItem("location", this.currentaddress);
+              // localStorage.setItem("longitude", this.longitude);
+              // localStorage.setItem("lattitude", this.latitude);
+            } else {
+              this.address = "";
+              window.alert("No results found");
+            }
+          } else {
+            this.address = "";
+            window.alert("Geocoder failed due to: " + addr.status);
+          }
+        },
+        (err) => {
+          console.log("Errrrr",err);
+          
+          this.rest.dismissLoader();
+        }
+      );
   }
 
   hideShowuserdate() {
@@ -109,20 +190,52 @@ export class FilterPage implements OnInit {
     }
   }
 
-  onChange(event: any) {
-    console.log(event);
+  closeModel(){
+    this.modalCtrl.dismiss();
   }
 
-  hideShowcat() {
-    if (this.userCatShow) {
-      this.userCatShow = false;
-    } else {
-      this.userCatShow = true;
+  formattedString(dateVal:any){
+    this.userdate = format(parseISO(dateVal), 'yyyy-MM-dd');
+    console.log(this.userdate);
+  }
+
+  filterEvents() {
+    if((this.address == '' || this.address == undefined) && this.userdate == "Date"){
+      this.rest.presentToast('Plz select location or date')
     }
-  }
-
-  catClick(a: any) {
-    this.userCatShow = false;
-    this.userCategory = a.catname;
+    // else if(this.userdate == "Date" || this.userdate == undefined){
+    //   this.rest.presentToast('Plz select date')
+    // }
+    else{
+      let data = {
+        users_customers_id:this.userId,
+        longitude:this.longitude,
+        lattitude:this.latitude,
+        page_number:"1",
+        event_date:this.userdate,
+        location:this.address
+      }
+      let filteredEvents:any[]
+      console.log("api data:",data);
+      this.rest.presentLoader();
+      this.rest.sendRequest('events_search',data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        console.log("Events Search Response",res);
+        if(res.status=='success'){
+          this.rest.presentToast(res.status);
+          filteredEvents = res.data;
+          this.modalCtrl.dismiss(filteredEvents, 'success');
+        }else if(res.status == 'error'){
+          this.rest.presentToast(res.message);
+          this.modalCtrl.dismiss(filteredEvents, 'error');
+        }
+      },(err)=>{
+        this.rest.dismissLoader();
+        console.log("Errrr: ",err);
+        this.modalCtrl.dismiss();
+      })
+      
+    }
+    
   }
 }
