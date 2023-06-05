@@ -58,7 +58,10 @@ export class HomePage implements OnInit {
   service!: google.maps.places.PlacesService;
 
   initialize() {
-    var pyrmont = new google.maps.LatLng(this.latitude,this.longitude);
+    let lat = localStorage.getItem("lattitude");
+    let lng = localStorage.getItem("longitude");
+
+    var pyrmont = new google.maps.LatLng(lat,lng);
 
     this.map = new google.maps.Map(document.getElementById('map'), {
         center: pyrmont,
