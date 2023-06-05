@@ -64,9 +64,9 @@ export class HomePage implements OnInit {
     var pyrmont = new google.maps.LatLng(lat,lng);
 
     this.map = new google.maps.Map(document.getElementById('map'), {
-        center: pyrmont,
-        // zoom: 15
-      });
+      center: pyrmont,
+      // zoom: 15
+    });
 
     let request = {
       location: pyrmont,

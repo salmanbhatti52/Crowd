@@ -13,13 +13,13 @@ import { format, parseISO } from 'date-fns';
   styleUrls: ['./my-refunds.page.scss'],
 })
 export class MyRefundsPage implements OnInit {
-  segmentModel = "Upcoming";
+  segmentModel = "inProcess";
 
   upcomingArr: any = [];
   orderd_upcomingArr: any = [];
   previousArr: any = [];
   orderd_previousArr: any =[];
-
+  transactionsArr:any = []
   userdata: any = "";
   userID: any = "";
   constructor(
@@ -36,37 +36,38 @@ export class MyRefundsPage implements OnInit {
     this.rest.presentLoader();
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
-
-    var ss = JSON.stringify({
+    console.log("user id:", this.userID);
+    
+    var ss = {
       users_customers_id: this.userID,
-    });
+    };
 
-    this.rest.bookings_upcoming(ss).subscribe((res: any) => {
-      console.log("bookings_upcoming------", res);
+    this.rest.sendRequest("get_transaction_list",ss).subscribe((res: any) => {
+      console.log("transactions Arr------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.upcomingArr = res.data;
-        for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
-          this.orderd_upcomingArr[j] = this.upcomingArr[i];
-          j++;        
-        }
-        console.log("orderd_upcomingArr: ",this.orderd_upcomingArr);
+        this.transactionsArr = res.data;
+        // for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
+        //   this.orderd_upcomingArr[j] = this.upcomingArr[i];
+        //   j++;        
+        // }
+        // console.log("orderd_upcomingArr: ",this.orderd_upcomingArr);
         
       }
     });
 
-    this.rest.bookings_previous(ss).subscribe((res: any) => {
-      console.log("bookings_previous------", res);
-      this.rest.dismissLoader();
-      if (res.status == "success") {
-        this.previousArr = res.data;
-        for(let i= this.previousArr.length-1, j=0; i>=0; i--){
-          this.orderd_previousArr[j] = this.previousArr[i];
-          j++;        
-        }
-        console.log("orderd_previousArr: ",this.orderd_previousArr);
-      }
-    });
+    // this.rest.bookings_previous(ss).subscribe((res: any) => {
+    //   console.log("bookings_previous------", res);
+    //   this.rest.dismissLoader();
+    //   if (res.status == "success") {
+    //     this.previousArr = res.data;
+    //     for(let i= this.previousArr.length-1, j=0; i>=0; i--){
+    //       this.orderd_previousArr[j] = this.previousArr[i];
+    //       j++;        
+    //     }
+    //     console.log("orderd_previousArr: ",this.orderd_previousArr);
+    //   }
+    // });
   }
 
   gotoBookingDetails(data:any){

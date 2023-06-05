@@ -36,7 +36,7 @@
       
       mode="ios"
       [(ngModel)]="segmentModel"
-      value="Upcoming"
+      value="inProcess"
     >
       <ion-segment-button
         style="
@@ -46,9 +46,9 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="Upcoming"
+        value="inProcess"
       >
-        <ion-label>Upcoming</ion-label>
+        <ion-label>In Process</ion-label>
       </ion-segment-button>
       <ion-segment-button
         style="
@@ -58,9 +58,9 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="Previous"
+        value="Refunded"
       >
-        <ion-label>Previous</ion-label>
+        <ion-label>Refunded</ion-label>
       </ion-segment-button>
     </ion-segment>
   </div>
@@ -76,9 +76,9 @@
       margin-left: 3%;
       padding-bottom: 20px;
     "
-    *ngIf="segmentModel === 'Upcoming'"
+    *ngIf="segmentModel === 'inProcess'"
   >
-    <div class="elementBg" *ngFor="let aa of orderd_upcomingArr">
+    <div class="elementBg" *ngFor="let aa of transactionsArr">
       <img (click)="gotoBookingDetails(aa)"
         style="
           width: 104px;
@@ -135,9 +135,9 @@
       margin-left: 3%;
       padding-bottom: 20px;
     "
-    *ngIf="segmentModel === 'Previous'"
+    *ngIf="segmentModel === 'Refunded'"
   >
-    <div class="elementBg" *ngFor="let aa of orderd_previousArr">
+    <div class="elementBg" *ngFor="let aa of transactionsArr">
       <img
         style="
           width: 104px;

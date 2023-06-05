@@ -36,12 +36,12 @@ export class MyEventsPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    var ss = JSON.stringify({
+    var ss = {
       users_customers_id: this.userID,
-    });
+    };
 
-    this.rest.bookings_upcoming(ss).subscribe((res: any) => {
-      console.log("bookings_upcoming------", res);
+    this.rest.sendRequest("get_upcoming_events_list",ss).subscribe((res: any) => {
+      console.log("get_upcoming_events_list------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.upcomingArr = res.data;
@@ -54,8 +54,8 @@ export class MyEventsPage implements OnInit {
       }
     });
 
-    this.rest.bookings_previous(ss).subscribe((res: any) => {
-      console.log("bookings_previous------", res);
+    this.rest.sendRequest("get_previous_events_list",ss).subscribe((res: any) => {
+      console.log("get_previous_events_list------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.previousArr = res.data;

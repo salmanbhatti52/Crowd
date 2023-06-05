@@ -66,6 +66,18 @@ export class RestService {
       headers: header,
     });
   }
+
+  getRequest(action: any) {
+    let header;
+
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+
+    return this.http.get(`${this.baseURL}${action}`, {
+      headers: header,
+    });
+  }
   
   presentLoader() {
     this.loadingController

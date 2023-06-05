@@ -17,6 +17,12 @@ export class Booking1eventPage implements OnInit {
   visitorArr: any = "";
   selectedVenue: any = "";
   latitude: any;
+  businessList:any;
+  organizer:any = {
+    first_name: null,
+    user_image: null,
+    users_business_id: null,
+  };
   longitude: string | null | undefined;
   constructor(
     public location: Location,
@@ -32,12 +38,36 @@ export class Booking1eventPage implements OnInit {
     this.userId = JSON.parse(this.userdata).users_customers_id;
     this.latitude = localStorage.getItem('lattitude');
     this.longitude = localStorage.getItem('longitude');
-
+    
     this.selectedVenue = this.rest.detail;
+    console.log("detaill----", this.selectedVenue);
+    this.getBusinessList();
+
   }
 
   ngOnInit() {}
 
+  getBusinessList(){
+    this.rest.presentLoader();
+    this.rest.getRequest('get_business_list').subscribe((res:any)=>{
+      this.rest.dismissLoader();
+      console.log("Ress:", res);
+      if(res.status=='success'){
+        // this.businessList = res.data;
+        console.log("Organizer Data before: ",this.organizer);
+        for(let i=0; i<res.data.length; i++){
+          if(this.selectedVenue.users_business_id == res.data[i].users_business_id){
+            this.organizer = res.data[i];            
+          }
+        }
+      }
+      console.log("Organizer Data: ",this.organizer);
+    },(err)=>{
+      this.rest.dismissLoader();
+      console.log("Errr: ",err);
+      
+    })
+  }
   goBack() {
     this.location.back();
   }
