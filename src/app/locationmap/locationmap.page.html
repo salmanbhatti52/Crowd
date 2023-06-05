@@ -63,7 +63,7 @@
     <p class="filtertext" (click)="showHideFilter('Quite')">Quite</p>
     <p
       style="
-        font-size: 7px;
+        font-size: 8px;
         text-align: right;
         margin-right: -12px;
         margin-top: 5px;
@@ -111,7 +111,7 @@
       bottom: 65px;
     "
   >
-    <div>
+    <div *ngIf="searchObject.venues_id != null">
       <img
         (click)="likevenu()"
         *ngIf="searchObject.likes == 0"
@@ -134,7 +134,7 @@
           padding: 10px;
           object-fit: cover;
         "
-        src="{{rest.baseURLimg}}{{searchObject.cover_images}}"
+        src="{{searchObject.cover_images}}"
       />
 
       <div style="margin-top: 11px">
@@ -151,8 +151,8 @@
           {{searchObject.name}}
         </p>
 
-        <ion-badge
-          *ngIf="searchObject.discount_percentage != 0"
+        <ion-badge 
+          *ngIf="searchObject.discount_percentage != 0 && searchObject.venues_id != null"
           style="
             font-size: 10px;
             padding: 8px;
@@ -167,7 +167,7 @@
         >
 
         <ion-badge
-          *ngIf="searchObject.discount_percentage == 0"
+          *ngIf="searchObject.discount_percentage == 0 && searchObject.venues_id != null"
           style="
             font-size: 10px;
             padding: 8px;
@@ -187,7 +187,7 @@
             {{searchObject.distance | number : '1.2-2'}} Miles
           </p>
         </div>
-        <div style="display: flex; margin-top: 10px">
+        <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
           <p class="work_sans titlesub">
             Open till {{searchObject.close_hours}}

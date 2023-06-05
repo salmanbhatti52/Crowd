@@ -114,6 +114,8 @@ export class HomePage implements OnInit {
       
       this.venuesFromGoogle[i].status =  this.venuesFromGoogle[i].business_status;
       this.venuesFromGoogle[i].venues_id =  null;
+      this.venuesFromGoogle[i].public_check_ins =  0;
+      this.venuesFromGoogle[i].availability =  'null';
       
     }
 
