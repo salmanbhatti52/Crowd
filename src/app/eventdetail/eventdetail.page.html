@@ -60,12 +60,12 @@
     </ion-row>
   </div>
 
-  <div style="width: 90%; margin: 5% auto">
+  <div style="width: 92%; margin: 5% auto">
     <p class="titlemain work_sans">{{detailObj.name}}</p>
     <p class="titlesubmain work_sans">{{detailObj.venue_name}}</p>
 
     <ion-row>
-      <ion-col size="4.5" style="display: flex; align-items: center">
+      <ion-col size="3.7" style="display: flex; align-items: center; padding: 0px;">
         <div style="display: flex">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
@@ -76,7 +76,7 @@
           </p>
         </div>
       </ion-col>
-      <ion-col size="4.5" style="display: flex; align-items: center">
+      <ion-col size="4" style="display: flex; align-items: center;padding: 0px;">
         <div style="display: flex">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
@@ -87,14 +87,14 @@
           </p>
         </div>
       </ion-col>
-      <ion-col size="3" style="display: flex; align-items: center">
+      <ion-col size="4.3" style="display: flex; align-items: center; padding: 0px;">
         <div style="display: flex">
           <img
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/watch.svg"
           />
           <p class="work_sans titlesub">
-            {{getTime(detailObj.event_time)}}
+            {{getTime(detailObj.event_start_time)}} - {{getTime(detailObj.event_end_time)}}
           </p>
         </div>
       </ion-col>

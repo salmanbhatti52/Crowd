@@ -58,7 +58,7 @@
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">{{selectedVenue.event_time }}</p>
+          <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
         </div>
       </div>
     </div>
@@ -126,14 +126,7 @@
 
     <p class="title2 work_sans">Refund Policy</p>
     <p class="desc2 work_sans">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet
-      justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque
-      placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis.
-      Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar,
-      aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed
-      accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum
-      lorem sed porta. Nullam mattis tristique iaculis.
+      {{selectedVenue.refund_policy}}
     </p>
 
     <ion-button

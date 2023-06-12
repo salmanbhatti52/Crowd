@@ -34,6 +34,12 @@ export class Booking2eventPage implements OnInit {
     this.location.back();
   }
 
+  getTime(val:any){
+    if(val){
+      return val.substring(0,5);
+    }
+  }
+
   handleImgError2(ev: any, item: any) {
     console.log("hloooooo");
 

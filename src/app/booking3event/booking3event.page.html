@@ -59,7 +59,7 @@
   
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">{{selectedVenue.event_time }}</p>
+            <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
           </div>
         </div>
       </div>

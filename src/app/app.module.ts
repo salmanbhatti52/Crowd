@@ -28,6 +28,7 @@ import { BeseenPageModule } from "./beseen/beseen.module";
 import { NgScrollCalendarModule } from "ng-scroll-calendar";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
+// import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,6 +49,7 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
     SignInWithApple,
     OneSignal,
     DatePicker,
+    // BarcodeScanner,
     // Geolocation,
     // LottieSplashScreen,
     InAppBrowser,

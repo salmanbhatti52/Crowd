@@ -97,6 +97,12 @@ export class Booking1eventPage implements OnInit {
     })
   }
 
+  getTime(val:any){
+    if(val){
+      return val.substring(0,5);
+    }
+  }
+
   handleImgError2(ev: any, item: any) {
     console.log("hloooooo");
 

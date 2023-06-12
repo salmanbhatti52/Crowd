@@ -80,6 +80,12 @@ export class Booking3eventPage implements OnInit {
     console.log("buy");
   }
 
+  getTime(val:any){
+    if(val){
+      return val.substring(0,5);
+    }
+  }
+
   goToNext() {
     this.router.navigate(["paymentmethod"]);
   }

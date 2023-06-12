@@ -91,8 +91,19 @@ export class HomePage implements OnInit {
 
       this.venuesFromGoogle[i].likes = null;
       this.venuesFromGoogle[i].discount_percentage = null;
-      this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].icon;
-      // this.venuesFromGoogle[i].cover_image = this.venuesFromGoogle[i].photos[0].getUrl();
+      if(this.venuesFromGoogle[i].photos){
+        console.log("venuesFromGoogle[i].photos",this.venuesFromGoogle[i].photos[0].getUrl());
+        
+        this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].photos[0].getUrl();
+      }else{
+        
+        this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].icon;
+      }
+      if(this.venuesFromGoogle[i].opening_hours){
+
+        // console.log("venuesFromGoogle[i].opening_hours.isOpen()",this.venuesFromGoogle[i].opening_hours.isOpen());
+      }
+      
       this.venuesFromGoogle[i].lattitude = this.venuesFromGoogle[i].geometry.location?.lat();
       this.venuesFromGoogle[i].longitude = this.venuesFromGoogle[i].geometry.location?.lng();
 
@@ -129,6 +140,8 @@ export class HomePage implements OnInit {
         return a.distance - b.distance;
       })
     );
+    this.rest.venuArrHome = this.venuarr;
+    console.log('venuArrUpdatedGoogleEvents: ',this.rest.venuArrHome);
   }
 
   async getAddress(lat:any, lng:any) {
