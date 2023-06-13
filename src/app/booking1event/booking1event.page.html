@@ -138,15 +138,27 @@
 
     <p style="margin-top: 20px" class="title2 work_sans">Organizer</p>
     <div style="display: flex">
-      <img
+      <img *ngIf="organizer.user_image"
         style="
           width: 57.3px;
           height: 57.3px;
           border: 1.5px solid #7825cb;
           border-radius: 50%;
           margin-right: 20px;
+          object-fit: cover;
         "
         src="{{rest.baseURLimg}}{{organizer.user_image}}"
+      />
+      <img *ngIf="organizer.user_image == null || undefined"
+        style="
+          width: 57.3px;
+          height: 57.3px;
+          border: 1.5px solid #7825cb;
+          border-radius: 50%;
+          margin-right: 20px;
+          object-fit: cover;
+        "
+        src="../../assets/imgs/avatar.png"
       />
       <div>
         <p class="username work_sans">{{organizer.first_name}}</p>

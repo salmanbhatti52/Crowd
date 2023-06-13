@@ -92,7 +92,7 @@ export class HomePage implements OnInit {
       this.venuesFromGoogle[i].likes = null;
       this.venuesFromGoogle[i].discount_percentage = null;
       if(this.venuesFromGoogle[i].photos){
-        console.log("venuesFromGoogle[i].photos",this.venuesFromGoogle[i].photos[0].getUrl());
+        // console.log("venuesFromGoogle[i].photos",this.venuesFromGoogle[i].photos[0].getUrl());
         
         this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].photos[0].getUrl();
       }else{
@@ -142,6 +142,8 @@ export class HomePage implements OnInit {
     );
     this.rest.venuArrHome = this.venuarr;
     console.log('venuArrUpdatedGoogleEvents: ',this.rest.venuArrHome);
+    this.filteredvenuarr = this.venuarr;
+    console.log('filteredVenuArrUpdatedGoogleEvents: ',this.filteredvenuarr);
   }
 
   async getAddress(lat:any, lng:any) {
@@ -331,9 +333,14 @@ export class HomePage implements OnInit {
   }
 
   goToReservationDetail(ev: any) {
+    // this.venueList = [];
+          // this.HideFilter();
+          // console.log("opt: ",opt);
+          // this.rest.detail = opt;
+          // this.router.navigate(["venuedetail"]);
     console.log(ev);
     this.rest.detail = ev;
-    this.router.navigate(["booking1"]);
+    this.router.navigate(["venuedetail"]);
   }
 
   goToEventDetail(opt: any) {
@@ -600,19 +607,22 @@ export class HomePage implements OnInit {
         // this.getVenuesNearUserLocation();
         console.log("Updated Venu Array",this.venuarr);
         
-        this.venuarrOrg = this.venuarr.concat(
-          res.data.sort((a: any, b: any) => {
-            // console.log("testppppppppppopopopopopoopopopopopopopopo");
-            return a.distance - b.distance;
-          })
-        );
-
-        this.rest.venuArrHome = this.venuarr.concat(
-          res.data.sort((a: any, b: any) => {
-            // console.log("testppppppppppopopopopopoopopopopopopopopo");
-            return a.distance - b.distance;
-          })
-        );
+        this.venuarrOrg = this.venuarr;
+        // this.venuarrOrg = this.venuarr.concat(
+          //   res.data.sort((a: any, b: any) => {
+            //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
+            //     return a.distance - b.distance;
+            //   })
+            // );
+        this.filteredvenuarr = this.venuarr
+        console.log("Updated filtered Venu Array",this.venuarr);
+        this.rest.venuArrHome = this.venuarr
+        // this.rest.venuArrHome = this.venuarr.concat(
+        //   res.data.sort((a: any, b: any) => {
+        //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
+        //     return a.distance - b.distance;
+        //   })
+        // );
         
 
       } else {

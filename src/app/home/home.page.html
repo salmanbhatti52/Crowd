@@ -304,6 +304,34 @@
             >{{opt.discount_percentage}}% Off
           </ion-badge>
          </div> -->
+         <div
+          style="
+            position: absolute;
+            width: 100%;
+            z-index: 9;
+            top: 5px;
+            right: 1px;
+          "
+        >
+          <img
+            (click)="likevenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes==0"
+            src="assets/imgs/heartww.svg"
+          />
+          <img
+            (click)="likeoutvenu(opt)"
+            class="imgcls"
+            *ngIf="opt.likes==1"
+            src="assets/imgs/heartactive.svg"
+          />
+          <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg"
+            >No Discount
+          </ion-badge>
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+            >{{opt.discount_percentage}}% Off
+          </ion-badge>
+        </div>
           <div
             class="divboxshadowinside"
             (click)="goToReservationDetail(opt)"

@@ -322,7 +322,10 @@ export class LocationmapPage implements OnInit {
     this.b = localStorage.getItem("longitude");
     this.dbLati = parseFloat(this.a);
     this.dbLong = parseFloat(this.b);
+    console.log("this.rest.venuArrHome",this.rest.venuArrHome.length);
+    
     this.venuarrOrg = this.rest.venuArrHome;
+    console.log("this.venuarrOrg",this.venuarrOrg.length);
     this.makeMarkerArray();
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
