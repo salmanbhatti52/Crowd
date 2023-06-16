@@ -57,7 +57,8 @@ export class Booking1eventPage implements OnInit {
         console.log("Organizer Data before: ",this.organizer);
         for(let i=0; i<res.data.length; i++){
           if(this.selectedVenue.users_business_id == res.data[i].users_business_id){
-            this.organizer = res.data[i];            
+            this.organizer = res.data[i];
+            this.rest.business_owner_name = this.organizer.first_name;            
           }
         }
       }

@@ -130,12 +130,13 @@
   }
   .ddi{
     width: 78px;
+    max-width: 78px !important;
     height: 34px;
-    background: #000000;
-    border-radius: 17px;
-    color: white;
-    text-align: center;
-    padding: 0px 16px;
+    --background: #000000;
+    border-radius: 17px !important;
+    --color: white !important;
+    --padding-start: 16px;
+    --padding-end: 16px;
   }
 
 

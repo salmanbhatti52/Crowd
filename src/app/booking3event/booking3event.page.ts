@@ -25,6 +25,7 @@ export class Booking3eventPage implements OnInit {
 
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
+    this.rest.billDetails.total_bill = this.rest.billDetails.total_bill + 5;
   }
 
   ngOnInit() {}

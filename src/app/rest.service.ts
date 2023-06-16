@@ -24,6 +24,8 @@ export class RestService {
   baseURLimg = "https://crowd.eigix.net/public/";
   mapsKey = 'AIzaSyDfMmdgRpcZCRBxqthG4RmQHeFsYFVy4V4'
   mapsBaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+  business_owner_name: any;
+  billDetails:any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

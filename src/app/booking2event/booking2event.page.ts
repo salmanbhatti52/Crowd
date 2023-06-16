@@ -15,6 +15,17 @@ export class Booking2eventPage implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
+  p4p1 = false;
+  p4p2 = false;
+  p6p1 = false;
+  p6p2 = false;
+  packagePrice = 0;
+  packageType = '';
+  packageName = '';
+  totalTickets = 0;
+  pricePerTicket = 0;
+  ticketRequested!: number | null;
+  totalBill = 0;
   constructor(
     public location: Location,
     public router: Router,
@@ -26,6 +37,11 @@ export class Booking2eventPage implements OnInit {
 
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
+    this.totalTickets = this.selectedVenue.no_of_tickets;
+    console.log("detaill----", this.selectedVenue);
+    this.pricePerTicket = Number(this.selectedVenue.price_per_ticket);
+    console.log("price_per_ticket",this.pricePerTicket);
+    
   }
 
   ngOnInit() {}
@@ -33,6 +49,79 @@ export class Booking2eventPage implements OnInit {
   goBack() {
     this.location.back();
   }
+  getTicketCount(ev:any){
+    
+    if(this.ticketRequested){
+      if(this.ticketRequested > this.totalTickets){
+        this.ticketRequested = null;
+        this.rest.presentToast(`Max available tickets are ${this.totalTickets}.`);
+      }  
+    }
+    console.log("tickets requested", this.ticketRequested);
+    this.calculateTotalAmount();
+    
+  }
+
+  selectPackage(val:any,price:any){
+    if(val == 'p4p2'){
+      this.p4p1 = false;
+      this.p4p2 = true;
+      this.p6p1 = false;
+      this.p6p2 = false;
+      this.packagePrice = Number(price);
+      this.calculateTotalAmount();
+      this.packageType = 'Table for 4'
+      this.packageName = 'Drinking Package 2'
+    }else if(val == 'p6p1'){
+      this.p4p1 = false;
+      this.p4p2 = false;
+      this.p6p1 = true;
+      this.p6p2 = false;
+      this.packagePrice = Number(price);
+      this.calculateTotalAmount();
+      this.packageType = 'Table for 6'
+      this.packageName = 'Drinking Package 1'
+    }else if(val == 'p6p2'){
+      this.p4p1 = false;
+      this.p4p2 = false;
+      this.p6p1 = false;
+      this.p6p2 = true;
+      this.packagePrice = Number(price);
+      this.calculateTotalAmount();
+      this.packageType = 'Table for 6'
+      this.packageName = 'Drinking Package 2'
+    }else{
+      this.p4p1 = true;
+      this.p4p2 = false;
+      this.p6p1 = false;
+      this.p6p2 = false;
+      this.packagePrice = Number(price);
+      this.calculateTotalAmount();
+      this.packageType = 'Table for 4'
+      this.packageName = 'Drinking Package 1'
+    }
+    
+  }
+
+  calculateTotalAmount(){
+    this.totalBill = 0;
+    console.log("price",this.packagePrice);
+    console.log("ticketRequested", this.ticketRequested);
+    console.log("pricePerTicket", this.pricePerTicket);
+    
+    if(this.ticketRequested){
+      this.totalBill = this.ticketRequested * this.pricePerTicket + this.packagePrice;
+      console.log("total_bill",this.totalBill);
+      
+    }else if(this.packagePrice){
+      this.totalBill = this.packagePrice;
+    }else{
+
+    }
+
+  }
+
+
 
   getTime(val:any){
     if(val){
@@ -88,6 +177,30 @@ export class Booking2eventPage implements OnInit {
   }
 
   goToNext() {
-    this.router.navigate(["booking3event"]);
+    if(this.ticketRequested)
+    {
+      if(this.ticketRequested<=0){
+        this.rest.presentToast('Plz enter number of ticket/tickets');
+      }else if(this.packagePrice == 0){
+        this.rest.presentToast('Plz select the package');
+      }else{
+        let ticketBill = this.ticketRequested * this.pricePerTicket;
+        let data = {
+          ticket_requested: this.ticketRequested,
+          ticket_bill: ticketBill,
+          package_type: this.packageType,
+          package_name: this.packageName,
+          package_price: this.packagePrice,
+          total_bill: this.totalBill
+        }
+        console.log("Bill Details",data);
+        this.rest.billDetails = data;
+        this.router.navigate(["booking3event"]);
+        
+      }
+      
+    }else{
+      this.rest.presentToast('Plz enter number of ticket/tickets');
+    }
   }
 }
