@@ -3,13 +3,22 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { defineCustomElements as ionicDefineCustomElements } from '@ionic/pwa-elements/loader';
+import { defineCustomElements as stripeDefineCustomElements } from '@stripe-elements/stripe-elements/loader';
+
+
+
 if (environment.production) {
   enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
+.then(() => {
+  // Use the functions with the appropriate namespace
+  stripeDefineCustomElements(window);
+})
   .catch(err => console.log(err));
 
   // Call the element loader after the platform has been bootstrapped
-defineCustomElements(window);
+  ionicDefineCustomElements(window);
+

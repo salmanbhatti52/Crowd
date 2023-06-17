@@ -14,5 +14,7 @@ public class MainActivity extends BridgeActivity {
     registerPlugin(
       com.getcapacitor.community.facebooklogin.FacebookLogin.class
     );
+
+    registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
   }
 }

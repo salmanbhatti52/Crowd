@@ -19,210 +19,217 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div style="display: flex; margin-top: 20px;align-items:center ;">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
-      />
-
-      <div>
-        
-        <div class="venue_label">
-          {{selectedVenue.venue_name}}
-        </div>
-
-        <div
+  <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+    <div style="width: 90%; text-align: center; margin: 5% auto 0px">
+      <div style="display: flex; margin-top: 20px;align-items:center ;">
+        <img
           style="
-            display: flex;
-            align-items: center;
-            margin-bottom: 13px;
-            margin-top: 10px;
+            width: 104px;
+            height: 104px;
+            border-radius: 16px;
+            margin-right: 10px;
           "
-        >
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="date work_sans">
-            {{selectedVenue.distance | number : '1.2-2'}} Miles
-          </p>
+          src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+        />
+  
+        <div>
+          
+          <div class="venue_label">
+            {{selectedVenue.venue_name}}
+          </div>
+  
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              margin-bottom: 13px;
+              margin-top: 10px;
+            "
+          >
+            <img class="imm" src="assets/imgs/pinwhite.svg" />
+            <p class="date work_sans">
+              {{selectedVenue.distance | number : '1.2-2'}} Miles
+            </p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 13px">
+            <img class="imm" src="assets/imgs/ccc.svg" />
+            <p class="date work_sans">{{selectedVenue.event_date }}</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="assets/imgs/watch.svg" />
+            <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
+          </div>
         </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 13px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{selectedVenue.event_date }}</p>
+      </div>
+  
+      <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
+        Ticket Prices
+      </p>
+  
+      <div
+        style="display: flex; justify-content: space-between; align-items: center"
+      >
+        <p style="margin: 0px" class="dd work_sans">Standard Ticket </p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.price_per_ticket}}</p>
+        <ion-input class="ddi work_sans" placeholder="0" type="number" (ionChange)="getTicketCount($event)" [(ngModel)]="ticketRequested"></ion-input>
+      </div>
+  <!-- 
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">VIP Ticket name</p>
+        <p style="margin: 0px" class="dd work_sans">£50</p>
+        <input class="ddi work_sans" placeholder="01" type="tel" />
+      </div>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
+        <p style="margin: 0px" class="dd work_sans">£10</p>
+        <input class="ddi work_sans" placeholder="02" type="tel" />
+      </div> -->
+  
+      <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
+        Table (Party of 4)
+      </p>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <img (click)="selectPackage('p4p1',selectedVenue.drinking_pakage1p4)"
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/uncheck.svg" *ngIf="p4p1 != true"
+          />
+          <img
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/check.svg" *ngIf="p4p1 == true"
+          />
+  
+          <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
         </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p4}}</p>
+      </div>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <img (click)="selectPackage('p4p2',selectedVenue.drinking_pakage2p4)"
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/uncheck.svg" *ngIf="p4p2 != true"
+          />
+          <img
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/check.svg" *ngIf="p4p2 == true"
+          />
+  
+          <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
         </div>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p4}}</p>
       </div>
-    </div>
-
-    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
-      Ticket Prices
-    </p>
-
-    <div
-      style="display: flex; justify-content: space-between; align-items: center"
-    >
-      <p style="margin: 0px" class="dd work_sans">Standard Ticket </p>
-      <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.price_per_ticket}}</p>
-      <ion-input class="ddi work_sans" placeholder="0" type="number" (ionChange)="getTicketCount($event)" [(ngModel)]="ticketRequested"></ion-input>
-    </div>
-<!-- 
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">VIP Ticket name</p>
-      <p style="margin: 0px" class="dd work_sans">£50</p>
-      <input class="ddi work_sans" placeholder="01" type="tel" />
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
-      <p style="margin: 0px" class="dd work_sans">£10</p>
-      <input class="ddi work_sans" placeholder="02" type="tel" />
-    </div> -->
-
-    <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
-      Table (Party of 4)
-    </p>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <div style="display: flex; align-items: center">
-        <img (click)="selectPackage('p4p1',selectedVenue.drinking_pakage1p4)"
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/uncheck.svg" *ngIf="p4p1 != true"
-        />
-        <img
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/check.svg" *ngIf="p4p1 == true"
-        />
-
-        <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
+  
+      <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
+        Table (Party of 6)
+      </p>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <img (click)="selectPackage('p6p1',selectedVenue.drinking_pakage1p6)"
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/uncheck.svg" *ngIf="p6p1 != true"
+          />
+          <img
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/check.svg" *ngIf="p6p1 == true"
+          />
+  
+          <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
+        </div>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p6}}</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p4}}</p>
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <div style="display: flex; align-items: center">
-        <img (click)="selectPackage('p4p2',selectedVenue.drinking_pakage2p4)"
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/uncheck.svg" *ngIf="p4p2 != true"
-        />
-        <img
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/check.svg" *ngIf="p4p2 == true"
-        />
-
-        <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
+  
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <img (click)="selectPackage('p6p2',selectedVenue.drinking_pakage2p6)"
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/uncheck.svg" *ngIf="p6p2 != true"
+          />
+          <img 
+            style="width: 18px; height: 18px; margin-right: 10px"
+            src="assets/imgs/check.svg" *ngIf="p6p2 == true"
+          />
+  
+          <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
+        </div>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p6}}</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p4}}</p>
+  
+      
     </div>
-
-    <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
-      Table (Party of 6)
-    </p>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <div style="display: flex; align-items: center">
-        <img (click)="selectPackage('p6p1',selectedVenue.drinking_pakage1p6)"
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/uncheck.svg" *ngIf="p6p1 != true"
-        />
-        <img
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/check.svg" *ngIf="p6p1 == true"
-        />
-
-        <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
+  
+    <div style="width: 90%; text-align: center; margin: 5% auto 0px; padding-bottom: 20px;">
+      <div
+        style="
+          background: #000000;
+          border-radius: 15px;
+          display: flex;
+          justify-content: space-between;
+          height: 74px;
+          align-items: center;
+          padding: 0px 20px;
+          margin-top: 20px;
+          margin-bottom: 10px;
+        "
+      >
+        <p style="margin: 0px" class="total work_sans">Total Amount</p>
+        <p style="margin: 0px" class="total work_sans">£ {{totalBill}}</p>
       </div>
-      <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p6}}</p>
+  
+      <ion-button
+        (click)="goToNext()"
+        style="margin-top: 10px; opacity: 1"
+        class="btnbg work_sans"
+        >Next</ion-button
+      >
     </div>
 
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-      "
-    >
-      <div style="display: flex; align-items: center">
-        <img (click)="selectPackage('p6p2',selectedVenue.drinking_pakage2p6)"
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/uncheck.svg" *ngIf="p6p2 != true"
-        />
-        <img 
-          style="width: 18px; height: 18px; margin-right: 10px"
-          src="assets/imgs/check.svg" *ngIf="p6p2 == true"
-        />
-
-        <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
-      </div>
-      <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p6}}</p>
-    </div>
-
-    <div
-      style="
-        background: #000000;
-        border-radius: 15px;
-        display: flex;
-        justify-content: space-between;
-        height: 74px;
-        align-items: center;
-        padding: 0px 20px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      "
-    >
-      <p style="margin: 0px" class="total work_sans">Total Amount</p>
-      <p style="margin: 0px" class="total work_sans">£ {{totalBill}}</p>
-    </div>
-
-    <ion-button
-      (click)="goToNext()"
-      style="margin-top: 10px; opacity: 1"
-      class="btnbg work_sans"
-      >Next</ion-button
-    >
   </div>
 </ion-content>
