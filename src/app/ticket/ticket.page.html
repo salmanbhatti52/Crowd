@@ -21,12 +21,15 @@
   <div class="center">
     <img src="../../assets/imgs/ticket.svg" alt="">
   </div>
-  <div class="flex_center">
-    <ion-button id="open-modal" (click)="goToHome()"
-        style="margin-top: 10px;margin-right: 11px; opacity: 1"
-        class="btnbgred work_sans"
-        >Request Refund</ion-button
-      >
+  <div class="flex_center" style="justify-content: space-between;">
+    <!-- (click)="goToHome()" -->
+    <div id="open-modal" style="width: 75%;">
+      <ion-button  
+          style="margin-top: 10px;margin-right: 11px; opacity: 1"
+          class="btnbgred work_sans"
+          >Request Refund</ion-button
+        >
+    </div>
       <img src="../../assets/imgs/download_btn.svg" alt="">
   </div>
   <ion-modal class="refund_popup" #modal trigger="open-modal">

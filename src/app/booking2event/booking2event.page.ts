@@ -191,7 +191,9 @@ export class Booking2eventPage implements OnInit {
           package_type: this.packageType,
           package_name: this.packageName,
           package_price: this.packagePrice,
-          total_bill: this.totalBill
+          total_bill: this.totalBill,
+          event_id: this.selectedVenue.events_id,
+          user_business_id: this.selectedVenue.users_business_id,
         }
         console.log("Bill Details",data);
         this.rest.billDetails = data;

@@ -69,7 +69,7 @@
           <!-- <ion-button expand="block" class="ion-margin-top" (click)="paymentSheet()">Payment Sheet</ion-button>
           <ion-button expand="block" class="ion-margin-top" (click)="paymentFlow()">Payment Flow</ion-button> -->
           
-          <div (click)="paymentSheet()" style="
+          <!-- <div *ngIf="paymentMethodCash" (click)="payCash()" style="
             background: #000000;
             align-items: center;
             padding: 15px 30px;
@@ -84,11 +84,30 @@
             height: 50px;
           ">
             <p style="margin: 0px" class="title roboto">
-              Pay with Payment Sheet
+              Pay with Cash
+            </p>
+          </div> -->
+
+          <div *ngIf="paymentMethodStripe" (click)="paymentSheet()" style="
+            background: #000000;
+            align-items: center;
+            padding: 15px 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            border-radius: 50px;
+            width: fit-content;
+            height: fit-content;
+            width: 280px;
+            height: 50px;
+          ">
+            <p style="margin: 0px" class="title roboto">
+              Pay with Credit/Debit card
             </p>
           </div>
           
-          <div (click)="paymentFlow()" style="
+          <!-- <div (click)="paymentFlow()" style="
             background: #000000;
             align-items: center;
             padding: 15px 30px;
@@ -105,14 +124,14 @@
             <p style="margin: 0px" class="title roboto">
               Pay with Payment Flow
             </p>
-          </div>
+          </div> -->
   
-          <div *ngIf="android" (click)="googlePay()"
+          <div *ngIf="android && paymentMethodGooglePay" (click)="googlePay()"
             style="
               background: #000000;
               align-items: center;
               padding: 15px 30px;
-              margin-top: 20px;
+              margin-top: 10px;
               margin-bottom: 10px;
               display: flex;
               justify-content: center;
@@ -128,12 +147,12 @@
             </p>
           </div>
           
-          <div *ngIf="ios" (click)="applePay()"
+          <div *ngIf="ios && paymentMethodApplePay" (click)="applePay()"
             style="
               background: #000000;
               align-items: center;
               padding: 15px 30px;
-              margin-top: 5px;
+              margin-top: 10px;
               margin-bottom: 10px;
               display: flex;
               justify-content: center;
@@ -176,12 +195,12 @@
         </div>
       </div>
 
-      <ion-button
+      <!-- <ion-button
         (click)="paynow()"
         style="margin-top: 10px; opacity: 1"
         class="btnbg work_sans"
         >Pay Now</ion-button
-      >
+      > -->
     </div>
   </div>
   <div >

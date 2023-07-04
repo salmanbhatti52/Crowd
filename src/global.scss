@@ -101,47 +101,40 @@ ion-input {
   --box-shadow: none !important;
   text-transform:none !important;
   height: 53px;
-      --background: #531C7C;
-
-      --background-activated: #351150;
-    --background-focused: #351150;
-    --background-hover: #351150;
-
-
-    opacity: 0.8;
-    --border-radius: 42px;
-    width: 100%;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    letter-spacing: -0.3px;
-    color: #FFFFFF;
+  --background: #531C7C;
+  --background-activated: #351150;
+  --background-focused: #351150;
+  --background-hover: #351150;
+  opacity: 0.8;
+  --border-radius: 42px;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: #FFFFFF;
 }
-.btnbgred{
-  --box-shadow: none !important;
-  text-transform:none !important;
-  height: 53px;
-      --background: #FF285C;
-
-      --background-activated: #351150;
-    --background-focused: #351150;
-    --background-hover: #351150;
-
-
-    opacity: 0.8;
-    --border-radius: 42px;
-    width: 100%;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    letter-spacing: -0.3px;
-    color: #FFFFFF;
-}
-
+// .btnbgred{
+//   text-transform:none !important;
+//   --box-shadow: none !important;
+//   height: 53px;
+//   --background: #FF285C;
+//   --background-activated: #351150;
+//   --background-focused: #351150;
+//   --background-hover: #351150;
+//   opacity: 0.8;
+//   --border-radius: 42px;
+//   width: 100%;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 18px;
+//   line-height: 21px;
+//   text-align: center;
+//   letter-spacing: -0.3px;
+//   color: #FFFFFF;
+// }
 
 .btnwhite{
   text-transform:none !important;
@@ -185,45 +178,41 @@ ion-input {
 .btnbgred{
   text-transform:none !important;
   height: 53px;
-      --background: #FF285C;
-
-      --background-activated: #d2224e;
-      --background-focused: #d2224e;
-      --background-hover: #d2224e;
-
-    opacity: 0.8;
-    --border-radius: 42px;
-    width: 100%;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    letter-spacing: -0.3px;
-    color: #FFFFFF;
+  --background: #FF285C;
+  --background-activated: #d2224e;
+  --background-focused: #d2224e;
+  --background-hover: #d2224e;
+  opacity: 0.8;
+  --border-radius: 42px;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: #FFFFFF;
 }
 
 .btnsimple{  
   height: 53px;
   text-transform:none !important;
-    --border-width: 2px;
-    --border-radius: 28px;
-    --background: #15d31500;
-
-    --background-activated: #531C7C36;
-    --background-focused: #531C7C36;
-    --background-hover: #531C7C36;
-
-    --border-color: white;
-    --border-style: solid;
-    width: 100%;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    letter-spacing: -0.3px;
-    color: #FFFFFF;
+  --border-width: 2px;
+  --border-radius: 28px;
+  --background: #15d31500;
+  --background-activated: #531C7C36;
+  --background-focused: #531C7C36;
+  --background-hover: #531C7C36;
+  --border-color: white;
+  --border-style: solid;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: #FFFFFF;
 }
 
 // .divbgimg{
