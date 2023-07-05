@@ -39,7 +39,7 @@ export class Booking2eventPage implements OnInit {
     this.selectedVenue = this.rest.detail;
     this.totalTickets = this.selectedVenue.no_of_tickets;
     console.log("detaill----", this.selectedVenue);
-    this.pricePerTicket = Number(this.selectedVenue.price_per_ticket);
+    this.pricePerTicket = this.convertInDecimal(this.selectedVenue.price_per_ticket);
     console.log("price_per_ticket",this.pricePerTicket);
     
   }
@@ -68,7 +68,7 @@ export class Booking2eventPage implements OnInit {
       this.p4p2 = true;
       this.p6p1 = false;
       this.p6p2 = false;
-      this.packagePrice = Number(price);
+      this.packagePrice = this.convertInDecimal(price);
       this.calculateTotalAmount();
       this.packageType = 'Table for 4'
       this.packageName = 'Drinking Package 2'
@@ -77,7 +77,7 @@ export class Booking2eventPage implements OnInit {
       this.p4p2 = false;
       this.p6p1 = true;
       this.p6p2 = false;
-      this.packagePrice = Number(price);
+      this.packagePrice = this.convertInDecimal(price);
       this.calculateTotalAmount();
       this.packageType = 'Table for 6'
       this.packageName = 'Drinking Package 1'
@@ -86,7 +86,7 @@ export class Booking2eventPage implements OnInit {
       this.p4p2 = false;
       this.p6p1 = false;
       this.p6p2 = true;
-      this.packagePrice = Number(price);
+      this.packagePrice = this.convertInDecimal(price);
       this.calculateTotalAmount();
       this.packageType = 'Table for 6'
       this.packageName = 'Drinking Package 2'
@@ -95,7 +95,7 @@ export class Booking2eventPage implements OnInit {
       this.p4p2 = false;
       this.p6p1 = false;
       this.p6p2 = false;
-      this.packagePrice = Number(price);
+      this.packagePrice = this.convertInDecimal(price);
       this.calculateTotalAmount();
       this.packageType = 'Table for 4'
       this.packageName = 'Drinking Package 1'
@@ -111,7 +111,8 @@ export class Booking2eventPage implements OnInit {
     
     if(this.ticketRequested){
       this.totalBill = this.ticketRequested * this.pricePerTicket + this.packagePrice;
-      console.log("total_bill",this.totalBill);
+      this.totalBill = this.convertInDecimal(this.totalBill);
+      console.log("total_bill_with_Dec",this.totalBill);
       
     }else if(this.packagePrice){
       this.totalBill = this.packagePrice;
@@ -119,6 +120,12 @@ export class Booking2eventPage implements OnInit {
 
     }
 
+  }
+
+  convertInDecimal(x:any) {
+    let decimalString =  Number.parseFloat(x).toFixed(2);
+    console.log("dec str: ", decimalString);
+    return Number.parseFloat(decimalString);
   }
 
 
@@ -188,6 +195,7 @@ export class Booking2eventPage implements OnInit {
         let data = {
           ticket_requested: this.ticketRequested,
           ticket_bill: ticketBill,
+          price_per_ticket:this.pricePerTicket,
           package_type: this.packageType,
           package_name: this.packageName,
           package_price: this.packagePrice,

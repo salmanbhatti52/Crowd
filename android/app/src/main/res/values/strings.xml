@@ -11,10 +11,10 @@
   <string name="facebook_app_id">828272794912378</string>
   <string name="facebook_client_token">fb828272794912378</string>
 
-  <string name="publishable_key">pk_test_51MQ37qDFPlDlGxkdw91wUybcouQFM0EOUev6HlGRi86QjYCu3tITcy1KzcDJGrSncQ8G2rHYxPmiDAm4Y027ff6g00Es0yT7y1</string>
+  <string name="publishable_key">pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn</string>
   <bool name="enable_google_pay">true</bool>
   <string name="country_code">US</string>
-  <string name="merchant_display_name">MI Crowd</string>
+  <string name="merchant_display_name">Crowd</string>
   <bool name="google_pay_is_testing">true</bool>
 
   <bool name="email_address_required">true</bool>

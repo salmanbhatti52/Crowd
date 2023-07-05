@@ -16,12 +16,12 @@ import { first, lastValueFrom } from 'rxjs';
   styleUrls: ["./paymentmethod.page.scss"],
 })
 export class PaymentmethodPage implements OnInit {
-  data:any = {
-    name: 'Ali',
-    email: 'ali@gmail.com',
-    amount: 100,
-    currency: 'USD'
-  };
+  // data:any = {
+  //   name: 'Ali',
+  //   email: 'ali@gmail.com',
+  //   amount: 100,
+  //   currency: 'USD'
+  // };
   userdata: any = "";
   visitorArr: any = "";
   selectedVenue: any = "";
@@ -35,6 +35,9 @@ export class PaymentmethodPage implements OnInit {
   customerId: any;
   ephemeralKey: any;
   paymentIntent: any;
+  userName: any;
+  userEmail: any;
+  txnsId: any;
   // paymentRequest!: google.payments.api.PaymentDataRequest;
   constructor(
     public location: Location,
@@ -46,14 +49,18 @@ export class PaymentmethodPage implements OnInit {
     public http:HttpClient,
     
   ) {
+
     Stripe.initialize({
-      publishableKey: environment.stripe.publishableKey,
+      // publishableKey: environment.stripe.publishableKey,
+      publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
     });
     this.android = platform.is("android");
     this.ios = platform.is("ios");
-
+    let data = {
+      users_business_id: this.rest.billDetails.user_business_id
+    }
     this.rest.presentLoader();
-    this.rest.getRequest('get_payment_method').subscribe((res:any)=>{
+    this.rest.sendRequest('get_business_payment_gateway',data).subscribe((res:any)=>{
       console.log("get_payment_method resss", res);
       if(res.status == 'success'){
         this.paymentMethods = res.data;
@@ -75,16 +82,21 @@ export class PaymentmethodPage implements OnInit {
 
 
   httpPost(){
+    // let amount = String(this.rest.billDetails.total_bill * 100)
+    console.log("Amount before multiply by 100: ", this.rest.billDetails.total_bill);
+    let amount = this.rest.billDetails.total_bill * 100
+    console.log("Amount after multiply by 100: ", amount);
+    
     let data = {
-      name:"Ahmed",
-      email:"ahmedtalha565@gmail.com",
-      amount:"500",
+      name:this.userName,
+      email:this.userEmail,
+      amount:amount,
       currency:"USD"
     }
     this.rest.sendRequest('payment_sheet',data).subscribe((res:any)=>{
       console.log("Ress: ",res);
       this.customerId = res.customer;
-      this.ephemeralKey = res.ephemeralkey?.secret;
+      this.ephemeralKey = res.ephemeralkey?.id;
       this.paymentIntent = res.paymentintent?.client_secret;
       console.log("customerId: ",this.customerId);
       console.log("ephemeralKey: ",this.ephemeralKey);
@@ -93,16 +105,19 @@ export class PaymentmethodPage implements OnInit {
     })
   }
 
-  payCash(){
+  payCash(paymentType:any){
     let data = {
-      event_id:this.rest.billDetails.event_id,
+      events_id:this.rest.billDetails.event_id,
       user_id:this.userId,
       user_business_id:this.rest.billDetails.user_business_id,
       number_of_ticket:this.rest.billDetails.ticket_requested,
       package_name:this.rest.billDetails.package_name,
       package_type:this.rest.billDetails.package_type,
+      price_per_ticket:this.rest.billDetails.price_per_ticket,
       total_amount:this.rest.billDetails.total_bill,
-      payment_type:"cash"
+      transiction_id:this.txnsId,
+      transiction_status:"Paid",
+      payment_type:paymentType
     }
     console.log('pay with cash dataaa: ',data);
     this.rest.presentLoader();
@@ -114,11 +129,13 @@ export class PaymentmethodPage implements OnInit {
         this.paynow();
       }
       
-    },(err)=>{
-      this.rest.dismissLoader();
-      console.log("Errr: ",err );
+    }
+    // ,(err)=>{
+    //   this.rest.dismissLoader();
+    //   console.log("Errr: ",err );
       
-    })
+    // }
+    )
     
   }
 
@@ -140,6 +157,8 @@ export class PaymentmethodPage implements OnInit {
         console.log("If PaymentIntent: ",this.paymentIntent);
         // prepare PaymentSheet with CreatePaymentSheetOption.
         await Stripe.createPaymentSheet({
+          enableGooglePay:true,
+          enableApplePay:true,
           paymentIntentClientSecret: this.paymentIntent,
           customerId: this.customerId,
           customerEphemeralKeySecret: this.ephemeralKey,
@@ -157,7 +176,7 @@ export class PaymentmethodPage implements OnInit {
         if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
           this.splitAndJoin(this.paymentIntent);
           console.log("paymentIntent",this.paymentIntent);
-          
+          this.payCash('Stripe');
           // Happy path
         }
       }, 3000);
@@ -277,6 +296,8 @@ export class PaymentmethodPage implements OnInit {
       const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
       if (isAvailable === undefined) {
         // disable to use Google Pay
+        console.log("Google Pay is not available.");
+        
         return;
       }
       
@@ -318,6 +339,8 @@ export class PaymentmethodPage implements OnInit {
 
   splitAndJoin(paymentIntent:any){
     const result = paymentIntent.split('_').slice(0,2).join('_');
+    this.txnsId = result;
+    console.log("txnsId: ",this.txnsId);
     console.log("Result: ",result);
     return result;
     
@@ -327,6 +350,8 @@ export class PaymentmethodPage implements OnInit {
     this.selectedVenue = this.rest.detail;
     this.userdata = localStorage.getItem('userdata');
     this.userId = JSON.parse(this.userdata).users_customers_id;
+    this.userName = JSON.parse(this.userdata).username;
+    this.userEmail = JSON.parse(this.userdata).email;
   }
 
   ngOnInit() {
