@@ -202,6 +202,14 @@ export class Booking2eventPage implements OnInit {
           total_bill: this.totalBill,
           event_id: this.selectedVenue.events_id,
           user_business_id: this.selectedVenue.users_business_id,
+          event_name: this.selectedVenue.name,
+          event_date: this.selectedVenue.event_date,
+          event_start_time: this.selectedVenue.event_start_time,
+          event_end_time: this.selectedVenue.event_end_time,
+          lattitude: this.selectedVenue.lattitude,
+          longitude: this.selectedVenue.longitude,
+          location: this.selectedVenue.location,
+          venue_name: this.selectedVenue.venue_name
         }
         console.log("Bill Details",data);
         this.rest.billDetails = data;

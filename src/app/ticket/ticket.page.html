@@ -18,10 +18,80 @@
 
 <ion-content style="--background: #262626">
 <div class="container">
-  <div class="center">
-    <img src="../../assets/imgs/ticket.svg" alt="">
+  <div class="ticket">
+    <img class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
+    <div style="margin: 46px 5px 20px; position: relative;">
+      <div class="flex_center">
+        <!-- <div class="font gilroy">slslsl</div>
+        <div class="font gilroy">slslsl</div> -->
+        <div class="font gilroy">{{userName}}</div>
+        <div class="font gilroy">{{rest.billDetails.event_name}}</div>
+      </div>
+      <div class="flex_center">
+        <!-- <div class="font gilroy">slslsl</div>
+        <div class="font gilroy">slslsl</div> -->
+        <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.billDetails.event_date}}</div>
+        <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.billDetails.event_start_time)}} - {{getTime(rest.billDetails.event_end_time)}}</div>
+      </div>
+      <div style="margin: 10px;position: relative;">
+        <google-map
+        height="148"
+        width="78%"
+        #myGoogleMap
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+      >
+        <!-- <map-marker
+          #markerElem="mapMarker"
+          *ngFor="let marker of markers"
+          [position]="marker.position"
+          [label]="marker.label"
+          [title]="marker.title"
+          [options]="marker.options"
+          (mapDrag)="eventHandler($event,'mapDragMarker')"
+          (mapDragend)="eventHandler($event,'mapDragend')"
+          (mapClick)="openInfo(markerElem, marker.title, marker)"
+        >
+        </map-marker>
+
+        <map-info-window>
+          <div style="display: flex; align-items: center">
+            <img
+              style="height: 30px; width: 30px; margin-right: 5px"
+              src="assets/imgs/maphuman.svg"
+            />
+            <ion-label
+              style="
+                font-weight: 500;
+                font-size: 17px;
+                line-height: 26px;
+                text-align: center;
+                color: #7825cb;
+              "
+              >{{ infoContent }}</ion-label
+            >
+          </div>
+        </map-info-window> -->
+      </google-map>
+      </div>
+      
+      <!-- <img class="center" style="margin-top: 10px;" src="../../assets/imgs/ticket_location.svg" alt=""> -->
+      <div class="center font gilroy" style="margin-top: 160px;position: relative;">{{rest.ticketToken}}</div>
+      <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
+      
+      <hr >
+      <div class="center">
+
+        <qrcode 
+          [qrdata]="myAngularxQrCode" 
+          [width]="200" 
+          [errorCorrectionLevel]="'M'">
+        </qrcode>
+      </div>
+    </div>
   </div>
-  <div class="flex_center" style="justify-content: space-between;">
+  <div class="flex_center" >
     <!-- (click)="goToHome()" -->
     <div id="open-modal" style="width: 75%;">
       <ion-button  

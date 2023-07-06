@@ -17,8 +17,34 @@
     align-items: center;
   }
 
+  .font{
+    font-weight: 600;
+    font-size: 14px;
+    font-style: normal;
+    color: black;
+  }
+
   .center{
     text-align: center;
+  }
+
+  .ticket{
+    position: relative;
+    margin-top: 25px;
+    background: white;
+    width: 100%;
+    height: 82%;
+    border-radius: 6px;
+  }
+  
+  .ticket_tick{
+    position: absolute;
+    left: 36%;
+    top: -40px;
+  }
+
+  .pos_absolute{
+    position: absolute;
   }
 
   .container{
@@ -32,12 +58,20 @@
   .flex_center{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin: 0px 10px;
   }
 
   .right{
     margin-right:15px;
     margin-top: 17px;
     text-align: right;
+  }
+
+  hr{
+    border-style: none;
+    border-top: 1px dashed black;
+    margin: 7px 13px 0px;
   }
 
   .msg_btn_sec{

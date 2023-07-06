@@ -7,14 +7,20 @@ import { IonicModule } from '@ionic/angular';
 import { TicketPageRoutingModule } from './ticket-routing.module';
 
 import { TicketPage } from './ticket.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { GoogleMapsModule } from "@angular/google-maps";
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TicketPageRoutingModule
+    QRCodeModule,
+    TicketPageRoutingModule,
+    GoogleMapsModule
   ],
-  declarations: [TicketPage]
+  declarations: [TicketPage],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TicketPageModule {}

@@ -26,6 +26,7 @@ export class RestService {
   mapsBaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
   business_owner_name: any;
   billDetails:any;
+  ticketToken: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

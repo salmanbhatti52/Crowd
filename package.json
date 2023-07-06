@@ -43,6 +43,7 @@
     "@ionic/angular": "^6.1.9",
     "@ionic/pwa-elements": "^3.1.1",
     "@stripe-elements/stripe-elements": "^2.0.2",
+    "angularx-qrcode": "^15.0.1",
     "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-nativegeocoder": "^3.4.1",

@@ -204,6 +204,8 @@ export class GetstartPage implements OnInit {
   // }
 
   getCurrentLocation() {
+    this.latitude = undefined;
+    this.longitude = undefined;
     console.log("getCurrentLocationCalled");
     this.rest.presentLoaderWd();
     navigator.geolocation.getCurrentPosition((position) => {
@@ -213,7 +215,18 @@ export class GetstartPage implements OnInit {
       this.longitude = position.coords.longitude;
       this.rest.dismissLoader();
       this.getAddress(this.latitude, this.longitude);
+     
+    },(err)=>{
+      console.log("errrr: ", err);
+      
     });
+    setTimeout(() => {
+      if(!(this.latitude || this.longitude)){
+        this.rest.presentToast("Plz check your device location is on");
+        
+      }
+    }, 3500);
+
   }
 
   getAddress(latitude: any, longitude: any) {

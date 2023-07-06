@@ -125,6 +125,7 @@ export class PaymentmethodPage implements OnInit {
       this.rest.dismissLoader();
       console.log("Resssss: ",res);
       if(res.status == 'success'){
+        this.rest.ticketToken = res.data.random_string;
         this.rest.presentToast('Success');
         this.paynow();
       }
