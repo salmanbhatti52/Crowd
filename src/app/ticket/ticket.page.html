@@ -17,10 +17,10 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-<div class="container">
+<div class="container" id="ticket">
   <div class="ticket">
     <img class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-    <div style="margin: 46px 5px 20px; position: relative;">
+    <div style="margin: 55px 5px 20px; position: relative;">
       <div class="flex_center">
         <!-- <div class="font gilroy">slslsl</div>
         <div class="font gilroy">slslsl</div> -->
@@ -33,15 +33,15 @@
         <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.billDetails.event_date}}</div>
         <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.billDetails.event_start_time)}} - {{getTime(rest.billDetails.event_end_time)}}</div>
       </div>
-      <div style="margin: 10px;position: relative;">
-        <google-map
+      <!-- <div style="margin: 10px;position: relative;"> -->
+        <!-- <google-map
         height="148"
-        width="78%"
+        width="85%"
         #myGoogleMap
         [zoom]="zoom"
         [center]="center"
         [options]="options"
-      >
+      > -->
         <!-- <map-marker
           #markerElem="mapMarker"
           *ngFor="let marker of markers"
@@ -73,53 +73,61 @@
             >
           </div>
         </map-info-window> -->
-      </google-map>
+      <!-- </google-map> -->
+      <!-- </div> -->
+      <div style="position: relative;">
+        <div class="location">{{rest.billDetails.location}}</div>
+        <img class="center" style="margin-top: 5px; height: 130px;" src="../../assets/imgs/map_bg.jpg" alt="">
       </div>
-      
-      <!-- <img class="center" style="margin-top: 10px;" src="../../assets/imgs/ticket_location.svg" alt=""> -->
-      <div class="center font gilroy" style="margin-top: 160px;position: relative;">{{rest.ticketToken}}</div>
+      <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{rest.ticketToken}}</div>
+      <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
       <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
       
       <hr >
-      <div class="center">
+      <div class="center" style="margin-top: 4px;">
 
         <qrcode 
           [qrdata]="myAngularxQrCode" 
+          [allowEmptyString]="true" 
           [width]="200" 
           [errorCorrectionLevel]="'M'">
         </qrcode>
       </div>
     </div>
   </div>
-  <div class="flex_center" >
+  <div class="flex_center" *ngIf="!takingScreenshot">
     <!-- (click)="goToHome()" -->
-    <div id="open-modal" style="width: 75%;">
-      <ion-button  
+    <div  style="width: 75%;">
+      <ion-button id="open-modal" 
           style="margin-top: 10px;margin-right: 11px; opacity: 1"
           class="btnbgred work_sans"
           >Request Refund</ion-button
         >
     </div>
-      <img src="../../assets/imgs/download_btn.svg" alt="">
-  </div>
-  <ion-modal class="refund_popup" #modal trigger="open-modal">
-    <ng-template>
-      <ion-content style="--background: white !important;">
-        <div class="modal_popup">
-          <div class="right">
-            <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
-          </div>
-          <div class="msg_btn_sec">
-            <div class="work_sans modal_title">Refund?</div>
-            <div class="work_sans modal_desc">Are you sure you want to refund the ticket?</div>
-            <ion-button (click)="dismissModal()" style="margin-top: 20px;
-            opacity: 1;" class="work_sans btnbgred">Continue</ion-button>
+    <ion-modal class="refund_popup" #modal trigger="open-modal">
+      <ng-template>
+        <ion-content style="--background: white !important;">
+          <div class="modal_popup">
+            <div class="right">
+              <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
+            </div>
+            <div class="msg_btn_sec">
+              <div class="work_sans modal_title">Refund?</div>
+              <div class="work_sans modal_desc">Are you sure you want to refund the ticket?</div>
+              <ion-button (click)="dismissModal()" style="margin-top: 20px;
+              opacity: 1;" class="work_sans btnbgred">Continue</ion-button>
+            </div>
+            
           </div>
           
-        </div>
-        
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+      <img (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
+  </div>
+  <!-- <div style="height: 45px;">
+    <ion-button  (click)="takeSc()">Take Screenshot</ion-button>
+  </div> -->
+  <!-- <img *ngIf="ss" src="{{ss}}" alt="Screenshot"> -->
 </div>
 </ion-content>

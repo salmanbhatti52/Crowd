@@ -59,7 +59,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0px 10px;
+    margin: 2px 10px;
   }
 
   .right{
@@ -84,7 +84,15 @@
     font-size: 20px;
     color: #000000;
   }
-
+  
+  .location{
+    font-weight: 500;
+    position: absolute;
+    top: 24px;
+    left: 79px;
+    color: #8b4513;
+    font-size: 18px;
+  }
   .modal_desc{
     margin-top: 20px;
     font-weight: 400;

@@ -10,6 +10,12 @@ import { TicketPage } from './ticket.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { QRCodeModule } from 'angularx-qrcode';
+// import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
+// type PDFGenerator = typeof PDFGenerator;
+// import { PDFGenerator, PDFGeneratorOriginal } from '@awesome-cordova-plugins/pdf-generator';
+// type PDFGenerator = typeof PDFGeneratorOriginal;
+// import 'cordova-plugin-pdfgenerator';
+// declare var pdfgenerator: type PDFGenerator;
 
 @NgModule({
   imports: [
@@ -18,7 +24,10 @@ import { QRCodeModule } from 'angularx-qrcode';
     IonicModule,
     QRCodeModule,
     TicketPageRoutingModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    // PDFGeneratorOriginal
+  ],
+  exports:[
   ],
   declarations: [TicketPage],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

@@ -18,6 +18,14 @@
         ]
         },
       {
+          "id": "cordova-plugin-file-opener2.FileOpener2",
+          "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+          "pluginId": "cordova-plugin-file-opener2",
+        "clobbers": [
+          "cordova.plugins.fileOpener2"
+        ]
+        },
+      {
           "id": "cordova-plugin-sign-in-with-apple.SignInWithApple",
           "file": "plugins/cordova-plugin-sign-in-with-apple/www/sign-in-with-apple.js",
           "pluginId": "cordova-plugin-sign-in-with-apple",
@@ -84,6 +92,7 @@
     module.exports.metadata =
     // TOP OF METADATA
     {
+      "cordova-plugin-file-opener2": "4.0.0",
       "cordova-plugin-geolocation": "4.1.0",
       "cordova-plugin-inappbrowser": "5.0.0",
       "cordova-plugin-nativegeocoder": "3.4.1",

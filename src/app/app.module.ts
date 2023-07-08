@@ -28,8 +28,10 @@ import { BeseenPageModule } from "./beseen/beseen.module";
 import { NgScrollCalendarModule } from "ng-scroll-calendar";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
+import { FileOpener } from "@ionic-native/file-opener/ngx";
 // import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
-
+// import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator/ngx';
+// type PDFGenerator = typeof PDFGenerator;
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -49,10 +51,12 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
     SignInWithApple,
     OneSignal,
     DatePicker,
+    FileOpener,
     // BarcodeScanner,
     // Geolocation,
     // LottieSplashScreen,
     InAppBrowser,
+    // PDFGenerator,
     NativeGeocoder,
     {
       provide: RouteReuseStrategy,

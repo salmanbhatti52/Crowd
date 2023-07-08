@@ -16,7 +16,7 @@ import {
   MapGeocoderResponse,
   MapMarker,
 } from "@angular/google-maps";
-
+import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
   templateUrl: "./locationmap.page.html",
@@ -304,6 +304,7 @@ export class LocationmapPage implements OnInit {
 
   a: any = "";
   b: any = "";
+  ss: any;
 
   constructor(
     public router: Router,
@@ -349,6 +350,13 @@ export class LocationmapPage implements OnInit {
     // );
   }
 
+  takeSc(){
+    Screenshot.take().then((ret: { base64: string }) => {
+      console.log("res:", ret.base64);
+      this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
+      console.log("ss:", this.ss);
+    });
+  }
   // ionViewWillLeave() {
   //   // enable the root left menu when leaving this page
   //   // this.map.destroy();
@@ -403,8 +411,9 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["noti"]);
   }
   goToProfile() {
+    this.takeSc();
     this.HideFilter();
-    this.router.navigate(["profile"]);
+    // this.router.navigate(["profile"]);
   }
 
   // goToDetail() {

@@ -10,7 +10,21 @@ import {
   MapGeocoderResponse,
   MapMarker,
 } from "@angular/google-maps";
+import  { Screenshot } from 'capacitor-screenshot';
+// import { HttpClient } from '@angular/common/http';
+// import { Component, OnInit } from '@angular/core';
+// import { FormBuilder, FormGroup } from '@angular/forms';
+import { Platform } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { HttpClient } from '@angular/common/http';
+declare var pdfMake: any; // Declare the pdfMake variable
 
+// import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
+// type PDFGenerator = typeof PDFGenerator;
+// import 'cordova-plugin-pdfgenerator';
+// declare var pdfgenerator: any;
 
 @Component({
   selector: 'app-ticket',
@@ -18,6 +32,9 @@ import {
   styleUrls: ['./ticket.page.scss'],
 })
 export class TicketPage implements OnInit {
+  takingScreenshot=false;
+  pdfObj:any;
+  photoPreview:any;
   myAngularxQrCode: string = ''
   userdata: any;
   userName: any;
@@ -115,27 +132,172 @@ export class TicketPage implements OnInit {
     //   },
     // ],
   };
+  ss:any;
+  content!: string;
+  logoData:any;
   constructor(public location:Location,
     public modalCtrl:ModalController,
     public router:Router,
-    public rest:RestService) { }
+    public rest:RestService,
+    private plt:Platform,
+    private fileOpener:FileOpener,
+    public http:HttpClient
+    // public pdfGenerator:PDFGenerator
+    ) { }
 
   async ngOnInit() {
-    let lat = parseFloat(this.rest.billDetails.lattitude)
-    let lng = parseFloat(this.rest.billDetails.longitude)
-    this.center = {
-      lat: lat,
-      lng: lng,
-    };
+    if(this.rest.billDetails?.lattitude){
+      let lat = parseFloat(this.rest.billDetails.lattitude)
+      let lng = parseFloat(this.rest.billDetails.longitude)
+      this.center = {
+        lat: lat,
+        lng: lng,
+      };
+    }
+    console.log("calling localAssetBase64");
+    
+    this.loadLocalAssetToBase64();
   }
 
   ionViewWillEnter() {
-    this.myAngularxQrCode = `event_name:${this.rest.billDetails.event_name} - venue_name:${this.rest.billDetails.venue_name} - event_date:${this.rest.billDetails.event_date} - event_start_time:${this.rest.billDetails.event_start_time} - event_end_time:${this.rest.billDetails.event_end_time} - package_name:${this.rest.billDetails.package_name} - package_type:${this.rest.billDetails.package_type} - package_price:$${this.rest.billDetails.package_price} - price_per_ticket:$${this.rest.billDetails.price_per_ticket} - ticket_requested:${this.rest.billDetails.ticket_requested} - crowd_fee:$5 - total_bill:$${this.rest.billDetails.total_bill} - location:${this.rest.billDetails.location}`;
+    if(this.rest.billDetails?.event_name){
+      this.myAngularxQrCode = `event_name:${this.rest.billDetails.event_name} - venue_name:${this.rest.billDetails.venue_name} - event_date:${this.rest.billDetails.event_date} - event_start_time:${this.rest.billDetails.event_start_time} - event_end_time:${this.rest.billDetails.event_end_time} - package_name:${this.rest.billDetails.package_name} - package_type:${this.rest.billDetails.package_type} - package_price:$${this.rest.billDetails.package_price} - price_per_ticket:$${this.rest.billDetails.price_per_ticket} - ticket_requested:${this.rest.billDetails.ticket_requested} - crowd_fee:$5 - total_bill:$${this.rest.billDetails.total_bill} - location:${this.rest.billDetails.location}`;
+    }
+
     console.log("qrCodeDAta: ", this.myAngularxQrCode);
     
     this.userdata = localStorage.getItem('userdata');
     this.userName = JSON.parse(this.userdata).username;
   }
+
+  loadLocalAssetToBase64(){
+    this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
+    .subscribe(res => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.logoData = reader.result;
+      }
+      reader.readAsDataURL(res);
+    });
+  }
+
+  generatePDF(){
+    // solution: https://github.com/bpampuch/pdfmake/issues/205
+    this.takingScreenshot = true;
+    this.ss = undefined;
+    Screenshot.take().then((ret: { base64: string }) => {
+      console.log("res:", ret.base64);
+      this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
+      console.log("ss:", this.ss);
+    });
+
+    setTimeout(() => {
+      this.takingScreenshot = false;
+      this.rest.presentLoader();
+    }, 1000);
+
+
+    setTimeout(() => {
+      const image = this.ss ? {image: this.ss, width: 300 } : {};
+
+      let logo = {};
+      logo = {image: this.logoData, width: 50};
+      const docDefinition = {
+        // watermark: { text: 'Crowd', color: 'blue', opacity: 0.2, bold: true},
+        content: [
+          {
+            columns: [
+              logo,
+              {
+                text: new Date().toString(),
+                alignment: 'right'
+              }
+            ]
+          },
+          { text: 'TICKET', style: 'header',  margin: [0, 20, 10, 20]},
+          // {
+          //   columns: [
+          //     {
+          //       width: '50%',
+          //       text: 'From',
+          //       style: 'subheader'
+          //     },
+          //     {
+          //       width: '50%',
+          //       text: 'To',
+          //       style: 'subheader'
+          //     }
+          //   ]
+          // },
+          // {
+          //   columns: [
+          //     {
+          //       width: '50%',
+          //       text: 'Crowd',
+          //     },
+          //     {
+          //       width: '50%',
+          //       text: this.userName,
+          //     },
+          //   ]
+          // },
+          image,
+          { text: "Thank you.", margin: [0, 20, 0, 20] }
+        ],
+        styles: {
+          header: {
+            fontSize: 14,
+            bold: true,
+            margin: [0, 15, 0, 0]
+          },
+          subheader: {
+            fontSize: 12,
+            bold: true,
+            margin: [0, 15, 0, 0]
+          }
+        }
+      }
+      this.pdfObj = pdfMake.createPdf(docDefinition);
+      console.log(this.pdfObj);
+      this.downloadPdf();
+    }, 3000);
+    
+   
+  }
+
+  downloadPdf(){
+    if(this.plt.is('capacitor')){
+      // this.pdfObj.download();
+      console.log("capacitor is the platformmmmmmmmm");
+      this.pdfObj.getBase64(async (data:any) =>{
+        try {
+          console.log("data from this.pdfObj.getBase64", data );
+          
+          let path = `pdf/Event_Ticket_${Date.now()}.pdf`;
+          const result = await Filesystem.writeFile({
+            path,
+            data,
+            directory:Directory.Library,
+            recursive:true,
+            // encoding:Encoding.UTF8
+          });
+          this.fileOpener.open(`${result.uri}`, 'application/pdf');
+          this.rest.dismissLoader();
+        } catch (error) {
+          this.rest.dismissLoader();
+          console.log('Unable to write file', error);
+        }
+      })
+      
+
+    }else{
+
+      this.pdfObj.download();
+      this.rest.dismissLoader();
+    }
+
+  }
+
   goBack(){
     this.location.back();
   }
