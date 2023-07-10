@@ -54,6 +54,7 @@
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
     "date-fns": "^2.29.3",
+    "html2canvas": "^1.4.1",
     "ionicons": "^6.0.3",
     "ng-otp-input": "^1.8.5",
     "ng-scroll-calendar": "^1.1.2",

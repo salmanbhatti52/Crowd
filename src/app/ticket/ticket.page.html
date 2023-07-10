@@ -17,10 +17,11 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-<div class="container" id="ticket">
-  <div class="ticket">
-    <img class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-    <div style="margin: 55px 5px 20px; position: relative;">
+<div class="container" style="position: relative;" >
+  <div class="ticket" id="ticket" style="padding: 13px 5px 0px;">
+    <!-- *ngIf="!takingScreenshot" -->
+    <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
+    <div style="margin: 35px 5px 20px; position: relative;">
       <div class="flex_center">
         <!-- <div class="font gilroy">slslsl</div>
         <div class="font gilroy">slslsl</div> -->
@@ -95,7 +96,7 @@
       </div>
     </div>
   </div>
-  <div class="flex_center" *ngIf="!takingScreenshot">
+  <div class="flex_center" >
     <!-- (click)="goToHome()" -->
     <div  style="width: 75%;">
       <ion-button id="open-modal" 

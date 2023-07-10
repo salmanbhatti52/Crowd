@@ -20,6 +20,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
+import html2canvas from 'html2canvas';
 
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 // type PDFGenerator = typeof PDFGenerator;
@@ -182,85 +183,110 @@ export class TicketPage implements OnInit {
   }
 
   generatePDF(){
+    console.log("generatepddfCalled");
+    // this.takingScreenshot = true;
+    this.rest.presentLoader();
+    const element: HTMLElement | null = document.getElementById('ticket');
+    if(element !== null){
+      html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+        const data:string = canvas.toDataURL();
+
+        const docDefinition = {
+          content: [
+            {
+              image: data,
+              width: 500
+            },
+          ],
+        };
+        // pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
+        this.pdfObj = pdfMake.createPdf(docDefinition);
+        console.log(this.pdfObj);
+        // this.takingScreenshot = false;
+        this.downloadPdf();
+
+      });
+    }
+    
     // solution: https://github.com/bpampuch/pdfmake/issues/205
-    this.takingScreenshot = true;
-    this.ss = undefined;
-    Screenshot.take().then((ret: { base64: string }) => {
-      console.log("res:", ret.base64);
-      this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
-      console.log("ss:", this.ss);
-    });
+    // this.takingScreenshot = true;
+    // this.ss = undefined;
+    // Screenshot.take().then((ret: { base64: string }) => {
+    //   console.log("res:", ret.base64);
+    //   this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
+    //   console.log("ss:", this.ss);
+    // });
 
-    setTimeout(() => {
-      this.takingScreenshot = false;
-      this.rest.presentLoader();
-    }, 1000);
+    // setTimeout(() => {
+    //   this.takingScreenshot = false;
+    //   this.rest.presentLoader();
+    // }, 1000);
 
 
-    setTimeout(() => {
-      const image = this.ss ? {image: this.ss, width: 300 } : {};
+    // setTimeout(() => {
+    //   const image = this.ss ? {image: this.ss, width: 300 } : {};
 
-      let logo = {};
-      logo = {image: this.logoData, width: 50};
-      const docDefinition = {
-        // watermark: { text: 'Crowd', color: 'blue', opacity: 0.2, bold: true},
-        content: [
-          {
-            columns: [
-              logo,
-              {
-                text: new Date().toString(),
-                alignment: 'right'
-              }
-            ]
-          },
-          { text: 'TICKET', style: 'header',  margin: [0, 20, 10, 20]},
-          // {
-          //   columns: [
-          //     {
-          //       width: '50%',
-          //       text: 'From',
-          //       style: 'subheader'
-          //     },
-          //     {
-          //       width: '50%',
-          //       text: 'To',
-          //       style: 'subheader'
-          //     }
-          //   ]
-          // },
-          // {
-          //   columns: [
-          //     {
-          //       width: '50%',
-          //       text: 'Crowd',
-          //     },
-          //     {
-          //       width: '50%',
-          //       text: this.userName,
-          //     },
-          //   ]
-          // },
-          image,
-          { text: "Thank you.", margin: [0, 20, 0, 20] }
-        ],
-        styles: {
-          header: {
-            fontSize: 14,
-            bold: true,
-            margin: [0, 15, 0, 0]
-          },
-          subheader: {
-            fontSize: 12,
-            bold: true,
-            margin: [0, 15, 0, 0]
-          }
-        }
-      }
-      this.pdfObj = pdfMake.createPdf(docDefinition);
-      console.log(this.pdfObj);
-      this.downloadPdf();
-    }, 3000);
+    //   let logo = {};
+    //   logo = {image: this.logoData, width: 50};
+    //   const docDefinition = {
+    //     // watermark: { text: 'Crowd', color: 'blue', opacity: 0.2, bold: true},
+    //     content: [
+    //       {
+    //         columns: [
+    //           logo,
+    //           {
+    //             text: new Date().toString(),
+    //             alignment: 'right'
+    //           }
+    //         ]
+    //       },
+    //       { text: 'TICKET', style: 'header',  margin: [0, 20, 10, 20]},
+    //       // {
+    //       //   columns: [
+    //       //     {
+    //       //       width: '50%',
+    //       //       text: 'From',
+    //       //       style: 'subheader'
+    //       //     },
+    //       //     {
+    //       //       width: '50%',
+    //       //       text: 'To',
+    //       //       style: 'subheader'
+    //       //     }
+    //       //   ]
+    //       // },
+    //       // {
+    //       //   columns: [
+    //       //     {
+    //       //       width: '50%',
+    //       //       text: 'Crowd',
+    //       //     },
+    //       //     {
+    //       //       width: '50%',
+    //       //       text: this.userName,
+    //       //     },
+    //       //   ]
+    //       // },
+    //       image,
+    //       { text: "Thank you.", margin: [0, 20, 0, 20] }
+    //     ],
+    //     styles: {
+    //       header: {
+    //         fontSize: 14,
+    //         bold: true,
+    //         margin: [0, 15, 0, 0]
+    //       },
+    //       subheader: {
+    //         fontSize: 12,
+    //         bold: true,
+    //         margin: [0, 15, 0, 0]
+    //       }
+    //     }
+    //   }
+    //   this.pdfObj = pdfMake.createPdf(docDefinition);
+    //   console.log(this.pdfObj);
+    //   this.downloadPdf();
+    // }, 3000);
     
    
   }
@@ -283,6 +309,16 @@ export class TicketPage implements OnInit {
           });
           this.fileOpener.open(`${result.uri}`, 'application/pdf');
           this.rest.dismissLoader();
+          let payload = {
+            event_booking_id: this.rest.eventBookingId,
+            ticket_file: data
+          }
+          console.log(payload);
+          
+          this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
+            console.log("SendPdfAPI RES: ",res);
+            
+          })
         } catch (error) {
           this.rest.dismissLoader();
           console.log('Unable to write file', error);
@@ -292,7 +328,7 @@ export class TicketPage implements OnInit {
 
     }else{
 
-      this.pdfObj.download();
+      this.pdfObj.download('ticket.pdf');
       this.rest.dismissLoader();
     }
 
