@@ -145,7 +145,7 @@
       </div>
     </div>
 
-    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1">
+    <ion-list  class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1 || allTicketsSold==true">
       <ion-item-sliding
         #slidingItem
         (ionDrag)="claimDrag2(slidingItem, $event)"
@@ -183,11 +183,18 @@
       </ion-item-sliding>
     </ion-list>
 
-    <ion-button
+    <ion-button *ngIf="!allTicketsSold"
       (click)="buyTicket()"
       style="margin-top: 22px; opacity: 1"
       class="btnwhite work_sans"
       >Buy Ticket</ion-button
+    >
+
+    <ion-button *ngIf="allTicketsSold"
+      (click)="buyTicket()"
+      style="margin-top: 22px; opacity: 1"
+      class="btnwhite work_sans"
+      >See Details</ion-button
     >
 
     <p class="work_sans des">{{detailObj.description}}</p>

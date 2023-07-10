@@ -26,6 +26,7 @@ export class Booking2eventPage implements OnInit {
   pricePerTicket = 0;
   ticketRequested!: number | null;
   totalBill = 0;
+  availableTickets = 0;
   constructor(
     public location: Location,
     public router: Router,
@@ -41,6 +42,8 @@ export class Booking2eventPage implements OnInit {
     console.log("detaill----", this.selectedVenue);
     this.pricePerTicket = this.convertInDecimal(this.selectedVenue.price_per_ticket);
     console.log("price_per_ticket",this.pricePerTicket);
+    this.availableTickets = this.selectedVenue.no_of_tickets - this.selectedVenue.booked_tickets; 
+    console.log("Available Tickets: ",this.availableTickets);
     
   }
 
@@ -52,9 +55,9 @@ export class Booking2eventPage implements OnInit {
   getTicketCount(ev:any){
     
     if(this.ticketRequested){
-      if(this.ticketRequested > this.totalTickets){
+      if(this.ticketRequested > this.availableTickets){
         this.ticketRequested = null;
-        this.rest.presentToast(`Max available tickets are ${this.totalTickets}.`);
+        this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
       }  
     }
     console.log("tickets requested", this.ticketRequested);

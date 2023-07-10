@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RestService } from '../rest.service';
 import {
@@ -21,6 +21,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
 import html2canvas from 'html2canvas';
+import { error } from 'console';
 
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 // type PDFGenerator = typeof PDFGenerator;
@@ -39,6 +40,7 @@ export class TicketPage implements OnInit {
   myAngularxQrCode: string = ''
   userdata: any;
   userName: any;
+  userId:any;
   @ViewChild("myGoogleMap", { static: false })
   map!: GoogleMap;
   zoom = 13;
@@ -142,8 +144,8 @@ export class TicketPage implements OnInit {
     public rest:RestService,
     private plt:Platform,
     private fileOpener:FileOpener,
-    public http:HttpClient
-    // public pdfGenerator:PDFGenerator
+    public http:HttpClient,
+    public navCtrl:NavController
     ) { }
 
   async ngOnInit() {
@@ -169,6 +171,7 @@ export class TicketPage implements OnInit {
     
     this.userdata = localStorage.getItem('userdata');
     this.userName = JSON.parse(this.userdata).username;
+    this.userId = JSON.parse(this.userdata).users_customers_id;
   }
 
   loadLocalAssetToBase64(){
@@ -317,7 +320,7 @@ export class TicketPage implements OnInit {
           
           this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
             console.log("SendPdfAPI RES: ",res);
-            
+            this.navCtrl.navigateRoot(['/home']);
           })
         } catch (error) {
           this.rest.dismissLoader();
@@ -330,16 +333,54 @@ export class TicketPage implements OnInit {
 
       this.pdfObj.download('ticket.pdf');
       this.rest.dismissLoader();
+      this.navCtrl.navigateRoot(['/home'])
     }
 
+  }
+
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    console.log(isOpen);
+    // isOpen = !isOpen
+    
+    console.log("setopencalled");
+    
+    this.isModalOpen = isOpen;
   }
 
   goBack(){
     this.location.back();
   }
-  dismissModal(){
-    this.modalCtrl.dismiss();
-    this.router.navigate(['/home']);
+  dismissModal(isOpen: boolean){
+    this.isModalOpen = isOpen;
+    // this.modalCtrl.dismiss();
+    setTimeout(() => {
+      
+      this.navCtrl.navigateRoot(['/home']);
+    }, 500);
+  }
+  reguestRefund(isOpen: boolean){
+    this.isModalOpen = isOpen;
+    let data = {
+      users_customers_id:this.userId,
+      event_booking_id:this.rest.eventBookingId
+    }
+    this.rest.presentLoaderWd();
+    this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
+      this.rest.dismissLoader();
+      console.log("Refund Request Res: ", res);
+      if(res.status== 'success'){
+        this.rest.presentToast('Refund Request Sent.');
+        setTimeout(() => {
+          this.navCtrl.navigateRoot(['/home']);
+        }, 1000);
+      }else if(res.status == 'error'){
+        console.log(res);
+        
+      }
+      
+    })
   }
 
   getTime(val:any){

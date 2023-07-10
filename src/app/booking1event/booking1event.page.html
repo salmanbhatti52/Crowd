@@ -129,7 +129,7 @@
       {{selectedVenue.refund_policy}}
     </p>
 
-    <ion-button
+    <ion-button *ngIf="!allTicketsSold"
       (click)="buyTicket()"
       style="margin-top: 10px; opacity: 1"
       class="btnbg work_sans"

@@ -17,6 +17,8 @@ export class EventdetailPage implements OnInit {
 
   userdata: any = "";
   userID: any = "";
+  availableTickets: any;
+  allTicketsSold= false;
 
   constructor(
     public router: Router,
@@ -27,6 +29,7 @@ export class EventdetailPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -37,6 +40,17 @@ export class EventdetailPage implements OnInit {
   ngOnInit() {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
+
+    let currentDate = new Date();
+    console.log("currentDate: ",currentDate);
+    let eventDate = new Date(this.detailObj.event_date);
+    console.log(" eventDate:  ",eventDate);
+
+    this.availableTickets = this.detailObj.no_of_tickets - this.detailObj.booked_tickets; 
+    console.log("Available Tickets: ",this.availableTickets);
+    if(this.availableTickets < 1 || eventDate < currentDate){
+      this.allTicketsSold = true;
+    }
   }
   // =======================came from venue detail =================
   claimDrag2(slidingItem: IonItemSliding, event: any) {

@@ -24,6 +24,8 @@ export class Booking1eventPage implements OnInit {
     users_business_id: null,
   };
   longitude: string | null | undefined;
+  availableTickets: any ;
+  allTicketsSold = false;
   constructor(
     public location: Location,
     public router: Router,
@@ -41,6 +43,18 @@ export class Booking1eventPage implements OnInit {
     
     this.selectedVenue = this.rest.detail;
     console.log("detaill----", this.selectedVenue);
+    this.availableTickets = this.selectedVenue.no_of_tickets - this.selectedVenue.booked_tickets; 
+    console.log("Available Tickets: ",this.availableTickets);
+
+    let currentDate = new Date();
+    console.log("currentDate: ",currentDate);
+    let eventDate = new Date(this.selectedVenue.event_date);
+    console.log(" eventDate:  ",eventDate);
+
+    if(this.availableTickets < 1 || eventDate < currentDate){
+      this.allTicketsSold = true;
+      this.rest.presentToast('All tickets are sold out.')
+    }
     this.getBusinessList();
 
   }

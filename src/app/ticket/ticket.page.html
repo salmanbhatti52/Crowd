@@ -2,11 +2,12 @@
   <ion-toolbar class="bg paddingtop">
     <ion-row>
       <ion-col size="2" class="centerall"
-        ><img
+        >
+        <!-- <img
           (click)="goBack()"
           style="height: 25px; width: 25px"
           src="assets/imgs/backbtn.svg"
-        />
+        /> -->
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans">Ticket</ion-label>
@@ -21,7 +22,7 @@
   <div class="ticket" id="ticket" style="padding: 13px 5px 0px;">
     <!-- *ngIf="!takingScreenshot" -->
     <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-    <div style="margin: 35px 5px 20px; position: relative;">
+    <div style="margin: 48px 5px 20px; position: relative;">
       <div class="flex_center">
         <!-- <div class="font gilroy">slslsl</div>
         <div class="font gilroy">slslsl</div> -->
@@ -99,23 +100,23 @@
   <div class="flex_center" >
     <!-- (click)="goToHome()" -->
     <div  style="width: 75%;">
-      <ion-button id="open-modal" 
+      <ion-button (click)="setOpen(true)" 
           style="margin-top: 10px;margin-right: 11px; opacity: 1"
           class="btnbgred work_sans"
           >Request Refund</ion-button
         >
     </div>
-    <ion-modal class="refund_popup" #modal trigger="open-modal">
+    <ion-modal class="refund_popup" #modal [isOpen]="isModalOpen">
       <ng-template>
         <ion-content style="--background: white !important;">
           <div class="modal_popup">
             <div class="right">
-              <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
+              <img (click)="dismissModal(false)" src="../../assets/imgs/cross.svg" alt="">
             </div>
             <div class="msg_btn_sec">
               <div class="work_sans modal_title">Refund?</div>
               <div class="work_sans modal_desc">Are you sure you want to refund the ticket?</div>
-              <ion-button (click)="dismissModal()" style="margin-top: 20px;
+              <ion-button (click)="reguestRefund(false)" style="margin-top: 20px;
               opacity: 1;" class="work_sans btnbgred">Continue</ion-button>
             </div>
             

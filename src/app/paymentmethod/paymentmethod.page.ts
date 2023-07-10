@@ -1,5 +1,5 @@
 import { PaymentsuccessPage } from "./../paymentsuccess/paymentsuccess.page";
-import { ModalController, Platform } from "@ionic/angular";
+import { ModalController, NavController, Platform } from "@ionic/angular";
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
@@ -47,6 +47,7 @@ export class PaymentmethodPage implements OnInit {
     public iab: InAppBrowser,
     public platform: Platform,
     public http:HttpClient,
+    public navCtrl:NavController
     
   ) {
 
@@ -398,7 +399,7 @@ export class PaymentmethodPage implements OnInit {
     });
 
     await modal.present();
-    this.router.navigate(['/ticket']);
+    this.navCtrl.navigateRoot(['/ticket']);
   }
 
   buyTicket() {
