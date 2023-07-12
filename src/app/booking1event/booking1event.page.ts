@@ -51,11 +51,13 @@ export class Booking1eventPage implements OnInit {
     let eventDate = new Date(this.selectedVenue.event_date);
     console.log(" eventDate:  ",eventDate);
 
-    if(this.availableTickets < 1 || eventDate < currentDate){
-      this.allTicketsSold = true;
-      this.rest.presentToast('All tickets are sold out.')
-    }
     this.getBusinessList();
+    setTimeout(() => {
+      if(this.availableTickets < 1 || eventDate < currentDate){
+        this.allTicketsSold = true;
+        this.rest.presentToast('All tickets are sold out.')
+      }
+    }, 1000);
 
   }
 

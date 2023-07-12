@@ -18,8 +18,24 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-<div class="container" style="position: relative;" >
-  <div class="ticket" id="ticket" style="padding: 13px 5px 0px;">
+<div class="container"  style="position: relative;" >
+ 
+  <!-- <div style="padding-left: 11px;">
+    <swiper [config]="{slidesPerView:1, spaceBetween:9, initialSlide:0, speed:400}" [pagination]="false" style="padding: 8px;">
+      <ng-template swiperSlide class="categories">
+        <div style="height: 100px;width: 100px;">
+          
+        </div> -->
+        <!-- <div class="carItem_box" [class.selected_item]="item1 == true" (click)="selectItem('all')">
+          <img src="assets/images/icons/car_grey.svg" alt="" *ngIf="item1 == false">
+          <img src="assets/images/icons/car_white.svg" alt="" *ngIf="item1 == true">
+          <div class="cars_label" [class.fontActive]="item1 == true">All Cars</div>
+        </div> -->
+      <!-- </ng-template>
+    </swiper>
+  </div>    -->
+  <!-- *ngFor="let ticket of tickets;let i=index" -->
+  <div  id="ticket" class="ticket"  style="padding: 13px 5px 0px;">
     <!-- *ngIf="!takingScreenshot" -->
     <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
     <div style="margin: 48px 5px 20px; position: relative;">
@@ -81,7 +97,7 @@
         <div class="location">{{rest.billDetails.location}}</div>
         <img class="center" style="margin-top: 5px; height: 130px;" src="../../assets/imgs/map_bg.jpg" alt="">
       </div>
-      <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{rest.ticketToken}}</div>
+      <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{tickets[0]}}</div>
       <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
       <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
       
@@ -97,6 +113,8 @@
       </div>
     </div>
   </div>
+    
+
   <div class="flex_center" >
     <!-- (click)="goToHome()" -->
     <div  style="width: 75%;">

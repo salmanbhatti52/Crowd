@@ -21,7 +21,9 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
 import html2canvas from 'html2canvas';
-import { error } from 'console';
+import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
+import { IonicSlides } from '@ionic/angular';
+SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides]);
 
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 // type PDFGenerator = typeof PDFGenerator;
@@ -34,6 +36,7 @@ import { error } from 'console';
   styleUrls: ['./ticket.page.scss'],
 })
 export class TicketPage implements OnInit {
+  noOfTickets=0;
   takingScreenshot=false;
   pdfObj:any;
   photoPreview:any;
@@ -45,6 +48,7 @@ export class TicketPage implements OnInit {
   map!: GoogleMap;
   zoom = 13;
   maxZoom = 15;
+  tickets:any;
   minZoom = 8;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
@@ -156,6 +160,22 @@ export class TicketPage implements OnInit {
         lat: lat,
         lng: lng,
       };
+      this.noOfTickets = this.rest.billDetails.ticket_requested;
+      console.log("Number Of Tickets: ",this.noOfTickets);
+      console.log("ticketTokens: ",this.rest.ticketToken);
+      const input = this.rest.ticketToken;
+      const regex = /"([^"]*)"/g;
+      const matches = [];
+      
+      let match;
+      while ((match = regex.exec(input))) {
+        matches.push(match[1]);
+      }
+      
+      console.log(matches);
+      this.tickets = matches
+      console.log("this.tickets: ",this.tickets);
+      
     }
     console.log("calling localAssetBase64");
     

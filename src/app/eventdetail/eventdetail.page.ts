@@ -35,6 +35,7 @@ export class EventdetailPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.updatevVisitor();
+    this.ngOnInit();
   }
 
   ngOnInit() {

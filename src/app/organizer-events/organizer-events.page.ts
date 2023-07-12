@@ -63,9 +63,9 @@ export class OrganizerEventsPage implements OnInit {
     // this.getVenuesSuggested(opt);
 
     // this.HideFilter();
-    console.log(opt);
-    this.rest.detail = opt;
-    this.router.navigate(["eventdetail"]);
+    // console.log(opt);
+    // this.rest.detail = opt;
+    // this.router.navigate(["eventdetail"]);
   }
 
   // getVenuesSuggested(opt: any) {

@@ -28,6 +28,17 @@
     text-align: center;
   }
 
+  .slider_main {
+    padding: 0px;
+  }
+
+  .s_img {
+    height: 341px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 0px;
+  }
+  
   .ticket{
     position: relative;
     margin-top: 30px;
