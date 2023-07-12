@@ -21,9 +21,6 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
 import html2canvas from 'html2canvas';
-import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
-import { IonicSlides } from '@ionic/angular';
-SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides]);
 
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 // type PDFGenerator = typeof PDFGenerator;
@@ -37,6 +34,9 @@ SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides]);
 })
 export class TicketPage implements OnInit {
   noOfTickets=0;
+  ticketId = 'ticket';
+  data1 = ''
+  data2 = ''
   takingScreenshot=false;
   pdfObj:any;
   photoPreview:any;
@@ -142,6 +142,9 @@ export class TicketPage implements OnInit {
   ss:any;
   content!: string;
   logoData:any;
+  activeIndex: any;
+  currentTicketToken: any;
+  refundRequestCount: any;
   constructor(public location:Location,
     public modalCtrl:ModalController,
     public router:Router,
@@ -175,11 +178,15 @@ export class TicketPage implements OnInit {
       console.log(matches);
       this.tickets = matches
       console.log("this.tickets: ",this.tickets);
+      // setTimeout(() => {
+      //   this.getTicketImages();
+      // }, 1000);
       
     }
-    console.log("calling localAssetBase64");
+
+    // console.log("calling localAssetBase64");
     
-    this.loadLocalAssetToBase64();
+    // this.loadLocalAssetToBase64();
   }
 
   ionViewWillEnter() {
@@ -192,44 +199,104 @@ export class TicketPage implements OnInit {
     this.userdata = localStorage.getItem('userdata');
     this.userName = JSON.parse(this.userdata).username;
     this.userId = JSON.parse(this.userdata).users_customers_id;
+
   }
 
-  loadLocalAssetToBase64(){
-    this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
-    .subscribe(res => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.logoData = reader.result;
+  // loadLocalAssetToBase64(){
+  //   this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
+  //   .subscribe(res => {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       this.logoData = reader.result;
+  //     }
+  //     reader.readAsDataURL(res);
+  //   });
+  // }
+
+  onSlideChange(ev:any){
+    console.log("Swiper EVVV",ev);
+    console.log("active Index is ",ev.detail[0].activeIndex);
+    this.activeIndex = ev.detail[0].activeIndex;
+    for(let i=0; i<this.tickets.length; i++){
+      if(this.activeIndex == i ){
+        this.currentTicketToken = this.tickets[i];
       }
-      reader.readAsDataURL(res);
-    });
+    }
   }
 
   generatePDF(){
     console.log("generatepddfCalled");
-    // this.takingScreenshot = true;
     this.rest.presentLoader();
-    const element: HTMLElement | null = document.getElementById('ticket');
+    // this.activeIndex = 1;
+
+    let data1:string = '';
+    let data2:string = '';
+
+    if(this.currentTicketToken == undefined){
+      this.currentTicketToken = this.tickets[0];
+      console.log("iftickeis1 currentTicketToken: ",this.currentTicketToken);
+      
+    }
+    const element: HTMLElement | null = document.getElementById('ticket-p-a');
     if(element !== null){
       html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-        const data:string = canvas.toDataURL();
-
-        const docDefinition = {
-          content: [
-            {
-              image: data,
-              width: 500
-            },
-          ],
-        };
-        // pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
-        this.pdfObj = pdfMake.createPdf(docDefinition);
-        console.log(this.pdfObj);
-        // this.takingScreenshot = false;
-        this.downloadPdf();
+        data1 = canvas.toDataURL();
+        console.log("data1: ",data1);
 
       });
     }
+
+    setTimeout(() => {
+      const element1: HTMLElement | null = document.getElementById('ticket-p-b');
+      if(element1 !== null){
+        html2canvas(element1).then((canvas:HTMLCanvasElement)=>{
+          data2 = canvas.toDataURL();
+          console.log("data2: ",data2);
+
+        });
+      }
+    }, 2000);
+
+    
+    setTimeout(() => {
+      console.log('currentTicketToken',this.currentTicketToken);
+      
+      const docDefinition = {
+        content: [
+          {
+            image: data1,
+            width: 500
+          },
+          
+          { 
+            text: this.currentTicketToken,
+            alignment: 'center',
+            style: 'header',
+            // bold: false
+            // margin: [0, 20, 0, 20]
+          },
+  
+          {
+            image: data2,
+            width: 500
+          },
+        ],
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [10, 10, 10, 10]
+          },
+          
+        }
+      };
+      // pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
+      this.pdfObj = pdfMake.createPdf(docDefinition);
+      console.log(this.pdfObj);
+      // this.takingScreenshot = false;
+      this.downloadPdf();
+    }, 4000);
+    
     
     // solution: https://github.com/bpampuch/pdfmake/issues/205
     // this.takingScreenshot = true;
@@ -340,7 +407,7 @@ export class TicketPage implements OnInit {
           
           this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
             console.log("SendPdfAPI RES: ",res);
-            this.navCtrl.navigateRoot(['/home']);
+            // this.navCtrl.navigateRoot(['/home']);
           })
         } catch (error) {
           this.rest.dismissLoader();
@@ -353,10 +420,116 @@ export class TicketPage implements OnInit {
 
       this.pdfObj.download('ticket.pdf');
       this.rest.dismissLoader();
-      this.navCtrl.navigateRoot(['/home'])
+      // this.navCtrl.navigateRoot(['/home'])
     }
 
   }
+
+  getTicketImages(){
+    const element: HTMLElement | null = document.getElementById('ticket-p-a');
+    if(element !== null){
+      html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+        this.data1 = canvas.toDataURL();
+        console.log("data1: ",this.data1);
+
+      });
+    }
+
+    setTimeout(() => {
+      const element1: HTMLElement | null = document.getElementById('ticket-p-b');
+      if(element1 !== null){
+        html2canvas(element1).then((canvas:HTMLCanvasElement)=>{
+          this.data2 = canvas.toDataURL();
+          console.log("data2: ",this.data2);
+
+        });
+      }
+    }, 2000);
+  }
+
+  // sendTicketsAtBackend(){
+  //   console.log("generatepddfForBacccccckennnnnnnnnnnddddd");
+  //   let pdfObj:any;
+  //   let currentTicketToken:any;
+  //   let tickets = this.tickets;
+  //   for(let i=0; i<tickets.length; i++){
+  //     // pdfObj = undefined;
+  //     currentTicketToken = tickets[i];
+  //     setTimeout(() => {
+  //       console.log('currentTicketToken',currentTicketToken);
+        
+  //       const docDefinition = {
+  //         content: [
+  //           {
+  //             image:this.data1,
+  //             width: 500
+  //           },
+            
+  //           { 
+  //             text: currentTicketToken,
+  //             alignment: 'center',
+  //             style: 'header',
+  //             // bold: false
+  //             // margin: [0, 20, 0, 20]
+  //           },
+    
+  //           {
+  //             image: this.data2,
+  //             width: 500
+  //           },
+  //         ],
+  //         styles: {
+  //           header: {
+  //             fontSize: 18,
+  //             bold: true,
+  //             margin: [10, 10, 10, 10]
+  //           },
+            
+  //         }
+  //       };
+        
+  //       pdfObj = pdfMake.createPdf(docDefinition);
+  //       console.log("pdfObj for backend: ",pdfObj);
+  //     }, 2000);
+
+  //     if(this.plt.is('capacitor')){
+        
+  //       console.log("capacitor is the platformmmmmmmmm");
+  //       pdfObj.getBase64(async (data:any) =>{
+         
+  //         let payload = {
+  //           event_booking_id: this.rest.eventBookingId,
+  //           ticket_file: data
+  //         }
+  //         console.log(payload);
+          
+  //         this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
+  //           console.log("SendPdfAPI RES: ",res);
+  //           // this.navCtrl.navigateRoot(['/home']);
+  //         })
+    
+  //       })
+        
+  
+  //     }else{
+  
+  //       pdfObj.download('ticket.pdf');
+        
+  //     }
+  //   }
+
+   
+
+
+    
+
+    
+
+    
+    
+
+    
+  // }
 
   isModalOpen = false;
 
@@ -372,6 +545,7 @@ export class TicketPage implements OnInit {
   goBack(){
     this.location.back();
   }
+
   dismissModal(isOpen: boolean){
     this.isModalOpen = isOpen;
     // this.modalCtrl.dismiss();
@@ -380,27 +554,37 @@ export class TicketPage implements OnInit {
       this.navCtrl.navigateRoot(['/home']);
     }, 500);
   }
+
   reguestRefund(isOpen: boolean){
-    this.isModalOpen = isOpen;
-    let data = {
-      users_customers_id:this.userId,
-      event_booking_id:this.rest.eventBookingId
-    }
-    this.rest.presentLoaderWd();
-    this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log("Refund Request Res: ", res);
-      if(res.status== 'success'){
-        this.rest.presentToast('Refund Request Sent.');
-        setTimeout(() => {
-          this.navCtrl.navigateRoot(['/home']);
-        }, 1000);
-      }else if(res.status == 'error'){
-        console.log(res);
-        
+    
+    if(this.refundRequestCount != 1){
+      this.isModalOpen = isOpen;
+      let data = {
+        users_customers_id:this.userId,
+        event_booking_id:this.rest.eventBookingId
       }
-      
-    })
+      this.rest.presentLoaderWd();
+      this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        console.log("Refund Request Res: ", res);
+        if(res.status== 'success'){
+          this.rest.presentToast('Refund Request Sent for all tickets.');
+          this.refundRequestCount = 1;
+          setTimeout(() => {
+            // this.navCtrl.navigateRoot(['/home']);
+          }, 1000);
+        }else if(res.status == 'error'){
+          console.log(res);
+          
+        }
+        
+      })
+    }else{
+      this.rest.presentToast('Refund Request already sent for all tickets.');
+
+    }
+
+    
   }
 
   getTime(val:any){

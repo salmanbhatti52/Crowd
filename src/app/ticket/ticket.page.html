@@ -19,107 +19,97 @@
 
 <ion-content style="--background: #262626">
 <div class="container"  style="position: relative;" >
- 
-  <!-- <div style="padding-left: 11px;">
-    <swiper [config]="{slidesPerView:1, spaceBetween:9, initialSlide:0, speed:400}" [pagination]="false" style="padding: 8px;">
-      <ng-template swiperSlide class="categories">
-        <div style="height: 100px;width: 100px;">
-          
-        </div> -->
-        <!-- <div class="carItem_box" [class.selected_item]="item1 == true" (click)="selectItem('all')">
-          <img src="assets/images/icons/car_grey.svg" alt="" *ngIf="item1 == false">
-          <img src="assets/images/icons/car_white.svg" alt="" *ngIf="item1 == true">
-          <div class="cars_label" [class.fontActive]="item1 == true">All Cars</div>
-        </div> -->
-      <!-- </ng-template>
-    </swiper>
-  </div>    -->
-  <!-- *ngFor="let ticket of tickets;let i=index" -->
-  <div  id="ticket" class="ticket"  style="padding: 13px 5px 0px;">
-    <!-- *ngIf="!takingScreenshot" -->
-    <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-    <div style="margin: 48px 5px 20px; position: relative;">
-      <div class="flex_center">
-        <!-- <div class="font gilroy">slslsl</div>
-        <div class="font gilroy">slslsl</div> -->
-        <div class="font gilroy">{{userName}}</div>
-        <div class="font gilroy">{{rest.billDetails.event_name}}</div>
-      </div>
-      <div class="flex_center">
-        <!-- <div class="font gilroy">slslsl</div>
-        <div class="font gilroy">slslsl</div> -->
-        <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.billDetails.event_date}}</div>
-        <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.billDetails.event_start_time)}} - {{getTime(rest.billDetails.event_end_time)}}</div>
-      </div>
-      <!-- <div style="margin: 10px;position: relative;"> -->
-        <!-- <google-map
-        height="148"
-        width="85%"
-        #myGoogleMap
-        [zoom]="zoom"
-        [center]="center"
-        [options]="options"
-      > -->
-        <!-- <map-marker
-          #markerElem="mapMarker"
-          *ngFor="let marker of markers"
-          [position]="marker.position"
-          [label]="marker.label"
-          [title]="marker.title"
-          [options]="marker.options"
-          (mapDrag)="eventHandler($event,'mapDragMarker')"
-          (mapDragend)="eventHandler($event,'mapDragend')"
-          (mapClick)="openInfo(markerElem, marker.title, marker)"
-        >
-        </map-marker>
-
-        <map-info-window>
-          <div style="display: flex; align-items: center">
-            <img
-              style="height: 30px; width: 30px; margin-right: 5px"
-              src="assets/imgs/maphuman.svg"
-            />
-            <ion-label
-              style="
-                font-weight: 500;
-                font-size: 17px;
-                line-height: 26px;
-                text-align: center;
-                color: #7825cb;
-              "
-              >{{ infoContent }}</ion-label
-            >
-          </div>
-        </map-info-window> -->
-      <!-- </google-map> -->
-      <!-- </div> -->
-      <div style="position: relative;">
-        <div class="location">{{rest.billDetails.location}}</div>
-        <img class="center" style="margin-top: 5px; height: 130px;" src="../../assets/imgs/map_bg.jpg" alt="">
-      </div>
-      <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{tickets[0]}}</div>
-      <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
-      <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
+  
+  <swiper-container  [slidesPerView]="1.2" [spaceBetween]="13" [centeredSlides]="true" (slidechange)="onSlideChange($event)" style="height: 100%;">
+    <swiper-slide *ngFor="let ticket of tickets;let i=index" style="width: 335px;">
+      <div class="ticket"  style="padding: 13px 5px 0px;">
+        <div id="ticket-p-a">
+          <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
+          <div style="margin: 48px 5px 20px; position: relative;">
+            <div class="flex_center">
+              <!-- <div class="font gilroy">slslsl</div>
+              <div class="font gilroy">slslsl</div> -->
+              <div class="font gilroy">{{userName}}</div>
+              <div class="font gilroy">{{rest.billDetails.event_name}}</div>
+            </div>
+            <div class="flex_center">
+              <!-- <div class="font gilroy">slslsl</div>
+              <div class="font gilroy">slslsl</div> -->
+              <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.billDetails.event_date}}</div>
+              <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.billDetails.event_start_time)}} - {{getTime(rest.billDetails.event_end_time)}}</div>
+            </div>
+            <!-- <div style="margin: 10px;position: relative;"> -->
+              <!-- <google-map
+              height="148"
+              width="85%"
+              #myGoogleMap
+              [zoom]="zoom"
+              [center]="center"
+              [options]="options"
+            > -->
+              <!-- <map-marker
+                #markerElem="mapMarker"
+                *ngFor="let marker of markers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [title]="marker.title"
+                [options]="marker.options"
+                (mapDrag)="eventHandler($event,'mapDragMarker')"
+                (mapDragend)="eventHandler($event,'mapDragend')"
+                (mapClick)="openInfo(markerElem, marker.title, marker)"
+              >
+              </map-marker>
       
-      <hr >
-      <div class="center" style="margin-top: 4px;">
-
-        <qrcode 
-          [qrdata]="myAngularxQrCode" 
-          [allowEmptyString]="true" 
-          [width]="200" 
-          [errorCorrectionLevel]="'M'">
-        </qrcode>
-      </div>
-    </div>
-  </div>
+              <map-info-window>
+                <div style="display: flex; align-items: center">
+                  <img
+                    style="height: 30px; width: 30px; margin-right: 5px"
+                    src="assets/imgs/maphuman.svg"
+                  />
+                  <ion-label
+                    style="
+                      font-weight: 500;
+                      font-size: 17px;
+                      line-height: 26px;
+                      text-align: center;
+                      color: #7825cb;
+                    "
+                    >{{ infoContent }}</ion-label
+                  >
+                </div>
+              </map-info-window> -->
+            <!-- </google-map> -->
+            <!-- </div> -->
+            <div style="position: relative;">
+              <div class="location">{{rest.billDetails.location}}</div>
+              <img class="center" style="margin-top: 5px; height: 130px;" src="../../assets/imgs/map_bg.jpg" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{ticket}}</div>
+        <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
+        <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
+        <div id="ticket-p-b">
+          <hr >
+          <div class="center" style="margin-top: 4px;">
     
-
-  <div class="flex_center" >
+            <qrcode 
+              [qrdata]="myAngularxQrCode" 
+              [allowEmptyString]="true" 
+              [width]="200" 
+              [errorCorrectionLevel]="'M'">
+            </qrcode>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+  
+  <div class="flex_center" style="margin: 2px 20px;">
     <!-- (click)="goToHome()" -->
-    <div  style="width: 75%;">
+    <div  >
       <ion-button (click)="setOpen(true)" 
-          style="margin-top: 10px;margin-right: 11px; opacity: 1"
+          style="margin-top: 10px;margin-right: 11px; opacity: 1;width: 230px;"
           class="btnbgred work_sans"
           >Request Refund</ion-button
         >
@@ -145,9 +135,6 @@
     </ion-modal>
       <img (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
   </div>
-  <!-- <div style="height: 45px;">
-    <ion-button  (click)="takeSc()">Take Screenshot</ion-button>
-  </div> -->
-  <!-- <img *ngIf="ss" src="{{ss}}" alt="Screenshot"> -->
+
 </div>
 </ion-content>

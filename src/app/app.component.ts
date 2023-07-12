@@ -5,6 +5,9 @@ import { Platform } from "@ionic/angular";
 
 import OneSignal from "onesignal-cordova-plugin";
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
+import { register } from 'swiper/element/bundle';
+
+register();
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
