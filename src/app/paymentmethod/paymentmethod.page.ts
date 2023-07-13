@@ -128,6 +128,7 @@ export class PaymentmethodPage implements OnInit {
       if(res.status == 'success'){
         this.rest.ticketToken = res.data.random_strings;
         this.rest.eventBookingId = res.data.event_booking_id;
+        this.rest.eventId = res.data.events_id;
         this.rest.presentToast('Success');
         this.paynow();
       }

@@ -28,6 +28,7 @@ export class RestService {
   billDetails:any;
   ticketToken: any;
   eventBookingId: any;
+  eventId: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
@@ -83,10 +84,13 @@ export class RestService {
     });
   }
   
-  presentLoader() {
+  presentLoader(msg?: any) {
+    if(msg == undefined){
+      msg = "Please wait..."
+    }
     this.loadingController
       .create({
-        message: "Please wait...",
+        message: msg,
         cssClass: "loader-css-class",
         backdropDismiss: true,
       })

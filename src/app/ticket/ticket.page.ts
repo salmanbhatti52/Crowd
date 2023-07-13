@@ -145,6 +145,7 @@ export class TicketPage implements OnInit {
   activeIndex: any;
   currentTicketToken: any;
   refundRequestCount: any;
+  pdfData: any;
   constructor(public location:Location,
     public modalCtrl:ModalController,
     public router:Router,
@@ -178,15 +179,16 @@ export class TicketPage implements OnInit {
       console.log(matches);
       this.tickets = matches
       console.log("this.tickets: ",this.tickets);
-      // setTimeout(() => {
-      //   this.getTicketImages();
-      // }, 1000);
       
-    }
+      console.log("calling localAssetBase64");
+      this.loadLocalAssetToBase64();
 
-    // console.log("calling localAssetBase64");
-    
-    // this.loadLocalAssetToBase64();
+      setTimeout(() => {
+        this.getTicketImages();
+      }, 2000);
+      
+      this.sendTicketsAtBackend();
+    }
   }
 
   ionViewWillEnter() {
@@ -202,193 +204,105 @@ export class TicketPage implements OnInit {
 
   }
 
-  // loadLocalAssetToBase64(){
-  //   this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
-  //   .subscribe(res => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       this.logoData = reader.result;
-  //     }
-  //     reader.readAsDataURL(res);
-  //   });
-  // }
+  loadLocalAssetToBase64(){
+    this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
+    .subscribe(res => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.logoData = reader.result;
+      }
+      reader.readAsDataURL(res);
+    });
+  }
 
   onSlideChange(ev:any){
-    console.log("Swiper EVVV",ev);
-    console.log("active Index is ",ev.detail[0].activeIndex);
-    this.activeIndex = ev.detail[0].activeIndex;
-    for(let i=0; i<this.tickets.length; i++){
-      if(this.activeIndex == i ){
-        this.currentTicketToken = this.tickets[i];
-      }
-    }
+    // console.log("Swiper EVVV",ev);
+    // console.log("active Index is ",ev.detail[0].activeIndex);
+    // this.activeIndex = ev.detail[0].activeIndex;
+    // for(let i=0; i<this.tickets.length; i++){
+    //   if(this.activeIndex == i ){
+    //     this.currentTicketToken = this.tickets[i];
+    //   }
+    // }
   }
 
   generatePDF(){
-    console.log("generatepddfCalled");
-    this.rest.presentLoader();
-    // this.activeIndex = 1;
-
-    let data1:string = '';
-    let data2:string = '';
-
-    if(this.currentTicketToken == undefined){
-      this.currentTicketToken = this.tickets[0];
-      console.log("iftickeis1 currentTicketToken: ",this.currentTicketToken);
-      
-    }
-    const element: HTMLElement | null = document.getElementById('ticket-p-a');
-    if(element !== null){
-      html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-        data1 = canvas.toDataURL();
-        console.log("data1: ",data1);
-
-      });
-    }
-
-    setTimeout(() => {
-      const element1: HTMLElement | null = document.getElementById('ticket-p-b');
-      if(element1 !== null){
-        html2canvas(element1).then((canvas:HTMLCanvasElement)=>{
-          data2 = canvas.toDataURL();
-          console.log("data2: ",data2);
-
-        });
-      }
-    }, 2000);
-
+    this.rest.presentLoader('Creating PDF Please wait..');
     
     setTimeout(() => {
-      console.log('currentTicketToken',this.currentTicketToken);
-      
-      const docDefinition = {
-        content: [
-          {
-            image: data1,
+      console.log("generatepddfCalled");
+      let content: any[] = [];
+      let lastIndex = this.tickets.length -1; 
+      for(let i=0; i<this.tickets.length; i++){
+        if(i != lastIndex ){
+          content.push({
+            text: new Date().toString(),
+            alignment: 'right',
+            style: 'subheader'
+          },{
+            image: this.data1,
             width: 500
-          },
-          
-          { 
-            text: this.currentTicketToken,
+          },{ 
+            text: this.tickets[i],
             alignment: 'center',
             style: 'header',
-            // bold: false
-            // margin: [0, 20, 0, 20]
           },
   
           {
-            image: data2,
+            image: this.data2,
+            width: 500,
+            pageBreak: 'after'
+          },)
+        }else{
+          content.push({
+            text: new Date().toString(),
+            alignment: 'right',
+            style: 'subheader'
+          },{
+            image: this.data1,
             width: 500
+          },{ 
+            text: this.tickets[i],
+            alignment: 'center',
+            style: 'header',
           },
-        ],
+  
+          {
+            image: this.data2,
+            width: 500,
+          },)
+        }
+      }
+      
+      const docDefinition = {
+        content: content,
         styles: {
           header: {
             fontSize: 18,
             bold: true,
             margin: [10, 10, 10, 10]
           },
+          subheader: {
+            fontSize: 15,
+            bold: true,
+            margin: [0, 0, 0, 20],
+          },
           
         }
       };
-      // pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
       this.pdfObj = pdfMake.createPdf(docDefinition);
       console.log(this.pdfObj);
-      // this.takingScreenshot = false;
       this.downloadPdf();
     }, 4000);
-    
-    
-    // solution: https://github.com/bpampuch/pdfmake/issues/205
-    // this.takingScreenshot = true;
-    // this.ss = undefined;
-    // Screenshot.take().then((ret: { base64: string }) => {
-    //   console.log("res:", ret.base64);
-    //   this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
-    //   console.log("ss:", this.ss);
-    // });
-
-    // setTimeout(() => {
-    //   this.takingScreenshot = false;
-    //   this.rest.presentLoader();
-    // }, 1000);
-
-
-    // setTimeout(() => {
-    //   const image = this.ss ? {image: this.ss, width: 300 } : {};
-
-    //   let logo = {};
-    //   logo = {image: this.logoData, width: 50};
-    //   const docDefinition = {
-    //     // watermark: { text: 'Crowd', color: 'blue', opacity: 0.2, bold: true},
-    //     content: [
-    //       {
-    //         columns: [
-    //           logo,
-    //           {
-    //             text: new Date().toString(),
-    //             alignment: 'right'
-    //           }
-    //         ]
-    //       },
-    //       { text: 'TICKET', style: 'header',  margin: [0, 20, 10, 20]},
-    //       // {
-    //       //   columns: [
-    //       //     {
-    //       //       width: '50%',
-    //       //       text: 'From',
-    //       //       style: 'subheader'
-    //       //     },
-    //       //     {
-    //       //       width: '50%',
-    //       //       text: 'To',
-    //       //       style: 'subheader'
-    //       //     }
-    //       //   ]
-    //       // },
-    //       // {
-    //       //   columns: [
-    //       //     {
-    //       //       width: '50%',
-    //       //       text: 'Crowd',
-    //       //     },
-    //       //     {
-    //       //       width: '50%',
-    //       //       text: this.userName,
-    //       //     },
-    //       //   ]
-    //       // },
-    //       image,
-    //       { text: "Thank you.", margin: [0, 20, 0, 20] }
-    //     ],
-    //     styles: {
-    //       header: {
-    //         fontSize: 14,
-    //         bold: true,
-    //         margin: [0, 15, 0, 0]
-    //       },
-    //       subheader: {
-    //         fontSize: 12,
-    //         bold: true,
-    //         margin: [0, 15, 0, 0]
-    //       }
-    //     }
-    //   }
-    //   this.pdfObj = pdfMake.createPdf(docDefinition);
-    //   console.log(this.pdfObj);
-    //   this.downloadPdf();
-    // }, 3000);
-    
-   
   }
 
   downloadPdf(){
+
     if(this.plt.is('capacitor')){
-      // this.pdfObj.download();
       console.log("capacitor is the platformmmmmmmmm");
       this.pdfObj.getBase64(async (data:any) =>{
         try {
           console.log("data from this.pdfObj.getBase64", data );
-          
           let path = `pdf/Event_Ticket_${Date.now()}.pdf`;
           const result = await Filesystem.writeFile({
             path,
@@ -399,16 +313,8 @@ export class TicketPage implements OnInit {
           });
           this.fileOpener.open(`${result.uri}`, 'application/pdf');
           this.rest.dismissLoader();
-          let payload = {
-            event_booking_id: this.rest.eventBookingId,
-            ticket_file: data
-          }
-          console.log(payload);
+          this.navCtrl.navigateRoot(['/home']);
           
-          this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
-            console.log("SendPdfAPI RES: ",res);
-            // this.navCtrl.navigateRoot(['/home']);
-          })
         } catch (error) {
           this.rest.dismissLoader();
           console.log('Unable to write file', error);
@@ -420,7 +326,7 @@ export class TicketPage implements OnInit {
 
       this.pdfObj.download('ticket.pdf');
       this.rest.dismissLoader();
-      // this.navCtrl.navigateRoot(['/home'])
+      this.navCtrl.navigateRoot(['/home'])
     }
 
   }
@@ -447,89 +353,94 @@ export class TicketPage implements OnInit {
     }, 2000);
   }
 
-  // sendTicketsAtBackend(){
-  //   console.log("generatepddfForBacccccckennnnnnnnnnnddddd");
-  //   let pdfObj:any;
-  //   let currentTicketToken:any;
-  //   let tickets = this.tickets;
-  //   for(let i=0; i<tickets.length; i++){
-  //     // pdfObj = undefined;
-  //     currentTicketToken = tickets[i];
-  //     setTimeout(() => {
-  //       console.log('currentTicketToken',currentTicketToken);
-        
-  //       const docDefinition = {
-  //         content: [
-  //           {
-  //             image:this.data1,
-  //             width: 500
-  //           },
-            
-  //           { 
-  //             text: currentTicketToken,
-  //             alignment: 'center',
-  //             style: 'header',
-  //             // bold: false
-  //             // margin: [0, 20, 0, 20]
-  //           },
+  sendTicketsAtBackend(){
+    console.log("generatepddfForBackend");
+    let tickets = this.tickets
+    let pdfObj:any;
     
-  //           {
-  //             image: this.data2,
-  //             width: 500
-  //           },
-  //         ],
-  //         styles: {
-  //           header: {
-  //             fontSize: 18,
-  //             bold: true,
-  //             margin: [10, 10, 10, 10]
-  //           },
-            
-  //         }
-  //       };
+    setTimeout(() => {
+      let content: any[] = [];
+      let lastIndex = tickets.length -1; 
+      for(let i=0; i<tickets.length; i++){
+        if(i != lastIndex ){
+          content.push({
+            text: new Date().toString(),
+            alignment: 'right',
+            style: 'subheader'
+          },{
+            image: this.data1,
+            width: 500
+          },{ 
+            text: tickets[i],
+            alignment: 'center',
+            style: 'header',
+          },
+  
+          {
+            image: this.data2,
+            width: 500,
+            pageBreak: 'after'
+          },)
+        }else{
+          content.push({
+            text: new Date().toString(),
+            alignment: 'right',
+            style: 'subheader'
+          },{
+            image: this.data1,
+            width: 500
+          },{ 
+            text: tickets[i],
+            alignment: 'center',
+            style: 'header',
+          },
+  
+          {
+            image: this.data2,
+            width: 500,
+          },)
+        }
         
-  //       pdfObj = pdfMake.createPdf(docDefinition);
-  //       console.log("pdfObj for backend: ",pdfObj);
-  //     }, 2000);
+      }
+      
+      const docDefinition = {
+        content: content,
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [10, 10, 10, 10]
+          },
+          subheader: {
+            fontSize: 15,
+            bold: true,
+            margin: [0, 0, 0, 20],
+          },
+        }
+      };
+      pdfObj = pdfMake.createPdf(docDefinition);
+      console.log("pdfObj for backend: ",pdfObj);
 
-  //     if(this.plt.is('capacitor')){
+      if(this.plt.is('capacitor')){
         
-  //       console.log("capacitor is the platformmmmmmmmm");
-  //       pdfObj.getBase64(async (data:any) =>{
+        console.log("capacitor is the platformmmmmmmmm");
+        pdfObj.getBase64(async (data:any) =>{
          
-  //         let payload = {
-  //           event_booking_id: this.rest.eventBookingId,
-  //           ticket_file: data
-  //         }
-  //         console.log(payload);
+          let payload = {
+            event_booking_id: this.rest.eventBookingId,
+            ticket_file: data
+          }
+          console.log(payload);
           
-  //         this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
-  //           console.log("SendPdfAPI RES: ",res);
-  //           // this.navCtrl.navigateRoot(['/home']);
-  //         })
+          this.rest.sendRequest("show_ticket",payload).subscribe((res:any)=>{
+            console.log("SendPdfAPI RES: ",res);
+          })
     
-  //       })
-        
-  
-  //     }else{
-  
-  //       pdfObj.download('ticket.pdf');
-        
-  //     }
-  //   }
-
-   
-
-
+        })
+      }
+    }, 4000);
     
-
-    
-
-    
-    
-
-    
-  // }
+  }
 
   isModalOpen = false;
 
@@ -551,7 +462,7 @@ export class TicketPage implements OnInit {
     // this.modalCtrl.dismiss();
     setTimeout(() => {
       
-      this.navCtrl.navigateRoot(['/home']);
+      // this.navCtrl.navigateRoot(['/home']);
     }, 500);
   }
 
@@ -561,14 +472,17 @@ export class TicketPage implements OnInit {
       this.isModalOpen = isOpen;
       let data = {
         users_customers_id:this.userId,
-        event_booking_id:this.rest.eventBookingId
+        event_booking_id:this.rest.eventBookingId,
+        events_id: this.rest.eventId
       }
+      console.log("Refund Req Payload: ",data);
+      
       this.rest.presentLoaderWd();
       this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
         this.rest.dismissLoader();
         console.log("Refund Request Res: ", res);
         if(res.status== 'success'){
-          this.rest.presentToast('Refund Request Sent for all tickets.');
+          this.rest.presentToast('Refund Request Sent.');
           this.refundRequestCount = 1;
           setTimeout(() => {
             // this.navCtrl.navigateRoot(['/home']);
@@ -580,7 +494,7 @@ export class TicketPage implements OnInit {
         
       })
     }else{
-      this.rest.presentToast('Refund Request already sent for all tickets.');
+      this.rest.presentToast('Refund Request already sent.');
 
     }
 
