@@ -438,7 +438,7 @@ export class TicketPage implements OnInit {
     
         })
       }
-    }, 4000);
+    }, 7000);
     
   }
 
