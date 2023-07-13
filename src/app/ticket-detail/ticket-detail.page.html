@@ -22,7 +22,27 @@
 
 <ion-content style="--background: #262626">
   <div class="container">
-    <div  class="dummy_text work_sans"><span (click)="gotoScannedTickets()">Ticket Detail will be shown here
-      after scan</span> </div>
+    <!-- event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus -->
+    <div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Name: </span>{{eventName}}</div>
+      <div *ngIf="venueName!='null'" class="ticket_data work_sans"><span class="font_18_bold">Venue Name: </span>{{venueName}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Date: </span>{{eventDate}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Start Time: </span>{{eventStartTime}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event End Time: </span>{{eventEndTime}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Type: </span>{{packageType}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Name: </span>{{packageName}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Price: </span>{{packagePrice}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Price: </span>{{ticketPrice}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Requested: </span>{{ticketRequested}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Crowd Fee: </span>{{crowdFee}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Total Bill: </span>{{totalBill}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Location: </span>{{eventLocation}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Booking Status: </span>{{bookingStatus}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Transaction Status: </span>{{transactionStatus}}</div>
+    </div>
+
+    <ion-button class="btnbg work_sans" style="margin-top: 20px; opacity: 1" (click)="gotoScannedTickets()" >
+      Scanned Tickets
+    </ion-button>
   </div>
 </ion-content>

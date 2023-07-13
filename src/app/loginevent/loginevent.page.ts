@@ -43,16 +43,6 @@ export class LogineventPage implements OnInit {
   goBack(){
     this.location.back();
   }
-  goToSignup() {
-    this.router.navigate(["signup"]);
-  }
-
-  goToForgetpass() {
-    this.router.navigate(["forgetpass"]);
-  }
-  getStart() {
-    this.router.navigate(["getstart"]);
-  }
 
   submit() {
     //this.getSystemSetting();
@@ -69,25 +59,19 @@ export class LogineventPage implements OnInit {
       this.rest.presentToast("Please enter password.");
     } else {
       this.rest.presentLoader();
-      var ss = JSON.stringify({
+      var ss = {
         email: this.email,
         password: this.pass,
-        one_signal_id: localStorage.getItem("onesignaluserid"),
-      });
+      };
 
-      this.rest.login(ss).subscribe((res: any) => {
+      this.rest.sendRequest('users_business_login',ss).subscribe((res: any) => {
         console.log("res---", res);
 
         this.rest.dismissLoader();
 
         if (res.status == "success") {
-          localStorage.setItem("userdata", JSON.stringify(res.data));
-          if (localStorage.getItem("location")) {
-            this.navCtrl.navigateRoot(["/scan-tickets"]);
-          } else {
-            this.navCtrl.navigateRoot(["/scan-tickets"]);
-            // this.navCtrl.navigateRoot(["/getstart"]);
-          }
+          localStorage.setItem("user_business_data", JSON.stringify(res.data));
+          this.navCtrl.navigateRoot(["/scan-tickets"]);
         } else {
           this.rest.presentToast(res.message);
         }

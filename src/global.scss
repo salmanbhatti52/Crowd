@@ -58,6 +58,11 @@
 ion-input {
     font-family: "work-sans" !important;
   }
+  
+body.scanner-active {
+  --background: transparent;
+  --ion-background-color: transparent;
+}
 
 .sc-ion-alert-md-h {
   --background: white !important;

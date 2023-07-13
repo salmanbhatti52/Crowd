@@ -136,15 +136,27 @@
 
 
 .container{
-    padding: 27px;
+    padding: 20px;
     
 }
 
+.font_18_bold{
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticket_data{
+  color: #FFF;
+  font-family: Work Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 5px;
+}
 .dummy_text{
     padding: 10px;
-    text-align: center;
-    margin-top: 40%;
+    // text-align: center;
+    margin: 5% auto;
     font-weight: 400;
-    font-size: 35px;
+    font-size: 16px;
     color: white;
 }

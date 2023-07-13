@@ -193,7 +193,8 @@ export class TicketPage implements OnInit {
 
   ionViewWillEnter() {
     if(this.rest.billDetails?.event_name){
-      this.myAngularxQrCode = `event_name:${this.rest.billDetails.event_name} - venue_name:${this.rest.billDetails.venue_name} - event_date:${this.rest.billDetails.event_date} - event_start_time:${this.rest.billDetails.event_start_time} - event_end_time:${this.rest.billDetails.event_end_time} - package_name:${this.rest.billDetails.package_name} - package_type:${this.rest.billDetails.package_type} - package_price:$${this.rest.billDetails.package_price} - price_per_ticket:$${this.rest.billDetails.price_per_ticket} - ticket_requested:${this.rest.billDetails.ticket_requested} - crowd_fee:$5 - total_bill:$${this.rest.billDetails.total_bill} - location:${this.rest.billDetails.location}`;
+      // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus
+      this.myAngularxQrCode = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_$${this.rest.billDetails.package_price}_$${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_$5_$${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}`;
     }
 
     console.log("qrCodeDAta: ", this.myAngularxQrCode);

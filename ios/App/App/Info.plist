@@ -66,7 +66,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
+	<string>Need to access photo library to allow user to upload profile picture. Need to Scan barcodes. Need to scan credit cards</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Need to access your location to get best match of events and venues near your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -105,8 +105,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-   	<string>Need camera access for read credit card.</string>
 	<key>UIFileSharingEnabled</key>
    	<string>YES</string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>

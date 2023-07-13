@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { NavController } from '@ionic/angular';
+import { RestService } from '../rest.service';
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.page.html',
@@ -9,10 +10,48 @@ import { NavController } from '@ionic/angular';
 export class TicketDetailPage implements OnInit {
   onesignalid: any = "";
   social_login_status: any = "";
+  result:any[] = [];
+  eventName:any;
+  venueName:any;
+  eventDate:any;
+  eventStartTime:any;
+  eventEndTime:any;
+  packageType:any;
+  packageName:any;
+  packagePrice:any;
+  ticketPrice:any;
+  ticketRequested:any;
+  crowdFee:any;
+  totalBill:any;
+  eventLocation:any;
+  bookingStatus:any;
+  transactionStatus:any;
   constructor(public location:Location,
-    public navCtrl:NavController) { }
+    public navCtrl:NavController,
+    public rest:RestService) {
+      
+     }
 
   ngOnInit() {
+    this.rest.presentLoaderWd();
+    this.result = this.rest.barcodeResult.split('_');
+    console.log("Result: ",this.result);
+    this.eventName= this.result[0];
+    this.venueName= this.result[1];
+    this.eventDate= this.result[2];
+    this.eventStartTime= this.result[3];
+    this.eventEndTime= this.result[4];
+    this.packageType= this.result[5];
+    this.packageName= this.result[6];
+    this.packagePrice= this.result[7];
+    this.ticketPrice= this.result[8];
+    this.ticketRequested= this.result[9];
+    this.crowdFee = this.result[10];
+    this.totalBill= this.result[11];
+    this.eventLocation= this.result[12];
+    this.bookingStatus= this.result[13];
+    this.transactionStatus= this.result[14];
+    // this.rest.dismissLoader();
   }
   goBack(){
     this.location.back();

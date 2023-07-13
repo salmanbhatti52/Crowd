@@ -29,6 +29,9 @@ export class RestService {
   ticketToken: any;
   eventBookingId: any;
   eventId: any;
+  barcodeResult: any;
+  bookingStatus: any;
+  transactionStatus: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
