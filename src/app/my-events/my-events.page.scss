@@ -53,7 +53,7 @@
 .bb{
   margin: 0px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   line-height: 21px;
   text-transform: capitalize;
@@ -72,6 +72,7 @@
 
 .elementBg{
   display: flex;
+  align-items: center;
   margin-top: 15px;
   background: black;
   padding: 10px;

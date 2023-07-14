@@ -38,6 +38,8 @@ export class MyEventsPage implements OnInit {
 
     var ss = {
       users_customers_id: this.userID,
+      lattitude: localStorage.getItem("longitude"),
+      longitude: localStorage.getItem("lattitude"),
     };
 
     this.rest.sendRequest("get_upcoming_events_list",ss).subscribe((res: any) => {
@@ -68,14 +70,14 @@ export class MyEventsPage implements OnInit {
     });
   }
 
-  gotoBookingDetails(data:any){
+  gotoEventDetails(data:any){
     // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
     // console.log(data);
-    this.rest.selectedBooking = data;
-    this.rest.selectedBooking.coming_from = 'reservations'; 
-    this.rest.detail = this.rest.selectedBooking.venues_details;
-    console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
-    this.router.navigate(['/booking2']);
+    // this.rest.selectedBooking = data;
+    // this.rest.selectedBooking.coming_from = 'reservations'; 
+    // this.rest.detail = this.rest.selectedBooking.venues_details;
+    // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
+    this.router.navigate(['/event-detail']);
   }
 
  
@@ -106,8 +108,10 @@ export class MyEventsPage implements OnInit {
   getDate(aa: any) {
     return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
   }
-  getTime(aa:any){
-    return aa.substring(0,5);
+  getTime(val:any){
+    if(val){
+      return val.substring(0,5);
+    }
   }
 
   editbooking(aa: any) {
