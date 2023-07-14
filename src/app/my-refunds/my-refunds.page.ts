@@ -15,11 +15,11 @@ import { format, parseISO } from 'date-fns';
 export class MyRefundsPage implements OnInit {
   segmentModel = "inProcess";
 
-  upcomingArr: any = [];
-  orderd_upcomingArr: any = [];
-  previousArr: any = [];
-  orderd_previousArr: any =[];
-  transactionsArr:any = []
+  inProgressArr: any = [];
+  orderd_inProgressArr: any = [];
+  refundedArr: any = [];
+  orderd_refundedArr: any =[];
+  // transactionsArr:any = []
   userdata: any = "";
   userID: any = "";
   constructor(
@@ -42,16 +42,30 @@ export class MyRefundsPage implements OnInit {
       users_customers_id: this.userID,
     };
 
-    this.rest.sendRequest("get_transaction_list",ss).subscribe((res: any) => {
-      console.log("transactions Arr------", res);
+    this.rest.sendRequest("pending_requests",ss).subscribe((res: any) => {
+      console.log("inProgressArr resss------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        this.transactionsArr = res.data;
-        // for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
-        //   this.orderd_upcomingArr[j] = this.upcomingArr[i];
+        // this.inProgressArr = res.data;
+        // for(let i= this.inProgressArr.length-1, j=0; i>=0; i--){
+        //   this.orderd_inProgressArr[j] = this.inProgressArr[i];
         //   j++;        
         // }
-        // console.log("orderd_upcomingArr: ",this.orderd_upcomingArr);
+        // console.log("orderd_inProgressArr: ",this.orderd_inProgressArr);
+        
+      }
+    });
+
+    this.rest.sendRequest("refunded_requests",ss).subscribe((res: any) => {
+      console.log("refundedArr ressssss------", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        // this.refundedArr = res.data;
+        // for(let i= this.refundedArr.length-1, j=0; i>=0; i--){
+        //   this.orderd_refundedArr[j] = this.refundedArr[i];
+        //   j++;        
+        // }
+        // console.log("orderd_refundedArr: ",this.orderd_refundedArr);
         
       }
     });

@@ -65,7 +65,7 @@
     </ion-segment>
   </div>
 
-  <div
+  <!-- <div
   class="paddingtop"
     style="
       /* padding-top: 15px; */
@@ -78,7 +78,7 @@
     "
     *ngIf="segmentModel === 'inProcess'"
   >
-    <div class="elementBg" *ngFor="let aa of transactionsArr">
+    <div class="elementBg" *ngFor="let aa of orderd_inProgressArr">
       <img (click)="gotoBookingDetails(aa)"
         style="
           width: 104px;
@@ -137,7 +137,7 @@
     "
     *ngIf="segmentModel === 'Refunded'"
   >
-    <div class="elementBg" *ngFor="let aa of transactionsArr">
+    <div class="elementBg" *ngFor="let aa of orderd_refundedArr">
       <img
         style="
           width: 104px;
@@ -185,5 +185,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </ion-content>
