@@ -23,13 +23,13 @@
 
         <img
           (click)="likeevent()"
-          *ngIf="detailObj.likes==0"
+          *ngIf="detailObj.events.likes==0"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartww.svg"
         />
         <img
           (click)="likeoutevent()"
-          *ngIf="detailObj.likes!=0"
+          *ngIf="detailObj.events.likes!=0"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartactive.svg"
         />
@@ -39,10 +39,10 @@
     <ion-row>
       <ion-col class="slider_main">
         <ion-slides pager="true" style="height: 250px">
-          <ion-slide *ngFor="let p of detailObj.images; let i = index">
+          <ion-slide>
             <div class="slide">
               <img
-                src="{{rest.baseURLimg}}{{p.name}}"
+                src="{{rest.baseURLimg}}{{detailObj.events_images.name}}"
                 style="width: 100%"
                 class="s_img"
               />
@@ -54,39 +54,61 @@
   </div>
 
   <div style="width: 90%; margin: 5% auto">
-    <p class="titlemain work_sans">{{detailObj.name}}</p>
-    <p class="titlesubmain work_sans">{{detailObj.venue_name}}</p>
+    <p class="titlemain work_sans">{{detailObj.events.name}}</p>
+    <p class="titlesubmain work_sans">{{detailObj.events.venue_name}}</p>
 
     <ion-row>
-      <ion-col style="display: flex; align-items: center">
+      <ion-col size="3.7" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 10px; width: 12px"
+            style="height: 15px; margin-right: 8px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
           <p class="work_sans titlesub">
-            {{detailObj.distance | number : '1.2-2'}} Miles
+            {{detailObj.event_distance | number : '1.2-2'}} Miles
           </p>
         </div>
       </ion-col>
-      <ion-col style="display: flex; align-items: center">
+      <ion-col size="3.9" style="display: flex; align-items: center;padding: 0px;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 10px; width: 12px"
+            style="height: 15px; margin-right: 8px; width: 12px"
+            src="assets/imgs/icons/calendar.svg"
+          />
+          <p class="work_sans titlesub">
+            {{detailObj.events.event_date}}
+          </p>
+        </div>
+      </ion-col>
+      <ion-col size="4.4" style="display: flex; align-items: center">
+        <div style="display: flex">
+          <img
+            style="height: 15px; margin-right: 8px; width: 12px"
             src="assets/imgs/watch.svg"
           />
           <p class="work_sans titlesub">
-            {{detailObj.event_date}} | {{detailObj.event_time}}
+            {{getTime(detailObj.events.event_start_time)}} - {{getTime(detailObj.events.event_end_time)}}
           </p>
         </div>
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 10px">
+    <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
+      <div style="display: flex; align-items: center; width: 65%;">
+        <p class="work_sans titlesub">{{detailObj.events.location}}</p>
+      </div>
+      <div style="display: flex; align-items: center">
+        <img style="margin-right: 14px;" src="../../assets/imgs/icons/people.svg" alt="">
+        <p style="margin-right: 10px;" class="work_sans titlesub">0</p>
+      </div>
+
+    </div>
+
+    <!-- <ion-row style="margin-top: 10px">
       <ion-col size="8" style="display: flex; align-items: center">
-        <p class="work_sans titlesub">{{detailObj.location}}</p>
+        <p class="work_sans titlesub">{{detailObj.events.location}}</p>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
     <div
       style="margin-top: 10px; display: flex; justify-content: space-between"
@@ -104,7 +126,7 @@
           src="assets/imgs/web.svg"
         />
 
-        <a href="tel:{{detailObj.phone_number}}"
+        <a href="tel:{{detailObj.events.phone_number}}"
           ><img
             style="height: 25px; width: 25px; margin-right: 20px"
             src="assets/imgs/call.svg"
@@ -131,7 +153,7 @@
       >View Ticket</ion-button
     >
 
-    <p class="work_sans des">{{detailObj.description}}</p>
+    <!-- <p class="work_sans des">{{detailObj.events.description}}</p> -->
 
     <div
       (click)="goToChat()"
@@ -185,12 +207,12 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">Regular Ticket</p>
-      <p style="margin: 0px" class="dd work_sans">02x£25</p>
-      <p style="margin: 0px" class="dd work_sans">£25</p>
+      <p style="margin: 0px" class="dd work_sans">Standard Ticket</p>
+      <p style="margin: 0px" class="dd work_sans">{{detailObj.number_of_ticket}}x£{{detailObj.price_per_ticket}}</p>
+      <p style="margin: 0px" class="dd work_sans">£{{ticketTotal}}</p>
     </div>
 
-    <div
+    <!-- <div
       style="
         display: flex;
         justify-content: space-between;
@@ -214,7 +236,7 @@
       <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
       <p style="margin: 0px" class="dd work_sans">02x£10</p>
       <p style="margin: 0px" class="dd work_sans">£20</p>
-    </div>
+    </div> -->
 
     <div
       style="
@@ -224,9 +246,9 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">Table For 6</p>
-      <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
-      <p style="margin: 0px" class="dd work_sans">£50</p>
+      <p style="margin: 0px" class="dd work_sans">{{detailObj.package_type}}</p>
+      <p style="margin: 0px" class="dd work_sans">{{detailObj.package_name}}</p>
+      <p style="margin: 0px" class="dd work_sans">£{{detailObj.package_price}}</p>
     </div>
 
     <div
@@ -241,35 +263,41 @@
       <p style="margin: 0px" class="dd work_sans">£5</p>
     </div>
 
-    <p style="margin-top: 16px" class="title2 work_sans">Description</p>
-    <p style="margin-top: 13px" class="desc2 work_sans">{{selectedVenue.description}}</p>
+    <p style="margin-top: 13px" class="title2 work_sans">Description</p>
+    <p style="margin-top: 13px" class="desc2 work_sans">{{detailObj.events.description}}</p>
 
-    <p class="title2 work_sans">Refund Policy</p>
+    <p class="title2 work_sans" style="margin-top: 13px">Refund Policy</p>
     <p class="desc2 work_sans" style="margin-top: 13px">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet
-      justo ipsum. Sed accumsan quam vitae est varius fringilla. Pellentesque
-      placerat vestibulum lorem sed porta. Nullam mattis tristique iaculis.
-      Nullam pulvinar sit amet risus pretium auctor. Etiam quis massa pulvinar,
-      aliquam quam vitae, tempus sem. Donec elementum pulvinar odio.Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ipsum. Sed
-      accumsan quam vitae est varius fringilla. Pellentesque placerat vestibulum
-      lorem sed porta. Nullam mattis tristique iaculis.
+      {{detailObj.events.refund_policy}}
     </p>
 
     <p style="margin-top: 10px" class="title2 work_sans">Organizer</p>
     <div style="display: flex; margin-top: 13px">
-      <img
+      <img *ngIf="organizer"
         style="
           width: 57.3px;
           height: 57.3px;
           border: 1.5px solid #7825cb;
           border-radius: 50%;
           margin-right: 20px;
+          object-fit: cover;
         "
-        src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+        src="{{rest.baseURLimg}}{{organizer.user_image}}"
       />
+      <img *ngIf="!organizer"
+        style="
+          width: 57.3px;
+          height: 57.3px;
+          border: 1.5px solid #7825cb;
+          border-radius: 50%;
+          margin-right: 20px;
+          object-fit: cover;
+        "
+        src="../../assets/imgs/avatar.png"
+      />
+      
       <div>
-        <p class="username work_sans">John Doe</p>
+        <p *ngIf="organizer" class="username work_sans">{{organizer?.first_name}}</p>
 
         <p (click)="gotoOrganizerEvents()" class="buyTicket work_sans">See All Events</p>
       </div>

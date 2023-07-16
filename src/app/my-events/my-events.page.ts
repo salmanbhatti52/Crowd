@@ -71,12 +71,9 @@ export class MyEventsPage implements OnInit {
   }
 
   gotoEventDetails(data:any){
-    // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
-    // console.log(data);
-    // this.rest.selectedBooking = data;
-    // this.rest.selectedBooking.coming_from = 'reservations'; 
-    // this.rest.detail = this.rest.selectedBooking.venues_details;
-    // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
+    this.rest.detail = data;
+    console.log('this.rest.detail: ',this.rest.detail);
+    
     this.router.navigate(['/event-detail']);
   }
 

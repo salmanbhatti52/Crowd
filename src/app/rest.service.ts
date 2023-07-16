@@ -25,7 +25,7 @@ export class RestService {
   mapsKey = 'AIzaSyDfMmdgRpcZCRBxqthG4RmQHeFsYFVy4V4'
   mapsBaseURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
   business_owner_name: any;
-  billDetails:any;
+  billDetails:any = {};
   ticketToken: any;
   eventBookingId: any;
   eventId: any;

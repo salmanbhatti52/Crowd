@@ -65,7 +65,7 @@
     </ion-segment>
   </div>
 
-  <!-- <div
+  <div
   class="paddingtop"
     style="
       /* padding-top: 15px; */
@@ -79,35 +79,37 @@
     *ngIf="segmentModel === 'inProcess'"
   >
     <div class="elementBg" *ngFor="let aa of orderd_inProgressArr">
-      <img (click)="gotoBookingDetails(aa)"
+      <!-- (click)="gotoBookingDetails(aa)"  -->
+      <img 
         style="
           width: 104px;
           height: 104px;
           border-radius: 16px;
           margin-right: 10px;
         "
-        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
+        src="{{rest.baseURLimg}}{{aa.events_images.name}}"
       />
 
       <div>
+        <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
+          <img class="imm" src="assets/imgs/pinwhite.svg" />
+          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">{{aa.no_of_diners}} people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
+          <p class="date work_sans">{{aa.events.event_date }} </p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 2px">
+          <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date work_sans">
-            {{getDate(aa.bookings_date) }} at {{getTime(aa.bookings_time)}}
+            {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
           </p>
         </div>
 
-        <div
+        <!-- <div
           *ngIf="aa.status != 'Cancelled'"
           style="display: flex; margin-top: 20px"
         >
@@ -120,7 +122,7 @@
           style="display: flex; margin-top: 20px"
         >
           <p class="canc work_sans">Cancelled</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -145,28 +147,29 @@
           border-radius: 16px;
           margin-right: 10px;
         "
-        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
+        src="{{rest.baseURLimg}}{{aa.events_images.name}}"
       />
 
       <div>
+        <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
+          <img class="imm" src="assets/imgs/pinwhite.svg" />
+          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">{{aa.no_of_diners}} people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
+          <p class="date work_sans">{{aa.events.event_date }} </p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 2px">
+          <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date work_sans">
-            {{getDate(aa.bookings_date) }} at {{aa.bookings_time}}
+            {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
           </p>
         </div>
 
-        <div style="display: flex; margin-top: 20px">
+        <!-- <div style="display: flex; margin-top: 20px">
           <p *ngIf="aa.status == 'Pending'" class="canc work_sans">
             {{aa.status}}
           </p>
@@ -182,8 +185,8 @@
           <p *ngIf="aa.status == 'Rejected'" class="canc work_sans">
             {{aa.status}}
           </p>
-        </div>
+        </div> -->
       </div>
     </div>
-  </div> -->
+  </div>
 </ion-content>

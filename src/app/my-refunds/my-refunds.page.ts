@@ -40,18 +40,20 @@ export class MyRefundsPage implements OnInit {
     
     var ss = {
       users_customers_id: this.userID,
+      lattitude: localStorage.getItem("longitude"),
+      longitude: localStorage.getItem("lattitude"),
     };
 
     this.rest.sendRequest("pending_requests",ss).subscribe((res: any) => {
       console.log("inProgressArr resss------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        // this.inProgressArr = res.data;
-        // for(let i= this.inProgressArr.length-1, j=0; i>=0; i--){
-        //   this.orderd_inProgressArr[j] = this.inProgressArr[i];
-        //   j++;        
-        // }
-        // console.log("orderd_inProgressArr: ",this.orderd_inProgressArr);
+        this.inProgressArr = res.data;
+        for(let i= this.inProgressArr.length-1, j=0; i>=0; i--){
+          this.orderd_inProgressArr[j] = this.inProgressArr[i];
+          j++;        
+        }
+        console.log("orderd_inProgressArr: ",this.orderd_inProgressArr);
         
       }
     });
@@ -60,12 +62,12 @@ export class MyRefundsPage implements OnInit {
       console.log("refundedArr ressssss------", res);
       this.rest.dismissLoader();
       if (res.status == "success") {
-        // this.refundedArr = res.data;
-        // for(let i= this.refundedArr.length-1, j=0; i>=0; i--){
-        //   this.orderd_refundedArr[j] = this.refundedArr[i];
-        //   j++;        
-        // }
-        // console.log("orderd_refundedArr: ",this.orderd_refundedArr);
+        this.refundedArr = res.data;
+        for(let i= this.refundedArr.length-1, j=0; i>=0; i--){
+          this.orderd_refundedArr[j] = this.refundedArr[i];
+          j++;        
+        }
+        console.log("orderd_refundedArr: ",this.orderd_refundedArr);
         
       }
     });
@@ -84,6 +86,11 @@ export class MyRefundsPage implements OnInit {
     // });
   }
 
+  // getTime(val:any){
+  //   if(val){
+  //     return val.substring(0,5);
+  //   }
+  // }
   gotoBookingDetails(data:any){
     // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
     // console.log(data);

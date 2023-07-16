@@ -114,6 +114,7 @@ export class PaymentmethodPage implements OnInit {
       number_of_ticket:this.rest.billDetails.ticket_requested,
       package_name:this.rest.billDetails.package_name,
       package_type:this.rest.billDetails.package_type,
+      package_price: this.rest.billDetails.package_price,
       price_per_ticket:this.rest.billDetails.price_per_ticket,
       total_amount:this.rest.billDetails.total_bill,
       transiction_id:this.txnsId,
@@ -403,6 +404,7 @@ export class PaymentmethodPage implements OnInit {
     });
 
     await modal.present();
+    this.rest.comfrom = 'paymentmethod'
     this.navCtrl.navigateRoot(['/ticket']);
   }
 

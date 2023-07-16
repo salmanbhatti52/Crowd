@@ -17,7 +17,11 @@ export class EventDetailPage implements OnInit {
 
   userdata: any = "";
   userID: any = "";
-  selectedVenue: any = "";
+  selectedEvent: any = "";
+  ticketTotal:any;
+  organizer: any;
+  latitude: string | null | undefined;
+  longitude: string | null | undefined;
   constructor(public location:Location,
     public router:Router,
     public platform: Platform,
@@ -26,9 +30,11 @@ export class EventDetailPage implements OnInit {
     
     ngOnInit() {
       
-      this.selectedVenue = this.rest.detail;
+      this.selectedEvent = this.rest.detail;
      
       this.detailObj = this.rest.detail;
+      this.ticketTotal = this.detailObj.price_per_ticket * this.detailObj.number_of_ticket;
+      this.ticketTotal = this.convertInDecimal(this.ticketTotal)
       console.log("detaill----", this.detailObj);
     }
     
@@ -36,12 +42,78 @@ export class EventDetailPage implements OnInit {
       this.userdata = localStorage.getItem("userdata");
       console.log("userdata----", this.userdata);
       this.userID = JSON.parse(this.userdata).users_customers_id;
+
+      this.latitude = localStorage.getItem('lattitude');
+      this.longitude = localStorage.getItem('longitude');
       
       this.updatevVisitor();
+      this.getBusinessList();
+    }
+
+    getBusinessList(){
+      this.rest.presentLoader();
+      this.rest.getRequest('get_business_list').subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        console.log("Ress:", res);
+        if(res.status=='success'){
+          // this.businessList = res.data;
+          console.log("Organizer Data before: ",this.organizer);
+          for(let i=0; i<res.data.length; i++){
+            if(this.detailObj.user_business_id == res.data[i].users_business_id){
+              console.log("users_business_id: ",this.detailObj.users_business_id);
+              
+              console.log("Match found", res.data[i]);
+              
+              this.organizer = res.data[i];
+              this.rest.business_owner_name = this.organizer.first_name;            
+            }
+          }
+        }
+        console.log("Organizer Data: ",this.organizer);
+      },(err)=>{
+        this.rest.dismissLoader();
+        console.log("Errr: ",err);
+        
+      })
+    }
+
+    convertInDecimal(x:any) {
+      let decimalString =  Number.parseFloat(x).toFixed(2);
+      console.log("dec str: ", decimalString);
+      return Number.parseFloat(decimalString);
+    }
+
+    gotoOrganizerEvents(){
+      this.rest.orgEventsArr = [];
+      let data = {
+        users_business_id:this.detailObj.user_business_id,
+        users_customers_id:this.userID,
+        longitude:this.longitude,
+        lattitude:this.latitude,
+        page_number:"1"
+      }
+      console.log("Api dataa: ",data);
+      this.rest.presentLoader();
+      this.rest.sendRequest('get_business_events',data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        console.log("Org events REssssss: ",res);
+        
+        this.rest.orgEventsArr = res.data;
+        this.router.navigate(['/organizer-events']);
+        
+      },(err)=>{
+        this.rest.dismissLoader();
+        console.log("errrr: ",err);
+        
+      })
     }
 
     goBack() {
       this.location.back();
+    }
+
+    getTime(val:any){
+      return val.substring(0,5);
     }
 
     goToProfile() {
@@ -50,12 +122,12 @@ export class EventDetailPage implements OnInit {
 
     public goLocation() {
       // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-      var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
+      var geocoords = this.detailObj.events.lattitude + "," + this.detailObj.events.longitude;
   
       if (this.platform.is("ios")) {
         window.open("maps://?q=" + geocoords, "_system");
       } else {
-        var label = encodeURI(this.detailObj.location); // encode the label!
+        var label = encodeURI(this.detailObj.events.location); // encode the label!
         window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
   
         // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
@@ -78,8 +150,8 @@ export class EventDetailPage implements OnInit {
     // }
   
     goWeb() {
-      console.log("dragggggg", this.detailObj.website);
-      const browser = this.iab.create(this.detailObj.website);
+      console.log("dragggggg", this.detailObj.events.website);
+      const browser = this.iab.create(this.detailObj.events.website);
     }
   
     goCall() {
@@ -96,17 +168,17 @@ export class EventDetailPage implements OnInit {
     likeevent() {
       console.log("likeevent", this.detailObj);
   
-      if (this.detailObj.likes == 0) {
-        this.detailObj.likes = 1;
-        this.likeDislikeUSerEvents(this.detailObj.events_id);
+      if (this.detailObj.events.likes == 0) {
+        this.detailObj.events.likes = 1;
+        this.likeDislikeUSerEvents(this.detailObj.events.events_id);
       }
     }
     likeoutevent() {
       console.log("likeoutevent", this.detailObj);
   
-      if (this.detailObj.likes == 1) {
-        this.detailObj.likes = 0;
-        this.likeDislikeUSerEvents(this.detailObj.events_id);
+      if (this.detailObj.events.likes == 1) {
+        this.detailObj.events.likes = 0;
+        this.likeDislikeUSerEvents(this.detailObj.events.events_id);
       }
     }
   
@@ -143,15 +215,33 @@ export class EventDetailPage implements OnInit {
     }
   
     viewTicket() {
+      this.rest.comfrom = 'event-detail';
+      this.rest.billDetails.ticket_requested = this.detailObj.number_of_ticket;
+      this.rest.ticketToken = this.detailObj.random_strings;
+      this.rest.billDetails.event_name = this.detailObj.events.name
+      this.rest.billDetails.venue_name = this.detailObj.events.venue_name
+      this.rest.billDetails.event_date = this.detailObj.events.event_date
+      this.rest.billDetails.event_start_time = this.detailObj.events.event_start_time
+      this.rest.billDetails.event_end_time = this.detailObj.events.event_end_time
+      this.rest.billDetails.package_type = this.detailObj.package_type
+      this.rest.billDetails.package_name = this.detailObj.package_name
+      this.rest.billDetails.package_price = this.detailObj.package_price
+      this.rest.billDetails.price_per_ticket = this.detailObj.price_per_ticket
+      // this.rest.billDetails.ticket_requested = this.detailObj.number_of_ticket
+      this.rest.billDetails.total_bill =  this.detailObj.total_amount
+      this.rest.billDetails.location =  this.detailObj.events.location
+      this.rest.bookingStatus =  this.detailObj.status
+      this.rest.transactionStatus = this.detailObj.transiction_status
+      
       console.log("buy");
-      this.router.navigate(['booking1event'])
+      this.router.navigate(['ticket'])
     }
 
     goToChat() {
-      this.router.navigate(["chat"]);
+      // this.router.navigate(["chat"]);
     }
 
-    gotoOrganizerEvents(){
-      this.router.navigate(['/organizer-events']);
-    }
+    // gotoOrganizerEvents(){
+    //   this.router.navigate(['/organizer-events']);
+    // }
 }

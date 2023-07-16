@@ -199,6 +199,7 @@ export class ProfilePage implements OnInit {
   }
 
   gotoReservation(){
+    this.rest.comfrom = 'profile'
     this.router.navigate(['myreservations'])
   }
 }

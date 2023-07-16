@@ -3,19 +3,19 @@ import { Location } from '@angular/common';
 import { ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RestService } from '../rest.service';
-import {
-  GoogleMap,
-  MapInfoWindow,
-  MapGeocoder,
-  MapGeocoderResponse,
-  MapMarker,
-} from "@angular/google-maps";
-import  { Screenshot } from 'capacitor-screenshot';
+// import {
+//   GoogleMap,
+//   MapInfoWindow,
+//   MapGeocoder,
+//   MapGeocoderResponse,
+//   MapMarker,
+// } from "@angular/google-maps";
+// import  { Screenshot } from 'capacitor-screenshot';
 // import { HttpClient } from '@angular/common/http';
 // import { Component, OnInit } from '@angular/core';
 // import { FormBuilder, FormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+// import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
@@ -45,7 +45,7 @@ export class TicketPage implements OnInit {
   userName: any;
   userId:any;
   @ViewChild("myGoogleMap", { static: false })
-  map!: GoogleMap;
+  // map!: GoogleMap;
   zoom = 13;
   maxZoom = 15;
   tickets:any;
@@ -157,13 +157,13 @@ export class TicketPage implements OnInit {
     ) { }
 
   async ngOnInit() {
-    if(this.rest.billDetails?.lattitude){
-      let lat = parseFloat(this.rest.billDetails.lattitude)
-      let lng = parseFloat(this.rest.billDetails.longitude)
-      this.center = {
-        lat: lat,
-        lng: lng,
-      };
+    // if(this.rest.billDetails?.lattitude){
+      // let lat = parseFloat(this.rest.billDetails.lattitude)
+      // let lng = parseFloat(this.rest.billDetails.longitude)
+      // this.center = {
+      //   lat: lat,
+      //   lng: lng,
+      // };
       this.noOfTickets = this.rest.billDetails.ticket_requested;
       console.log("Number Of Tickets: ",this.noOfTickets);
       console.log("ticketTokens: ",this.rest.ticketToken);
@@ -186,9 +186,11 @@ export class TicketPage implements OnInit {
       setTimeout(() => {
         this.getTicketImages();
       }, 2000);
-      
-      this.sendTicketsAtBackend();
-    }
+      if(this.rest.comfrom == 'paymentmethod'){
+
+        this.sendTicketsAtBackend();
+      }
+    // }
   }
 
   ionViewWillEnter() {
@@ -455,7 +457,12 @@ export class TicketPage implements OnInit {
   }
 
   goBack(){
-    this.location.back();
+  if(this.rest.comfrom == 'paymentmethod'){
+      this.router.navigate(['/home']);
+      this.rest.comfrom = '';
+    }else{
+      this.location.back();
+    }
   }
 
   dismissModal(isOpen: boolean){
