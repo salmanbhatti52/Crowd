@@ -157,6 +157,8 @@ export class TicketPage implements OnInit {
     ) { }
 
   async ngOnInit() {
+    console.log("ngOnInitFired");
+    this.rest.presentLoader("Fetching Data Please wait..");
     // if(this.rest.billDetails?.lattitude){
       // let lat = parseFloat(this.rest.billDetails.lattitude)
       // let lng = parseFloat(this.rest.billDetails.longitude)
@@ -187,13 +189,15 @@ export class TicketPage implements OnInit {
         this.getTicketImages();
       }, 2000);
       if(this.rest.comfrom == 'paymentmethod'){
-
+        
         this.sendTicketsAtBackend();
       }
+      
     // }
   }
 
   ionViewWillEnter() {
+    
     if(this.rest.billDetails?.event_name){
       // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus
       this.myAngularxQrCode = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_$${this.rest.billDetails.package_price}_$${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_$5_$${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}`;
@@ -204,7 +208,7 @@ export class TicketPage implements OnInit {
     this.userdata = localStorage.getItem('userdata');
     this.userName = JSON.parse(this.userdata).username;
     this.userId = JSON.parse(this.userdata).users_customers_id;
-
+ 
   }
 
   loadLocalAssetToBase64(){
@@ -350,6 +354,7 @@ export class TicketPage implements OnInit {
         html2canvas(element1).then((canvas:HTMLCanvasElement)=>{
           this.data2 = canvas.toDataURL();
           console.log("data2: ",this.data2);
+          this.rest.dismissLoader();
 
         });
       }
@@ -457,10 +462,17 @@ export class TicketPage implements OnInit {
   }
 
   goBack(){
-  if(this.rest.comfrom == 'paymentmethod'){
+    console.log(this.rest.comfrom);
+    this.rest.presentLoaderWd();
+    if(this.rest.comfrom == 'paymentmethod'){
+      // this.rest.dismissLoader();
+      console.log(this.rest.comfrom);
+      
       this.router.navigate(['/home']);
       this.rest.comfrom = '';
     }else{
+      // this.rest.dismissLoader();
+      console.log(this.rest.comfrom);
       this.location.back();
     }
   }

@@ -86,6 +86,7 @@ export class PaymentmethodPage implements OnInit {
     // let amount = String(this.rest.billDetails.total_bill * 100)
     console.log("Amount before multiply by 100: ", this.rest.billDetails.total_bill);
     let amount = this.rest.billDetails.total_bill * 100
+    amount = this.convertInDecimal(amount);
     console.log("Amount after multiply by 100: ", amount);
     
     let data = {
@@ -94,6 +95,8 @@ export class PaymentmethodPage implements OnInit {
       amount:amount,
       currency:"USD"
     }
+    console.log("payload for payment sheet api: ",data);
+    
     this.rest.sendRequest('payment_sheet',data).subscribe((res:any)=>{
       console.log("Ress: ",res);
       this.customerId = res.customer;
@@ -104,6 +107,12 @@ export class PaymentmethodPage implements OnInit {
       console.log("paymentIntent: ",this.paymentIntent);
       
     })
+  }
+
+  convertInDecimal(x:any) {
+    let decimalString =  Number.parseFloat(x).toFixed(2);
+    console.log("dec str: ", decimalString);
+    return Number.parseFloat(decimalString);
   }
 
   payCash(paymentType:any){
