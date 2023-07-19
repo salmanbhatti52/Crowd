@@ -14,7 +14,7 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 export class Booking2eventPage implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
-  selectedVenue: any = "";
+  selectedEvent: any = "";
   p4p1 = false;
   p4p2 = false;
   p6p1 = false;
@@ -24,6 +24,7 @@ export class Booking2eventPage implements OnInit {
   packageName = '';
   totalTickets = 0;
   pricePerTicket = 0;
+  prePayPercentage= 0;
   ticketRequested!: number | null;
   totalBill = 0;
   availableTickets = 0;
@@ -37,12 +38,12 @@ export class Booking2eventPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    this.selectedVenue = this.rest.detail;
-    this.totalTickets = this.selectedVenue.no_of_tickets;
-    console.log("detaill----", this.selectedVenue);
-    this.pricePerTicket = this.convertInDecimal(this.selectedVenue.price_per_ticket);
+    this.selectedEvent = this.rest.detail;
+    this.totalTickets = this.selectedEvent.no_of_tickets;
+    console.log("detaill----", this.selectedEvent);
+    this.pricePerTicket = this.convertInDecimal(this.selectedEvent.price_per_ticket);
     console.log("price_per_ticket",this.pricePerTicket);
-    this.availableTickets = this.selectedVenue.no_of_tickets - this.selectedVenue.booked_tickets; 
+    this.availableTickets = this.selectedEvent.no_of_tickets - this.selectedEvent.booked_tickets; 
     console.log("Available Tickets: ",this.availableTickets);
     
   }
@@ -164,18 +165,18 @@ export class Booking2eventPage implements OnInit {
   openBrowserLink() {
     console.log("opennnnn");
 
-    this.iab.create(this.selectedVenue.website, "_blank");
+    this.iab.create(this.selectedEvent.website, "_blank");
   }
 
   public goLocation() {
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
     var geocoords =
-      this.selectedVenue.lattitude + "," + this.selectedVenue.longitude;
+      this.selectedEvent.lattitude + "," + this.selectedEvent.longitude;
 
     if (this.platform.is("ios")) {
       window.open("maps://?q=" + geocoords, "_system");
     } else {
-      var label = encodeURI(this.selectedVenue.location); // encode the label!
+      var label = encodeURI(this.selectedEvent.location); // encode the label!
       window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
 
       // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
@@ -203,16 +204,16 @@ export class Booking2eventPage implements OnInit {
           package_name: this.packageName,
           package_price: this.packagePrice,
           total_bill: this.totalBill,
-          event_id: this.selectedVenue.events_id,
-          user_business_id: this.selectedVenue.users_business_id,
-          event_name: this.selectedVenue.name,
-          event_date: this.selectedVenue.event_date,
-          event_start_time: this.selectedVenue.event_start_time,
-          event_end_time: this.selectedVenue.event_end_time,
-          lattitude: this.selectedVenue.lattitude,
-          longitude: this.selectedVenue.longitude,
-          location: this.selectedVenue.location,
-          venue_name: this.selectedVenue.venue_name
+          event_id: this.selectedEvent.events_id,
+          user_business_id: this.selectedEvent.users_business_id,
+          event_name: this.selectedEvent.name,
+          event_date: this.selectedEvent.event_date,
+          event_start_time: this.selectedEvent.event_start_time,
+          event_end_time: this.selectedEvent.event_end_time,
+          lattitude: this.selectedEvent.lattitude,
+          longitude: this.selectedEvent.longitude,
+          location: this.selectedEvent.location,
+          venue_name: this.selectedEvent.venue_name
         }
         console.log("Bill Details",data);
         this.rest.billDetails = data;

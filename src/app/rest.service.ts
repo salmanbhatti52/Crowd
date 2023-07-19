@@ -32,6 +32,7 @@ export class RestService {
   barcodeResult: any;
   bookingStatus: any;
   transactionStatus: any;
+  ticketTokens: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
@@ -191,6 +192,16 @@ export class RestService {
       "Content-Type": "application/json",
     });
     return this.http.post(this.baseURL + "user_chat", data, {
+      headers: header,
+    });
+  }
+
+  event_chat(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "users_chat", data, {
       headers: header,
     });
   }

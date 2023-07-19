@@ -10,7 +10,7 @@
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans"
-          >{{selectedVenue.name}}</ion-label
+          >{{selectedEvent.name}}</ion-label
         >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
@@ -29,13 +29,13 @@
             border-radius: 16px;
             margin-right: 10px;
           "
-          src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+          src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}"
         />
   
         <div>
           
           <div class="venue_label">
-            {{selectedVenue.venue_name}}
+            {{selectedEvent.venue_name}}
           </div>
   
           <div
@@ -48,18 +48,18 @@
           >
             <img class="imm" src="assets/imgs/pinwhite.svg" />
             <p class="date work_sans">
-              {{selectedVenue.distance | number : '1.2-2'}} Miles
+              {{selectedEvent.distance | number : '1.2-2'}} Miles
             </p>
           </div>
   
           <div style="display: flex; align-items: center; margin-bottom: 13px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{selectedVenue.event_date }}</p>
+            <p class="date work_sans">{{selectedEvent.event_date }}</p>
           </div>
   
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
+            <p class="date work_sans">{{getTime(selectedEvent.event_start_time)}} - {{getTime(selectedEvent.event_end_time)}}</p>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         style="display: flex; justify-content: space-between; align-items: center"
       >
         <p style="margin: 0px" class="dd work_sans">Standard Ticket </p>
-        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.price_per_ticket}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedEvent.price_per_ticket}}</p>
         <ion-input class="ddi work_sans" placeholder="0" type="number" (ionChange)="getTicketCount($event)" [(ngModel)]="ticketRequested"></ion-input>
       </div>
   <!-- 
@@ -115,7 +115,7 @@
         "
       >
         <div style="display: flex; align-items: center">
-          <img (click)="selectPackage('p4p1',selectedVenue.drinking_pakage1p4)"
+          <img (click)="selectPackage('p4p1',selectedEvent.drinking_pakage1p4)"
             style="width: 18px; height: 18px; margin-right: 10px"
             src="assets/imgs/uncheck.svg" *ngIf="p4p1 != true"
           />
@@ -126,7 +126,7 @@
   
           <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
         </div>
-        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p4}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedEvent.drinking_pakage1p4}}</p>
       </div>
   
       <div
@@ -138,7 +138,7 @@
         "
       >
         <div style="display: flex; align-items: center">
-          <img (click)="selectPackage('p4p2',selectedVenue.drinking_pakage2p4)"
+          <img (click)="selectPackage('p4p2',selectedEvent.drinking_pakage2p4)"
             style="width: 18px; height: 18px; margin-right: 10px"
             src="assets/imgs/uncheck.svg" *ngIf="p4p2 != true"
           />
@@ -149,7 +149,7 @@
   
           <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
         </div>
-        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p4}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedEvent.drinking_pakage2p4}}</p>
       </div>
   
       <p style="margin-top: 20px; margin-bottom: 20px" class="title2 work_sans">
@@ -165,7 +165,7 @@
         "
       >
         <div style="display: flex; align-items: center">
-          <img (click)="selectPackage('p6p1',selectedVenue.drinking_pakage1p6)"
+          <img (click)="selectPackage('p6p1',selectedEvent.drinking_pakage1p6)"
             style="width: 18px; height: 18px; margin-right: 10px"
             src="assets/imgs/uncheck.svg" *ngIf="p6p1 != true"
           />
@@ -176,7 +176,7 @@
   
           <p style="margin: 0px" class="dd work_sans">Drinking Package 1</p>
         </div>
-        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage1p6}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedEvent.drinking_pakage1p6}}</p>
       </div>
   
       <div
@@ -188,7 +188,7 @@
         "
       >
         <div style="display: flex; align-items: center">
-          <img (click)="selectPackage('p6p2',selectedVenue.drinking_pakage2p6)"
+          <img (click)="selectPackage('p6p2',selectedEvent.drinking_pakage2p6)"
             style="width: 18px; height: 18px; margin-right: 10px"
             src="assets/imgs/uncheck.svg" *ngIf="p6p2 != true"
           />
@@ -199,7 +199,7 @@
   
           <p style="margin: 0px" class="dd work_sans">Drinking Package 2</p>
         </div>
-        <p style="margin: 0px" class="dd work_sans">£{{selectedVenue.drinking_pakage2p6}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{selectedEvent.drinking_pakage2p6}}</p>
       </div>
   
       

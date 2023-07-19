@@ -13,7 +13,9 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 export class Booking3eventPage implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
-  selectedVenue: any = "";
+  selectedEvent: any = "";
+  prePayPercentage: any;
+  prePayAmount = 0;
   constructor(
     public location: Location,
     public router: Router,
@@ -24,8 +26,18 @@ export class Booking3eventPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    this.selectedVenue = this.rest.detail;
+    this.selectedEvent = this.rest.detail;
+    this.prePayPercentage = this.selectedEvent.booking_percentage
     this.rest.billDetails.total_bill = this.rest.billDetails.total_bill + 5;
+    this.prePayAmount = this.rest.billDetails.total_bill/100 * this.prePayPercentage;
+    console.log("pre_pay_amount", this.prePayAmount);
+
+    let prePayAmountInString = this.prePayAmount.toString();
+    prePayAmountInString = Number.parseFloat(prePayAmountInString).toFixed(2);
+    
+    this.rest.billDetails.pre_pay_amount = prePayAmountInString;
+    this.rest.billDetails.remaining_amount = this.rest.billDetails.total_bill - this.prePayAmount;
+
   }
 
   ngOnInit() {}
@@ -59,18 +71,18 @@ export class Booking3eventPage implements OnInit {
   openBrowserLink() {
     console.log("opennnnn");
 
-    this.iab.create(this.selectedVenue.website, "_blank");
+    this.iab.create(this.selectedEvent.website, "_blank");
   }
 
   public goLocation() {
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
     var geocoords =
-      this.selectedVenue.lattitude + "," + this.selectedVenue.longitude;
+      this.selectedEvent.lattitude + "," + this.selectedEvent.longitude;
 
     if (this.platform.is("ios")) {
       window.open("maps://?q=" + geocoords, "_system");
     } else {
-      var label = encodeURI(this.selectedVenue.location); // encode the label!
+      var label = encodeURI(this.selectedEvent.location); // encode the label!
       window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
 
       // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)

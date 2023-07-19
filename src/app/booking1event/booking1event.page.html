@@ -10,7 +10,7 @@
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans"
-          >{{selectedVenue.name}}</ion-label
+          >{{selectedEvent.name}}</ion-label
         >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
@@ -28,13 +28,13 @@
           border-radius: 16px;
           margin-right: 10px;
         "
-        src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+        src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}"
       />
 
       <div>
 
         <div class="venue_label">
-          {{selectedVenue.venue_name}}
+          {{selectedEvent.venue_name}}
         </div>
 
         <div
@@ -47,18 +47,18 @@
         >
           <img class="imm" src="assets/imgs/pinwhite.svg" />
           <p class="date work_sans">
-            {{selectedVenue.distance | number : '1.2-2'}} Miles
+            {{selectedEvent.distance | number : '1.2-2'}} Miles
           </p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 13px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{selectedVenue.event_date }}</p>
+          <p class="date work_sans">{{selectedEvent.event_date }}</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
+          <p class="date work_sans">{{getTime(selectedEvent.event_start_time)}} - {{getTime(selectedEvent.event_end_time)}}</p>
         </div>
       </div>
     </div>
@@ -122,11 +122,11 @@
     </div>
 
     <p style="margin-top: 20px" class="title2 work_sans">Description</p>
-    <p class="desc2 work_sans">{{selectedVenue.description}}</p>
+    <p class="desc2 work_sans">{{selectedEvent.description}}</p>
 
     <p class="title2 work_sans">Refund Policy</p>
     <p class="desc2 work_sans">
-      {{selectedVenue.refund_policy}}
+      {{selectedEvent.refund_policy}}
     </p>
 
     <ion-button *ngIf="!allTicketsSold"

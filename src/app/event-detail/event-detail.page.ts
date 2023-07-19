@@ -238,7 +238,22 @@ export class EventDetailPage implements OnInit {
     }
 
     goToChat() {
-      // this.router.navigate(["chat"]);
+      var ss = {
+        requestType: "startChat",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.events.users_business_id,
+        events_id: this.detailObj.events.events_id,
+      };
+      console.log("payload start event ChatPage", ss);
+      
+  
+      this.rest.sendRequest('users_chat',ss).subscribe((res: any) => {
+        console.log(res);
+        if (res.status == "success"){
+          this.rest.comingFrom = 'event-detail'
+          this.router.navigate(["chat"]);
+        } 
+      });
     }
 
     // gotoOrganizerEvents(){

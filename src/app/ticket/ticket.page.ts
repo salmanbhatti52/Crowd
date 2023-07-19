@@ -36,7 +36,7 @@ export class TicketPage implements OnInit {
   noOfTickets=0;
   ticketId = 'ticket';
   data1 = ''
-  data2 = ''
+  data2:any =[];
   takingScreenshot=false;
   pdfObj:any;
   photoPreview:any;
@@ -50,6 +50,7 @@ export class TicketPage implements OnInit {
   maxZoom = 15;
   tickets:any;
   minZoom = 8;
+  interval:any;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     zoomControl: true,
@@ -158,7 +159,6 @@ export class TicketPage implements OnInit {
 
   async ngOnInit() {
     console.log("ngOnInitFired");
-    this.rest.presentLoader("Fetching Data Please wait..");
     // if(this.rest.billDetails?.lattitude){
       // let lat = parseFloat(this.rest.billDetails.lattitude)
       // let lng = parseFloat(this.rest.billDetails.longitude)
@@ -168,59 +168,92 @@ export class TicketPage implements OnInit {
       // };
       this.noOfTickets = this.rest.billDetails.ticket_requested;
       console.log("Number Of Tickets: ",this.noOfTickets);
-      console.log("ticketTokens: ",this.rest.ticketToken);
-      const input = this.rest.ticketToken;
-      const regex = /"([^"]*)"/g;
-      const matches = [];
+      // console.log("ticketTokens: ",this.rest.ticketToken);
+      // const input = this.rest.ticketToken;
+      // const regex = /"([^"]*)"/g;
+      // const matches = [];
       
-      let match;
-      while ((match = regex.exec(input))) {
-        matches.push(match[1]);
-      }
+      // let match;
+      // while ((match = regex.exec(input))) {
+      //   matches.push(match[1]);
+      // }
       
-      console.log(matches);
-      this.tickets = matches
-      console.log("this.tickets: ",this.tickets);
+      // console.log(matches);
       
-      console.log("calling localAssetBase64");
-      this.loadLocalAssetToBase64();
+      
+      // console.log("calling localAssetBase64");
+      // this.loadLocalAssetToBase64();
 
-      setTimeout(() => {
-        this.getTicketImages();
-      }, 2000);
-      if(this.rest.comfrom == 'paymentmethod'){
-        
-        this.sendTicketsAtBackend();
-      }
+      
       
     // }
   }
 
   ionViewWillEnter() {
-    
-    if(this.rest.billDetails?.event_name){
-      // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus
-      this.myAngularxQrCode = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_$${this.rest.billDetails.package_price}_$${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_$5_$${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}`;
-    }
+    this.tickets = this.rest.ticketTokens;
 
-    console.log("qrCodeDAta: ", this.myAngularxQrCode);
+    // if(this.tickets.length > 1){
+
+    //   this.rest.presentLoader("Generating Tickets..");
+    // }else{
+
+    //   this.rest.presentLoader("Generating Ticket..");
+    // }
+
+      for (let index = 0; index < this.tickets.length; index++) {
+        if(this.rest.billDetails?.event_name){
+          // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus, random_string
+          this.tickets[index].my_qr_code = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_£${this.rest.billDetails.package_price}_£${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_£5_£${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}_${this.tickets[index].random_string}`;
+        }
+        
+      }
+      console.log("this.tickets: ",this.tickets);
+
+      setTimeout(() => {
+        this.getTicketImages();
+      }, 2000);
+
+       
+      
+    
+
+    // console.log("qrCodeDAta: ", this.myAngularxQrCode);
     
     this.userdata = localStorage.getItem('userdata');
     this.userName = JSON.parse(this.userdata).username;
     this.userId = JSON.parse(this.userdata).users_customers_id;
- 
+    // this.rest.dismissLoader();
+
+    this.interval = setInterval(()=>{
+      if(this.rest.comfrom == 'paymentmethod'){
+        console.log("Set Interval called");
+        
+        if(this.data2.length == this.tickets.length){
+
+          this.sendTicketsAtBackend();
+          this.removeInterval();
+
+        }
+      }
+    },3000)
   }
 
-  loadLocalAssetToBase64(){
-    this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
-    .subscribe(res => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.logoData = reader.result;
-      }
-      reader.readAsDataURL(res);
-    });
+  removeInterval() {
+    clearInterval(this.interval);
+    console.log("Tickets sent for backend");
+    
   }
+
+  // loadLocalAssetToBase64(){
+  //   this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
+  //   .subscribe(res => {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       this.logoData = reader.result;
+  //     }
+  //     reader.readAsDataURL(res);
+  //   });
+  // }
 
   onSlideChange(ev:any){
     // console.log("Swiper EVVV",ev);
@@ -233,8 +266,8 @@ export class TicketPage implements OnInit {
     // }
   }
 
-  generatePDF(){
-    this.rest.presentLoader('Creating PDF Please wait..');
+  generatePDF(){ 
+    this.rest.presentLoader('Creating PDF..');
     
     setTimeout(() => {
       console.log("generatepddfCalled");
@@ -250,13 +283,13 @@ export class TicketPage implements OnInit {
             image: this.data1,
             width: 500
           },{ 
-            text: this.tickets[i],
+            text: this.tickets[i].random_string,
             alignment: 'center',
             style: 'header',
           },
   
           {
-            image: this.data2,
+            image: this.data2[i],
             width: 500,
             pageBreak: 'after'
           },)
@@ -269,13 +302,13 @@ export class TicketPage implements OnInit {
             image: this.data1,
             width: 500
           },{ 
-            text: this.tickets[i],
+            text: this.tickets[i].random_string,
             alignment: 'center',
             style: 'header',
           },
   
           {
-            image: this.data2,
+            image: this.data2[i],
             width: 500,
           },)
         }
@@ -339,6 +372,13 @@ export class TicketPage implements OnInit {
   }
 
   getTicketImages(){
+    if(this.tickets.length > 1){
+
+        this.rest.presentLoader("Generating Tickets..");
+    }else{
+
+      this.rest.presentLoader("Generating Ticket..");
+    }
     const element: HTMLElement | null = document.getElementById('ticket-p-a');
     if(element !== null){
       html2canvas(element).then((canvas:HTMLCanvasElement)=>{
@@ -349,24 +389,42 @@ export class TicketPage implements OnInit {
     }
 
     setTimeout(() => {
-      const element1: HTMLElement | null = document.getElementById('ticket-p-b');
-      if(element1 !== null){
-        html2canvas(element1).then((canvas:HTMLCanvasElement)=>{
-          this.data2 = canvas.toDataURL();
-          console.log("data2: ",this.data2);
-          this.rest.dismissLoader();
-
+      const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
+      const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
+      let base64;
+      // Now you can access individual elements in the array
+      for (const element of elementArray) {
+        // Perform operations on each element
+        html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+          base64 = undefined;
+          base64 = canvas.toDataURL();
+          console.log("data2: ",base64);
+          this.data2.push(base64)
+          
         });
+        console.log(element);
       }
-    }, 2000);
+      
+      this.rest.dismissLoader();
+      
+      
+    }, 6000);
+
+    
+
+   
   }
+
+
 
   sendTicketsAtBackend(){
     console.log("generatepddfForBackend");
     let tickets = this.tickets
     let pdfObj:any;
+
+
     
-    setTimeout(() => {
+    // setTimeout(() => {
       let content: any[] = [];
       let lastIndex = tickets.length -1; 
       for(let i=0; i<tickets.length; i++){
@@ -379,13 +437,13 @@ export class TicketPage implements OnInit {
             image: this.data1,
             width: 500
           },{ 
-            text: tickets[i],
+            text: tickets[i].random_string,
             alignment: 'center',
             style: 'header',
           },
   
           {
-            image: this.data2,
+            image: this.data2[i],
             width: 500,
             pageBreak: 'after'
           },)
@@ -398,13 +456,13 @@ export class TicketPage implements OnInit {
             image: this.data1,
             width: 500
           },{ 
-            text: tickets[i],
+            text: tickets[i].random_string,
             alignment: 'center',
             style: 'header',
           },
   
           {
-            image: this.data2,
+            image: this.data2[i],
             width: 500,
           },)
         }
@@ -446,7 +504,7 @@ export class TicketPage implements OnInit {
     
         })
       }
-    }, 7000);
+    // }, 8000);
     
   }
 

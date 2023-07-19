@@ -107,7 +107,8 @@ const routes: Routes = [
   {
     path: 'pininfo',
     loadChildren: () => import('./pininfo/pininfo.module').then( m => m.PininfoPageModule)
-  },  {
+  },
+  {
     path: 'select-venue-popup',
     loadChildren: () => import('./select-venue-popup/select-venue-popup.module').then( m => m.SelectVenuePopupPageModule)
   },
@@ -227,6 +228,11 @@ const routes: Routes = [
     path: 'test-nearby-search',
     loadChildren: () => import('./test-nearby-search/test-nearby-search.module').then( m => m.TestNearbySearchPageModule)
   },
+  {
+    path: 'eventchat',
+    loadChildren: () => import('./eventchat/eventchat.module').then( m => m.EventchatPageModule)
+  },
+ 
 
 ];
 

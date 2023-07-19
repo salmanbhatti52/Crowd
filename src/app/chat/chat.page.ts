@@ -40,7 +40,7 @@ export class ChatPage implements OnInit {
 
   uu: any = "";
   user: any = "";
-  selectedVenue: any = "";
+  detailObj: any = "";
 
   userdata: any = "";
   userID: any = "";
@@ -89,7 +89,7 @@ export class ChatPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.selectedVenue = this.restService.detail;
+    this.detailObj = this.restService.detail;
 
     // Get all  messages....
     this.getMessages(this.userID);
@@ -112,7 +112,7 @@ export class ChatPage implements OnInit {
     var data = JSON.stringify({
       requestType: "updateMessages",
       users_customers_id: this.userID,
-      other_users_customers_id: this.selectedVenue.users_business_id,
+      other_users_customers_id: this.detailObj.users_business_id,
     });
     console.log("datttttttaaaaaaaaaaaa-----", data);
     this.restService.user_chat(data).subscribe(
@@ -150,121 +150,188 @@ export class ChatPage implements OnInit {
   getMessages(senderUserID: any) {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
-
-    var data = JSON.stringify({
-      requestType: "getMessages",
-      users_customers_id: this.userID,
-      other_users_customers_id: this.selectedVenue.users_business_id,
-      venues_id: this.selectedVenue.venues_id
-    });
-
-    console.log("getAll Msg data-------", data);
-
-    this.restService.user_chat(data).subscribe(
-      async (res: any) => {
-        this.showSkeleton = false;
-        console.log("response", res);
-
-        if (res.status == "success") {
-          this.allMessages = res.data;
-          this.scrollDown();
-          this.previousMsgsCount = res.data.length
-          console.log("receving All chats messages", this.allMessages);
-          // this.allMessages.map((messages, index) => {
-          //   if (messages.msgType == "attachment") {
-          //     this.chatImagesArray.push({
-          //       image: messages.message,
-          //     });
-          //   }
-          // });
-          console.log("allMsg array ", this.chatImagesArray);
-
-          this.noChatlistFlag = false;
-        } else {
-          this.noChatlistFlag = true;
+    if(this.restService.comingFrom = 'event-detail'){ 
+      var data = JSON.stringify({
+        requestType: "getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.events.users_business_id,
+        events_id: this.detailObj.events.events_id
+      });
+      console.log("payload get event msgs", data);
+      this.restService.event_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            this.allMessages = res.data;
+            this.scrollDown();
+            this.previousMsgsCount = res.data.length
+            console.log("receving All chats messages", this.allMessages);
+            // this.allMessages.map((messages, index) => {
+            //   if (messages.msgType == "attachment") {
+            //     this.chatImagesArray.push({
+            //       image: messages.message,
+            //     });
+            //   }
+            // });
+            console.log("allMsg array ", this.chatImagesArray);
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
+          }
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
         }
-      },
-      (err) => {
-        this.restService.dismissLoader();
-        this.restService.presentToast("Network error occured");
-      }
-    );
+      );
+    }else{
+      var data = JSON.stringify({
+        requestType: "getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.users_business_id,
+        venues_id: this.detailObj.venues_id
+      });
+      console.log("payload get venue msgs-------", data);
+
+      this.restService.user_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            this.allMessages = res.data;
+            this.scrollDown();
+            this.previousMsgsCount = res.data.length
+            console.log("receving All chats messages", this.allMessages);
+            // this.allMessages.map((messages, index) => {
+            //   if (messages.msgType == "attachment") {
+            //     this.chatImagesArray.push({
+            //       image: messages.message,
+            //     });
+            //   }
+            // });
+            console.log("allMsg array ", this.chatImagesArray);
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
+          }
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
+    
+
+
+   
   }
   getMessagesAgain(senderUserID: any) {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
-
-    var data = JSON.stringify({
-      requestType: "getMessages",
-      users_customers_id: this.userID,
-      other_users_customers_id: this.selectedVenue.users_business_id,
-      venues_id: this.selectedVenue.venues_id
-    });
-
-    console.log("getAll Msg data-------", data);
-
-    this.restService.user_chat(data).subscribe(
-      async (res: any) => {
-        this.showSkeleton = false;
-        console.log("response", res);
-
-        if (res.status == "success") {
-          this.allMessages = res.data;
-          this.NewMsgsCount = res.data.length;
-          if(this.previousMsgsCount < this.NewMsgsCount){
-            this.previousMsgsCount = this.NewMsgsCount;
-            console.log("receving All chats messages", this.allMessages);
-            console.log("allMsg array ", this.chatImagesArray);
-            this.scrollDown();
+    if(this.restService.comingFrom = 'event-detail'){ 
+      var data = JSON.stringify({
+        requestType: "getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.events.users_business_id,
+        events_id: this.detailObj.events.events_id
+      });
+  
+      console.log("getAll Msg data again payload-------", data);
+  
+      this.restService.event_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            this.allMessages = res.data;
+            this.NewMsgsCount = res.data.length;
+            if(this.previousMsgsCount < this.NewMsgsCount){
+              this.previousMsgsCount = this.NewMsgsCount;
+              console.log("receving All chats messages", this.allMessages);
+              console.log("allMsg array ", this.chatImagesArray);
+              this.scrollDown();
+            }
+            
+            // this.allMessages.map((messages, index) => {
+            //   if (messages.msgType == "attachment") {
+            //     this.chatImagesArray.push({
+            //       image: messages.message,
+            //     });
+            //   }
+            // });
+            
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
           }
-          
-          // this.allMessages.map((messages, index) => {
-          //   if (messages.msgType == "attachment") {
-          //     this.chatImagesArray.push({
-          //       image: messages.message,
-          //     });
-          //   }
-          // });
-          
-
-          this.noChatlistFlag = false;
-        } else {
-          this.noChatlistFlag = true;
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
         }
-      },
-      (err) => {
-        this.restService.dismissLoader();
-        this.restService.presentToast("Network error occured");
-      }
-    );
+      );
+    }else{
+      var data = JSON.stringify({
+        requestType: "getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.users_business_id,
+        venues_id: this.detailObj.venues_id
+      });
+  
+      console.log("getAll Msg data-------", data);
+  
+      this.restService.user_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            this.allMessages = res.data;
+            this.NewMsgsCount = res.data.length;
+            if(this.previousMsgsCount < this.NewMsgsCount){
+              this.previousMsgsCount = this.NewMsgsCount;
+              console.log("receving All chats messages", this.allMessages);
+              console.log("allMsg array ", this.chatImagesArray);
+              this.scrollDown();
+            }
+            
+            // this.allMessages.map((messages, index) => {
+            //   if (messages.msgType == "attachment") {
+            //     this.chatImagesArray.push({
+            //       image: messages.message,
+            //     });
+            //   }
+            // });
+            
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
+          }
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
+    
   }
+
   back() {
     this.location.back();
     clearInterval(this.autoSaveInterval);
   }
   sendMsg() {
     console.log("remainong smssss---", this.remainingSMS);
-
-    // var time = new Date();
-    // this.currentTime = time.toLocaleString("en-US", {
-    //   hour: "numeric",
-    //   minute: "numeric",
-    //   hour12: true,
-    // });
-    // console.log(this.currentTime, "curent");
-    // if (this.user_input !== "") {
-      // this.allMessages.push({
-      //   userId: this.currentUser,
-      //   time: this.currentTime,
-      //   message: this.user_input,
-      //   msgType: "text",
-      //   date: "Now",
-      //   sender_type: 'Users',
-      //   users_data: JSON.parse(this.userdata),
-      // });
-      // this.previousMsgsCount = this.allMessages.length
-      // this.scrollDown();
-      // console.log("aaaaa-------", this.allMessages);
 
       let msgToSend = this.user_input;
       this.user_input = "";
@@ -273,39 +340,65 @@ export class ChatPage implements OnInit {
     // }
   }
   scrollDown() {
-    // this.content.scrollToBottom();
-    // this.content.scrollToBottom();
     setTimeout(() => {
       this.content.scrollToBottom();
     }, 100);
   }
+
   sendMessage(senderUserID: any, msg: any, type: any) {
     // this.remainingSMS = this.remainingSMS - 1
     // localStorage.setItem('remainingSMS', this.remainingSMS.toString())
+    if(this.restService.comingFrom = 'event-detail'){
+      var data = JSON.stringify({
+        requestType:"sendMessage",
+        events_id:this.detailObj.events.events_id,
+        sender_type:"Users",
+        messageType:"text",
+        users_customers_id:this.userID,
+        other_users_customers_id:this.detailObj.events.users_business_id,
+        content:msg
+      });
+      console.log("my msg in events", data);
+      this.restService.presentLoader();
+      this.restService.event_chat(data).subscribe(
+        async (res: any) => {
+          console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
+          this.getMessages(this.userID);
+          this.restService.dismissLoader();
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }else{
+      var data = JSON.stringify({
+        requestType: "sendMessage",
+        venues_id: this.detailObj.venues_id,
+        sender_type: "Users",
+        messageType: "1",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.detailObj.users_business_id,
+        content: msg,
+      });
+      console.log("my msg", data);
+      this.restService.presentLoader();
+      this.restService.user_chat(data).subscribe(
+        async (res: any) => {
+          console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
+          this.getMessages(this.userID);
+          this.restService.dismissLoader();
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
 
-    var data = JSON.stringify({
-      requestType: "sendMessage",
-      venues_id: this.selectedVenue.venues_id,
-      sender_type: "Users",
-      messageType: "1",
-      users_customers_id: this.userID,
-      other_users_customers_id: this.selectedVenue.users_business_id,
-      content: msg,
-    });
+    
 
-    console.log("my msg", data);
-    this.restService.presentLoader();
-    this.restService.user_chat(data).subscribe(
-      async (res: any) => {
-        console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
-        this.getMessages(this.userID);
-        this.restService.dismissLoader();
-      },
-      (err) => {
-        this.restService.dismissLoader();
-        this.restService.presentToast("Network error occured");
-      }
-    );
+    
   }
 
   handleImgError(ev: any, item: any, url: any) {

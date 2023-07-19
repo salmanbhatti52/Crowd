@@ -15,7 +15,7 @@ export class Booking1eventPage implements OnInit {
   userId:any;
   userdata: any = "";
   visitorArr: any = "";
-  selectedVenue: any = "";
+  selectedEvent: any = "";
   latitude: any;
   businessList:any;
   organizer:any = {
@@ -41,14 +41,14 @@ export class Booking1eventPage implements OnInit {
     this.latitude = localStorage.getItem('lattitude');
     this.longitude = localStorage.getItem('longitude');
     
-    this.selectedVenue = this.rest.detail;
-    console.log("detaill----", this.selectedVenue);
-    this.availableTickets = this.selectedVenue.no_of_tickets - this.selectedVenue.booked_tickets; 
+    this.selectedEvent = this.rest.detail;
+    console.log("detaill----", this.selectedEvent);
+    this.availableTickets = this.selectedEvent.no_of_tickets - this.selectedEvent.booked_tickets; 
     console.log("Available Tickets: ",this.availableTickets);
 
     let currentDate = new Date();
     console.log("currentDate: ",currentDate);
-    let eventDate = new Date(this.selectedVenue.event_date);
+    let eventDate = new Date(this.selectedEvent.event_date);
     console.log(" eventDate:  ",eventDate);
 
     this.getBusinessList();
@@ -72,7 +72,7 @@ export class Booking1eventPage implements OnInit {
         // this.businessList = res.data;
         console.log("Organizer Data before: ",this.organizer);
         for(let i=0; i<res.data.length; i++){
-          if(this.selectedVenue.users_business_id == res.data[i].users_business_id){
+          if(this.selectedEvent.users_business_id == res.data[i].users_business_id){
             this.organizer = res.data[i];
             this.rest.business_owner_name = this.organizer.first_name;            
           }
@@ -92,7 +92,7 @@ export class Booking1eventPage implements OnInit {
   gotoOrganizerEvents(){
     this.rest.orgEventsArr = [];
     let data = {
-      users_business_id:this.selectedVenue.users_business_id,
+      users_business_id:this.selectedEvent.users_business_id,
       users_customers_id:this.userId,
       longitude:this.longitude,
       lattitude:this.latitude,
@@ -147,18 +147,18 @@ export class Booking1eventPage implements OnInit {
   openBrowserLink() {
     console.log("opennnnn");
 
-    this.iab.create(this.selectedVenue.website, "_blank");
+    this.iab.create(this.selectedEvent.website, "_blank");
   }
 
   public goLocation() {
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
     var geocoords =
-      this.selectedVenue.lattitude + "," + this.selectedVenue.longitude;
+      this.selectedEvent.lattitude + "," + this.selectedEvent.longitude;
 
     if (this.platform.is("ios")) {
       window.open("maps://?q=" + geocoords, "_system");
     } else {
-      var label = encodeURI(this.selectedVenue.location); // encode the label!
+      var label = encodeURI(this.selectedEvent.location); // encode the label!
       window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
 
       // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)

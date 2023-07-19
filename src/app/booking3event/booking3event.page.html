@@ -10,7 +10,7 @@
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans"
-          >{{selectedVenue.name}}</ion-label
+          >{{selectedEvent.name}}</ion-label
         >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
@@ -29,13 +29,13 @@
             border-radius: 16px;
             margin-right: 10px;
           "
-          src="{{rest.baseURLimg}}{{selectedVenue.cover_images}}"
+          src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}"
         />
   
         <div>
   
           <div class="venue_label">
-            {{selectedVenue.venue_name}}
+            {{selectedEvent.venue_name}}
           </div>
   
           <div
@@ -48,18 +48,18 @@
           >
             <img class="imm" src="assets/imgs/pinwhite.svg" />
             <p class="date work_sans">
-              {{selectedVenue.distance | number : '1.2-2'}} Miles
+              {{selectedEvent.distance | number : '1.2-2'}} Miles
             </p>
           </div>
   
           <div style="display: flex; align-items: center; margin-bottom: 13px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{selectedVenue.event_date }}</p>
+            <p class="date work_sans">{{selectedEvent.event_date }}</p>
           </div>
   
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">{{getTime(selectedVenue.event_start_time)}} - {{getTime(selectedVenue.event_end_time)}}</p>
+            <p class="date work_sans">{{getTime(selectedEvent.event_start_time)}} - {{getTime(selectedEvent.event_end_time)}}</p>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
         "
       >
         <p style="margin: 0px" class="dd work_sans">Standard Ticket</p>
-        <p style="margin: 0px" class="dd work_sans">{{rest.billDetails.ticket_requested}}x£{{selectedVenue.price_per_ticket}}</p>
+        <p style="margin: 0px" class="dd work_sans">{{rest.billDetails.ticket_requested}}x£{{selectedEvent.price_per_ticket}}</p>
         <p style="margin: 0px" class="dd work_sans">£{{rest.billDetails.ticket_bill}}</p>
       </div>
   
@@ -153,7 +153,7 @@
       <hr style="border-bottom: 0.6px solid #f0f0f0; margin: 10px 0px" />
       <div style="display: flex; justify-content: space-between">
         <p style="margin: 0px" class="total work_sans">Pre-Pay</p>
-        <p style="margin: 0px" class="total work_sans">£100</p>
+        <p style="margin: 0px" class="total work_sans">£{{rest.billDetails.pre_pay_amount}}</p>
       </div>
     </div>
 

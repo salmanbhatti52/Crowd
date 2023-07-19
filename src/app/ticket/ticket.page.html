@@ -86,15 +86,15 @@
             </div>
           </div>
         </div>
-        <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{ticket}}</div>
+        <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{ticket.random_string}}</div>
         <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
         <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
-        <div id="ticket-p-b">
+        <div class="ticket-p-b">
           <hr >
           <div class="center" style="margin-top: 4px;">
     
             <qrcode 
-              [qrdata]="myAngularxQrCode" 
+              [qrdata]="ticket.my_qr_code" 
               [allowEmptyString]="true" 
               [width]="200" 
               [errorCorrectionLevel]="'M'">

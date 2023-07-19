@@ -84,8 +84,8 @@ export class PaymentmethodPage implements OnInit {
 
   httpPost(){
     // let amount = String(this.rest.billDetails.total_bill * 100)
-    console.log("Amount before multiply by 100: ", this.rest.billDetails.total_bill);
-    let amount = this.rest.billDetails.total_bill * 100
+    console.log("Amount before multiply by 100: ", this.rest.billDetails.pre_pay_amount);
+    let amount = this.rest.billDetails.pre_pay_amount * 100
     amount = this.convertInDecimal(amount);
     console.log("Amount after multiply by 100: ", amount);
     
@@ -126,6 +126,8 @@ export class PaymentmethodPage implements OnInit {
       package_price: this.rest.billDetails.package_price,
       price_per_ticket:this.rest.billDetails.price_per_ticket,
       total_amount:this.rest.billDetails.total_bill,
+      // pre_paid_amount:this.rest.billDetails.pre_pay_amount,
+      // remaining_amount: this.rest.billDetails.remaining_amount,
       transiction_id:this.txnsId,
       transiction_status:"Paid",
       payment_type:paymentType
@@ -136,7 +138,7 @@ export class PaymentmethodPage implements OnInit {
       this.rest.dismissLoader();
       console.log("Resssss: ",res);
       if(res.status == 'success'){
-        this.rest.ticketToken = res.data.random_strings;
+        this.rest.ticketTokens = res.data.tickets;
         this.rest.eventBookingId = res.data.event_booking_id;
         this.rest.eventId = res.data.events_id;
         this.rest.bookingStatus = res.data.status;
