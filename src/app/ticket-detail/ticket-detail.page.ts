@@ -26,6 +26,9 @@ export class TicketDetailPage implements OnInit {
   eventLocation:any;
   bookingStatus:any;
   transactionStatus:any;
+  randomString: any;
+  prePaidAmount: any;
+  remainingAmount: any;
   constructor(public location:Location,
     public navCtrl:NavController,
     public rest:RestService) {
@@ -51,6 +54,9 @@ export class TicketDetailPage implements OnInit {
     this.eventLocation= this.result[12];
     this.bookingStatus= this.result[13];
     this.transactionStatus= this.result[14];
+    this.randomString = this.result[15];
+    this.prePaidAmount = this.result[16];
+    this.remainingAmount = this.result[17];
     // this.rest.dismissLoader();
   }
   goBack(){

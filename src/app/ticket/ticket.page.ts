@@ -159,83 +159,58 @@ export class TicketPage implements OnInit {
 
   async ngOnInit() {
     console.log("ngOnInitFired");
-    // if(this.rest.billDetails?.lattitude){
-      // let lat = parseFloat(this.rest.billDetails.lattitude)
-      // let lng = parseFloat(this.rest.billDetails.longitude)
-      // this.center = {
-      //   lat: lat,
-      //   lng: lng,
-      // };
-      this.noOfTickets = this.rest.billDetails.ticket_requested;
+    this.noOfTickets = this.rest.billDetails.ticket_requested;
       console.log("Number Of Tickets: ",this.noOfTickets);
-      // console.log("ticketTokens: ",this.rest.ticketToken);
-      // const input = this.rest.ticketToken;
-      // const regex = /"([^"]*)"/g;
-      // const matches = [];
-      
-      // let match;
-      // while ((match = regex.exec(input))) {
-      //   matches.push(match[1]);
-      // }
-      
-      // console.log(matches);
-      
-      
-      // console.log("calling localAssetBase64");
-      // this.loadLocalAssetToBase64();
-
-      
-      
-    // }
-  }
-
-  ionViewWillEnter() {
-    this.tickets = this.rest.ticketTokens;
-
-    // if(this.tickets.length > 1){
-
-    //   this.rest.presentLoader("Generating Tickets..");
-    // }else{
-
-    //   this.rest.presentLoader("Generating Ticket..");
-    // }
+     // console.log("qrCodeDAta: ", this.myAngularxQrCode);
+    
+      this.userdata = localStorage.getItem('userdata');
+      this.userName = JSON.parse(this.userdata).username;
+      this.userId = JSON.parse(this.userdata).users_customers_id;
+      this.tickets = this.rest.ticketTokens;
 
       for (let index = 0; index < this.tickets.length; index++) {
         if(this.rest.billDetails?.event_name){
-          // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus, random_string
-          this.tickets[index].my_qr_code = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_£${this.rest.billDetails.package_price}_£${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_£5_£${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}_${this.tickets[index].random_string}`;
+          // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus, random_string,prePaid amount, remaining amount
+          this.tickets[index].my_qr_code = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_£${this.rest.billDetails.package_price}_£${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_£5_£${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}_${this.tickets[index].random_string}_${this.rest.billDetails.pre_pay_amount}_${this.rest.billDetails.remaining_amount}`;
         }
         
       }
       console.log("this.tickets: ",this.tickets);
 
-      setTimeout(() => {
-        this.getTicketImages();
-      }, 2000);
+      if(this.rest.comfrom == 'event-detail'){
+        console.log("coming form envent-detial");
+        this.rest.presentLoader();
 
-       
-      
-    
-
-    // console.log("qrCodeDAta: ", this.myAngularxQrCode);
-    
-    this.userdata = localStorage.getItem('userdata');
-    this.userName = JSON.parse(this.userdata).username;
-    this.userId = JSON.parse(this.userdata).users_customers_id;
-    // this.rest.dismissLoader();
-
-    this.interval = setInterval(()=>{
-      if(this.rest.comfrom == 'paymentmethod'){
-        console.log("Set Interval called");
-        
-        if(this.data2.length == this.tickets.length){
-
-          this.sendTicketsAtBackend();
-          this.removeInterval();
-
-        }
+        setTimeout(() => {
+          this.getTicketImages2();
+        }, 2000);
+      }else{
+        setTimeout(() => {
+          this.getTicketImages();
+        }, 2000);
       }
-    },3000)
+
+    if(this.rest.comfrom == 'paymentmethod'){
+      this.interval = setInterval(()=>{
+        
+          console.log("Set Interval called");
+          
+          if(this.data2.length == this.tickets.length){
+
+            this.sendTicketsAtBackend();
+            this.removeInterval();
+
+          }
+        
+      },3000)
+    }
+      
+      // console.log("calling localAssetBase64");
+      // this.loadLocalAssetToBase64();
+  }
+
+  ionViewWillEnter() {
+    
   }
 
   removeInterval() {
@@ -333,7 +308,7 @@ export class TicketPage implements OnInit {
       this.pdfObj = pdfMake.createPdf(docDefinition);
       console.log(this.pdfObj);
       this.downloadPdf();
-    }, 4000);
+    }, 6000);
   }
 
   downloadPdf(){
@@ -372,13 +347,14 @@ export class TicketPage implements OnInit {
   }
 
   getTicketImages(){
-    if(this.tickets.length > 1){
+    // if(this.rest.comfrom == 'paymentmethod'){
 
-        this.rest.presentLoader("Generating Tickets..");
-    }else{
+        this.rest.presentLoader();
+    // }
+    // else{
 
-      this.rest.presentLoader("Generating Ticket..");
-    }
+    //   this.rest.presentLoader("Please wait..");
+    // }
     const element: HTMLElement | null = document.getElementById('ticket-p-a');
     if(element !== null){
       html2canvas(element).then((canvas:HTMLCanvasElement)=>{
@@ -410,6 +386,51 @@ export class TicketPage implements OnInit {
       
     }, 6000);
 
+    
+
+   
+  }
+
+  getTicketImages2(){
+    
+    setTimeout(() => {
+      const element: HTMLElement | null = document.getElementById('ticket-p-a');
+      if(element !== null){
+        html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+          this.data1 = canvas.toDataURL();
+          console.log("data1: ",this.data1);
+        });
+      }  
+    }, 1000);
+  
+    setTimeout(() => {
+        const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
+        const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
+        let base64;
+
+        // Now you can access individual elements in the array
+        for (const element of elementArray) {
+          // Perform operations on each element
+          html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+
+            base64 = undefined;
+            base64 = canvas.toDataURL();
+            console.log("data2: ",base64);
+            this.data2.push(base64)
+          
+          });
+          console.log(element);
+        }  
+
+        this.rest.dismissLoader();
+
+      
+    }, 6000);
+    
+    // if(this.data2.length == this.tickets.length )
+    // setTimeout(() => {
+    //   this.rest.dismissLoader()
+    // }, 500);
     
 
    
@@ -511,12 +532,22 @@ export class TicketPage implements OnInit {
   isModalOpen = false;
 
   setOpen(isOpen: boolean) {
+    console.log("is modal open",this.isModalOpen);
     console.log(isOpen);
     // isOpen = !isOpen
-    
-    console.log("setopencalled");
-    
-    this.isModalOpen = isOpen;
+    if(this.isModalOpen == true){
+      console.log("entered in if condition");
+      
+      this.isModalOpen = false;
+      console.log("is Modal is", this.isModalOpen);
+      
+      // this.isModalOpen =true;
+      // console.log("is Modal is", this.isModalOpen);
+    }else{
+      console.log("setopencalled");
+      
+      this.isModalOpen = isOpen;
+    }
   }
 
   goBack(){
@@ -529,7 +560,7 @@ export class TicketPage implements OnInit {
       this.router.navigate(['/home']);
       this.rest.comfrom = '';
     }else{
-      // this.rest.dismissLoader();
+      this.rest.dismissLoader();
       console.log(this.rest.comfrom);
       this.location.back();
     }
@@ -544,37 +575,44 @@ export class TicketPage implements OnInit {
     }, 500);
   }
 
-  reguestRefund(isOpen: boolean){
+  requestRefund(isOpen: boolean){
+    console.log("requestRefundCalled");
     
-    if(this.refundRequestCount != 1){
-      this.isModalOpen = isOpen;
-      let data = {
-        users_customers_id:this.userId,
-        event_booking_id:this.rest.eventBookingId,
-        events_id: this.rest.eventId
-      }
-      console.log("Refund Req Payload: ",data);
+    this.isModalOpen = isOpen;
+    console.log(this.isModalOpen);
+    
+    setTimeout(() => {
       
-      this.rest.presentLoaderWd();
-      this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
-        this.rest.dismissLoader();
-        console.log("Refund Request Res: ", res);
-        if(res.status== 'success'){
-          this.rest.presentToast('Refund Request Sent.');
-          this.refundRequestCount = 1;
-          setTimeout(() => {
-            // this.navCtrl.navigateRoot(['/home']);
-          }, 1000);
-        }else if(res.status == 'error'){
-          console.log(res);
+      this.router.navigate(['/request-refund']);
+    }, 1000);
+    // if(this.refundRequestCount != 1){
+      // let data = {
+      //   users_customers_id:this.userId,
+      //   event_booking_id:this.rest.eventBookingId,
+      //   events_id: this.rest.eventId
+      // }
+      // console.log("Refund Req Payload: ",data);
+      
+      // this.rest.presentLoaderWd();
+      // this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
+      //   this.rest.dismissLoader();
+      //   console.log("Refund Request Res: ", res);
+      //   if(res.status== 'success'){
+      //     this.rest.presentToast('Refund Request Sent.');
+      //     this.refundRequestCount = 1;
+      //     setTimeout(() => {
+      //       // this.navCtrl.navigateRoot(['/home']);
+      //     }, 1000);
+      //   }else if(res.status == 'error'){
+      //     console.log(res);
           
-        }
+      //   }
         
-      })
-    }else{
-      this.rest.presentToast('Refund Request already sent.');
+      // })
+    // }else{
+    //   this.rest.presentToast('Refund Request already sent.');
 
-    }
+    // }
 
     
   }

@@ -215,9 +215,9 @@ export class EventDetailPage implements OnInit {
     }
   
     viewTicket() {
-      this.rest.comfrom = 'event-detail';
+      // this.rest.comfrom = 'event-detail';
       this.rest.billDetails.ticket_requested = this.detailObj.number_of_ticket;
-      this.rest.ticketToken = this.detailObj.random_strings;
+      this.rest.ticketTokens = this.detailObj.ticket;
       this.rest.billDetails.event_name = this.detailObj.events.name
       this.rest.billDetails.venue_name = this.detailObj.events.venue_name
       this.rest.billDetails.event_date = this.detailObj.events.event_date
@@ -227,13 +227,14 @@ export class EventDetailPage implements OnInit {
       this.rest.billDetails.package_name = this.detailObj.package_name
       this.rest.billDetails.package_price = this.detailObj.package_price
       this.rest.billDetails.price_per_ticket = this.detailObj.price_per_ticket
-      // this.rest.billDetails.ticket_requested = this.detailObj.number_of_ticket
       this.rest.billDetails.total_bill =  this.detailObj.total_amount
       this.rest.billDetails.location =  this.detailObj.events.location
       this.rest.bookingStatus =  this.detailObj.status
       this.rest.transactionStatus = this.detailObj.transiction_status
-      
+      this.rest.eventBookingId = this.detailObj.event_booking_id
+      this.rest.eventId = this.detailObj.events_id
       console.log("buy");
+      this.rest.comfrom = 'event-detail'
       this.router.navigate(['ticket'])
     }
 

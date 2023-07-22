@@ -90,7 +90,8 @@ export class ChatPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.detailObj = this.restService.detail;
-
+    console.log("Detail Object: ",this.detailObj);
+    
     // Get all  messages....
     this.getMessages(this.userID);
     this.autoSaveInterval = setInterval(() => {
@@ -101,6 +102,7 @@ export class ChatPage implements OnInit {
   ionViewWillLeave() {
     clearInterval(this.autoSaveInterval);
     console.log("clear");
+    this.restService.comingFrom = ''
   }
   userTyping(event: any) {
     this.scrollDown();
@@ -150,7 +152,7 @@ export class ChatPage implements OnInit {
   getMessages(senderUserID: any) {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
-    if(this.restService.comingFrom = 'event-detail'){ 
+    if(this.restService.comingFrom == 'event-detail'){ 
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
@@ -234,7 +236,7 @@ export class ChatPage implements OnInit {
   getMessagesAgain(senderUserID: any) {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
-    if(this.restService.comingFrom = 'event-detail'){ 
+    if(this.restService.comingFrom == 'event-detail'){ 
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
@@ -348,7 +350,7 @@ export class ChatPage implements OnInit {
   sendMessage(senderUserID: any, msg: any, type: any) {
     // this.remainingSMS = this.remainingSMS - 1
     // localStorage.setItem('remainingSMS', this.remainingSMS.toString())
-    if(this.restService.comingFrom = 'event-detail'){
+    if(this.restService.comingFrom == 'event-detail'){
       var data = JSON.stringify({
         requestType:"sendMessage",
         events_id:this.detailObj.events.events_id,

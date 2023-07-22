@@ -232,6 +232,10 @@ const routes: Routes = [
     path: 'eventchat',
     loadChildren: () => import('./eventchat/eventchat.module').then( m => m.EventchatPageModule)
   },
+  {
+    path: 'request-refund',
+    loadChildren: () => import('./request-refund/request-refund.module').then( m => m.RequestRefundPageModule)
+  },
  
 
 ];

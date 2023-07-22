@@ -54,13 +54,14 @@ export class Booking2eventPage implements OnInit {
     this.location.back();
   }
   getTicketCount(ev:any){
+
+    if(ev.target.value > this.availableTickets){
+      ev.target.value = '';
+      this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
+    }else{
+      this.ticketRequested = ev.target.value;
+    }  
     
-    if(this.ticketRequested){
-      if(this.ticketRequested > this.availableTickets){
-        this.ticketRequested = null;
-        this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
-      }  
-    }
     console.log("tickets requested", this.ticketRequested);
     this.calculateTotalAmount();
     

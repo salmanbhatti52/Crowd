@@ -87,7 +87,8 @@ export class Booking2Page implements OnInit {
       other_users_customers_id: this.selectedVenue.users_business_id,
       venues_id: this.selectedVenue.venues_id,
     });
-
+    console.log("start chat payload", ss);
+    
     this.rest.user_chat(ss).subscribe((res: any) => {
       console.log(res);
       if (res.status == "success") this.router.navigate(["chat"]);

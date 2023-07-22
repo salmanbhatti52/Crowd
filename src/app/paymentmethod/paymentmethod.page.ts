@@ -124,10 +124,11 @@ export class PaymentmethodPage implements OnInit {
       package_name:this.rest.billDetails.package_name,
       package_type:this.rest.billDetails.package_type,
       package_price: this.rest.billDetails.package_price,
+      // booking_percentage: this.rest.billDetails.booking_percentage,
       price_per_ticket:this.rest.billDetails.price_per_ticket,
       total_amount:this.rest.billDetails.total_bill,
-      // pre_paid_amount:this.rest.billDetails.pre_pay_amount,
-      // remaining_amount: this.rest.billDetails.remaining_amount,
+      paid_amount:this.rest.billDetails.pre_pay_amount,
+      remaining_amount: this.rest.billDetails.remaining_amount,
       transiction_id:this.txnsId,
       transiction_status:"Paid",
       payment_type:paymentType
