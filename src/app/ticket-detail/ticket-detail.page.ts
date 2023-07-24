@@ -29,6 +29,7 @@ export class TicketDetailPage implements OnInit {
   randomString: any;
   prePaidAmount: any;
   remainingAmount: any;
+  ticketId:any;
   constructor(public location:Location,
     public navCtrl:NavController,
     public rest:RestService) {
@@ -57,6 +58,19 @@ export class TicketDetailPage implements OnInit {
     this.randomString = this.result[15];
     this.prePaidAmount = this.result[16];
     this.remainingAmount = this.result[17];
+    this.ticketId = this.result[18];
+
+    let data = {
+      tickets_id: this.ticketId
+    };
+    this.rest.sendRequest('scanned_tickets',data).subscribe((res:any)=>{
+      console.log("scanned_tickets Res: ",res);
+      if(res.status == 'success'){
+        console.log("Ticket Scanned. Record Updated");
+        
+      }
+      
+    })
     // this.rest.dismissLoader();
   }
   goBack(){

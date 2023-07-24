@@ -170,8 +170,8 @@ export class TicketPage implements OnInit {
 
       for (let index = 0; index < this.tickets.length; index++) {
         if(this.rest.billDetails?.event_name){
-          // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus, random_string,prePaid amount, remaining amount
-          this.tickets[index].my_qr_code = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_£${this.rest.billDetails.package_price}_£${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_£5_£${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}_${this.tickets[index].random_string}_${this.rest.billDetails.pre_pay_amount}_${this.rest.billDetails.remaining_amount}`;
+          // event_name, venue_name, event_date, event_start_time, event_end_time,package_type, package_name, package_price, price_per_ticket, ticket_requested, crowd_fee, total_bill, location, bookingStatus, transactionStatus, random_string,prePaid amount, remaining amount, ticket_id
+          this.tickets[index].my_qr_code = `${this.rest.billDetails.event_name}_${this.rest.billDetails.venue_name}_${this.rest.billDetails.event_date}_${this.rest.billDetails.event_start_time}_${this.rest.billDetails.event_end_time}_${this.rest.billDetails.package_type}_${this.rest.billDetails.package_name}_£${this.rest.billDetails.package_price}_£${this.rest.billDetails.price_per_ticket}_${this.rest.billDetails.ticket_requested}_£5_£${this.rest.billDetails.total_bill}_${this.rest.billDetails.location}_${this.rest.bookingStatus}_${this.rest.transactionStatus}_${this.tickets[index].random_string}_${this.rest.billDetails.pre_pay_amount}_${this.rest.billDetails.remaining_amount}_${this.tickets[index].tickets_id}`;
         }
         
       }
