@@ -87,8 +87,8 @@ export class ScanTicketsPage implements OnDestroy {
     }
   }
 
-  goBack(){
-    // this.location.back();
+  goToScannedTickets(){
+    this.navCtrl.navigateForward('scanned-tickets');
   }
 
   goLogout(){

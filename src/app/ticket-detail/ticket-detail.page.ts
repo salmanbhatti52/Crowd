@@ -73,8 +73,8 @@ export class TicketDetailPage implements OnInit {
     this.navCtrl.navigateRoot(["login"]);
   }
 
-  gotoScannedTickets(){
-    this.navCtrl.navigateForward('scanned-tickets');
-  }
+  // gotoScannedTickets(){
+  //   this.navCtrl.navigateForward('scanned-tickets');
+  // }
 
 }

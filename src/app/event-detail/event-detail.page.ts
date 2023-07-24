@@ -22,6 +22,7 @@ export class EventDetailPage implements OnInit {
   organizer: any;
   latitude: string | null | undefined;
   longitude: string | null | undefined;
+  ticketsRequestedForRefund = 0;
   constructor(public location:Location,
     public router:Router,
     public platform: Platform,
@@ -36,6 +37,19 @@ export class EventDetailPage implements OnInit {
       this.ticketTotal = this.detailObj.price_per_ticket * this.detailObj.number_of_ticket;
       this.ticketTotal = this.convertInDecimal(this.ticketTotal)
       console.log("detaill----", this.detailObj);
+
+      if(this.detailObj.requested_tickets.length > 0){
+        for(let data of this.detailObj.requested_tickets){
+          this.ticketsRequestedForRefund = this.ticketsRequestedForRefund + data.requested_tickets
+        }
+        
+      }
+      this.rest.ticketsRequestedForRefund = this.ticketsRequestedForRefund;
+      this.rest.availableTicketsForRefund = this.detailObj.number_of_ticket - this.ticketsRequestedForRefund
+      console.log("ticketsRequestedForRefund: ",this.ticketsRequestedForRefund);
+      console.log("ticketsRequestedForRefund Rest: ",this.rest.ticketsRequestedForRefund);
+      console.log("availableTicketsForRefund: ",this.rest.availableTicketsForRefund);
+      
     }
     
     ionViewWillEnter() {
@@ -233,6 +247,8 @@ export class EventDetailPage implements OnInit {
       this.rest.transactionStatus = this.detailObj.transiction_status
       this.rest.eventBookingId = this.detailObj.event_booking_id
       this.rest.eventId = this.detailObj.events_id
+      this.rest.billDetails.pre_pay_amount = this.detailObj.paid_amount
+      this.rest.billDetails.remaining_amount = this.detailObj.remaining_amount
       console.log("buy");
       this.rest.comfrom = 'event-detail'
       this.router.navigate(['ticket'])

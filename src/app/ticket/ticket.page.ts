@@ -532,22 +532,27 @@ export class TicketPage implements OnInit {
   isModalOpen = false;
 
   setOpen(isOpen: boolean) {
-    console.log("is modal open",this.isModalOpen);
-    console.log(isOpen);
-    // isOpen = !isOpen
-    if(this.isModalOpen == true){
-      console.log("entered in if condition");
-      
-      this.isModalOpen = false;
-      console.log("is Modal is", this.isModalOpen);
-      
-      // this.isModalOpen =true;
-      // console.log("is Modal is", this.isModalOpen);
+    if(this.rest.availableTicketsForRefund > 0){
+      console.log("is modal open",this.isModalOpen);
+      console.log(isOpen);
+      // isOpen = !isOpen
+      if(this.isModalOpen == true){
+        console.log("entered in if condition");
+        
+        this.isModalOpen = false;
+        console.log("is Modal is", this.isModalOpen);
+        
+        // this.isModalOpen =true;
+        // console.log("is Modal is", this.isModalOpen);
+      }else{
+        console.log("setopencalled");
+        
+        this.isModalOpen = isOpen;
+      }
     }else{
-      console.log("setopencalled");
-      
-      this.isModalOpen = isOpen;
+      this.rest.presentToast('You have already sent refund request for all tickets.')
     }
+    
   }
 
   goBack(){

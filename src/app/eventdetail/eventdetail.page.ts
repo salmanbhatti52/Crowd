@@ -41,7 +41,7 @@ export class EventdetailPage implements OnInit {
   ngOnInit() {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
-
+    this.rest.booking_percentage = this.detailObj.booking_percentage;
     let currentDate = new Date();
     console.log("currentDate: ",currentDate);
     let eventDate = new Date(this.detailObj.event_date);

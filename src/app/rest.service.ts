@@ -33,6 +33,9 @@ export class RestService {
   bookingStatus: any;
   transactionStatus: any;
   ticketTokens: any;
+  booking_percentage: any;
+  ticketsRequestedForRefund = 0;
+  availableTicketsForRefund = 0;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

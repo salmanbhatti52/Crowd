@@ -36,8 +36,9 @@ export class Booking3eventPage implements OnInit {
     prePayAmountInString = Number.parseFloat(prePayAmountInString).toFixed(2);
     
     this.rest.billDetails.pre_pay_amount = prePayAmountInString;
-    this.rest.billDetails.remaining_amount = this.rest.billDetails.total_bill - this.prePayAmount;
-
+    let remaining_amount = this.rest.billDetails.total_bill - this.prePayAmount;
+    
+    this.rest.billDetails.remaining_amount = Number.parseFloat(remaining_amount.toString()).toFixed(2);
   }
 
   ngOnInit() {}
