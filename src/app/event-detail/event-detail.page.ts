@@ -38,14 +38,16 @@ export class EventDetailPage implements OnInit {
       this.ticketTotal = this.convertInDecimal(this.ticketTotal)
       console.log("detaill----", this.detailObj);
 
-      if(this.detailObj.requested_tickets.length > 0){
-        for(let data of this.detailObj.requested_tickets){
-          this.ticketsRequestedForRefund = this.ticketsRequestedForRefund + data.requested_tickets
-        }
+      // if(this.detailObj.requested_tickets.length > 0){
+      //   for(let data of this.detailObj.requested_tickets){
+      //     this.ticketsRequestedForRefund = this.ticketsRequestedForRefund + data.requested_tickets
+      //   }
         
-      }
-      this.rest.ticketsRequestedForRefund = this.ticketsRequestedForRefund;
-      this.rest.availableTicketsForRefund = this.detailObj.number_of_ticket - this.ticketsRequestedForRefund
+      // }
+
+      // this.rest.ticketsRequestedForRefund = this.ticketsRequestedForRefund;
+      // this.rest.availableTicketsForRefund = this.detailObj.number_of_ticket - this.ticketsRequestedForRefund
+      this.rest.availableTicketsForRefund = this.detailObj.ticket.length;
       console.log("ticketsRequestedForRefund: ",this.ticketsRequestedForRefund);
       console.log("ticketsRequestedForRefund Rest: ",this.rest.ticketsRequestedForRefund);
       console.log("availableTicketsForRefund: ",this.rest.availableTicketsForRefund);

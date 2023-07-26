@@ -72,7 +72,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {}
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['/home']);
   }
 
   gotoEvents(){

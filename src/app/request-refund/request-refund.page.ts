@@ -12,6 +12,7 @@ export class RequestRefundPage implements OnInit {
   availableTickets: any;
   userdata:any;
   userId:any;
+  tickets: any;
   constructor(public location:Location,
     public rest:RestService,
     public router:Router) {
@@ -19,23 +20,24 @@ export class RequestRefundPage implements OnInit {
    }
 
   ngOnInit() {
-    if(this.rest.billDetails.ticket_requested){
+    // if(this.rest.billDetails.ticket_requested){
       // this.availableTickets = this.rest.billDetails.ticket_requested;
       this.availableTickets = this.rest.availableTicketsForRefund;
-      console.log(this.availableTickets);
-      if(this.rest.ticketsRequestedForRefund == 1){
-        this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} ticket`)
-      }else if(this.rest.ticketsRequestedForRefund > 1){
-        this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} tickets`)
+      // console.log(this.availableTickets);
+      // if(this.rest.ticketsRequestedForRefund == 1){
+      //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} ticket`)
+      // }else if(this.rest.ticketsRequestedForRefund > 1){
+      //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} tickets`)
 
-      }else{
+      // }else{
 
-      }
+      // }
       
-    }
+    // }
   }
 
   ionViewWillEnter() {
+    this.tickets = this.rest.ticketTokens;
     this.userdata = localStorage.getItem('userdata');
     this.userId = JSON.parse(this.userdata).users_customers_id;
   }
@@ -62,11 +64,18 @@ export class RequestRefundPage implements OnInit {
       console.log("users_customers_id:",this.userId);
       console.log("event_booking_id:",this.rest.eventBookingId,);
       console.log("events_id:", this.rest.eventId);
+      let ticketIds:any = []
+      for(let i=0; i<this.ticketRequested; i++){
+        ticketIds.push(this.tickets[i].tickets_id); 
+      }
+      console.log("ticketIds: ",ticketIds);
+      
       let data = {
         users_customers_id:this.userId,
         event_booking_id:this.rest.eventBookingId,
         events_id: this.rest.eventId,
-        requested_tickets: this.ticketRequested
+        requested_tickets: this.ticketRequested,
+        tickets_id:ticketIds
       }
       console.log("Refund Req Payload: ",data);
       

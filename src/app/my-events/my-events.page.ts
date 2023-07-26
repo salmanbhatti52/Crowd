@@ -79,7 +79,7 @@ export class MyEventsPage implements OnInit {
 
  
   goBack() {
-    this.location.back();
+    this.router.navigate(['/profile']);
   }
 
   handleRefresh(ev: any) {}
