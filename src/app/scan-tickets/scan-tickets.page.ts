@@ -98,7 +98,7 @@ export class ScanTicketsPage implements OnDestroy {
     localStorage.clear();
     localStorage.setItem("onesignaluserid", this.onesignalid);
     localStorage.setItem("social_login_status", this.social_login_status);
-    this.navCtrl.navigateRoot(["login"]);
+    this.navCtrl.navigateRoot(["loginevent"]);
   }
 
   gotoTicketDetail(){

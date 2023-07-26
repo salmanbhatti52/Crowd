@@ -76,7 +76,8 @@
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
-    <div class="elementBg" *ngFor="let aa of orderd_upcomingArr">
+  <div *ngFor="let aa of orderd_upcomingArr">
+    <div class="elementBg" *ngIf="aa.ticket.length> 0">
       <img  (click)="gotoEventDetails(aa)"
         style="
           width: 104px;
@@ -123,6 +124,7 @@
         </div> -->
       </div>
     </div>
+  </div>
   </div>
 
   <div

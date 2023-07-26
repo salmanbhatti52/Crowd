@@ -25,8 +25,8 @@
 
     <div>
       <div class="label work_sans">Select Event Name</div>
-        <div
-        (click)="hideShowPeople()"
+      <div
+        (click)="hideShowEvents()"
         class="inputfieldtransparent"
         style="
           height: 52px;
@@ -36,7 +36,7 @@
           align-items: center;
         "
       >
-        <p class="people">{{people}} people</p>
+        <p class="people">{{selectedEvent?.event_name}}</p>
 
         <img
           style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
@@ -53,14 +53,34 @@
           z-index: 999;
           border-radius: 0px 0px 20px 20px;
         "
-        *ngIf="peopleShow"
+        *ngIf="eventShow"
       >
-        <p class="pp" (click)="peopleClick(a)" *ngFor="let a of peopleArr">
-          {{a.people}} {{a.name}}
+        <p class="pp" (click)="eventClick(a)" *ngFor="let a of eventsArr">
+          {{a.event_name}}
         </p>
       </div>
     </div>
-    <div class="dummy_text work_sans">Ticket Detail will be shown here
-      after scan</div>
+    <div class="dummy_text work_sans" *ngIf="recordFound == false">You have not scanned any tickets for this event</div>
+    <div style="margin-top: 20px;" *ngFor="let ticket of scannedTickets; let i = index">
+      <div class="ticket_data work_sans center " ><span class="tick_num_border">{{i+1}} out of {{scannedTickets.length}}</span></div>
+      <div class="ticket_data work_sans" style="margin-top: 15px;"><span class="font_18_bold">Ticket Id: </span>{{ticket.random_string}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Name: </span>{{ticket.name}}</div>
+      <div *ngIf="ticket.venue_name!='null'" class="ticket_data work_sans"><span class="font_18_bold">Venue Name: </span>{{ticket.venue_name}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Date: </span>{{ticket.event_date}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Start Time: </span>{{ticket.event_start_time}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event End Time: </span>{{ticket.event_end_time}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Type: </span>{{ticket.package_type}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Name: </span>{{ticket.package_name}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Package Price: </span>£{{ticket.package_price}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Price: </span>£{{ticket.price_per_ticket}}</div>
+      <!-- <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Requested: </span>{{ticketRequested}}</div> -->
+      <div class="ticket_data work_sans"><span class="font_18_bold">Crowd Fee: </span>£5</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Total Bill: </span>£{{ticket.total_amount}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Event Location: </span>{{ticket.location}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Booking Status: </span>{{ticket.status}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Transaction Status: </span>{{ticket.transiction_status}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Pre-Paid Amount: </span>£{{ticket.paid_amount}}</div>
+      <div class="ticket_data work_sans"><span class="font_18_bold">Remaining Amount: </span>£{{ticket.remaining_amount}}</div>
+    </div>
   </div>
 </ion-content>

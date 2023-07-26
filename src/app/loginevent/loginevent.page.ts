@@ -41,7 +41,7 @@ export class LogineventPage implements OnInit {
   ngOnInit() {}
 
   goBack(){
-    this.location.back();
+    this.router.navigate(['/login']);
   }
 
   submit() {
@@ -70,7 +70,7 @@ export class LogineventPage implements OnInit {
         this.rest.dismissLoader();
 
         if (res.status == "success") {
-          localStorage.setItem("user_business_data", JSON.stringify(res.data));
+          localStorage.setItem("user_business_id", res.data.users_business_id);
           this.navCtrl.navigateRoot(["/scan-tickets"]);
         } else {
           this.rest.presentToast(res.message);

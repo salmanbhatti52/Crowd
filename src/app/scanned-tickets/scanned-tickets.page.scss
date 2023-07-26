@@ -125,7 +125,11 @@
       padding-top: 12%;
     }
     
-    
+    .tick_num_border{
+      border: 1px solid white;
+      border-radius: 90px;
+      padding: 6px 10px;
+    }
     
 
     .centerall{
@@ -134,9 +138,13 @@
       align-items: center;
     }
 
+    .center{
+      text-align: center;
+      font-weight: 600 !important;
+    }
 
 .container{
-    padding: 25px;
+    padding: 20px;
     
 }
 
@@ -174,4 +182,17 @@
     font-weight: 400;
     font-size: 35px;
     color: white;
+}
+
+.font_18_bold{
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticket_data{
+  color: #FFF;
+  font-family: Work Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 5px;
 }
