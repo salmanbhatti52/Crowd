@@ -102,10 +102,20 @@
           <p class="date work_sans">{{aa.events.event_date }} </p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
+        <div style="display: flex; align-items: center; margin-bottom: 7px">
           <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date work_sans">
             {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 2px">
+          <div class="ticket_icon">
+
+            <img class="imm_ticket" src="../../assets/imgs/icons/ticket.png" />
+          </div>
+          <p class="date work_sans">
+            {{aa.requested_tickets}}
           </p>
         </div>
 
@@ -162,10 +172,20 @@
           <p class="date work_sans">{{aa.events.event_date }} </p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
+        <div style="display: flex; align-items: center; margin-bottom: 7px">
           <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date work_sans">
             {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 2px">
+          <div class="ticket_icon">
+
+            <img class="imm_ticket" src="../../assets/imgs/icons/ticket.png" />
+          </div>
+          <p class="date work_sans">
+            {{aa.requested_tickets}}
           </p>
         </div>
 
