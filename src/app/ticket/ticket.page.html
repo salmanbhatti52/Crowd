@@ -106,11 +106,11 @@
     </swiper-slide>
   </swiper-container>
   
-  <div class="flex_center" style="margin: 2px 20px;">
+  <div class="flex_center" [class.align_center]="this.rest.comfrom == 'event-detail'" style="margin: 2px 20px;">
     <!-- (click)="goToHome()" -->
     <div  >
       <ion-button (click)="setOpen(true)" 
-          style="margin-top: 10px;margin-right: 11px; opacity: 1;width: 230px;"
+          style="margin-top: 10px; opacity: 1;width: 230px;"
           class="btnbgred work_sans"
           >Request Refund</ion-button
         >
@@ -134,7 +134,7 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-      <img (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
+      <img *ngIf="this.rest.comfrom != 'event-detail'" style="margin-left: 11px;" (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
   </div>
 
 </div>

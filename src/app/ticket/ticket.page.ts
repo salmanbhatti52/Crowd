@@ -178,12 +178,12 @@ export class TicketPage implements OnInit {
       console.log("this.tickets: ",this.tickets);
 
       if(this.rest.comfrom == 'event-detail'){
-        console.log("coming form envent-detial");
-        this.rest.presentLoader();
+        // console.log("coming form envent-detial");
+        // this.rest.presentLoader();
 
-        setTimeout(() => {
-          this.getTicketImages2();
-        }, 2000);
+        // setTimeout(() => {
+        //   this.getTicketImages2();
+        // }, 2000);
       }else{
         setTimeout(() => {
           this.getTicketImages();
