@@ -71,6 +71,9 @@ export class ProfilePage implements OnInit {
   }
   ngOnInit() {}
 
+  startChatWithAdmin(){
+    
+  }
   goBack() {
     this.router.navigate(['/home']);
   }
