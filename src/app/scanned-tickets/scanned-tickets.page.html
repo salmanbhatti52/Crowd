@@ -65,7 +65,7 @@
       <div class="ticket_data work_sans center " ><span class="tick_num_border">{{i+1}} out of {{scannedTickets.length}}</span></div>
       <div class="ticket_data work_sans" style="margin-top: 15px;"><span class="font_18_bold">Ticket Id: </span>{{ticket.random_string}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event Name: </span>{{ticket.name}}</div>
-      <div *ngIf="ticket.venue_name!='null'" class="ticket_data work_sans"><span class="font_18_bold">Venue Name: </span>{{ticket.venue_name}}</div>
+      <div *ngIf="ticket.venue_name!=null" class="ticket_data work_sans"><span class="font_18_bold">Venue Name: </span>{{ticket.venue_name}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event Date: </span>{{ticket.event_date}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event Start Time: </span>{{ticket.event_start_time}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event End Time: </span>{{ticket.event_end_time}}</div>

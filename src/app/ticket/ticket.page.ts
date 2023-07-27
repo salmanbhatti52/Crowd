@@ -295,12 +295,12 @@ export class TicketPage implements OnInit {
           header: {
             fontSize: 18,
             bold: true,
-            margin: [10, 10, 10, 10]
+            margin: [5, 5, 5, 5]
           },
           subheader: {
             fontSize: 15,
             bold: true,
-            margin: [0, 0, 0, 20],
+            margin: [0, 0, 0, 10],
           },
           
         }
@@ -392,7 +392,8 @@ export class TicketPage implements OnInit {
   }
 
   getTicketImages2(){
-    
+    this.rest.dismissLoader();
+    this.rest.presentLoader();
     setTimeout(() => {
       const element: HTMLElement | null = document.getElementById('ticket-p-a');
       if(element !== null){
@@ -496,12 +497,12 @@ export class TicketPage implements OnInit {
           header: {
             fontSize: 18,
             bold: true,
-            margin: [10, 10, 10, 10]
+            margin: [5, 5, 5, 5]
           },
           subheader: {
             fontSize: 15,
             bold: true,
-            margin: [0, 0, 0, 20],
+            margin: [0, 0, 0, 10],
           },
         }
       };

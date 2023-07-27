@@ -25,12 +25,13 @@
       <div class="ticket"  style="padding: 13px 5px 0px;">
         <div id="ticket-p-a">
           <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-          <div style="margin: 30px 5px 10px; position: relative;">
+          <div style="margin: 25px 5px 5px; position: relative;">
             <div class="flex_center">
               <!-- <div class="font gilroy">slslsl</div>
               <div class="font gilroy">slslsl</div> -->
-              <div class="font gilroy">{{userName}}</div>
-              <div class="font gilroy">{{rest.billDetails.event_name}}</div>
+              <div class="font gilroy" style="width: 50%;
+              text-align: left;">{{userName}}</div>
+              <div class="font gilroy" style="text-align: right;">{{rest.billDetails.event_name}}</div>
             </div>
             <div class="flex_center">
               <!-- <div class="font gilroy">slslsl</div>
@@ -82,11 +83,11 @@
             <!-- </div> -->
             <div style="position: relative;">
               <div class="location">{{rest.billDetails.location}}</div>
-              <img class="center" style="margin-top: 5px; height: 110px;" src="../../assets/imgs/map_bg.jpg" alt="">
+              <img class="center" style="margin-top: 5px; height: 95px;" src="../../assets/imgs/map_bg.jpg" alt="">
             </div>
           </div>
         </div>
-        <div class="center font gilroy" style="margin-top: 10px;position: relative;">{{ticket.random_string}}</div>
+        <div class="center font gilroy" style="margin-top: 5px;position: relative;">{{ticket.random_string}}</div>
         <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
         <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
         <div class="ticket-p-b">
