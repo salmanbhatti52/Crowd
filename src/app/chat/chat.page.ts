@@ -32,7 +32,7 @@ export class ChatPage implements OnInit {
   currentUser: any;
   currentTime: string = "";
   user_input: string = "";
-  chatImagesArray = [];
+  // chatImagesArray = [];
   private autoSaveInterval: any;
   userIMG: any;
 
@@ -177,7 +177,7 @@ export class ChatPage implements OnInit {
             //     });
             //   }
             // });
-            console.log("allMsg array ", this.chatImagesArray);
+            // console.log("allMsg array ", this.chatImagesArray);
   
             this.noChatlistFlag = false;
           } else {
@@ -189,7 +189,45 @@ export class ChatPage implements OnInit {
           this.restService.presentToast("Network error occured");
         }
       );
-    }else{
+    }
+    else if(this.restService.comingFrom == 'startChatWithAdmin'){
+      var data = JSON.stringify({
+        requestType:"getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id:this.restService.adminId
+      });
+      console.log("payload get admin msgs", data);
+      this.restService.admin_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            this.allMessages = res.data;
+            this.scrollDown();
+            this.previousMsgsCount = res.data.length
+            console.log("receving All chats messages", this.allMessages);
+            // this.allMessages.map((messages, index) => {
+            //   if (messages.msgType == "attachment") {
+            //     this.chatImagesArray.push({
+            //       image: messages.message,
+            //     });
+            //   }
+            // });
+            // console.log("allMsg array ", this.chatImagesArray);
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
+          }
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
+    else{
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
@@ -215,7 +253,7 @@ export class ChatPage implements OnInit {
             //     });
             //   }
             // });
-            console.log("allMsg array ", this.chatImagesArray);
+            // console.log("allMsg array ", this.chatImagesArray);
   
             this.noChatlistFlag = false;
           } else {
@@ -252,23 +290,14 @@ export class ChatPage implements OnInit {
           console.log("response", res);
   
           if (res.status == "success") {
-            this.allMessages = res.data;
             this.NewMsgsCount = res.data.length;
             if(this.previousMsgsCount < this.NewMsgsCount){
+              this.allMessages = res.data;
               this.previousMsgsCount = this.NewMsgsCount;
               console.log("receving All chats messages", this.allMessages);
-              console.log("allMsg array ", this.chatImagesArray);
+              // console.log("allMsg array ", this.chatImagesArray);
               this.scrollDown();
             }
-            
-            // this.allMessages.map((messages, index) => {
-            //   if (messages.msgType == "attachment") {
-            //     this.chatImagesArray.push({
-            //       image: messages.message,
-            //     });
-            //   }
-            // });
-            
   
             this.noChatlistFlag = false;
           } else {
@@ -280,7 +309,41 @@ export class ChatPage implements OnInit {
           this.restService.presentToast("Network error occured");
         }
       );
-    }else{
+    }else if(this.restService.comingFrom == 'startChatWithAdmin'){
+      var data = JSON.stringify({
+        requestType:"getMessages",
+        users_customers_id: this.userID,
+        other_users_customers_id:this.restService.adminId
+      });
+      console.log("payload get admin msgs again", data);
+      this.restService.admin_chat(data).subscribe(
+        async (res: any) => {
+          this.showSkeleton = false;
+          console.log("response", res);
+  
+          if (res.status == "success") {
+            
+            this.NewMsgsCount = res.data.length;
+            if(this.previousMsgsCount < this.NewMsgsCount){
+              this.allMessages = res.data;
+              this.previousMsgsCount = this.NewMsgsCount;
+              console.log("receving All chats messages", this.allMessages);
+              // console.log("allMsg array ", this.chatImagesArray);
+              this.scrollDown();
+            }
+  
+            this.noChatlistFlag = false;
+          } else {
+            this.noChatlistFlag = true;
+          }
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
+    else{
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
@@ -296,12 +359,13 @@ export class ChatPage implements OnInit {
           console.log("response", res);
   
           if (res.status == "success") {
-            this.allMessages = res.data;
+            
             this.NewMsgsCount = res.data.length;
             if(this.previousMsgsCount < this.NewMsgsCount){
+              this.allMessages = res.data;
               this.previousMsgsCount = this.NewMsgsCount;
               console.log("receving All chats messages", this.allMessages);
-              console.log("allMsg array ", this.chatImagesArray);
+              // console.log("allMsg array ", this.chatImagesArray);
               this.scrollDown();
             }
             
@@ -373,7 +437,31 @@ export class ChatPage implements OnInit {
           this.restService.presentToast("Network error occured");
         }
       );
-    }else{
+    }
+    else if(this.restService.comingFrom == 'startChatWithAdmin'){
+      var data = JSON.stringify({
+        requestType:"sendMessage",
+        sender_type:"Users",
+        messageType:"1",
+        users_customers_id:this.userID,
+        other_users_customers_id:this.restService.adminId,
+        content:msg
+      });
+      console.log("my msg in admin chat", data);
+      this.restService.presentLoader();
+      this.restService.admin_chat(data).subscribe(
+        async (res: any) => {
+          console.log("response0-0-0-0-0-0-0-0-0-0-0", res);
+          this.getMessages(this.userID);
+          this.restService.dismissLoader();
+        },
+        (err) => {
+          this.restService.dismissLoader();
+          this.restService.presentToast("Network error occured");
+        }
+      );
+    }
+    else{
       var data = JSON.stringify({
         requestType: "sendMessage",
         venues_id: this.detailObj.venues_id,

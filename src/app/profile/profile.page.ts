@@ -68,11 +68,36 @@ export class ProfilePage implements OnInit {
     }
 
     console.log("email----", this.email);
+
+    let data = { 
+      users_customers_id: this.userid 
+    };
+    this.rest.sendRequest('get_admin_list',data).subscribe((res:any)=>{
+      console.log("Get Admin List Ress: ",res);
+      if(res.status == 'success'){
+        this.rest.adminId = res.data[0].users_system_id
+      }
+      console.log("Admin Iddd: ",this.rest.adminId);
+      
+    })
   }
   ngOnInit() {}
 
   startChatWithAdmin(){
-    
+    let data = {
+      requestType:"startChat",
+      users_customers_id:this.userid,
+      other_users_customers_id:this.rest.adminId
+    }
+
+    this.rest.sendRequest('user_chat_live',data).subscribe((res:any)=>{
+      console.log("Start Chat Ress: ",res);
+      if(res.status == 'success'){
+        this.rest.comingFrom = 'startChatWithAdmin'
+        this.router.navigate(['/chat']);
+
+      }
+    })
   }
   goBack() {
     this.router.navigate(['/home']);

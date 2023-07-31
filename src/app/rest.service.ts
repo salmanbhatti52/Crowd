@@ -36,6 +36,7 @@ export class RestService {
   booking_percentage: any;
   ticketsRequestedForRefund = 0;
   availableTicketsForRefund = 0;
+  adminId: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
@@ -205,6 +206,16 @@ export class RestService {
       "Content-Type": "application/json",
     });
     return this.http.post(this.baseURL + "users_chat", data, {
+      headers: header,
+    });
+  }
+
+  admin_chat(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "user_chat_live", data, {
       headers: header,
     });
   }
