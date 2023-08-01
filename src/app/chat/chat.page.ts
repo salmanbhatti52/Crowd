@@ -92,6 +92,13 @@ export class ChatPage implements OnInit {
     this.detailObj = this.restService.detail;
     console.log("Detail Object: ",this.detailObj);
     
+    if(this.restService.comingFrom == 'event-detail'){
+      this.detailObj.name = this.detailObj.events.name;
+    }
+    if(this.restService.comingFrom == 'startChatWithAdmin'){
+      this.detailObj = {}
+      this.detailObj.name = 'Chat With Admin';
+    }
     // Get all  messages....
     this.getMessages(this.userID);
     this.autoSaveInterval = setInterval(() => {

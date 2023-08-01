@@ -158,9 +158,16 @@ export class TicketPage implements OnInit {
     ) { }
 
   async ngOnInit() {
+
     console.log("ngOnInitFired");
+    
     this.noOfTickets = this.rest.billDetails.ticket_requested;
-      console.log("Number Of Tickets: ",this.noOfTickets);
+    console.log("Number Of Tickets: ",this.noOfTickets);
+
+    if(this.rest.comfrom == 'paymentmethod'){
+      this.rest.availableTicketsForRefund = this.noOfTickets;
+      console.log("availableTicketsForRefund: ",this.rest.availableTicketsForRefund);
+    }
      // console.log("qrCodeDAta: ", this.myAngularxQrCode);
     
       this.userdata = localStorage.getItem('userdata');
@@ -533,6 +540,11 @@ export class TicketPage implements OnInit {
   isModalOpen = false;
 
   setOpen(isOpen: boolean) {
+    // setTimeout(() => {
+      
+    // }, 1500);
+    console.log("availabe Tickets", this.rest.availableTicketsForRefund);
+    
     if(this.rest.availableTicketsForRefund > 0){
       console.log("is modal open",this.isModalOpen);
       console.log(isOpen);
