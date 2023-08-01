@@ -38,6 +38,7 @@ export class PaymentmethodPage implements OnInit {
   userName: any;
   userEmail: any;
   txnsId: any;
+  amount: any = 0;
   // paymentRequest!: google.payments.api.PaymentDataRequest;
   constructor(
     public location: Location,
@@ -85,14 +86,14 @@ export class PaymentmethodPage implements OnInit {
   httpPost(){
     // let amount = String(this.rest.billDetails.total_bill * 100)
     console.log("Amount before multiply by 100: ", this.rest.billDetails.pre_pay_amount);
-    let amount = this.rest.billDetails.pre_pay_amount * 100
-    amount = this.convertInDecimal(amount);
-    console.log("Amount after multiply by 100: ", amount);
+    this.amount = this.rest.billDetails.pre_pay_amount * 100
+    this.amount = this.convertInDecimal(this.amount);
+    console.log("Amount after multiply by 100: ", this.amount);
     
     let data = {
       name:this.userName,
       email:this.userEmail,
-      amount:amount,
+      amount:this.amount,
       currency:"USD"
     }
     console.log("payload for payment sheet api: ",data);
@@ -211,49 +212,6 @@ export class PaymentmethodPage implements OnInit {
 
   }
 
-  async paymentFlow(){
-    try {
-      this.paymentIntent = undefined;
-      this.customerId = undefined;
-      this.ephemeralKey = undefined;
-      this.rest.presentLoader();
-      this.httpPost();
-      // be able to get event of PaymentFlow
-      Stripe.addListener(PaymentFlowEventsEnum.Completed, () => {
-        console.log('PaymentFlowEventsEnum.Completed');
-      });
-
-      setTimeout(async () => {
-        console.log("If PaymentIntent: ",this.paymentIntent);
-
-        // Prepare PaymentFlow with CreatePaymentFlowOption.
-        await  Stripe.createPaymentFlow({
-          paymentIntentClientSecret: this.paymentIntent,
-          // setupIntentClientSecret: setupIntent,
-          customerEphemeralKeySecret: this.ephemeralKey,
-          customerId: this.customerId,
-          merchantDisplayName: 'Mi Crowd'
-        });
-        this.rest.dismissLoader();
-
-        // Present PaymentFlow. **Not completed yet.**
-        const presentResult = await Stripe.presentPaymentFlow();
-        console.log("presentResult: ",presentResult);
-        
-        // Confirm PaymentFlow. Completed.
-        const confirmResult = await Stripe.confirmPaymentFlow();
-        console.log("confirmResult: ",confirmResult);
-        if (confirmResult.paymentResult === PaymentFlowEventsEnum.Completed) {
-          this.splitAndJoin(this.paymentIntent);
-          // Happy path
-        }
-      }, 3000);
-      
-    } catch (error) {
-      console.log("Error catched: ",error);
-    }
-  }
-
   async applePay(){
     try {
       this.paymentIntent = undefined;
@@ -280,24 +238,33 @@ export class PaymentmethodPage implements OnInit {
         await Stripe.createApplePay({
           paymentIntentClientSecret: this.paymentIntent,
           paymentSummaryItems: [{
-            label: 'Marriage Event',
-            amount: 1099.00
+            label: 'Event',
+            amount: this.rest.billDetails.pre_pay_amount
           }],
           merchantIdentifier: 'rdlabo',
           countryCode: 'US',
           currency: 'USD',
         });
+        console.log("createApplePay");
+        
         this.rest.dismissLoader();
+      }, 3000);
 
+      setTimeout(async () => {
         // Present Apple Pay
         const result = await Stripe.presentApplePay();
         console.log("Result: ",result);
         
         if (result.paymentResult === ApplePayEventsEnum.Completed) {
           this.splitAndJoin(this.paymentIntent);
+          console.log("paymentIntent",this.paymentIntent);
+          this.payCash('Apple Pay');
+          // Happy path
           // Happy path
         }
       }, 3000);
+        
+      
       
     } catch (error) {
       console.log("Error catched: ",error);
@@ -333,23 +300,32 @@ export class PaymentmethodPage implements OnInit {
           paymentIntentClientSecret: this.paymentIntent,
           // Web only. Google Pay on Android App doesn't need
           paymentSummaryItems: [{
-            label: 'Marriage Event ',
-            amount: 1099.00
+            label: 'Event',
+            amount: this.rest.billDetails.pre_pay_amount
           }],
           merchantIdentifier: 'merchant.com.getcapacitor.stripe',
           countryCode: 'US',
           currency: 'USD',
         });
         this.rest.dismissLoader();
+
+      }, 3000);
+
+      setTimeout(async () => {
         // Present Google Pay
         const result = await Stripe.presentGooglePay();
         console.log("Result: ",result);
         
         if (result.paymentResult === GooglePayEventsEnum.Completed) {
           this.splitAndJoin(this.paymentIntent);
+          console.log("paymentIntent",this.paymentIntent);
+          this.payCash('Google Pay');
+          // Happy path
           // Happy path
         }
       }, 3000);
+        
+      
       
     } catch (error) {
       console.log("Err: ", error);
