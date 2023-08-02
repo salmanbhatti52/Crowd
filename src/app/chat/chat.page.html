@@ -25,9 +25,9 @@
         <ng-container *ngFor="let msg of allMessages">
           <div
             class="reciever_message_container reciever_message_cont"
-            *ngIf="msg.sender_type!='Users'"
+            *ngIf="msg.sender_type =='Users'"
           >
-            <div class="reciever" >
+            <div class="senderMessage" >
               <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
                 {{msg.message}}
               </ion-text>
@@ -39,10 +39,10 @@
           </div>
           <div
             class="sender"
-            *ngIf="msg.sender_type =='Users'"
+            *ngIf="msg.sender_type !='Users'"
           >
             <div class="sender_message_container" >
-              <div class="senderMessage">
+              <div class="reciever">
                 <ion-text class="textMessage" *ngIf="msg.msgType=='text'">
                   {{msg.message}}
                 </ion-text>
@@ -115,7 +115,7 @@
   </div>
 </ion-content>
 
-<ion-footer translucent>
+<ion-footer >
   <div
     class="inputfieldblack"
     style="
