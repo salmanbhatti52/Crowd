@@ -1,0 +1,115 @@
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+    
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .font{
+    font-weight: 600;
+    font-size: 14px;
+    font-style: normal;
+    color: black;
+  }
+
+  .center{
+    text-align: center;
+  }
+  
+  .ticket{
+    position: relative;
+    margin-top: 30px;
+    background: white;
+    width: 100%;
+    height: 92%;
+    border-radius: 6px;
+  }
+  
+  .ticket_tick{
+    // height: 48px !important;
+    // width: 48px !important;
+    // position: absolute;
+    // left: 42%;
+    // top: 7px;
+    height: 55px !important;
+    width: 55px !important;
+    position: absolute;
+    left: 40%;
+    top: -25px;
+  }
+
+  .pos_absolute{
+    position: absolute;
+  }
+
+  .container{
+    margin-top: 20px;
+    padding: 10px 8px 0px;
+    height: 88%;
+    // padding: 40px 24px 24px;
+    // // display: flex;
+    // // flex-direction: column;
+    // // justify-content: space-between;
+    // height: 90%;
+  }
+
+  .flex_center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2px 10px;
+  }
+
+  .right{
+    margin-right:15px;
+    margin-top: 17px;
+    text-align: right;
+  }
+
+  .align_center{
+    justify-content: center;
+  }
+
+  hr{
+    border-style: none;
+    border-top: 1px dashed black;
+    margin: 5px 13px 0px;
+  }
+
+  .msg_btn_sec{
+    text-align: center;
+    padding: 15px 28px 25px;
+  }
+
+  .modal_title{
+    font-weight: 600;
+    font-size: 20px;
+    color: #000000;
+  }
+  
+  .location{
+    font-weight: 500;
+    position: absolute;
+    top: 9px;
+    left: 79px;
+    color: #8b4513;
+    font-size: 15px;
+  }
+  .modal_desc{
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    color: #262626;
+  }

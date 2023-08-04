@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        >
+        <img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans">Ticket</ion-label>
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #262626">
+  <div class="container"  style="position: relative;" >
+    
+    <swiper-container  [slidesPerView]="1.2" [spaceBetween]="13" [centeredSlides]="true" (slidechange)="onSlideChange($event)" style="height: 100%;">
+      <swiper-slide *ngFor="let ticket of tickets;let i=index" style="width: 335px;">
+        <div class="ticket"  style="padding: 13px 5px 0px;">
+          <div id="ticket-p-a">
+            <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
+            <div style="margin: 25px 5px 5px; position: relative;">
+              <div class="flex_center">
+                <!-- <div class="font gilroy">slslsl</div>
+                <div class="font gilroy">slslsl</div> -->
+                <div class="font gilroy" style="width: 50%;
+                text-align: left;">{{userName}}</div>
+                <div class="font gilroy" style="text-align: right;">{{rest.ticketsData.events.name}}</div>
+              </div>
+              <div class="flex_center">
+                <!-- <div class="font gilroy">slslsl</div>
+                <div class="font gilroy">slslsl</div> -->
+                <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.ticketsData.events.event_date}}</div>
+                <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.ticketsData.events.event_start_time)}} - {{getTime(rest.ticketsData.events.event_end_time)}}</div>
+              </div>
+           
+              <div style="position: relative;">
+                <div class="location">{{rest.ticketsData.events.location}}</div>
+                <img class="center" style="margin-top: 5px; height: 95px;" src="../../assets/imgs/map_bg.jpg" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="center font gilroy" style="margin-top: 5px;position: relative;">{{ticket.random_string}}</div>
+          <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
+          <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
+          <div class="ticket-p-b">
+            <hr >
+            <div class="center" style="margin-top: 4px;">
+      
+              <qrcode 
+                [qrdata]="ticket.my_qr_code" 
+                [allowEmptyString]="true" 
+                [width]="200" 
+                [errorCorrectionLevel]="'M'">
+              </qrcode>
+            </div>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  
+  </div>
+  </ion-content>

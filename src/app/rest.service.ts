@@ -37,6 +37,7 @@ export class RestService {
   ticketsRequestedForRefund = 0;
   availableTicketsForRefund = 0;
   adminId: any;
+  ticketsData: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

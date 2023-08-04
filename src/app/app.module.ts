@@ -24,6 +24,7 @@ import { PininfoPageModule } from "./pininfo/pininfo.module";
 
 import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 import { BeseenPageModule } from "./beseen/beseen.module";
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 import { NgScrollCalendarModule } from "ng-scroll-calendar";
 
@@ -48,6 +49,7 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
     CancelReservationPageModule,
   ],
   providers: [
+    Camera,
     SignInWithApple,
     OneSignal,
     DatePicker,

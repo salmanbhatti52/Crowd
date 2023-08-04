@@ -80,7 +80,7 @@
   >
     <div class="elementBg" *ngFor="let aa of orderd_inProgressArr">
       <!-- (click)="gotoBookingDetails(aa)"  -->
-      <img 
+      <img (click)="showTickets(aa)"
         style="
           width: 104px;
           height: 104px;
@@ -109,7 +109,7 @@
           </p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
+        <!-- <div style="display: flex; align-items: center; margin-bottom: 2px">
           <div class="ticket_icon">
 
             <img class="imm_ticket" src="../../assets/imgs/icons/ticket.png" />
@@ -117,7 +117,7 @@
           <p class="date work_sans">
             {{aa.requested_tickets}}
           </p>
-        </div>
+        </div> -->
 
         <!-- <div
           *ngIf="aa.status != 'Cancelled'"
@@ -150,7 +150,7 @@
     *ngIf="segmentModel === 'Refunded'"
   >
     <div class="elementBg" *ngFor="let aa of orderd_refundedArr">
-      <img
+      <img (click)="showTickets(aa)"
         style="
           width: 104px;
           height: 104px;
@@ -179,7 +179,7 @@
           </p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
+        <!-- <div style="display: flex; align-items: center; margin-bottom: 2px">
           <div class="ticket_icon">
 
             <img class="imm_ticket" src="../../assets/imgs/icons/ticket.png" />
@@ -187,7 +187,7 @@
           <p class="date work_sans">
             {{aa.requested_tickets}}
           </p>
-        </div>
+        </div> -->
 
         <!-- <div style="display: flex; margin-top: 20px">
           <p *ngIf="aa.status == 'Pending'" class="canc work_sans">

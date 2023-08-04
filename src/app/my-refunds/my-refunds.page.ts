@@ -126,6 +126,13 @@ export class MyRefundsPage implements OnInit {
     await modal.present();
   }
 
+  showTickets(aa:any){
+    console.log("aa: ",aa);
+    this.rest.ticketsData = aa;
+    this.rest.ticketTokens = aa.events_tickets;
+    this.router.navigate(['show-tickets']);
+  }
+
   getDate(aa: any) {
     return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
   }

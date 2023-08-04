@@ -2,6 +2,30 @@
   cordova.define('cordova/plugin_list', function(require, exports, module) {
     module.exports = [
       {
+          "id": "cordova-plugin-camera.Camera",
+          "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+          "pluginId": "cordova-plugin-camera",
+        "clobbers": [
+          "Camera"
+        ]
+        },
+      {
+          "id": "cordova-plugin-camera.CameraPopoverHandle",
+          "file": "plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js",
+          "pluginId": "cordova-plugin-camera",
+        "clobbers": [
+          "CameraPopoverHandle"
+        ]
+        },
+      {
+          "id": "cordova-plugin-camera.CameraPopoverOptions",
+          "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+          "pluginId": "cordova-plugin-camera",
+        "clobbers": [
+          "CameraPopoverOptions"
+        ]
+        },
+      {
           "id": "cordova-plugin-geolocation.Coordinates",
           "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
           "pluginId": "cordova-plugin-geolocation",
@@ -39,6 +63,14 @@
           "pluginId": "cordova-plugin-nativegeocoder",
         "clobbers": [
           "nativegeocoder"
+        ]
+        },
+      {
+          "id": "cordova-plugin-camera.camera",
+          "file": "plugins/cordova-plugin-camera/www/Camera.js",
+          "pluginId": "cordova-plugin-camera",
+        "clobbers": [
+          "navigator.camera"
         ]
         },
       {
@@ -92,6 +124,7 @@
     module.exports.metadata =
     // TOP OF METADATA
     {
+      "cordova-plugin-camera": "6.0.0",
       "cordova-plugin-file-opener2": "4.0.0",
       "cordova-plugin-geolocation": "4.1.0",
       "cordova-plugin-inappbrowser": "5.0.0",

@@ -177,10 +177,6 @@ const routes: Routes = [
     loadChildren: () => import('./paymentsuccess/paymentsuccess.module').then( m => m.PaymentsuccessPageModule)
   },
   {
-    path: 'showticket',
-    loadChildren: () => import('./showticket/showticket.module').then( m => m.ShowticketPageModule)
-  },
-  {
     path: 'cancel-reservation',
     loadChildren: () => import('./cancel-reservation/cancel-reservation.module').then( m => m.CancelReservationPageModule)
   },
@@ -235,6 +231,10 @@ const routes: Routes = [
   {
     path: 'request-refund',
     loadChildren: () => import('./request-refund/request-refund.module').then( m => m.RequestRefundPageModule)
+  },
+  {
+    path: 'show-tickets',
+    loadChildren: () => import('./show-tickets/show-tickets.module').then( m => m.ShowTicketsPageModule)
   },
  
 

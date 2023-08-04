@@ -132,7 +132,8 @@ export class PaymentmethodPage implements OnInit {
       remaining_amount: this.rest.billDetails.remaining_amount,
       transiction_id:this.txnsId,
       transiction_status:"Paid",
-      payment_type:paymentType
+      payment_type:paymentType,
+      claim_discounts:'pending'
     }
     console.log('pay with cash dataaa: ',data);
     this.rest.presentLoader();
