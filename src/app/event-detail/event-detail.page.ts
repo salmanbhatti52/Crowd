@@ -250,7 +250,9 @@ export class EventDetailPage implements OnInit {
       this.rest.eventBookingId = this.detailObj.event_booking_id
       this.rest.eventId = this.detailObj.events_id
       this.rest.billDetails.pre_pay_amount = this.detailObj.paid_amount
-      this.rest.billDetails.remaining_amount = this.detailObj.remaining_amount
+      this.rest.billDetails.remaining_amount = this.detailObj.remaining_amount;
+      this.rest.discountPercentage = this.detailObj.events.discount_percentage
+      this.rest.discountedAmount = this.detailObj.discounted_amount
       console.log("buy");
       this.rest.comfrom = 'event-detail'
       this.router.navigate(['ticket'])

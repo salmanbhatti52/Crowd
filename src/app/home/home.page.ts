@@ -347,6 +347,7 @@ export class HomePage implements OnInit {
     this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
+    this.rest.comingFrom = 'home';
     this.router.navigate(["eventdetail"]);
   }
 
@@ -698,6 +699,7 @@ export class HomePage implements OnInit {
 
 
   gotoEventDetail(){
+    this.rest.comingFrom = 'home';
     this.router.navigate(["eventdetail"]);
   }
 

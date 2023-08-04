@@ -38,6 +38,9 @@ export class RestService {
   availableTicketsForRefund = 0;
   adminId: any;
   ticketsData: any;
+  claimDiscount = false;
+  discountedAmount: any;
+  discountPercentage: any;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

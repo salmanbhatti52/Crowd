@@ -117,7 +117,7 @@
       >
         <p style="margin: 0px" class="dd work_sans">{{rest.billDetails.package_type}}</p>
         <p style="margin: 0px" class="dd work_sans">{{rest.billDetails.package_name}}</p>
-        <p style="margin: 0px" class="dd work_sans">{{rest.billDetails.package_price}}</p>
+        <p style="margin: 0px" class="dd work_sans">£{{rest.billDetails.package_price}}</p>
       </div>
   
       <div
@@ -130,6 +130,20 @@
       >
         <p style="margin: 0px" class="dd work_sans">Crowd Fees</p>
         <p style="margin: 0px" class="dd work_sans">£5</p>
+      </div>
+      
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0px 0px;
+        "
+      >
+        <p style="margin: 0px" class="dd work_sans" *ngIf="discountedAmount">Discount ({{discountPercentage}}%)</p>
+        <p style="margin: 0px" class="dd work_sans" *ngIf="!discountedAmount">Discount</p>
+        <p style="margin: 0px" class="dd work_sans" *ngIf="discountedAmount">£{{discountedAmount}}</p>
+        <p style="margin: 0px" class="dd work_sans" *ngIf="!discountedAmount">£0</p>
       </div>
   
     </div>

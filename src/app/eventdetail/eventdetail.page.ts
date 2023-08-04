@@ -29,7 +29,10 @@ export class EventdetailPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    
+    if(this.rest.comingFrom == 'home'){
+      this.rest.claimDiscount = false;
+    }
+    this.rest.comingFrom = '';
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -61,26 +64,26 @@ export class EventdetailPage implements OnInit {
       this.displaydiv = true;
       this.num = 0;
       console.log("if---if", ratio);
-
-      this.claimDiscount();
+      this.rest.claimDiscount = true;
+      // this.claimDiscount();
     }
 
     console.log("dragggggg---44444", ratio);
   }
 
-  claimDiscount() {
-    var ss = {
-      users_customers_id: this.userID,
-      events_id: this.detailObj.events_id,
-    };
+  // claimDiscount() {
+  //   var ss = {
+  //     users_customers_id: this.userID,
+  //     events_id: this.detailObj.events_id,
+  //   };
 
-    console.log("ss claim discount-----", ss);
+  //   console.log("ss claim discount-----", ss);
 
-    this.rest.sendRequest("events_claim_discount",ss).subscribe((res:any)=>{
-      console.log("res claim discount for events-----", res);
-    })
+  //   this.rest.sendRequest("events_claim_discount",ss).subscribe((res:any)=>{
+  //     console.log("res claim discount for events-----", res);
+  //   })
     
-  }
+  // }
 
   openSlider(slidingItem: IonItemSliding) {
     console.log("opne");

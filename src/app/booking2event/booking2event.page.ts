@@ -218,6 +218,7 @@ export class Booking2eventPage implements OnInit {
         }
         console.log("Bill Details",data);
         this.rest.billDetails = data;
+        this.rest.comingFrom = 'booking2event'
         this.router.navigate(["booking3event"]);
         
       }

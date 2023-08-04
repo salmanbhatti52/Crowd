@@ -117,6 +117,13 @@ export class PaymentmethodPage implements OnInit {
   }
 
   payCash(paymentType:any){
+    let discountStatus = 'pending';
+    if(this.rest.claimDiscount == true){
+      discountStatus = 'claimed';
+    }
+    if(this.rest.discountedAmount == undefined){
+      this.rest.discountedAmount = 0
+    }
     let data = {
       events_id:this.rest.billDetails.event_id,
       user_id:this.userId,
@@ -133,7 +140,8 @@ export class PaymentmethodPage implements OnInit {
       transiction_id:this.txnsId,
       transiction_status:"Paid",
       payment_type:paymentType,
-      claim_discounts:'pending'
+      claim_discounts:discountStatus,
+      discounted_amount:this.rest.discountedAmount
     }
     console.log('pay with cash dataaa: ',data);
     this.rest.presentLoader();
