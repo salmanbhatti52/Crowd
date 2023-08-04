@@ -30,6 +30,8 @@ export class TicketDetailPage implements OnInit {
   prePaidAmount: any;
   remainingAmount: any;
   ticketId:any;
+  discountedAmount: any;
+  discountPercentage: any;
   constructor(public location:Location,
     public navCtrl:NavController,
     public rest:RestService) {
@@ -59,7 +61,11 @@ export class TicketDetailPage implements OnInit {
     this.prePaidAmount = this.result[16];
     this.remainingAmount = this.result[17];
     this.ticketId = this.result[18];
+    this.discountedAmount = this.result[19];
+    this.discountedAmount = Number.parseFloat(this.discountedAmount)
 
+    this.discountPercentage = this.result[20];
+    this.discountPercentage = Number.parseFloat(this.discountPercentage)
     let data = {
       tickets_id: this.ticketId
     };

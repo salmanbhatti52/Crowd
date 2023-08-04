@@ -34,8 +34,10 @@
       <div class="ticket_data work_sans"><span class="font_18_bold">Package Name: </span>{{packageName}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Package Price: </span>{{packagePrice}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Price: </span>{{ticketPrice}}</div>
-      <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Requested: </span>{{ticketRequested}}</div>
+      <!-- <div class="ticket_data work_sans"><span class="font_18_bold">Ticket Requested: </span>{{ticketRequested}}</div> -->
       <div class="ticket_data work_sans"><span class="font_18_bold">Crowd Fee: </span>{{crowdFee}}</div>
+      <!-- <div *ngIf="discountedAmount != 0" class="ticket_data work_sans"><span class="font_18_bold">Discount({{discountPercentage}}%): </span>£{{discountedAmount}}</div>
+      <div *ngIf="discountedAmount == 0" class="ticket_data work_sans"><span class="font_18_bold">Discount: </span>£{{discountedAmount}}</div> -->
       <div class="ticket_data work_sans"><span class="font_18_bold">Total Bill: </span>{{totalBill}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event Location: </span>{{eventLocation}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Booking Status: </span>{{bookingStatus}}</div>
