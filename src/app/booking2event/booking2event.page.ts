@@ -196,7 +196,8 @@ export class Booking2eventPage implements OnInit {
       }else if(this.packagePrice == 0){
         this.rest.presentToast('Plz select the package');
       }else{
-        let ticketBill = this.ticketRequested * this.pricePerTicket;
+        let ticketBill:any = this.ticketRequested * this.pricePerTicket;
+       ticketBill = Number.parseFloat(ticketBill.toString()).toFixed(2);
         let data = {
           ticket_requested: this.ticketRequested,
           ticket_bill: ticketBill,

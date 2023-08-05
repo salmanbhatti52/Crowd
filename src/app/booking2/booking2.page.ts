@@ -32,6 +32,9 @@ export class Booking2Page implements OnInit {
     public navCtrl:NavController
   ) {}
 
+  ionViewWillLeave() {
+    this.rest.claimedVenDiscount = false;
+  }
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
     // if(this.selectedVenue == ""){

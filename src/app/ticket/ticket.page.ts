@@ -223,6 +223,7 @@ export class TicketPage implements OnInit {
   ionViewWillLeave(){
     this.rest.discountPercentage = undefined
     this.rest.discountedAmount = undefined
+    this.rest.claimDiscount = false;
   }
 
   removeInterval() {

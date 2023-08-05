@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="dummy_text work_sans" *ngIf="recordFound == false">You have not scanned any tickets for this event</div>
-    <div style="margin-top: 20px;" *ngFor="let ticket of scannedTickets; let i = index">
+    <div class="ticket_bg" *ngFor="let ticket of scannedTickets; let i = index">
       <div class="ticket_data work_sans center " ><span class="tick_num_border">{{i+1}} out of {{scannedTickets.length}}</span></div>
       <div class="ticket_data work_sans" style="margin-top: 15px;"><span class="font_18_bold">Ticket Id: </span>{{ticket.random_string}}</div>
       <div class="ticket_data work_sans"><span class="font_18_bold">Event Name: </span>{{ticket.name}}</div>

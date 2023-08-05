@@ -27,6 +27,10 @@ export class VenuedetailPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    if(this.rest.comingFrom == 'home'){
+      this.rest.claimedVenDiscount = false;
+    }
+    this.rest.comingFrom = '';
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -58,25 +62,25 @@ export class VenuedetailPage implements OnInit {
       this.displaydiv = true;
       this.num = 0;
       console.log("if---if", ratio);
-
-      this.claimDiscount();
+      this.rest.claimedVenDiscount = true;
+      // this.claimDiscount();
     }
 
     console.log("dragggggg---44444", ratio);
   }
 
-  claimDiscount() {
-    var ss = JSON.stringify({
-      users_customers_id: this.userID,
-      venues_id: this.detailObj.venues_id,
-    });
+  // claimDiscount() {
+  //   var ss = JSON.stringify({
+  //     users_customers_id: this.userID,
+  //     venues_id: this.detailObj.venues_id,
+  //   });
 
-    console.log("ss claim discount-----", ss);
+  //   console.log("ss claim discount-----", ss);
 
-    this.rest.claim_discount(ss).subscribe((res: any) => {
-      console.log("res claim discount-----", res);
-    });
-  }
+  //   this.rest.claim_discount(ss).subscribe((res: any) => {
+  //     console.log("res claim discount-----", res);
+  //   });
+  // }
 
   updatevVisitor() {
     var ss = JSON.stringify({

@@ -76,7 +76,10 @@ export class MyreservationsPage implements OnInit {
     this.rest.selectedBooking = data;
     this.rest.selectedBooking.coming_from = 'reservations'; 
     this.rest.detail = this.rest.selectedBooking.venues_details;
+    this.rest.comingFrom = 'reservations';
     console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
+    console.log("comingFrom     ::::::",this.rest.comingFrom);
+    
     this.router.navigate(['/booking2']);
   }
 

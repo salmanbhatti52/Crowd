@@ -288,6 +288,7 @@ export class HomePage implements OnInit {
           this.HideFilter();
           console.log("opt: ",opt);
           this.rest.detail = opt;
+          this.rest.comingFrom = 'home';
           this.router.navigate(["venuedetail"]);
         }
       },
@@ -326,6 +327,7 @@ export class HomePage implements OnInit {
           this.HideFilter();
           console.log(this.selectedVenue);
           this.rest.detail = this.selectedVenue;
+          this.rest.comingFrom = 'home';
           this.router.navigate(["venuedetail"]);
         }
       }
@@ -340,6 +342,7 @@ export class HomePage implements OnInit {
           // this.router.navigate(["venuedetail"]);
     console.log(ev);
     this.rest.detail = ev;
+    this.rest.comingFrom = 'home';
     this.router.navigate(["venuedetail"]);
   }
 

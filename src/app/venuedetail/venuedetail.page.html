@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1">
+    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1 || rest.claimedVenDiscount == true">
       <ion-item-sliding
         #slidingItem
         (ionDrag)="claimDrag(slidingItem, $event)"
@@ -200,6 +200,10 @@
         </ion-item>
       </ion-item-sliding>
     </ion-list>
+
+    <div class="claim_msg work_sans" *ngIf="rest.claimedVenDiscount == true" 
+      >Discount Claimed!
+    </div>
 
     <div *ngIf="detailObj.venues_id != null">
       <ion-button

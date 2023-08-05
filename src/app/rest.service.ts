@@ -39,6 +39,7 @@ export class RestService {
   adminId: any;
   ticketsData: any;
   claimDiscount = false;
+  claimedVenDiscount = false;
   discountedAmount: any;
   discountPercentage: any;
   constructor(

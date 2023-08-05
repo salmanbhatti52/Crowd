@@ -23,6 +23,20 @@
       color: #ffffff;
       margin-right: 15px;
     }
+
+    .claim_msg{
+      padding: 13px !important;
+        margin: 25px 0px 0px;
+        background: #531C7C;
+        opacity: 0.8;
+        border-radius: 42px;
+        width: 100%;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        text-align: center;
+        color: #FFFFFF;
+    }
     
     @media (orientation: landscape) {
       .btm{

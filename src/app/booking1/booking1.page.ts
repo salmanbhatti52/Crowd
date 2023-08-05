@@ -158,12 +158,17 @@ export class Booking1Page implements OnInit {
     } else {
       var tt  = format(parseISO(this.usertime), "HH:mm");
       // var tt = moment(this.usertime).format("h:mm");
+      let discountStatus = 'pending';
+      if(this.rest.claimedVenDiscount == true){
+        discountStatus = 'claimed';
+      }
       var ss = JSON.stringify({
         venues_id: this.selectedVenue.venues_id,
         users_customers_id: this.userID,
         no_of_diners: this.people,
         bookings_date: this.myDate,
         bookings_time: tt,
+        claim_discounts:discountStatus,
       });
 
       console.log(ss);
@@ -174,6 +179,7 @@ export class Booking1Page implements OnInit {
         if (res.status == "success") {
           this.rest.selectedBooking = res.data;
           this.rest.selectedBooking.coming_from = 'other';
+          this.rest.comingFrom = 'booking1';
           this.router.navigate(["booking2"]);
         } else {
           this.rest.presentToast("Error");

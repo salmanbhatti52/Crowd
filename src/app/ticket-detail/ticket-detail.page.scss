@@ -136,16 +136,22 @@
 
 
 .container{
-    padding: 20px;
+    padding: 15px;
     
 }
 
+.ticket_bg{
+  padding: 10px 12px;
+    background: white;
+    border-radius: 10px;
+}
+
 .font_18_bold{
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 .ticket_data{
-  color: #FFF;
+  color: black;
   font-family: Work Sans;
   font-size: 16px;
   font-style: normal;
