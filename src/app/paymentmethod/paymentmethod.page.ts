@@ -89,7 +89,7 @@ export class PaymentmethodPage implements OnInit {
     this.amount = this.rest.billDetails.pre_pay_amount * 100
     this.amount = this.convertInDecimal(this.amount);
     console.log("Amount after multiply by 100: ", this.amount);
-    
+   
     let data = {
       name:this.userName,
       email:this.userEmail,
@@ -108,6 +108,8 @@ export class PaymentmethodPage implements OnInit {
       console.log("paymentIntent: ",this.paymentIntent);
       
     })
+  
+    
   }
 
   convertInDecimal(x:any) {
@@ -170,175 +172,194 @@ export class PaymentmethodPage implements OnInit {
   }
 
   async paymentSheet() {
-    try {
-      this.paymentIntent = undefined;
-      this.customerId = undefined;
-      this.ephemeralKey = undefined;
-      // be able to get event of PaymentSheet
-      this.rest.presentLoader()
-      this.httpPost();
-      Stripe.addListener(PaymentSheetEventsEnum.Completed, () => {
-        console.log('PaymentSheetEventsEnum.Completed');
-      });
-      
-      // Connect to your backend endpoint, and get every key.
-
-      setTimeout(async () => {
-        console.log("If PaymentIntent: ",this.paymentIntent);
-        // prepare PaymentSheet with CreatePaymentSheetOption.
-        await Stripe.createPaymentSheet({
-          enableGooglePay:true,
-          enableApplePay:true,
-          paymentIntentClientSecret: this.paymentIntent,
-          customerId: this.customerId,
-          customerEphemeralKeySecret: this.ephemeralKey,
-          merchantDisplayName: 'Crowd'
-        });
-        this.rest.dismissLoader();
-        console.log("createPaymentSheet");
-      }, 3000);
-      
-      setTimeout(async () => {
-        // present PaymentSheet and get result.
-        const result = await Stripe.presentPaymentSheet();
-        console.log('Result: ',result);
-        
-        if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
-          this.splitAndJoin(this.paymentIntent);
-          console.log("paymentIntent",this.paymentIntent);
-          this.payCash('Stripe');
-          // Happy path
+    if(this.userName){
+      try {
+        this.paymentIntent = undefined;
+        this.customerId = undefined;
+        this.ephemeralKey = undefined;
+        // be able to get event of PaymentSheet
+        this.rest.presentLoader()
+        this.httpPost();
+        if(this.userName){
+  
+        }else{
+  
         }
-      }, 3000);
-      
-      
+        Stripe.addListener(PaymentSheetEventsEnum.Completed, () => {
+          console.log('PaymentSheetEventsEnum.Completed');
+        });
         
-    } catch (error) {
-      console.log("Error catched: ",error);
-      
+        // Connect to your backend endpoint, and get every key.
+  
+        setTimeout(async () => {
+          console.log("If PaymentIntent: ",this.paymentIntent);
+          // prepare PaymentSheet with CreatePaymentSheetOption.
+          await Stripe.createPaymentSheet({
+            enableGooglePay:true,
+            enableApplePay:true,
+            paymentIntentClientSecret: this.paymentIntent,
+            customerId: this.customerId,
+            customerEphemeralKeySecret: this.ephemeralKey,
+            merchantDisplayName: 'Crowd'
+          });
+          this.rest.dismissLoader();
+          console.log("createPaymentSheet");
+        }, 3000);
+        
+        setTimeout(async () => {
+          // present PaymentSheet and get result.
+          const result = await Stripe.presentPaymentSheet();
+          console.log('Result: ',result);
+          
+          if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
+            this.splitAndJoin(this.paymentIntent);
+            console.log("paymentIntent",this.paymentIntent);
+            this.payCash('Stripe');
+            // Happy path
+          }
+        }, 3000);
+        
+        
+          
+      } catch (error) {
+        console.log("Error catched: ",error);
+        
+      }
+    }else{
+      this.rest.presentToast("Plz set your name in Profile section.");
     }
+   
     
 
   }
 
   async applePay(){
-    try {
-      this.paymentIntent = undefined;
-      this.customerId = undefined;
-      this.ephemeralKey = undefined;
-      this.rest.presentLoader();
-      this.httpPost();
-      // Check to be able to use Apple Pay on device
-      const isAvailable = Stripe.isApplePayAvailable().catch(() => undefined);
-      if (isAvailable === undefined) {
-        // disable to use Google Pay
-        return;
-      }
-
-      // be able to get event of Apple Pay
-      Stripe.addListener(ApplePayEventsEnum.Completed, () => {
-        console.log('ApplePayEventsEnum.Completed');
-      });
-
-      setTimeout(async () => {
-        console.log("If PaymentIntent: ",this.paymentIntent);
-
-        // Prepare Apple Pay
-        await Stripe.createApplePay({
-          paymentIntentClientSecret: this.paymentIntent,
-          paymentSummaryItems: [{
-            label: 'Event',
-            amount: this.rest.billDetails.pre_pay_amount
-          }],
-          merchantIdentifier: 'rdlabo',
-          countryCode: 'US',
-          currency: 'USD',
-        });
-        console.log("createApplePay");
-        
-        this.rest.dismissLoader();
-      }, 3000);
-
-      setTimeout(async () => {
-        // Present Apple Pay
-        const result = await Stripe.presentApplePay();
-        console.log("Result: ",result);
-        
-        if (result.paymentResult === ApplePayEventsEnum.Completed) {
-          this.splitAndJoin(this.paymentIntent);
-          console.log("paymentIntent",this.paymentIntent);
-          this.payCash('Apple Pay');
-          // Happy path
-          // Happy path
+    if(this.userName){
+      try {
+        this.paymentIntent = undefined;
+        this.customerId = undefined;
+        this.ephemeralKey = undefined;
+        this.rest.presentLoader();
+        this.httpPost();
+        // Check to be able to use Apple Pay on device
+        const isAvailable = Stripe.isApplePayAvailable().catch(() => undefined);
+        if (isAvailable === undefined) {
+          // disable to use Google Pay
+          return;
         }
-      }, 3000);
+  
+        // be able to get event of Apple Pay
+        Stripe.addListener(ApplePayEventsEnum.Completed, () => {
+          console.log('ApplePayEventsEnum.Completed');
+        });
+  
+        setTimeout(async () => {
+          console.log("If PaymentIntent: ",this.paymentIntent);
+  
+          // Prepare Apple Pay
+          await Stripe.createApplePay({
+            paymentIntentClientSecret: this.paymentIntent,
+            paymentSummaryItems: [{
+              label: 'Event',
+              amount: this.rest.billDetails.pre_pay_amount
+            }],
+            merchantIdentifier: 'rdlabo',
+            countryCode: 'US',
+            currency: 'USD',
+          });
+          console.log("createApplePay");
+          
+          this.rest.dismissLoader();
+        }, 3000);
+  
+        setTimeout(async () => {
+          // Present Apple Pay
+          const result = await Stripe.presentApplePay();
+          console.log("Result: ",result);
+          
+          if (result.paymentResult === ApplePayEventsEnum.Completed) {
+            this.splitAndJoin(this.paymentIntent);
+            console.log("paymentIntent",this.paymentIntent);
+            this.payCash('Apple Pay');
+            // Happy path
+            // Happy path
+          }
+        }, 3000);
+          
         
-      
-      
-    } catch (error) {
-      console.log("Error catched: ",error);
-
+        
+      } catch (error) {
+        console.log("Error catched: ",error);
+  
+      }
+    }else{
+      this.rest.presentToast("Plz set your name in Profile section.");
     }
+    
   }
 
   async googlePay(){
-    try {
-      this.paymentIntent = undefined;
-      this.customerId = undefined;
-      this.ephemeralKey = undefined;
-      this.rest.presentLoader();
-      this.httpPost();
-      // Check to be able to use Google Pay on device
-      const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
-      if (isAvailable === undefined) {
-        // disable to use Google Pay
-        console.log("Google Pay is not available.");
-        
-        return;
-      }
-      
-      Stripe.addListener(GooglePayEventsEnum.Completed, () => {
-        console.log('GooglePayEventsEnum.Completed');
-      });
-      
-      setTimeout(async () => {
-        console.log("PaymentIntent: ",this.paymentIntent);
-
-        // Prepare Google Pay
-        await Stripe.createGooglePay({
-          paymentIntentClientSecret: this.paymentIntent,
-          // Web only. Google Pay on Android App doesn't need
-          paymentSummaryItems: [{
-            label: 'Event',
-            amount: this.rest.billDetails.pre_pay_amount
-          }],
-          merchantIdentifier: 'merchant.com.getcapacitor.stripe',
-          countryCode: 'US',
-          currency: 'USD',
-        });
-        this.rest.dismissLoader();
-
-      }, 3000);
-
-      setTimeout(async () => {
-        // Present Google Pay
-        const result = await Stripe.presentGooglePay();
-        console.log("Result: ",result);
-        
-        if (result.paymentResult === GooglePayEventsEnum.Completed) {
-          this.splitAndJoin(this.paymentIntent);
-          console.log("paymentIntent",this.paymentIntent);
-          this.payCash('Google Pay');
-          // Happy path
-          // Happy path
+    if(this.userName){
+      try {
+        this.paymentIntent = undefined;
+        this.customerId = undefined;
+        this.ephemeralKey = undefined;
+        this.rest.presentLoader();
+        this.httpPost();
+        // Check to be able to use Google Pay on device
+        const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
+        if (isAvailable === undefined) {
+          // disable to use Google Pay
+          console.log("Google Pay is not available.");
+          
+          return;
         }
-      }, 3000);
         
-      
-      
-    } catch (error) {
-      console.log("Err: ", error);
-      
+        Stripe.addListener(GooglePayEventsEnum.Completed, () => {
+          console.log('GooglePayEventsEnum.Completed');
+        });
+        
+        setTimeout(async () => {
+          console.log("PaymentIntent: ",this.paymentIntent);
+  
+          // Prepare Google Pay
+          await Stripe.createGooglePay({
+            paymentIntentClientSecret: this.paymentIntent,
+            // Web only. Google Pay on Android App doesn't need
+            paymentSummaryItems: [{
+              label: 'Event',
+              amount: this.rest.billDetails.pre_pay_amount
+            }],
+            merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+            countryCode: 'US',
+            currency: 'USD',
+          });
+          this.rest.dismissLoader();
+  
+        }, 3000);
+  
+        setTimeout(async () => {
+          // Present Google Pay
+          const result = await Stripe.presentGooglePay();
+          console.log("Result: ",result);
+          
+          if (result.paymentResult === GooglePayEventsEnum.Completed) {
+            this.splitAndJoin(this.paymentIntent);
+            console.log("paymentIntent",this.paymentIntent);
+            this.payCash('Google Pay');
+            // Happy path
+            // Happy path
+          }
+        }, 3000);
+          
+        
+        
+      } catch (error) {
+        console.log("Err: ", error);
+        
+      }
+    }else{
+      this.rest.presentToast("Plz set your name in Profile section.");
     }
   }
 
@@ -356,6 +377,9 @@ export class PaymentmethodPage implements OnInit {
     this.userdata = localStorage.getItem('userdata');
     this.userId = JSON.parse(this.userdata).users_customers_id;
     this.userName = JSON.parse(this.userdata).username;
+    if(!this.userName){
+      this.rest.presentToast("Plz set your name in Profile section.");
+    }
     this.userEmail = JSON.parse(this.userdata).email;
   }
 
