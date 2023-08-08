@@ -13,7 +13,7 @@ import { formatDistance } from "date-fns";
 export class NotiPage implements OnInit {
   userdata: any = "";
   userid: any = "";
-  notiArr: any = "";
+  notiArr: any = [];
   noticount = 0;
   constructor(public router: Router, public rest: RestService) {}
 
@@ -35,7 +35,7 @@ export class NotiPage implements OnInit {
 
     this.rest.notifications(ss).subscribe((res: any) => {
       console.log("res noti-----", res);
-
+      this.notiArr = []
       this.rest.dismissLoader();
 
       if (res.status == "error") {
@@ -43,7 +43,19 @@ export class NotiPage implements OnInit {
         this.rest.presentToast("No notifications found");
       } else {
         this.noticount = 2;
-        this.notiArr = res.data;
+        for(let d of res.data){
+          if(d?.admin_images){
+            d.cover_images =  d.admin_images
+          }
+        }
+        // this.notiArr = res.data;
+        res.data = res.data.sort((a:any,b:any)=>a.notifications_id - b.notifications_id);
+        for(let i= res.data.length - 1; i>=0; i--){
+          this.notiArr.push(res.data[i]);
+        }
+         
+        console.log("noti array",this.notiArr);
+        
       }
     });
   }

@@ -321,14 +321,19 @@ export class PaymentmethodPage implements OnInit {
         
         setTimeout(async () => {
           console.log("PaymentIntent: ",this.paymentIntent);
-  
+          let t_amount = Math.trunc(this.rest.billDetails.pre_pay_amount); 
+          console.log("t_amountt:  ",t_amount);
+          
           // Prepare Google Pay
           await Stripe.createGooglePay({
             paymentIntentClientSecret: this.paymentIntent,
             // Web only. Google Pay on Android App doesn't need
+            //
             paymentSummaryItems: [{
               label: 'Event',
-              amount: this.rest.billDetails.pre_pay_amount
+              //the following 'amount' key only takes complete (positive) value. i.e 4, 4.00, 5, 500, 500.00
+              amount: t_amount
+              // amount: this.rest.billDetails.pre_pay_amount
             }],
             merchantIdentifier: 'merchant.com.getcapacitor.stripe',
             countryCode: 'US',
