@@ -178,13 +178,9 @@ export class PaymentmethodPage implements OnInit {
         this.customerId = undefined;
         this.ephemeralKey = undefined;
         // be able to get event of PaymentSheet
-        this.rest.presentLoader()
+        this.rest.presentLoader();
         this.httpPost();
-        if(this.userName){
-  
-        }else{
-  
-        }
+        
         Stripe.addListener(PaymentSheetEventsEnum.Completed, () => {
           console.log('PaymentSheetEventsEnum.Completed');
         });
@@ -255,13 +251,14 @@ export class PaymentmethodPage implements OnInit {
   
         setTimeout(async () => {
           console.log("If PaymentIntent: ",this.paymentIntent);
-  
+          let t_amount = Math.trunc(this.rest.billDetails.pre_pay_amount); 
+          console.log("t_amountt:  ",t_amount);
           // Prepare Apple Pay
           await Stripe.createApplePay({
             paymentIntentClientSecret: this.paymentIntent,
             paymentSummaryItems: [{
               label: 'Event',
-              amount: this.rest.billDetails.pre_pay_amount
+              amount: t_amount
             }],
             merchantIdentifier: 'rdlabo',
             countryCode: 'US',
