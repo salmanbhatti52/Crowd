@@ -7,6 +7,8 @@ import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { RestService } from "../rest.service";
 // import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { AlertController } from '@ionic/angular';
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import { FacebookLogin } from "@capacitor-community/facebook-login";
 
 @Component({
   selector: "app-profile",
@@ -58,12 +60,28 @@ export class ProfilePage implements OnInit {
     this.name = JSON.parse(this.userdata).full_name;
     this.uname = JSON.parse(this.userdata).username;
     this.userid = JSON.parse(this.userdata).users_customers_id;
-    if (JSON.parse(this.userdata).profile_picture) {
-      this.imgdataComing =
+    if(JSON.parse(this.userdata).account_type == "SignupWithApp"){
+      if (JSON.parse(this.userdata).profile_picture) {
+        this.imgdataComing =
+          this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
+      } else {
+        this.imgdataComing = "assets/imgs/addimg.svg";
+      }
+    }else{
+      let str = JSON.parse(this.userdata).profile_picture
+      if(str.includes('uploads/')){
+        this.imgdataComing =
         this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
-    } else {
-      this.imgdataComing = "assets/imgs/addimg.svg";
+      }else{
+        if (JSON.parse(this.userdata).profile_picture) {
+          this.imgdataComing = JSON.parse(this.userdata).profile_picture;
+        } else {
+          this.imgdataComing = "assets/imgs/addimg.svg";
+        }
+      }
+      
     }
+    
 
     this.be_seen = JSON.parse(this.userdata).be_seen;
 
@@ -93,12 +111,6 @@ export class ProfilePage implements OnInit {
       const result = await Camera.checkPermissions();
       console.log("check permsisson result: ",result);
     }, 500);
-    // setTimeout(() => {
-    //   Camera.requestPermissions()
-    //   const result = Camera.checkPermissions();
-    //   console.log("New Result: ",result);
-      
-    // }, 1000);
     
   }
 
@@ -137,7 +149,20 @@ export class ProfilePage implements OnInit {
   changePass() {
     this.router.navigate(["changepass"]);
   }
+
+  async signOutForGoogle(){
+    await GoogleAuth.signOut();
+    // this.googleUserData = null;
+  }
+
+  async signOutForFacebook(){
+    await FacebookLogin.logout();
+  }
+  
   goLogout() {
+    this.signOutForGoogle();
+    this.signOutForFacebook();
+    // this.rest.profile_updated = false;
     this.onesignalid = localStorage.getItem("onesignaluserid");
     this.social_login_status = localStorage.getItem("social_login_status");
 
@@ -217,7 +242,9 @@ export class ProfilePage implements OnInit {
         console.log(res);
         if (res.status == "success") {
           this.rest.presentToast("Profile updated successfully");
-
+          if(this.imageupdate == 1){
+            // this.rest.profile_updated = true;
+          }
           localStorage.setItem("userdata", JSON.stringify(res.data[0]));
         } else {
           this.rest.presentToast("Error");
@@ -227,119 +254,22 @@ export class ProfilePage implements OnInit {
     console.log("save");
   }
 
-  // async presentAlert() {
-  //   const alert = await this.alertController.create({
-  //     header: 'Choose From',
-  //     buttons: [
-  //       {
-  //         text: 'Camera',
-  //         role: 'camera',
-  //         handler: () => {
-  //           this.handlerMessage = 'Use Camera';
-  //           this.addimg('camera');
-  //         },
-  //       },
-  //       {
-  //         text: 'Gallery',
-  //         role: 'gallery',
-  //         handler: () => {
-  //           this.handlerMessage = 'Use Gallery';
-  //           this.addimg('gallery');
-
-  //         },
-  //       },
-  //     ],
-  //   });
-
-  //   await alert.present();
-
-  //   const { role } = await alert.onDidDismiss();
-  //   this.roleMessage = `Dismissed with role: ${role}`;
-  // }
-
   async addimg() {
     console.log("addd imge");
 
-    // if(data == 'camera'){
-    //   console.log(data);
-      
-    //   const options: CameraOptions = {
-    //     quality: 100,
-    //     destinationType: this.camera.DestinationType.DATA_URL,
-    //     encodingType: this.camera.EncodingType.JPEG,
-    //     mediaType: this.camera.MediaType.PICTURE,
-    //     sourceType:this.camera.PictureSourceType.CAMERA
-    //   }
-    //   this.camera.getPicture(options).then((imageData) => {
-    //     // imageData is either a base64 encoded string or a file URI
-    //     // If it's base64 (DATA_URL):
-    //     let base64Image = 'data:image/jpeg;base64,' + imageData;
-    //     console.log("imageData",imageData);
-    //     console.log("base64Image",base64Image);
-        
-    //     // this.imgdata = image.base64String;
-    //   // this.imgdataComing = "data:image/jpeg;base64," + image.base64String;
-  
-    //   // console.log("incoming img----", this.imgdata);
-    //   // this.imageupdate = 1;
-    //    }, (err) => {
-    //     console.log("err camera", err);
-        
-    //     // Handle error
-    //    });    
-    // }
-    
-    // else if(data == 'gallery'){
-    //   console.log(data);
-      
-    //   const options: CameraOptions = {
-    //     quality: 100,
-    //     destinationType: this.camera.DestinationType.DATA_URL,
-    //     encodingType: this.camera.EncodingType.JPEG,
-    //     mediaType: this.camera.MediaType.PICTURE,
-    //     sourceType:this.camera.PictureSourceType.PHOTOLIBRARY
-    //   }
-    //   this.camera.getPicture(options).then((imageData) => {
-    //     // imageData is either a base64 encoded string or a file URI
-    //     // If it's base64 (DATA_URL):
-    //     let base64Image = 'data:image/jpeg;base64,' + imageData;
-    //     console.log("imageData",imageData);
-    //     console.log("base64Image",base64Image);
-    //    }, (err) => {
-    //     console.log("err gallery", err);
-    //    });    
-    // }
-    
-    // else{
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Prompt,
+    });
+    console.log(image);
+    this.imgdata = image.base64String;
+    this.imgdataComing = "data:image/jpeg;base64," + image.base64String;
 
-    // }
-    
-
-    
-    // const permissions = await Camera.requestPermissions();
-    // console.log('permissions.photos', permissions.photos);
-    // if (permissions.photos === 'denied' || permissions.camera === 'denied') {
-    //   //Popover asking them to click `Allow` on the native permission dialog
-    //   console.log("Camm: ",permissions.camera);
-    //   console.log("Photos: ",permissions.photos);
-      
-
-    // }else{
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.Base64,
-        source: CameraSource.Prompt,
-      });
-      console.log(image);
-      this.imgdata = image.base64String;
-      this.imgdataComing = "data:image/jpeg;base64," + image.base64String;
-  
-      console.log("incoming img----", this.imgdata);
-      this.imageupdate = 1;
-      // Can be set to the src of an image now
-    // }
-    
+    console.log("incoming img----", this.imgdata);
+    this.imageupdate = 1;
+     
   }
 
   gotoReservation(){

@@ -42,6 +42,7 @@ export class RestService {
   claimedVenDiscount = false;
   discountedAmount: any;
   discountPercentage: any;
+  profile_updated = false;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
