@@ -56,6 +56,7 @@ export class LoginPage implements OnInit {
       await FacebookLogin.initialize({ appId: "828272794912378" });
     });
   }
+  
   goToSignup() {
     this.router.navigate(["signup"]);
   }
@@ -118,8 +119,23 @@ export class LoginPage implements OnInit {
   }
 
   async googleSignIn() {
-    this.googleUser = await GoogleAuth.signIn();
-    console.log("googleUser-------", this.googleUser);
+
+    this.rest.presentToast('Accessing Your Google Account');
+    await GoogleAuth.signIn().then((res:any)=>{
+      // this.api.hideLoading();
+      this.rest.presentToast('Google Account Identified');
+      console.log('GoogleUserResponse: ',res);
+      this.googleUser = res;
+    },(err)=>{
+      // this.api.hideLoading();
+      this.rest.presentToast(err);
+      console.log("Error: ",err);
+      
+    });
+    console.log('GoogleUserResponse: ',this.googleUser);
+
+    // this.googleUser = await GoogleAuth.signIn();
+    // console.log("googleUser-------", this.googleUser);
 
     var ss = JSON.stringify({
       email: this.googleUser.email,
@@ -130,6 +146,8 @@ export class LoginPage implements OnInit {
       password: "dummy",
       status: "Active",
       verify_code: "dummy",
+      social_username: this.googleUser.displayName,
+      social_profile: this.googleUser.imageUrl,
     });
 
     console.log("googlesignup---------", ss);
@@ -154,35 +172,45 @@ export class LoginPage implements OnInit {
   }
 
   async fbLogin() {
-    const FACEBOOK_PERMISSIONS = ["email", "user_birthday"];
-    // var result = await (<FacebookLoginResponse>(
-    //   (<unknown>FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS }))
-    // ));
+    const FACEBOOK_PERMISSIONS = [
+      "email", 
+      "user_birthday",
+      'user_photos',
+      'user_gender'
+    ];
+    this.rest.presentToast('Accessing Your Facebook Account');
+    await (<FacebookLoginResponse><unknown>(
+      FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS }).then((res:any)=>{
+        
+        const result = res;
+        console.log("Result: ",result);
 
-    const result = await FacebookLogin.login({
-      permissions: FACEBOOK_PERMISSIONS,
-    });
+        if(result.accessToken && result.accessToken.userId){
+          this.token = result.accessToken;
+          //Login Successful.
+          this.rest.presentToast('Facebook Account Identified');
+          console.log(`Facebook access token is ${result.accessToken.token}`);  
+          this.loadUserData();    
+        }
 
-    if (result.accessToken) {
-      this.token = result.accessToken;
-
-      this.loadUserData();
-      // Login successful.
-      console.log(`Facebook access token is ${result.accessToken.token}`);
-    }
-    console.log("fbLogin()-------", result);
-  }
+      },(err)=>{
+        console.log("Error: ",err);
+        this.rest.presentToast(err);
+        
+      })
+    ));
+    
+  }     
 
   async loadUserData() {
-    const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
-    this.http.get(url).subscribe((res) => {
-      console.log("fb login====", res);
-
+    const url = 'https://graph.facebook.com/'+this.token.userId+'?fields=id,name,picture.width(720),birthday,email&access_token='+this.token.token;
+    this.rest.presentLoader();
+    this.http.post(url, {}, {}).subscribe((res:any)=>{
+      this.rest.dismissLoader();
+      console.log('Response: ' ,res);
       this.fbuser = res;
-
-      console.log("fbUser--------------", this.fbuser);
-
-      var ss = {
+      
+      let ss={
         email: this.fbuser.email,
         one_signal_id: localStorage.getItem("onesignaluserid"),
         google_access_token: this.fbuser.id,
@@ -191,15 +219,16 @@ export class LoginPage implements OnInit {
         password: "dummy",
         status: "Active",
         verify_code: "dummy",
-      };
-
-      if (ss.email == undefined) {
-        ss.email = "dummyemail@gmail.com";
+        social_username: res.name,
+        social_profile: res.picture.data.url
       }
+      if(ss.email == undefined){
+        ss.email = "dummy@email.com" 
+      }
+      //remove it later-----------------------
+      console.log("Facebook User Data: ",ss);
 
       var s2 = JSON.stringify(ss);
-
-      console.log("googlesignup---------", ss);
 
       this.rest.presentLoader();
 
@@ -217,8 +246,18 @@ export class LoginPage implements OnInit {
         } else {
           this.rest.presentToast(res.message);
         }
+      },(err)=>{
+        this.rest.dismissLoader();
+        console.log("Error: ",err);
+        this.rest.presentToast(err);
       });
-    });
+      
+      
+    },(err)=>{
+      this.rest.dismissLoader();
+      console.log("Error: ",err);
+      this.rest.presentToast(err);
+    })    
   }
 
   signinwithapple() {
