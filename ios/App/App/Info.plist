@@ -106,9 +106,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>
-   	<string>YES</string>
+   	<string>Need to create a ticket pdf using ios device fileSystem</string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
-   	<string>YES</string>
+   	<string>Need to open the ticket pdf document on ios device</string>
 
 </dict>
 </plist>
