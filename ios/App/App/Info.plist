@@ -65,6 +65,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<string>Need to open the ticket pdf document on ios device</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Need to access photo library to allow user to upload profile picture. Need to Scan barcodes. Need to scan credit cards</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -77,15 +79,16 @@
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<false/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -105,10 +108,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>UIFileSharingEnabled</key>
-   	<string>Need to create a ticket pdf using ios device fileSystem</string>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-   	<string>Need to open the ticket pdf document on ios device</string>
-
 </dict>
 </plist>
