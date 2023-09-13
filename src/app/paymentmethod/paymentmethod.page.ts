@@ -50,9 +50,9 @@ export class PaymentmethodPage implements OnInit {
     public http:HttpClient,
     public navCtrl:NavController
     
-  ) {
+  ){
 
-    Stripe.initialize({
+     Stripe.initialize({
       // publishableKey: environment.stripe.publishableKey,
       publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
     });
@@ -81,6 +81,7 @@ export class PaymentmethodPage implements OnInit {
 
 
   }
+
 
 
   httpPost(){
@@ -191,8 +192,8 @@ export class PaymentmethodPage implements OnInit {
           console.log("If PaymentIntent: ",this.paymentIntent);
           // prepare PaymentSheet with CreatePaymentSheetOption.
           await Stripe.createPaymentSheet({
-            enableGooglePay:true,
-            enableApplePay:true,
+            // enableGooglePay:true,
+            // enableApplePay:true,
             paymentIntentClientSecret: this.paymentIntent,
             customerId: this.customerId,
             customerEphemeralKeySecret: this.ephemeralKey,

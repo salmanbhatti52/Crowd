@@ -100,16 +100,9 @@
   </ion-row>
 
   <div
+    class="loc_info"
     *ngIf="searchObject"
-    style="
-      background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
-      display: flex;
-      margin: 10px;
-      border-radius: 20px;
-      position: absolute;
-      width: 81%;
-      bottom: 65px;
-    "
+    
   >
     <div *ngIf="searchObject.venues_id != null">
       <img

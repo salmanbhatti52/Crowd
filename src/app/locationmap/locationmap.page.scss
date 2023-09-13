@@ -5,7 +5,29 @@
     height: 100%; 
 
   }
+
+  .md .loc_info  {
+    background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    display: flex;
+    width: 84%;
+    margin: 6px;
+    border-radius: 20px;
+    position: absolute;
+    width: 96%;
+    bottom: 65px;
+  }
   
+  .ios .loc_info  {
+    background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    display: flex;
+    width: 84%;
+    margin: 6px;
+    border-radius: 20px;
+    position: absolute;
+    width: 96%;
+    bottom: 100px;
+  } 
+
   .or_cls{
     margin-left: 15px;
     font-style: normal;

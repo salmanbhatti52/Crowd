@@ -274,8 +274,9 @@ export class LoginPage implements OnInit {
         // alert("Send token to apple for verification----: " + res.identityToken);
         console.log(res);
         this.fbuser = res;
+     
 
-        console.log("fbUser--------------", this.fbuser);
+        console.log("AppleSigninPluginRes--------------", this.fbuser);
 
         var ss = {
           email: this.fbuser.email,
@@ -294,7 +295,7 @@ export class LoginPage implements OnInit {
 
         var s2 = JSON.stringify(ss);
 
-        console.log("googlesignup---------", ss);
+        console.log("appleSignupPayload==========", ss);
 
         this.rest.presentLoader();
 
