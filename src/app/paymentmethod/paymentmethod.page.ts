@@ -197,7 +197,7 @@ export class PaymentmethodPage implements OnInit {
             paymentIntentClientSecret: this.paymentIntent,
             customerId: this.customerId,
             customerEphemeralKeySecret: this.ephemeralKey,
-            merchantDisplayName: 'Crowd'
+            merchantDisplayName: 'Getbootstrap'
           });
           this.rest.dismissLoader();
           console.log("createPaymentSheet");
@@ -230,7 +230,7 @@ export class PaymentmethodPage implements OnInit {
 
   }
 
-  async applePay(){
+  async applePay(){   
     if(this.userName){
       try {
         this.paymentIntent = undefined;
@@ -240,11 +240,16 @@ export class PaymentmethodPage implements OnInit {
         this.httpPost();
         // Check to be able to use Apple Pay on device
         const isAvailable = Stripe.isApplePayAvailable().catch(() => undefined);
+        console.log("Apple Pay Availability Status: ",isAvailable);
+        
         if (isAvailable === undefined) {
           // disable to use Google Pay
+          console.log('Apple pay is not available.');
+          
           return;
         }
-  
+
+        console.log(`Apple Pay is ${isAvailable}. Going to complete ApplePay.`);
         // be able to get event of Apple Pay
         Stripe.addListener(ApplePayEventsEnum.Completed, () => {
           console.log('ApplePayEventsEnum.Completed');
@@ -259,9 +264,10 @@ export class PaymentmethodPage implements OnInit {
             paymentIntentClientSecret: this.paymentIntent,
             paymentSummaryItems: [{
               label: 'Event',
+              // amount: 1099.00
               amount: t_amount
             }],
-            merchantIdentifier: 'rdlabo',
+            merchantIdentifier: 'Getbootstrap',
             countryCode: 'US',
             currency: 'USD',
           });
@@ -312,6 +318,8 @@ export class PaymentmethodPage implements OnInit {
           
           return;
         }
+        console.log(`Google Pay is ${isAvailable}. Going to complete GooglePay.`);
+        
         
         Stripe.addListener(GooglePayEventsEnum.Completed, () => {
           console.log('GooglePayEventsEnum.Completed');
@@ -333,7 +341,8 @@ export class PaymentmethodPage implements OnInit {
               amount: t_amount
               // amount: this.rest.billDetails.pre_pay_amount
             }],
-            merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+            // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+            merchantIdentifier: 'Getbootstrap',
             countryCode: 'US',
             currency: 'USD',
           });

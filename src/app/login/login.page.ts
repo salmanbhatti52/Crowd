@@ -24,6 +24,7 @@ export class LoginPage implements OnInit {
   pass: any = "";
   showPass3 = false;
   fbUserData: any;
+  appleUserData:any;
   token: any;
   fbuser: any = "";
   googleUser: any = "";
@@ -273,15 +274,15 @@ export class LoginPage implements OnInit {
         // alert("AppleSignInResponse-----: " + res);
         // alert("Send token to apple for verification----: " + res.identityToken);
         console.log(res);
-        this.fbuser = res;
+        this.appleUserData = res;
      
 
-        console.log("AppleSigninPluginRes--------------", this.fbuser);
+        console.log("AppleSigninPluginRes--------------", this.appleUserData);
 
         var ss = {
-          email: this.fbuser.email,
+          email: this.appleUserData.email,
           one_signal_id: localStorage.getItem("onesignaluserid"),
-          google_access_token: this.fbuser.identityToken,
+          google_access_token: this.appleUserData.identityToken,
           account_type: "SignupWithSocial",
           social_acc_type: "Apple",
           password: "dummy",
