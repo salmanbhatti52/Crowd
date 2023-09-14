@@ -84,13 +84,16 @@ export class LoginPage implements OnInit {
       this.rest.presentToast("Please enter password.");
     } else {
       this.rest.presentLoaderWd();
-      var ss = JSON.stringify({
+      var ss = {
         email: this.email,
         password: this.pass,
-        one_signal_id: localStorage.getItem("onesignaluserid"),
-      });
+        // one_signal_id: localStorage.getItem("onesignaluserid"),
+      };
 
-      this.rest.login(ss).subscribe((res: any) => {
+      console.log("signin_payload",ss);
+      
+
+      this.rest.login(JSON.stringify(ss)).subscribe((res: any) => {
         console.log("res---", res);
 
         this.rest.dismissLoader();
@@ -138,7 +141,7 @@ export class LoginPage implements OnInit {
     // this.googleUser = await GoogleAuth.signIn();
     // console.log("googleUser-------", this.googleUser);
 
-    var ss = JSON.stringify({
+    var ss = {
       email: this.googleUser.email,
       one_signal_id: localStorage.getItem("onesignaluserid"),
       google_access_token: this.googleUser.authentication.accessToken,
@@ -149,13 +152,13 @@ export class LoginPage implements OnInit {
       verify_code: "dummy",
       social_username: this.googleUser.displayName,
       social_profile: this.googleUser.imageUrl,
-    });
+    };
 
-    console.log("googlesignup---------", ss);
+    console.log("Google_signin_payload---", ss);
 
     this.rest.presentLoader();
 
-    this.rest.users_customers_signup_social(ss).subscribe((res: any) => {
+    this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
       console.log(res);
 
       this.rest.dismissLoader();
@@ -227,13 +230,11 @@ export class LoginPage implements OnInit {
         ss.email = "dummy@email.com" 
       }
       //remove it later-----------------------
-      console.log("Facebook User Data: ",ss);
-
-      var s2 = JSON.stringify(ss);
+      console.log("Facebook_signin_payload: ",ss);
 
       this.rest.presentLoader();
 
-      this.rest.users_customers_signup_social(s2).subscribe((res: any) => {
+      this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
         console.log(res);
 
         this.rest.dismissLoader();
@@ -294,13 +295,11 @@ export class LoginPage implements OnInit {
           ss.email = "dummyemail@gmail.com";
         }
 
-        var s2 = JSON.stringify(ss);
-
-        console.log("appleSignupPayload==========", ss);
+        console.log("AppleSignInPayload==========", ss);
 
         this.rest.presentLoader();
 
-        this.rest.users_customers_signup_social(s2).subscribe((res: any) => {
+        this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
           console.log(res);
 
           this.rest.dismissLoader();
