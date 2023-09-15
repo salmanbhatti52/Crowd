@@ -311,7 +311,8 @@ export class PaymentmethodPage implements OnInit {
         this.rest.presentLoader();
         this.httpPost();
         // Check to be able to use Google Pay on device
-        const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
+        setTimeout(() => {
+          const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
         if (isAvailable === undefined) {
           // disable to use Google Pay
           console.log("Google Pay is not available.");
@@ -324,6 +325,8 @@ export class PaymentmethodPage implements OnInit {
         Stripe.addListener(GooglePayEventsEnum.Completed, () => {
           console.log('GooglePayEventsEnum.Completed');
         });
+        }, 3000);
+        
         
         setTimeout(async () => {
           console.log("PaymentIntent: ",this.paymentIntent);
@@ -348,7 +351,7 @@ export class PaymentmethodPage implements OnInit {
           });
           this.rest.dismissLoader();
   
-        }, 3000);
+        }, 7000);
   
         setTimeout(async () => {
           // Present Google Pay
