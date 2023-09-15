@@ -351,7 +351,7 @@ export class PaymentmethodPage implements OnInit {
           });
           this.rest.dismissLoader();
   
-        }, 7000);
+        }, 5000);
   
         setTimeout(async () => {
           // Present Google Pay

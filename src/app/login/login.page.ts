@@ -140,7 +140,17 @@ export class LoginPage implements OnInit {
 
     // this.googleUser = await GoogleAuth.signIn();
     // console.log("googleUser-------", this.googleUser);
+    let socialUserName;
+    if(this.platform.is('ios')){
+      socialUserName  = this.googleUser.name;
+    }else if(this.platform.is('android')){
+      socialUserName = this.googleUser.displayName;
+    }
 
+    console.log("platform is ios: ",this.platform.is('ios'));
+    console.log("platform is android: ",this.platform.is('android'));
+  
+    console.log("Social user name: ",socialUserName);
     var ss = {
       email: this.googleUser.email,
       one_signal_id: localStorage.getItem("onesignaluserid"),
@@ -150,7 +160,7 @@ export class LoginPage implements OnInit {
       password: "dummy",
       status: "Active",
       verify_code: "dummy",
-      social_username: this.googleUser.displayName,
+      social_username: socialUserName,
       social_profile: this.googleUser.imageUrl,
     };
 
@@ -288,6 +298,8 @@ export class LoginPage implements OnInit {
           social_acc_type: "Apple",
           password: "dummy",
           status: "Active",
+          social_username:"dummy",
+          social_profile:"dummy",
           verify_code: "dummy",
         };
 
