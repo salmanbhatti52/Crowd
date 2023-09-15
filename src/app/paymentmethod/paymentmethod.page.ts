@@ -102,7 +102,7 @@ export class PaymentmethodPage implements OnInit {
     this.rest.sendRequest('payment_sheet',data).subscribe((res:any)=>{
       console.log("Ress: ",res);
       this.customerId = res.customer;
-      this.ephemeralKey = res.ephemeralkey?.id;
+      this.ephemeralKey = res.ephemeralkey?.secret;
       this.paymentIntent = res.paymentintent?.client_secret;
       console.log("customerId: ",this.customerId);
       console.log("ephemeralKey: ",this.ephemeralKey);
@@ -192,8 +192,8 @@ export class PaymentmethodPage implements OnInit {
           console.log("If PaymentIntent: ",this.paymentIntent);
           // prepare PaymentSheet with CreatePaymentSheetOption.
           await Stripe.createPaymentSheet({
-            // enableGooglePay:true,
-            // enableApplePay:true,
+            enableGooglePay:true,
+            enableApplePay:true,
             paymentIntentClientSecret: this.paymentIntent,
             customerId: this.customerId,
             customerEphemeralKeySecret: this.ephemeralKey,
