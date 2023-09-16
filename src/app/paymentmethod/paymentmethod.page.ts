@@ -304,75 +304,110 @@ export class PaymentmethodPage implements OnInit {
 
   async googlePay(){
     if(this.userName){
-      try {
+      // try {
         this.paymentIntent = undefined;
         this.customerId = undefined;
         this.ephemeralKey = undefined;
         this.rest.presentLoader();
         this.httpPost();
         // Check to be able to use Google Pay on device
+        let isAvailable:any;
         setTimeout(() => {
-          const isAvailable = Stripe.isGooglePayAvailable().catch(() => undefined);
-        if (isAvailable === undefined) {
-          // disable to use Google Pay
-          console.log("Google Pay is not available.");
           
-          return;
-        }
-        console.log(`Google Pay is ${isAvailable}. Going to complete GooglePay.`);
-        
-        
-        Stripe.addListener(GooglePayEventsEnum.Completed, () => {
-          console.log('GooglePayEventsEnum.Completed');
-        });
+          try {
+            // Stripe.isGooglePayAvailable().catch(() => undefined);
+            Stripe.isGooglePayAvailable().then((res)=>{
+              isAvailable = res;
+              console.log("Res: ",res);
+            },(error:any)=>{
+              console.log("errr: ",error);
+              isAvailable = false;
+            });
+          } catch (error) {
+            console.log("catch: ",error);
+            
+          } 
+
+          Stripe.addListener(GooglePayEventsEnum.Completed, () => {
+            console.log('GooglePayEventsEnum.Completed');
+          });
+
+          
+         
         }, 3000);
         
         
         setTimeout(async () => {
+          
           console.log("PaymentIntent: ",this.paymentIntent);
           let t_amount = Math.trunc(this.rest.billDetails.pre_pay_amount); 
           console.log("t_amountt:  ",t_amount);
           
-          // Prepare Google Pay
-          await Stripe.createGooglePay({
-            paymentIntentClientSecret: this.paymentIntent,
-            // Web only. Google Pay on Android App doesn't need
-            //
-            paymentSummaryItems: [{
-              label: 'Event',
-              //the following 'amount' key only takes complete (positive) value. i.e 4, 4.00, 5, 500, 500.00
-              amount: t_amount
-              // amount: this.rest.billDetails.pre_pay_amount
-            }],
-            // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
-            merchantIdentifier: 'Getbootstrap',
-            countryCode: 'US',
-            currency: 'USD',
-          });
-          this.rest.dismissLoader();
+          try {
+            // Prepare Google Pay
+            await Stripe.createGooglePay({
+              paymentIntentClientSecret: this.paymentIntent,
+              // Web only. Google Pay on Android App doesn't need
+              //
+              paymentSummaryItems: [{
+                label: 'Event',
+                //the following 'amount' key only takes complete (positive) value. i.e 4, 4.00, 5, 500, 500.00
+                amount: t_amount
+                // amount: this.rest.billDetails.pre_pay_amount
+              }],
+              // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+              merchantIdentifier: 'Getbootstrap',
+              countryCode: 'US',
+              currency: 'USD',
+            }).then((res:any)=>{
+              console.log("createGooglePayRes: ",res);
+              
+            },(err:any)=>{
+              console.log("creation err: ",err);
+              
+            });
+            // this.rest.dismissLoader();
+          } catch (error) {
+            console.log(error);
+            
+          }
+          
   
         }, 5000);
   
         setTimeout(async () => {
           // Present Google Pay
-          const result = await Stripe.presentGooglePay();
-          console.log("Result: ",result);
+            if (isAvailable == false) {
+              // disable to use Google Pay
+              this.rest.dismissLoader();
+              console.log("Google Pay is not available.");
+              this.rest.presentToast('Google Pay is not available.')
+              return;
+            }else{
+              this.rest.dismissLoader();
+              const result = await Stripe.presentGooglePay();
+              console.log("Result: ",result);
+              
+              if (result!.paymentResult === GooglePayEventsEnum.Completed) {
+                this.splitAndJoin(this.paymentIntent);
+                console.log("paymentIntent",this.paymentIntent);
+                this.payCash('Google Pay');
+                // Happy path
+                // Happy path
+              }
+              console.log(`Google Pay is ${isAvailable}. Going to complete GooglePay.`);
+            }
+           
+         
+         
+        }, 8000);
           
-          if (result.paymentResult === GooglePayEventsEnum.Completed) {
-            this.splitAndJoin(this.paymentIntent);
-            console.log("paymentIntent",this.paymentIntent);
-            this.payCash('Google Pay');
-            // Happy path
-            // Happy path
-          }
-        }, 3000);
-          
         
         
-      } catch (error) {
-        console.log("Err: ", error);
+      // } catch (error) {
+      //   console.log("Err: ", error);
         
-      }
+      // }
     }else{
       this.rest.presentToast("Plz set your name in Profile section.");
     }

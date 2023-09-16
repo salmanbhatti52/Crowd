@@ -31,7 +31,7 @@
     "@capacitor-community/apple-sign-in": "^4.0.0",
     "@capacitor-community/barcode-scanner": "^4.0.1",
     "@capacitor-community/facebook-login": "^4.0.0",
-    "@capacitor-community/stripe": "^4.2.2",
+    "@capacitor-community/stripe": "^5.2.0",
     "@capacitor/android": "4.5.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/camera": "^5.0.6",
