@@ -169,8 +169,9 @@ export class LoginPage implements OnInit {
     this.rest.presentLoader();
 
     this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
+      
+      res.data[0].full_name = '';
       console.log(res);
-
       this.rest.dismissLoader();
       if (res.status == "success") {
         localStorage.setItem("userdata", JSON.stringify(res.data[0]));
@@ -245,6 +246,7 @@ export class LoginPage implements OnInit {
       this.rest.presentLoader();
 
       this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
+        res.data[0].full_name = '';
         console.log(res);
 
         this.rest.dismissLoader();
@@ -312,10 +314,14 @@ export class LoginPage implements OnInit {
         this.rest.presentLoader();
 
         this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
+          res.data[0].username= '';
+          res.data[0].profile_picture = '';
+          res.data[0].full_name = '';
           console.log(res);
 
           this.rest.dismissLoader();
           if (res.status == "success") {
+
             localStorage.setItem("userdata", JSON.stringify(res.data[0]));
             if (localStorage.getItem("location")) {
               this.navCtrl.navigateRoot(["/home"]);
