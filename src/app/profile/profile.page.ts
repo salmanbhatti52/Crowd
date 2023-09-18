@@ -159,9 +159,9 @@ export class ProfilePage implements OnInit {
     await FacebookLogin.logout();
   }
   
-  goLogout() {
-    this.signOutForGoogle();
-    this.signOutForFacebook();
+  async goLogout() {
+    // await this.signOutForGoogle();
+    // await this.signOutForFacebook();
     // this.rest.profile_updated = false;
     this.onesignalid = localStorage.getItem("onesignaluserid");
     this.social_login_status = localStorage.getItem("social_login_status");

@@ -1,4 +1,5 @@
 import { CapacitorConfig } from "@capacitor/cli";
+import { KeyboardResize, KeyboardStyle } from '@capacitor/keyboard';
 
 const config: CapacitorConfig = {
   appId: "com.microwd.app",
@@ -6,6 +7,11 @@ const config: CapacitorConfig = {
   webDir: "www",
   bundledWebRuntime: false,
   plugins: {
+    Keyboard: {
+      resize: KeyboardResize.Body,
+      style: KeyboardStyle.Dark,
+      // resizeOnFullScreen: true,
+    },
     SplashScreen: {
       launchShowDuration: 0,
       launchAutoHide: true,
