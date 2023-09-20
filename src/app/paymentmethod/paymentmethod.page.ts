@@ -54,7 +54,7 @@ export class PaymentmethodPage implements OnInit {
 
      Stripe.initialize({
       // publishableKey: environment.stripe.publishableKey,
-      publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
+      publishableKey:"pk_live_51NLjiSCq21ty1Wx6QEkeL6t0cET2uCqTy7B13Br59c2akGDesFI4kPpvaN1LlY3I8otGdNVHEZTK2kCVfhndzNTK00iIM1dlHF",
     });
     this.android = platform.is("android");
     this.ios = platform.is("ios");
@@ -232,29 +232,38 @@ export class PaymentmethodPage implements OnInit {
 
   async applePay(){   
     if(this.userName){
-      try {
+      // try {
         this.paymentIntent = undefined;
         this.customerId = undefined;
         this.ephemeralKey = undefined;
         this.rest.presentLoader();
         this.httpPost();
-        // Check to be able to use Apple Pay on device
-        const isAvailable = Stripe.isApplePayAvailable().catch(() => undefined);
-        console.log("Apple Pay Availability Status: ",isAvailable);
         
-        if (isAvailable === undefined) {
-          // disable to use Google Pay
-          console.log('Apple pay is not available.');
+        // Check to be able to use Apple Pay on device
+        
+        let isAvailable:any;
+        setTimeout(async () => {
+          try {
+            // Stripe.isGooglePayAvailable().catch(() => undefined);
+            await Stripe.isApplePayAvailable().then((res)=>{
+              isAvailable = res;
+              console.log("Res: ",res);
+            },(error:any)=>{
+              console.log("errr: ",error);
+              isAvailable = false;
+            });
+          } catch (error) {
+            console.log("catch: ",error);
+            
+          } 
           
-          return;
-        }
+          // be able to get event of Apple Pay
+          Stripe.addListener(ApplePayEventsEnum.Completed, () => {
+            console.log('ApplePayEventsEnum.Completed');
+          });
+        }, 3000);
+        
 
-        console.log(`Apple Pay is ${isAvailable}. Going to complete ApplePay.`);
-        // be able to get event of Apple Pay
-        Stripe.addListener(ApplePayEventsEnum.Completed, () => {
-          console.log('ApplePayEventsEnum.Completed');
-        });
-  
         setTimeout(async () => {
           console.log("If PaymentIntent: ",this.paymentIntent);
           let t_amount = Math.trunc(this.rest.billDetails.pre_pay_amount); 
@@ -273,29 +282,40 @@ export class PaymentmethodPage implements OnInit {
           });
           console.log("createApplePay");
           
-          this.rest.dismissLoader();
-        }, 3000);
+          // this.rest.dismissLoader();
+        }, 5000);
   
         setTimeout(async () => {
           // Present Apple Pay
-          const result = await Stripe.presentApplePay();
-          console.log("Result: ",result);
-          
-          if (result.paymentResult === ApplePayEventsEnum.Completed) {
-            this.splitAndJoin(this.paymentIntent);
-            console.log("paymentIntent",this.paymentIntent);
-            this.payCash('Apple Pay');
-            // Happy path
-            // Happy path
+          if (isAvailable == false) {
+            // disable to use Apple Pay
+            this.rest.dismissLoader();
+            console.log("Apple Pay is not available.");
+            this.rest.presentToast('Apple Pay is not available.')
+            return;
+          }else{
+            this.rest.dismissLoader();
+            const result = await Stripe.presentApplePay();
+            console.log("Result: ",result);
+            
+            if (result.paymentResult === ApplePayEventsEnum.Completed) {
+              this.splitAndJoin(this.paymentIntent);
+              console.log("paymentIntent",this.paymentIntent);
+              this.payCash('Apple Pay');
+              // Happy path
+              // Happy path
+            }
+
+            console.log(`Apple Pay is ${isAvailable}. Going to complete ApplePay.`);
           }
-        }, 3000);
+        }, 8000);
           
         
         
-      } catch (error) {
-        console.log("Error catched: ",error);
+      // } catch (error) {
+      //   console.log("Error catched: ",error);
   
-      }
+      // }
     }else{
       this.rest.presentToast("Plz set your name in Profile section.");
     }
@@ -312,11 +332,11 @@ export class PaymentmethodPage implements OnInit {
         this.httpPost();
         // Check to be able to use Google Pay on device
         let isAvailable:any;
-        setTimeout(() => {
+        setTimeout(async () => {
           
           try {
             // Stripe.isGooglePayAvailable().catch(() => undefined);
-            Stripe.isGooglePayAvailable().then((res)=>{
+            await Stripe.isGooglePayAvailable().then((res)=>{
               isAvailable = res;
               console.log("Res: ",res);
             },(error:any)=>{
