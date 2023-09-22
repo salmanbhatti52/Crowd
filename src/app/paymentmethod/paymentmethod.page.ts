@@ -54,7 +54,8 @@ export class PaymentmethodPage implements OnInit {
 
      Stripe.initialize({
       // publishableKey: environment.stripe.publishableKey,
-      publishableKey:"pk_live_51NLjiSCq21ty1Wx6QEkeL6t0cET2uCqTy7B13Br59c2akGDesFI4kPpvaN1LlY3I8otGdNVHEZTK2kCVfhndzNTK00iIM1dlHF",
+      publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
+      // pk_live_51NLjiSCq21ty1Wx6QEkeL6t0cET2uCqTy7B13Br59c2akGDesFI4kPpvaN1LlY3I8otGdNVHEZTK2kCVfhndzNTK00iIM1dlHF
     });
     this.android = platform.is("android");
     this.ios = platform.is("ios");
@@ -277,6 +278,8 @@ export class PaymentmethodPage implements OnInit {
               amount: t_amount
             }],
             merchantIdentifier: 'Getbootstrap',
+            // countryCode: 'UK',
+            // currency: 'GBP',
             countryCode: 'US',
             currency: 'USD',
           });
@@ -377,6 +380,8 @@ export class PaymentmethodPage implements OnInit {
               }],
               // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
               merchantIdentifier: 'Getbootstrap',
+              // countryCode: 'UK',
+              // currency: 'GBP',
               countryCode: 'US',
               currency: 'USD',
             }).then((res:any)=>{
