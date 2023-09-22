@@ -75,7 +75,7 @@ export class HomePage implements OnInit {
     };
 
     this.service = new google.maps.places.PlacesService(this.map);
-    this.service.nearbySearch(request, this.callback);
+    this.service.textSearch(request, this.callback);
   }
 
   callback = (results:google.maps.places.PlaceResult[] | null, status:google.maps.places.PlacesServiceStatus) => {
