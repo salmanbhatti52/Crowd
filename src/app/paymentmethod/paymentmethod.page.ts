@@ -277,7 +277,7 @@ export class PaymentmethodPage implements OnInit {
               // amount: 1099.00
               amount: t_amount
             }],
-            merchantIdentifier: 'Getbootstrap',
+            merchantIdentifier: 'merchant.com.microwd.app',
             // countryCode: 'UK',
             // currency: 'GBP',
             countryCode: 'US',
@@ -379,7 +379,7 @@ export class PaymentmethodPage implements OnInit {
                 // amount: this.rest.billDetails.pre_pay_amount
               }],
               // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
-              merchantIdentifier: 'Getbootstrap',
+              merchantIdentifier: 'merchant.com.microwd.app',
               // countryCode: 'UK',
               // currency: 'GBP',
               countryCode: 'US',
