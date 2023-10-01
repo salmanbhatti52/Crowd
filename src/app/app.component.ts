@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 // import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
 import { Platform } from "@ionic/angular";
 
-import OneSignal from "onesignal-cordova-plugin";
+import OneSignal from "onesignal-cordova-plugin"; 
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 import { register } from 'swiper/element/bundle';
 

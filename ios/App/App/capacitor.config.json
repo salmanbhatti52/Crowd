@@ -5,8 +5,8 @@
 	"bundledWebRuntime": false,
 	"plugins": {
 		"Keyboard": {
-			"resize": "body",
-			"style": "DARK"
+			"resize": "ionic",
+			"style": "DEFAULT"
 		},
 		"SplashScreen": {
 			"launchShowDuration": 0,

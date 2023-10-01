@@ -23,6 +23,7 @@ export class EventDetailPage implements OnInit {
   latitude: string | null | undefined;
   longitude: string | null | undefined;
   ticketsRequestedForRefund = 0;
+  startChatStatus: any;
   constructor(public location:Location,
     public router:Router,
     public platform: Platform,
@@ -51,6 +52,8 @@ export class EventDetailPage implements OnInit {
       console.log("ticketsRequestedForRefund: ",this.ticketsRequestedForRefund);
       console.log("ticketsRequestedForRefund Rest: ",this.rest.ticketsRequestedForRefund);
       console.log("availableTicketsForRefund: ",this.rest.availableTicketsForRefund);
+
+      
       
     }
     
@@ -64,6 +67,7 @@ export class EventDetailPage implements OnInit {
       
       this.updatevVisitor();
       this.getBusinessList();
+      this.startChat();
     }
 
     getBusinessList(){
@@ -258,7 +262,7 @@ export class EventDetailPage implements OnInit {
       this.router.navigate(['ticket'])
     }
 
-    goToChat() {
+    startChat(){
       var ss = {
         requestType: "startChat",
         users_customers_id: this.userID,
@@ -271,10 +275,16 @@ export class EventDetailPage implements OnInit {
       this.rest.sendRequest('users_chat',ss).subscribe((res: any) => {
         console.log(res);
         if (res.status == "success"){
-          this.rest.comingFrom = 'event-detail'
-          this.router.navigate(["chat"]);
+          this.startChatStatus = 'success';
         } 
       });
+    }
+
+    goToChat() {
+      if(this.startChatStatus = 'success'){
+        this.rest.comingFrom = 'event-detail'
+        this.router.navigate(["chat"]);
+      }
     }
 
     // gotoOrganizerEvents(){

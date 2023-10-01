@@ -22,6 +22,7 @@ export class Booking2Page implements OnInit {
   mdate: any = "";
   mtime: any = "";
   userID: any = "";
+  startChatStatus: any;
 
   constructor(
     public location: Location,
@@ -37,9 +38,7 @@ export class Booking2Page implements OnInit {
   }
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
-    // if(this.selectedVenue == ""){
-    //   this.selectedVenue = this.rest.selectedBooking.venues_details;
-    // }
+    
     this.selectedBooking = this.rest.selectedBooking;
     console.log(this.selectedBooking);
     this.userdata = localStorage.getItem("userdata");
@@ -50,6 +49,7 @@ export class Booking2Page implements OnInit {
 
     this.mtime = this.selectedBooking.bookings_time.substring(0,5);
     console.log("this.selectedBooking.bookings_time", this.mtime);
+    this.startChat();
   }
 
   ngOnInit() {}
@@ -83,7 +83,7 @@ export class Booking2Page implements OnInit {
     await modal.present();
   }
 
-  goToChat() {
+  startChat(){
     var ss = JSON.stringify({
       requestType: "startChat",
       users_customers_id: this.userID,
@@ -94,8 +94,16 @@ export class Booking2Page implements OnInit {
     
     this.rest.user_chat(ss).subscribe((res: any) => {
       console.log(res);
-      if (res.status == "success") this.router.navigate(["chat"]);
+      if (res.status == "success"){
+        this.startChatStatus = 'success';
+      }
     });
+  }
+
+  goToChat() {
+    if(this.startChatStatus == 'success'){
+      this.router.navigate(["chat"])
+    }
   }
 
   openBrowserLink() {

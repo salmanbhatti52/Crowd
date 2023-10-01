@@ -37,6 +37,8 @@ export class ProfilePage implements OnInit {
   be_seen = "";
 
   beeseenToggleValue = "No";
+  adminsList: any;
+  selectedAdmin: any;
 
   constructor(
     public location: Location,
@@ -92,44 +94,99 @@ export class ProfilePage implements OnInit {
       this.beeseenToggleValue = "Yes";
     }
 
-    console.log("email----", this.email);
+    this.getAdminsList();
+    this.getAllChatLive();
 
-    let data = { 
-      users_customers_id: this.userid 
-    };
-    this.rest.sendRequest('get_admin_list',data).subscribe((res:any)=>{
-      console.log("Get Admin List Ress: ",res);
-      if(res.status == 'success'){
-        this.rest.adminId = res.data[0].users_system_id
-      }
-      console.log("Admin Iddd: ",this.rest.adminId);
-      
-    })
+    
   }
   ngOnInit() {
     setTimeout(async () => {
       const result = await Camera.checkPermissions();
       console.log("check permsisson result: ",result);
     }, 500);
-    
+
+  }
+
+  getAdminsList(){
+    let data = { 
+      users_customers_id: this.userid 
+    };
+    this.rest.sendRequest('get_admin_list',data).subscribe((res:any)=>{
+      console.log("Get Admin List Ress: ",res);
+      if(res.status == 'success'){
+        this.adminsList = res.data;
+        console.log("adminsList: ",this.adminsList);  
+      }
+      
+      
+    })
+  }
+
+  getAllChatLive(){
+    let data ={
+      users_customers_id: this.userid
+    }
+    this.rest.sendRequest("getAllChatLive",data).subscribe((res:any)=>{
+      console.log("getAllChatLive Resposne: ",res);
+      if(res.status == 'success'){
+        if(res.data.length > 0){
+          this.rest.adminId = res.data[0].receiver_id;
+          console.log("Admin Id: ",this.rest.adminId);
+        }
+        
+          
+      }
+
+    },(err)=>{
+      console.log("Api Error: ",err);
+      
+    })
   }
 
   startChatWithAdmin(){
-    let data = {
-      requestType:"startChat",
-      users_customers_id:this.userid,
-      other_users_customers_id:this.rest.adminId
+    if(this.rest.adminId === undefined){
+      
+      console.log("Admin Id if undefined: ",this.rest.adminId);
+
+      let arrayLength = this.adminsList.length
+      console.log("arrayLength: ",arrayLength);
+      let randomValue = Math.floor(Math.random() * arrayLength)
+      console.log("randomValue: ",randomValue);
+      this.selectedAdmin = this.adminsList[randomValue];
+      console.log("Selected Admin: ",this.selectedAdmin);
+      
+      this.rest.adminId = this.selectedAdmin.users_system_id;
+      console.log("Admin Id: ",this.rest.adminId);
+      
+      let data ={
+        requestType:"startChat",
+        users_customers_id:this.userid,
+        other_users_customers_id:this.selectedAdmin.users_system_id
+      }
+      
+      this.rest.sendRequest("user_chat_live",data).subscribe((res:any)=>{
+        console.log("Start Chat Ress: ",res);
+        if(res.status == 'success'){
+          this.rest.comingFrom = 'startChatWithAdmin'
+          this.router.navigate(['/chat']);
+
+        }
+
+      },(err: any)=>{
+        console.log("Api Error: ",err);
+        
+      })
+    }else{
+      console.log("admin id: ",this.rest.adminId);
+      this.rest.comingFrom = 'startChatWithAdmin'
+      this.router.navigate(['/chat']);
+      
     }
 
-    this.rest.sendRequest('user_chat_live',data).subscribe((res:any)=>{
-      console.log("Start Chat Ress: ",res);
-      if(res.status == 'success'){
-        this.rest.comingFrom = 'startChatWithAdmin'
-        this.router.navigate(['/chat']);
-
-      }
-    })
+   
   }
+
+
   goBack() {
     this.router.navigate(['/home']);
   }
@@ -159,7 +216,7 @@ export class ProfilePage implements OnInit {
     await FacebookLogin.logout();
   }
   
-  async goLogout() {
+  async goLogout() { 
     await this.signOutForGoogle();
     await this.signOutForFacebook();
     // this.rest.profile_updated = false;
@@ -169,7 +226,8 @@ export class ProfilePage implements OnInit {
     localStorage.clear();
     localStorage.setItem("onesignaluserid", this.onesignalid);
     localStorage.setItem("social_login_status", this.social_login_status);
-    this.navCtrl.navigateRoot(["login"]);
+    this.navCtrl.navigateRoot('/login');
+  
   }
 
   godelete() {

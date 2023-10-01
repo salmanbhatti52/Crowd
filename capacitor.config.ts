@@ -8,8 +8,8 @@ const config: CapacitorConfig = {
   bundledWebRuntime: false,
   plugins: {
     Keyboard: {
-      resize: KeyboardResize.Body,
-      style: KeyboardStyle.Dark,
+      resize: KeyboardResize.Ionic,
+      style: KeyboardStyle.Default,
       // resizeOnFullScreen: true,
     },
     SplashScreen: {
