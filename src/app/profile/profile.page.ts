@@ -163,8 +163,9 @@ export class ProfilePage implements OnInit {
         users_customers_id:this.userid,
         other_users_customers_id:this.selectedAdmin.users_system_id
       }
-      
+      this.rest.presentLoader();
       this.rest.sendRequest("user_chat_live",data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
         console.log("Start Chat Ress: ",res);
         if(res.status == 'success'){
           this.rest.comingFrom = 'startChatWithAdmin'
@@ -173,9 +174,10 @@ export class ProfilePage implements OnInit {
         }
 
       },(err: any)=>{
+        this.rest.dismissLoader();
         console.log("Api Error: ",err);
         
-      })
+      });
     }else{
       console.log("admin id: ",this.rest.adminId);
       this.rest.comingFrom = 'startChatWithAdmin'

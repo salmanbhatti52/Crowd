@@ -93,17 +93,21 @@ export class ChatPage implements OnInit {
     console.log("Detail Object: ",this.detailObj);
     
     if(this.restService.comingFrom == 'event-detail'){
-      this.detailObj.name = this.detailObj.events.name;
+      if(this.detailObj.events){
+        this.detailObj.name = this.detailObj.events?.name;
+      }else{
+        this.detailObj.name = this.detailObj.name;
+      }
+
     }
     if(this.restService.comingFrom == 'startChatWithAdmin'){
       this.detailObj = {}
       this.detailObj.name = 'Chat With Admin';
     }
     // Get all  messages....
-    this.getMessages(this.userID);
+    this.getMessages();
     this.autoSaveInterval = setInterval(() => {
       this.updateMessages();
-      // this.getMessagesAgain(this.userID)
     }, 3000);
   }
   ionViewWillLeave() {
@@ -122,7 +126,12 @@ export class ChatPage implements OnInit {
     let userBusinessId;
     let action;
     if(this.restService.comingFrom == 'event-detail'){
-      userBusinessId = this.detailObj.user_business_id;
+      if(this.detailObj.events){
+        userBusinessId = this.detailObj.events?.users_business_id;
+      }else{
+        userBusinessId = this.detailObj.users_business_id;
+      }
+      // userBusinessId = this.detailObj.user_business_id;
       action = 'users_chat';
     }else if(this.restService.comingFrom == 'startChatWithAdmin'){
       userBusinessId = this.restService.adminId;
@@ -170,15 +179,24 @@ export class ChatPage implements OnInit {
     );
   }
 
-  getMessages(senderUserID: any) {
+  getMessages() {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
     if(this.restService.comingFrom == 'event-detail'){ 
+      let userBusinessId, eventsId;
+      if(this.detailObj.events){
+        userBusinessId = this.detailObj.events.users_business_id;
+        eventsId = this.detailObj.events.events_id;
+      }else{
+        userBusinessId = this.detailObj.users_business_id;
+        eventsId = this.detailObj.events_id;
+      }
+
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
-        other_users_customers_id: this.detailObj.events.users_business_id,
-        events_id: this.detailObj.events.events_id
+        other_users_customers_id: userBusinessId,
+        events_id: eventsId
       });
       console.log("payload get event msgs", data);
       this.restService.presentLoader();
@@ -330,13 +348,22 @@ export class ChatPage implements OnInit {
     this.scrollDown();
 
     if(this.restService.comingFrom == 'event-detail'){
+      let userBusinessId;
+      let eventsId;
+      if(this.detailObj.events){
+        userBusinessId = this.detailObj.events?.users_business_id;
+        eventsId = this.detailObj.events?.events_id
+      }else{
+        userBusinessId = this.detailObj.users_business_id;
+        eventsId = this.detailObj.events_id
+      }
       var data = JSON.stringify({
         requestType:"sendMessage",
-        events_id:this.detailObj.events.events_id,
+        events_id:eventsId,
         sender_type:"Users",
         messageType:"text",
         users_customers_id:this.userID,
-        other_users_customers_id:this.detailObj.events.users_business_id,
+        other_users_customers_id:userBusinessId,
         content:msg
       });
       console.log("my msg in events", data);

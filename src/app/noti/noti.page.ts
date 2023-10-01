@@ -18,6 +18,10 @@ export class NotiPage implements OnInit {
   constructor(public router: Router, public rest: RestService) {}
 
   ionViewWillEnter() {
+    
+  }
+
+  ngOnInit() {
     this.noticount = 0;
 
     this.userdata = localStorage.getItem("userdata");
@@ -60,7 +64,6 @@ export class NotiPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
   goToProfile() {
     this.router.navigate(["profile"]);
   }
@@ -99,19 +102,57 @@ export class NotiPage implements OnInit {
   goToDetail(val: any) {
     this.rest.detail = val;
 
-    var ss = JSON.stringify({
-      venues_id: val.venues_id,
-    });
+    if(val.venues_id != null){
+      console.log('venue id is not null');
+      console.log(val);
+      
+      let data = {
+        venues_id: val.venues_id
+      };
+      this.rest.presentLoader();
+      this.rest.sendRequest('venues_by_id',data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        if(res.status == 'success'){
+          console.log("Venue Res: ", res);
+          this.rest.detail = res.data[0];
+          this.router.navigate(['/chat']);
+        }
+        
+      });
+      
+    }else if(val.events_id != null){
+      console.log('Event id is not null');
+      console.log(val);
 
-    this.rest.presentLoader();
-
-    this.rest.venues_by_idAPI(ss).subscribe((res: any) => {
-      this.rest.dismissLoader();
-      console.log("ali---------", res.data[0]);
-      this.rest.detail = res.data[0];
-      this.router.navigate(["venuedetail"]);
-    });
-
-    // this.router.navigate(["venuedetail"]);
+      let data = {
+        users_customers_id: this.userid,
+        events_id: val.events_id,
+        longitude:"123",
+        lattitude:"123",
+        page_number:"1"
+      };
+      this.rest.presentLoader();
+      this.rest.sendRequest('get_events_by_id',data).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        if(res.status == 'success'){
+          console.log("Event Res: ", res);
+          this.rest.detail = res.data[0];
+          this.rest.comingFrom = 'event-detail';
+          this.router.navigate(['/chat']);
+        }
+      });
+      
+    }else if(val.venues_id == null && val.events_id == null){
+      console.log('both ids are null');
+      console.log(val);
+      this.rest.adminId = val.senders_id;
+      this.rest.comingFrom = 'startChatWithAdmin';
+      this.router.navigate(['/chat']);
+      
+    }else{
+      console.log('no match');
+      
+    }
+   
   }
 }
