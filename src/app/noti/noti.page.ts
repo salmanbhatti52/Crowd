@@ -15,32 +15,79 @@ export class NotiPage implements OnInit {
   userid: any = "";
   notiArr: any = [];
   noticount = 0;
+  interval:any;
+  count = 0;
   constructor(public router: Router, public rest: RestService) {}
 
   ionViewWillEnter() {
-    
+    this.interval = setInterval(()=>{
+      this.getNotificationsAgain();
+    },3000);
   }
 
   ngOnInit() {
-    this.noticount = 0;
-
     this.userdata = localStorage.getItem("userdata");
 
     this.userid = JSON.parse(this.userdata).users_customers_id;
 
     console.log("userid----", this.userid);
+    this.getNotifications();
+  }
 
+  ionViewWillLeave() {
+    clearInterval(this.interval);
+  }
+
+  getNotifications(){
+      var ss = JSON.stringify({
+        users_customers_id: this.userid,
+      });
+      console.log("ss-----", ss);
+      
+      // if(this.count == 0){
+        this.rest.presentLoader();
+      // }
+  
+      this.rest.notifications(ss).subscribe((res: any) => {
+        console.log("res noti-----", res);
+        this.notiArr = [];
+
+        // if(this.count == 0){
+          this.rest.dismissLoader();
+          // this.count++;
+        // }
+  
+        if (res.status == "error") {
+          this.noticount = 1;
+          this.rest.presentToast("No notifications found");
+        } else {
+          this.noticount = 2;
+          for(let d of res.data){
+            if(d?.admin_images){
+              d.cover_images =  d.admin_images
+            }
+          }
+          // this.notiArr = res.data;
+          res.data = res.data.sort((a:any,b:any)=>a.notifications_id - b.notifications_id);
+          for(let i= res.data.length - 1; i>=0; i--){
+            this.notiArr.push(res.data[i]);
+          }
+           
+          console.log("noti array",this.notiArr);
+          
+        }
+      });  
+  }
+
+  getNotificationsAgain(){
     var ss = JSON.stringify({
       users_customers_id: this.userid,
     });
     console.log("ss-----", ss);
 
-    this.rest.presentLoader();
-
     this.rest.notifications(ss).subscribe((res: any) => {
       console.log("res noti-----", res);
-      this.notiArr = []
-      this.rest.dismissLoader();
+      this.notiArr = [];
 
       if (res.status == "error") {
         this.noticount = 1;
@@ -61,8 +108,8 @@ export class NotiPage implements OnInit {
         console.log("noti array",this.notiArr);
         
       }
-    });
-  }
+    });  
+}
 
   goToProfile() {
     this.router.navigate(["profile"]);
