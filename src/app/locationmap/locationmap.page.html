@@ -3,8 +3,8 @@
 
   <!-- <capacitor-google-map #map></capacitor-google-map> -->
 
-  <google-map
-    height="93%"
+  <google-map 
+    height="105%"
     width="100%"
     #myGoogleMap
     [zoom]="zoom"
@@ -43,8 +43,7 @@
       </div>
     </map-info-window>
   </google-map>
-
-  <div
+    <div
     *ngIf="showfilter"
     style="
       position: absolute;
@@ -118,7 +117,7 @@
         src="assets/imgs/likemapheart.svg"
       />
     </div>
-    <div (click)="gotodetail()" style="width: 100%; display: flex">
+    <div (click)="gotodetail()" style="width: 100%; display: flex;">
       <img
         style="
           border-radius: 22px;
@@ -130,7 +129,7 @@
         src="{{searchObject.cover_images}}"
       />
 
-      <div style="margin-top: 11px">
+      <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 58%;">
         <p
           style="
             font-style: normal;
@@ -138,6 +137,7 @@
             font-size: 18px;
             line-height: 21px;
             color: #ffffff;
+            
           "
           class="work_sans"
         >

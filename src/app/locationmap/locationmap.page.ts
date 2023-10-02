@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { ModalController } from "@ionic/angular";
+import { ModalController, Platform } from "@ionic/angular";
 import {
   GoogleMap,
   MapInfoWindow,
@@ -311,7 +311,8 @@ export class LocationmapPage implements OnInit {
     public rest: RestService,
     public modalCtrl: ModalController,
     private ngZone: NgZone,
-    private geoCoder: MapGeocoder
+    private geoCoder: MapGeocoder,
+    private platform:Platform
   ) {}
 
   // ionViewDidEnter() {
@@ -348,6 +349,10 @@ export class LocationmapPage implements OnInit {
     //     " and location=" +
     //     localStorage.getItem("location")
     // );
+  }
+
+  isIOS() {
+    return this.platform.is('ios');
   }
 
   // takeSc(){
@@ -413,7 +418,7 @@ export class LocationmapPage implements OnInit {
   goToProfile() {
     // this.takeSc();
     this.HideFilter();
-    // this.router.navigate(["profile"]);
+    this.router.navigate(["profile"]);
   }
 
   // goToDetail() {
