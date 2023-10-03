@@ -421,6 +421,46 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["profile"]);
   }
 
+  searchVenues(ev:any){
+    // this.markers = [];
+    this.venuarr = [];
+    
+    for (var i = 0; i < this.venuarrOrg.length; i++) {
+      if (
+            this.venuarrOrg[i].name
+              .toLowerCase()
+              .includes(ev.target.value.toLowerCase())
+          ) {
+            this.markers = [];
+            var obj = {
+              position: {
+                lat: parseFloat(this.venuarrOrg[i].lattitude),
+                lng: parseFloat(this.venuarrOrg[i].longitude),
+              },
+              title: "" + this.venuarrOrg[i].public_check_ins,
+              name: this.venuarrOrg[i].name,
+              options: {
+                animation: google.maps.Animation.DROP,
+                draggable: false,
+                icon: {
+                  url: "assets/imgs/locpin.svg",
+                  size: {
+                    height: 120,
+                    width: 30,
+                  },
+                },
+              },
+            };
+      
+            this.venuarr.push(obj);
+          }
+      
+    }
+
+    this.markers = this.venuarr;
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
+  }
   // goToDetail() {
   //   this.HideFilter();
   //   this.router.navigate(["venuedetail"]);
@@ -431,7 +471,6 @@ export class LocationmapPage implements OnInit {
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
     console.log("this.venuarr",this.venuarr);
-    
     
     var newVenuArr = [];
     for (var i = 0; i < this.venuarr.length; i++) {
@@ -457,6 +496,7 @@ export class LocationmapPage implements OnInit {
 
       newVenuArr.push(obj);
     }
+
     this.venuarr = [];
     this.venuarr = newVenuArr;
     this.markers = this.venuarr;
@@ -558,6 +598,40 @@ export class LocationmapPage implements OnInit {
         //   },
         // },
         // =================done=========
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin.svg",
+            size: {
+              height: 120,
+              width: 30,
+            },
+          },
+        },
+      };
+
+      this.venuarr.push(obj);
+    }
+
+    this.markers = this.venuarr;
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
+  }
+
+  setMarkersAgain(){
+    this.venuarr = [];
+    this.markers = [];
+    console.log("Venuarr ORG: ",this.venuarrOrg);
+    
+    for (var i = 0; i < this.venuarrOrg.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(this.venuarrOrg[i].lattitude),
+          lng: parseFloat(this.venuarrOrg[i].longitude),
+        },
+        title: "" + this.venuarrOrg[i].public_check_ins,
+        name: this.venuarrOrg[i].name,
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,

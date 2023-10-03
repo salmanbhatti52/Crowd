@@ -42,6 +42,8 @@ export class HomePage implements OnInit {
   eventsArray: any;
   eventsArrayCopy: any;
   venuesFromGoogle:any = [];
+  radius: any;
+  placeType: any;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -68,10 +70,19 @@ export class HomePage implements OnInit {
       // zoom: 15
     });
 
+    if(this.pageNumber == 1){
+      this.radius = 2500;
+      this.placeType= 'restaurant';
+    }else if(this.pageNumber == 2){
+      this.radius = 2500;
+      this.placeType= 'bar';
+
+    }
+
     let request = {
       location: pyrmont,
-      radius: 2415,
-      type: 'restaurant'
+      radius: this.radius, 
+      type: this.placeType
     };
 
     this.service = new google.maps.places.PlacesService(this.map);
@@ -632,6 +643,9 @@ export class HomePage implements OnInit {
       } else {
         // this.rest.presentToast(res.message);
         // this.noevenu = 1;
+      }
+      if(this.pageNumber == 2){
+        this.initialize();
       }
     });
 
