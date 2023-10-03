@@ -39,6 +39,8 @@ export class ProfilePage implements OnInit {
   beeseenToggleValue = "No";
   adminsList: any;
   selectedAdmin: any;
+  accountType: any;
+  socialAccountType: any;
 
   constructor(
     public location: Location,
@@ -53,15 +55,13 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
-    console.log(
-      "userdJSON.parse(this.userdata).profile_pictureata----",
-      JSON.parse(this.userdata).profile_picture
-    );
 
     this.email = JSON.parse(this.userdata).email;
     this.name = JSON.parse(this.userdata).full_name;
     this.uname = JSON.parse(this.userdata).username;
     this.userid = JSON.parse(this.userdata).users_customers_id;
+    this.accountType = JSON.parse(this.userdata).account_type
+    this.socialAccountType = JSON.parse(this.userdata).social_acc_type;
     if(JSON.parse(this.userdata).account_type == "SignupWithApp"){
       if (JSON.parse(this.userdata).profile_picture) {
         this.imgdataComing =
@@ -219,8 +219,15 @@ export class ProfilePage implements OnInit {
   }
   
   async goLogout() { 
-    await this.signOutForGoogle();
-    await this.signOutForFacebook();
+    if(this.accountType == "SignupWithSocial"){
+      if(this.socialAccountType == "Google"){
+        await this.signOutForGoogle();
+      }else if(this.socialAccountType == "Facebook"){
+        await this.signOutForFacebook();
+      }else{
+        
+      }
+    }
     // this.rest.profile_updated = false;
     this.onesignalid = localStorage.getItem("onesignaluserid");
     this.social_login_status = localStorage.getItem("social_login_status");
