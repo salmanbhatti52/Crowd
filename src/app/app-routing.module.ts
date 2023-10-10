@@ -236,6 +236,10 @@ const routes: Routes = [
     path: 'show-tickets',
     loadChildren: () => import('./show-tickets/show-tickets.module').then( m => m.ShowTicketsPageModule)
   },
+  {
+    path: 'see-path',
+    loadChildren: () => import('./see-path/see-path.module').then( m => m.SeePathPageModule)
+  },
  
 
 ];

@@ -43,7 +43,18 @@
       </div>
     </map-info-window>
   </google-map>
-    <div
+  
+  <div style="position: absolute;
+  right: 12px;
+  bottom: 27%;
+  background: black;
+  padding: 15px;
+  border-radius: 90px;">
+    <img (click)="getCurrentLocation()" style="height: 30px;width: 30px;" src="../../assets/imgs/target.svg" alt="">
+    <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
+    
+  </div>
+  <div
     *ngIf="showfilter"
     style="
       position: absolute;
@@ -89,11 +100,11 @@
     </ion-col>
 
     <ion-col size="8.6" style="text-align: center">
-      <div style="display: flex;align-items: center; justify-content: space-between;">
+      <!-- <div style="display: flex;align-items: center; justify-content: space-between;">
         <div (click)="setMarkersAgain()" class="venue_item">Restaurants</div>
         <div (click)="setMarkersAgain()" class="venue_item">Clubs</div>
         <div (click)="setMarkersAgain()" class="venue_item" style="margin-right: 0px;">Bars</div>
-      </div>
+      </div> -->
     </ion-col>
     <ion-col size="1.7" style="text-align: center">
       <img
@@ -104,7 +115,7 @@
     </ion-col>
   </ion-row>
 
-  <div class="searchtop" style="width: 100%;
+  <!-- <div class="searchtop" style="width: 100%;
   justify-content: center;">
     <div
       class="inputfieldtransparent top-90 top-65"
@@ -123,7 +134,7 @@
 
       <img style="margin: 10px" src="/assets/imgs/search.svg" />
     </div>
-  </div>
+  </div> -->
 
   <div
     class="loc_info"

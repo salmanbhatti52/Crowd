@@ -1,0 +1,44 @@
+
+
+<ion-content [fullscreen]="true">
+  <google-map 
+    height="105%"
+    width="100%"
+    #myGoogleMap
+    [zoom]="zoom"
+    [center]="center"
+    [options]="options"
+  >
+    <!-- <map-marker
+      #markerElem="mapMarker"
+      *ngFor="let marker of markers"
+      [position]="marker.position"
+      [label]="marker.label"
+      [title]="marker.title"
+      [options]="marker.options"
+      (mapDrag)="eventHandler($event,'mapDragMarker')"
+      (mapDragend)="eventHandler($event,'mapDragend')"
+      (mapClick)="openInfo(markerElem, marker.title, marker)"
+    >
+    </map-marker> -->
+
+    <!-- <map-info-window>
+      <div style="display: flex; align-items: center">
+        <img
+          style="height: 30px; width: 30px; margin-right: 5px"
+          src="assets/imgs/maphuman.svg"
+        />
+        <ion-label
+          style="
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 26px;
+            text-align: center;
+            color: #7825cb;
+          "
+          >{{ infoContent }}</ion-label
+        >
+      </div>
+    </map-info-window> -->
+  </google-map>
+</ion-content>
