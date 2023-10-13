@@ -42,6 +42,14 @@
         >
       </div>
     </map-info-window>
+    
+    <map-marker *ngIf="userLocation"
+      [position]="userLocation.position"
+      
+      [options]="userLocation.options"
+    
+    >
+    </map-marker>
   </google-map>
   
   <div style="position: absolute;

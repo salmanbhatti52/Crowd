@@ -305,6 +305,7 @@ export class LocationmapPage implements OnInit {
   a: any = "";
   b: any = "";
   ss: any;
+  userLocation:any;
 
   constructor(
     public router: Router,
@@ -335,7 +336,7 @@ export class LocationmapPage implements OnInit {
     console.log("dbLong---------", this.dbLong);
 
     // await this.setMarkerPosition(this.dbLati, this.dbLong);
-
+    this.zoom = 14;
     this.center = {
       lat: this.dbLati,
       lng: this.dbLong,
@@ -355,38 +356,8 @@ export class LocationmapPage implements OnInit {
     return this.platform.is('ios');
   }
 
-  getCurrentLocation(){
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-         
-          // this.infoWindow.se tPosition(pos);
-          // infoWindow.setContent("Location found.");
-          // infoWindow.open(map);
-          // map.setCenter(pos);
-          this.center = pos;
-        },
-        () => {
-          // handleLocationError(true, infoWindow, map.getCenter()!);
-        }
-      );
-    } else {
-      // Browser doesn't support Geolocation
-      // handleLocationError(false, infoWindow, map.getCenter()!);
-    }
-  }
-
-  // takeSc(){
-  //   Screenshot.take().then((ret: { base64: string }) => {
-  //     console.log("res:", ret.base64);
-  //     this.ss = `data:image/png;base64,${ret.base64}`  // or `data:image/png;base64,${ret.base64}`
-  //     console.log("ss:", this.ss);
-  //   });
-  // }
+  
+  
   // ionViewWillLeave() {
   //   // enable the root left menu when leaving this page
   //   // this.map.destroy();
@@ -486,10 +457,7 @@ export class LocationmapPage implements OnInit {
     console.log("Venuarr : ",this.venuarr);
     console.log("markersArr : ",this.markers);
   }
-  // goToDetail() {
-  //   this.HideFilter();
-  //   this.router.navigate(["venuedetail"]);
-  // }
+
 
   clearFilter() {
     this.HideFilter();
@@ -629,8 +597,8 @@ export class LocationmapPage implements OnInit {
           icon: {
             url: "assets/imgs/locpin.svg",
             size: {
-              height: 120,
-              width: 30,
+              height: 48,
+              width: 48,
             },
           },
         },
@@ -642,6 +610,52 @@ export class LocationmapPage implements OnInit {
     this.markers = this.venuarr;
     console.log("Venuarr : ",this.venuarr);
     console.log("markersArr : ",this.markers);
+  }
+
+  getCurrentLocation(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+         
+          // this.infoWindow.setPosition(pos);
+          // infoWindow.setContent("Location found.");
+          // infoWindow.open(map);
+          // map.setCenter(pos);
+          this.center = pos;
+          this.userLocation = {
+            position: {
+              lat: pos.lat,
+              lng: pos.lng,
+            },
+            // title: "" + this.venuarrOrg[i].public_check_ins,
+            // name: this.venuarrOrg[i].name,
+            options: {
+              animation: google.maps.Animation.DROP,
+              draggable: false,
+              icon: {
+                url: "../../assets/imgs/icons/user_location.svg",
+                // size: {
+                //   height: 48,
+                //   width: 4,
+                // },
+              },
+            },
+          };
+        },
+        () => {
+          // handleLocationError(true, infoWindow, map.getCenter()!);
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      // handleLocationError(false, infoWindow, map.getCenter()!);
+    }
+    // this.setMarkersAgain();
+    
   }
 
   setMarkersAgain(){
