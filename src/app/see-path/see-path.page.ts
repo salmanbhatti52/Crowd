@@ -14,9 +14,11 @@ import {
   MapGeocoder,
   MapGeocoderResponse,
   MapMarker,
-  
+  MapDirectionsService,
 } from "@angular/google-maps";
-
+import { Observable, map } from "rxjs";
+import { RestService } from "../rest.service";
+import { Location } from "@angular/common";
 @Component({
   selector: 'app-see-path',
   templateUrl: './see-path.page.html',
@@ -132,14 +134,15 @@ export class SeePathPage implements OnInit {
   b: any = "";
 
   markers = [] as any;
-
+  directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   //// angular map
   showfilter = false;
  
-  constructor(private geoCoder: MapGeocoder,
+  constructor(private geoCoder: MapGeocoder,private mapDirectionsService: MapDirectionsService,public rest:RestService,public location:Location
   ) { }
 
   ionViewWillEnter() {
+    this.directionsResults$ = this.rest.directionsResults$;
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
     this.dbLati = parseFloat(this.a);
@@ -156,6 +159,10 @@ export class SeePathPage implements OnInit {
   ngOnInit() {
 
 
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }

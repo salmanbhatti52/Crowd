@@ -15,7 +15,10 @@ import {
   MapGeocoder,
   MapGeocoderResponse,
   MapMarker,
+  MapDirectionsService,
 } from "@angular/google-maps";
+import { Observable, map } from "rxjs";
+
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -284,6 +287,8 @@ export class LocationmapPage implements OnInit {
   //// angular map
   showfilter = false;
 
+  currentLatitude:any;
+  currentLongitude:any;
   @ViewChild("map") mapRef: any = ElementRef;
   // map: any = GoogleMap;
   title = "Title here";
@@ -306,6 +311,7 @@ export class LocationmapPage implements OnInit {
   b: any = "";
   ss: any;
   userLocation:any;
+   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
 
   constructor(
     public router: Router,
@@ -313,12 +319,30 @@ export class LocationmapPage implements OnInit {
     public modalCtrl: ModalController,
     private ngZone: NgZone,
     private geoCoder: MapGeocoder,
-    private platform:Platform
+    private platform:Platform,
+    private mapDirectionsService: MapDirectionsService
   ) {}
 
   // ionViewDidEnter() {
   //   this.createMap();
   // }
+
+  getDirections(){
+
+    const request: google.maps.DirectionsRequest = {
+      destination: {lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude},
+      origin: {lat: this.currentLatitude, lng: this.currentLongitude },
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    console.log(request.destination);
+    console.log(request.origin);
+    
+    
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
+    this.rest.directionsResults$ = this.directionsResults$;
+    console.log("directionsResults: ",this.rest.directionsResults$);
+    this.router.navigate(["see-path"]);
+  }
 
   async ionViewWillEnter() {
     this.a = localStorage.getItem("lattitude");
@@ -341,7 +365,7 @@ export class LocationmapPage implements OnInit {
       lat: this.dbLati,
       lng: this.dbLong,
     };
-
+    this.getCurrentLocation();
     // alert(
     //   "Localstorage The coordinates are latitude=" +
     //     localStorage.getItem("longitude") +
@@ -352,6 +376,7 @@ export class LocationmapPage implements OnInit {
     // );
   }
 
+  
   isIOS() {
     return this.platform.is('ios');
   }
@@ -620,7 +645,8 @@ export class LocationmapPage implements OnInit {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-         
+         this.currentLatitude = pos.lat;
+         this.currentLongitude = pos.lng;
           // this.infoWindow.setPosition(pos);
           // infoWindow.setContent("Location found.");
           // infoWindow.open(map);
@@ -844,7 +870,7 @@ export class LocationmapPage implements OnInit {
     console.log("this.searchObject: ",this.searchObject);
     
     this.rest.pinobject = this.searchObject;
-
+    this.getDirections();
     // this.goTOinfopage();
   }
 

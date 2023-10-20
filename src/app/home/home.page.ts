@@ -558,7 +558,7 @@ export class HomePage implements OnInit {
         // this.rest.presentToast(res.message);
         this.noevenu = 1;
       }
-      this.initialize();
+      // this.initialize();
     });
     
 
@@ -644,9 +644,9 @@ export class HomePage implements OnInit {
         // this.rest.presentToast(res.message);
         // this.noevenu = 1;
       }
-      if(this.pageNumber == 2){
-        this.initialize();
-      }
+      // if(this.pageNumber == 2){
+      //   this.initialize();
+      // }
     });
 
     

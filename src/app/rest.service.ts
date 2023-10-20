@@ -43,6 +43,7 @@ export class RestService {
   discountedAmount: any;
   discountPercentage: any;
   profile_updated = false;
+  directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
