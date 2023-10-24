@@ -691,6 +691,8 @@ export class LocationmapPage implements OnInit {
       // handleLocationError(false, infoWindow, map.getCenter()!);
     }
     // this.setMarkersAgain();
+    this.showCategories = false;
+    this.showfilter = false;
     
   }
 
