@@ -312,6 +312,7 @@ export class LocationmapPage implements OnInit {
   ss: any;
   userLocation:any;
    directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
+  showCategories = false;
 
   constructor(
     public router: Router,
@@ -341,7 +342,7 @@ export class LocationmapPage implements OnInit {
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
     this.rest.directionsResults$ = this.directionsResults$;
     console.log("directionsResults: ",this.rest.directionsResults$);
-    this.router.navigate(["see-path"]);
+    // this.router.navigate(["see-path"]);
   }
 
   async ionViewWillEnter() {
@@ -537,16 +538,25 @@ export class LocationmapPage implements OnInit {
 
   async showHideFilterN() {
     this.searchObject = "";
-    if (this.showfilter) {
-      this.showfilter = false;
-    } else {
-      this.showfilter = true;
-    }
+    // if (this.showfilter) {
+    //   this.showfilter = false;
+    // } else {
+    //   this.showfilter = true;
+    // }
+    this.showfilter = !this.showfilter;
+    this.showCategories = false;
 
+    // this.
     // if (this.modalopen == 1) {
     //   await this.modalCtrl.dismiss();
     // }
     // this.modalopen = 0;
+  }
+
+  toggleCategories(){
+    this.searchObject = "";
+    this.showCategories = !this.showCategories;
+    this.showfilter = false;
   }
 
   searchAndFilterItems(searchTerm: any) {
@@ -663,7 +673,7 @@ export class LocationmapPage implements OnInit {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
-                url: "../../assets/imgs/icons/user_location.svg",
+                url: "../../assets/imgs/icons/location_28.svg",
                 // size: {
                 //   height: 48,
                 //   width: 4,
@@ -716,6 +726,7 @@ export class LocationmapPage implements OnInit {
     this.markers = this.venuarr;
     console.log("Venuarr : ",this.venuarr);
     console.log("markersArr : ",this.markers);
+    this.showCategories = false;
   }
 
   async HideFilter() {

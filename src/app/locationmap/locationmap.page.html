@@ -24,13 +24,13 @@
     >
     </map-marker>
 
-    <map-info-window>
-      <div style="display: flex; align-items: center">
-        <img
+    <map-info-window >
+      <div style="display: flex; align-items: center" >
+        <img (click)="getDirections()"
           style="height: 30px; width: 30px; margin-right: 5px"
           src="assets/imgs/maphuman.svg"
         />
-        <ion-label
+        <ion-label (click)="getDirections()"
           style="
             font-weight: 500;
             font-size: 17px;
@@ -42,7 +42,7 @@
         >
       </div>
     </map-info-window>
-    
+
     <map-marker *ngIf="userLocation"
       [position]="userLocation.position"
       
@@ -50,14 +50,14 @@
     
     >
     </map-marker>
-    <!-- <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
+    <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
       [directions]="directionsResults">
-    </map-directions-renderer> -->
+    </map-directions-renderer>
   </google-map>
   
   <div style="position: absolute;
   right: 12px;
-  bottom: 27%;
+  bottom: 28%;
   background: black;
   padding: 15px;
   border-radius: 90px;">
@@ -65,7 +65,50 @@
     <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
     
   </div>
-  <div
+
+  <div (click)="showHideFilterN()" style="position: absolute;
+  right: 12px;
+  bottom: 38%;
+  background: #740899;
+  padding: 15px;
+  border-radius: 90px;">
+    <img  style="height: 30px;width: 30px;" src="../../assets/imgs/icons/crowd_icon1.png" alt="">
+  </div>
+
+  <div *ngIf="showfilter" style="position: absolute;
+  right: 85px;
+  bottom: 19.8%;
+  ">
+    <div class="filter_btn work_sans" (click)="showHideFilter('Very Busy')" style="margin-bottom:20;">Very Busy</div>
+    
+    <div class="filter_btn work_sans" (click)="showHideFilter('Busy')" style="margin-bottom:20;">Busy</div>
+    
+    <div class="filter_btn work_sans" (click)="showHideFilter('Quite')">Quite</div>
+  </div>
+
+  <div (click)="toggleCategories()" style="position: absolute;
+  right: 12px;
+  bottom: 48%;
+  background: #740899;
+  padding: 15px;
+  border-radius: 90px;">
+    <img  style="height: 30px;width: 30px;" src="../../assets/imgs/icons/bar_24.png" alt="">
+    
+  </div>
+
+  <div *ngIf="showCategories" style="position: absolute;
+  right: 85px;
+  bottom: 29.8%;
+  ">
+    <div class="filter_btn work_sans" (click)="setMarkersAgain()" style="margin-bottom:20;">Bars</div>
+    
+    <div class="filter_btn work_sans" (click)="setMarkersAgain()" style="margin-bottom:20;">Clubs</div>
+    
+    <div class="filter_btn work_sans" (click)="setMarkersAgain()">Restaurants</div>
+  </div>
+  <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
+  
+  <!-- <div
     *ngIf="showfilter"
     style="
       position: absolute;
@@ -96,13 +139,14 @@
     >
       Clear Filter
     </p>
-  </div>
+  </div> -->
   <div class="boxshadowww"></div>
 
-  <ion-row class="paddingtop pdt-10"
+  <!-- <ion-row class="paddingtop pdt-10"
     style="position: absolute; z-index: 99;  width: 100%"
   >
-    <ion-col size="1.7" style="text-align: center">
+    <ion-col size="0.5" style="text-align: center">
+      
       <img
         (click)="showHideFilterN()"
         style="height: 25px; width: 25px"
@@ -110,42 +154,53 @@
       />
     </ion-col>
 
-    <ion-col size="8.6" style="text-align: center">
-      <!-- <div style="display: flex;align-items: center; justify-content: space-between;">
+    <ion-col size="9.2" style="text-align: center">
+      <div style="display: flex;align-items: center; justify-content: space-between;">
         <div (click)="setMarkersAgain()" class="venue_item">Restaurants</div>
         <div (click)="setMarkersAgain()" class="venue_item">Clubs</div>
         <div (click)="setMarkersAgain()" class="venue_item" style="margin-right: 0px;">Bars</div>
-      </div> -->
+      </div>
     </ion-col>
-    <ion-col size="1.7" style="text-align: center">
+    <ion-col size="2" style="text-align: center">
       <img
         (click)="goToProfile()"
-        style="height: 25px; width: 25px"
+        style="margin-top: 4px; height: 25px; width: 25px"
         src="assets/imgs/user.svg"
       />
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 
-  <!-- <div class="searchtop" style="width: 100%;
+  <div class="searchtop" style="width: 100%;
   justify-content: center;">
     <div
       class="inputfieldtransparent top-90 top-65"
       style="display: flex; height: 40px; width: 90%;
       position: absolute;
-      /* top: 65px; */
-      border: 2px solid white;"
+      border: 2px solid white;padding-right: 5px;"
     >
+      <img
+        style="height: 24px;
+        margin: 6px 0px 6px 15px;
+        width: 24px;"
+        src="/assets/imgs/pin.svg"
+      />
+
       <ion-input
-        style="padding-left: 15px !important"
+        style="padding-left: 15px !important; margin-right: 8px;"
         (ionInput)="searchVenues($event)"
         class="input"
         type="text"
-        placeholder="Search Venues"
+        placeholder="Search here"
       ></ion-input>
 
-      <img style="margin: 10px" src="/assets/imgs/search.svg" />
+      <!-- <img style="margin: 10px" src="/assets/imgs/search.svg" /> -->
+      <img
+        (click)="goToProfile()"
+        style="margin-top: 5px; height: 25px; width: 25px"
+        src="assets/imgs/user.svg"
+      />
     </div>
-  </div> -->
+  </div>
 
   <div
     class="loc_info"
