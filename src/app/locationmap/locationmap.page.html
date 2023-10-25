@@ -26,11 +26,11 @@
 
     <map-info-window >
       <div style="display: flex; align-items: center" >
-        <img (click)="getDirections()"
+        <img
           style="height: 30px; width: 30px; margin-right: 5px"
           src="assets/imgs/maphuman.svg"
         />
-        <ion-label (click)="getDirections()"
+        <ion-label
           style="
             font-weight: 500;
             font-size: 17px;
@@ -221,7 +221,7 @@
         src="assets/imgs/likemapheart.svg"
       />
     </div>
-    <div (click)="gotodetail()" style="width: 100%; display: flex;">
+    <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;">
       <img
         style="
           border-radius: 22px;

@@ -17,7 +17,7 @@ import {
   MapMarker,
   MapDirectionsService,
 } from "@angular/google-maps";
-import { Observable, map } from "rxjs";
+import { Observable, map,of } from "rxjs";
 
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
@@ -40,7 +40,7 @@ export class LocationmapPage implements OnInit {
   address = "";
   latitude!: any;
   longitude!: any;
-  zoom = 14;
+  zoom = 12;
   maxZoom = 15;
   minZoom = 8;
   center!: google.maps.LatLngLiteral;
@@ -289,8 +289,7 @@ export class LocationmapPage implements OnInit {
 
   currentLatitude:any;
   currentLongitude:any;
-  @ViewChild("map") mapRef: any = ElementRef;
-  // map: any = GoogleMap;
+
   title = "Title here";
   venuarr: any = "";
   venuarrOrg: any = "";
@@ -298,10 +297,6 @@ export class LocationmapPage implements OnInit {
   filtertype = "no";
 
   searchObject: any = "";
-
-  // dismissmodal = 0;
-  // modalopen = 0;
-
   markerscheck = [];
 
   dbLati: any = "";
@@ -311,8 +306,10 @@ export class LocationmapPage implements OnInit {
   b: any = "";
   ss: any;
   userLocation:any;
-   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
+  directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
+
   showCategories = false;
+  showDetail = false;
 
   constructor(
     public router: Router,
@@ -324,9 +321,6 @@ export class LocationmapPage implements OnInit {
     private mapDirectionsService: MapDirectionsService
   ) {}
 
-  // ionViewDidEnter() {
-  //   this.createMap();
-  // }
 
   getDirections(){
 
@@ -346,6 +340,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
     this.dbLati = parseFloat(this.a);
@@ -361,21 +356,15 @@ export class LocationmapPage implements OnInit {
     console.log("dbLong---------", this.dbLong);
 
     // await this.setMarkerPosition(this.dbLati, this.dbLong);
-    this.zoom = 14;
-    this.center = {
-      lat: this.dbLati,
-      lng: this.dbLong,
-    };
+    // this.center = {
+    //   lat: this.dbLati,
+    //   lng: this.dbLong,
+    // };
     this.getCurrentLocation();
-    // alert(
-    //   "Localstorage The coordinates are latitude=" +
-    //     localStorage.getItem("longitude") +
-    //     " and longitude=" +
-    //     localStorage.getItem("lattitude") +
-    //     " and location=" +
-    //     localStorage.getItem("location")
-    // );
+    this.map.googleMap?.setZoom(12);
+    
   }
+  
 
   
   isIOS() {
@@ -444,6 +433,10 @@ export class LocationmapPage implements OnInit {
   }
 
   searchVenues(ev:any){
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(12);
+    
     // this.markers = [];
     this.venuarr = [];
     
@@ -461,14 +454,15 @@ export class LocationmapPage implements OnInit {
               },
               title: "" + this.venuarrOrg[i].public_check_ins,
               name: this.venuarrOrg[i].name,
+              venueId: this.venuarrOrg[i].venues_id,
               options: {
                 animation: google.maps.Animation.DROP,
                 draggable: false,
                 icon: {
                   url: "assets/imgs/locpin.svg",
                   size: {
-                    height: 120,
-                    width: 30,
+                    height: 48,
+                    width: 48,
                   },
                 },
               },
@@ -525,6 +519,13 @@ export class LocationmapPage implements OnInit {
   }
 
   showHideFilter(item: any) {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(12);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
     this.searchAndFilterItems(item);
 
     this.filtertype = item;
@@ -537,7 +538,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async showHideFilterN() {
-    this.searchObject = "";
+    // this.searchObject = "";
     // if (this.showfilter) {
     //   this.showfilter = false;
     // } else {
@@ -554,7 +555,7 @@ export class LocationmapPage implements OnInit {
   }
 
   toggleCategories(){
-    this.searchObject = "";
+    // this.searchObject = "";
     this.showCategories = !this.showCategories;
     this.showfilter = false;
   }
@@ -579,14 +580,15 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarr[i].public_check_ins,
         name: this.venuarr[i].name,
+        venueId: this.venuarr[i].venues_id,
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
             url: "assets/imgs/locpin.svg",
             size: {
-              height: 120,
-              width: 30,
+              height: 48,
+              width: 48,
             },
           },
         },
@@ -614,6 +616,7 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
+        venueId:this.venuarrOrg[i].venues_id,
         // size: new google.maps.Size(48, 59),
         // anchor: new google.maps.Point(24, 59),
         // url: "assets/imgs/treeeline.svg",
@@ -693,12 +696,19 @@ export class LocationmapPage implements OnInit {
     // this.setMarkersAgain();
     this.showCategories = false;
     this.showfilter = false;
-    
+    this.map.googleMap?.setZoom(12);
   }
 
   setMarkersAgain(){
+    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(12);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
     this.venuarr = [];
-    this.markers = [];
+    // this.markers = [];
     console.log("Venuarr ORG: ",this.venuarrOrg);
     
     for (var i = 0; i < this.venuarrOrg.length; i++) {
@@ -709,14 +719,15 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
+        venueId: this.venuarrOrg[i].venues_id,
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
             url: "assets/imgs/locpin.svg",
             size: {
-              height: 120,
-              width: 30,
+              height: 48,
+              width: 48,
             },
           },
         },
@@ -775,11 +786,11 @@ export class LocationmapPage implements OnInit {
     // });
 
     // await this.setMarkerPosition(this.dbLati, this.dbLong);
-
-    this.center = {
-      lat: this.dbLati,
-      lng: this.dbLong,
-    };
+    
+    // this.center = {
+    //   lat: this.dbLati,
+    //   lng: this.dbLong,
+    // };
   }
 
   // setMarkerPosition(latitude: any, longitude: any) {
@@ -871,17 +882,18 @@ export class LocationmapPage implements OnInit {
     console.log("markerobj-----------", markerobj);
     console.log("content title-----------", content);
 
-    this.filterArrypin(markerobj.name);
+    this.filterArrypin(markerobj.venueId);
   }
 
   async filterArrypin(searchTerm: any) {
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
+      // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
+      if (this.venuarrOrg[i].venues_id == searchTerm) {
         this.searchObject = this.venuarrOrg[i];
       }
     }
     console.log("this.searchObject: ",this.searchObject);
-    
+    this.showDetail = true;
     this.rest.pinobject = this.searchObject;
     this.getDirections();
     // this.goTOinfopage();
