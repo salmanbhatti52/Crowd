@@ -1,12 +1,13 @@
-<ion-content [fullscreen]="true">
-  <!-- <div class="bg paddingtop"> -->
+<ion-content [fullscreen]="true" >
+  <div class="bg paddingtop">
 
   <!-- <capacitor-google-map #map></capacitor-google-map> -->
 
   <google-map 
-    height="105%"
+    height="100%"
     width="100%"
     #myGoogleMap
+    (click)="unFocusInput()"
     [zoom]="zoom"
     [center]="center"
     [options]="options"
@@ -24,10 +25,10 @@
     >
     </map-marker>
 
-    <map-info-window >
-      <div style="display: flex; align-items: center" >
+    <map-info-window style="border-radius: 15px; border-bottom: none;">
+      <div  style="display: flex; align-items: center;" >
         <img
-          style="height: 30px; width: 30px; margin-right: 5px"
+          style="height: 30px; width: 30px; margin-right: 10px"
           src="assets/imgs/maphuman.svg"
         />
         <ion-label
@@ -38,8 +39,8 @@
             text-align: center;
             color: #7825cb;
           "
-          >{{ infoContent }}</ion-label
-        >
+          >{{ infoContent }}
+        </ion-label>
       </div>
     </map-info-window>
 
@@ -55,9 +56,9 @@
     </map-directions-renderer>
   </google-map>
   
-  <div style="position: absolute;
+  <div *ngIf="showSideElements" style="position: absolute;
   right: 12px;
-  bottom: 28%;
+  bottom: 31%;
   background: black;
   padding: 15px;
   border-radius: 90px;">
@@ -66,29 +67,26 @@
     
   </div>
 
-  <div (click)="showHideFilterN()" style="position: absolute;
+  <div *ngIf="showSideElements" (click)="showHideFilterN()" style="position: absolute;
   right: 12px;
-  bottom: 38%;
+  bottom: 48%;
   background: #740899;
   padding: 15px;
   border-radius: 90px;">
     <img  style="height: 30px;width: 30px;" src="../../assets/imgs/icons/crowd_icon1.png" alt="">
   </div>
 
-  <div *ngIf="showfilter" style="position: absolute;
-  right: 85px;
-  bottom: 19.8%;
-  ">
-    <div class="filter_btn work_sans" (click)="showHideFilter('Very Busy')" style="margin-bottom:20;">Very Busy</div>
+  <div *ngIf="showfilter" class="crowd_filter" >
+    <div class="filter_btn work_sans mgb_16" (click)="showHideFilter('Very Busy')" >Very Busy</div>
     
-    <div class="filter_btn work_sans" (click)="showHideFilter('Busy')" style="margin-bottom:20;">Busy</div>
+    <div class="filter_btn work_sans mgb_16" (click)="showHideFilter('Busy')" >Busy</div>
     
     <div class="filter_btn work_sans" (click)="showHideFilter('Quite')">Quite</div>
   </div>
 
-  <div (click)="toggleCategories()" style="position: absolute;
+  <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
   right: 12px;
-  bottom: 48%;
+  bottom: 65%;
   background: #740899;
   padding: 15px;
   border-radius: 90px;">
@@ -96,13 +94,10 @@
     
   </div>
 
-  <div *ngIf="showCategories" style="position: absolute;
-  right: 85px;
-  bottom: 29.8%;
-  ">
-    <div class="filter_btn work_sans" (click)="setMarkersAgain()" style="margin-bottom:20;">Bars</div>
+  <div *ngIf="showCategories" class="categories_filter">
+    <div class="filter_btn work_sans mgb_16" (click)="setMarkersAgain()" >Bars</div>
     
-    <div class="filter_btn work_sans" (click)="setMarkersAgain()" style="margin-bottom:20;">Clubs</div>
+    <div class="filter_btn work_sans mgb_16" (click)="setMarkersAgain()" >Clubs</div>
     
     <div class="filter_btn work_sans" (click)="setMarkersAgain()">Restaurants</div>
   </div>
@@ -184,23 +179,26 @@
         width: 24px;"
         src="/assets/imgs/pin.svg"
       />
-
-      <ion-input
+ <!-- (ionBlur)="showHiddenElements()" -->
+ <!-- (click)="hideExtraElements()" -->
+      <ion-input #textInput
         style="padding-left: 15px !important; margin-right: 8px;"
         (ionInput)="searchVenues($event)"
+        (click)="hideExtraElements()"
         class="input"
         type="text"
         placeholder="Search here"
       ></ion-input>
-
+      <!-- <input #textInput class="input_html" (input)="searchVenues($event)"  style="padding-left: 15px !important; margin-right: 8px;" type="text" placeholder="Search here"> -->
       <!-- <img style="margin: 10px" src="/assets/imgs/search.svg" /> -->
-      <img
+      <img 
         (click)="goToProfile()"
         style="margin-top: 5px; height: 25px; width: 25px"
         src="assets/imgs/user.svg"
       />
     </div>
   </div>
+
 
   <div
     class="loc_info"
@@ -293,7 +291,7 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
+  </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">

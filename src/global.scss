@@ -320,7 +320,20 @@ input{
     --color: #ffffff !important;
     color: white !important;
  }
-
+  .input_html{
+    // text-align: left;
+    // --placeholder-color:#ffffff;
+    // --placeholder-opacity: 1;
+    // opacity: 1;
+    // font-weight: 400;
+    // --placeholder-font-weight:400;
+    font-weight: 400;
+    font-size: 16px;
+    // line-height: 19px;
+    letter-spacing: -0.3px;
+    // --color: #ffffff !important;
+    color: white !important;
+  }
  :host .calendar-day.calendar-day-active::after {
   border: 1px solid var(--ion-color-base);
   background: none !important;

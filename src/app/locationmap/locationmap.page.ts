@@ -5,6 +5,7 @@ import {
   NgZone,
   OnInit,
   ViewChild,
+  Renderer2,
 } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -18,7 +19,8 @@ import {
   MapDirectionsService,
 } from "@angular/google-maps";
 import { Observable, map,of } from "rxjs";
-
+import { Keyboard } from '@capacitor/keyboard';
+import { IonInput } from "@ionic/angular";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -34,6 +36,8 @@ export class LocationmapPage implements OnInit {
   map!: GoogleMap;
   @ViewChild(MapInfoWindow, { static: false })
   info!: MapInfoWindow;
+  @ViewChild("textInput", { static: false })
+  textInput!: ElementRef;
 
   userID: any = "";
   userdata: any = "";
@@ -45,7 +49,7 @@ export class LocationmapPage implements OnInit {
   minZoom = 8;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
-    zoomControl: true,
+    zoomControl: false,
     scrollwheel: true,
     disableDoubleClickZoom: true,
     mapTypeId: "roadmap",
@@ -295,7 +299,7 @@ export class LocationmapPage implements OnInit {
   venuarrOrg: any = "";
 
   filtertype = "no";
-
+  showSideElements = true;
   searchObject: any = "";
   markerscheck = [];
 
@@ -318,8 +322,50 @@ export class LocationmapPage implements OnInit {
     private ngZone: NgZone,
     private geoCoder: MapGeocoder,
     private platform:Platform,
-    private mapDirectionsService: MapDirectionsService
-  ) {}
+    private mapDirectionsService: MapDirectionsService,
+    private renderer: Renderer2
+  ) {
+    Keyboard.addListener('keyboardWillShow', info => {
+      console.log('keyboard will show with height:', info.keyboardHeight);
+      this.showDetail = false;
+      // this.hideExtraElements();
+    });
+    
+    Keyboard.addListener('keyboardDidShow', info => {
+      console.log('keyboard did show with height:', info.keyboardHeight);
+      this.showDetail = false;
+      // this.hideExtraElements();
+    });
+    
+    // Keyboard.addListener('keyboardWillHide', () => {
+     
+    //   this.showHiddenElements();
+
+    // });
+    
+    // Keyboard.addListener('keyboardDidHide', () => {
+    //   document.getElementById("textInput")?.blur();
+     
+      
+    //   this.showHiddenElements();
+    
+    // });
+  }
+
+  onInputClick(event: Event) {
+    // event.stopPropagation(); // Prevent the click event from propagating further
+  }
+ 
+
+
+  unFocusInput(){
+    // this.renderer.selectRootElement(this.textInput.nativeElement).blur();
+
+    // Keyboard.hide();
+   
+    // this.showHiddenElements();
+    
+  }
 
 
   getDirections(){
@@ -361,7 +407,7 @@ export class LocationmapPage implements OnInit {
     //   lng: this.dbLong,
     // };
     this.getCurrentLocation();
-    this.map.googleMap?.setZoom(12);
+    this.map.googleMap?.setZoom(13);
     
   }
   
@@ -431,11 +477,21 @@ export class LocationmapPage implements OnInit {
     this.HideFilter();
     this.router.navigate(["profile"]);
   }
+  hideExtraElements(){
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(13);
+    // this.showSideElements = false;
+    this.infoWindow.close();
+  }
+  showHiddenElements(){
+    // this.showSideElements = true;
+  }
 
   searchVenues(ev:any){
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
-    this.map.googleMap?.setZoom(12);
+    this.map.googleMap?.setZoom(13);
     
     // this.markers = [];
     this.venuarr = [];
@@ -521,7 +577,7 @@ export class LocationmapPage implements OnInit {
   showHideFilter(item: any) {
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
-    this.map.googleMap?.setZoom(12);
+    this.map.googleMap?.setZoom(13);
     this.center = {
       lat: this.currentLatitude,
       lng: this.currentLongitude,
@@ -696,13 +752,13 @@ export class LocationmapPage implements OnInit {
     // this.setMarkersAgain();
     this.showCategories = false;
     this.showfilter = false;
-    this.map.googleMap?.setZoom(12);
+    this.map.googleMap?.setZoom(13);
   }
 
   setMarkersAgain(){
     this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
-    this.map.googleMap?.setZoom(12);
+    this.map.googleMap?.setZoom(13);
     this.center = {
       lat: this.currentLatitude,
       lng: this.currentLongitude,
@@ -877,6 +933,7 @@ export class LocationmapPage implements OnInit {
   infoContent: string | undefined;
 
   openInfo(marker: MapMarker, content: string, markerobj: any) {
+    // Keyboard.hide();
     this.infoContent = content;
     this.infoWindow.open(marker);
     console.log("markerobj-----------", markerobj);
@@ -896,6 +953,8 @@ export class LocationmapPage implements OnInit {
     this.showDetail = true;
     this.rest.pinobject = this.searchObject;
     this.getDirections();
+    this.showCategories = false;
+    this.showfilter = false;
     // this.goTOinfopage();
   }
 
