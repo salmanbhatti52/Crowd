@@ -51,29 +51,37 @@
     
     >
     </map-marker>
-    <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
+    <map-directions-renderer  [options]="renderOptions"  *ngIf="(directionsResults$ | async) as directionsResults"
       [directions]="directionsResults">
     </map-directions-renderer>
   </google-map>
   
   <div *ngIf="showSideElements" style="position: absolute;
-  right: 12px;
-  bottom: 31%;
-  background: black;
-  padding: 15px;
-  border-radius: 90px;">
-    <img (click)="getCurrentLocation()" style="height: 30px;width: 30px;" src="../../assets/imgs/target.svg" alt="">
+    right: 12px;
+    bottom: 31%;
+    background: white;
+   
+    border-radius: 90px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding: 15px 0px;">
+    <img (click)="getCurrentLocation()" style="height: 28px;width: 28px;" src="../../assets/imgs/icons/pin_icon.svg" alt="">
     <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
     
   </div>
 
   <div *ngIf="showSideElements" (click)="showHideFilterN()" style="position: absolute;
-  right: 12px;
-  bottom: 48%;
-  background: #740899;
-  padding: 15px;
-  border-radius: 90px;">
-    <img  style="height: 30px;width: 30px;" src="../../assets/imgs/icons/crowd_icon1.png" alt="">
+    right: 12px;
+    bottom: 48%;
+    background: #740899;
+    
+    border-radius: 90px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding: 15px 0px;">
+    <img  style="height: 27px;width: 27px;" src="../../assets/imgs/icons/group_icon.svg" alt="">
   </div>
 
   <div *ngIf="showfilter" class="crowd_filter" >
@@ -85,12 +93,15 @@
   </div>
 
   <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
-  right: 12px;
-  bottom: 65%;
-  background: #740899;
-  padding: 15px;
-  border-radius: 90px;">
-    <img  style="height: 30px;width: 30px;" src="../../assets/imgs/icons/bar_24.png" alt="">
+    right: 12px;
+    bottom: 65%;
+    background: #740899;
+    border-radius: 90px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding: 11px 0px;">
+    <img src="../../assets/imgs/icons/bar_icon.svg" alt="">
     
   </div>
 

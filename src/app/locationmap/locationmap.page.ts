@@ -136,7 +136,13 @@ export class LocationmapPage implements OnInit {
       },
     ],
   };
-
+  renderOptions: google.maps.DirectionsRendererOptions = {
+    polylineOptions: {
+      strokeColor: '#FFFFFF', 
+      // strokeOpacity: 0.5,
+      strokeWeight:5
+    }
+  }
   // public styleDark = [
   //   {
   //     elementType: "geometry",
@@ -311,7 +317,6 @@ export class LocationmapPage implements OnInit {
   ss: any;
   userLocation:any;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
-
   showCategories = false;
   showDetail = false;
 
@@ -323,6 +328,7 @@ export class LocationmapPage implements OnInit {
     private geoCoder: MapGeocoder,
     private platform:Platform,
     private mapDirectionsService: MapDirectionsService,
+    // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
     Keyboard.addListener('keyboardWillShow', info => {
@@ -373,7 +379,8 @@ export class LocationmapPage implements OnInit {
     const request: google.maps.DirectionsRequest = {
       destination: {lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude},
       origin: {lat: this.currentLatitude, lng: this.currentLongitude },
-      travelMode: google.maps.TravelMode.DRIVING
+      travelMode: google.maps.TravelMode.DRIVING,
+
     };
     console.log(request.destination);
     console.log(request.origin);
@@ -386,6 +393,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+   
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
