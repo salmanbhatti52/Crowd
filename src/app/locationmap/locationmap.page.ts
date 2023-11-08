@@ -137,6 +137,7 @@ export class LocationmapPage implements OnInit {
     ],
   };
   renderOptions: google.maps.DirectionsRendererOptions = {
+    suppressMarkers:true,
     polylineOptions: {
       strokeColor: '#FFFFFF', 
       // strokeOpacity: 0.5,
@@ -523,7 +524,7 @@ export class LocationmapPage implements OnInit {
                 animation: google.maps.Animation.DROP,
                 draggable: false,
                 icon: {
-                  url: "assets/imgs/locpin.svg",
+                  url: "assets/imgs/locpin2.svg",
                   size: {
                     height: 48,
                     width: 48,
@@ -562,7 +563,7 @@ export class LocationmapPage implements OnInit {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
-            url: "assets/imgs/locpin.svg",
+            url: "assets/imgs/locpin2.svg",
             size: {
               height: 120,
               width: 30,
@@ -649,7 +650,7 @@ export class LocationmapPage implements OnInit {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
-            url: "assets/imgs/locpin.svg",
+            url: "assets/imgs/locpin2.svg",
             size: {
               height: 48,
               width: 48,
@@ -697,7 +698,7 @@ export class LocationmapPage implements OnInit {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
-            url: "assets/imgs/locpin.svg",
+            url: "assets/imgs/locpin2.svg",
             size: {
               height: 48,
               width: 48,
@@ -788,7 +789,7 @@ export class LocationmapPage implements OnInit {
           animation: google.maps.Animation.DROP,
           draggable: false,
           icon: {
-            url: "assets/imgs/locpin.svg",
+            url: "assets/imgs/locpin2.svg",
             size: {
               height: 48,
               width: 48,
