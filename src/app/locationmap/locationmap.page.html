@@ -7,7 +7,6 @@
     height="100%"
     width="100%"
     #myGoogleMap
-    (click)="unFocusInput()"
     [zoom]="zoom"
     [center]="center"
     [options]="options"
@@ -58,7 +57,7 @@
   
   <div *ngIf="showSideElements" style="position: absolute;
     right: 12px;
-    bottom: 31%;
+    bottom: 29%;
     background: white;
    
     border-radius: 90px;
@@ -73,7 +72,7 @@
 
   <div *ngIf="showSideElements" (click)="showHideFilterN()" style="position: absolute;
     right: 12px;
-    bottom: 48%;
+    bottom: 40%;
     background: #740899;
     
     border-radius: 90px;
@@ -94,7 +93,7 @@
 
   <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
     right: 12px;
-    bottom: 65%;
+    bottom: 51%;
     background: #740899;
     border-radius: 90px;
     height: 60px;
@@ -176,26 +175,27 @@
     </ion-col>
   </ion-row> -->
 
-  <div class="searchtop" style="width: 100%;
+  <div  class="searchtop" style="width: 100%;
   justify-content: center;">
     <div
       class="inputfieldtransparent top-90 top-65"
-      style="display: flex; height: 40px; width: 90%;
+      style="display: flex; height: 44px; width: 90%;
       position: absolute;
       border: 2px solid white;padding-right: 5px;"
     >
       <img
         style="height: 24px;
-        margin: 6px 0px 6px 15px;
+        margin: 8px 0px 8px 15px;
         width: 24px;"
         src="/assets/imgs/pin.svg"
       />
- <!-- (ionBlur)="showHiddenElements()" -->
- <!-- (click)="hideExtraElements()" -->
+      <!-- (ionInput)="searchVenues($event)"
+      (click)="hideExtraElements()" -->
+      <!-- id="open-modal" -->
       <ion-input #textInput
         style="padding-left: 15px !important; margin-right: 8px;"
-        (ionInput)="searchVenues($event)"
-        (click)="hideExtraElements()"
+        [readonly]="true"
+        (click)="openModal()"
         class="input"
         type="text"
         placeholder="Search here"
@@ -204,7 +204,7 @@
       <!-- <img style="margin: 10px" src="/assets/imgs/search.svg" /> -->
       <img 
         (click)="goToProfile()"
-        style="margin-top: 5px; height: 25px; width: 25px"
+        style="margin-top: 8px; margin-right: 3px; height: 25px; width: 25px"
         src="assets/imgs/user.svg"
       />
     </div>

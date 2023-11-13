@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { ModalController, Platform } from "@ionic/angular";
+import { IonModal, ModalController, Platform } from "@ionic/angular";
 import {
   GoogleMap,
   MapInfoWindow,
@@ -20,6 +20,8 @@ import {
 } from "@angular/google-maps";
 import { Observable, map,of } from "rxjs";
 import { Keyboard } from '@capacitor/keyboard';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
@@ -38,6 +40,10 @@ export class LocationmapPage implements OnInit {
   info!: MapInfoWindow;
   @ViewChild("textInput", { static: false })
   textInput!: ElementRef;
+  @ViewChild(IonModal)
+  modal!: IonModal;
+
+  foundVenue :any;
 
   userID: any = "";
   userdata: any = "";
@@ -332,46 +338,73 @@ export class LocationmapPage implements OnInit {
     // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
-    Keyboard.addListener('keyboardWillShow', info => {
-      console.log('keyboard will show with height:', info.keyboardHeight);
-      this.showDetail = false;
-      // this.hideExtraElements();
-    });
-    
-    Keyboard.addListener('keyboardDidShow', info => {
-      console.log('keyboard did show with height:', info.keyboardHeight);
-      this.showDetail = false;
-      // this.hideExtraElements();
-    });
-    
-    // Keyboard.addListener('keyboardWillHide', () => {
-     
-    //   this.showHiddenElements();
 
+    // Keyboard.addListener('keyboardWillShow', info => {
+    //   console.log('keyboard will show with height:', info.keyboardHeight);
+    //   this.showDetail = false;
+    //   // this.hideExtraElements();
     // });
     
-    // Keyboard.addListener('keyboardDidHide', () => {
-    //   document.getElementById("textInput")?.blur();
-     
-      
-    //   this.showHiddenElements();
-    
+    // Keyboard.addListener('keyboardDidShow', info => {
+    //   console.log('keyboard did show with height:', info.keyboardHeight);
+    //   this.showDetail = false;
+    //   // this.hideExtraElements();
     // });
-  }
-
-  onInputClick(event: Event) {
-    // event.stopPropagation(); // Prevent the click event from propagating further
-  }
- 
-
-
-  unFocusInput(){
-    // this.renderer.selectRootElement(this.textInput.nativeElement).blur();
-
-    // Keyboard.hide();
-   
-    // this.showHiddenElements();
     
+    
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: SearchComponentComponent,
+      cssClass: "search_modal"
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.foundVenue = data;
+      console.log("found venue:",this.foundVenue);
+      this.setFoundVenue();
+    }
+  }
+
+  setFoundVenue(){
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(13);
+    
+    // this.markers = [];
+    this.venuarr = [];
+           
+    var obj = {
+      position: {
+        lat: parseFloat(this.foundVenue.lattitude),
+        lng: parseFloat(this.foundVenue.longitude),
+      },
+      title: "" + this.foundVenue.public_check_ins,
+      name: this.foundVenue.name,
+      venueId: this.foundVenue.venues_id,
+      options: {
+        animation: google.maps.Animation.DROP,
+        draggable: false,
+        icon: {
+          url: "assets/imgs/locpin2.svg",
+          size: {
+            height: 48,
+            width: 48,
+          },
+        },
+      },
+    };
+
+    this.venuarr.push(obj);
+
+    this.markers = this.venuarr;
+    this.openInfo(undefined,obj.title,obj);
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
   }
 
 
@@ -410,11 +443,6 @@ export class LocationmapPage implements OnInit {
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
 
-    // await this.setMarkerPosition(this.dbLati, this.dbLong);
-    // this.center = {
-    //   lat: this.dbLati,
-    //   lng: this.dbLong,
-    // };
     this.getCurrentLocation();
     this.map.googleMap?.setZoom(13);
     
@@ -425,45 +453,6 @@ export class LocationmapPage implements OnInit {
   isIOS() {
     return this.platform.is('ios');
   }
-
-  
-  
-  // ionViewWillLeave() {
-  //   // enable the root left menu when leaving this page
-  //   // this.map.destroy();
-  // }
-
-  // async createMap() {
-  //   this.dismissmodal = 0;
-  //   // AIzaSyAncWVozZi9mUrnaxdDJJE_rgRY5M-wD54
-  //   // this.map = await GoogleMap.create({
-  //   //   id: "my-map", // Unique identifier for this map instance
-  //   //   element: this.mapRef?.nativeElement, // reference to the capacitor-google-map element,
-  //   //   apiKey: "AIzaSyA7ks8X2YnLcxTuEC3qydL2adzA0NYbl6c", // Your Google Maps API Key
-  //   //   forceCreate: true,
-  //   //   config: {
-  //   //     center: {
-  //   //       // The initial position to be rendered by the map
-  //   //       lat: 30.2398469,
-  //   //       lng: 71.4703882,
-  //   //     },
-
-  //   //     zoom: 12, // The initial zoom level to be rendered by the map
-  //   //   },
-  //   // });
-
-  //   // this.addmarkers();
-  // }
-
-  // async addmarkers() {
-  //   await this.map.addMarkers(this.markerscheck);
-  //   this.map.setOnMarkerClickListener(async (marker: any) => {
-  //     this.dismissmodal++;
-  //     this.title = marker.title;
-  //     this.filterArrypin(marker.title);
-  //   });
-  //   this.map.setOnInfoWindowClickListener(async (marker: any) => {});
-  // }
 
   tab1Click() {
     this.HideFilter();
@@ -578,9 +567,7 @@ export class LocationmapPage implements OnInit {
     this.venuarr = [];
     this.venuarr = newVenuArr;
     this.markers = this.venuarr;
-    // this.map.destroy();
-
-    // this.createMap();
+    
   }
 
   showHideFilter(item: any) {
@@ -603,20 +590,11 @@ export class LocationmapPage implements OnInit {
   }
 
   async showHideFilterN() {
-    // this.searchObject = "";
-    // if (this.showfilter) {
-    //   this.showfilter = false;
-    // } else {
-    //   this.showfilter = true;
-    // }
+    
     this.showfilter = !this.showfilter;
     this.showCategories = false;
 
-    // this.
-    // if (this.modalopen == 1) {
-    //   await this.modalCtrl.dismiss();
-    // }
-    // this.modalopen = 0;
+   
   }
 
   toggleCategories(){
@@ -664,9 +642,7 @@ export class LocationmapPage implements OnInit {
     this.venuarr = [];
     this.venuarr = newVenuArr;
     this.markers = this.venuarr;
-    // this.map.destroy();
-
-    // this.createMap();
+    
   }
 
   makeMarkerArray() {
@@ -682,18 +658,7 @@ export class LocationmapPage implements OnInit {
         title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
         venueId:this.venuarrOrg[i].venues_id,
-        // size: new google.maps.Size(48, 59),
-        // anchor: new google.maps.Point(24, 59),
-        // url: "assets/imgs/treeeline.svg",
-        //=============== comment by gharsheen start
-        // icon: {
-        //   url: "assets/imgs/locpin.svg",
-        //   size: {
-        //     height: 120,
-        //     width: 30,
-        //   },
-        // },
-        // =================done=========
+        
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
@@ -725,27 +690,20 @@ export class LocationmapPage implements OnInit {
           };
          this.currentLatitude = pos.lat;
          this.currentLongitude = pos.lng;
-          // this.infoWindow.setPosition(pos);
-          // infoWindow.setContent("Location found.");
-          // infoWindow.open(map);
-          // map.setCenter(pos);
+          
           this.center = pos;
           this.userLocation = {
             position: {
               lat: pos.lat,
               lng: pos.lng,
             },
-            // title: "" + this.venuarrOrg[i].public_check_ins,
-            // name: this.venuarrOrg[i].name,
+           
             options: {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
                 url: "../../assets/imgs/icons/location_28.svg",
-                // size: {
-                //   height: 48,
-                //   width: 4,
-                // },
+                
               },
             },
           };
@@ -758,7 +716,7 @@ export class LocationmapPage implements OnInit {
       // Browser doesn't support Geolocation
       // handleLocationError(false, infoWindow, map.getCenter()!);
     }
-    // this.setMarkersAgain();
+    
     this.showCategories = false;
     this.showfilter = false;
     this.map.googleMap?.setZoom(13);
@@ -810,12 +768,7 @@ export class LocationmapPage implements OnInit {
   async HideFilter() {
     this.searchObject = "";
     this.showfilter = false;
-    // console.log("modalopen-----", this.modalopen);
-
-    // if (this.modalopen == 1) {
-    //   await this.modalCtrl.dismiss();
-    //   this.modalopen = 0;
-    // }
+   
   }
 
   // async goTOinfopage() {
@@ -839,24 +792,7 @@ export class LocationmapPage implements OnInit {
   ngAfterViewInit(): void {}
 
   async ngOnInit() {
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   this.latitude = position.coords.latitude;
-    //   this.longitude = position.coords.longitude;
-    //   this.center = {
-    //     lat: this.dbLati,
-    //     lng: this.dbLong,
-    //   };
-    //   // Set marker position
-    //   await this.setMarkerPosition(this.dbLati, this.dbLong);
-    // });
-
-    // await this.setMarkerPosition(this.dbLati, this.dbLong);
-    
-    // this.center = {
-    //   lat: this.dbLati,
-    //   lng: this.dbLong,
-    // };
-  }
+      }
 
   // setMarkerPosition(latitude: any, longitude: any) {
   //   console.log("marker position");
@@ -941,10 +877,14 @@ export class LocationmapPage implements OnInit {
 
   infoContent: string | undefined;
 
-  openInfo(marker: MapMarker, content: string, markerobj: any) {
-    // Keyboard.hide();
+  openInfo(marker: MapMarker | undefined, content: string, markerobj: any) {
+  
     this.infoContent = content;
-    this.infoWindow.open(marker);
+    if(marker){
+      this.infoWindow.open(marker);
+    }
+    console.log("Map Marker:",marker);
+    
     console.log("markerobj-----------", markerobj);
     console.log("content title-----------", content);
 

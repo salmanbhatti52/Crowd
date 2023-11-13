@@ -58,6 +58,8 @@
 ion-input {
     font-family: "work-sans" !important;
   }
+
+  // .searchbar-search-icon { display:none; width:0; height:0; } 
   
 body.scanner-active {
   --background: transparent;
@@ -444,6 +446,10 @@ input{
 
 .ios .paddingtop{
   padding-top: 37px !important;
+}
+
+.search_modal{
+  --border-radius: 0px !important;
 }
 
 

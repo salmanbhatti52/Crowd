@@ -2,6 +2,7 @@ import { CancelReservationPageModule } from "./cancel-reservation/cancel-reserva
 import { PaymentmethodPageModule } from "./paymentmethod/paymentmethod.module";
 import { FilterPageModule } from "./filter/filter.module";
 import { CancelbookPageModule } from "./cancelbook/cancelbook.module";
+import { SearchComponentComponent } from "./search-component/search-component.component";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
@@ -34,7 +35,7 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator/ngx';
 // type PDFGenerator = typeof PDFGenerator;
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,SearchComponentComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
