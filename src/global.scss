@@ -59,6 +59,15 @@ ion-input {
     font-family: "work-sans" !important;
   }
 
+  .searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
+    padding-left: 9px !important;
+}
+
+.searchbar-input.sc-ion-searchbar-md {
+  padding-left: 10px !important;
+
+}
+
   // .searchbar-search-icon { display:none; width:0; height:0; } 
   
 body.scanner-active {
