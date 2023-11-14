@@ -3,18 +3,14 @@
 padding: 37px 20px 10px;">
  
     
-    <div style="display: flex;
-    align-items: center;
-    border: 2px solid white;
-    border-radius: 52px;
-    padding-left: 15px;padding-right: 8px;">
+    <div class="search_div" >
       <img
           (click)="cancel()"
           style="height: 24px; width: 20px;
           "
           src="assets/imgs/backbtn.svg"
         />
-      <!-- <ion-icon slot="start" name="arrow-back" color="white"></ion-icon> -->
+      
       <ion-searchbar  class="ion_search work_sans"  #searchbar  [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
     </div>
     

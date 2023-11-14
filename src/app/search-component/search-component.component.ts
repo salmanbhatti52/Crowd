@@ -36,11 +36,7 @@ export class SearchComponentComponent  implements OnInit {
     this.venues = this.rest.venuArrHome;
     this.results = [...this.venues];
     console.log('This is modal ionViewWillEnter()');
-    // for(let data of this.rest.venuArrHome){
-    //   console.log(data);
-    //   this.venues.push(data.name)
-      
-    // }
+    
     
   }
 
@@ -71,8 +67,5 @@ export class SearchComponentComponent  implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  // confirm() {
-  //   return this.modalCtrl.dismiss(this.name, 'confirm');
-  // }
 
 }
