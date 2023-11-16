@@ -65,11 +65,18 @@
     position: absolute;
     top: -1px;
      width: 0px !important;
+     
 }
 
-.gm-ui-hover-effect {
-  opacity: .6;
+ .gm-ui-hover-effect {
   display: none !important;
+  // opacity: 0.6;
+  // position: absolute !important;
+  // top: 0px !important;
+  // right: 1px !important;
+  
+  // background-color: transparent !important; 
+  // box-shadow: none !important;/* Set the desired color for the close button */
 }
 
 ion-input {

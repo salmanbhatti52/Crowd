@@ -872,6 +872,10 @@ export class LocationmapPage implements OnInit {
       });
   }
 
+  closeWindow(){
+    this.infoWindow.close();
+  }
+
   @ViewChild(MapInfoWindow, { static: false })
   infoWindow!: MapInfoWindow;
 
