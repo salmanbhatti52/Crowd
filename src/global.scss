@@ -55,6 +55,23 @@
     font-family: 'Roboto', sans-serif;
   }
 
+  .gm-style .gm-style-iw-tc::after {
+    background: #fff;
+    /* -webkit-clip-path: polygon(0 0,50% 100%,100% 0); */
+    /* clip-path: polygon(0 0,50% 100%,100% 0); */
+    content: "";
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: -1px;
+     width: 0px !important;
+}
+
+.gm-ui-hover-effect {
+  opacity: .6;
+  display: none !important;
+}
+
 ion-input {
     font-family: "work-sans" !important;
   }

@@ -22,11 +22,11 @@
 
   // ==================test code=====================
   ::ng-deep .gm-style-iw {
-    border-radius: 15px; /* Rounded corners with 15px border radius */
+    border-radius: 50px !important; /* Rounded corners with 15px border radius */
     background-color: #fff; /* White background */
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
-    width:100px; /* Set the desired width */
+    width:80px !important; /* Set the desired width */
   }
   
   ::ng-deep .gm-style-iw img {
