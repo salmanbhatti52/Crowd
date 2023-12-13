@@ -244,17 +244,17 @@
 }
 
 .ios .margincls{
-  margin: 0px auto 40px auto;
+  margin: 15px auto 40px auto;
   width: 95%;
 }
 
 .md .margincls{
-  margin: 20px auto 15px auto;
+  margin: 15px auto 20px auto;
   width: 95%;
 }
 
 .notFound{
-  margin-top: 25px;
+  margin-top: 55%;
   width: 100%;
   font-style: normal;
   font-weight: 400;
@@ -285,7 +285,7 @@
   background: #262626;
   width: 105%;
   // top: 145px;
-  padding-top: 20px;
+  // padding-top: 20px;
   padding-bottom: 15px;
   display: flex;
   justify-content: space-between;

@@ -357,6 +357,16 @@ export class RestService {
     });
   }
 
+  reservations(data: any) {
+    let header;
+    header = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http.post(this.baseURL + "reservations", data, {
+      headers: header,
+    });
+  }
+
   login(data: any) {
     let header;
 

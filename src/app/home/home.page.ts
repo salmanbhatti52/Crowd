@@ -1,7 +1,7 @@
 import { FilterPage } from "./../filter/filter.page";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { IonContent, ModalController } from "@ionic/angular";
 // import { AnyARecord } from "dns";
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
@@ -17,19 +17,25 @@ declare var google: any;
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
+  @ViewChild("IonContent", { static: true })
+  content!: IonContent;
   segmentModel = "venu";
   showfilter = false;
   venuarr: any = [];
+  reservationsArr: any = [];
+  filteredReservationsArr:any = [];
   venusNearUserLoc: any = [];
   venuarrOrg: any = "";
   number = "123";
   eventarr: any = [];
   filtertype: any = "no";
   filterTypeEv: any = "no";
+  reservationFeature:any = '';
   // venusArray:any = []
   venues!: Observable<any>
   noevent = 0;
   noevenu = 0;
+  noReservations = 0;
 
   pageNumber = 1;
   latitude: any;
@@ -56,162 +62,167 @@ export class HomePage implements OnInit {
     
   }
 
-  map!: google.maps.Map;
-  service!: google.maps.places.PlacesService;
-
-  initialize() {
-    let lat = localStorage.getItem("lattitude");
-    let lng = localStorage.getItem("longitude");
-
-    var pyrmont = new google.maps.LatLng(lat,lng);
-
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      center: pyrmont,
-      // zoom: 15
-    });
-
-    if(this.pageNumber == 1){
-      this.radius = 2500;
-      this.placeType= 'restaurant';
-    }else if(this.pageNumber == 2){
-      this.radius = 2500;
-      this.placeType= 'bar';
-
-    }
-
-    let request = {
-      location: pyrmont,
-      radius: this.radius, 
-      type: this.placeType
-    };
-
-    this.service = new google.maps.places.PlacesService(this.map);
-    this.service.textSearch(request, this.callback);
+  scrollToTop() {
+    this.content.scrollToTop();
   }
 
-  callback = (results:google.maps.places.PlaceResult[] | null, status:google.maps.places.PlacesServiceStatus) => {
-    console.log("nearByyyyyyy Results: ",results);
+  // map!: google.maps.Map;
+  // service!: google.maps.places.PlacesService;
+  
+  // ======== code to get venues from google and adding them in venues api according to api's key value pairs ================
+  // initialize() {
+  //   let lat = localStorage.getItem("lattitude");
+  //   let lng = localStorage.getItem("longitude");
+
+  //   var pyrmont = new google.maps.LatLng(lat,lng);
+
+  //   this.map = new google.maps.Map(document.getElementById('map'), {
+  //     center: pyrmont,
+  //     // zoom: 15
+  //   });
+
+  //   if(this.pageNumber == 1){
+  //     this.radius = 2500;
+  //     this.placeType= 'restaurant';
+  //   }else if(this.pageNumber == 2){
+  //     this.radius = 2500;
+  //     this.placeType= 'bar';
+
+  //   }
+
+  //   let request = {
+  //     location: pyrmont,
+  //     radius: this.radius, 
+  //     type: this.placeType
+  //   };
+
+  //   this.service = new google.maps.places.PlacesService(this.map);
+  //   this.service.textSearch(request, this.callback);
+  // }
+
+  // callback = (results:google.maps.places.PlaceResult[] | null, status:google.maps.places.PlacesServiceStatus) => {
+  //   console.log("nearByyyyyyy Results: ",results);
     
-    this.venuesFromGoogle = results;
-    this.addMissingVal();
-  }
+  //   this.venuesFromGoogle = results;
+  //   this.addMissingVal();
+  // }
 
-  addMissingVal(){
+  // addMissingVal(){
     
-    for(let i=0; i<this.venuesFromGoogle.length; i++){
+  //   for(let i=0; i<this.venuesFromGoogle.length; i++){
 
-      this.venuesFromGoogle[i].likes = null;
-      this.venuesFromGoogle[i].discount_percentage = null;
-      if(this.venuesFromGoogle[i].photos){
-        // console.log("venuesFromGoogle[i].photos",this.venuesFromGoogle[i].photos[0].getUrl());
+  //     this.venuesFromGoogle[i].likes = null;
+  //     this.venuesFromGoogle[i].discount_percentage = null;
+  //     if(this.venuesFromGoogle[i].photos){
+  //       // console.log("venuesFromGoogle[i].photos",this.venuesFromGoogle[i].photos[0].getUrl());
         
-        this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].photos[0].getUrl();
-      }else{
+  //       this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].photos[0].getUrl();
+  //     }else{
         
-        this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].icon;
-      }
-      if(this.venuesFromGoogle[i].opening_hours){
+  //       this.venuesFromGoogle[i].cover_images = this.venuesFromGoogle[i].icon;
+  //     }
+  //     if(this.venuesFromGoogle[i].opening_hours){
 
-        // console.log("venuesFromGoogle[i].opening_hours.isOpen()",this.venuesFromGoogle[i].opening_hours.isOpen());
-      }
+  //       // console.log("venuesFromGoogle[i].opening_hours.isOpen()",this.venuesFromGoogle[i].opening_hours.isOpen());
+  //     }
       
-      this.venuesFromGoogle[i].lattitude = this.venuesFromGoogle[i].geometry.location?.lat();
-      this.venuesFromGoogle[i].longitude = this.venuesFromGoogle[i].geometry.location?.lng();
+  //     this.venuesFromGoogle[i].lattitude = this.venuesFromGoogle[i].geometry.location?.lat();
+  //     this.venuesFromGoogle[i].longitude = this.venuesFromGoogle[i].geometry.location?.lng();
 
-      // Venue coordinates
-      const venueLatitude = this.venuesFromGoogle[i].lattitude // Venue's latitude
-      const venueLongitude = this.venuesFromGoogle[i].longitude // Venue's longitude
+  //     // Venue coordinates
+  //     const venueLatitude = this.venuesFromGoogle[i].lattitude // Venue's latitude
+  //     const venueLongitude = this.venuesFromGoogle[i].longitude // Venue's longitude
 
-      // Calculate the distance between the user and the venue
-      const distance = this.calculateDistance(this.latitude, this.longitude, venueLatitude, venueLongitude);
+  //     // Calculate the distance between the user and the venue
+  //     const distance = this.calculateDistance(this.latitude, this.longitude, venueLatitude, venueLongitude);
 
-      // console.log('Distance (in miles):', distance);
-      this.venuesFromGoogle[i].distance = distance
-      this.venuesFromGoogle[i].googleRating = this.venuesFromGoogle[i].rating
-      this.venuesFromGoogle[i].google_place_id = this.venuesFromGoogle[i].place_id
-      this.venuesFromGoogle[i].close_hours = this.venuesFromGoogle[i].opening_hours?.isOpen();
+  //     // console.log('Distance (in miles):', distance);
+  //     this.venuesFromGoogle[i].distance = distance
+  //     this.venuesFromGoogle[i].googleRating = this.venuesFromGoogle[i].rating
+  //     this.venuesFromGoogle[i].google_place_id = this.venuesFromGoogle[i].place_id
+  //     this.venuesFromGoogle[i].close_hours = this.venuesFromGoogle[i].opening_hours?.isOpen();
       
-      this.venuesFromGoogle[i].location = this.venuesFromGoogle[i].vicinity  
+  //     this.venuesFromGoogle[i].location = this.venuesFromGoogle[i].vicinity  
       
-      if(this.venuesFromGoogle[i].types){
-        this.venuesFromGoogle[i].description = this.venuesFromGoogle[i].types.join(', ')
-      }
+  //     if(this.venuesFromGoogle[i].types){
+  //       this.venuesFromGoogle[i].description = this.venuesFromGoogle[i].types.join(', ')
+  //     }
       
-      this.venuesFromGoogle[i].status =  this.venuesFromGoogle[i].business_status;
-      this.venuesFromGoogle[i].venues_id =  null;
-      this.venuesFromGoogle[i].public_check_ins =  0;
-      this.venuesFromGoogle[i].availability =  'null';
+  //     this.venuesFromGoogle[i].status =  this.venuesFromGoogle[i].business_status;
+  //     this.venuesFromGoogle[i].venues_id =  null;
+  //     this.venuesFromGoogle[i].public_check_ins =  0;
+  //     this.venuesFromGoogle[i].availability =  'null';
       
-    }
+  //   }
 
-    console.log("venuesFromGoogle: ",this.venuesFromGoogle);
-    this.venuarr = this.venuarr.concat(
-      this.venuesFromGoogle.sort((a: any, b: any) => {
-        // console.log("testppppppppppopopopopopoopopopopopopopopo");
-        return a.distance - b.distance;
-      })
-    );
-    this.rest.venuArrHome = this.venuarr;
-    console.log('venuArrUpdatedGoogleEvents: ',this.rest.venuArrHome);
-    this.filteredvenuarr = this.venuarr;
-    console.log('filteredVenuArrUpdatedGoogleEvents: ',this.filteredvenuarr);
-  }
+  //   console.log("venuesFromGoogle: ",this.venuesFromGoogle);
+  //   this.venuarr = this.venuarr.concat(
+  //     this.venuesFromGoogle.sort((a: any, b: any) => {
+  //       // console.log("testppppppppppopopopopopoopopopopopopopopo");
+  //       return a.distance - b.distance;
+  //     })
+  //   );
+  //   this.rest.venuArrHome = this.venuarr;
+  //   console.log('venuArrUpdatedGoogleEvents: ',this.rest.venuArrHome);
+  //   this.filteredvenuarr = this.venuarr;
+  //   console.log('filteredVenuArrUpdatedGoogleEvents: ',this.filteredvenuarr);
+  // }
 
-  async getAddress(lat:any, lng:any) {
-    let address:any;
-    this.geoCoder
-      .geocode({ location: { lat: lat, lng: lng } })
-      .subscribe(
-        (addr: MapGeocoderResponse) => {
-          console.log("Addressss: ",addr);
-          address = addr;
+  // async getAddress(lat:any, lng:any) {
+  //   let address:any;
+  //   this.geoCoder
+  //     .geocode({ location: { lat: lat, lng: lng } })
+  //     .subscribe(
+  //       (addr: MapGeocoderResponse) => {
+  //         console.log("Addressss: ",addr);
+  //         address = addr;
           
-          if (address.status === "OK") {
-            if (address.results.length) {
-              for(let i = 0; i<address.results.length; i++){ 
-                if(address.results[i].types.length == 3){
-                  console.log("address found===", address.results[i].formatted_address);
-                  return address.results[i].formatted_address;
-                }
-              }
-            } else {
-              return "";
-              window.alert("No results found");
-            }
-          } else {
-            return "";
-            window.alert("Geocoder failed due to: " + addr.status);
-          }
-        },
-        (err) => {
-          console.log("Errrrr",err);
-        }
-      );
-  }
+  //         if (address.status === "OK") {
+  //           if (address.results.length) {
+  //             for(let i = 0; i<address.results.length; i++){ 
+  //               if(address.results[i].types.length == 3){
+  //                 console.log("address found===", address.results[i].formatted_address);
+  //                 return address.results[i].formatted_address;
+  //               }
+  //             }
+  //           } else {
+  //             return "";
+  //             window.alert("No results found");
+  //           }
+  //         } else {
+  //           return "";
+  //           window.alert("Geocoder failed due to: " + addr.status);
+  //         }
+  //       },
+  //       (err) => {
+  //         console.log("Errrrr",err);
+  //       }
+  //     );
+  // }
 
   // Function to calculate the distance between two coordinates using the Haversine formula
-  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-    const earthRadius = 6371; // Radius of the Earth in kilometers
-    const dLat = this.toRad(lat2 - lat1);
-    const dLon = this.toRad(lon2 - lon1);
+  // calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  //   const earthRadius = 6371; // Radius of the Earth in kilometers
+  //   const dLat = this.toRad(lat2 - lat1);
+  //   const dLon = this.toRad(lon2 - lon1);
 
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  //   const a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = earthRadius * c;
+  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //   const distance = earthRadius * c;
     
-    //  Convert the distance from kilometers to miles
-    const distanceInMiles = distance * 0.621371;
-    return distanceInMiles;
-  }
+  //   //  Convert the distance from kilometers to miles
+  //   const distanceInMiles = distance * 0.621371;
+  //   return distanceInMiles;
+  // }
 
   // Function to convert degrees to radians
-  toRad(degrees: number): number {
-    return (degrees * Math.PI) / 180;
-  }
-
+  // toRad(degrees: number): number {
+  //   return (degrees * Math.PI) / 180;
+  // }
+//  =================================code end==================================================
   
 
   tab1Click() {
@@ -257,6 +268,7 @@ export class HomePage implements OnInit {
     console.log("rrr", this.segmentModel);
     // this.type = ev
     console.log("eee", event);
+    this.scrollToTop();
   }
 
   goToVenuDetail(opt: any) {
@@ -487,6 +499,7 @@ export class HomePage implements OnInit {
   records_limit: any = 0;
   
   ionViewWillEnter() {
+    this.getSystemSettings();
     this.getCurrentPosition();
     this.filtertype = "no";
     this.records_limit = localStorage.getItem("records_limit");
@@ -526,14 +539,14 @@ export class HomePage implements OnInit {
         this.noevent = 1;
       }
     });
-
+    
     this.rest.venues(ss).subscribe((res: any) => {
       console.log("venues---", res);
       
       this.rest.dismissLoader();
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
-          res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+          res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
         }
         this.venuarr = res.data.sort((a: any, b: any) => {
           return a.distance - b.distance;
@@ -560,8 +573,41 @@ export class HomePage implements OnInit {
       }
       // this.initialize();
     });
+
+    this.rest.reservations(ss).subscribe((res:any)=>{
+      console.log("get reservations res: ",res);
+      
+      this.rest.dismissLoader();
+        if(res.status == 'success'){
+          for(let i=0; i<res.data.length; i++){
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+          }
+          this.reservationsArr = res.data.sort((a: any, b: any) => {
+            return a.distance - b.distance;
+          });
+          this.filteredReservationsArr = this.reservationsArr;
+          
+          console.log("Reservations Array: ",this.reservationsArr);
+          
+        }
+        else{
+          this.noReservations = 1;
+        }
+    });
     
 
+  }
+
+  getSystemSettings(){
+    this.rest.system_settings().subscribe((res:any)=>{
+      console.log("system_settings again:",res);
+      for (var i = 0; i < res.data.length; i++) {
+        if (res.data[i].type == "reservation_feature") {
+          this.reservationFeature = res.data[i].description;
+          console.log("reservationFeature: ",this.reservationFeature);
+        }
+      }
+    });
   }
 
   handleRefresh(ev: any) {
@@ -572,7 +618,7 @@ export class HomePage implements OnInit {
     this.ionViewWillEnter();
   }
   
-  onIonInfinite(ev: any) {
+  onIonInfinite(ev: any, value:String) {
     console.log("ev123InFinite",ev);
     
     this.pageNumber++;
@@ -590,84 +636,108 @@ export class HomePage implements OnInit {
     });
     console.log("OnIonInfiniete data ss", ss);
     
-    this.rest.events(ss).subscribe((res: any) => {
-      console.log("events---", res);
-      this.rest.dismissLoader();
-      
-      if (res.status == "success") {
-        this.eventarr = this.eventarr.concat(
-          res.data.sort((a: any, b: any) => {
-            return a.distance - b.distance;
-          })
-        );
-      } else {
-        // this.rest.presentToast(res.message);
-        // this.noevent = 1;
-      }
-    });
-
-    this.rest.venues(ss).subscribe((res: any) => {
-      console.log("updated venues response---", res);
-      this.rest.dismissLoader();
-      if (res.status == "success") {
-        for(let i=0; i<res.data.length; i++){
-          res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+    if(value == 'events'){
+      this.rest.events(ss).subscribe((res: any) => {
+        console.log("events---", res);
+        this.rest.dismissLoader();
+        
+        if (res.status == "success") {
+          this.eventarr = this.eventarr.concat(
+            res.data.sort((a: any, b: any) => {
+              return a.distance - b.distance;
+            })
+          );
+        } else {
+          // this.rest.presentToast(res.message);
+          // this.noevent = 1;
         }
-        this.venuarr = this.venuarr.concat(
-          res.data.sort((a: any, b: any) => {
-            // console.log("testppppppppppopopopopopoopopopopopopopopo");
-            return a.distance - b.distance;
-          })
-        );
-        // this.getVenuesNearUserLocation();
-        console.log("Updated Venu Array",this.venuarr);
-        
-        this.venuarrOrg = this.venuarr;
-        // this.venuarrOrg = this.venuarr.concat(
+      });
+    }
+    else if(value == 'venues'){
+      this.rest.venues(ss).subscribe((res: any) => {
+        console.log("updated venues response---", res);
+        this.rest.dismissLoader();
+        if (res.status == "success") {
+          for(let i=0; i<res.data.length; i++){
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
+          }
+          this.venuarr = this.venuarr.concat(
+            res.data.sort((a: any, b: any) => {
+              // console.log("testppppppppppopopopopopoopopopopopopopopo");
+              return a.distance - b.distance;
+            })
+          );
+          // this.getVenuesNearUserLocation();
+          console.log("Updated Venu Array",this.venuarr);
+          
+          this.venuarrOrg = this.venuarr;
+          // this.venuarrOrg = this.venuarr.concat(
+            //   res.data.sort((a: any, b: any) => {
+              //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
+              //     return a.distance - b.distance;
+              //   })
+              // );
+          this.filteredvenuarr = this.venuarr
+          console.log("Updated filtered Venu Array",this.venuarr);
+          this.rest.venuArrHome = this.venuarr
+          // this.rest.venuArrHome = this.venuarr.concat(
           //   res.data.sort((a: any, b: any) => {
-            //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
-            //     return a.distance - b.distance;
-            //   })
-            // );
-        this.filteredvenuarr = this.venuarr
-        console.log("Updated filtered Venu Array",this.venuarr);
-        this.rest.venuArrHome = this.venuarr
-        // this.rest.venuArrHome = this.venuarr.concat(
-        //   res.data.sort((a: any, b: any) => {
-        //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
-        //     return a.distance - b.distance;
-        //   })
-        // );
-        
+          //     // console.log("testppppppppppopopopopopoopopopopopopopopo");
+          //     return a.distance - b.distance;
+          //   })
+          // );
+          
+  
+        } else {
+          // this.rest.presentToast(res.message);
+          // this.noevenu = 1;
+        }
+        // if(this.pageNumber == 2){
+        //   this.initialize();
+        // }
+      });
+    }
+    else if(value == 'reservations'){
+      this.rest.reservations(ss).subscribe((res:any)=>{
+        this.rest.dismissLoader();
+        if(res.status == 'success'){
+          for(let i=0; i<res.data.length; i++){
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+          }
+          this.reservationsArr = this.reservationsArr.concat(res.data.sort((a: any, b: any) => {
+            return a.distance - b.distance;
+          }));
 
-      } else {
-        // this.rest.presentToast(res.message);
-        // this.noevenu = 1;
-      }
-      // if(this.pageNumber == 2){
-      //   this.initialize();
-      // }
-    });
-
-    
+          this.filteredReservationsArr = this.reservationsArr;
+          
+          console.log("Updated Reservations Array: ",this.reservationsArr);
+          
+        }
+        else{
+          // this.noReservations = 1;
+        }
+      });
+    }
+    else{}
+  
   }
 
   searchReservations(event: any) {
-    this.filteredvenuarr = [];
-    for (var i = 0; i < this.venuarrOrg.length; i++) {
+    this.filteredReservationsArr = [];
+    for (var i = 0; i < this.reservationsArr.length; i++) {
       // console.log(this.venuarrOrg[i].name.toLowerCase());
       console.log(event.target.value.toLowerCase());
 
       if (
-        this.venuarrOrg[i].name
+        this.reservationsArr[i].name
           .toLowerCase()
           .includes(event.target.value.toLowerCase())
       ) {
-        this.filteredvenuarr.push(this.venuarrOrg[i]);
+        this.filteredReservationsArr.push(this.reservationsArr[i]);
       }
     }
 
-    console.log("item------", this.filteredvenuarr);
+    console.log("item------", this.filteredReservationsArr);
   }
 
   searchEvents(event: any) {
