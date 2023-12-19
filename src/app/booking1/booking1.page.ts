@@ -151,12 +151,11 @@ export class Booking1Page implements OnInit {
   }
 
   bookTable() {
-    if (this.myDate == "Select Date") {
+    if (this.myDate == "") {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     } else {
-      var tt  = format(parseISO(this.usertime), "HH:mm");
       // var tt = moment(this.usertime).format("h:mm");
       let discountStatus = 'pending';
       if(this.rest.claimedVenDiscount == true){
@@ -167,7 +166,7 @@ export class Booking1Page implements OnInit {
         users_customers_id: this.userID,
         no_of_diners: this.people,
         bookings_date: this.myDate,
-        bookings_time: tt,
+        bookings_time: this.usertime,
         claim_discounts:discountStatus,
       });
 
@@ -227,6 +226,12 @@ export class Booking1Page implements OnInit {
     this.myDate = format(parseISO(ev.detail.value), 'yyyy-MM-dd');
     console.log('DateValues: ',ev.detail.value);
     console.log(this.myDate);
+    
+  }
+  formattedDate(ev:any){
+    this.usertime  = format(parseISO(ev.detail.value), "HH:mm");
+    console.log('DateValues: ',ev.detail.value);
+    console.log(this.usertime);
     
   }
 }

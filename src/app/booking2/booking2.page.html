@@ -1,15 +1,16 @@
 <ion-header>
   <ion-toolbar class="bg paddingtop">
     <ion-row>
-      <ion-col *ngIf="rest.comingFrom != 'booking1'" size="2" class="centerall"
+      <!-- <ion-col *ngIf="rest.comingFrom != 'booking1'" size="2" class="centerall"
         >
         <img
           (click)="goBack()"
           style="height: 25px; width: 25px"
           src="assets/imgs/backbtn.svg"
         />
-      </ion-col>
-      <ion-col *ngIf="rest.comingFrom == 'booking1'" class="centerall" size="2"> </ion-col>
+      </ion-col> -->
+      <!-- *ngIf="rest.comingFrom == 'booking1'" -->
+      <ion-col  class="centerall" size="2"> </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans"
           >{{selectedVenue.name}}</ion-label

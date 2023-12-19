@@ -74,7 +74,7 @@ export class Booking2Page implements OnInit {
 
   async cancelBooking() {
     console.log("model");
-    this.rest.comingFrom = "booking2";
+    // this.rest.comingFrom = "booking2";
     const modal = await this.modalCtrl.create({
       component: CancelbookPage,
       cssClass: "riz",

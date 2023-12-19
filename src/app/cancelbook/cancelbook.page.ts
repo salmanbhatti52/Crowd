@@ -44,9 +44,9 @@ export class CancelbookPage implements OnInit {
       console.log(res);
       if (res.status == "success") {
         this.modalCtrl.dismiss();
-        if (this.rest.comingFrom == "booking2") {
+        // if (this.rest.comingFrom == "booking2") {
           this.navCtrl.navigateRoot(["home"]);
-        }
+        // }
       }
     });
   }

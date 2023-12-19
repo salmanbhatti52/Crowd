@@ -140,9 +140,9 @@
       presentation="time"
       [preferWheel]="true"
       locale="en-US"
-      [(ngModel)]="usertime"
+      (ionChange)="formattedDate($event)"
     ></ion-datetime>
-
+    <!-- [(ngModel)]="usertime" -->
     <div style="margin-top: 10px">
       <ion-button
         (click)="bookTable()"
