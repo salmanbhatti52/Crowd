@@ -5,7 +5,7 @@
 	"bundledWebRuntime": false,
 	"plugins": {
 		"Keyboard": {
-			"resize": "native",
+			"resize": "ionic",
 			"style": "DEFAULT"
 		},
 		"SplashScreen": {
