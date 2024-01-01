@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
-import {format, parseISO,addDays,isDate, getDate,getMonth,getYear} from 'date-fns';
+import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, getDaysInMonth, eachDayOfInterval} from 'date-fns';
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 
@@ -13,6 +13,21 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
 })
 export class Booking1Page implements OnInit {
   minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  todayMonthAndYear = format(new Date(),'MMM yyyy');
+  daysInMonth:number[] = Array.from({length: getDaysInMonth(new Date())}, (v, k) => k + 1);
+  // dayNames = [
+  //   "Sun",
+  //   "Mon",
+  //   "Tue",
+  //   "Wed",
+  //   "Thus",
+  //   "Fri",
+  //   "Sat",
+  // ]
+  todayDayNumber = format(new Date(),'d');
+  dayNamesInMonth:any[] = [];
+  daysNamesAndNumbers:any[] = [];
+
   config = {
     show: false,
     weekOffset: -2,
@@ -78,6 +93,7 @@ export class Booking1Page implements OnInit {
 
   selectedVenue: any = "";
   userID: any = "";
+  calendarType: any;
 
   constructor(
     public location: Location,
@@ -86,7 +102,25 @@ export class Booking1Page implements OnInit {
     public datePicker: DatePicker
   ) {
     console.log("this.minDate",this.minDate);
+    let year = getYear(new Date());
+    let month = getMonth(new Date());
+    let days = getDaysInMonth(new Date());
+    this.dayNamesInMonth =  eachDayOfInterval({
+      start: new Date(year, month, 1),
+      end: new Date(year, month, days)
+    });
+    for (let index = 0; index < this.dayNamesInMonth.length; index++) {
+      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
+      
+    }
 
+    // =================combining days and names=====================
+    this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
+      return {
+        number: day,
+        name: this.dayNamesInMonth[index],
+      };
+    });
   }
 
   ngOnInit() {}
@@ -94,6 +128,38 @@ export class Booking1Page implements OnInit {
   goBack() {
     this.location.back();
   }
+
+  // ====================================custom calendar code start here===========================================
+  printDate(){
+    console.log(this.dayNamesInMonth);
+    console.log(this.daysNamesAndNumbers);
+    
+    
+  }
+
+
+
+
+
+  // ======================================custom calendar code end here===========================================
+
+  // ============================================date picker test code ================================================
+  view = 'week';
+  changeView() {
+      setTimeout(() => {
+          switch (this.view) {
+              case 'week':
+                  this.calendarType = 'week';
+                  break;
+              case 'month':
+                  this.calendarType = 'month';
+                  break;
+          }
+      });
+  }
+
+  // ============================================date picker test code done ================================================
+
 
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");

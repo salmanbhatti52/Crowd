@@ -27,6 +27,8 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Poppins:wght@300;400;500&display=swap');
 
 @font-face {
     font-family: "work-sans";
@@ -47,6 +49,13 @@
   }
   .work_sans {
     font-family: "work-sans" !important;
+  }
+  .inter{
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  .poppins{
+    font-family: 'Poppins', sans-serif !important;
   }
   .gilroy {
     font-family: "gilroy" !important;
@@ -809,3 +818,5 @@ button.days-btn p{
 }
 
 
+
+@import "@mobiscroll/angular/dist/css/mobiscroll.scss";

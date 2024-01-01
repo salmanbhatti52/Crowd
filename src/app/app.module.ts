@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { MbscModule } from '@mobiscroll/angular';
 import { CancelReservationPageModule } from "./cancel-reservation/cancel-reservation.module";
 import { PaymentmethodPageModule } from "./paymentmethod/paymentmethod.module";
 import { FilterPageModule } from "./filter/filter.module";
@@ -14,6 +16,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
 import { Geolocation } from "@awesome-cordova-plugins/geolocation/ngx";
+
 import {
   NativeGeocoder,
   NativeGeocoderResult,
@@ -31,12 +34,15 @@ import { NgScrollCalendarModule } from "ng-scroll-calendar";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
+// import { CustomCalendarComponent } from './custom-calendar/custom-calendar.component';
 // import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator/ngx';
 // type PDFGenerator = typeof PDFGenerator;
 @NgModule({
-  declarations: [AppComponent,SearchComponentComponent],
-  imports: [
+  declarations: [AppComponent,SearchComponentComponent,],
+  imports: [      
+    FormsModule,   
+    MbscModule, 
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(),

@@ -1,5 +1,85 @@
+// ============================================date picker test code================================================
+
+.custom-view {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -moz-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;                 
+
+  .mbsc-segmented {
+      margin: 0;
+  }
+
+  .mbsc-segmented.mbsc-material,
+  .mbsc-segmented.mbsc-windows {
+      padding: 0 2px;
+  }
+
+  .mbsc-segmented .mbsc-segmented-button {
+      padding: 0 1px;
+  }
+
+  .mbsc-segmented .mbsc-icon {
+      font-size: 20px;
+  }
+
+  .mbsc-segmented-button.mbsc-windows {
+      border: 0;
+  }
+}
+
+.custom-view-nav .mbsc-calendar-title.mbsc-material {
+  font-size: 16px;
+}
+
+// ============================================date picker test code done ================================================
+
+.dayBox{
+  padding: 13px;
+    
+    background: #F7F8F8;
+    border-radius: 10px;
+    min-width: 60px !important;
+    height: 80px;
+    margin-right: 15px;display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.selected_dayBox{
+  padding: 13px;
+    
+  background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    border-radius: 10px;
+    min-width: 60px !important;
+    height: 80px;
+    margin-right: 15px;display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dayName{
+  font-size: 12px;font-weight: 400;color: #7B6F72;
+}
+.selected_dayName{
+  font-size: 12px;font-weight: 400;color: white;
+}
 
 
+.dayNumber{
+  font-size: 14px;font-weight: 500;color: #7B6F72;
+}
+.selected_dayNumber{
+  font-size: 14px;font-weight: 500;color: white;
+}
 
 .titlefont{
   font-weight: 700;

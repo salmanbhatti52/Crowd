@@ -3,30 +3,12 @@ import { Location } from '@angular/common';
 import { ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RestService } from '../rest.service';
-// import {
-//   GoogleMap,
-//   MapInfoWindow,
-//   MapGeocoder,
-//   MapGeocoderResponse,
-//   MapMarker,
-// } from "@angular/google-maps";
-// import  { Screenshot } from 'capacitor-screenshot';
-// import { HttpClient } from '@angular/common/http';
-// import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
-// import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
 import html2canvas from 'html2canvas';
-
-// import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
-// type PDFGenerator = typeof PDFGenerator;
-// import 'cordova-plugin-pdfgenerator';
-// declare var pdfgenerator: any;
-
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.page.html',
@@ -45,7 +27,6 @@ export class TicketPage implements OnInit {
   userName: any;
   userId:any;
   @ViewChild("myGoogleMap", { static: false })
-  // map!: GoogleMap;
   zoom = 13;
   maxZoom = 15;
   tickets:any;
@@ -58,87 +39,6 @@ export class TicketPage implements OnInit {
     disableDoubleClickZoom: true,
     mapTypeId: "roadmap",
     disableDefaultUI: true,
-    // styles: [
-    //   { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-    //   { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-    //   { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-    //   {
-    //     featureType: "administrative.locality",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#d59563" }],
-    //   },
-
-    //   {
-    //     featureType: "poi.park",
-    //     elementType: "geometry",
-    //     stylers: [{ color: "#263c3f" }],
-    //   },
-    //   {
-    //     featureType: "poi.park",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#6b9a76" }],
-    //   },
-    //   {
-    //     featureType: "road",
-    //     elementType: "geometry",
-    //     stylers: [{ color: "#38414e" }],
-    //   },
-    //   {
-    //     featureType: "road",
-    //     elementType: "geometry.stroke",
-    //     stylers: [{ color: "#212a37" }],
-    //   },
-    //   {
-    //     featureType: "road",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#9ca5b3" }],
-    //   },
-    //   {
-    //     featureType: "road.highway",
-    //     elementType: "geometry",
-    //     stylers: [{ color: "#746855" }],
-    //   },
-    //   {
-    //     featureType: "road.highway",
-    //     elementType: "geometry.stroke",
-    //     stylers: [{ color: "#1f2835" }],
-    //   },
-    //   {
-    //     featureType: "road.highway",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#f3d19c" }],
-    //   },
-    //   {
-    //     featureType: "transit",
-    //     elementType: "geometry",
-    //     stylers: [{ color: "#2f3948" }],
-    //   },
-    //   {
-    //     featureType: "transit.station",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#d59563" }],
-    //   },
-    //   {
-    //     featureType: "water",
-    //     elementType: "geometry",
-    //     stylers: [{ color: "#17263c" }],
-    //   },
-    //   {
-    //     featureType: "water",
-    //     elementType: "labels.text.fill",
-    //     stylers: [{ color: "#515c6d" }],
-    //   },
-    //   {
-    //     featureType: "water",
-    //     elementType: "labels.text.stroke",
-    //     stylers: [{ color: "#17263c" }],
-    //   },
-    //   {
-    //     featureType: "poi",
-    //     elementType: "labels",
-    //     stylers: [{ visibility: "off" }],
-    //   },
-    // ],
   };
   ss:any;
   content!: string;
@@ -232,16 +132,7 @@ export class TicketPage implements OnInit {
     
   }
 
-  // loadLocalAssetToBase64(){
-  //   this.http.get('./assets/imgs/icons/crowd_app_icon.jpg',{responseType:'blob'})
-  //   .subscribe(res => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       this.logoData = reader.result;
-  //     }
-  //     reader.readAsDataURL(res);
-  //   });
-  // }
+  
 
   onSlideChange(ev:any){
     // console.log("Swiper EVVV",ev);
@@ -646,7 +537,5 @@ export class TicketPage implements OnInit {
       return val.substring(0,5);
     }
   }
-  // goToHome(){
-    
-  // }
+
 }
