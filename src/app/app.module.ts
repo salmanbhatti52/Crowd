@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { MbscModule } from '@mobiscroll/angular';
 import { CancelReservationPageModule } from "./cancel-reservation/cancel-reservation.module";
 import { PaymentmethodPageModule } from "./paymentmethod/paymentmethod.module";
 import { FilterPageModule } from "./filter/filter.module";
@@ -41,8 +40,7 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 @NgModule({
   declarations: [AppComponent,SearchComponentComponent,],
   imports: [      
-    FormsModule,   
-    MbscModule, 
+    FormsModule,
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(),

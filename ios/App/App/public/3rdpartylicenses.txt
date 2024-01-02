@@ -329,9 +329,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-@mobiscroll/angular
-SEE LICENSE IN LICENSE
-
 @stripe-elements/stripe-elements
 MIT
 MIT License
