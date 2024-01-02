@@ -1,0 +1,25 @@
+<ion-content style="--background: #262626">
+  <ion-datetime locale="en-US" style="--background: #262626"
+  #datetime min="{{minDate}}" max="2080" 
+  
+  (ionChange)="formattedString(datetime.value)" presentation="month-year"></ion-datetime>
+
+  <div style="display: flex;
+  margin: 15px 5%;">
+    <ion-button
+      (click)="closeModel()"
+      style="--background: #262626 !important; margin-top: 15px; margin-bottom: 10px;--border-color: white;
+      --border-width: 1px;
+      --border-style: solid;
+      width: 47% !important;
+      margin-right: 5%;"
+      class="btnbg work_sans"
+      >Cancel</ion-button>
+      
+      <ion-button
+      (click)="sendDateBack()"
+      style="--background:#7825CB !important; margin-top: 15px; margin-bottom: 10px;width: 47%;"
+      class="btnbg work_sans"
+      >Confirm</ion-button>
+  </div>
+</ion-content>

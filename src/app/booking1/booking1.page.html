@@ -56,43 +56,27 @@
         {{a.people}} {{a.name}}
       </p>
     </div>
-    <!-- [calendarHeaderTemplate]="calendarHeader" -->
-    <!-- [controls]="['calendar']" -->
-    <!-- <mbsc-datepicker
-    
-    [calendarType]="'week'"
-    [calendarSize]="1"
-    >
-   
-    </mbsc-datepicker>
-
-    <mbsc-datepicker
-    [calendarSize]="1"
-    [calendarType]="'week'"
-    theme="material"
-    themeVariant="dark">
-    </mbsc-datepicker> -->
-    <p style="margin: 15px 0px" class="inputTitle" (click)="printDate()">Select Date</p>
+ 
+    <div style="height: 20px;"></div>
+    <p style="margin: 0px 0px 15px" class="inputTitle" >Select Date</p>
 
     <div style="display: flex;
     justify-content: center;">
       <img style="margin-right: 20px;" src="../../assets/imgs/icons/arrow_left.svg" alt="">
-      <span class="poppins" style="color: #ADA4A5;font-size: 14px;font-weight: 400;">{{todayMonthAndYear}}</span>
+      <span (click)="selectDate()" class="poppins" style="color: #ADA4A5;font-size: 14px;font-weight: 400;">{{selectedMonthAndYear}}</span>
       <img style="margin-left: 20px;" src="../../assets/imgs/icons/arrow_right.svg" alt="">
 
     </div>
+
    <div style="display: flex;
    overflow: scroll;margin-top: 15px;"> 
-    <div *ngFor="let day of daysNamesAndNumbers;"  class="dayBox" [class.selected_dayBox]="day.number == todayDayNumber">
-      <div class="inter" class="dayName" [class.selected_dayName]="day.number == todayDayNumber">{{day.name}}</div>
-      <div class="inter" class="dayNumber" [class.selected_dayNumber]="day.number == todayDayNumber">{{day.number}}</div>
+    <div *ngFor="let day of daysNamesAndNumbers;" (click)="selectDay(day.number)" class="dayBox" [class.selected_dayBox]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">
+      <div class="inter" class="dayName" [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
+      <div class="inter" class="dayNumber" [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>
     </div>
    </div>
     
 
-    <!-- <div>
-      <div></div>
-    </div> -->
 
 
     

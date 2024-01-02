@@ -534,6 +534,14 @@ input{
   --height: 265px;
 }
 
+.calendar_popup{
+  --width: 88%;
+    --height: 306px;
+    --border-width: 3px;
+    --border-style: solid;
+    --border-color: white;
+}
+
 .expiry_date{
   --width: 88%;
   --height: 318px;

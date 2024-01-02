@@ -5,6 +5,8 @@ import { RestService } from "../rest.service";
 import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, getDaysInMonth, eachDayOfInterval} from 'date-fns';
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
+import { ModalController } from "@ionic/angular";
+import { CalendarPage } from "../calendar/calendar.page";
 
 @Component({
   selector: "app-booking1",
@@ -13,21 +15,21 @@ import { DatePicker } from "@ionic-native/date-picker/ngx";
 })
 export class Booking1Page implements OnInit {
   minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
-  todayMonthAndYear = format(new Date(),'MMM yyyy');
-  daysInMonth:number[] = Array.from({length: getDaysInMonth(new Date())}, (v, k) => k + 1);
-  // dayNames = [
-  //   "Sun",
-  //   "Mon",
-  //   "Tue",
-  //   "Wed",
-  //   "Thus",
-  //   "Fri",
-  //   "Sat",
-  // ]
-  todayDayNumber = format(new Date(),'d');
+  
+  selectedMonthAndYear = format(new Date(),'MMM yyyy');
+  todayDayNumber = parseInt(format(new Date(),'d'));
+  selectedDayNumber = this.todayDayNumber;
+  currentMonthNumber = getMonth(new Date());
+  selectedMonthNumber = this.currentMonthNumber;
+  currentYearNumber = getYear(new Date());
+  selectedYearNumber = this.currentYearNumber;
+  remainingDaysCountInMonth = getDaysInMonth(new Date())- this.todayDayNumber + 1;
+ 
+  daysInMonth:number[] = [];
   dayNamesInMonth:any[] = [];
   daysNamesAndNumbers:any[] = [];
 
+  setMonthNumberStatus:boolean = false;
   config = {
     show: false,
     weekOffset: -2,
@@ -99,16 +101,40 @@ export class Booking1Page implements OnInit {
     public location: Location,
     public router: Router,
     public rest: RestService,
-    public datePicker: DatePicker
+    public datePicker: DatePicker,
+    public modalCtrlr:ModalController
   ) {
     console.log("this.minDate",this.minDate);
+    this.setCurrentDaysInMonth();
+    
+  }
+
+  setCurrentDaysInMonth(){
+    this.selectedMonthNumber = getMonth(new Date());
+    this.currentMonthNumber = this.selectedMonthNumber;
+    this.selectedYearNumber = getYear(new Date());
+    this.selectedDayNumber = this.todayDayNumber;
+    // =================setting day numbers in month from today to last date of month=====================
+    this.daysInMonth = [];
+    for (let index = 0; index < this.remainingDaysCountInMonth; index++) {
+      this.daysInMonth.push(this.todayDayNumber + index);
+      
+    }
+    console.log("this.daysInMonth",this.daysInMonth);
+    
+
+  // =================setting day names in month from today to last date of month=====================
     let year = getYear(new Date());
     let month = getMonth(new Date());
     let days = getDaysInMonth(new Date());
     this.dayNamesInMonth =  eachDayOfInterval({
-      start: new Date(year, month, 1),
+      start: new Date(year, month, this.todayDayNumber),
       end: new Date(year, month, days)
     });
+    console.log("this.dayNamesInMonth",this.dayNamesInMonth);
+    
+
+    //==================setting short day format for day names in month=====================
     for (let index = 0; index < this.dayNamesInMonth.length; index++) {
       this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
       
@@ -116,11 +142,13 @@ export class Booking1Page implements OnInit {
 
     // =================combining days and names=====================
     this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
-      return {
-        number: day,
-        name: this.dayNamesInMonth[index],
-      };
+        return {
+          number: day,
+          name: this.dayNamesInMonth[index],
+        };
     });
+    console.log("this.daysNamesAndNumbers",this.daysNamesAndNumbers);
+    
   }
 
   ngOnInit() {}
@@ -129,11 +157,91 @@ export class Booking1Page implements OnInit {
     this.location.back();
   }
 
+  selectDay(dayNumber:any){
+    this.selectedDayNumber = dayNumber;
+  }
+
   // ====================================custom calendar code start here===========================================
-  printDate(){
-    console.log(this.dayNamesInMonth);
-    console.log(this.daysNamesAndNumbers);
+  
+  async selectDate() {
+    console.log("model123fdd");
+    const modal = await this.modalCtrlr.create({
+      component: CalendarPage,
+      cssClass: "calendar_popup",
+    });
+
+    await modal.present();
+
+    const {data,role} = await modal.onWillDismiss();
+    if(role == 'confirm'){
+      console.log("data",data);
+      let selectedMonthNumber = getMonth(new Date(data));
+      console.log("selectedMonthNumber",selectedMonthNumber);
+      let currentMonthNumber = getMonth(new Date());
+
+      if(selectedMonthNumber ==  currentMonthNumber){
+        console.log('entered');
+        this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+        this.setCurrentDaysInMonth();
+        
+      }else{
+        
+        this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+        this.setDaysInMonth(data);
+      }
+    }else if(role == 'cancel'){
+      
+    }else{
+
+    }
+
+
+  }
+
+
+  setDaysInMonth(date:any) {
+    this.selectedMonthNumber = getMonth(new Date(date));
+    this.currentMonthNumber = this.selectedMonthNumber;
+    this.selectedYearNumber = getYear(new Date(date));
+    this.selectedDayNumber = 1;
+    // =================setting day numbers in month of selected month=====================
+    let daysCountInMonth = getDaysInMonth(new Date(date));
+    console.log(daysCountInMonth);
+    this.daysInMonth = [];
+    for (let index = 1; index <= daysCountInMonth; index++) {
+      this.daysInMonth.push(index);
+      
+    }
+    console.log(this.daysInMonth);
     
+
+  // =================setting day names in month from today to last date of month=====================
+    let year = getYear(new Date(date));
+    let month = getMonth(new Date(date));
+    let days = getDaysInMonth(new Date(date));
+    this.dayNamesInMonth =  eachDayOfInterval({
+      start: new Date(year, month, 1),
+      end: new Date(year, month, days)
+    });
+
+    console.log(this.dayNamesInMonth);
+    
+
+    //==================setting short day format for day names in month=====================
+    for (let index = 0; index < this.dayNamesInMonth.length; index++) {
+      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
+      
+    }
+
+    // =================combining days and names=====================
+    this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
+        return {
+          number: day,
+          name: this.dayNamesInMonth[index],
+        };
+    });
+
+    console.log(this.daysNamesAndNumbers);
     
   }
 
@@ -142,23 +250,6 @@ export class Booking1Page implements OnInit {
 
 
   // ======================================custom calendar code end here===========================================
-
-  // ============================================date picker test code ================================================
-  view = 'week';
-  changeView() {
-      setTimeout(() => {
-          switch (this.view) {
-              case 'week':
-                  this.calendarType = 'week';
-                  break;
-              case 'month':
-                  this.calendarType = 'month';
-                  break;
-          }
-      });
-  }
-
-  // ============================================date picker test code done ================================================
 
 
   ionViewWillEnter() {
@@ -195,38 +286,37 @@ export class Booking1Page implements OnInit {
     this.config.show = true;
   }
 
-  // getDay1(val: any) {
-  //   return moment(val).format("ddd");
-  // }
-  // getDay2(val: any) {
-  //   return moment(val).format("DD");
-  // }
-  // getDay3(val: any) {
-  //   return moment(val).format("MMM");
-  // }
-  // getDay4(val: any) {
-  //   return moment(val).format("YYYY");
-  // }
-
-  // dateFormate(val: any) {
-  //   return moment(val).format("MMMM YYYY");
-  // }
 
   dateSelected(val: any) {
     this.selectedIndexDate = val;
   }
 
   bookTable() {
+    let selectedMonthNumber = this.selectedMonthNumber;
+    
+    
+    this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
+    
     if (this.myDate == "") {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     } else {
+      if(this.setMonthNumberStatus == false){
+        selectedMonthNumber++;
+        this.setMonthNumberStatus = true;
+      }
+      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
+
       // var tt = moment(this.usertime).format("h:mm");
       let discountStatus = 'pending';
       if(this.rest.claimedVenDiscount == true){
         discountStatus = 'claimed';
       }
+      console.log('Going to hit API');
+      
+      console.log(this.myDate);
+      
       var ss = JSON.stringify({
         venues_id: this.selectedVenue.venues_id,
         users_customers_id: this.userID,

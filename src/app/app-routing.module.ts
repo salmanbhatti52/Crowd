@@ -240,6 +240,10 @@ const routes: Routes = [
     path: 'see-path',
     loadChildren: () => import('./see-path/see-path.module').then( m => m.SeePathPageModule)
   },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./calendar/calendar.module').then( m => m.CalendarPageModule)
+  },
  
 
 ];
