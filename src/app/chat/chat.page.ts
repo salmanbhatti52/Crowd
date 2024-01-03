@@ -327,8 +327,10 @@ export class ChatPage implements OnInit {
 
       let msgToSend = this.user_input;
       this.user_input = "";
+      if(msgToSend != ''){
+        this.sendMessage( msgToSend );
+      }
       
-      this.sendMessage( msgToSend );
     // }
   }
   scrollDown() {
