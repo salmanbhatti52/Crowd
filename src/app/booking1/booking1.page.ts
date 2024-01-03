@@ -48,7 +48,8 @@ export class Booking1Page implements OnInit {
   myDate: any = '';
   // myDate: any = "2022-04-02";
 
-  usertime: any = "";
+  usertime: any = format(parseISO(new Date().toISOString()),'HH:mm');
+  // usertime: any = '';
   userdate: any = "";
   peopleArr = [
     {
@@ -105,6 +106,8 @@ export class Booking1Page implements OnInit {
     public modalCtrlr:ModalController
   ) {
     console.log("this.minDate",this.minDate);
+    console.log("this.userTime",this.usertime);
+    
     this.setCurrentDaysInMonth();
     
   }
@@ -401,7 +404,7 @@ export class Booking1Page implements OnInit {
     console.log(this.myDate);
     
   }
-  formattedDate(ev:any){
+  formattedTime(ev:any){
     this.usertime  = format(parseISO(ev.detail.value), "HH:mm");
     console.log('DateValues: ',ev.detail.value);
     console.log(this.usertime);
