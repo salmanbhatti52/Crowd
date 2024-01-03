@@ -1,5 +1,6 @@
 <ion-content style="--background: #262626">
   <ion-datetime locale="en-US" style="--background: #262626"
+  [(ngModel)]="selectedDate"
   #datetime min="{{minDate}}" max="2080" 
   
   (ionChange)="formattedString(datetime.value)" presentation="month-year"></ion-datetime>

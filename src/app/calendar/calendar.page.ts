@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, min} from 'date-fns';
 import { ModalController } from '@ionic/angular';
 @Component({
@@ -7,7 +7,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
-  
+  @Input() selectedDate: any;
   minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
   userdate = this.minDate;
   constructor(public modalCtrlr: ModalController) { }
@@ -16,8 +16,13 @@ export class CalendarPage implements OnInit {
   }
 
   formattedString(dateVal:any){
-    this.userdate = format(parseISO(dateVal), 'yyyy-MM-dd');
-    console.log(this.userdate);
+    console.log("dateValue:",dateVal);
+    
+    if(dateVal!= ''){
+      this.userdate = format(parseISO(dateVal), 'yyyy-MM-dd');
+      console.log(this.userdate);
+    }
+
   }
 
   closeModel(){

@@ -164,22 +164,39 @@ export class Booking1Page implements OnInit {
   // ====================================custom calendar code start here===========================================
   
   async selectDate() {
-    console.log("model123fdd");
-    const modal = await this.modalCtrlr.create({
-      component: CalendarPage,
-      cssClass: "calendar_popup",
-    });
+    let selectedMonthNumber = this.selectedMonthNumber;
+    selectedMonthNumber++;
+    
+    let selectedDate = this.selectedYearNumber + "-" + selectedMonthNumber;
+
+    // =============setting date format in minimum 2 digit form for day and Month i.e 2024-01-03 means (3 january, 2024)=============================
+     
+      const [year, month] = selectedDate.split('-');
+
+      selectedDate = `${year}-${month.padStart(2, '0')}`;
+
+      console.log("selectedDateFormatted",selectedDate);
+    // ========================done=========================
+      const modal = await this.modalCtrlr.create({
+        component: CalendarPage,
+        cssClass: "calendar_popup",
+        componentProps: {
+          selectedDate:selectedDate
+        }
+      });
 
     await modal.present();
 
     const {data,role} = await modal.onWillDismiss();
     if(role == 'confirm'){
       console.log("data",data);
-      let selectedMonthNumber = getMonth(new Date(data));
-      console.log("selectedMonthNumber",selectedMonthNumber);
-      let currentMonthNumber = getMonth(new Date());
 
-      if(selectedMonthNumber ==  currentMonthNumber){
+      let selectedMonthNumber = getMonth(new Date(data));
+      let currentMonthNumber = getMonth(new Date());
+      let selectedYearNumber = getYear(new Date(data));
+      let currentYearNumber = getYear(new Date());
+
+      if(selectedMonthNumber ==  currentMonthNumber && selectedYearNumber == currentYearNumber ){
         console.log('entered');
         this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
         this.setCurrentDaysInMonth();
