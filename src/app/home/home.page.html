@@ -136,14 +136,13 @@
       [class.heighclasssmall]="i % 2 == 0"
       *ngFor="let opt of venuarr; let i = index"
       [style.margin-top.px]="i % 2 == 0? -i*10:0"
-    >
+      >
       <div
         style="
           position: absolute;
           width: 100%;
           z-index: 9;
-          top: 5px;
-          right: 1px;
+          right: 2px;
         "
       >
         <img
@@ -165,24 +164,24 @@
           >{{opt.discount_percentage}}% Off
         </ion-badge>
       </div>
-      <div
-        class="divboxshadowinside"
-        (click)="goToVenuDetail(opt)"
-        style=" 
+        <div
+          class="divboxshadowinside"
+          (click)="goToVenuDetail(opt)"
+          style=" 
           position: relative;
           height: 100%;
-        border-radius: 15px;
-        background-size: cover;
-        background-image: url('{{opt.cover_images}}');
-      "
-      >
-        <div style="position: absolute; bottom: 0px; left: 15px">
-          <p class="title1 work_sans">{{opt.name}}</p>
-          <p class="title2 work_sans">
-            {{opt.distance | number : '1.2-2'}} Miles
-          </p>
+          border-radius: 15px;
+          background-size: cover;
+          background-image: url('{{opt.cover_images}}');
+        "
+        >
+          <div style="position: absolute; bottom: 0px; left: 15px">
+            <p class="title1 work_sans">{{opt.name}}</p>
+            <p class="title2 work_sans">
+              {{opt.distance | number : '1.2-2'}} Miles
+            </p>
+          </div>
         </div>
-      </div>
       </div>
     </div>
    
@@ -220,40 +219,12 @@
       *ngFor="let opt of filteredReservationsArr; let i = index"
       [style.margin-top.px]="i % 2 == 0? -i*10:0"
     >
-      <!-- <div
-      style="
-        position: absolute;
-        width: 100%;
-        z-index: 9;
-        top: 5px;
-        right: 1px;
-      ">
-      <img
-        (click)="likevenu(opt)"
-        class="imgcls"
-        *ngIf="opt.likes==0"
-        src="assets/imgs/heartww.svg"
-      />
-      <img
-        (click)="likeoutvenu(opt)"
-        class="imgcls"
-        *ngIf="opt.likes!=0"
-        src="assets/imgs/heartactive.svg"
-      />
-      <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
-        >No Discount
-      </ion-badge>
-      <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
-        >{{opt.discount_percentage}}% Off
-      </ion-badge>
-      </div> -->
       <div
       style="
         position: absolute;
         width: 100%;
         z-index: 9;
-        top: 5px;
-        right: 1px;
+        right: 2px;
       "
     >
       <img
@@ -268,10 +239,10 @@
         *ngIf="opt.likes==1"
         src="assets/imgs/heartactive.svg"
       />
-      <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg"
+      <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg work_sans"
         >No Discount
       </ion-badge>
-      <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+      <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg work_sans"
         >{{opt.discount_percentage}}% Off
       </ion-badge>
     </div>
@@ -357,7 +328,6 @@
             position: absolute;
             width: 100%;
             z-index: 9;
-            top: 5px;
             right: 1px;
           "
         >
@@ -373,10 +343,10 @@
             *ngIf="opt.likes!=0"
             src="assets/imgs/heartactive.svg"
           />
-          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg work_sans"
             >No Discount
           </ion-badge>
-          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg work_sans"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
         </div>
@@ -407,6 +377,66 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </div>
+  
+  <!-- (click)="startSpeechRecognition()" -->
+  <img id="open-modal" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
+  right: 15px;
+  bottom: 90px;" src="../../assets/imgs/icons/ai_icon2.svg" alt="">
+
+  <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+    <ng-template>
+      <div style="background: white;">
+        <div style="text-align: right;padding: 15px 15px 0px">
+          <img (click)="dismissModal()" src="../../assets/imgs/icons/close.svg" alt="">
+        </div>
+        
+        <div class="block">
+        
+          <div *ngIf="!listener" class="modal_text_color" style="color: black;text-align: center;">Tap the microphone to start listening</div>
+          <div *ngIf="listener == true && yourVoiceInput== ''" style="text-align: left;">
+            Listening...
+  
+          </div>
+          <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
+            {{yourVoiceInput}}
+          </div>
+          
+  
+          <div style="display: flex;
+          flex-direction: column;
+          align-items: center;">
+            <div class="modal_text_color" style="text-align: center;margin-top: 20px;">Try Saying</div>
+            <div class="modal_text_color" style="text-align: center;">"A venue name"</div>
+            <div class="modal_text_color" style="text-align: center;">"A venue name have 30% discount"</div>
+    
+            <div style="text-align: center;
+            margin-top: 30px;">
+    
+            <img (click)="startSpeechRecognition()" class="not_listening" *ngIf="!listener"  src="../../assets/imgs/icons/mic_32.png" alt="">
+            <div (click)="stopSpeechRecognition()" *ngIf="listener" style="height: 63px;
+            width: 63px;
+            background: brown;
+            border-radius: 90px;
+            padding: 21px;">
+              <div style="height: 21px;
+              width: 21px;
+              background: white;"></div>
+            </div>
+            <!-- <img (click)="stopSpeechRecognition()" class="not_listening" *ngIf="!listener"  src="../../assets/imgs/icons/mic_32.png" alt=""> -->
+            <!-- <img (click)="stopSpeechRecognition()"  *ngIf="listener"  src="../../assets/imgs/icons/stop.png" alt=""> -->
+              
+              <!-- <ion-button (click)="stopSpeechRecognition()" expand="block" fill="clear" shape="round">
+                Stop Listening
+              </ion-button> -->
+          </div>
+          
+            
+          </div>
+        </div>
+      </div>
+     
+    </ng-template>
+  </ion-modal>
   
 </ion-content>
 

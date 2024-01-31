@@ -11,6 +11,9 @@ project(':capacitor-community-barcode-scanner').projectDir = new File('../node_m
 include ':capacitor-community-facebook-login'
 project(':capacitor-community-facebook-login').projectDir = new File('../node_modules/@capacitor-community/facebook-login/android')
 
+include ':capacitor-community-speech-recognition'
+project(':capacitor-community-speech-recognition').projectDir = new File('../node_modules/@capacitor-community/speech-recognition/android')
+
 include ':capacitor-community-stripe'
 project(':capacitor-community-stripe').projectDir = new File('../node_modules/@capacitor-community/stripe/android')
 

@@ -79,6 +79,10 @@
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need to access photo library to allow user to upload profile picture. User profile is user identity and user can see it's profile on profile page.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>To translate voice into words</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To record your voice</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-community-apple-sign-in')
     implementation project(':capacitor-community-barcode-scanner')
     implementation project(':capacitor-community-facebook-login')
+    implementation project(':capacitor-community-speech-recognition')
     implementation project(':capacitor-community-stripe')
     implementation project(':capacitor-app')
     implementation project(':capacitor-camera')

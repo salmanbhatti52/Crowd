@@ -1,5 +1,5 @@
 import { FilterPage } from "./../filter/filter.page";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonContent, ModalController } from "@ionic/angular";
 // import { AnyARecord } from "dns";
@@ -9,6 +9,8 @@ import { Geolocation } from "@capacitor/geolocation";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
+import { SpeechRecognition } from "@capacitor-community/speech-recognition";
+import { set } from "date-fns";
 declare var google: any;
 
 @Component({
@@ -50,16 +52,153 @@ export class HomePage implements OnInit {
   venuesFromGoogle:any = [];
   radius: any;
   placeType: any;
+  yourVoiceInput = '';
+  listener: boolean = false;
   constructor(
     public router: Router,
     public rest: RestService,
     public modalCtrlr: ModalController,
     private http:HttpClient,
-    private geoCoder: MapGeocoder
-  ) {}
+    private geoCoder: MapGeocoder,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    this.requestPermissions();
+  }
   
   ngOnInit() {
     
+  }
+
+  requestPermissions(){
+    SpeechRecognition.requestPermissions().then((PermissionStatus)=>{
+      console.log(PermissionStatus);
+    });
+   
+  }
+
+  async startSpeechRecognition(){
+    this.yourVoiceInput = '';
+    console.log('startSpeechRecognition');
+    
+    const {available} = await SpeechRecognition.available();
+    console.log('availability res: ',available);
+
+      if(available){
+        this.listener = true;
+
+        SpeechRecognition.start({
+          language: "en-US",
+          popup: false,
+          partialResults:true,
+        });
+  
+        SpeechRecognition.addListener("partialResults", async (data: any) => {
+          console.log("partialResults was fired", data.matches);
+          if(data.matches && data.matches.length > 0){  
+            this.yourVoiceInput = data.matches[0];
+            // console.log("Your Input: ",this.yourVoiceInput);
+            this.changeDetectorRef.detectChanges();
+          }
+        });
+
+        setTimeout(() => {
+          if(this.yourVoiceInput == ''){
+            this.stopSpeechRecognition();
+          }
+        }, 3000);
+      }
+   
+    
+  }
+
+  async stopSpeechRecognition(){
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      await SpeechRecognition.stop();
+    }
+    this.yourVoiceInput = 'pakistan super leauge';
+    if(this.yourVoiceInput !='' ){
+      this.findResults();
+    }
+  }
+
+  findResults(){
+    // let venuName;
+    this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
+    let tokens = this.yourVoiceInput.split(/\s+/);
+    console.log(tokens);
+    this.findVenueAndDiscount(tokens);
+  }
+
+   findVenueAndDiscount = (inputTokens:string[]) => {
+    let filteredVenues = [];
+    let foundVenue = false;
+    let foundDiscount = false;
+    let venueName:string = '';
+    let venuNameTokens = [];
+
+    for (let venueIndex = 0; venueIndex < this.venuarr.length; venueIndex++) {
+      let venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      // let venuDiscount = this.venuarr[venueIndex].discount_percentage;
+      console.log("venuDiscount: ",venuDiscount);
+      
+       venueName = this.venuarr[venueIndex].name.toLowerCase();
+       venuNameTokens = venueName.split(/\s+/);
+
+      console.log(venuNameTokens);
+
+      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
+
+        if(venuNameTokens.includes(inputTokens[inputTokenIndex])){
+          foundVenue = true;
+          // filteredVenues.push(this.venuarr[venueIndex]);
+          // break;
+        }
+
+        if(venuDiscount == inputTokens[inputTokenIndex]){
+          foundDiscount = true;
+        }
+
+        if(foundVenue || foundDiscount){
+           filteredVenues.push(this.venuarr[venueIndex]);
+        }
+
+        // Check for discount mention
+        // const regex = /(\d+)\s*percent/;
+        // const regex = /(\d+)\s*%/;
+        // let found = paragraph.match(regex);
+        // const discountMatch = lowerCaseToken.match(/(\d+)\s*%/);
+        // if (discountMatch) {
+        //   foundDiscount = parseInt(discountMatch[1]);
+        // }
+        
+      }
+      
+    }
+    console.log("filteredVenues: ",filteredVenues);
+    
+    // this.venuarr.forEach((venu:any)=>{
+      
+      
+      
+    //   inputTokens.forEach((token:any) => {
+      
+       
+        
+    //   });
+    
+    //   // return { venue: foundVenue, discount: foundDiscount };
+    // })
+    
+    
+  };
+
+
+
+  dismissModal(){
+    this.modalCtrlr.dismiss();
   }
 
   scrollToTop() {
@@ -530,7 +669,7 @@ export class HomePage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.eventarr = res.data.sort((a: any, b: any) => {
-          // console.log("testppppppppppopopopopopoopopopopopopopopo");
+          // console.log("test");
           return a.distance - b.distance;
         });
         this.eventsArrayCopy = this.eventarr

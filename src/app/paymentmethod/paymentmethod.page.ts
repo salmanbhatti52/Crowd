@@ -224,7 +224,7 @@ export class PaymentmethodPage implements OnInit {
         
       }
     }else{
-      this.rest.presentToast("Plz set your name in Profile section.");
+      this.rest.presentToast("Plz add your name in Profile section.");
     }
    
     
@@ -320,7 +320,7 @@ export class PaymentmethodPage implements OnInit {
   
       // }
     }else{
-      this.rest.presentToast("Plz set your name in Profile section.");
+      this.rest.presentToast("Plz add your name in Profile section.");
     }
     
   }
@@ -434,7 +434,7 @@ export class PaymentmethodPage implements OnInit {
         
       // }
     }else{
-      this.rest.presentToast("Plz set your name in Profile section.");
+      this.rest.presentToast("Plz add your name in Profile section.");
     }
   }
 
