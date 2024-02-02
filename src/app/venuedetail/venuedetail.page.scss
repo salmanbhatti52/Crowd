@@ -347,17 +347,35 @@ p {
 }
 
 .one{
-      margin-top: 30px;
+      margin-top: 0px;
   font-style: normal;
   font-weight: 700;
   font-size: 26px;
   line-height: 30px;
   text-align: center;
   color: #7825CB;
+ 
+}
+
+.mg_top_7{
+  margin-top: 7px;
+}
+
+.token_num{
+  text-align: center; color: black; font-size: 26px;font-weight: 700; margin-top: 10px;
+}
+
+.token_info_one{
+  margin-top: 5px;
+  text-align: center; color: #262626; font-size: 14px;  font-weight: 500; word-wrap: break-word
+}
+
+.token_info_two{
+  text-align: center; color: #7825CB; font-size: 10px;  font-weight: 500; word-wrap: break-word
 }
 
 .two{
-      margin-top: 20px;
+  margin-top: 20px;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -367,16 +385,21 @@ p {
   /* background */
   
   color: #262626;
+ 
+}
+
+.dis_off{
+  color: #AC3DBA; font-size: 18px;font-weight: 700;
 }
 
 .three{
+  line-height: 30px;
   margin-top: 5px;
-  font-style: normal;
+  color: #AC3DBA;
+  font-size: 27px;
   font-weight: 700;
-  font-size: 16px;
   line-height: 30px;
   text-align: center;
-  color: #7825CB;
 }
 
 

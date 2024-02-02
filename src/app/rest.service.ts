@@ -98,6 +98,8 @@ export class RestService {
       headers: header,
     });
   }
+
+  
   
   presentLoader(msg?: any) {
     if(msg == undefined){
@@ -120,7 +122,7 @@ export class RestService {
         message: "Please wait...",
         cssClass: "loader-css-class",
         backdropDismiss: true,
-        duration:3000
+        duration:2000
       })
       .then((res) => {
         res.present();

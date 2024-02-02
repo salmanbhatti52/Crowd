@@ -77,6 +77,8 @@ export class HomePage implements OnInit {
   }
 
   async startSpeechRecognition(){
+    this.venuarr = this.venuarrOrg;
+    this.filtertype = "no"; 
     this.yourVoiceInput = '';
     console.log('startSpeechRecognition');
     
@@ -98,50 +100,67 @@ export class HomePage implements OnInit {
             this.yourVoiceInput = data.matches[0];
             // console.log("Your Input: ",this.yourVoiceInput);
             this.changeDetectorRef.detectChanges();
+            
           }
-        });
+        }).then((res: any) => {});
+        
 
-        setTimeout(() => {
-          if(this.yourVoiceInput == ''){
-            this.stopSpeechRecognition();
-          }
-        }, 3000);
+        // setTimeout(() => {
+        //   if(this.yourVoiceInput == ''){
+        //     this.stopSpeechRecognition();
+        //   }
+        // }, 3000);
+
+
+
+        
       }
    
     
   }
 
   async stopSpeechRecognition(){
+    
     if(this.listener){
       console.log(this.listener);
       
       this.listener = false;
-      await SpeechRecognition.stop();
+      SpeechRecognition.stop();
     }
-    this.yourVoiceInput = 'pakistan super leauge';
+    // this.yourVoiceInput = 'Pizza shopp having 30% off';
     if(this.yourVoiceInput !='' ){
+      // setTimeout(() => {
+        this.dismissModal();  
+      // }, 1500);
+      
       this.findResults();
     }
   }
 
   findResults(){
-    // let venuName;
     this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
     let tokens = this.yourVoiceInput.split(/\s+/);
     console.log(tokens);
     this.findVenueAndDiscount(tokens);
   }
 
-   findVenueAndDiscount = (inputTokens:string[]) => {
+  findVenueAndDiscount = (inputTokens:string[]) => {
+    
     let filteredVenues = [];
     let foundVenue = false;
     let foundDiscount = false;
     let venueName:string = '';
     let venuNameTokens = [];
-
+    let venuDiscount = '';
+    // setTimeout(() => {
+    //   this.rest.presentLoaderWd();  
+    // }, 1000);
+    
     for (let venueIndex = 0; venueIndex < this.venuarr.length; venueIndex++) {
-      let venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
-      // let venuDiscount = this.venuarr[venueIndex].discount_percentage;
+      foundDiscount = false;
+      foundVenue = false;
+      
+      venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
       console.log("venuDiscount: ",venuDiscount);
       
        venueName = this.venuarr[venueIndex].name.toLowerCase();
@@ -152,46 +171,39 @@ export class HomePage implements OnInit {
       for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
 
         if(venuNameTokens.includes(inputTokens[inputTokenIndex])){
+          
+          console.log('Venue Match Found');
+          console.log(venuNameTokens);
+          console.log(inputTokens[inputTokenIndex]);
+          
           foundVenue = true;
-          // filteredVenues.push(this.venuarr[venueIndex]);
-          // break;
         }
 
         if(venuDiscount == inputTokens[inputTokenIndex]){
+          console.log('Discount Match Found');
+          console.log(venuDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
           foundDiscount = true;
         }
-
-        if(foundVenue || foundDiscount){
-           filteredVenues.push(this.venuarr[venueIndex]);
-        }
-
-        // Check for discount mention
-        // const regex = /(\d+)\s*percent/;
-        // const regex = /(\d+)\s*%/;
-        // let found = paragraph.match(regex);
-        // const discountMatch = lowerCaseToken.match(/(\d+)\s*%/);
-        // if (discountMatch) {
-        //   foundDiscount = parseInt(discountMatch[1]);
-        // }
         
       }
+
+      if(foundVenue || foundDiscount){
+        console.log("foundVenue: ",foundVenue);
+        console.log("foundDiscount: ",foundDiscount);
+        
+        filteredVenues.push(this.venuarr[venueIndex]);
+     }
       
     }
-    console.log("filteredVenues: ",filteredVenues);
-    
-    // this.venuarr.forEach((venu:any)=>{
-      
-      
-      
-    //   inputTokens.forEach((token:any) => {
-      
-       
-        
-    //   });
-    
-    //   // return { venue: foundVenue, discount: foundDiscount };
-    // })
-    
+    this.filtertype = 'yes';
+    console.log("filteredVenues: ",filteredVenues); 
+    this.venuarr = filteredVenues;
+
+    if(filteredVenues.length == 0){
+      this.noevenu = 1;
+    }
     
   };
 
@@ -205,10 +217,11 @@ export class HomePage implements OnInit {
     this.content.scrollToTop();
   }
 
+  // ======== code to get venues from google and adding them in venues api according to api's key value pairs ================
   // map!: google.maps.Map;
   // service!: google.maps.places.PlacesService;
   
-  // ======== code to get venues from google and adding them in venues api according to api's key value pairs ================
+  
   // initialize() {
   //   let lat = localStorage.getItem("lattitude");
   //   let lng = localStorage.getItem("longitude");
@@ -626,6 +639,7 @@ export class HomePage implements OnInit {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
+    this.noevenu = 0;
   }
 
   clearFilterEv(){

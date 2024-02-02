@@ -229,14 +229,20 @@
 
     <div style="text-align: center">
       <img src="assets/imgs/disc.svg" alt="" />
-      <p class="one">Discount Claim!</p>
-      <p class="two">Instant</p>
+      
+      <p class="two work_sans">Instant</p>
       <p *ngIf="detailObj.discount_percentage <= 0" class="three">
         No Discount
       </p>
-      <p *ngIf="detailObj.discount_percentage > 0" class="three">
-        {{detailObj.discount_percentage}}% off
+      <p *ngIf="detailObj.discount_percentage > 0" class="mg_top_7">
+        <span class="three work_sans">{{detailObj.discount_percentage}}% </span> <span class="dis_off work_sans">off</span> 
       </p>
+      <p class="one work_sans">Discount Claim!</p>
+
+      <div class="work_sans token_num" >30698156</div>
+      <div class="work_sans token_info_one"  >Show this code at the venue.</div>
+      <div class="work_sans token_info_two" >*its a one time code, save it</div>
     </div>
   </div>
 </div>
+<!-- <div style="text-align: center"><span style="color: #262626; font-size: 14px; font-family: Work Sans; font-weight: 500; word-wrap: break-word">Instant<br/></span><span style="color: #AC3DBA; font-size: 27px; font-family: Work Sans; font-weight: 700; word-wrap: break-word">30%</span><span style="color: #AC3DBA; font-size: 18px; font-family: Work Sans; font-weight: 700; word-wrap: break-word"> off</span></div> -->
