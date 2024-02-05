@@ -40,8 +40,10 @@ export class RestService {
   ticketsData: any;
   claimDiscount = false;
   claimedVenDiscount = false;
+  claimedVenues:any = [];
   discountedAmount: any;
   discountPercentage: any;
+  venueDiscountToken: any;
   profile_updated = false;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   constructor(

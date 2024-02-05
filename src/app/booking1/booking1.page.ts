@@ -50,7 +50,6 @@ export class Booking1Page implements OnInit {
 
   usertime: any = format(parseISO(new Date().toISOString()),'HH:mm');
   // usertime: any = '';
-  userdate: any = "";
   peopleArr = [
     {
       id: 1,
@@ -96,7 +95,6 @@ export class Booking1Page implements OnInit {
 
   selectedVenue: any = "";
   userID: any = "";
-  calendarType: any;
 
   constructor(
     public location: Location,
@@ -330,7 +328,7 @@ export class Booking1Page implements OnInit {
 
       // var tt = moment(this.usertime).format("h:mm");
       let discountStatus = 'pending';
-      if(this.rest.claimedVenDiscount == true){
+      if(this.rest.venueDiscountToken != null){
         discountStatus = 'claimed';
       }
       console.log('Going to hit API');
@@ -342,8 +340,10 @@ export class Booking1Page implements OnInit {
         users_customers_id: this.userID,
         no_of_diners: this.people,
         bookings_date: this.myDate,
-        bookings_time: this.usertime,
         claim_discounts:discountStatus,
+        discount_token:this.rest.venueDiscountToken,
+        bookings_time: this.usertime,
+        
       });
 
       console.log(ss);
@@ -355,6 +355,7 @@ export class Booking1Page implements OnInit {
           this.rest.selectedBooking = res.data;
           this.rest.selectedBooking.coming_from = 'other';
           this.rest.comingFrom = 'booking1';
+          this.rest.venueDiscountToken = undefined;
           this.router.navigate(["booking2"]);
         } else {
           this.rest.presentToast("Error");

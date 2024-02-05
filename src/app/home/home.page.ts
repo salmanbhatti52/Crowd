@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { set } from "date-fns";
+import { eachHourOfInterval, eachMinuteOfInterval, set } from "date-fns";
 declare var google: any;
 
 @Component({
@@ -52,6 +52,7 @@ export class HomePage implements OnInit {
   venuesFromGoogle:any = [];
   radius: any;
   placeType: any;
+  claimedVenues: any = [];
   yourVoiceInput = '';
   listener: boolean = false;
   constructor(
@@ -67,6 +68,19 @@ export class HomePage implements OnInit {
   
   ngOnInit() {
     
+  }
+
+  getClaimedVenues(){
+    let data = {
+      "users_customers_id":this.userID
+    };
+    this.rest.sendRequest('get_claimed_venues',data ).subscribe((res: any)=>{
+    console.log("get_claimed_venues",res);
+    if(res.status == 'success'){
+      this.claimedVenues = res.data;
+    }
+      
+    });
   }
 
   requestPermissions(){
@@ -206,6 +220,7 @@ export class HomePage implements OnInit {
     }
     
   };
+
 
 
 
@@ -424,8 +439,11 @@ export class HomePage implements OnInit {
   }
 
   goToVenuDetail(opt: any) {
+    console.log("detail opt",opt);
+    
     this.getVenuesSuggested(opt);
-
+    this.setClaimedVenueRemTime();
+    
     // this.HideFilter();
     // console.log(opt);
     // this.rest.detail = opt;
@@ -472,6 +490,39 @@ export class HomePage implements OnInit {
         console.log("API Errror: ", err);
       }
     );
+  }
+
+  setClaimedVenueRemTime(){
+    let hours = 23;
+    let minutes = 59;
+    let seconds = 59;
+    let totalMinutes = 0;
+    if(this.claimedVenues.length){
+      for(let venue of this.claimedVenues){
+        const resultMinutes = eachMinuteOfInterval({
+          start: new Date(venue.claimed_date),
+          end: new Date()
+        });
+        totalMinutes = resultMinutes.length;
+        // console.log(totalMinutes);
+        hours = Math.floor(totalMinutes / 60) ;
+        minutes = totalMinutes % 60;
+        seconds = 0;
+        // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+        if(hours <= 23){
+          hours = 23 - hours;
+          minutes = 59 - minutes;
+          seconds = 59 - seconds;
+          venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }else{
+          venue.remaining_time = null;
+        }
+       
+        
+        // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+      }
+      this.rest.claimedVenues = this.claimedVenues;
+    }
   }
 
   async showVenueModal() {
@@ -663,6 +714,7 @@ export class HomePage implements OnInit {
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.rest.presentLoader();
+    this.getClaimedVenues();
 
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),

@@ -71,8 +71,8 @@
    <div style="display: flex;
    overflow: scroll;margin-top: 15px;"> 
     <div *ngFor="let day of daysNamesAndNumbers;" (click)="selectDay(day.number)" class="dayBox" [class.selected_dayBox]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">
-      <div class="inter" class="dayName" [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
-      <div class="inter" class="dayNumber" [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>
+      <div class="inter dayName"  [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
+      <div class="inter dayNumber"  [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>
     </div>
    </div>
     

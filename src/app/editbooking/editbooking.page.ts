@@ -2,11 +2,12 @@ import { Location } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
-import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, formatISO} from 'date-fns';
+import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, formatISO, getDaysInMonth, eachDayOfInterval} from 'date-fns';
 // import * as moment from "moment";
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
-import { IonDatetime } from "@ionic/angular";
+import { IonDatetime, ModalController } from "@ionic/angular";
+import { CalendarPage } from "../calendar/calendar.page";
 
 @Component({
   selector: "app-editbooking",
@@ -16,6 +17,21 @@ import { IonDatetime } from "@ionic/angular";
 export class EditbookingPage implements OnInit {
   @ViewChild('datetime') dateTime!:IonDatetime;
   minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
+  selectedMonthAndYear = format(new Date(),'MMM yyyy');
+  todayDayNumber = parseInt(format(new Date(),'d'));
+  selectedDayNumber = this.todayDayNumber;
+  currentMonthNumber = getMonth(new Date());
+  selectedMonthNumber = this.currentMonthNumber;
+  currentYearNumber = getYear(new Date());
+  selectedYearNumber = this.currentYearNumber;
+  remainingDaysCountInMonth = getDaysInMonth(new Date())- this.todayDayNumber + 1;
+ 
+  daysInMonth:number[] = [];
+  dayNamesInMonth:any[] = [];
+  daysNamesAndNumbers:any[] = [];
+
+  setMonthNumberStatus:boolean = false;
+
   config = {
     show: false,
     weekOffset: -2,
@@ -31,9 +47,9 @@ export class EditbookingPage implements OnInit {
   datesArr: any = "";
   selectedIndexDate = -1;
 
-  myDate: any = "Select Date";
+  myDate: any = "";
 
-  usertime: any = "";
+  usertime: any = format(parseISO(new Date().toISOString()),'HH:mm');
 
   selectedBooking: any = "";
 
@@ -82,14 +98,14 @@ export class EditbookingPage implements OnInit {
 
   selectedVenue: any = "";
   userID: any = "";
-  mtime: string = "";
   dateIsoStirng: any;
 
   constructor(
     public location: Location,
     public router: Router,
     public rest: RestService,
-    public datePicker: DatePicker
+    public datePicker: DatePicker,
+    public modalCtrlr:ModalController
   ) {
     this.loadPageData();
   }
@@ -109,6 +125,7 @@ export class EditbookingPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.dateIsoStirng = this.selectedBooking.bookings_date;
+    console.log("this.dateIsoStirng", this.dateIsoStirng);
     
     // this.mtime = format(parseISO(this.selectedBooking.bookings_time), "HH:mm");
     this.usertime = this.selectedBooking.bookings_time;
@@ -117,6 +134,159 @@ export class EditbookingPage implements OnInit {
 
     console.log("this.usertime------", this.usertime);
   }
+
+  setCurrentDaysInMonth(){
+    this.selectedMonthNumber = getMonth(new Date());
+    this.currentMonthNumber = this.selectedMonthNumber;
+    this.selectedYearNumber = getYear(new Date());
+    this.selectedDayNumber = this.todayDayNumber;
+    // =================setting day numbers in month from today to last date of month=====================
+    this.daysInMonth = [];
+    for (let index = 0; index < this.remainingDaysCountInMonth; index++) {
+      this.daysInMonth.push(this.todayDayNumber + index);
+      
+    }
+    console.log("this.daysInMonth",this.daysInMonth);
+    
+
+  // =================setting day names in month from today to last date of month=====================
+    let year = getYear(new Date());
+    let month = getMonth(new Date());
+    let days = getDaysInMonth(new Date());
+    this.dayNamesInMonth =  eachDayOfInterval({
+      start: new Date(year, month, this.todayDayNumber),
+      end: new Date(year, month, days)
+    });
+    console.log("this.dayNamesInMonth",this.dayNamesInMonth);
+    
+
+    //==================setting short day format for day names in month=====================
+    for (let index = 0; index < this.dayNamesInMonth.length; index++) {
+      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
+      
+    }
+
+    // =================combining days and names=====================
+    this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
+        return {
+          number: day,
+          name: this.dayNamesInMonth[index],
+        };
+    });
+    console.log("this.daysNamesAndNumbers",this.daysNamesAndNumbers);
+    
+  }
+
+  selectDay(dayNumber:any){
+    this.selectedDayNumber = dayNumber;
+  }
+
+    // ====================================custom calendar code start here===========================================
+  
+    async selectDate() {
+      let selectedMonthNumber = this.selectedMonthNumber;
+      selectedMonthNumber++;
+      
+      let selectedDate = this.selectedYearNumber + "-" + selectedMonthNumber;
+  
+      // =============setting date format in minimum 2 digit form for day and Month i.e 2024-01-03 means (3 january, 2024)=============================
+       
+        const [year, month] = selectedDate.split('-');
+  
+        selectedDate = `${year}-${month.padStart(2, '0')}`;
+  
+        console.log("selectedDateFormatted",selectedDate);
+      // ========================done=========================
+        const modal = await this.modalCtrlr.create({
+          component: CalendarPage,
+          cssClass: "calendar_popup",
+          componentProps: {
+            selectedDate:selectedDate
+          }
+        });
+  
+      await modal.present();
+  
+      const {data,role} = await modal.onWillDismiss();
+      if(role == 'confirm'){
+        console.log("data",data);
+  
+        let selectedMonthNumber = getMonth(new Date(data));
+        let currentMonthNumber = getMonth(new Date());
+        let selectedYearNumber = getYear(new Date(data));
+        let currentYearNumber = getYear(new Date());
+  
+        if(selectedMonthNumber ==  currentMonthNumber && selectedYearNumber == currentYearNumber ){
+          console.log('entered');
+          this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+          this.setCurrentDaysInMonth();
+          
+        }else{
+          
+          this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+          this.setDaysInMonth(data);
+        }
+      }else if(role == 'cancel'){
+        
+      }else{
+  
+      }
+  
+  
+    }
+  
+  
+    setDaysInMonth(date:any) {
+      this.selectedMonthNumber = getMonth(new Date(date));
+      this.currentMonthNumber = this.selectedMonthNumber;
+      this.selectedYearNumber = getYear(new Date(date));
+      this.selectedDayNumber = 1;
+      // =================setting day numbers in month of selected month=====================
+      let daysCountInMonth = getDaysInMonth(new Date(date));
+      console.log(daysCountInMonth);
+      this.daysInMonth = [];
+      for (let index = 1; index <= daysCountInMonth; index++) {
+        this.daysInMonth.push(index);
+        
+      }
+      console.log(this.daysInMonth);
+      
+  
+    // =================setting day names in month from today to last date of month=====================
+      let year = getYear(new Date(date));
+      let month = getMonth(new Date(date));
+      let days = getDaysInMonth(new Date(date));
+      this.dayNamesInMonth =  eachDayOfInterval({
+        start: new Date(year, month, 1),
+        end: new Date(year, month, days)
+      });
+  
+      console.log(this.dayNamesInMonth);
+      
+  
+      //==================setting short day format for day names in month=====================
+      for (let index = 0; index < this.dayNamesInMonth.length; index++) {
+        this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
+        
+      }
+  
+      // =================combining days and names=====================
+      this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
+          return {
+            number: day,
+            name: this.dayNamesInMonth[index],
+          };
+      });
+  
+      console.log(this.daysNamesAndNumbers);
+      
+    }
+  
+  
+  
+  
+  
+    // ======================================custom calendar code end here===========================================
 
   getDate() {
     var arr = new Array();
@@ -167,14 +337,25 @@ export class EditbookingPage implements OnInit {
   }
 
   bookTable() {
-    if (this.myDate == "Select Date") {
+    let selectedMonthNumber = this.selectedMonthNumber;
+    
+    this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
+    
+    if (this.myDate == "") {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     } else {
-      console.log("this.usertime------tttttttttttttt", this.usertime);
+      if(this.setMonthNumberStatus == false){
+        selectedMonthNumber++;
+        this.setMonthNumberStatus = true;
+      }
+      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
 
-      // var tt = moment(this.usertime).format("h:mm");
+      console.log('Going to hit API');
+      
+      console.log(this.myDate);
+
       var ss = JSON.stringify({
         venues_bookings_id: this.selectedBooking.venues_bookings_id,
         no_of_diners: this.people,

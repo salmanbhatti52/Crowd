@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <ion-list class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1 || rest.claimedVenDiscount == true">
+    <ion-list class="btnbg1 work_sans" [class.hide]="hideClaimDiscountButton">
       <ion-item-sliding
         #slidingItem
         (ionDrag)="claimDrag(slidingItem, $event)"
@@ -201,14 +201,16 @@
       </ion-item-sliding>
     </ion-list>
 
-    <div class="claim_msg work_sans" *ngIf="rest.claimedVenDiscount == true" 
-      >Discount Claimed!
+    <div class="claim_msg work_sans" *ngIf="detailObj.remaining_time != null" 
+      >Already Claimed!
     </div>
+
+    <div class="rem_time work_sans" *ngIf="detailObj.remaining_time" >{{detailObj.remaining_time}} Remaining</div>
 
     <div *ngIf="detailObj.venues_id != null">
       <ion-button
         (click)="bookTable()"
-        style="margin-top: 22px;"
+        style="margin-top: 20px;"
         class="btnwhite work_sans"
         >Book Table</ion-button
       >
@@ -239,7 +241,7 @@
       </p>
       <p class="one work_sans">Discount Claim!</p>
 
-      <div class="work_sans token_num" >30698156</div>
+      <div class="work_sans token_num" >{{discountToken}}</div>
       <div class="work_sans token_info_one"  >Show this code at the venue.</div>
       <div class="work_sans token_info_two" >*its a one time code, save it</div>
     </div>

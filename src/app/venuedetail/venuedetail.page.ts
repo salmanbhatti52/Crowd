@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+import { eachMinuteOfInterval } from "date-fns";
 
 @Component({
   selector: "app-venuedetail",
@@ -13,11 +14,12 @@ import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 export class VenuedetailPage implements OnInit {
   detailObj: any = "";
   displaydiv = false;
-  num = 0;
+  // num = 0;
 
   userdata: any = "";
   userID: any = "";
-
+  discountToken:any;
+  hideClaimDiscountButton: boolean = false;
   constructor(
     public router: Router,
     public location: Location,
@@ -30,21 +32,51 @@ export class VenuedetailPage implements OnInit {
     if(this.rest.comingFrom == 'home'){
       this.rest.claimedVenDiscount = false;
     }
+    
     this.rest.comingFrom = '';
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
+    this.updatevVisitor();
   }
 
   ngOnInit() {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
+    console.log("claimedVenues: ",this.rest.claimedVenues);
+    if(this.detailObj.discount_percentage > 0 ){
+      for(let venue of this.rest.claimedVenues){
+        console.log("venue.venues_id: ",venue.venues_id);
+        console.log("this.detailObj.venues_id: ",this.detailObj.venues_id);
+        
+        if(venue.venues_id == this.detailObj.venues_id){
+          console.log(venue);
+          this.detailObj.remaining_time = venue.remaining_time;
+          console.log(this.detailObj.remaining_time);
+          // break;
+          // this.rest.claimedVenDiscount = true;
+          // this.rest.discountPercentage = venue.discount_percentage;
+          // this.rest.discountedAmount = venue.discounted_amount;
+          // this.rest.claimedVenues = [];
+        }
+      }
+      // console.log("this.rest.claimedVenDiscount: ",this.rest.claimedVenDiscount);
+      // console.log("detaill 2----", this.detailObj);
+      
+    }
+    if(this.detailObj.discount_percentage <= 0 ){
+      this.hideClaimDiscountButton = true;
+    }else if(this.detailObj.remaining_time != null){
+      this.hideClaimDiscountButton = true;
+    }else{
+      this.hideClaimDiscountButton = false;
+    }
+    
+    // this.userdata = localStorage.getItem("userdata");
+    // console.log("userdata----", this.userdata);
+    // this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.userdata = localStorage.getItem("userdata");
-    console.log("userdata----", this.userdata);
-    this.userID = JSON.parse(this.userdata).users_customers_id;
-
-    this.updatevVisitor();
+    
   }
 
   goBack() {
@@ -59,27 +91,70 @@ export class VenuedetailPage implements OnInit {
     let ratio = event.detail.ratio;
 
     if (ratio == -1) {
-      this.displaydiv = true;
-      this.num = 0;
+      
+      // this.num = 0;
       console.log("if---if", ratio);
-      this.rest.claimedVenDiscount = true;
-      // this.claimDiscount();
+      
+      this.claimDiscount();
     }
 
     console.log("dragggggg---44444", ratio);
   }
 
-  // claimDiscount() {
-  //   var ss = JSON.stringify({
-  //     users_customers_id: this.userID,
-  //     venues_id: this.detailObj.venues_id,
-  //   });
+  claimDiscount() {
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      venues_id: this.detailObj.venues_id,
+    });
 
-  //   console.log("ss claim discount-----", ss);
+    console.log("ss claim discount-----", ss);
+    this.rest.presentLoader();
+    this.rest.claim_discount(ss).subscribe((res: any) => {
+      this.rest.dismissLoader();
+      console.log("res claim discount-----", res);
+      if(res.status == 'success'){
+        this.discountToken = res.data[0].claimed_token;
+        this.rest.venueDiscountToken = this.discountToken;
+        this.displaydiv = true;
+        // this.rest.claimedVenDiscount = true;
+        this.detailObj.remaining_time = '23:59:59';
+        this.hideClaimDiscountButton = true;
+        // this.setClaimedVenueRemTime(res.data[0].claimed_date);
+      }
+    });
+  }
 
-  //   this.rest.claim_discount(ss).subscribe((res: any) => {
-  //     console.log("res claim discount-----", res);
-  //   });
+  // setClaimedVenueRemTime(claimed_date: any) {
+  //   let hours = 23;
+  //   let minutes = 59;
+  //   let seconds = 59;
+  //   let totalMinutes = 0;
+  //   // if(this.claimedVenues.length){
+  //     // for(let venue of this.claimedVenues){
+  //       const resultMinutes = eachMinuteOfInterval({
+  //         start: new Date(claimed_date),
+  //         end: new Date()
+  //       });
+  //       totalMinutes = resultMinutes.length;
+  //       // console.log(totalMinutes);
+  //       hours = Math.floor(totalMinutes / 60) ;
+  //       minutes = totalMinutes % 60;
+  //       seconds = 0;
+  //       // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+  //       if(hours <= 23){
+  //         hours = 23 - hours;
+  //         minutes = 59 - minutes;
+  //         seconds = 59 - seconds;
+  //         venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+  //       }else{
+  //         venue.remaining_time = null;
+  //       }
+       
+        
+  //       // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+  //     // }
+  //     // this.rest.claimedVenues = this.claimedVenues;
+  //   // }
   // }
 
   updatevVisitor() {
@@ -127,16 +202,16 @@ export class VenuedetailPage implements OnInit {
 
   closeslide(slidingItem: IonItemSliding) {
     this.dismiss();
-    this.num = 0;
+    // this.num = 0;
     slidingItem.close();
   }
 
   openSlider(slidingItem: IonItemSliding) {
     console.log("opnessssssssssssssssss");
 
-    this.num = 0;
+    // this.num = 0;
     slidingItem.close();
-    console.log("else---else", this.num);
+    // console.log("else---else", this.num);
   }
 
   likevenu() {
