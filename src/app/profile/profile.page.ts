@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
   roleMessage = '';
 
   userdata: any = "";
-  noti: any = "No";
+  
   uname: any = "";
   name: any = "";
   email: any = "";
@@ -33,10 +33,16 @@ export class ProfilePage implements OnInit {
   social_login_status: any = "";
 
   polnum: any = "";
+
   seenToggleChecked = false;
   be_seen = "";
-
   beeseenToggleValue = "No";
+
+  aiToggleChecked = false;
+  ai = "";
+  aiToggleValue = "No";
+  
+  noti: any = "No";
   adminsList: any;
   selectedAdmin: any;
   accountType: any;
@@ -92,6 +98,15 @@ export class ProfilePage implements OnInit {
     } else {
       this.seenToggleChecked = true;
       this.beeseenToggleValue = "Yes";
+    }
+
+    this.ai = JSON.parse(this.userdata).ai_feature;
+
+    if (this.ai == "No") {
+      this.aiToggleChecked = false;
+    } else {
+      this.aiToggleChecked = true;
+      this.aiToggleValue = "Yes";
     }
 
     this.getAdminsList();
@@ -258,7 +273,9 @@ export class ProfilePage implements OnInit {
   }
 
   beseentoggle(event: any) {
-    console.log(event.detail.checked);
+    console.log(event);
+    
+    console.log('event.detail.checked',event.detail.checked);
 
     if (event.detail.checked) {
       if (this.be_seen == "No") {
@@ -269,6 +286,23 @@ export class ProfilePage implements OnInit {
     } else {
       this.be_seen = "No";
       this.beeseenToggleValue = "No";
+    }
+  }
+  
+  aiToggle(event: any) {
+    console.log(event);
+    
+    console.log('event.detail.checked',event.detail.checked);
+
+    if (event.detail.checked) {
+      if (this.ai == "No") {
+        
+      }
+
+      this.aiToggleValue = "Yes";
+    } else {
+      this.ai = "No";
+      this.aiToggleValue = "No";
     }
   }
 
@@ -303,6 +337,7 @@ export class ProfilePage implements OnInit {
         notifications: "Yes",
         profile_picture: this.imgdata,
         be_seen: this.beeseenToggleValue,
+        ai_feature: this.aiToggleValue,
       });
 
       this.rest.update_profile(ss).subscribe((res: any) => {

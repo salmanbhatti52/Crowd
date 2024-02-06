@@ -90,7 +90,21 @@ export class HomePage implements OnInit {
    
   }
 
-  async startSpeechRecognition(){
+   startSpeechRecognition(){
+    if(this.segmentModel == "venu"){
+       this.startSpeechRecognitionForVenue();
+    }
+    else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
+      this.startSpeechRecognitionForReservation();
+    }
+    else if(this.segmentModel == 'event'){
+      this.startSpeechRecognitionForEvent();
+    }else{
+
+    }
+  }
+
+  async startSpeechRecognitionForVenue(){
     this.venuarr = this.venuarrOrg;
     this.filtertype = "no"; 
     this.yourVoiceInput = '';
@@ -99,38 +113,73 @@ export class HomePage implements OnInit {
     const {available} = await SpeechRecognition.available();
     console.log('availability res: ',available);
 
-      if(available){
-        this.listener = true;
+    if(available){
+      this.listener = true;
 
-        SpeechRecognition.start({
-          language: "en-US",
-          popup: false,
-          partialResults:true,
-        });
-  
-        SpeechRecognition.addListener("partialResults", async (data: any) => {
-          console.log("partialResults was fired", data.matches);
-          if(data.matches && data.matches.length > 0){  
-            this.yourVoiceInput = data.matches[0];
-            // console.log("Your Input: ",this.yourVoiceInput);
-            this.changeDetectorRef.detectChanges();
-            
-          }
-        }).then((res: any) => {});
-        
+      SpeechRecognition.start({
+        language: "en-US",
+        popup: false,
+        partialResults:true,
+      });
 
-        // setTimeout(() => {
-        //   if(this.yourVoiceInput == ''){
-        //     this.stopSpeechRecognition();
-        //   }
-        // }, 3000);
+      SpeechRecognition.addListener("partialResults", async (data: any) => {
+        console.log("partialResults was fired", data.matches);
+        if(data.matches && data.matches.length > 0){  
+          this.yourVoiceInput = data.matches[0];
+          // console.log("Your Input: ",this.yourVoiceInput);
+          this.changeDetectorRef.detectChanges();
+          
+        }
+      }).then((res: any) => {});
+      
 
+      // setTimeout(() => {
+      //   if(this.yourVoiceInput == ''){
+      //     this.stopSpeechRecognition();
+      //   }
+      // }, 3000);
+    }
+  }
 
-
-        
-      }
-   
+  async startSpeechRecognitionForReservation(){
+    // this.filteredReservationsArr = this.reservationsArr;
+    // // this.filtertype = "no"; 
+    // this.yourVoiceInput = '';
+    // console.log('startSpeechRecognition');
     
+    // const {available} = await SpeechRecognition.available();
+    // console.log('availability res: ',available);
+
+    // if(available){
+    //   this.listener = true;
+
+    //   SpeechRecognition.start({
+    //     language: "en-US",
+    //     popup: false,
+    //     partialResults:true,
+    //   });
+
+    //   SpeechRecognition.addListener("partialResults", async (data: any) => {
+    //     console.log("partialResults was fired", data.matches);
+    //     if(data.matches && data.matches.length > 0){  
+    //       this.yourVoiceInput = data.matches[0];
+    //       // console.log("Your Input: ",this.yourVoiceInput);
+    //       this.changeDetectorRef.detectChanges();
+          
+    //     }
+    //   }).then((res: any) => {});
+      
+
+    //   // setTimeout(() => {
+    //   //   if(this.yourVoiceInput == ''){
+    //   //     this.stopSpeechRecognition();
+    //   //   }
+    //   // }, 3000);
+    // }
+  }
+
+  startSpeechRecognitionForEvent(){
+
   }
 
   async stopSpeechRecognition(){
@@ -432,7 +481,7 @@ export class HomePage implements OnInit {
 
   segmentChanged(event: any) {
     this.HideFilter();
-    console.log("rrr", this.segmentModel);
+    console.log(this.segmentModel);
     // this.type = ev
     console.log("eee", event);
     this.scrollToTop();

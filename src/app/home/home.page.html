@@ -84,7 +84,7 @@
             --border-radius: 20px;
             --background-checked: #262626;
           "
-          value="Reservation"
+          value="reservation"
         >
           <ion-label>Reservations</ion-label>
         </ion-segment-button>
@@ -193,7 +193,7 @@
     </ion-infinite-scroll>
   </div>
 
-  <div class="margincls"  style="display: flex; flex-wrap: wrap;" *ngIf="segmentModel === 'Reservation' && reservationFeature === 'On'">
+  <div class="margincls"  style="display: flex; flex-wrap: wrap;" *ngIf="segmentModel === 'reservation' && reservationFeature === 'On'">
     <div class="searchtop" style="width: 100%;margin-top: 5px;">
       <div
         class="inputfieldtransparent"
@@ -274,7 +274,7 @@
   </div>
 
   <div>
-    <p  class="notFound work_sans" style="margin-top: 70%;" *ngIf="segmentModel === 'Reservation' && reservationFeature != 'On'">Reservations Coming Soon</p>
+    <p  class="notFound work_sans" style="margin-top: 70%;" *ngIf="segmentModel === 'reservation' && reservationFeature != 'On'">Reservations Coming Soon</p>
   </div>
 
   <div class="margincls" style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'event'" >
@@ -379,7 +379,7 @@
   </div>
   
   <!-- (click)="startSpeechRecognition()" -->
-  <img id="open-modal" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
+  <img *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
   right: 15px;
   bottom: 90px;" src="../../assets/imgs/icons/ai_icon2.svg" alt="">
 

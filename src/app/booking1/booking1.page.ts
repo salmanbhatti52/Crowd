@@ -324,7 +324,7 @@ export class Booking1Page implements OnInit {
         selectedMonthNumber++;
         this.setMonthNumberStatus = true;
       }
-      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
+      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber.toString().padStart(2, '0') + "-" + this.selectedDayNumber.toString().padStart(2,'0');
 
       // var tt = moment(this.usertime).format("h:mm");
       let discountStatus = 'pending';
