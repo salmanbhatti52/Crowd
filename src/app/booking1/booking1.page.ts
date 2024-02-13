@@ -343,7 +343,6 @@ export class Booking1Page implements OnInit {
         claim_discounts:discountStatus,
         discount_token:this.rest.venueDiscountToken,
         bookings_time: this.usertime,
-        
       });
 
       console.log(ss);

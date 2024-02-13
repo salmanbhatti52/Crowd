@@ -80,6 +80,8 @@ export class VenuedetailPage implements OnInit {
   }
 
   goBack() {
+    this.rest.venueDiscountToken = undefined;
+    this.discountToken = undefined;
     this.location.back();
   }
 
