@@ -595,6 +595,7 @@ export class HomePage implements OnInit {
     this.scrollToTop();
   }
 
+  //  set claimed venue rem time
   goToVenuDetail(opt: any) {
     console.log("detail opt",opt);
     
@@ -607,6 +608,7 @@ export class HomePage implements OnInit {
     // // this.router.navigate(["venuedetail"]);
   }
 
+  
   getVenuesSuggested(opt: any) {
     let data = {
       // longitude:"71.4706624",
@@ -679,8 +681,12 @@ export class HomePage implements OnInit {
         // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
       }
       this.rest.claimedVenues = this.claimedVenues;
+      console.log("claimed venues: ",this.claimedVenues);
+      
     }
   }
+
+  // done
 
   async showVenueModal() {
     const modal = await this.modalCtrlr.create({
@@ -868,6 +874,7 @@ export class HomePage implements OnInit {
   records_limit: any = 0;
   
   ionViewWillEnter() {
+    this.segmentModel = 'venu';
     this.getSystemSettings();
     this.getCurrentPosition();
     this.filtertype = "no";

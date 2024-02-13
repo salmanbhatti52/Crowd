@@ -212,6 +212,10 @@ export class ProfilePage implements OnInit {
     this.router.navigate(["my-events"]);
   }
 
+  gotoDiscounts(){
+    this.router.navigate(["discounts"]);
+  }
+
   gotoAddPaymentMethods(){
     this.router.navigate(["payment-methods"]);
   }
