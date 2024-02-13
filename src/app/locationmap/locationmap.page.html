@@ -62,7 +62,7 @@
     </map-directions-renderer>
   </google-map>
   
-  <img id="open-modal-map" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
+  <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
   right: 15px;
   bottom: 62%; height: 58px; width: 58px;" src="../../assets/imgs/icons/ai_icon.svg" alt="">
 

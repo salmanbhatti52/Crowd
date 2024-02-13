@@ -55,6 +55,8 @@ export class HomePage implements OnInit {
   claimedVenues: any = [];
   yourVoiceInput = '';
   listener: boolean = false;
+  ai = "";
+  aiToggleChecked: boolean = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -878,6 +880,15 @@ export class HomePage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.rest.presentLoader();
     this.getClaimedVenues();
+
+    this.ai = JSON.parse(this.userdata).ai_feature;
+
+    if (this.ai == "No") {
+      this.aiToggleChecked = false;
+    } else {
+      this.aiToggleChecked = true;
+      // this.aiToggleValue = "Yes";
+    }
 
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),

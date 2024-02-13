@@ -330,6 +330,8 @@ export class LocationmapPage implements OnInit {
   showDetail = false;
   yourVoiceInput = '';
   listener: boolean = false;
+  ai = '';
+  aiToggleChecked: boolean = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -608,6 +610,14 @@ export class LocationmapPage implements OnInit {
     this.dbLati = parseFloat(this.a);
     this.dbLong = parseFloat(this.b);
     console.log("this.rest.venuArrHome",this.rest.venuArrHome.length);
+    this.userdata = localStorage.getItem("userdata");
+    this.ai = JSON.parse(this.userdata).ai_feature;
+
+    if (this.ai == "No") {
+      this.aiToggleChecked = false;
+    } else {
+      this.aiToggleChecked = true;
+    }
     
     this.venuarrOrg = this.rest.venuArrHome;
     console.log("this.venuarrOrg",this.venuarrOrg.length);
