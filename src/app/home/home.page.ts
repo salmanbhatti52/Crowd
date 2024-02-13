@@ -31,6 +31,7 @@ export class HomePage implements OnInit {
   number = "123";
   eventarr: any = [];
   filtertype: any = "no";
+  reservationFilter: any = "no";
   filterTypeEv: any = "no";
   reservationFeature:any = '';
   // venusArray:any = []
@@ -47,7 +48,6 @@ export class HomePage implements OnInit {
   selectedVenueName = "";
 
   filteredvenuarr: any = "";
-  eventsArray: any;
   eventsArrayCopy: any;
   venuesFromGoogle:any = [];
   radius: any;
@@ -90,23 +90,30 @@ export class HomePage implements OnInit {
    
   }
 
-   startSpeechRecognition(){
+  async startSpeechRecognition(){
+    
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      SpeechRecognition.stop();
+    }
+
     if(this.segmentModel == "venu"){
-       this.startSpeechRecognitionForVenue();
+      this.venuarr = this.venuarrOrg;
+      this.filtertype = "no"; 
     }
     else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
-      this.startSpeechRecognitionForReservation();
+      this.filteredReservationsArr = this.reservationsArr;
+      this.reservationFilter = "no";
     }
     else if(this.segmentModel == 'event'){
-      this.startSpeechRecognitionForEvent();
+      this.eventarr = this.eventsArrayCopy;
+      this.filterTypeEv = "no";
     }else{
 
     }
-  }
 
-  async startSpeechRecognitionForVenue(){
-    this.venuarr = this.venuarrOrg;
-    this.filtertype = "no"; 
     this.yourVoiceInput = '';
     console.log('startSpeechRecognition');
     
@@ -126,63 +133,25 @@ export class HomePage implements OnInit {
         console.log("partialResults was fired", data.matches);
         if(data.matches && data.matches.length > 0){  
           this.yourVoiceInput = data.matches[0];
-          // console.log("Your Input: ",this.yourVoiceInput);
           this.changeDetectorRef.detectChanges();
           
         }
       }).then((res: any) => {});
-      
-
-      // setTimeout(() => {
-      //   if(this.yourVoiceInput == ''){
-      //     this.stopSpeechRecognition();
-      //   }
-      // }, 3000);
     }
   }
 
-  async startSpeechRecognitionForReservation(){
-    // this.filteredReservationsArr = this.reservationsArr;
-    // // this.filtertype = "no"; 
-    // this.yourVoiceInput = '';
-    // console.log('startSpeechRecognition');
+  // async startSpeechRecognitionForVenue(){
     
-    // const {available} = await SpeechRecognition.available();
-    // console.log('availability res: ',available);
+  // }
 
-    // if(available){
-    //   this.listener = true;
+  // async startSpeechRecognitionForReservation(){
+  // }
 
-    //   SpeechRecognition.start({
-    //     language: "en-US",
-    //     popup: false,
-    //     partialResults:true,
-    //   });
-
-    //   SpeechRecognition.addListener("partialResults", async (data: any) => {
-    //     console.log("partialResults was fired", data.matches);
-    //     if(data.matches && data.matches.length > 0){  
-    //       this.yourVoiceInput = data.matches[0];
-    //       // console.log("Your Input: ",this.yourVoiceInput);
-    //       this.changeDetectorRef.detectChanges();
-          
-    //     }
-    //   }).then((res: any) => {});
-      
-
-    //   // setTimeout(() => {
-    //   //   if(this.yourVoiceInput == ''){
-    //   //     this.stopSpeechRecognition();
-    //   //   }
-    //   // }, 3000);
-    // }
-  }
-
-  startSpeechRecognitionForEvent(){
-
-  }
+  // startSpeechRecognitionForEvent(){
+  // }
 
   async stopSpeechRecognition(){
+    console.log('stopSpeechRecognition');
     
     if(this.listener){
       console.log(this.listener);
@@ -204,11 +173,22 @@ export class HomePage implements OnInit {
     this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
     let tokens = this.yourVoiceInput.split(/\s+/);
     console.log(tokens);
-    this.findVenueAndDiscount(tokens);
+    if(this.segmentModel == "venu"){
+      this.findVenueAndDiscount(tokens);
+    }
+    else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
+     this.findReservationAndDiscount(tokens);
+    }
+    else if(this.segmentModel == 'event'){
+      this.findEventAndDiscount(tokens);
+    }else{
+
+    }
+    
   }
 
   findVenueAndDiscount = (inputTokens:string[]) => {
-    
+    this.noevenu = 0;
     let filteredVenues = [];
     let foundVenue = false;
     let foundDiscount = false;
@@ -226,8 +206,8 @@ export class HomePage implements OnInit {
       venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
       console.log("venuDiscount: ",venuDiscount);
       
-       venueName = this.venuarr[venueIndex].name.toLowerCase();
-       venuNameTokens = venueName.split(/\s+/);
+      venueName = this.venuarr[venueIndex].name.toLowerCase();
+      venuNameTokens = venueName.split(/\s+/);
 
       console.log(venuNameTokens);
 
@@ -266,6 +246,132 @@ export class HomePage implements OnInit {
 
     if(filteredVenues.length == 0){
       this.noevenu = 1;
+    }
+    
+  };
+
+  findReservationAndDiscount = (inputTokens:string[]) => {
+    this.noReservations = 0;
+    let filteredReservations = [];
+    let foundReservation = false;
+    let foundDiscount = false;
+    let reservationName:string = '';
+    let reservationNameTokens = [];
+    let reservationDiscount = '';
+    // setTimeout(() => {
+    //   this.rest.presentLoaderWd();  
+    // }, 1000);
+    
+    for (let reservationIndex = 0; reservationIndex < this.filteredReservationsArr.length; reservationIndex++) {
+      foundDiscount = false;
+      foundReservation = false;
+      
+      reservationDiscount = this.filteredReservationsArr[reservationIndex].discount_percentage.toString() + '%';
+      console.log("ReservationDiscount: ",reservationDiscount);
+      
+      reservationName = this.filteredReservationsArr[reservationIndex].name.toLowerCase();
+      reservationNameTokens = reservationName.split(/\s+/);
+
+      console.log(reservationNameTokens);
+
+      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
+
+        if(reservationNameTokens.includes(inputTokens[inputTokenIndex])){
+          
+          console.log('Reservatione Match Found');
+          console.log(reservationNameTokens);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundReservation = true;
+        }
+
+        if(reservationDiscount == inputTokens[inputTokenIndex]){
+          console.log('Discount Match Found');
+          console.log(reservationDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
+        
+      }
+
+      if(foundReservation || foundDiscount){
+        console.log("foundReservatione: ",foundReservation);
+        console.log("foundDiscount: ",foundDiscount);
+        
+        filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+     }
+      
+    }
+    this.reservationFilter = 'yes';
+    console.log("filteredReservationes: ",filteredReservations); 
+    this.filteredReservationsArr = filteredReservations;
+
+    if(filteredReservations.length == 0){
+      this.noReservations = 1;
+    }
+    
+  };
+
+  findEventAndDiscount = (inputTokens:string[]) => {
+    this.noevent = 0;
+    let filteredEvents = [];
+    let foundEvent = false;
+    let foundDiscount = false;
+    let eventName:string = '';
+    let eventNameTokens = [];
+    let eventDiscount = '';
+    // setTimeout(() => {
+    //   this.rest.presentLoaderWd();  
+    // }, 1000);
+    
+    for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
+      foundDiscount = false;
+      foundEvent = false;
+      
+      eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
+      console.log("eventDiscount: ",eventDiscount);
+      
+      eventName = this.eventarr[eventIndex].name.toLowerCase();
+      eventNameTokens = eventName.split(/\s+/);
+
+      console.log(eventNameTokens);
+
+      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
+
+        if(eventNameTokens.includes(inputTokens[inputTokenIndex])){
+          
+          console.log('Event Match Found');
+          console.log(eventNameTokens);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundEvent = true;
+        }
+
+        if(eventDiscount == inputTokens[inputTokenIndex]){
+          console.log('Discount Match Found');
+          console.log(eventDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
+        
+      }
+
+      if(foundEvent || foundDiscount){
+        console.log("foundEvent: ",foundEvent);
+        console.log("foundDiscount: ",foundDiscount);
+        
+        filteredEvents.push(this.eventarr[eventIndex]);
+     }
+      
+    }
+    this.filterTypeEv = 'yes';
+    console.log("filteredEvents: ",filteredEvents); 
+    this.eventarr = filteredEvents;
+
+    if(filteredEvents.length == 0){
+      this.noevent = 1;
     }
     
   };
@@ -742,9 +848,17 @@ export class HomePage implements OnInit {
     this.noevenu = 0;
   }
 
+  removeReservationFilter() {
+    // this.HideFilter();
+    this.reservationFilter = "no";
+    this.filteredReservationsArr = this.reservationsArr;
+    this.noReservations = 0;
+  }
+
   clearFilterEv(){
     this.filterTypeEv = 'no'
-    this.eventarr = this.eventsArrayCopy
+    this.eventarr = this.eventsArrayCopy;
+    this.noevent = 0;
   }
   
   userdata: any = "";

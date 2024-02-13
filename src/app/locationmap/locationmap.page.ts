@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   Renderer2,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -23,6 +24,7 @@ import { Keyboard } from '@capacitor/keyboard';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
+import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -326,7 +328,8 @@ export class LocationmapPage implements OnInit {
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   showCategories = false;
   showDetail = false;
-
+  yourVoiceInput = '';
+  listener: boolean = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -335,6 +338,7 @@ export class LocationmapPage implements OnInit {
     private geoCoder: MapGeocoder,
     private platform:Platform,
     private mapDirectionsService: MapDirectionsService,
+    private changeDetectorRef: ChangeDetectorRef,
     // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
@@ -352,6 +356,176 @@ export class LocationmapPage implements OnInit {
     // });
     
     
+  }
+
+  async startSpeechRecognition(){
+    
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      SpeechRecognition.stop();
+    }
+
+    this.venuarr = this.venuarrOrg;
+
+    this.yourVoiceInput = '';
+    console.log('startSpeechRecognition');
+    
+    const {available} = await SpeechRecognition.available();
+    console.log('availability res: ',available);
+
+    if(available){
+      this.listener = true;
+
+      SpeechRecognition.start({
+        language: "en-US",
+        popup: false,
+        partialResults:true,
+      });
+
+      SpeechRecognition.addListener("partialResults", async (data: any) => {
+        console.log("partialResults was fired", data.matches);
+        if(data.matches && data.matches.length > 0){  
+          this.yourVoiceInput = data.matches[0];
+          this.changeDetectorRef.detectChanges();
+          
+        }
+      }).then((res: any) => {});
+    }
+  }
+
+  async stopSpeechRecognition(){
+    console.log('stopSpeechRecognition');
+    
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      SpeechRecognition.stop();
+    }
+    // this.yourVoiceInput = 'Pizza shopp having 30% off';
+    if(this.yourVoiceInput !='' ){
+      // setTimeout(() => {
+        this.dismissModal();  
+      // }, 1500);
+      
+      this.findResults();
+    }
+  }
+
+  findResults(){
+    this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
+    let tokens = this.yourVoiceInput.split(/\s+/);
+    console.log(tokens);
+    
+    this.findVenueAndDiscount(tokens);
+    
+  }
+
+  findVenueAndDiscount = (inputTokens:string[]) => {
+    let filteredVenues = [];
+    let foundVenue = false;
+    let foundDiscount = false;
+    let venueName:string = '';
+    let venuNameTokens = [];
+    let venuDiscount = '';
+    // setTimeout(() => {
+    //   this.rest.presentLoaderWd();  
+    // }, 1000);
+    
+    for (let venueIndex = 0; venueIndex < this.venuarr.length; venueIndex++) {
+      foundDiscount = false;
+      foundVenue = false;
+      
+      venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      console.log("venuDiscount: ",venuDiscount);
+      
+      venueName = this.venuarr[venueIndex].name.toLowerCase();
+      venuNameTokens = venueName.split(/\s+/);
+
+      console.log(venuNameTokens);
+
+      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
+
+        if(venuNameTokens.includes(inputTokens[inputTokenIndex])){
+          
+          console.log('Venue Match Found');
+          console.log(venuNameTokens);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundVenue = true;
+        }
+
+        if(venuDiscount == inputTokens[inputTokenIndex]){
+          console.log('Discount Match Found');
+          console.log(venuDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
+        
+      }
+
+      if(foundVenue || foundDiscount){
+        console.log("foundVenue: ",foundVenue);
+        console.log("foundDiscount: ",foundDiscount);
+        
+        filteredVenues.push(this.venuarr[venueIndex]);
+     }
+      
+    }
+    this.filtertype = 'yes';
+    console.log("filteredVenues: ",filteredVenues); 
+    this.venuarr = filteredVenues;
+    this.setMarkersForFoundVenues(filteredVenues);
+  };
+
+  setMarkersForFoundVenues = (foundVenues:any) => {
+    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showDetail = false;
+    this.map.googleMap?.setZoom(13);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
+    this.venuarr = [];
+    this.markers = [];
+    console.log("Venuarr foundVenues: ",foundVenues);
+    
+    for (var i = 0; i < foundVenues.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(foundVenues[i].lattitude),
+          lng: parseFloat(foundVenues[i].longitude),
+        },
+        title: "" + foundVenues[i].public_check_ins,
+        name: foundVenues[i].name,
+        venueId: foundVenues[i].venues_id,
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+
+      this.venuarr.push(obj);
+    }
+
+    this.markers = this.venuarr;
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
+    this.showCategories = false;
+  }
+
+  dismissModal(){
+    this.modalCtrl.dismiss();
   }
 
   async openModal() {
@@ -537,36 +711,37 @@ export class LocationmapPage implements OnInit {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
-    console.log("this.venuarr",this.venuarr);
+    this.setMarkersAgain();
+    // console.log("this.venuarr",this.venuarr);
     
-    var newVenuArr = [];
-    for (var i = 0; i < this.venuarr.length; i++) {
-      var obj = {
-        position: {
-          lat: parseFloat(this.venuarr[i].lattitude),
-          lng: parseFloat(this.venuarr[i].longitude),
-        },
-        title: "" + this.venuarr[i].public_check_ins,
-        name: this.venuarr[i].name,
-        options: {
-          animation: google.maps.Animation.DROP,
-          draggable: false,
-          icon: {
-            url: "assets/imgs/locpin2.svg",
-            size: {
-              height: 120,
-              width: 30,
-            },
-          },
-        },
-      };
+    // var newVenuArr = [];
+    // for (var i = 0; i < this.venuarr.length; i++) {
+    //   var obj = {
+    //     position: {
+    //       lat: parseFloat(this.venuarr[i].lattitude),
+    //       lng: parseFloat(this.venuarr[i].longitude),
+    //     },
+    //     title: "" + this.venuarr[i].public_check_ins,
+    //     name: this.venuarr[i].name,
+    //     options: {
+    //       animation: google.maps.Animation.DROP,
+    //       draggable: false,
+    //       icon: {
+    //         url: "assets/imgs/locpin2.svg",
+    //         size: {
+    //           height: 120,
+    //           width: 30,
+    //         },
+    //       },
+    //     },
+    //   };
 
-      newVenuArr.push(obj);
-    }
+    //   newVenuArr.push(obj);
+    // }
 
-    this.venuarr = [];
-    this.venuarr = newVenuArr;
-    this.markers = this.venuarr;
+    // this.venuarr = [];
+    // this.venuarr = newVenuArr;
+    // this.markers = this.venuarr;
     
   }
 
