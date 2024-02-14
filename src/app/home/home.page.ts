@@ -69,7 +69,7 @@ export class HomePage implements OnInit {
   }
   
   ngOnInit() {
-    
+    this.segmentModel = 'venu';
   }
 
   getClaimedVenues(){
@@ -601,11 +601,6 @@ export class HomePage implements OnInit {
     
     this.getVenuesSuggested(opt);
     this.setClaimedVenueRemTime();
-    
-    // this.HideFilter();
-    // console.log(opt);
-    // this.rest.detail = opt;
-    // // this.router.navigate(["venuedetail"]);
   }
 
   
@@ -724,11 +719,7 @@ export class HomePage implements OnInit {
   }
 
   goToReservationDetail(ev: any) {
-    // this.venueList = [];
-          // this.HideFilter();
-          // console.log("opt: ",opt);
-          // this.rest.detail = opt;
-          // this.router.navigate(["venuedetail"]);
+    this.setClaimedVenueRemTime();
     console.log(ev);
     this.rest.detail = ev;
     this.rest.comingFrom = 'home';
@@ -874,7 +865,7 @@ export class HomePage implements OnInit {
   records_limit: any = 0;
   
   ionViewWillEnter() {
-    this.segmentModel = 'venu';
+
     this.getSystemSettings();
     this.getCurrentPosition();
     this.filtertype = "no";

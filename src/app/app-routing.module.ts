@@ -248,6 +248,14 @@ const routes: Routes = [
     path: 'discounts',
     loadChildren: () => import('./discounts/discounts.module').then( m => m.DiscountsPageModule)
   },
+  {
+    path: 'add-review',
+    loadChildren: () => import('./add-review/add-review.module').then( m => m.AddReviewPageModule)
+  },
+  {
+    path: 'reviews',
+    loadChildren: () => import('./reviews/reviews.module').then( m => m.ReviewsPageModule)
+  },
  
 
 ];
