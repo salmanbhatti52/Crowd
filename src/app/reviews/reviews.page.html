@@ -1,13 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>reviews</ion-title>
+<ion-header>
+  <ion-toolbar class="bg paddingtop">
+    <ion-row>
+      <ion-col size="2" class="centerall"
+        ><img
+          (click)="goBack()"
+          style="height: 25px; width: 25px"
+          src="assets/imgs/backbtn.svg"
+        />
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-label class="titlefont work_sans">Reviews</ion-label>
+      </ion-col>
+      <ion-col class="centerall" size="2"> </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">reviews</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content style="--background: #262626;" >
+  <div class="container">
+    <div class="work_sans" style="color: white;text-align: center;margin-top: 50%;" *ngIf="reviews.length == 0">No Reviews Found.</div>
+    <div *ngFor="let rev of reviews;">
+      <div  style="display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-top: 9px;">
+      <div >
+        <img *ngIf="rev.user_profile.profile_picture != null" style="height: 35px;
+        width: 35px;
+        border-radius: 90px;
+        object-fit: cover;" src="{{rest.baseURLimg}}{{rev.user_profile.profile_picture}}" alt="">
+        <img *ngIf="rev.user_profile.profile_picture == null" src="../../assets/imgs/review_avatar.svg" alt="">
+      </div>
+      <div style="width: 85%;">
+        <div class="work_sans" style="font-size: 12px;
+        font-weight: 300;
+        color: white;">{{rev.review}}</div>
+        <div class="work_sans" style="font-size: 14px;
+        font-weight: 300;
+        color: white;">{{rev.review_ratings}} <span><img src="../../assets/imgs/rating_star.svg" alt=""></span></div>
+      </div>
+      </div>
+      
+      <hr style="width: 90%;border-style: none;
+      border-top: 1px solid rgba(255,255,255,0.2);margin: 9px auto;">
+
+    </div>
+  </div>
+  
+
 </ion-content>

@@ -6,7 +6,7 @@ import { ModalController } from "@ionic/angular";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { IonItemSliding, Platform } from "@ionic/angular";
 // import * as moment from "moment";
-import { eachMinuteOfInterval, format, parseISO } from 'date-fns';
+import { eachMinuteOfInterval, format, getDay, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-discounts',
@@ -99,94 +99,36 @@ export class DiscountsPage implements OnInit {
     let specialOffers: any = [];
     let discountClaimedStatus = '';
     let foundVenue: any = "";
-    
-    // if(this.claimedVenues.length > 0 ) {
-    //   for(let claimedVenue of this.claimedVenues){
-    //     discountClaimedStatus = '';
-    //     foundVenue = undefined;
-        
-    //     // if(claimedVenue.remaining_time != null){
-    //       for(let offerVenue of this.specialOffersArr){
-    //         if(claimedVenue.venues_id == offerVenue.venues_id){
-    //           if(claimedVenue.remaining_time == null){
-    //             // offerVenue.remaining_time = claimedVenue.remaining_time;
-    //             discountClaimedStatus = 'false';
-    //             offerVenue.discount_token = null;
-    //             foundVenue = offerVenue;
-                
-    //           }else{
-    //             offerVenue.remaining_time = claimedVenue.remaining_time;
-    //             discountClaimedStatus = 'true';
-    //             offerVenue.discount_token = claimedVenue.claimed_token;
-    //             foundVenue = offerVenue;
-                
-    //         }
-    //           // console.log(offerVenue.venues_id);
-    //           // console.log(claimedVenue.venues_id);
-              
-    //         }
-    //       }
-  
-    //       if(discountClaimedStatus == 'true'){
-    //         inQueueVenues.push(foundVenue);
-    //       }else if(discountClaimedStatus == 'false'){
-    //         specialOffers.push(foundVenue);
-    //       }else{
-    //         // console.log(claimedVenue.venues_id);
-            
-    //         console.log("else---else");
-    //       }
-    //     // }
-        
-        
-    //   }
-    //   this.orderd_specialOffersArr = specialOffers;
-    //   this.inQueueVenuesArr = inQueueVenues;
-
-    //   console.log("inQueueVenuesArr: ",this.inQueueVenuesArr);
-    //   console.log("orderd_specialOffersArr: ",this.orderd_specialOffersArr);
-      
-    // }
 
     if(this.claimedVenues.length > 0 ) {
       for(let offerVenue of this.specialOffersArr){
         discountClaimedStatus = '';
         foundVenue = undefined;
         
-        // if(claimedVenue.remaining_time != null){
-          for(let claimedVenue of this.claimedVenues){
-            if(claimedVenue.venues_id == offerVenue.venues_id){
-              if(claimedVenue.remaining_time == null){
-                // offerVenue.remaining_time = claimedVenue.remaining_time;
-                discountClaimedStatus = 'false';
-                offerVenue.discount_token = null;
-                foundVenue = offerVenue;
-                
-              }else{
-                // offerVenue.remaining_time = claimedVenue.remaining_time;
-                discountClaimedStatus = 'true';
-                offerVenue.discount_token = claimedVenue.claimed_token;
-                foundVenue = offerVenue;
-                
-            }
-              // console.log(offerVenue.venues_id);
-              // console.log(claimedVenue.venues_id);
+        for(let claimedVenue of this.claimedVenues){
+          if(claimedVenue.remaining_time != null){
+            if(offerVenue.venues_id == claimedVenue.venues_id){
               
+              discountClaimedStatus = 'true';
+              offerVenue.discount_token = claimedVenue.claimed_token;
+              foundVenue = offerVenue;
+              break;
+                
+            }else{
+              discountClaimedStatus = 'false';
+              offerVenue.discount_token = null;
+              foundVenue = offerVenue;
             }
           }
-  
-          if(discountClaimedStatus == 'true'){
-            inQueueVenues.push(foundVenue);
-          }else if(discountClaimedStatus == 'false'){
-            specialOffers.push(foundVenue);
-          }else{
-            // console.log(claimedVenue.venues_id);
-            
-            console.log("else---else");
-          }
-        // }
-        
-        
+        }
+
+        if(discountClaimedStatus == 'true'){
+          inQueueVenues.push(foundVenue);
+        }else if(discountClaimedStatus == 'false'){
+          specialOffers.push(foundVenue);
+        }else{
+          console.log("else---else");
+        }
       }
       this.orderd_specialOffersArr = specialOffers;
       this.inQueueVenuesArr = inQueueVenues;
@@ -266,6 +208,11 @@ export class DiscountsPage implements OnInit {
       
       if (res.status == "success") {
         this.specialOffersArr = res.data;
+        let dayNumber = getDay(new Date());
+        for(let venue of this.specialOffersArr){
+          venue.start_hours = venue.venue_timing[dayNumber].start_hours;
+          venue.close_hours = venue.venue_timing[dayNumber].close_hours;
+        }
         this.getClaimedVenues();
       }
     });
@@ -288,42 +235,5 @@ export class DiscountsPage implements OnInit {
       return val.substring(0,5);
     }
   }
-
-  // closeslide(slidingItem: IonItemSliding) {
-  //   this.dismiss();
-  //   // this.num = 0;
-  //   slidingItem.close();
-  // }
-
-  // async cancelBooking(aa: any) {
-  //   this.rest.selectedBooking = aa;
-  //   console.log("model");
-  //   this.rest.comingFrom = "myreservation";
-  //   const modal = await this.modalCtrl.create({
-  //     component: CancelbookPage,
-  //     cssClass: "riz",
-  //   });
-  //   modal.onDidDismiss().then((data) => {
-  //     console.log("aaaaaaaaaaaaaa");
-  //     this.ionViewWillEnter();
-
-  //     const user = data["data"]; // Here's your selected user!
-  //   });
-
-  //   await modal.present();
-  // }
-
- 
-  // gotoEventDetails(data:any){
-  //   this.rest.detail = data;
-  //   console.log('this.rest.detail: ',this.rest.detail);
-    
-  //   this.router.navigate(['/event-detail']);
-  // }
-
-  // editbooking(aa: any) {
-  //   this.rest.selectedBooking = aa;
-  //   this.router.navigate(["editbooking"]);
-  // }
 
 }

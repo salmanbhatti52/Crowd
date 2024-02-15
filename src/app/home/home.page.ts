@@ -902,21 +902,6 @@ export class HomePage implements OnInit {
     console.log("lattitude ", this.latitude );
     
     
-    this.rest.events(ss).subscribe((res: any) => {
-      console.log("events---", res);
-      this.rest.dismissLoader();
-      if (res.status == "success") {
-        this.eventarr = res.data.sort((a: any, b: any) => {
-          // console.log("test");
-          return a.distance - b.distance;
-        });
-        this.eventsArrayCopy = this.eventarr
-      } else {
-        // this.rest.presentToast(res.message);
-        this.noevent = 1;
-      }
-    });
-    
     this.rest.venues(ss).subscribe((res: any) => {
       console.log("venues---", res);
       
@@ -971,6 +956,23 @@ export class HomePage implements OnInit {
           this.noReservations = 1;
         }
     });
+    
+    this.rest.events(ss).subscribe((res: any) => {
+      console.log("events---", res);
+      this.rest.dismissLoader();
+      if (res.status == "success") {
+        this.eventarr = res.data.sort((a: any, b: any) => {
+          // console.log("test");
+          return a.distance - b.distance;
+        });
+        this.eventsArrayCopy = this.eventarr
+      } else {
+        // this.rest.presentToast(res.message);
+        this.noevent = 1;
+      }
+    });
+    
+   
     
 
   }

@@ -14,7 +14,7 @@
       </ion-col>
       <ion-col size="4" style="text-align: center"> </ion-col>
       <ion-col size="6" style="text-align: right">
-        <img
+        <img *ngIf="detailObj.discount_percentage != null"
           (click)="goToProfile()"
           style="height: 25px; width: 25px; margin-right: 15px"
           src="assets/imgs/user.svg"
@@ -22,13 +22,13 @@
 
         <img
           (click)="likevenu()"
-          *ngIf="detailObj.likes==0"
+          *ngIf="detailObj.likes==0 && detailObj.discount_percentage != null"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartww.svg"
         />
         <img
           (click)="likeoutvenu()"
-          *ngIf="detailObj.likes==1"
+          *ngIf="detailObj.likes==1 && detailObj.discount_percentage != null"
           style="height: 25px; width: 25px; margin-right: 10px"
           src="assets/imgs/heartactive.svg"
         />
@@ -96,11 +96,11 @@
             style="height: 15px; margin-right: 10px; width: 12px"
             src="assets/imgs/watch.svg"
           />
-          <p class="work_sans titlesub">Open till {{detailObj.close_hours}}</p>
+          <p class="work_sans titlesub">{{getTime(detailObj.start_hours)}} - {{getTime(detailObj.close_hours)}}</p>
         </div>
       </ion-col>
       <ion-col size="3" style="display: flex; justify-content: flex-end">
-        <ion-badge class="bdgw">
+        <ion-badge class="bdgw" *ngIf="detailObj.discount_percentage != null">
           <img style="margin-right: 7px" src="assets/imgs/g.svg" />
           <span style="color:#262626">{{detailObj.googleRating}}</span>
           <img style="height: 11px; margin-left: 5px" src="assets/imgs/s.svg" />
@@ -112,7 +112,7 @@
       <ion-col size="8" style="display: flex; align-items: center">
         <p class="work_sans titlesub">{{detailObj.location}}</p>
       </ion-col>
-      <ion-col *ngIf="detailObj.venues_id != null"
+      <ion-col *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null"
         size="4"
         style="display: flex; align-items: center; justify-content: flex-end"
       >
@@ -151,7 +151,7 @@
         /></a>
       </div>
 
-      <div *ngIf="detailObj.venues_id != null"
+      <div *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null"
         (click)="goToSee()"
         style="
           border: 1px solid #ffffff;
@@ -207,7 +207,7 @@
 
     <div class="rem_time work_sans" *ngIf="detailObj.remaining_time" >{{detailObj.remaining_time}} Remaining</div>
 
-    <div *ngIf="detailObj.venues_id != null">
+    <div *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null" >
       <ion-button
         (click)="bookTable()"
         style="margin-top: 20px;"
@@ -217,6 +217,49 @@
     </div>
 
     <p class="work_sans des">{{detailObj.description}}</p>
+
+    <div *ngIf="detailObj.discount_percentage == null" style="display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 13px;">
+      <div class="work_sans" style="font-size: 16px;
+      font-weight: 400;
+      color: white;">Reviews</div>
+      <div class="work_sans" style="font-size: 14px;
+      font-weight: 400;
+      color: white;
+      text-decoration: underline;" (click)="showAllReviews()">View All</div>
+    </div>
+
+    <div *ngIf="detailObj.discount_percentage == null && reviews.length>0" style="display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 9px;">
+      <div>
+        <img *ngIf="reviews[0].user_profile.profile_picture != null" style="height: 35px;
+        width: 35px;
+        border-radius: 90px;
+        object-fit: cover;" src="{{rest.baseURLimg}}{{reviews[0].user_profile.profile_picture}}" alt="">
+        <img *ngIf="reviews[0].user_profile.profile_picture == null" src="../../assets/imgs/review_avatar.svg" alt="">
+      </div>
+      <div style="width: 85%;">
+        <div class="work_sans" style="font-size: 12px;
+        font-weight: 300;
+        color: white;">{{reviews[0].review}}</div>
+        <div class="work_sans" style="font-size: 14px;
+        font-weight: 300;
+        color: white;">{{reviews[0].review_ratings}} <span><img src="../../assets/imgs/rating_star.svg" alt=""></span></div>
+      </div>
+    </div>
+
+    <div *ngIf="detailObj.discount_percentage == null" >
+      <ion-button
+        (click)="goForAddReview()"
+        style="margin-top: 20px;"
+        class="btnwhite work_sans"
+        >Add Review</ion-button
+      >
+    </div>
   </div>
 </ion-content>
 

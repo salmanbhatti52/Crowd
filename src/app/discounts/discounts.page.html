@@ -75,100 +75,6 @@
     </ion-segment>
   </div>
 
-  <!-- <div
-  class="paddingtop"
-    style="
-      /* padding-top: 15px; */
-      display: flex;
-      flex-wrap: wrap;
-      width: 96%;
-      margin-top: 8px;
-      margin-left: 3%;
-      padding-bottom: 20px;
-    "
-    *ngIf="segmentModel === 'In Queue'"
-  >
-  <div *ngFor="let aa of orderd_upcomingArr">
-    <div class="elementBg" *ngIf="aa.ticket.length> 0">
-      <img  (click)="gotoEventDetails(aa)"
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="{{rest.baseURLimg}}{{aa.events_images.name}}"
-      />
-      
-
-      <div>
-        <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{aa.events.event_date }} </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
-          <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">
-            {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <div
-  class="paddingtop"
-    style="
-      display: flex;
-      flex-wrap: wrap;
-      width: 96%;
-      margin-top: 8px;
-      margin-left: 3%;
-      padding-bottom: 20px;
-    "
-    *ngIf="segmentModel === 'Claimed'"
-  >
-    <div class="elementBg" *ngFor="let aa of orderd_previousArr">
-      <img
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="{{rest.baseURLimg}}{{aa.events_images.name}}"
-      />
-
-      <div>
-        <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{aa.events.event_date }} </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
-          <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">
-            {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
   <div
   class="paddingtop"
     style="
@@ -213,8 +119,8 @@
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
             <p class="date work_sans">
-              <!-- {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}} -->
-              8:00PM - 10:00PM
+              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
+              <!-- 8:00PM - 10:00PM -->
             </p>
           </div>
 
@@ -269,8 +175,8 @@
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
             <p class="date work_sans">
-              <!-- {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}} -->
-              8:00PM - 10:00PM
+              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
+              <!-- 8:00PM - 10:00PM -->
             </p>
           </div>
 

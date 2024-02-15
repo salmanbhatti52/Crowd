@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
-import { eachMinuteOfInterval } from "date-fns";
+import { eachMinuteOfInterval, getDate, getDay } from "date-fns";
 
 @Component({
   selector: "app-venuedetail",
@@ -20,6 +20,7 @@ export class VenuedetailPage implements OnInit {
   userID: any = "";
   discountToken:any;
   hideClaimDiscountButton: boolean = false;
+  reviews:any = [];
   constructor(
     public router: Router,
     public location: Location,
@@ -38,11 +39,42 @@ export class VenuedetailPage implements OnInit {
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.updatevVisitor();
+    this.getVenueReviews();
+  }
+
+  getVenueReviews(){
+    let data = {
+      users_customers_id:this.userID,  
+      venues_id:this.detailObj.venues_id
+    }
+    this.rest.presentLoader();
+    this.rest.sendRequest('get_reviews',data ).subscribe((res: any)=>{
+      this.rest.dismissLoader();
+      console.log(res);
+      if(res.status == 'success'){
+        this.reviews = res.data;
+      }
+      
+    });
+  }
+
+  showAllReviews(){
+    this.router.navigate(['/reviews'],{queryParams: {venueId: this.detailObj.venues_id, userId: this.userID}});
+  }
+
+  goForAddReview(){
+    this.router.navigate(['/add-review'],{queryParams:{venueId:this.detailObj.venues_id}});
   }
 
   ngOnInit() {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
+    console.log("discountPercentage: ",this.detailObj.discount_percentage);
+    
+    let dayNumber = getDay(new Date());
+    console.log(dayNumber);
+    this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
+    this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
     console.log("claimedVenues: ",this.rest.claimedVenues);
     if(this.detailObj.discount_percentage > 0 ){
       for(let venue of this.rest.claimedVenues){
@@ -71,12 +103,18 @@ export class VenuedetailPage implements OnInit {
     }else{
       this.hideClaimDiscountButton = false;
     }
+
+
     
     // this.userdata = localStorage.getItem("userdata");
     // console.log("userdata----", this.userdata);
     // this.userID = JSON.parse(this.userdata).users_customers_id;
 
     
+  }
+
+  getTime(val:any){
+    return val.substring(0,5);
   }
 
   goBack() {
