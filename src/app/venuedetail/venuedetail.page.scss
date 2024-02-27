@@ -266,9 +266,9 @@ color: #FFFFFF;
 }
 
 .titlemain{
-  margin-bottom: 8px;
+  // margin-bottom: 8px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 20px;
   line-height: 23px;
   text-transform: capitalize;
@@ -310,6 +310,24 @@ p {
   color: #FFFFFF;
 
 }
+
+.star_margin{
+  margin-right: 10px;
+  height: 14px;
+  width: 14px;
+  vertical-align: baseline;
+}
+
+.rating_text{
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
+}
+
+.margin_row{
+padding-left: 11px;
+}
+
 .hide{
   display: none;
 }

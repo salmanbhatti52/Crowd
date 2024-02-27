@@ -16,6 +16,14 @@ export class VenuedetailPage implements OnInit {
   displaydiv = false;
   // num = 0;
 
+  rateStar1 = false;
+  rateStar2 = false;
+  rateStar3 = false;
+  rateStar4 = false;
+  rateStar5 = false;
+
+  ratingValue:any = 0.0;
+
   userdata: any = "";
   userID: any = "";
   discountToken:any;
@@ -38,6 +46,7 @@ export class VenuedetailPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
+    this.ratingValue = this.ratingValue.toFixed(1);
     this.updatevVisitor();
     this.getVenueReviews();
   }
@@ -57,6 +66,7 @@ export class VenuedetailPage implements OnInit {
       
     });
   }
+
 
   showAllReviews(){
     this.router.navigate(['/reviews'],{queryParams: {venueId: this.detailObj.venues_id, userId: this.userID}});
@@ -114,6 +124,7 @@ export class VenuedetailPage implements OnInit {
   }
 
   getTime(val:any){
+    
     return val.substring(0,5);
   }
 

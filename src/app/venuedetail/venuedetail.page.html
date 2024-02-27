@@ -75,10 +75,28 @@
   </div>
 
   <div style="width: 90%; margin: 5% auto">
-    <p class="titlemain work_sans">{{detailObj.name}}</p>
-    <!-- <p class="titlemain2 work_sans">{{detailObj.name2}}</p> -->
-
-    <ion-row>
+    <div *ngIf="detailObj.discount_percentage == null" style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 16px;">
+      <div style="width: 48%;" class="titlemain work_sans">{{detailObj.name}}</div>
+      <!-- <p class="titlemain2 work_sans">{{detailObj.name2}}</p> -->
+      <div style="display: flex;align-items:center;">
+        <div class="rating_text work_sans">{{ratingValue}}</div>
+        <div class="margin_row">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue==0">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>0 "   >
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<=1">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>1 "   >
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<=2">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>2 ">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<=3">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>3 ">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<=4">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>4 ">
+        </div>
+      </div>
+      
+    </div>
+    <div *ngIf="detailObj.discount_percentage != null" style="margin-bottom: 16px;" class="titlemain work_sans">{{detailObj.name}}</div>
+    <ion-row style="margin-bottom: 16px;">
       <ion-col size="4" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
@@ -108,7 +126,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 0px">
+    <ion-row style="margin-top: 0px;margin-bottom: 16px;" >
       <ion-col size="8" style="display: flex; align-items: center">
         <p class="work_sans titlesub">{{detailObj.location}}</p>
       </ion-col>
@@ -126,7 +144,7 @@
 
     <div
       style="
-        margin-top: 15px;
+        margin-bottom: 16px;
         display: flex;
         align-items: center;
         justify-content: space-between;
