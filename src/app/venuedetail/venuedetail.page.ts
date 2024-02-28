@@ -46,7 +46,7 @@ export class VenuedetailPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.ratingValue = this.ratingValue.toFixed(1);
+    
     this.updatevVisitor();
     this.getVenueReviews();
   }
@@ -63,7 +63,13 @@ export class VenuedetailPage implements OnInit {
       if(res.status == 'success'){
         this.reviews = res.data;
       }
-      
+      let reviewsSum = 0;
+      for(let review of this.reviews){
+        reviewsSum += Number(review.review_ratings);
+      }
+      console.log('reviewsSum',reviewsSum);
+      this.ratingValue = reviewsSum/this.reviews.length;
+      this.ratingValue = this.ratingValue.toFixed(1);
     });
   }
 

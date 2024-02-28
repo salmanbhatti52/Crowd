@@ -61,7 +61,7 @@ export class DiscountsPage implements OnInit {
     let seconds = 59;
     let totalMinutes = 0;
 
-    if(this.claimedVenues.length){
+    if(this.claimedVenues.length>0){
       for(let venue of this.claimedVenues){
         const resultMinutes = eachMinuteOfInterval({
           start: new Date(venue.claimed_date),
@@ -91,7 +91,9 @@ export class DiscountsPage implements OnInit {
       // this.rest.claimedVenues = this.claimedVenues;
       console.log("claimed venues: ",this.claimedVenues);
       this.setVenueDiscountStatus(); 
-    }
+    }else if(this.claimedVenues.length == 0){
+      this.orderd_specialOffersArr = this.specialOffersArr;
+    }else{}
   }
 
   setVenueDiscountStatus(){
@@ -100,7 +102,7 @@ export class DiscountsPage implements OnInit {
     let discountClaimedStatus = '';
     let foundVenue: any = "";
 
-    if(this.claimedVenues.length > 0 ) {
+    // if(this.claimedVenues.length > 0 ) {
       for(let offerVenue of this.specialOffersArr){
         discountClaimedStatus = '';
         foundVenue = undefined;
@@ -136,7 +138,7 @@ export class DiscountsPage implements OnInit {
       console.log("inQueueVenuesArr: ",this.inQueueVenuesArr);
       console.log("orderd_specialOffersArr: ",this.orderd_specialOffersArr);
       
-    }
+    // }
    
   }
 
@@ -185,13 +187,10 @@ export class DiscountsPage implements OnInit {
     // console.log("else---else", this.num);
   }
 
-  
-
   dismiss() {
     this.displaydiv = false;
     console.log("dragggggg");
   }
-
 
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
@@ -204,7 +203,7 @@ export class DiscountsPage implements OnInit {
     };
     this.rest.presentLoaderWd();
     this.rest.sendRequest("special_offers",ss).subscribe((res: any) => {
-      console.log("special_offers------", res);
+      console.log("special_offers--", res);
       
       if (res.status == "success") {
         this.specialOffersArr = res.data;
@@ -217,9 +216,6 @@ export class DiscountsPage implements OnInit {
       }
     });
   }
-
-  
-
  
   goBack() {
     this.router.navigate(['/profile']);
@@ -230,6 +226,7 @@ export class DiscountsPage implements OnInit {
   getDate(aa: any) {
     return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
   }
+
   getTime(val:any){
     if(val){
       return val.substring(0,5);
