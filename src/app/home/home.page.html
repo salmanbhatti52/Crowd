@@ -22,17 +22,17 @@
       <p
         style="margin-bottom: 8px"
         class="filtertext"
-        (click)="showHideFilter('Quite')"
+        (click)="showHideFilter('Quiet')"
       >
-        Quite
+        Quiet
       </p>
     </div>
     <ion-row>
       <ion-col size="2" style="text-align: center">
-        <!-- (click)="showHideFilterN()" -->
+       
         <img
           *ngIf="segmentModel == 'venu'"
-          
+          (click)="showHideFilterN()" 
           style="height: 25px; width: 25px"
           src="assets/imgs/treeeline.svg"
         />
@@ -72,7 +72,7 @@
             --border-radius: 20px;
             --background-checked: #611ea5;
           "
-          value="venu"
+          value="venu" (click)="getVenues()"
         >
           <ion-label>Venues</ion-label>
         </ion-segment-button>
@@ -86,11 +86,13 @@
             --background-checked: #262626;
           "
           value="reservation"
+          (click)="getReservations()"
         >
           <ion-label>Reservations</ion-label>
         </ion-segment-button>
 
         <ion-segment-button
+        (click)="getEvents()"
           style="
             --indicator-color: linear-gradient(
               89.73deg,

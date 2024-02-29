@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
@@ -34,7 +34,8 @@ export class VenuedetailPage implements OnInit {
     public location: Location,
     public rest: RestService,
     public platform: Platform,
-    public iab: InAppBrowser
+    public iab: InAppBrowser,
+    public changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ionViewWillEnter() {
@@ -48,7 +49,10 @@ export class VenuedetailPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     
     this.updatevVisitor();
-    this.getVenueReviews();
+    if(this.detailObj.discount_percentage == null){
+      this.getVenueReviews();
+    }
+    
   }
 
   getVenueReviews(){
@@ -59,10 +63,13 @@ export class VenuedetailPage implements OnInit {
     this.rest.presentLoader();
     this.rest.sendRequest('get_reviews',data ).subscribe((res: any)=>{
       this.rest.dismissLoader();
-      console.log(res);
+      // this.changeDetectorRef.detectChanges();
+
+      console.log("reviews res:",res);
       if(res.status == 'success'){
         this.reviews = res.data;
       }
+      
       let reviewsSum = 0;
       for(let review of this.reviews){
         reviewsSum += Number(review.review_ratings);

@@ -1,5 +1,5 @@
 import { FilterPage } from "./../filter/filter.page";
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
 import { Router } from "@angular/router";
 import { IonContent, ModalController } from "@ionic/angular";
 // import { AnyARecord } from "dns";
@@ -57,6 +57,9 @@ export class HomePage implements OnInit {
   listener: boolean = false;
   ai = "";
   aiToggleChecked: boolean = false;
+  currentLat:any;
+  currentLong:any;
+  intervalId:any;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -66,6 +69,41 @@ export class HomePage implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.requestPermissions();
+    
+  }
+
+  // ionViewWillLeave() {
+  //   clearInterval(this.intervalId);
+  // }
+
+  alwaysSendCurrentLocation() {
+    this.intervalId = setInterval(()=>{
+      this.alwaysGetCurrentPosition();
+    }, 12000);
+  }
+
+  async alwaysGetCurrentPosition() {
+    const getCurrentLocation = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+    });
+    console.log("Current Location: ", getCurrentLocation);
+    this.currentLat = getCurrentLocation.coords.latitude;
+    this.currentLong = getCurrentLocation.coords.longitude;
+    console.log("getCurrentPositionCalled");
+    
+    console.log("currentLat: ", this.currentLat);
+    console.log("currentLong: ", this.currentLong);
+
+    let data = {
+      customer_id:this.userID,  
+      current_longitude:this.currentLong,
+      current_latitude:this.currentLat
+    }
+    this.rest.sendRequest('updateLocation',data).subscribe((res:any)=>{
+      console.log('send current location res: ',res);
+    });
+    
+  
   }
   
   ngOnInit() {
@@ -141,16 +179,6 @@ export class HomePage implements OnInit {
       }).then((res: any) => {});
     }
   }
-
-  // async startSpeechRecognitionForVenue(){
-    
-  // }
-
-  // async startSpeechRecognitionForReservation(){
-  // }
-
-  // startSpeechRecognitionForEvent(){
-  // }
 
   async stopSpeechRecognition(){
     console.log('stopSpeechRecognition');
@@ -639,10 +667,10 @@ export class HomePage implements OnInit {
           this.router.navigate(["venuedetail"]);
         }
       },
-      (err) => {
-        this.rest.dismissLoader();
-        console.log("API Errror: ", err);
-      }
+      // (err) => {
+      //   this.rest.dismissLoader();
+      //   console.log("API Errror: ", err);
+      // }
     );
   }
 
@@ -868,6 +896,7 @@ export class HomePage implements OnInit {
 
     this.getSystemSettings();
     this.getCurrentPosition();
+    
     this.filtertype = "no";
     this.records_limit = localStorage.getItem("records_limit");
     this.noevent = 0;
@@ -876,9 +905,10 @@ export class HomePage implements OnInit {
     this.pageNumber = 1;
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.rest.presentLoader();
+    this.alwaysSendCurrentLocation();
     this.getClaimedVenues();
-
+    
+    this.getVenues();
     this.ai = JSON.parse(this.userdata).ai_feature;
 
     if (this.ai == "No") {
@@ -887,25 +917,33 @@ export class HomePage implements OnInit {
       this.aiToggleChecked = true;
       // this.aiToggleValue = "Yes";
     }
+    // console.log("localStorage longitude: ",localStorage.getItem("longitude"));
+    // console.log("localStorage lattitude: ",localStorage.getItem("lattitude"));
+    // console.log("longitude ", this.longitude);
+    // console.log("lattitude ", this.latitude );
+  }
 
+  getVenues(){
+    console.log('get venues called');
+    
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
       users_customers_id: this.userID,
       page_number: this.pageNumber,
     });
-    
-    console.log("payload: ", ss);
-    console.log("localStorage longitude: ",localStorage.getItem("longitude"));
-    console.log("localStorage lattitude: ",localStorage.getItem("lattitude"));
-    console.log("longitude ", this.longitude);
-    console.log("lattitude ", this.latitude );
-    
+
+    if(this.venuarr.length == 0){ 
+      this.rest.presentLoader();
+    }
     
     this.rest.venues(ss).subscribe((res: any) => {
       console.log("venues---", res);
-      
-      this.rest.dismissLoader();
+      if(this.venuarr.length == 0){
+        
+        this.rest.dismissLoader();
+      }
+
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
@@ -935,11 +973,30 @@ export class HomePage implements OnInit {
       }
       // this.initialize();
     });
+  }
 
+  getReservations(){
+    console.log('get Reservations called');
+
+    var ss = JSON.stringify({
+      longitude: localStorage.getItem("longitude"),
+      lattitude: localStorage.getItem("lattitude"),
+      users_customers_id: this.userID,
+      page_number: this.pageNumber,
+    });
+
+    if(this.filteredReservationsArr.length == 0){
+        
+      this.rest.presentLoader();
+    }
+    
     this.rest.reservations(ss).subscribe((res:any)=>{
       console.log("get reservations res: ",res);
+      if(this.filteredReservationsArr.length == 0){
+        
+        this.rest.dismissLoader();
+      }
       
-      this.rest.dismissLoader();
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
             res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
@@ -956,10 +1013,27 @@ export class HomePage implements OnInit {
           this.noReservations = 1;
         }
     });
+  }
+
+  getEvents(){
+    console.log('get Events called');
+
+    var ss = JSON.stringify({
+      longitude: localStorage.getItem("longitude"),
+      lattitude: localStorage.getItem("lattitude"),
+      users_customers_id: this.userID,
+      page_number: this.pageNumber,
+    });
+    if(this.eventarr.length == 0){ 
+      this.rest.presentLoader();
+    }
     
     this.rest.events(ss).subscribe((res: any) => {
       console.log("events---", res);
-      this.rest.dismissLoader();
+      if(this.eventarr.length == 0){
+        
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.eventarr = res.data.sort((a: any, b: any) => {
           // console.log("test");
@@ -971,15 +1045,11 @@ export class HomePage implements OnInit {
         this.noevent = 1;
       }
     });
-    
-   
-    
-
   }
 
   getSystemSettings(){
     this.rest.system_settings().subscribe((res:any)=>{
-      console.log("system_settings again:",res);
+      console.log("system_settings res: ",res);
       for (var i = 0; i < res.data.length; i++) {
         if (res.data[i].type == "reservation_feature") {
           this.reservationFeature = res.data[i].description;
@@ -1006,7 +1076,7 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       ev.target.complete();
     }, 1000);
-    this.rest.presentLoader();
+    
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
@@ -1014,7 +1084,7 @@ export class HomePage implements OnInit {
       page_number: this.pageNumber,
     });
     console.log("OnIonInfiniete data ss", ss);
-    
+    this.rest.presentLoaderWd();
     if(value == 'events'){
       this.rest.events(ss).subscribe((res: any) => {
         console.log("events---", res);
