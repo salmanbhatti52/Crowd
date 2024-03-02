@@ -141,6 +141,62 @@
       margin-left: 3%;
       padding-bottom: 20px;
     "
+    *ngIf="segmentModel === 'Claimed'"
+  >
+    <div class="elementBg" *ngFor="let aa of claimedVenuesArr" >
+      <div style="display: flex;align-items: center;">
+        <img
+          style="
+            width: 104px;
+            height: 104px;
+            border-radius: 16px;
+            margin-right: 10px;
+          "
+          src="{{rest.baseURLimg}}{{aa.cover_images}}"
+        />
+        
+        <div>
+          <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.name}}</div>
+          <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="assets/imgs/pinwhite.svg" />
+            <p class="bb work_sans">{{aa.distance | number : '1.2-2'}} Miles</p>
+          </div>
+
+          <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
+            <p class="date work_sans">{{aa.discount_token}} </p>
+          </div>
+
+          <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="assets/imgs/ccc.svg" />
+            <p class="date work_sans">{{aa.events.event_date }} </p>
+          </div> -->
+
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <img class="imm" src="assets/imgs/watch.svg" />
+            <p class="date work_sans">
+              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
+              <!-- 8:00PM - 10:00PM -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <div
+  class="paddingtop"
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      width: 96%;
+      margin-top: 8px;
+      margin-left: 3%;
+      padding-bottom: 20px;
+    "
     *ngIf="segmentModel === 'Special Offers'"
   >
     <div class="elementBg" *ngFor="let aa of orderd_specialOffersArr" >

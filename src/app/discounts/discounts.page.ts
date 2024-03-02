@@ -46,12 +46,11 @@ export class DiscountsPage implements OnInit {
       "users_customers_id":this.userID
     };
     this.rest.sendRequest('get_claimed_venues',data ).subscribe((res: any)=>{
-    console.log("get_claimed_venues",res);
-    if(res.status == 'success'){
-      this.claimedVenues = res.data;
-      this.setClaimedVenueRemTime();
-    }
-      
+      console.log("get_claimed_venues",res);
+      if(res.status == 'success'){
+        this.claimedVenues = res.data;
+        this.setClaimedVenueRemTime();
+      }
     });
   }
 
@@ -68,11 +67,9 @@ export class DiscountsPage implements OnInit {
           end: new Date()
         });
         totalMinutes = resultMinutes.length;
-        // console.log(totalMinutes);
         hours = Math.floor(totalMinutes / 60) ;
         minutes = totalMinutes % 60;
         seconds = 0;
-        // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
         if(hours <= 23){
           hours = 23 - hours;
           minutes = 59 - minutes;
@@ -80,15 +77,8 @@ export class DiscountsPage implements OnInit {
           venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
         }else{
           venue.remaining_time = null;
-          // this.claimedVenues.pop(venue);
         }
       }
-      // for(let venue of this.claimedVenues){
-      //   if(venue.remaining_time == null){
-      //     this.claimedVenues.pop(venue);
-      //   }
-      // }
-      // this.rest.claimedVenues = this.claimedVenues;
       console.log("claimed venues: ",this.claimedVenues);
       this.setVenueDiscountStatus(); 
     }else if(this.claimedVenues.length == 0){
@@ -98,48 +88,52 @@ export class DiscountsPage implements OnInit {
 
   setVenueDiscountStatus(){
     let inQueueVenues: any = [];
+    let claimedVenues: any = [];
     let specialOffers: any = [];
     let discountClaimedStatus = '';
     let foundVenue: any = "";
-
-    // if(this.claimedVenues.length > 0 ) {
-      for(let offerVenue of this.specialOffersArr){
-        discountClaimedStatus = '';
-        foundVenue = undefined;
-        
-        for(let claimedVenue of this.claimedVenues){
-          if(claimedVenue.remaining_time != null){
-            if(offerVenue.venues_id == claimedVenue.venues_id){
+   
+    for(let offerVenue of this.specialOffersArr){
+      discountClaimedStatus = '';
+      foundVenue = undefined;
+      
+      for(let claimedVenue of this.claimedVenues){
+        if(claimedVenue.remaining_time != null){
+          if(offerVenue.venues_id == claimedVenue.venues_id){
+            // discountClaimedStatus = 'true';
+            discountClaimedStatus = claimedVenue.status;
+            offerVenue.discount_token = claimedVenue.claimed_token;
+            foundVenue = offerVenue;
+            break;
               
-              discountClaimedStatus = 'true';
-              offerVenue.discount_token = claimedVenue.claimed_token;
-              foundVenue = offerVenue;
-              break;
-                
-            }else{
-              discountClaimedStatus = 'false';
-              offerVenue.discount_token = null;
-              foundVenue = offerVenue;
-            }
+          }else{
+            discountClaimedStatus = 'false';
+            offerVenue.discount_token = null;
+            foundVenue = offerVenue;
           }
         }
-
-        if(discountClaimedStatus == 'true'){
-          inQueueVenues.push(foundVenue);
-        }else if(discountClaimedStatus == 'false'){
-          specialOffers.push(foundVenue);
-        }else{
-          console.log("else---else");
-        }
       }
-      this.orderd_specialOffersArr = specialOffers;
-      this.inQueueVenuesArr = inQueueVenues;
 
-      console.log("inQueueVenuesArr: ",this.inQueueVenuesArr);
-      console.log("orderd_specialOffersArr: ",this.orderd_specialOffersArr);
-      
-    // }
-   
+      if(discountClaimedStatus == 'Pending'){
+        inQueueVenues.push(foundVenue);
+      }else if(discountClaimedStatus == 'Approved'){
+        claimedVenues.push(foundVenue);
+      }
+      else if(discountClaimedStatus == 'Rejected' || discountClaimedStatus == 'Expired'){
+        specialOffers.push(foundVenue);
+      }else if(discountClaimedStatus == 'false'){
+        specialOffers.push(foundVenue);       
+      }else{
+        console.log("else---else");
+      }
+    }
+    this.orderd_specialOffersArr = specialOffers;
+    this.inQueueVenuesArr = inQueueVenues;
+    this.claimedVenuesArr = claimedVenues;
+    console.log("inQueueVenuesArr: ",this.inQueueVenuesArr);
+    console.log("claimedVenuesArr: ",this.claimedVenuesArr);
+    console.log("orderd_specialOffersArr: ",this.orderd_specialOffersArr);
+    
   }
 
   claimDrag(slidingItem: IonItemSliding, event: any, selectedVenue: any) {
