@@ -98,8 +98,8 @@ export class DiscountsPage implements OnInit {
       foundVenue = undefined;
       
       for(let claimedVenue of this.claimedVenues){
-        if(claimedVenue.remaining_time != null){
-          if(offerVenue.venues_id == claimedVenue.venues_id){
+        // if(claimedVenue.remaining_time != null){
+          if(offerVenue.venues_id == claimedVenue.venues_id && claimedVenue.remaining_time != null){
             // discountClaimedStatus = 'true';
             discountClaimedStatus = claimedVenue.status;
             offerVenue.discount_token = claimedVenue.claimed_token;
@@ -111,7 +111,7 @@ export class DiscountsPage implements OnInit {
             offerVenue.discount_token = null;
             foundVenue = offerVenue;
           }
-        }
+        // }
       }
 
       if(discountClaimedStatus == 'Pending'){

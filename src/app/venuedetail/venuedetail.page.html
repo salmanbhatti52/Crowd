@@ -89,13 +89,13 @@
           <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=3 ">
           <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<4">
           <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=4 ">
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<5">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue==5 ">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<5" style="margin-right: 0px;">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue==5" style="margin-right: 0px;">
         </div>
       </div>
       
     </div>
-    <div *ngIf="detailObj.discount_percentage != null" style="margin-bottom: 16px;" class="titlemain work_sans">{{detailObj.name}}</div>
+    <div *ngIf="detailObj.discount_percentage != null" style="margin-bottom: 9px;" class="titlemain work_sans">{{detailObj.name}}</div>
     <ion-row style="margin-bottom: 16px;">
       <ion-col size="4" style="display: flex; align-items: center">
         <div style="display: flex">

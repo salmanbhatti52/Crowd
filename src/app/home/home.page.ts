@@ -923,7 +923,7 @@ export class HomePage implements OnInit {
     this.pageNumber = 1;
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.alwaysSendCurrentLocation();
+    // this.alwaysSendCurrentLocation();
     this.getClaimedVenues();
     
     this.getVenues();
