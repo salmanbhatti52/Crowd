@@ -2,7 +2,9 @@
   <ion-toolbar class="bg paddingtop">
     <div
     class="bg "
-    style=" width: 100%; z-index: 9999; padding: 10px 0px 15px;"
+    style=" width: 100%;
+     z-index: 9999; 
+    padding: 10px 0px 15px;"
   >
     <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
       <p
@@ -387,11 +389,18 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </div>
+  <!-- style="position: fixed;z-index: 11;
+      right: 15px;
+      bottom: 90px; height: 48px; width: 48px;" -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"  
+       style="height: 58px;
+       width: 58px;"
+       src="../../assets/imgs/icons/ai_icon.svg" alt="">
+    </ion-fab-button>
+  </ion-fab>
   
-  <!-- (click)="startSpeechRecognition()" -->
-  <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"  style="position: fixed;z-index: 11;
-  right: 15px;
-  bottom: 90px; height: 48px; width: 48px;" src="../../assets/imgs/icons/ai_icon.svg" alt="">
 
   <ion-modal style="--border-radius: 16px 16px 0px 0px;" trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
     <ng-template>
@@ -432,12 +441,7 @@
               width: 21px;
               background: white;"></div>
             </div>
-            <!-- <img (click)="stopSpeechRecognition()" class="not_listening" *ngIf="!listener"  src="../../assets/imgs/icons/mic_32.png" alt=""> -->
-            <!-- <img (click)="stopSpeechRecognition()"  *ngIf="listener"  src="../../assets/imgs/icons/stop.png" alt=""> -->
-              
-              <!-- <ion-button (click)="stopSpeechRecognition()" expand="block" fill="clear" shape="round">
-                Stop Listening
-              </ion-button> -->
+            
           </div>
           
             

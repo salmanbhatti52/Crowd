@@ -266,6 +266,15 @@
   font-size: 10px;
   color: #000000;
 }
+ion-fab .md {
+  // margin-bottom: var(--ion-safe-area-bottom, 30);
+  margin-bottom: 90px;
+}
+
+ion-fab .ios {
+  // margin-bottom: var(--ion-safe-area-bottom, 30);
+  margin-bottom: 105px;
+}
 
 .hide_ai{
   display: none;
