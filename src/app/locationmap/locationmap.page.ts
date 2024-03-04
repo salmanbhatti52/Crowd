@@ -440,7 +440,12 @@ export class LocationmapPage implements OnInit {
       foundDiscount = false;
       foundVenue = false;
       
-      venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      if(this.venuarr[venueIndex].discount_percentage != null){
+        venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      }else{
+        venuDiscount = '';
+      }
+      
       console.log("venuDiscount: ",venuDiscount);
       
       venueName = this.venuarr[venueIndex].name.toLowerCase();

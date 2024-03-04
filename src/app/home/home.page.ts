@@ -200,7 +200,9 @@ export class HomePage implements OnInit {
   }
 
   findResults(){
+    // console.log('findResults your voice input 1: ',this.yourVoiceInput);
     this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
+    // console.log('findResults your voice input 2: ',this.yourVoiceInput);
     let tokens = this.yourVoiceInput.split(/\s+/);
     console.log(tokens);
     if(this.segmentModel == "venu"){
@@ -233,7 +235,12 @@ export class HomePage implements OnInit {
       foundDiscount = false;
       foundVenue = false;
       
-      venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      if(this.venuarr[venueIndex].discount_percentage != null){
+        venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+      }else{
+        venuDiscount = '';
+      }
+     
       console.log("venuDiscount: ",venuDiscount);
       
       venueName = this.venuarr[venueIndex].name.toLowerCase();
@@ -296,7 +303,13 @@ export class HomePage implements OnInit {
       foundDiscount = false;
       foundReservation = false;
       
-      reservationDiscount = this.filteredReservationsArr[reservationIndex].discount_percentage.toString() + '%';
+      if(this.filteredReservationsArr[reservationIndex].discount_percentage != null){
+        reservationDiscount = this.filteredReservationsArr[reservationIndex].discount_percentage.toString() + '%';
+      }
+      else{
+        reservationDiscount = '';
+      }
+      
       console.log("ReservationDiscount: ",reservationDiscount);
       
       reservationName = this.filteredReservationsArr[reservationIndex].name.toLowerCase();
@@ -359,7 +372,12 @@ export class HomePage implements OnInit {
       foundDiscount = false;
       foundEvent = false;
       
-      eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
+      if(this.eventarr[eventIndex].discount_percentage != null){
+        eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
+      }else{
+        eventDiscount = '';
+      }
+     
       console.log("eventDiscount: ",eventDiscount);
       
       eventName = this.eventarr[eventIndex].name.toLowerCase();
@@ -970,6 +988,11 @@ export class HomePage implements OnInit {
       } else {
         // this.rest.presentToast(res.message);
         this.noevenu = 1;
+        this.venuarr  = [];
+        this.rest.venuesArray = [];
+        this.venuarrOrg = [];
+        this.filteredvenuarr = [];
+        this.rest.venuArrHome = [];
       }
       // this.initialize();
     });
@@ -1011,6 +1034,8 @@ export class HomePage implements OnInit {
         }
         else{
           this.noReservations = 1;
+          this.reservationsArr = [];
+          this.filteredReservationsArr = [];
         }
     });
   }
@@ -1043,6 +1068,8 @@ export class HomePage implements OnInit {
       } else {
         // this.rest.presentToast(res.message);
         this.noevent = 1;
+        this.eventarr = [];
+        this.eventsArrayCopy = [];
       }
     });
   }
