@@ -506,7 +506,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(foundVenues[i].lattitude),
           lng: parseFloat(foundVenues[i].longitude),
         },
-        title: "" + foundVenues[i].public_check_ins,
+        title: "" + foundVenues[i].availability_count,
         name: foundVenues[i].name,
         venueId: foundVenues[i].venues_id,
         options: {
@@ -564,7 +564,7 @@ export class LocationmapPage implements OnInit {
         lat: parseFloat(this.foundVenue.lattitude),
         lng: parseFloat(this.foundVenue.longitude),
       },
-      title: "" + this.foundVenue.public_check_ins,
+      title: "" + this.foundVenue.availability_count,
       name: this.foundVenue.name,
       venueId: this.foundVenue.venues_id,
       options: {
@@ -695,7 +695,7 @@ export class LocationmapPage implements OnInit {
                 lat: parseFloat(this.venuarrOrg[i].lattitude),
                 lng: parseFloat(this.venuarrOrg[i].longitude),
               },
-              title: "" + this.venuarrOrg[i].public_check_ins,
+              title: "" + this.venuarrOrg[i].availability_count,
               name: this.venuarrOrg[i].name,
               venueId: this.venuarrOrg[i].venues_id,
               options: {
@@ -736,7 +736,7 @@ export class LocationmapPage implements OnInit {
     //       lat: parseFloat(this.venuarr[i].lattitude),
     //       lng: parseFloat(this.venuarr[i].longitude),
     //     },
-    //     title: "" + this.venuarr[i].public_check_ins,
+    //     title: "" + this.venuarr[i].availability_count,
     //     name: this.venuarr[i].name,
     //     options: {
     //       animation: google.maps.Animation.DROP,
@@ -811,7 +811,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarr[i].lattitude),
           lng: parseFloat(this.venuarr[i].longitude),
         },
-        title: "" + this.venuarr[i].public_check_ins,
+        title: "" + this.venuarr[i].availability_count,
         name: this.venuarr[i].name,
         venueId: this.venuarr[i].venues_id,
         options: {
@@ -845,7 +845,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].public_check_ins,
+        title: "" + this.venuarrOrg[i].availability_count,
         name: this.venuarrOrg[i].name,
         venueId:this.venuarrOrg[i].venues_id,
         
@@ -930,7 +930,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].public_check_ins,
+        title: "" + this.venuarrOrg[i].availability_count,
         name: this.venuarrOrg[i].name,
         venueId: this.venuarrOrg[i].venues_id,
         options: {
@@ -994,7 +994,7 @@ export class LocationmapPage implements OnInit {
   //         lat: parseFloat(this.venuarrOrg[i].lattitude),
   //         lng: parseFloat(this.venuarrOrg[i].longitude),
   //       },
-  //       title: "" + this.venuarrOrg[i].public_check_ins,
+  //       title: "" + this.venuarrOrg[i].availability_count,
   //       name: this.venuarrOrg[i].name,
   //       icon: {
   //         url: "assets/imgs/locpin.svg",
