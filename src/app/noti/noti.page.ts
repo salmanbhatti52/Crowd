@@ -91,7 +91,7 @@ export class NotiPage implements OnInit {
 
       if (res.status == "error") {
         this.noticount = 1;
-        this.rest.presentToast("No notifications found");
+        // this.rest.presentToast("No notifications found");
       } else {
         this.noticount = 2;
         for(let d of res.data){
