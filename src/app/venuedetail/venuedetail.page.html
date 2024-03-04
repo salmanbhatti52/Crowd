@@ -236,7 +236,7 @@
 
     <p class="work_sans des">{{detailObj.description}}</p>
 
-    <div *ngIf="detailObj.discount_percentage == null" style="display: flex;
+    <div *ngIf="detailObj.discount_percentage == null && reviews.length>0" style="display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 13px;">
