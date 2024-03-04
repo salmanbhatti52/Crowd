@@ -392,7 +392,7 @@
   <!-- style="position: fixed;z-index: 11;
       right: 15px;
       bottom: 90px; height: 48px; width: 48px;" -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="center" horizontal="end">
     <ion-fab-button>
       <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"  
        style="height: 58px;
