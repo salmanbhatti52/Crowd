@@ -66,7 +66,7 @@
   right: 15px;
   bottom: 62%; height: 58px; width: 58px;" src="../../assets/imgs/icons/ai_icon.svg" alt="">
 
-  <ion-modal trigger="open-modal-map" [initialBreakpoint]="0.55" [breakpoints]="[0, 1]">
+  <ion-modal trigger="open-modal-map" [initialBreakpoint]="0.55" [breakpoints]="[0, 1]" (ionModalWillDismiss)="dismissModal()">
     <ng-template>
       <div style="background: white;">
         <div style="text-align: right;padding: 15px 15px 0px">
@@ -373,7 +373,7 @@
         <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
           <p class="work_sans titlesub">
-            Open till {{searchObject.close_hours}}
+             {{getTime(searchObject.start_hours)}} - {{getTime(searchObject.close_hours)}}
           </p>
         </div>
       </div>

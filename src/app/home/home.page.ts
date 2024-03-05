@@ -266,6 +266,14 @@ export class HomePage implements OnInit {
           
           foundDiscount = true;
         }
+
+        if(venuDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
+          console.log('Discount Match Found');
+          console.log(venuDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
         
       }
 
@@ -283,6 +291,8 @@ export class HomePage implements OnInit {
 
     if(filteredVenues.length == 0){
       this.noevenu = 1;
+    }else{
+      this.noevenu = 0;
     }
     
   };
@@ -335,6 +345,14 @@ export class HomePage implements OnInit {
           
           foundDiscount = true;
         }
+
+        if(reservationDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
+          console.log('Discount Match Found');
+          console.log(reservationDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
         
       }
 
@@ -352,6 +370,8 @@ export class HomePage implements OnInit {
 
     if(filteredReservations.length == 0){
       this.noReservations = 1;
+    }else{
+      this.noReservations = 0;
     }
     
   };
@@ -403,6 +423,14 @@ export class HomePage implements OnInit {
           
           foundDiscount = true;
         }
+
+        if(eventDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
+          console.log('Discount Match Found');
+          console.log(eventDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
         
       }
 
@@ -420,6 +448,8 @@ export class HomePage implements OnInit {
 
     if(filteredEvents.length == 0){
       this.noevent = 1;
+    }else{
+      this.noevent = 0;
     }
     
   };
@@ -428,6 +458,14 @@ export class HomePage implements OnInit {
 
 
   dismissModal(){
+    console.log('stopSpeechRecognition');
+    
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      SpeechRecognition.stop();
+    }
     this.modalCtrlr.dismiss();
   }
 

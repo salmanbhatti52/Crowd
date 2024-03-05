@@ -25,6 +25,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
+import { getDay } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -471,6 +472,14 @@ export class LocationmapPage implements OnInit {
           
           foundDiscount = true;
         }
+
+        if(venuDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
+          console.log('Discount Match Found');
+          console.log(venuDiscount);
+          console.log(inputTokens[inputTokenIndex]);
+          
+          foundDiscount = true;
+        }
         
       }
 
@@ -532,6 +541,14 @@ export class LocationmapPage implements OnInit {
   }
 
   dismissModal(){
+    console.log('stopSpeechRecognition');
+    
+    if(this.listener){
+      console.log(this.listener);
+      
+      this.listener = false;
+      SpeechRecognition.stop();
+    }
     this.modalCtrl.dismiss();
   }
 
@@ -835,6 +852,11 @@ export class LocationmapPage implements OnInit {
     
   }
 
+  getTime(val:any){
+    
+    return val.substring(0,5);
+  }
+
   makeMarkerArray() {
     this.venuarr = [];
     console.log("Venuarr ORG: ",this.venuarrOrg);
@@ -1090,6 +1112,10 @@ export class LocationmapPage implements OnInit {
       // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
       if (this.venuarrOrg[i].venues_id == searchTerm) {
         this.searchObject = this.venuarrOrg[i];
+        let dayNumber = getDay(new Date());
+        console.log(dayNumber);
+        this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
+        this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
       }
     }
     console.log("this.searchObject: ",this.searchObject);
