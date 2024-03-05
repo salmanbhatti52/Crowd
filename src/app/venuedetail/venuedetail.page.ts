@@ -68,15 +68,20 @@ export class VenuedetailPage implements OnInit {
       console.log("reviews res:",res);
       if(res.status == 'success'){
         this.reviews = res.data;
-      }
+        let reviewsSum = 0;
+        for(let review of this.reviews){
+          reviewsSum += Number(review.review_ratings);
+        }
+        console.log('reviewsSum',reviewsSum);
+        this.ratingValue = reviewsSum/this.reviews.length;
+        this.ratingValue = this.ratingValue.toFixed(1);
+      }else if(res.status == 'error'){
+        this.reviews = [];
+        // this.ratingValue = 0;
+        this.ratingValue = this.ratingValue.toFixed(1);
+      }else{}
       
-      let reviewsSum = 0;
-      for(let review of this.reviews){
-        reviewsSum += Number(review.review_ratings);
-      }
-      console.log('reviewsSum',reviewsSum);
-      this.ratingValue = reviewsSum/this.reviews.length;
-      this.ratingValue = this.ratingValue.toFixed(1);
+      
     });
   }
 

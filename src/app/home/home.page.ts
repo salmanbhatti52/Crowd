@@ -918,6 +918,7 @@ export class HomePage implements OnInit {
     this.filtertype = "no";
     this.records_limit = localStorage.getItem("records_limit");
     this.noevent = 0;
+    this.noReservations = 0;
     this.noevenu = 0;
     this.userdata = localStorage.getItem("userdata");
     this.pageNumber = 1;
@@ -933,15 +934,13 @@ export class HomePage implements OnInit {
       this.aiToggleChecked = false;
     } else {
       this.aiToggleChecked = true;
-      // this.aiToggleValue = "Yes";
     }
-    // console.log("localStorage longitude: ",localStorage.getItem("longitude"));
-    // console.log("localStorage lattitude: ",localStorage.getItem("lattitude"));
-    // console.log("longitude ", this.longitude);
-    // console.log("lattitude ", this.latitude );
+   
   }
 
   getVenues(){
+    this.noevenu = 0;
+    
     console.log('get venues called');
     
     var ss = JSON.stringify({
@@ -999,6 +998,8 @@ export class HomePage implements OnInit {
   }
 
   getReservations(){
+    this.noReservations = 0;
+    
     console.log('get Reservations called');
 
     var ss = JSON.stringify({
@@ -1041,6 +1042,7 @@ export class HomePage implements OnInit {
   }
 
   getEvents(){
+    this.noevent = 0;
     console.log('get Events called');
 
     var ss = JSON.stringify({

@@ -64,9 +64,10 @@ export class AddReviewPage implements OnInit {
       console.log(res);
       if(res.status=='success'){
         this.rest.presentToast("Thanks for your review!");
-        // this.goBack();
+        this.goBack();
       }else if(res.status=='error'){
         this.rest.presentToast(res.message);
+        this.goBack();
 
       }
     });
