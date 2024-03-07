@@ -367,13 +367,13 @@
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
           <p class="work_sans titlesub">
-            {{searchObject.distance | number : '1.2-2'}} Miles
+            {{searchObject.distance | number : '1.1-1'}} Miles
           </p>
         </div>
         <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
           <p class="work_sans titlesub">
-             {{getTime(searchObject.start_hours)}} - {{getTime(searchObject.close_hours)}}
+             {{searchObject.start_hours}} - {{searchObject.close_hours}}
           </p>
         </div>
       </div>

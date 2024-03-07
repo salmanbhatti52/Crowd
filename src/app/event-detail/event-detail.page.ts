@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Platform,IonItemSliding } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-event-detail',
@@ -133,7 +134,23 @@ export class EventDetailPage implements OnInit {
     }
 
     getTime(val:any){
-      return val.substring(0,5);
+      if(val){
+         val = parse(val, 'HH:mm:ss', new Date());
+         return val = format(val, 'h:mma');
+      }
+      else{
+        return val;
+      }
+    }
+    
+  
+    getDate(val:any){
+      if(val){
+        return format(new Date(val), 'E, dd MMM');
+      }
+      else{
+        return val;
+      }
     }
 
     goToProfile() {

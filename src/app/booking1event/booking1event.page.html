@@ -47,13 +47,13 @@
         >
           <img class="imm" src="assets/imgs/pinwhite.svg" />
           <p class="date work_sans">
-            {{selectedEvent.distance | number : '1.2-2'}} Miles
+            {{selectedEvent.distance | number : '1.1-1'}} Miles
           </p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 13px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{selectedEvent.event_date }}</p>
+          <p class="date work_sans">{{getDate(selectedEvent.event_date)}}</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">

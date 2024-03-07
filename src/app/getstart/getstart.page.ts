@@ -86,13 +86,35 @@ export class GetstartPage implements OnInit {
         console.log("place and geometery locationnnnnnn lng: ",{ place }, place.geometry.location?.lng());
 
         //set latitude, longitude and zoom
-        this.latitude = place.geometry.location?.lat();
-        this.longitude = place.geometry.location?.lng();
+        this.latitude = this.roundOffLatLong(place.geometry.location?.lat()) ;
+        this.longitude = this.roundOffLatLong(place.geometry.location?.lng());
+        console.log(this.latitude);
+        console.log(this.longitude);
+       
+        if(place?.name === place?.vicinity){
+          
+          this.currentaddress = place?.formatted_address;
+          
+        }else{
+          this.currentaddress = place?.name + ", " + place?.vicinity;
+          
+        }
 
-        this.getAddress(this.latitude, this.longitude);
+        
+        this.from = this.currentaddress;
+        console.log("curr addr===", this.currentaddress);
+
+        localStorage.setItem("location", this.currentaddress);
+        localStorage.setItem("longitude", this.longitude);
+        localStorage.setItem("lattitude", this.latitude);
+        
         
       });
     });
+  }
+
+  roundOffLatLong(val:any){
+   return Number.parseFloat(val).toFixed(7);
   }
 
   goToHome() {

@@ -98,20 +98,10 @@ export class FilterPage implements OnInit {
   ionViewWillEnter(){
     let userdata = localStorage.getItem('userdata');
     this.userId = JSON.parse(userdata!).users_customers_id;
-    this.latitude = Number(localStorage.getItem("lattitude")) ;
-    this.longitude = Number(localStorage.getItem("longitude"));
     console.log('userid', this.userId);
   }
 
-  // getCurrentLatLng() {
-  //   console.log("getCurrentLatLng");
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     console.log("position: ",position);
-      
-  //     this.latitude = position.coords.latitude;
-  //     this.longitude = position.coords.longitude;
-  //   });
-  // }
+  
 
   ngAfterViewInit(): void {
     // Binding autocomplete to search input control
@@ -133,12 +123,55 @@ export class FilterPage implements OnInit {
         console.log("place and geometery locationnnnnnn lat: ",{ place }, place.geometry.location?.lat());
         console.log("place and geometery locationnnnnnn lng: ",{ place }, place.geometry.location?.lng());
 
-        this.address = place.name + ", "+ place.formatted_address
-        // this.address = place.formatted_address;
-        console.log(this.address);
+        this.latitude = this.roundOffLatLong(place.geometry.location?.lat()) ;
+        this.longitude = this.roundOffLatLong(place.geometry.location?.lng());
+        console.log(this.latitude);
+        console.log(this.longitude);
+       
+        if(place?.name === place?.vicinity){
+          
+          this.address = place?.formatted_address;
+          
+        }else{
+          this.address = place?.name + ", " + place?.vicinity;
+          
+        }
+
+        console.log("curr addr===", this.address);
         
       });
     });
+  }
+
+  roundOffLatLong(val:any){
+    return Number.parseFloat(val).toFixed(7);
+
+  }
+
+  getCurrentLocation() {
+    this.latitude = undefined;
+    this.longitude = undefined;
+    console.log("getCurrentLocationCalled");
+    this.rest.presentLoaderWd();
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log("position: ",position);
+      
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.rest.dismissLoader();
+      this.getAddress();
+     
+    },(err)=>{
+      console.log("errrr: ", err);
+      
+    });
+    setTimeout(() => {
+      if(!(this.latitude || this.longitude)){
+        this.rest.presentToast("Plz check your device location is on");
+        
+      }
+    }, 3500);
+
   }
 
   getAddress() {

@@ -140,7 +140,7 @@ export class SavedPage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.eventarr = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          // console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
         });
       } else {
@@ -154,11 +154,11 @@ export class SavedPage implements OnInit {
       this.rest.dismissLoader();
       if (res.status == "success") {
         this.venuarr = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          // console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
         });
         this.venuarrOrg = res.data.sort((a: any, b: any) => {
-          console.log("testppppppppppopopopopopoopopopopopopopopo");
+          // console.log("testppppppppppopopopopopoopopopopopopopopo");
           return a.distance - b.distance;
         });
       } else {

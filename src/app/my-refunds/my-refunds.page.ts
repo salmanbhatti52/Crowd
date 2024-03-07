@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 // import * as moment from "moment";
-import { format, parseISO } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-my-refunds',
@@ -133,11 +133,24 @@ export class MyRefundsPage implements OnInit {
     this.router.navigate(['show-tickets']);
   }
 
-  getDate(aa: any) {
-    return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
+  getTime(val:any){
+    if(val){
+       val = parse(val, 'HH:mm:ss', new Date());
+       return val = format(val, 'h:mma');
+    }
+    else{
+      return val;
+    }
   }
-  getTime(aa:any){
-    return aa.substring(0,5);
+  
+
+  getDate(val:any){
+    if(val){
+      return format(new Date(val), 'E, dd MMM');
+    }
+    else{
+      return val;
+    }
   }
 
   editbooking(aa: any) {

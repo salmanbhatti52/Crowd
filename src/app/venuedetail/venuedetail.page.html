@@ -74,7 +74,7 @@
     </ion-row>
   </div>
 
-  <div style="width: 90%; margin: 5% auto">
+  <div style="width: 92%; margin: 4% auto">
     <div *ngIf="detailObj.discount_percentage == null" style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 16px;">
       <div style="width: 48%;" class="titlemain work_sans">{{detailObj.name}}</div>
       <!-- <p class="titlemain2 work_sans">{{detailObj.name2}}</p> -->
@@ -97,31 +97,32 @@
     </div>
     <div *ngIf="detailObj.discount_percentage != null" style="margin-bottom: 9px;" class="titlemain work_sans">{{detailObj.name}}</div>
     <ion-row style="margin-bottom: 16px;">
-      <ion-col size="4" style="display: flex; align-items: center">
+      <ion-col size="3.5" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 10px; width: 12px"
+            style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
-          <p class="work_sans titlesub">
-            {{detailObj.distance | number : '1.2-2'}} Miles
+          <p class="work_sans titlesub" style="width: 73px;overflow: hidden;">
+            {{detailObj.distance | number : '1.1-1'}} Miles
           </p>
         </div>
       </ion-col>
-      <ion-col size="5" style="display: flex; align-items: center">
+      <ion-col size="5.2" style="display: flex; align-items: center">
         <div style="display: flex" *ngIf="detailObj.venues_id != null">
           <img
-            style="height: 15px; margin-right: 10px; width: 12px"
+            style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/watch.svg"
           />
-          <p class="work_sans titlesub">{{getTime(detailObj.start_hours)}} - {{getTime(detailObj.close_hours)}}</p>
+          <p *ngIf="detailObj.start_hours!=null" class="work_sans titlesub">{{detailObj.start_hours}} - {{detailObj.close_hours}}</p>
+          <p *ngIf="detailObj.start_hours==null" class="work_sans titlesub">Closed</p>
         </div>
       </ion-col>
-      <ion-col size="3" style="display: flex; justify-content: flex-end">
+      <ion-col size="3.3" style="display: flex; justify-content: flex-end">
         <ion-badge class="bdgw" *ngIf="detailObj.discount_percentage != null">
           <img style="margin-right: 7px" src="assets/imgs/g.svg" />
-          <span style="color:#262626">{{detailObj.googleRating}}</span>
-          <img style="height: 11px; margin-left: 5px" src="assets/imgs/s.svg" />
+          <span class="work_sans" style="font-size: 14px;font-weight: 400; color:black">{{detailObj.googleRating}}</span>
+          <img style="height: 6px;width: 6px; margin-left: 3px" src="assets/imgs/s.svg" />
         </ion-badge>
       </ion-col>
     </ion-row>
@@ -135,10 +136,10 @@
         style="display: flex; align-items: center; justify-content: flex-end"
       >
         <img
-          style="height: 25px; width: 25px; margin-right: 15px"
+          style="height: 18px; width: 18px; margin-right: 7px; margin-left: 2px;"
           src="assets/imgs/user.svg"
         />
-        <p class="inhouse work_sans">{{detailObj.availability_count}}</p>
+        <p class="inhouse work_sans" style="margin-right: 4px;">{{detailObj.availability_count}}</p>
       </ion-col>
     </ion-row>
 

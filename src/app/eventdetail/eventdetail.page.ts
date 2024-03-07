@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Platform,IonItemSliding } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+import { format, parse } from "date-fns";
 
 @Component({
   selector: "app-eventdetail",
@@ -38,7 +39,6 @@ export class EventdetailPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.updatevVisitor();
-    this.ngOnInit();
   }
 
   ngOnInit() {
@@ -48,7 +48,27 @@ export class EventdetailPage implements OnInit {
     let currentDate = new Date();
     console.log("currentDate: ",currentDate);
     let eventDate = new Date(this.detailObj.event_date);
-    console.log(" eventDate:  ",eventDate);
+    // console.log(" eventDate:  ",eventDate);
+    this.detailObj.formatted_date = format(eventDate, 'E, dd MMM');
+    // console.log(this.detailObj.formatted_date);
+    
+    
+    if(this.detailObj.event_start_time != null && this.detailObj.event_end_time != null){
+      //parse date
+      let start_time;
+      let end_time;
+      // parse in date object format
+      start_time = parse(this.detailObj.event_start_time, 'HH:mm:ss', new Date());
+      end_time = parse(this.detailObj.event_end_time, 'HH:mm:ss', new Date());
+      //format the date
+      start_time = format(start_time, 'h:mma');
+      end_time = format(end_time, 'h:mma');
+      // console.log('startTime',start_time);
+      // console.log('endTime',end_time);
+      this.detailObj.formatted_start_time = start_time;
+      this.detailObj.formatted_end_time = end_time;
+      
+    }
 
     this.availableTickets = this.detailObj.no_of_tickets - this.detailObj.booked_tickets; 
     console.log("Available Tickets: ",this.availableTickets);

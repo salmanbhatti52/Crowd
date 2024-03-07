@@ -142,14 +142,17 @@ export class HomePage implements OnInit {
     if(this.segmentModel == "venu"){
       this.venuarr = this.venuarrOrg;
       this.filtertype = "no"; 
+      this.noevenu = 0;
     }
     else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
       this.filteredReservationsArr = this.reservationsArr;
       this.reservationFilter = "no";
+      this.noReservations = 0;
     }
     else if(this.segmentModel == 'event'){
       this.eventarr = this.eventsArrayCopy;
       this.filterTypeEv = "no";
+      this.noevent = 0;
     }else{
 
     }
@@ -1002,10 +1005,13 @@ export class HomePage implements OnInit {
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
+          res.data[i].venue_type = JSON.parse(res.data[i].venue_type); 
         }
         this.venuarr = res.data.sort((a: any, b: any) => {
           return a.distance - b.distance;
         });
+
+        
 
         console.log('venuArray: ',this.venuarr);
         
@@ -1061,7 +1067,8 @@ export class HomePage implements OnInit {
       
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
-            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.reservationsArr = res.data.sort((a: any, b: any) => {
             return a.distance - b.distance;
@@ -1175,7 +1182,8 @@ export class HomePage implements OnInit {
         this.rest.dismissLoader();
         if (res.status == "success") {
           for(let i=0; i<res.data.length; i++){
-            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`;
+            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.venuarr = this.venuarr.concat(
             res.data.sort((a: any, b: any) => {
@@ -1218,7 +1226,8 @@ export class HomePage implements OnInit {
         this.rest.dismissLoader();
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
-            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`
+            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.reservationsArr = this.reservationsArr.concat(res.data.sort((a: any, b: any) => {
             return a.distance - b.distance;

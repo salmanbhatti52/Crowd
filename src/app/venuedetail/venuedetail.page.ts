@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
-import { eachMinuteOfInterval, getDate, getDay } from "date-fns";
+import { eachMinuteOfInterval, format, getDate, getDay, parse } from "date-fns";
 
 @Component({
   selector: "app-venuedetail",
@@ -101,8 +101,21 @@ export class VenuedetailPage implements OnInit {
     
     let dayNumber = getDay(new Date());
     console.log(dayNumber);
-    this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
-    this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
+    if(this.detailObj.venue_timing[dayNumber].start_hours != null && this.detailObj.venue_timing[dayNumber].close_hours != null){
+      
+      this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
+      this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
+      // parsed time
+      this.detailObj.start_hours = parse(this.detailObj.start_hours, 'HH:mm:ss', new Date());
+      this.detailObj.close_hours = parse(this.detailObj.close_hours, 'HH:mm:ss', new Date());
+      //formated time
+      this.detailObj.start_hours = format(this.detailObj.start_hours, 'h:mma');
+      this.detailObj.close_hours = format(this.detailObj.close_hours, 'h:mma');
+    }else{
+      this.detailObj.start_hours = null;
+      this.detailObj.close_hours = null;
+    }
+   
     console.log("claimedVenues: ",this.rest.claimedVenues);
     if(this.detailObj.discount_percentage > 0 ){
       for(let venue of this.rest.claimedVenues){

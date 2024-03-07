@@ -60,41 +60,41 @@
     </ion-row>
   </div>
 
-  <div style="width: 92%; margin: 5% auto">
+  <div style="width: 92%; margin: 4% auto">
     <p class="titlemain work_sans">{{detailObj.name}}</p>
     <p class="titlesubmain work_sans">{{detailObj.venue_name}}</p>
 
     <ion-row>
-      <ion-col size="3.7" style="display: flex; align-items: center; padding: 0px;">
+      <ion-col size="3.1" style="display: flex; align-items: center; padding: 0px;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 8px; width: 12px"
+            style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
-          <p class="work_sans titlesub">
-            {{detailObj.distance | number : '1.2-2'}} Miles
+          <p class="work_sans titlesub" style="width: 73px;overflow: hidden;">
+            {{detailObj.distance | number : '1.1-1'}} Miles
           </p>
         </div>
       </ion-col>
-      <ion-col size="4" style="display: flex; align-items: center;padding: 0px;">
+      <ion-col size="3.8" style="display: flex; align-items: center;padding: 0px;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 8px; width: 12px"
+            style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/icons/calendar.svg"
           />
           <p class="work_sans titlesub">
-            {{detailObj.event_date}}
+            {{detailObj.formatted_date}}
           </p>
         </div>
       </ion-col>
-      <ion-col size="4.3" style="display: flex; align-items: center; padding: 0px;">
+      <ion-col size="5.1" style="display: flex; align-items: center; padding: 0px;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 8px; width: 12px"
+            style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/watch.svg"
           />
           <p class="work_sans titlesub">
-            {{getTime(detailObj.event_start_time)}} - {{getTime(detailObj.event_end_time)}}
+            {{detailObj.formatted_start_time}} - {{detailObj.formatted_end_time}}
           </p>
         </div>
       </ion-col>

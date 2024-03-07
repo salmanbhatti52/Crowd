@@ -25,7 +25,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { getDay } from "date-fns";
+import { format, getDay, parse } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -1114,8 +1114,22 @@ export class LocationmapPage implements OnInit {
         this.searchObject = this.venuarrOrg[i];
         let dayNumber = getDay(new Date());
         console.log(dayNumber);
-        this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
-        this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
+        if(this.searchObject.venue_timing[dayNumber].start_hours != null && this.searchObject.venue_timing[dayNumber].close_hours != null){
+      
+          this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
+          this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
+
+          // parsed time
+          this.searchObject.start_hours = parse(this.searchObject.start_hours, 'HH:mm:ss', new Date());
+          this.searchObject.close_hours = parse(this.searchObject.close_hours, 'HH:mm:ss', new Date());
+          //formated time
+          this.searchObject.start_hours = format(this.searchObject.start_hours, 'h:mma');
+          this.searchObject.close_hours = format(this.searchObject.close_hours, 'h:mma');
+        }else{
+          this.searchObject.start_hours = null;
+          this.searchObject.close_hours = null;
+        }
+
       }
     }
     console.log("this.searchObject: ",this.searchObject);

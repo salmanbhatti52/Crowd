@@ -69,14 +69,17 @@
       /* padding-top: 15px; */
       display: flex;
       flex-wrap: wrap;
-      width: 96%;
+      width: 100%;
       margin-top: 8px;
-      margin-left: 3%;
+      justify-content: center;
       padding-bottom: 20px;
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
-  <div *ngFor="let aa of orderd_upcomingArr">
+  <div *ngFor="let aa of orderd_upcomingArr" style="background: black;
+  margin-top: 15px;
+  border-radius: 20px;
+   width: 92%;">
     <div class="elementBg" *ngIf="aa.ticket.length> 0">
       <img  (click)="gotoEventDetails(aa)"
         style="
@@ -93,12 +96,12 @@
         <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
+          <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{aa.events.event_date }} </p>
+          <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 2px">
@@ -163,12 +166,12 @@
         <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="bb work_sans">{{aa.event_distance | number : '1.2-2'}} Miles</p>
+          <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
           <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{aa.events.event_date }} </p>
+          <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 2px">

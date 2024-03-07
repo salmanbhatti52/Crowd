@@ -167,7 +167,7 @@ export class DiscountsPage implements OnInit {
         this.displaydiv = true;
         // this.rest.claimedVenDiscount = true;
         venue.remaining_time = '23:59:59';
-        this.hideClaimDiscountButton = true;
+        // this.hideClaimDiscountButton = true;
         this.getClaimedVenues();
         // this.setClaimedVenueRemTime(res.data[0].claimed_date);
       }

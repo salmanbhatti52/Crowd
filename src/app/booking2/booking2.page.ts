@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
-import { format, parseISO } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 
 
 @Component({
@@ -44,10 +44,12 @@ export class Booking2Page implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.mdate = format(parseISO(new Date(this.selectedBooking.bookings_date).toISOString()) ,"MMM dd yyyy");
+    this.mdate = format(new Date(this.selectedBooking.bookings_date) ,"E, dd MMM");
     console.log("this.mdate Fff", this.mdate);
 
-    this.mtime = this.selectedBooking.bookings_time.substring(0,5);
+    this.mtime = parse(this.selectedBooking.bookings_time, 'HH:mm:ss', new Date());
+    this.mtime = format(this.mtime, 'h:mma');
+    // this.mtime = this.selectedBooking.bookings_time.substring(0,5);
     console.log("this.selectedBooking.bookings_time", this.mtime);
     this.startChat();
   }
