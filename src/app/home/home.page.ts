@@ -1227,7 +1227,7 @@ export class HomePage implements OnInit {
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
             res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
-            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
+            // res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.reservationsArr = this.reservationsArr.concat(res.data.sort((a: any, b: any) => {
             return a.distance - b.distance;

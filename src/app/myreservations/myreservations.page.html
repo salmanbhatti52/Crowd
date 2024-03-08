@@ -31,7 +31,9 @@
       "
       mode="ios"
       [(ngModel)]="segmentModel"
+      (ionChange)="segmentChanged($event)"
       value="Upcoming"
+      
     >
       <ion-segment-button
         style="
@@ -41,7 +43,7 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="Upcoming"
+        value="Upcoming" (click)="getUpcomingBookings()"
       >
         <ion-label>Upcoming</ion-label>
       </ion-segment-button>
@@ -53,7 +55,7 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="Previous"
+        value="Previous" (click)="getPreviousBookings()"
       >
         <ion-label>Previous</ion-label>
       </ion-segment-button>
@@ -63,7 +65,6 @@
   <div
   class="paddingtop"
     style="
-      /* padding-top: 15px; */
       display: flex;
       flex-wrap: wrap;
       width: 96%;

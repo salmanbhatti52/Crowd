@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
+import { eachMinuteOfInterval } from "date-fns";
 
 @Component({
   selector: "app-saved",
@@ -12,7 +13,7 @@ export class SavedPage implements OnInit {
   showfilter = false;
   venuarr: any = "";
   venuarrOrg: any = "";
-
+  claimedVenues: any = [];
   eventarr: any = "";
   filtertype: any = "no";
 
@@ -53,10 +54,46 @@ export class SavedPage implements OnInit {
   }
 
   goToDetail(opt: any) {
+    this.setClaimedVenueRemTime();
     this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
     this.router.navigate(["venuedetail"]);
+  }
+
+  setClaimedVenueRemTime(){
+    let hours = 23;
+    let minutes = 59;
+    let seconds = 59;
+    let totalMinutes = 0;
+    if(this.claimedVenues.length){
+      for(let venue of this.claimedVenues){
+        const resultMinutes = eachMinuteOfInterval({
+          start: new Date(venue.claimed_date),
+          end: new Date()
+        });
+        totalMinutes = resultMinutes.length;
+        // console.log(totalMinutes);
+        hours = Math.floor(totalMinutes / 60) ;
+        minutes = totalMinutes % 60;
+        seconds = 0;
+        // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+        if(hours <= 23){
+          hours = 23 - hours;
+          minutes = 59 - minutes;
+          seconds = 59 - seconds;
+          venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }else{
+          venue.remaining_time = null;
+        }
+       
+        
+        // console.log(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`);
+      }
+      this.rest.claimedVenues = this.claimedVenues;
+      console.log("claimed venues: ",this.claimedVenues);
+      
+    }
   }
 
   goToDetailevent(opt: any) {
@@ -125,7 +162,49 @@ export class SavedPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.rest.presentLoader();
+    this.getsavedVenues();
+    this.getClaimedVenues();
+  }
+
+  getsavedVenues() {
+    if(this.venuarr.length == 0){
+      this.rest.presentLoader();
+    }
+    var ss = JSON.stringify({
+      longitude: localStorage.getItem("longitude"),
+      lattitude: localStorage.getItem("lattitude"),
+      users_customers_id: this.userID,
+      // longitude: "71.513317",
+      // lattitude: "30.204700",
+    });
+    console.log(ss);
+    
+    this.rest.venues_saved(ss).subscribe((res: any) => {
+      console.log("venues---", res);
+      if(this.venuarr.length == 0){
+        this.rest.dismissLoader();
+      }
+      if (res.status == "success") {
+        this.venuarr = res.data.sort((a: any, b: any) => {
+          // console.log("testppppppppppopopopopopoopopopopopopopopo");
+          return a.distance - b.distance;
+        });
+        this.venuarrOrg = this.venuarr;
+        // this.venuarrOrg = res.data.sort((a: any, b: any) => {
+        //   // console.log("testppppppppppopopopopopoopopopopopopopopo");
+        //   return a.distance - b.distance;
+        // });
+      } else {
+        // this.rest.presentToast(res.message);
+        this.noevenu = 1;
+      }
+    });
+  }
+
+  getsavedEvents() {
+    if(this.eventarr.length == 0){
+      this.rest.presentLoader();
+    }
     var ss = JSON.stringify({
       longitude: localStorage.getItem("longitude"),
       lattitude: localStorage.getItem("lattitude"),
@@ -137,7 +216,9 @@ export class SavedPage implements OnInit {
 
     this.rest.events_saved(ss).subscribe((res: any) => {
       console.log("events---", res);
-      this.rest.dismissLoader();
+      if(this.eventarr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.eventarr = res.data.sort((a: any, b: any) => {
           // console.log("testppppppppppopopopopopoopopopopopopopopo");
@@ -148,23 +229,18 @@ export class SavedPage implements OnInit {
         this.noevent = 1;
       }
     });
+  }
 
-    this.rest.venues_saved(ss).subscribe((res: any) => {
-      console.log("venues---", res);
-      this.rest.dismissLoader();
-      if (res.status == "success") {
-        this.venuarr = res.data.sort((a: any, b: any) => {
-          // console.log("testppppppppppopopopopopoopopopopopopopopo");
-          return a.distance - b.distance;
-        });
-        this.venuarrOrg = res.data.sort((a: any, b: any) => {
-          // console.log("testppppppppppopopopopopoopopopopopopopopo");
-          return a.distance - b.distance;
-        });
-      } else {
-        // this.rest.presentToast(res.message);
-        this.noevenu = 1;
-      }
+  getClaimedVenues(){
+    let data = {
+      "users_customers_id":this.userID
+    };
+    this.rest.sendRequest('get_claimed_venues',data ).subscribe((res: any)=>{
+    console.log("get_claimed_venues",res);
+    if(res.status == 'success'){
+      this.claimedVenues = res.data;
+    }
+      
     });
   }
 

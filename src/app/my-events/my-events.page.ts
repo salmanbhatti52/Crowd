@@ -32,10 +32,21 @@ export class MyEventsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.rest.presentLoader();
+    
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
+    this.getUpcomingBookings();
+  }
 
+  segmentChanged(event: any) {
+    console.log(this.segmentModel);
+    console.log("eee", event);
+  }
+  
+  getUpcomingBookings(){
+    if(this.orderd_upcomingArr.length == 0){
+      this.rest.presentLoader();
+    }
     var ss = {
       users_customers_id: this.userID,
       lattitude: localStorage.getItem("longitude"),
@@ -44,7 +55,9 @@ export class MyEventsPage implements OnInit {
 
     this.rest.sendRequest("get_upcoming_events_list",ss).subscribe((res: any) => {
       console.log("get_upcoming_events_list------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_upcomingArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.upcomingArr = res.data;
         for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
@@ -55,10 +68,23 @@ export class MyEventsPage implements OnInit {
         
       }
     });
+  }
+
+  getPreviousBookings(){
+    if(this.orderd_previousArr.length == 0){
+      this.rest.presentLoader();
+    }
+    var ss = {
+      users_customers_id: this.userID,
+      lattitude: localStorage.getItem("longitude"),
+      longitude: localStorage.getItem("lattitude"),
+    };
 
     this.rest.sendRequest("get_previous_events_list",ss).subscribe((res: any) => {
       console.log("get_previous_events_list------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_previousArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.previousArr = res.data;
         for(let i= this.previousArr.length-1, j=0; i>=0; i--){

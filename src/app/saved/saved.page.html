@@ -71,7 +71,7 @@
             --border-radius: 20px;
             --background-checked: #611ea5;
           "
-          value="venu"
+          value="venu" (click)="getsavedVenues()"
         >
           <ion-label>Venues</ion-label>
         </ion-segment-button>
@@ -91,7 +91,7 @@
               #956b1c 99.77%
             ); ;
           "
-          value="event"
+          value="event" (click)="getsavedEvents()"
         >
           <ion-label>Events</ion-label>
         </ion-segment-button>
@@ -149,7 +149,7 @@
             *ngIf="opt.likes!=0"
             src="assets/imgs/heartactive.svg"
           />
-          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
+          <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg"
             >No Discount
           </ion-badge>
           <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"

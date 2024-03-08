@@ -36,6 +36,7 @@
       
       mode="ios"
       [(ngModel)]="segmentModel"
+      (ionChange)="segmentChanged($event)"
       value="inProcess"
     >
       <ion-segment-button
@@ -46,7 +47,7 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="inProcess"
+        value="inProcess" (click)="getPendingRequests()"
       >
         <ion-label>In Process</ion-label>
       </ion-segment-button>
@@ -58,7 +59,7 @@
           --border-radius: 20px;
           --background-checked: #611ea5;
         "
-        value="Refunded"
+        value="Refunded" (click)="getRefundedRequests()"
       >
         <ion-label>Refunded</ion-label>
       </ion-segment-button>

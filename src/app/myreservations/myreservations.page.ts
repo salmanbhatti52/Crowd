@@ -34,17 +34,29 @@ export class MyreservationsPage implements OnInit {
   ngOnInit() {}
   
   ionViewWillEnter() {
-    this.rest.presentLoader();
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
+    this.getUpcomingBookings();
+  }
 
+  segmentChanged(event: any) {
+    console.log(this.segmentModel);
+    console.log("eee", event);
+  }
+
+  getUpcomingBookings(){
+    if(this.orderd_upcomingArr.length == 0){
+      this.rest.presentLoader();
+    }
     var ss = JSON.stringify({
       users_customers_id: this.userID,
     });
 
     this.rest.bookings_upcoming(ss).subscribe((res: any) => {
       console.log("bookings_upcoming------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_upcomingArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.upcomingArr = res.data;
         for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
@@ -56,9 +68,21 @@ export class MyreservationsPage implements OnInit {
       }
     });
 
+  }
+
+  getPreviousBookings(){
+    if(this.orderd_previousArr.length == 0){
+      this.rest.presentLoader();
+    }
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+    });
+
     this.rest.bookings_previous(ss).subscribe((res: any) => {
       console.log("bookings_previous------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_previousArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.previousArr = res.data;
         for(let i= this.previousArr.length-1, j=0; i>=0; i--){

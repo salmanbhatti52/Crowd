@@ -33,11 +33,22 @@ export class MyRefundsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.rest.presentLoader();
+    
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     console.log("user id:", this.userID);
-    
+    this.getPendingRequests();
+  }
+  
+  segmentChanged(event: any) {
+    console.log(this.segmentModel);
+    console.log("eee", event);
+  }
+
+  getPendingRequests(){
+    if(this.orderd_inProgressArr.length == 0){
+      this.rest.presentLoader();
+    }
     var ss = {
       users_customers_id: this.userID,
       lattitude: localStorage.getItem("longitude"),
@@ -46,7 +57,9 @@ export class MyRefundsPage implements OnInit {
 
     this.rest.sendRequest("pending_requests",ss).subscribe((res: any) => {
       console.log("inProgressArr resss------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_inProgressArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.inProgressArr = res.data;
         for(let i= this.inProgressArr.length-1, j=0; i>=0; i--){
@@ -57,10 +70,23 @@ export class MyRefundsPage implements OnInit {
         
       }
     });
+  }
+
+  getRefundedRequests(){
+    if(this.orderd_refundedArr.length == 0){
+      this.rest.presentLoader();
+    }
+    var ss = {
+      users_customers_id: this.userID,
+      lattitude: localStorage.getItem("longitude"),
+      longitude: localStorage.getItem("lattitude"),
+    };
 
     this.rest.sendRequest("refunded_requests",ss).subscribe((res: any) => {
       console.log("refundedArr ressssss------", res);
-      this.rest.dismissLoader();
+      if(this.orderd_refundedArr.length == 0){
+        this.rest.dismissLoader();
+      }
       if (res.status == "success") {
         this.refundedArr = res.data;
         for(let i= this.refundedArr.length-1, j=0; i>=0; i--){
@@ -71,26 +97,8 @@ export class MyRefundsPage implements OnInit {
         
       }
     });
-
-    // this.rest.bookings_previous(ss).subscribe((res: any) => {
-    //   console.log("bookings_previous------", res);
-    //   this.rest.dismissLoader();
-    //   if (res.status == "success") {
-    //     this.previousArr = res.data;
-    //     for(let i= this.previousArr.length-1, j=0; i>=0; i--){
-    //       this.orderd_previousArr[j] = this.previousArr[i];
-    //       j++;        
-    //     }
-    //     console.log("orderd_previousArr: ",this.orderd_previousArr);
-    //   }
-    // });
   }
 
-  // getTime(val:any){
-  //   if(val){
-  //     return val.substring(0,5);
-  //   }
-  // }
   gotoBookingDetails(data:any){
     // console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
     // console.log(data);
