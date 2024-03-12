@@ -981,7 +981,8 @@ export class HomePage implements OnInit {
 
   getVenues(){
     this.noevenu = 0;
-    
+    this.pageNumber = 1;
+    this.filtertype = "no";
     console.log('get venues called');
     
     var ss = JSON.stringify({
@@ -1005,7 +1006,6 @@ export class HomePage implements OnInit {
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
-          res.data[i].venue_type = JSON.parse(res.data[i].venue_type); 
         }
         this.venuarr = res.data.sort((a: any, b: any) => {
           return a.distance - b.distance;
@@ -1043,7 +1043,8 @@ export class HomePage implements OnInit {
 
   getReservations(){
     this.noReservations = 0;
-    
+    this.pageNumber = 1;
+    this.reservationFilter = "no";
     console.log('get Reservations called');
 
     var ss = JSON.stringify({
@@ -1068,7 +1069,6 @@ export class HomePage implements OnInit {
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
             res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
-            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.reservationsArr = res.data.sort((a: any, b: any) => {
             return a.distance - b.distance;
@@ -1088,6 +1088,8 @@ export class HomePage implements OnInit {
 
   getEvents(){
     this.noevent = 0;
+    this.pageNumber = 1;
+    this.filterTypeEv = "no";
     console.log('get Events called');
 
     var ss = JSON.stringify({
@@ -1183,7 +1185,6 @@ export class HomePage implements OnInit {
         if (res.status == "success") {
           for(let i=0; i<res.data.length; i++){
             res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`;
-            res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.venuarr = this.venuarr.concat(
             res.data.sort((a: any, b: any) => {
@@ -1201,7 +1202,7 @@ export class HomePage implements OnInit {
               //     return a.distance - b.distance;
               //   })
               // );
-          this.filteredvenuarr = this.venuarr
+          this.filteredvenuarr = this.venuarr;
           console.log("Updated filtered Venu Array",this.venuarr);
           this.rest.venuArrHome = this.venuarr
           // this.rest.venuArrHome = this.venuarr.concat(
@@ -1227,7 +1228,6 @@ export class HomePage implements OnInit {
         if(res.status == 'success'){
           for(let i=0; i<res.data.length; i++){
             res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
-            // res.data[i].venue_type = JSON.parse(res.data[i].venue_type);
           }
           this.reservationsArr = this.reservationsArr.concat(res.data.sort((a: any, b: any) => {
             return a.distance - b.distance;
