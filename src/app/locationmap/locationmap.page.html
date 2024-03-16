@@ -372,9 +372,10 @@
         </div>
         <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-          <p class="work_sans titlesub">
+          <p class="work_sans titlesub" *ngIf="searchObject.start_hours!=null">
              {{searchObject.start_hours}} - {{searchObject.close_hours}}
           </p>
+          <p *ngIf="searchObject.start_hours==null" class="work_sans titlesub">Closed</p>
         </div>
       </div>
     </div>

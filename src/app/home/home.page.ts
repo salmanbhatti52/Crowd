@@ -60,6 +60,8 @@ export class HomePage implements OnInit {
   currentLat:any;
   currentLong:any;
   intervalId:any;
+  venueKeywords:any = [];
+  eventKeywords:any = [];
   constructor(
     public router: Router,
     public rest: RestService,
@@ -75,6 +77,85 @@ export class HomePage implements OnInit {
   // ionViewWillLeave() {
   //   clearInterval(this.intervalId);
   // }
+
+  getVenueAIKeywords(){
+    let data = {
+      "customer_id":this.userID
+    }
+    this.rest.sendRequest('venues_keywords',data).subscribe((res:any)=>{
+      // console.log("venue_keywords are", res);
+      if(res.status == 'success'){
+        let venueKeywordsObj:any = {};
+        venueKeywordsObj.budget = res.data[0].Budget;
+        venueKeywordsObj.cuisine = res.data[0].Cuisine;
+        venueKeywordsObj.food = res.data[0].Food;
+        venueKeywordsObj.music = res.data[0].Music;
+        venueKeywordsObj.types = res.data[0].Types;
+        venueKeywordsObj.payments = ['cash','card'];
+        venueKeywordsObj.checks = ['near me','in my area', 'quite', 'quiet', 'busy', 'very busy'];
+        // 9:00 p.m. 12:00 p.m.
+        // venueKeywordsObj.state = ['quite','quiet','busy','very busy'];
+
+        for(let i=0; i<venueKeywordsObj.budget.length; i++){
+         venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].budget_range;
+        //  venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].split(/\s+/)[0];
+        }
+        for(let i=0; i<venueKeywordsObj.cuisine.length; i++){
+          venueKeywordsObj.cuisine[i] = venueKeywordsObj.cuisine[i].cusine;
+        }
+        for(let i=0; i<venueKeywordsObj.types.length; i++){
+          venueKeywordsObj.types[i] = venueKeywordsObj.types[i].venues_type_name;
+        }
+        for(let i=0; i<venueKeywordsObj.music.length; i++){
+          venueKeywordsObj.music[i] = venueKeywordsObj.music[i].music_type;
+          // venueKeywordsObj.music[i] = venueKeywordsObj.music[i].split(/\s+/)[0];
+        }
+
+        for(let i=0; i<venueKeywordsObj.food.length; i++){
+          venueKeywordsObj.food[i] = venueKeywordsObj.food[i].food_type;
+        }
+        // console.log(venueKeywordsObj);
+        this.venueKeywords = [...venueKeywordsObj.budget, ...venueKeywordsObj.cuisine, ...venueKeywordsObj.types, ...venueKeywordsObj.music, ...venueKeywordsObj.food, ...venueKeywordsObj.payments, ...venueKeywordsObj.checks];
+      
+        console.log('Venue Keywords:', this.venueKeywords);
+        // this.findWords();
+      }      
+    });
+  }
+  getEventAIKeywords(){
+    let data = {
+      "customer_id":this.userID
+    }
+    this.rest.sendRequest('event_keywords',data).subscribe((res:any)=>{
+      console.log("Event_keywords are", res);
+      if(res.status == 'success'){
+        let eventKeywordsObj:any = {};
+       
+        eventKeywordsObj.music = res.data[0].Event_Music;
+        eventKeywordsObj.types = res.data[0].Event_Exp;
+        
+        eventKeywordsObj.checks = ['near me','in my area'];
+        // 9:00 p.m. 12:00 p.m.
+       
+
+      
+        for(let i=0; i<eventKeywordsObj.types.length; i++){
+          eventKeywordsObj.types[i] = eventKeywordsObj.types[i].event_type;
+        }
+        for(let i=0; i<eventKeywordsObj.music.length; i++){
+          eventKeywordsObj.music[i] = eventKeywordsObj.music[i].event_music;
+          // venueKeywordsObj.music[i] = venueKeywordsObj.music[i].split(/\s+/)[0];
+        }
+
+      
+        // console.log(eventKeywordsObj);
+        this.eventKeywords = [...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks];
+      
+        console.log('Event Keywords:', this.eventKeywords);
+       
+      }      
+    });
+  }
 
   alwaysSendCurrentLocation() {
     this.intervalId = setInterval(()=>{
@@ -108,6 +189,7 @@ export class HomePage implements OnInit {
   
   ngOnInit() {
     this.segmentModel = 'venu';
+    
   }
 
   getClaimedVenues(){
@@ -133,7 +215,7 @@ export class HomePage implements OnInit {
   async startSpeechRecognition(){
     
     if(this.listener){
-      console.log(this.listener);
+      // console.log(this.listener);
       
       this.listener = false;
       SpeechRecognition.stop();
@@ -158,10 +240,10 @@ export class HomePage implements OnInit {
     }
 
     this.yourVoiceInput = '';
-    console.log('startSpeechRecognition');
+    // console.log('startSpeechRecognition');
     
     const {available} = await SpeechRecognition.available();
-    console.log('availability res: ',available);
+    // console.log('availability res: ',available);
 
     if(available){
       this.listener = true;
@@ -173,7 +255,7 @@ export class HomePage implements OnInit {
       });
 
       SpeechRecognition.addListener("partialResults", async (data: any) => {
-        console.log("partialResults was fired", data.matches);
+        // console.log("partialResults was fired", data.matches);
         if(data.matches && data.matches.length > 0){  
           this.yourVoiceInput = data.matches[0];
           this.changeDetectorRef.detectChanges();
@@ -184,10 +266,10 @@ export class HomePage implements OnInit {
   }
 
   async stopSpeechRecognition(){
-    console.log('stopSpeechRecognition');
+    // console.log('stopSpeechRecognition');
     
     if(this.listener){
-      console.log(this.listener);
+      // console.log(this.listener);
       
       this.listener = false;
       SpeechRecognition.stop();
@@ -203,9 +285,7 @@ export class HomePage implements OnInit {
   }
 
   findResults(){
-    // console.log('findResults your voice input 1: ',this.yourVoiceInput);
     this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
-    // console.log('findResults your voice input 2: ',this.yourVoiceInput);
     let tokens = this.yourVoiceInput.split(/\s+/);
     console.log(tokens);
     if(this.segmentModel == "venu"){
@@ -221,73 +301,291 @@ export class HomePage implements OnInit {
     }
     
   }
-
+  
   findVenueAndDiscount = (inputTokens:string[]) => {
     this.noevenu = 0;
-    let filteredVenues = [];
-    let foundVenue = false;
-    let foundDiscount = false;
-    let venueName:string = '';
-    let venuNameTokens = [];
-    let venuDiscount = '';
-    // setTimeout(() => {
-    //   this.rest.presentLoaderWd();  
-    // }, 1000);
+    let filteredVenues:any[] = [];
     
+    let findNearMe = false;
+    let findInMyArea = false;
+    let findbusyStatus = false;
+    let busyStatus = '';
+
+    let foundNearMe = false;
+    let foundInMyArea = false;
+    let foundbusyStatus = false;
+
+    let foundVenueName = false;
+    let foundDiscount = false; 
+    let foundNamedLocation = false;
+    let foundSpecifiedChecks = false; 
+    
+    let venueName:string = '';
+    let venueNameTokens: string[] = [];
+    let venueLocationName:string = '';
+    let venueLocationNameTokens: string[] = [];
+    let venueDiscount = '';
+
+
+    let foundWords = this.findWords(inputTokens);
+    console.log("foundWords for loop: ",foundWords);
+    
+    
+    if(foundWords.length > 0){
+      findNearMe = foundWords.includes('near me');
+      findInMyArea = foundWords.includes('in my area');
+
+      if(foundWords.includes('busy') ){
+        busyStatus = 'busy';
+        findbusyStatus = true;
+      }else if(foundWords.includes('very busy')){
+        busyStatus = 'very busy';
+        findbusyStatus = true;
+      }else if(foundWords.includes('quite') || foundWords.includes('quiet')){
+        busyStatus = 'quiet';
+        findbusyStatus = true;
+      }else{}
+    }
+
+    
+
     for (let venueIndex = 0; venueIndex < this.venuarr.length; venueIndex++) {
       foundDiscount = false;
-      foundVenue = false;
-      
-      if(this.venuarr[venueIndex].discount_percentage != null){
-        venuDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
-      }else{
-        venuDiscount = '';
-      }
+      foundVenueName = false;
+      foundSpecifiedChecks = false;
+      foundNamedLocation = false;
+      foundbusyStatus = false;
+      foundNearMe = false;
+      foundInMyArea = false;
+
+      // ================= fetching data from venue data from next line =====================
+
      
-      console.log("venuDiscount: ",venuDiscount);
+      if(foundWords.length == 0){
+        
+        if(this.venuarr[venueIndex].discount_percentage != null){
+          venueDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
+        }else{
+          venueDiscount = '';
+        }
+        // console.log("venuDiscount: ",venuDiscount);
+        
+        venueName = this.venuarr[venueIndex].name.toLowerCase();
+        venueNameTokens = venueName.split(/\s+/);
+        
+        // console.log(venuNameTokens);
+
+        venueLocationName = this.venuarr[venueIndex].location.toLowerCase();
+        venueLocationNameTokens = venueLocationName.split(/\s+/);
+        // console.log(venueLocationNameTokens);
+      }else if(foundWords.length > 0){
+        
+        venueLocationName = this.venuarr[venueIndex].location.toLowerCase();
+        venueLocationNameTokens = venueLocationName.split(/\s+/);
+        // console.log(venueLocationNameTokens);
+        
+      }else{}
+
+      // =========== finding required results from next line ===========================
       
-      venueName = this.venuarr[venueIndex].name.toLowerCase();
-      venuNameTokens = venueName.split(/\s+/);
+      if(foundWords.length == 0){
+        foundVenueName = this.filterForAI(inputTokens, venueNameTokens);
+        console.log('foundVenueName: ',foundVenueName);
+      
+        foundDiscount = this.filterForAI(inputTokens,venueDiscount.split(/\s+/));
+        console.log('foundDiscount: ',foundDiscount);
+        
+        foundNamedLocation = this.filterForAI(inputTokens, venueLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else if(foundWords.length >0){
 
-      console.log(venuNameTokens);
-
-      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
-
-        if(venuNameTokens.includes(inputTokens[inputTokenIndex])){
-          
-          console.log('Venue Match Found');
-          console.log(venuNameTokens);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundVenue = true;
+        foundNamedLocation = this.filterForAI(inputTokens, venueLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else{}
+       
+      if(foundWords.length > 0){
+        // if(this.venuarr[venueIndex].venue_keywords.length > 0 && foundWords.length > 0){
+          let venueKeywords =  this.venuarr[venueIndex].venue_keywords
+          foundSpecifiedChecks = this.filterVenuesForAIFeature(venueKeywords, foundWords);
+          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        // } 
+  
+        if(findbusyStatus){
+          if(this.venuarr[venueIndex].availability.toLowerCase() == busyStatus){
+            foundbusyStatus = true;
+            console.log('foundbusyStatus: ',foundbusyStatus);
+            
+          }
         }
 
-        if(venuDiscount == inputTokens[inputTokenIndex]){
-          console.log('Discount Match Found');
-          console.log(venuDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
+        if(findNearMe){
+          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0){
+            foundNearMe = true;
+            console.log("foundNearMe: ",findNearMe);
+          }
         }
+        // else
+         if(findInMyArea){
+          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 2.1){
+            foundInMyArea = true;
+            console.log("foundInMyArea: ",foundInMyArea);
+          }
+        }
+        // else{}
+      }  
 
-        if(venuDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
-          console.log('Discount Match Found');
-          console.log(venuDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
+        
+
+      // ==================== time to count found results=====================
+
+      if(foundWords.length > 0){
+
+        if(findNearMe && findbusyStatus && foundSpecifiedChecks ){
+          if(foundNearMe && foundbusyStatus){
+            console.log('adding venue by 1');
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+        }
+  
+        else if(findInMyArea && findbusyStatus && foundSpecifiedChecks ){
+          if(foundInMyArea && foundbusyStatus){
+            console.log('adding venue by 2');
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
         }
         
+        else if(foundNamedLocation && findbusyStatus && foundSpecifiedChecks ){
+          if(foundbusyStatus){
+            console.log('adding venue by 3');
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+        }
+
+        else if(findNearMe && findbusyStatus){
+          if(foundNearMe && foundbusyStatus){
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+          console.log('adding venue by 4');
+
+        }
+  
+        else if(findInMyArea && findbusyStatus){
+          if(foundInMyArea && foundbusyStatus){
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+          console.log('adding venue by 5');
+
+        }
+        
+        else if(foundNamedLocation && findbusyStatus){
+          if(foundbusyStatus){
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+          console.log('adding venue by 6');
+
+        }
+
+        else if(findNearMe  && foundSpecifiedChecks){
+          if(foundNearMe){
+            filteredVenues.push(this.venuarr[venueIndex]);
+            console.log('adding venue by 7');
+          }
+
+        }
+  
+        else if(findInMyArea && foundSpecifiedChecks){
+          if(foundInMyArea){
+            filteredVenues.push(this.venuarr[venueIndex]);
+            console.log('adding venue by 8');
+          }
+        }
+  
+        else if(foundNamedLocation  && foundSpecifiedChecks){
+          filteredVenues.push(this.venuarr[venueIndex]);
+          console.log('adding venue by 8');
+
+        }
+  
+        else if(findbusyStatus && foundSpecifiedChecks){
+          if(foundbusyStatus){
+            filteredVenues.push(this.venuarr[venueIndex]);
+            console.log('adding venue by 9');
+
+          }
+        }
+
+         //================== handling single cases====================
+
+        //  else if(!findNearMe && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredVenues.push(this.venuarr[venueIndex]);
+        //   }
+        //   console.log('adding venue by single case 1');
+
+        // }
+  
+        // else if(!findInMyArea && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredVenues.push(this.venuarr[venueIndex]);
+        //   }
+        //   console.log('adding venue by single case 2');
+
+        // }
+        
+        // else if(!foundNamedLocation && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredVenues.push(this.venuarr[venueIndex]);
+        //   }
+        //   console.log('adding venue by single case 3');
+
+        // }
+
+        // else if(findNearMe && !findbusyStatus){
+        //   if(foundNearMe){
+        //     filteredVenues.push(this.venuarr[venueIndex]);
+        //   }
+        //   console.log('adding venue by single case 4');
+
+        // }
+  
+        // else if(findInMyArea && !findbusyStatus){
+        //   if(foundInMyArea){
+        //     filteredVenues.push(this.venuarr[venueIndex]);
+        //   }
+        //   console.log('adding venue by single case 5');
+
+        // }
+
+      
+        // ============== single case done =================
+        
+        else if(foundSpecifiedChecks){
+          filteredVenues.push(this.venuarr[venueIndex]);
+          console.log('adding venue by 10');
+
+        }
+  
+        else{
+  
+        }
+
+      }else if(foundWords.length == 0){
+        if(foundVenueName || foundDiscount || foundNamedLocation){
+          console.log("foundVenueName: ",foundVenueName);
+          console.log("foundDiscount: ",foundDiscount);
+          console.log('foundNamedLocation: ', foundNamedLocation);
+          console.log('adding venue by 11');
+          
+          filteredVenues.push(this.venuarr[venueIndex]);
+        }
+      }else{
+
       }
-
-      if(foundVenue || foundDiscount){
-        console.log("foundVenue: ",foundVenue);
-        console.log("foundDiscount: ",foundDiscount);
-        
-        filteredVenues.push(this.venuarr[venueIndex]);
-     }
       
     }
+
     this.filtertype = 'yes';
     console.log("filteredVenues: ",filteredVenues); 
     this.venuarr = filteredVenues;
@@ -299,74 +597,486 @@ export class HomePage implements OnInit {
     }
     
   };
+  
+  findWords(inputTokens:string[]) {
+    let foundWords:string[] = [];
+    
+    this.venueKeywords.forEach((keyword:string) => {
+      const formattedVenuKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      // console.log("formattedVenuKeyword: ",formattedVenuKeyword);
+      let result = formattedVenuKeyword.every((key:string)=>{
+        let res = false;
+        inputTokens.forEach((token:string)=>{
+          
+          if(token == 'rnb' && key == 'r&b'){
+            res = true;
+          }else{
+            if(token === key){
+              res = true;
+            }else if(this.stemWord(token) === key ){
+              res = true;
+            }
+           
+          }
+          
+        });
+        return res;
+      });
+      // console.log(result);
+      if(result){
+        // console.log('Match found');
+        foundWords.push(keyword);
+      } 
+    });
+    // console.log(foundWords);
+    return foundWords;
+    
+  }
+
+  findWordsforEvents(inputTokens:string[]) {
+    let foundWords:string[] = [];
+    
+    this.eventKeywords.forEach((keyword:string) => {
+      const formattedEventKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      // console.log("formattedEventKeyword: ",formattedEventKeyword);
+      let result = formattedEventKeyword.every((key:string)=>{
+        let res = false;
+        inputTokens.forEach((token:string)=>{
+          
+          if(token == 'rnb' && key == 'r&b'){
+            res = true;
+          }else{
+            if(token === key){
+              res = true;
+            }else if(this.stemWord(token) === key ){
+              res = true;
+            }
+           
+          }
+          
+        });
+        return res;
+      });
+      // console.log(result);
+      if(result){
+        // console.log('Match found');
+        foundWords.push(keyword);
+      } 
+    });
+    // console.log(foundWords);
+    return foundWords;
+    
+  }
+
+  stemWord(word:string){
+    if(word.endsWith('s')){
+      return word.slice(0,-1);
+    }
+    return word;
+  }
+
+  filterForAI(inputTokens:string[], targetTokens:string[]){
+    return targetTokens.some((token:any)=>{
+      if(token == '0%'){
+        if(inputTokens.includes('0%') || inputTokens.includes('zero')){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return inputTokens.includes(token);
+      }
+      
+    });
+  }
+
+  filterVenuesForAIFeature(keywords:any[], queryParams:string[]){
+    let otherKeys = ['near me','in my area', 'quite', 'quiet', 'busy', 'very busy']
+    return queryParams.every((param:string)=>{
+      const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      console.log('New param is: ',paramKey);
+      
+      let res = false;
+     
+     
+        for(let i=0; i<keywords.length; i++){
+          let keyword = keywords[i].keyword_value;
+          const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+          res = paramKey.every((pk:any)=>{
+            if(keys.includes(pk)){
+              return true;
+            }else if(!keys.includes(pk)){
+              if(otherKeys.includes(param)){
+                console.log('other keys');
+                console.log(param);
+                return true;
+              }else{
+                return false;
+              }
+              
+            }else{
+              return false;
+            }
+            
+          });
+          if(res){
+            console.log('Match found: ', res);
+            console.log('word is: ',paramKey);
+            console.log('key is: ',keys);
+            
+            break;
+          }
+        }
+
+        if(!res){
+          console.log('Result for this parma is:', res);
+          console.log('word is: ',paramKey);
+        }
+       
+      return res;
+    });
+  }
+
+  filterEventsForAIFeature(keywords:any[], queryParams:string[]){
+    let otherKeys = ['near me','in my area'];
+    return queryParams.every((param:string)=>{
+      const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      console.log('New param is: ',paramKey);
+      
+      let res = false;
+     
+     
+        for(let i=0; i<keywords.length; i++){
+          let keyword = keywords[i].keyword_value;
+          const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+          res = paramKey.every((pk:any)=>{
+            if(keys.includes(pk)){
+              return true;
+            }else if(!keys.includes(pk)){
+              if(otherKeys.includes(param)){
+                console.log('other keys');
+                console.log(param);
+                return true;
+              }else{
+                return false;
+              }
+              
+            }else{
+              return false;
+            }
+            
+          });
+          if(res){
+            console.log('Match found: ', res);
+            console.log('word is: ',paramKey);
+            console.log('key is: ',keys);
+            
+            break;
+          }
+        }
+
+        if(!res){
+          console.log('Result for this parma is:', res);
+          console.log('word is: ',paramKey);
+        }
+       
+      return res;
+    });
+  }
 
   findReservationAndDiscount = (inputTokens:string[]) => {
     this.noReservations = 0;
     let filteredReservations = [];
-    let foundReservation = false;
+
+    let findNearMe = false;
+    let findInMyArea = false;
+    let findbusyStatus = false;
+    let busyStatus = '';
+
+    let foundNearMe = false;
+    let foundInMyArea = false;
+    let foundbusyStatus = false;
+
+    let foundReservationName = false;
     let foundDiscount = false;
+    let foundNamedLocation = false;
+    let foundSpecifiedChecks = false; 
+
+
     let reservationName:string = '';
-    let reservationNameTokens = [];
+    let reservationNameTokens: string[] = [];
+    let reservationLocationName:string = '';
+    let reservationLocationNameTokens: string[] = [];
     let reservationDiscount = '';
-    // setTimeout(() => {
-    //   this.rest.presentLoaderWd();  
-    // }, 1000);
+
+    let foundWords = this.findWords(inputTokens);
+    console.log("foundWords for loop: ",foundWords);
     
+    
+    if(foundWords.length > 0){
+      findNearMe = foundWords.includes('near me');
+      findInMyArea = foundWords.includes('in my area');
+
+      if(foundWords.includes('busy') ){
+        busyStatus = 'busy';
+        findbusyStatus = true;
+      }else if(foundWords.includes('very busy')){
+        busyStatus = 'very busy';
+        findbusyStatus = true;
+      }else if(foundWords.includes('quite') || foundWords.includes('quiet')){
+        busyStatus = 'quiet';
+        findbusyStatus = true;
+      }else{}
+    }
+
+    
+
     for (let reservationIndex = 0; reservationIndex < this.filteredReservationsArr.length; reservationIndex++) {
       foundDiscount = false;
-      foundReservation = false;
-      
-      if(this.filteredReservationsArr[reservationIndex].discount_percentage != null){
-        reservationDiscount = this.filteredReservationsArr[reservationIndex].discount_percentage.toString() + '%';
-      }
-      else{
-        reservationDiscount = '';
-      }
-      
-      console.log("ReservationDiscount: ",reservationDiscount);
-      
-      reservationName = this.filteredReservationsArr[reservationIndex].name.toLowerCase();
-      reservationNameTokens = reservationName.split(/\s+/);
+      foundReservationName = false;
+      foundSpecifiedChecks = false;
+      foundNamedLocation = false;
+      foundbusyStatus = false;
+      foundNearMe = false;
+      foundInMyArea = false;
 
-      console.log(reservationNameTokens);
+      // ================= fetching data from venue data from next line =====================
 
-      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
-
-        if(reservationNameTokens.includes(inputTokens[inputTokenIndex])){
-          
-          console.log('Reservatione Match Found');
-          console.log(reservationNameTokens);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundReservation = true;
+     
+      if(foundWords.length == 0){
+        
+        if(this.filteredReservationsArr[reservationIndex].discount_percentage != null){
+          reservationDiscount = this.filteredReservationsArr[reservationIndex].discount_percentage.toString() + '%';
         }
-
-        if(reservationDiscount == inputTokens[inputTokenIndex]){
-          console.log('Discount Match Found');
-          console.log(reservationDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
-        }
-
-        if(reservationDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
-          console.log('Discount Match Found');
-          console.log(reservationDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
+        else{
+          reservationDiscount = '';
         }
         
-      }
-
-      if(foundReservation || foundDiscount){
-        console.log("foundReservatione: ",foundReservation);
-        console.log("foundDiscount: ",foundDiscount);
+        // console.log("ReservationDiscount: ",reservationDiscount);
         
-        filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
-     }
+        reservationName = this.filteredReservationsArr[reservationIndex].name.toLowerCase();
+        reservationNameTokens = reservationName.split(/\s+/);
+  
+        // console.log(reservationNameTokens);
+
+       
+
+        reservationLocationName = this.filteredReservationsArr[reservationIndex].location.toLowerCase();
+        reservationLocationNameTokens = reservationLocationName.split(/\s+/);
+       
+        // console.log(reservationLocationNameTokens);
+
+      }else if(foundWords.length > 0){
+        
+        reservationLocationName = this.filteredReservationsArr[reservationIndex].location.toLowerCase();
+        reservationLocationNameTokens = reservationLocationName.split(/\s+/);
+       
+        // console.log(reservationLocationNameTokens);
+        
+      }else{}
+
+      // =========== finding required results from next line ===========================
+      
+      if(foundWords.length == 0){
+        foundReservationName = this.filterForAI(inputTokens, reservationNameTokens);
+        console.log('foundReservationName: ',foundReservationName);
+      
+        foundDiscount = this.filterForAI(inputTokens,reservationDiscount.split(/\s+/));
+        console.log('foundDiscount: ',foundDiscount);
+        
+        foundNamedLocation = this.filterForAI(inputTokens, reservationLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else if(foundWords.length >0){
+
+        foundNamedLocation = this.filterForAI(inputTokens, reservationLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else{}
+       
+      if(foundWords.length > 0){
+        // if(this.filteredReservationsArr[reservationIndex].venue_keywords.length > 0 && foundWords.length > 0){
+          let venueKeywords =  this.filteredReservationsArr[reservationIndex].venue_keywords;
+          foundSpecifiedChecks = this.filterVenuesForAIFeature(venueKeywords, foundWords);
+          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        // } 
+  
+        if(findbusyStatus){
+          if(this.filteredReservationsArr[reservationIndex].availability.toLowerCase() == busyStatus){
+            foundbusyStatus = true;
+            console.log('foundbusyStatus: ',foundbusyStatus);
+            
+          }
+        }
+
+        if(findNearMe){
+          if(Number.parseFloat(this.filteredReservationsArr[reservationIndex].distance) <= 1.0){
+            foundNearMe = true;
+            console.log("foundNearMe: ",findNearMe);
+          }
+        }
+        // else
+         if(findInMyArea){
+          if(Number.parseFloat(this.filteredReservationsArr[reservationIndex].distance) <= 2.1){
+            foundInMyArea = true;
+            console.log("foundInMyArea: ",foundInMyArea);
+          }
+        }
+        // else{}
+      }  
+
+        
+
+      // ==================== time to count found results=====================
+
+      if(foundWords.length > 0){
+
+        if(findNearMe && findbusyStatus && foundSpecifiedChecks ){
+          if(foundNearMe && foundbusyStatus){
+            console.log('adding venue by 1');
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+        }
+  
+        else if(findInMyArea && findbusyStatus && foundSpecifiedChecks ){
+          if(foundInMyArea && foundbusyStatus){
+            console.log('adding venue by 2');
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+        }
+        
+        else if(foundNamedLocation && findbusyStatus && foundSpecifiedChecks ){
+          if(foundbusyStatus){
+            console.log('adding venue by 3');
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+        }
+
+        else if(findNearMe && findbusyStatus){
+          if(foundNearMe && foundbusyStatus){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+          console.log('adding venue by 4');
+
+        }
+  
+        else if(findInMyArea && findbusyStatus){
+          if(foundInMyArea && foundbusyStatus){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+          console.log('adding venue by 5');
+
+        }
+        
+        else if(foundNamedLocation && findbusyStatus){
+          if(foundbusyStatus){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          }
+          console.log('adding venue by 6');
+
+        }
+
+        else if(findNearMe  && foundSpecifiedChecks){
+          if(foundNearMe){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+            console.log('adding venue by 7');
+          }
+
+        }
+  
+        else if(findInMyArea && foundSpecifiedChecks){
+          if(foundInMyArea){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+            console.log('adding venue by 8');
+          }
+        }
+  
+        else if(foundNamedLocation  && foundSpecifiedChecks){
+          filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          console.log('adding venue by 8');
+
+        }
+  
+        else if(findbusyStatus && foundSpecifiedChecks){
+          if(foundbusyStatus){
+            filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+            console.log('adding venue by 9');
+
+          }
+        }
+
+         //================== handling single cases====================
+
+        //  else if(!findNearMe && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        //   }
+        //   console.log('adding venue by single case 1');
+
+        // }
+  
+        // else if(!findInMyArea && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        //   }
+        //   console.log('adding venue by single case 2');
+
+        // }
+        
+        // else if(!foundNamedLocation && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        //   }
+        //   console.log('adding venue by single case 3');
+
+        // }
+
+        // else if(findNearMe && !findbusyStatus){
+        //   if(foundNearMe){
+        //     filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        //   }
+        //   console.log('adding venue by single case 4');
+
+        // }
+  
+        // else if(findInMyArea && !findbusyStatus){
+        //   if(foundInMyArea){
+        //     filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        //   }
+        //   console.log('adding venue by single case 5');
+
+        // }
+
+      
+        // ============== single case done =================
+        
+        else if(foundSpecifiedChecks){
+          filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+          console.log('adding venue by 10');
+
+        }
+  
+        else{
+  
+        }
+
+      }else if(foundWords.length == 0){
+        if(foundReservationName || foundDiscount || foundNamedLocation){
+          console.log("foundReservationNamee: ",foundReservationName);
+          console.log("foundDiscount: ",foundDiscount);
+          console.log('foundNamedLocation: ', foundNamedLocation);
+          console.log('adding venue by 11');
+          
+          filteredReservations.push(this.filteredReservationsArr[reservationIndex]);
+        }
+
+      }else{
+
+      }
       
     }
+
+
     this.reservationFilter = 'yes';
     console.log("filteredReservationes: ",filteredReservations); 
     this.filteredReservationsArr = filteredReservations;
@@ -382,69 +1092,231 @@ export class HomePage implements OnInit {
   findEventAndDiscount = (inputTokens:string[]) => {
     this.noevent = 0;
     let filteredEvents = [];
-    let foundEvent = false;
-    let foundDiscount = false;
-    let eventName:string = '';
-    let eventNameTokens = [];
-    let eventDiscount = '';
-    // setTimeout(() => {
-    //   this.rest.presentLoaderWd();  
-    // }, 1000);
+
+    let findNearMe = false;
+    let findInMyArea = false;
+   
+    let foundNearMe = false;
+    let foundInMyArea = false;
     
-    for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
-      foundDiscount = false;
-      foundEvent = false;
-      
-      if(this.eventarr[eventIndex].discount_percentage != null){
-        eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
-      }else{
-        eventDiscount = '';
-      }
-     
-      console.log("eventDiscount: ",eventDiscount);
-      
-      eventName = this.eventarr[eventIndex].name.toLowerCase();
-      eventNameTokens = eventName.split(/\s+/);
+    let foundEventName = false;
+    let foundDiscount = false;
+    let foundNamedLocation = false;
+    let foundSpecifiedChecks = false; 
+    
+    
+    let eventName:string = '';
+    let eventNameTokens: string[] = [];
+    let eventLocationName:string = '';
+    let eventLocationNameTokens: string[] = [];
+    let eventDiscount = '';
 
-      console.log(eventNameTokens);
-
-      for (let inputTokenIndex = 0; inputTokenIndex < inputTokens.length; inputTokenIndex++) {
-
-        if(eventNameTokens.includes(inputTokens[inputTokenIndex])){
-          
-          console.log('Event Match Found');
-          console.log(eventNameTokens);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundEvent = true;
-        }
-
-        if(eventDiscount == inputTokens[inputTokenIndex]){
-          console.log('Discount Match Found');
-          console.log(eventDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
-        }
-
-        if(eventDiscount == '0%' && inputTokens[inputTokenIndex] == 'zero'){
-          console.log('Discount Match Found');
-          console.log(eventDiscount);
-          console.log(inputTokens[inputTokenIndex]);
-          
-          foundDiscount = true;
-        }
-        
-      }
-
-      if(foundEvent || foundDiscount){
-        console.log("foundEvent: ",foundEvent);
-        console.log("foundDiscount: ",foundDiscount);
-        
-        filteredEvents.push(this.eventarr[eventIndex]);
-     }
+    let foundWords = this.findWordsforEvents(inputTokens);
+    console.log("foundWords for loop: ",foundWords); 
+    
+    if(foundWords.length > 0){
+      findNearMe = foundWords.includes('near me');
+      findInMyArea = foundWords.includes('in my area');
+      console.log('findNearMe: ',findNearMe);
+      console.log('findInMyArea: ',findInMyArea);
       
     }
+
+    for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
+      foundDiscount = false;
+      foundEventName = false;
+      foundSpecifiedChecks = false;
+      foundNamedLocation = false;
+      foundNearMe = false;
+      foundInMyArea = false;
+
+      // ================= fetching data from venue data from next line =====================
+      
+     
+      if(foundWords.length == 0){
+        
+        if(this.eventarr[eventIndex].discount_percentage != null){
+          eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
+        }else{
+          eventDiscount = '';
+        }
+       
+        // console.log("eventDiscount: ",eventDiscount);
+
+        eventName = this.eventarr[eventIndex].name.toLowerCase();
+        eventNameTokens = eventName.split(/\s+/);
+  
+        // console.log(eventNameTokens);
+
+        eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
+        eventLocationNameTokens = eventLocationName.split(/\s+/);
+        // console.log(eventLocationNameTokens);
+      }else if(foundWords.length > 0){
+        
+        eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
+        eventLocationNameTokens = eventLocationName.split(/\s+/);
+        // console.log(eventLocationNameTokens);
+        
+      }else{}
+
+      // =========== finding required results from next line ===========================
+      
+      if(foundWords.length == 0){
+        foundEventName = this.filterForAI(inputTokens, eventNameTokens);
+        console.log('foundEventName: ',foundEventName);
+      
+        foundDiscount = this.filterForAI(inputTokens,eventDiscount.split(/\s+/));
+        console.log('foundDiscount: ',foundDiscount);
+        
+        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else if(foundWords.length >0){
+
+        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else{}
+       
+      if(foundWords.length > 0){
+        // if(this.eventarr[eventIndex].venue_keywords.length > 0 && foundWords.length > 0){
+          let eventKeywords =  this.eventarr[eventIndex].event_keywords
+          foundSpecifiedChecks = this.filterEventsForAIFeature(eventKeywords, foundWords);
+          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        // } 
+
+        if(findNearMe){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+            foundNearMe = true;
+            console.log("foundNearMe: ",findNearMe);
+          }
+        }
+        // else
+         if(findInMyArea){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 2.1){
+            foundInMyArea = true;
+            console.log("foundInMyArea: ",foundInMyArea);
+          }
+        }
+        // else{}
+      }  
+
+        
+
+      // ==================== time to count found results=====================
+
+      if(foundWords.length > 0){
+
+        if(findNearMe &&  foundSpecifiedChecks ){
+          if(foundNearMe ){
+            console.log('adding venue by 1');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }
+        }
+  
+        else if(findInMyArea  && foundSpecifiedChecks ){
+          if(foundInMyArea ){
+            console.log('adding venue by 2');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }
+        }
+        
+        else if(foundNamedLocation &&  foundSpecifiedChecks ){
+          console.log('adding venue by 3');
+          filteredEvents.push(this.eventarr[eventIndex]);
+        }
+
+        else if( foundSpecifiedChecks){
+          filteredEvents.push(this.eventarr[eventIndex]);
+          console.log('adding venue by 9');
+        }
+
+        // else if(findNearMe ){
+        //   if(foundNearMe ){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by 4');
+
+        // }
+  
+        // else if(findInMyArea){
+        //   if(foundInMyArea ){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by 5');
+
+        // }
+        
+        // else if(foundNamedLocation){
+        //   filteredEvents.push(this.eventarr[eventIndex]);
+        //   console.log('adding venue by 6');
+        // }
+  
+         //================== handling single cases====================
+
+        //  else if(!findNearMe && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 1');
+
+        // }
+  
+        // else if(!findInMyArea && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 2');
+
+        // }
+        
+        // else if(!foundNamedLocation && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 3');
+
+        // }
+
+        // else if(findNearMe && !findbusyStatus){
+        //   if(foundNearMe){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 4');
+
+        // }
+  
+        // else if(findInMyArea && !findbusyStatus){
+        //   if(foundInMyArea){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 5');
+
+        // }
+
+      
+        // ============== single case done =================
+  
+        else{
+  
+        }
+
+      }else if(foundWords.length == 0){
+        if(foundEventName || foundDiscount || foundNamedLocation){
+          console.log("foundEventName: ",foundEventName);
+          console.log("foundDiscount: ",foundDiscount);
+          console.log('foundNamedLocation: ', foundNamedLocation);
+          console.log('adding venue by 11');
+          
+          filteredEvents.push(this.eventarr[eventIndex]);
+        }
+
+      }else{
+
+      }
+      
+    }
+
     this.filterTypeEv = 'yes';
     console.log("filteredEvents: ",filteredEvents); 
     this.eventarr = filteredEvents;
@@ -456,8 +1328,6 @@ export class HomePage implements OnInit {
     }
     
   };
-
-
 
 
   dismissModal(){
@@ -967,7 +1837,8 @@ export class HomePage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.alwaysSendCurrentLocation();
     this.getClaimedVenues();
-    
+    this.getVenueAIKeywords();
+    this.getEventAIKeywords();
     this.getVenues();
     this.ai = JSON.parse(this.userdata).ai_feature;
 
