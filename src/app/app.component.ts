@@ -70,7 +70,12 @@ export class AppComponent {
     // } else {
     //   this.navCtrl.navigateRoot('home/tabs/home2');
     // }
-    this.pushNotification();
+    if(!this.platform.is('mobileweb')){
+      console.log("Platform is: ",this.platform); 
+      this.pushNotification();
+    }
+
+    
   }
   pushNotification() {
     console.log("push notification in function.....");
@@ -87,7 +92,7 @@ export class AppComponent {
       console.log("OneSignal: subscription changed:", event);
       localStorage.setItem("onesignaluserid", event.userId);
       //if (event.to.isSubscribed) {
-      await OneSignal.getDeviceState((res) => {
+      OneSignal.getDeviceState((res) => {
         console.log("AppToken---------", res.userId);
         localStorage.setItem("onesignaluserid", res.userId);
       });

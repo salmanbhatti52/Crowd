@@ -12,6 +12,7 @@ import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import { eachHourOfInterval, eachMinuteOfInterval, set } from "date-fns";
 declare var google: any;
+import { Platform } from "@ionic/angular";
 
 @Component({
   selector: "app-home",
@@ -69,14 +70,70 @@ export class HomePage implements OnInit {
     private http:HttpClient,
     private geoCoder: MapGeocoder,
     private changeDetectorRef: ChangeDetectorRef,
+    private platform:Platform
   ) {
-    this.requestPermissions();
+    if(!this.platform.is("mobileweb")){
+      console.log('Requesting permissions');
+      
+      this.requestPermissions();
+      
+    }
+    // this.testFunction();
     
   }
 
   // ionViewWillLeave() {
   //   clearInterval(this.intervalId);
   // }
+
+//  testTokens = ['show', 'me', 'all', 'non', 'indoor', 'events'];
+//  evKeywords = ['Bar', 'Night Club', 'Festival', 'Restaurant', 'Student Event', 'Bingo', 'Gin', 'Beer Garden', 'Promo Event', 'Whiskey', 'Comedy', 'Group Fun', 'Outdoor', 'Experiences', 'Sports', 'Cocktail', 'Indoor', 'Food', 'Alchohol', 'Rock Music', 'Indie Music', 'R&B Music', 'Grime Music', 'Pop Music', 'Retro Music', 'Dance Music', 'House Music', 'near me', 'in my area', 'non', 'do not include'];
+// // result is: ['Indoor', 'non']
+
+// testFunction(){
+//   console.log(this.testTokens);
+//   // console.log(this.testTokens);
+//  let resultingOutput  = this.findWordForEvents(this.testTokens);
+//   console.log('resultingOutput:',resultingOutput);
+// }
+
+
+
+
+// findWordForEvents(inputTokens: string[]) {
+//     let foundWords: string[] = [];
+
+//     for (let i = 0; i < inputTokens.length; i++) {
+//       console.log('inputTokens[i]:',inputTokens[i]);
+//         const sequence = inputTokens.slice(i);
+//         console.log('sequence:',sequence);
+        
+//         const matchingKeyword = this.evKeywords.find((keyword: string) => {
+//             const formattedEventKeyword = keyword.toLowerCase().replace(/-/g, ' ').split(/\s+/);
+//             return this.isSequenceMatch(formattedEventKeyword, sequence);
+//         });
+//         console.log('matchingKeyword:',matchingKeyword);
+//         if (matchingKeyword) {
+//             foundWords.push(matchingKeyword);
+//         }
+//     }
+
+//     return foundWords;
+// }
+
+// isSequenceMatch(keyword: string[], sequence: string[]) {
+//     if (keyword.length > sequence.length) {
+//         return false;
+//     }
+
+//     for (let i = 0; i < keyword.length; i++) {
+//         if (keyword[i] !== sequence[i]) {
+//             return false;
+//         }
+//     }
+
+//     return true;
+// }
 
   getVenueAIKeywords(){
     let data = {
@@ -133,8 +190,8 @@ export class HomePage implements OnInit {
        
         eventKeywordsObj.music = res.data[0].Event_Music;
         eventKeywordsObj.types = res.data[0].Event_Exp;
-        
-        eventKeywordsObj.checks = ['near me','in my area'];
+        eventKeywordsObj.negations = ['non','do not include'];
+        eventKeywordsObj.checks = ['near me','around me','in my area'];
         // 9:00 p.m. 12:00 p.m.
        
 
@@ -149,7 +206,7 @@ export class HomePage implements OnInit {
 
       
         // console.log(eventKeywordsObj);
-        this.eventKeywords = [...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks];
+        this.eventKeywords = [...eventKeywordsObj.negations , ...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks];
       
         console.log('Event Keywords:', this.eventKeywords);
        
@@ -657,12 +714,14 @@ export class HomePage implements OnInit {
         });
         return res;
       });
+      
       // console.log(result);
       if(result){
         // console.log('Match found');
         foundWords.push(keyword);
       } 
     });
+    
     // console.log(foundWords);
     return foundWords;
     
@@ -738,47 +797,95 @@ export class HomePage implements OnInit {
   }
 
   filterEventsForAIFeature(keywords:any[], queryParams:string[]){
-    let otherKeys = ['near me','in my area'];
+    let otherKeys = ['non','do not include','near me','around me','in my area'];
+    let negationKeyIndex: number | undefined = undefined;
     return queryParams.every((param:string)=>{
       const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
       console.log('New param is: ',paramKey);
+      console.log('negationKeyIndex: ',negationKeyIndex);
       
       let res = false;
-     
-     
-        for(let i=0; i<keywords.length; i++){
-          let keyword = keywords[i].keyword_value;
-          const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
-          res = paramKey.every((pk:any)=>{
-            if(keys.includes(pk)){
-              return true;
-            }else if(!keys.includes(pk)){
-              if(otherKeys.includes(param)){
+      
+      for(let i=0; i<keywords.length; i++){
+        let keyword = keywords[i].keyword_value;
+        const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+        
+        
+        res = paramKey.every((pk:any,index)=>{
+          if(keys.includes(pk) && negationKeyIndex === undefined){
+            console.log('case 1');
+            console.log('keys: ',keys);
+            console.log('paramKey: ',paramKey);
+            return true;
+          }
+          else if(keys.includes(pk) && negationKeyIndex !== undefined){
+            // if(index === paramKey.length-1){
+              negationKeyIndex = undefined;
+            // }
+            console.log('case 2');
+            console.log('keys: ',keys);
+            console.log('paramKey: ',paramKey);
+            return false;
+          }
+          // else if(!keys.includes(pk) && negationKeyIndex !== undefined){
+          //   if(index === paramKey.length-1){
+          //     negationKeyIndex = undefined;
+          //   }
+          //   console.log('case 3');
+          //   console.log('keys: ',keys);
+          //   console.log('paramKey: ',paramKey);
+          //   return true;
+          // }
+          else if(!keys.includes(pk) && negationKeyIndex === undefined){
+            if(otherKeys.includes(param)){
+            
+              if(param === 'non' || param === 'do not include'){
+
+                if(index === paramKey.length-1){
+                  negationKeyIndex = queryParams.indexOf(param);
+
+                }
+                console.log('other keys(negation)');
+                console.log('case 4');
+                
+                console.log(param);
+                return true;
+                
+              }else{
+                console.log('case 5');
+
                 console.log('other keys');
                 console.log(param);
                 return true;
-              }else{
-                return false;
               }
-              
+           
             }else{
+              console.log('case 6');
+              
               return false;
             }
-            
-          });
-          if(res){
-            console.log('Match found: ', res);
-            console.log('word is: ',paramKey);
-            console.log('key is: ',keys);
-            
-            break;
+          } 
+          else{
+            console.log('case 7');
+            return false;
           }
-        }
-
-        if(!res){
-          console.log('Result for this parma is:', res);
+        });
+        if(res){ 
+          console.log('Match found: ', res);
           console.log('word is: ',paramKey);
+          console.log('key is: ',keys);
+          
+          break;
         }
+      }
+
+      if(!res && negationKeyIndex !== undefined){
+        res = true;
+        negationKeyIndex = undefined;
+      }else if(!res && negationKeyIndex === undefined){
+        console.log('Result for this parma is:', res);
+        console.log('word is: ',paramKey);
+      }
        
       return res;
     });
@@ -1094,9 +1201,11 @@ export class HomePage implements OnInit {
     let filteredEvents = [];
 
     let findNearMe = false;
+    let findAroundMe = false;
     let findInMyArea = false;
    
     let foundNearMe = false;
+    let foundAroundMe = false;
     let foundInMyArea = false;
     
     let foundEventName = false;
@@ -1116,10 +1225,11 @@ export class HomePage implements OnInit {
     
     if(foundWords.length > 0){
       findNearMe = foundWords.includes('near me');
+      findAroundMe = foundWords.includes('around me');
       findInMyArea = foundWords.includes('in my area');
       console.log('findNearMe: ',findNearMe);
       console.log('findInMyArea: ',findInMyArea);
-      
+    
     }
 
     for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
@@ -1128,6 +1238,7 @@ export class HomePage implements OnInit {
       foundSpecifiedChecks = false;
       foundNamedLocation = false;
       foundNearMe = false;
+      foundAroundMe = false;
       foundInMyArea = false;
 
       // ================= fetching data from venue data from next line =====================
@@ -1191,8 +1302,15 @@ export class HomePage implements OnInit {
             console.log("foundNearMe: ",findNearMe);
           }
         }
+
+        if(findAroundMe){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+            findAroundMe = true;
+            console.log("findAroundMe: ",findAroundMe);
+          }
+        }
         // else
-         if(findInMyArea){
+        if(findInMyArea){
           if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 2.1){
             foundInMyArea = true;
             console.log("foundInMyArea: ",foundInMyArea);
@@ -1210,6 +1328,13 @@ export class HomePage implements OnInit {
         if(findNearMe &&  foundSpecifiedChecks ){
           if(foundNearMe ){
             console.log('adding venue by 1');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }
+        }
+
+        else if(findAroundMe &&  foundSpecifiedChecks ){
+          if(foundAroundMe ){
+            console.log('adding venue by 1.1');
             filteredEvents.push(this.eventarr[eventIndex]);
           }
         }
