@@ -813,7 +813,7 @@ export class HomePage implements OnInit {
         
         res = paramKey.every((pk:any,index)=>{
           if(keys.includes(pk) && negationKeyIndex === undefined){
-            console.log('case 1');
+            // console.log('case 1');
             console.log('keys: ',keys);
             console.log('paramKey: ',paramKey);
             return true;
@@ -822,7 +822,7 @@ export class HomePage implements OnInit {
             // if(index === paramKey.length-1){
               negationKeyIndex = undefined;
             // }
-            console.log('case 2');
+            // console.log('case 2');
             console.log('keys: ',keys);
             console.log('paramKey: ',paramKey);
             return false;
@@ -846,13 +846,13 @@ export class HomePage implements OnInit {
 
                 }
                 console.log('other keys(negation)');
-                console.log('case 4');
+                // console.log('case 4');
                 
                 console.log(param);
                 return true;
                 
               }else{
-                console.log('case 5');
+                // console.log('case 5');
 
                 console.log('other keys');
                 console.log(param);
@@ -860,13 +860,13 @@ export class HomePage implements OnInit {
               }
            
             }else{
-              console.log('case 6');
+              // console.log('case 6');
               
               return false;
             }
           } 
           else{
-            console.log('case 7');
+            // console.log('case 7');
             return false;
           }
         });
@@ -2291,13 +2291,64 @@ export class HomePage implements OnInit {
 
     const {data,role} = await modal.onWillDismiss();
     if(role == 'success'){
+      let filteredEvents = [];
+      // console.log("data recieved",data);
+      let date = data.eventDate;
+      let address = data.address;
+    
+      let filterAddressTokens = [];
+      let eventAddressTokens = [];
+      if(date === 'Date' && address !== undefined ){
+        // filter by address
+        
+        filterAddressTokens = address.split(',');
+        console.log("filterAddressTokens",filterAddressTokens);
+        
+        for(let i=0; i<this.eventsArrayCopy.length; i++){
+          // console.log(this.eventsArrayCopy[i]);
+          eventAddressTokens = this.eventsArrayCopy[i].location.split(',');
+          if(eventAddressTokens[0] == filterAddressTokens[0]){
+            filteredEvents.push(this.eventsArrayCopy[i]);
+          }
+
+        }
+      }else if(date !== 'Date' && address === undefined){
+        // filter by date
+        for(let i=0; i<this.eventsArrayCopy.length; i++){
+          // console.log(this.eventsArrayCopy[i]);
+          if(this.eventsArrayCopy[i].event_date == date){
+            filteredEvents.push(this.eventsArrayCopy[i]);
+          }
+        }
+      }
+      else if(date !== 'Date' && address !== undefined){
+        // filter by date and address
+
+        filterAddressTokens = address.split(',');
+        console.log("filterAddressTokens",filterAddressTokens);
+
+        for(let i=0; i<this.eventsArrayCopy.length; i++){
+          // console.log(this.eventsArrayCopy[i]);
+          eventAddressTokens = this.eventsArrayCopy[i].location.split(',');
+          if(eventAddressTokens[0] == filterAddressTokens[0] && this.eventsArrayCopy[i].event_date == date){
+            filteredEvents.push(this.eventsArrayCopy[i]);
+          }
+        }
+      }else{
+
+      }
       this.filterTypeEv = 'yes';
-      this.eventarr = data;
+      this.eventarr = filteredEvents;
+      if(this.eventarr.length == 0){
+        this.noevent = 1;
+      }else{
+        this.noevent = 0;
+      }
       console.log("Ev Arr...", this.eventarr);
     }else if(role == 'error'){
-      this.filterTypeEv = 'yes';
-      this.eventarr = data;
-      console.log("Ev Arr...", this.eventarr);
+      // this.filterTypeEv = 'yes';
+      // this.eventarr = data;
+      // console.log("Ev Arr...", this.eventarr);
     }else{
 
     }

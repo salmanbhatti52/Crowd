@@ -234,39 +234,47 @@ export class FilterPage implements OnInit {
 
   filterEvents() {
     if((this.address == '' || this.address == undefined) && this.userdate == "Date"){
-      this.rest.presentToast('Plz select location or date')
+      this.rest.presentToast('Plz add some input for filter');
     }
+
     // else if(this.userdate == "Date" || this.userdate == undefined){
     //   this.rest.presentToast('Plz select date')
     // }
     else{
       let data = {
-        users_customers_id:this.userId,
-        longitude:this.longitude,
-        lattitude:this.latitude,
-        page_number:"1",
-        event_date:this.userdate,
-        location:this.address
+        address: this.address,
+        eventDate: this.userdate,
       }
-      let filteredEvents:any[]
-      console.log("api data:",data);
-      this.rest.presentLoader();
-      this.rest.sendRequest('events_search',data).subscribe((res:any)=>{
-        this.rest.dismissLoader();
-        console.log("Events Search Response",res);
-        if(res.status=='success'){
-          this.rest.presentToast(res.status);
-          filteredEvents = res.data;
-          this.modalCtrl.dismiss(filteredEvents, 'success');
-        }else if(res.status == 'error'){
-          this.rest.presentToast(res.message);
-          this.modalCtrl.dismiss(filteredEvents, 'error');
-        }
-      },(err)=>{
-        this.rest.dismissLoader();
-        console.log("Errrr: ",err);
-        this.modalCtrl.dismiss();
-      })
+      console.log('filter data:',data);
+      
+      this.modalCtrl.dismiss(data, 'success');
+      // let data = {
+      //   users_customers_id:this.userId,
+      //   longitude:this.longitude,
+      //   lattitude:this.latitude,
+      //   page_number:"1",
+      //   event_date:this.userdate,
+      //   location:this.address
+      // }
+      // let filteredEvents:any[]
+      // console.log("api data:",data);
+      // this.rest.presentLoader();
+      // this.rest.sendRequest('events_search',data).subscribe((res:any)=>{
+      //   this.rest.dismissLoader();
+      //   console.log("Events Search Response",res);
+      //   if(res.status=='success'){
+      //     this.rest.presentToast(res.status);
+      //     filteredEvents = res.data;
+      //     this.modalCtrl.dismiss(filteredEvents, 'success');
+      //   }else if(res.status == 'error'){
+      //     this.rest.presentToast(res.message);
+      //     this.modalCtrl.dismiss(filteredEvents, 'error');
+      //   }
+      // },(err)=>{
+      //   this.rest.dismissLoader();
+      //   console.log("Errrr: ",err);
+      //   this.modalCtrl.dismiss();
+      // })
       
     }
     
