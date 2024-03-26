@@ -25,7 +25,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { format, getDay, parse } from "date-fns";
+import { format, getDay, isEqual, parse } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 @Component({
   selector: "app-locationmap",
@@ -334,6 +334,7 @@ export class LocationmapPage implements OnInit {
   ai = '';
   aiToggleChecked: boolean = false;
   venueKeywords: any = [];
+  dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   constructor(
     public router: Router,
     public rest: RestService,
@@ -399,7 +400,7 @@ export class LocationmapPage implements OnInit {
           venueKeywordsObj.food[i] = venueKeywordsObj.food[i].food_type;
         }
         // console.log(venueKeywordsObj);
-        this.venueKeywords = [...venueKeywordsObj.budget, ...venueKeywordsObj.cuisine, ...venueKeywordsObj.types, ...venueKeywordsObj.music, ...venueKeywordsObj.food, ...venueKeywordsObj.payments, ...venueKeywordsObj.checks];
+        this.venueKeywords = [...venueKeywordsObj.budget, ...venueKeywordsObj.cuisine, ...venueKeywordsObj.types, ...venueKeywordsObj.music, ...venueKeywordsObj.food, ...venueKeywordsObj.payments, ...venueKeywordsObj.checks , ...this.dayTimeKeywords];
       
         console.log('Venue Keywords:', this.venueKeywords);
         // this.findWords();
@@ -476,13 +477,17 @@ export class LocationmapPage implements OnInit {
     let filteredVenues:any[] = [];
     
     let findNearMe = false;
+    let findAroundMe = false;
     let findInMyArea = false;
     let findbusyStatus = false;
+    let findDayTime = false;
     let busyStatus = '';
 
     let foundNearMe = false;
+    let foundAroundMe = false;
     let foundInMyArea = false;
     let foundbusyStatus = false;
+    let foundDayTime = false;
 
     let foundVenueName = false;
     let foundDiscount = false; 
@@ -494,6 +499,8 @@ export class LocationmapPage implements OnInit {
     let venueLocationName:string = '';
     let venueLocationNameTokens: string[] = [];
     let venueDiscount = '';
+    let dayTimeTokens: string[] = [];
+    let venueEndTime:string;
 
 
     let foundWords = this.findWords(inputTokens);
@@ -502,7 +509,18 @@ export class LocationmapPage implements OnInit {
     
     if(foundWords.length > 0){
       findNearMe = foundWords.includes('near me');
+      findAroundMe = foundWords.includes('around me');
       findInMyArea = foundWords.includes('in my area');
+      dayTimeTokens = this.findCommonDayTimeTokens(foundWords);
+      console.log('dayTimeTokens: ',dayTimeTokens);
+      console.log('findNearMe: ',findNearMe);
+      console.log('findInMyArea: ',findInMyArea);
+
+      if(dayTimeTokens.length >=3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) && 
+      (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.')) ){
+        findDayTime = true;
+      }
+
 
       if(foundWords.includes('busy') ){
         busyStatus = 'busy';
@@ -526,6 +544,8 @@ export class LocationmapPage implements OnInit {
       foundbusyStatus = false;
       foundNearMe = false;
       foundInMyArea = false;
+      foundAroundMe = false;
+      foundDayTime = false;
 
       // ================= fetching data from venue data from next line =====================
 
@@ -572,6 +592,45 @@ export class LocationmapPage implements OnInit {
         foundNamedLocation = this.filterVenuesForAI(inputTokens, venueLocationNameTokens);
         console.log('foundNamedLocation: ',foundNamedLocation);
     
+         // ---------------------looking for daytime match----------------------
+        
+         if(findDayTime){
+          // foundDayTime will be true for all events have matched time
+          console.log('tonight not found');
+          
+          let dayNumber = getDay(new Date());
+          if(this.venuarr[venueIndex].venue_timing[dayNumber].close_hours != null){
+            venueEndTime = this.venuarr[venueIndex].venue_timing[dayNumber].close_hours;
+          }else{
+            venueEndTime = '';
+          }
+
+          if(venueEndTime != ''){
+            let requestedTime:string = '';
+          
+            if(dayTimeTokens[0] === 'until') { 
+              requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+            }else if(dayTimeTokens[0] === 'till') {
+              requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+            }
+  
+            if(this.isVenueClosingTimeMatch(venueEndTime,requestedTime, dayTimeTokens)){
+              foundDayTime = true;
+            }else{
+              foundDayTime = false;
+            }
+
+          }else{
+            foundDayTime = false;
+            console.log('venueEndTime not found');
+            
+          }
+
+          console.log('foundDayTime:',foundDayTime);
+          
+        }
+
+        // -------------------------- till here --------------------------
       }else{}
        
       if(foundWords.length > 0){
@@ -595,6 +654,13 @@ export class LocationmapPage implements OnInit {
             console.log("foundNearMe: ",findNearMe);
           }
         }
+
+        if(findAroundMe){
+          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0){
+            foundAroundMe = true;
+            console.log("findAroundMe: ",findAroundMe);
+          }
+        }
         // else
          if(findInMyArea){
           if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 2.1){
@@ -611,53 +677,85 @@ export class LocationmapPage implements OnInit {
 
       if(foundWords.length > 0){
 
-        if(findNearMe && findbusyStatus && foundSpecifiedChecks ){
-          if(foundNearMe && foundbusyStatus){
+        if(findNearMe && findbusyStatus && foundSpecifiedChecks && findDayTime ){
+          if(foundNearMe && foundbusyStatus && foundDayTime){
+            console.log('adding venue by 1');
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+        }
+
+        else if(findAroundMe && findbusyStatus && foundSpecifiedChecks && findDayTime ){
+          if(foundAroundMe && foundbusyStatus && foundDayTime){
             console.log('adding venue by 1');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
   
-        else if(findInMyArea && findbusyStatus && foundSpecifiedChecks ){
-          if(foundInMyArea && foundbusyStatus){
+        else if(findInMyArea && findbusyStatus && foundSpecifiedChecks && findDayTime ){
+          if(foundInMyArea && foundbusyStatus && foundDayTime){
             console.log('adding venue by 2');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
         
-        else if(foundNamedLocation && findbusyStatus && foundSpecifiedChecks ){
-          if(foundbusyStatus){
+        else if(foundNamedLocation && findbusyStatus && foundSpecifiedChecks && findDayTime ){
+          if(foundbusyStatus && foundDayTime){
             console.log('adding venue by 3');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
 
-        else if(findNearMe && findbusyStatus){
-          if(foundNearMe && foundbusyStatus){
+        else if(findNearMe && findbusyStatus  && findDayTime ){
+          if(foundNearMe && foundbusyStatus && foundDayTime){
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }
+          console.log('adding venue by 4');
+
+        }
+
+        else if(findAroundMe && findbusyStatus  && findDayTime ){
+          if(foundAroundMe && foundbusyStatus && foundDayTime){
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 4');
 
         }
   
-        else if(findInMyArea && findbusyStatus){
-          if(foundInMyArea && foundbusyStatus){
+        else if(findInMyArea && findbusyStatus  && findDayTime ){
+          if(foundInMyArea && foundbusyStatus && foundDayTime){
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 5');
 
         }
         
-        else if(foundNamedLocation && findbusyStatus){
-          if(foundbusyStatus){
+        else if(foundNamedLocation && findbusyStatus && findDayTime ){
+          if(foundbusyStatus && foundDayTime){
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 6');
 
         }
 
+        else if(foundSpecifiedChecks && findDayTime){
+          if(foundDayTime){
+            console.log('adding venue by 4');
+            filteredVenues.push(this.venuarr[venueIndex]);
+          }else{
+            console.log('No matching criteria found 4');
+          }
+        }
+
         else if(findNearMe  && foundSpecifiedChecks){
           if(foundNearMe){
+            filteredVenues.push(this.venuarr[venueIndex]);
+            console.log('adding venue by 7');
+          }
+
+        }
+
+        else if(findAroundMe  && foundSpecifiedChecks){
+          if(foundAroundMe){
             filteredVenues.push(this.venuarr[venueIndex]);
             console.log('adding venue by 7');
           }
@@ -765,7 +863,9 @@ export class LocationmapPage implements OnInit {
   
   findWords(inputTokens:string[]) {
     let foundWords:string[] = [];
-    
+    // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00
+    let specialTimeCase = false;
+    let specialTimeValue = '';
     this.venueKeywords.forEach((keyword:string) => {
       const formattedVenuKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
       // console.log("formattedVenuKeyword: ",formattedVenuKeyword);
@@ -775,6 +875,20 @@ export class LocationmapPage implements OnInit {
           
           if(token == 'rnb' && key == 'r&b'){
             res = true;
+          }else if(token.includes(':') && key.includes(':')){
+            console.log("token is", token);
+           
+            let splitToken = token.split(':');
+            let splitKey = key.split(':');
+    
+            if(splitToken[0] === splitKey[0]){
+              console.log('splitToken:',splitToken);
+              console.log('splitKey: ', splitKey);
+              specialTimeCase = true;
+              specialTimeValue = token;
+              res = true;
+            }
+           
           }else{
             if(token === key){
               res = true;
@@ -789,8 +903,14 @@ export class LocationmapPage implements OnInit {
       });
       // console.log(result);
       if(result){
-        // console.log('Match found');
-        foundWords.push(keyword);
+        if(specialTimeCase){
+          foundWords.push(specialTimeValue);
+          specialTimeCase = false;
+        }else{
+          // console.log('Match found');
+          foundWords.push(keyword);
+        }
+        
       } 
     });
     // console.log(foundWords);
@@ -821,7 +941,7 @@ export class LocationmapPage implements OnInit {
   }
 
   filterVenuesForAIFeature(keywords:any[], queryParams:string[]){
-    let otherKeys = ['near me','in my area', 'quite', 'quiet', 'busy', 'very busy']
+    let otherKeys = ['near me','in my area','until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'quite', 'quiet', 'busy', 'very busy']
     return queryParams.every((param:string)=>{
       const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
       console.log('New param is: ',paramKey);
@@ -836,7 +956,7 @@ export class LocationmapPage implements OnInit {
             if(keys.includes(pk)){
               return true;
             }else if(!keys.includes(pk)){
-              if(otherKeys.includes(param)){
+              if(otherKeys.includes(param) || param.includes(':')){
                 console.log('other keys');
                 console.log(param);
                 return true;
@@ -865,6 +985,81 @@ export class LocationmapPage implements OnInit {
        
       return res;
     });
+  }
+
+  isVenueClosingTimeMatch(eventEndTime:string, userRequestedTimeStr:string, dayTimeTokens:string[]) {
+
+    try {
+      let requestedTimeDate = new Date();
+      let eventEndTimeDate; 
+
+      // Parse the closing time string into a Date object
+      eventEndTimeDate = parse(eventEndTime, 'HH:mm:ss', new Date());
+
+      // Parse the user requested time string into a Date object
+      requestedTimeDate = parse(userRequestedTimeStr, 'h:mm aaaa', new Date());
+
+      console.log('requestedTimeDate: ',requestedTimeDate);
+      
+      console.log('eventEndTimeDate: ',eventEndTimeDate);
+
+      if(isEqual(requestedTimeDate, eventEndTimeDate)){
+        return true;
+      }
+
+      return false;
+      
+    } catch (error) {
+      console.log(error);
+      
+      return false;
+      
+    }
+    
+
+    
+  }
+
+  
+  findCommonDayTimeTokens(foundWords:string[]){
+    let commonDayTimeTokens:string[] = [];
+    
+    for(let word of foundWords){
+      console.log('word: ', word);
+      for(let key of this.dayTimeKeywords){
+
+       if(word.includes(':') && key.includes(':')){
+        console.log("word is", word);
+       
+        let splitWord = word.split(':');
+        let splitKey = key.split(':');
+
+        if(splitWord[0] === splitKey[0]){
+          console.log('splitToken:',splitWord);
+          console.log('splitKey: ', splitKey);
+          commonDayTimeTokens.push(word);
+          break;
+        }
+       
+        }else if(!word.includes(':') && !key.includes(':')){
+          if(word === key){
+            commonDayTimeTokens.push(word);
+            break;
+          }
+        }
+
+      }
+      
+    }
+    return commonDayTimeTokens;
+  }
+
+  standardizeHour(hour:string){
+    if(hour.includes(':')){
+      return hour;
+    }else{
+      return `${hour}:00`;
+    }
   }
 
   setMarkersForFoundVenues = (foundVenues:any) => {

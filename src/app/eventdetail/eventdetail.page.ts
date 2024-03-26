@@ -60,6 +60,8 @@ export class EventdetailPage implements OnInit {
       // parse in date object format
       start_time = parse(this.detailObj.event_start_time, 'HH:mm:ss', new Date());
       end_time = parse(this.detailObj.event_end_time, 'HH:mm:ss', new Date());
+      // console.log('start_time: ttttttttt', parse(this.detailObj.event_end_time, 'HH:mm:ss', new Date()));
+      
       //format the date
       start_time = format(start_time, 'h:mma');
       end_time = format(end_time, 'h:mma');

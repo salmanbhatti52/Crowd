@@ -44,7 +44,7 @@
 
     <ion-row *ngIf="detailObj.venues_id != null">
       <ion-col class="slider_main">
-        <ion-slides pager="true" style="height: 250px">
+        <ion-slides pager="true" >
           <ion-slide *ngFor="let p of detailObj.images; let i = index">
             <div class="slide">
               <img
@@ -59,7 +59,7 @@
     </ion-row>
     <ion-row *ngIf="detailObj.venues_id == null">
       <ion-col class="slider_main">
-        <ion-slides pager="true" style="height: 250px">
+        <ion-slides pager="true" >
           <ion-slide >
             <div class="slide">
               <img
@@ -79,7 +79,7 @@
       <div style="width: 48%;" class="titlemain work_sans">{{detailObj.name}}</div>
       <!-- <p class="titlemain2 work_sans">{{detailObj.name2}}</p> -->
       <div style="display: flex;align-items:center;">
-        <div class="rating_text work_sans">{{ratingValue}}</div>
+        <!-- <div class="rating_text work_sans">{{ratingValue}}</div> -->
         <div class="margin_row">
           <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue==0">
           <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=1 "   >
