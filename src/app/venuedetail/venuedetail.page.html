@@ -81,17 +81,21 @@
       <div style="display: flex;align-items:center;">
         <!-- <div class="rating_text work_sans">{{ratingValue}}</div> -->
         <div class="margin_row">
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue==0">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=1 "   >
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<2">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=2 "   >
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<3">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=3 ">
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<4">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue>=4 ">
-          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="ratingValue<5" style="margin-right: 0px;">
-          <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt=""   *ngIf="ratingValue==5" style="margin-right: 0px;">
-        </div>
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg"    alt=""  *ngIf="ratingValue==0">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg"      alt=""  *ngIf="ratingValue>=1">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg"    alt=""  *ngIf="ratingValue<1.2">
+          <img class="star_margin"  src="../../assets/imgs/half_filled_star.svg" alt=""  *ngIf="ratingValue>=1.2 && ratingValue<2 ">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg"      alt=""  *ngIf="ratingValue>=2">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg"    alt=""  *ngIf="ratingValue<2.2">
+          <img class="star_margin"  src="../../assets/imgs/half_filled_star.svg" alt=""  *ngIf="ratingValue>=2.2 && ratingValue<3 ">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg"      alt=""  *ngIf="ratingValue>=3 ">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg"    alt=""  *ngIf="ratingValue<3.2">
+          <img class="star_margin"  src="../../assets/imgs/half_filled_star.svg" alt=""  *ngIf="ratingValue>=3.2 && ratingValue<4 ">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg"      alt=""  *ngIf="ratingValue>=4 ">
+          <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg"    alt=""  *ngIf="ratingValue<4.2">
+          <img class="star_margin"  src="../../assets/imgs/half_filled_star.svg" alt=""  *ngIf="ratingValue>=4.2 && ratingValue<5 ">
+          <img class="star_margin"  src="../../assets/imgs/filled_star.svg"      alt=""  *ngIf="ratingValue==5" style="margin-right: 0px;">
+        </div> 
       </div>
       
     </div>
