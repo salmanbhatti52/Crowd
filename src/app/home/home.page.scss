@@ -1,3 +1,64 @@
+
+// ===========animation code====================
+
+.animation_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 26px 15px 18px;
+  // height: 100vh;
+  // background-color: #000; /* Dark background */
+}
+
+.circle {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  overflow: hidden;
+  animation: pulse 4s infinite alternate ease-in-out;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1%, transparent 40%);
+}
+
+.waves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 206, 209, 0.8) 25%, transparent 50%, rgba(64, 224, 208, 0.8) 75%, transparent 100%); /* Teal and turquoise */
+  background-size: 400% 400%;
+  animation: wave 4s infinite linear;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Soft white shadow */
+  }
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* Stronger white shadow */
+  }
+}
+
+@keyframes wave {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+// =======================done====================
+
 .titlefont{
   font-weight: 700;
   font-size: 16px;
@@ -199,14 +260,14 @@
   }
 
   .modal_text_color{
-    color: black;
+    color: white;
   }
 
   .block {
     width: 100%;
-    height: 350px;
+    // height: 350px;
     // background: #101010;
-    background: white;
+    background: black;
     padding: 20px;
     display: flex;
     flex-direction: column;

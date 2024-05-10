@@ -2,16 +2,15 @@ import { FilterPage } from "./../filter/filter.page";
 import { ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
 import { Router } from "@angular/router";
 import { IonContent, ModalController } from "@ionic/angular";
-// import { AnyARecord } from "dns";
+
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
 import { Geolocation } from "@capacitor/geolocation";
 import { Observable, find } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
+import { MapGeocoder} from "@angular/google-maps";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { addDays, eachHourOfInterval, eachMinuteOfInterval, format, getDay, isAfter, isBefore, isEqual, isSameDay, parse, parseISO, set } from "date-fns";
-declare var google: any;
+import { eachMinuteOfInterval, format, getDay, isEqual, parse, parseISO } from "date-fns";
 import { Platform } from "@ionic/angular";
 
 @Component({
@@ -79,30 +78,11 @@ export class HomePage implements OnInit {
       this.requestPermissions();
       
     }
-    // this.testFunction();
     
   }
 
-//  testTokens = ['show', 'me', 'all', 'non', 'indoor', 'events'];
-//  evKeywords = [];
 
 
-// testFunction(){
-//   console.log(this.testTokens);
-//  let resultingOutput  = this.findWordForEvents(this.testTokens);
-//   console.log('resultingOutput:',resultingOutput);
-// }
-
-
-
-
-// findWordForEvents(inputTokens: string[]) {
-//   
-// }
-
-// isSequenceMatch(keyword: string[], sequence: string[]) {
-//     
-// }
 
   getVenueAIKeywords(){
     let data = {
@@ -291,7 +271,11 @@ export class HomePage implements OnInit {
           this.changeDetectorRef.detectChanges();
           
         }
-      }).then((res: any) => {});
+      }).then((res: any) => {
+        // console.log('fall in then case for partial results');
+        
+      });
+      
     }
   }
 

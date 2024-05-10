@@ -347,18 +347,6 @@ export class LocationmapPage implements OnInit {
     // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
-
-    // Keyboard.addListener('keyboardWillShow', info => {
-    //   console.log('keyboard will show with height:', info.keyboardHeight);
-    //   this.showDetail = false;
-    //   // this.hideExtraElements();
-    // });
-    
-    // Keyboard.addListener('keyboardDidShow', info => {
-    //   console.log('keyboard did show with height:', info.keyboardHeight);
-    //   this.showDetail = false;
-    //   // this.hideExtraElements();
-    // });
     
     
   }
@@ -435,13 +423,16 @@ export class LocationmapPage implements OnInit {
       });
 
       SpeechRecognition.addListener("partialResults", async (data: any) => {
-        console.log("partialResults was fired", data.matches);
+        // console.log("partialResults was fired", data.matches);
         if(data.matches && data.matches.length > 0){  
           this.yourVoiceInput = data.matches[0];
           this.changeDetectorRef.detectChanges();
           
         }
-      }).then((res: any) => {});
+      }).then((res: any) => {
+        // console.log('fall in then case for partial results');
+      });
+
     }
   }
 
@@ -1080,7 +1071,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(foundVenues[i].lattitude),
           lng: parseFloat(foundVenues[i].longitude),
         },
-        title: "" + foundVenues[i].availability_count,
+        title: "" + foundVenues[i].public_check_ins,
         name: foundVenues[i].name,
         venueId: foundVenues[i].venues_id,
         options: {
@@ -1146,7 +1137,7 @@ export class LocationmapPage implements OnInit {
         lat: parseFloat(this.foundVenue.lattitude),
         lng: parseFloat(this.foundVenue.longitude),
       },
-      title: "" + this.foundVenue.availability_count,
+      title: "" + this.foundVenue.public_check_ins,
       name: this.foundVenue.name,
       venueId: this.foundVenue.venues_id,
       options: {
@@ -1278,7 +1269,7 @@ export class LocationmapPage implements OnInit {
                 lat: parseFloat(this.venuarrOrg[i].lattitude),
                 lng: parseFloat(this.venuarrOrg[i].longitude),
               },
-              title: "" + this.venuarrOrg[i].availability_count,
+              title: "" + this.venuarrOrg[i].public_check_ins,
               name: this.venuarrOrg[i].name,
               venueId: this.venuarrOrg[i].venues_id,
               options: {
@@ -1319,7 +1310,7 @@ export class LocationmapPage implements OnInit {
     //       lat: parseFloat(this.venuarr[i].lattitude),
     //       lng: parseFloat(this.venuarr[i].longitude),
     //     },
-    //     title: "" + this.venuarr[i].availability_count,
+    //     title: "" + this.venuarr[i].public_check_ins,
     //     name: this.venuarr[i].name,
     //     options: {
     //       animation: google.maps.Animation.DROP,
@@ -1394,7 +1385,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarr[i].lattitude),
           lng: parseFloat(this.venuarr[i].longitude),
         },
-        title: "" + this.venuarr[i].availability_count,
+        title: "" + this.venuarr[i].public_check_ins,
         name: this.venuarr[i].name,
         venueId: this.venuarr[i].venues_id,
         options: {
@@ -1433,7 +1424,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].availability_count,
+        title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
         venueId:this.venuarrOrg[i].venues_id,
         
@@ -1518,7 +1509,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].availability_count,
+        title: "" + this.venuarrOrg[i].public_check_ins,
         name: this.venuarrOrg[i].name,
         venueId: this.venuarrOrg[i].venues_id,
         options: {
@@ -1582,7 +1573,7 @@ export class LocationmapPage implements OnInit {
   //         lat: parseFloat(this.venuarrOrg[i].lattitude),
   //         lng: parseFloat(this.venuarrOrg[i].longitude),
   //       },
-  //       title: "" + this.venuarrOrg[i].availability_count,
+  //       title: "" + this.venuarrOrg[i].public_check_ins,
   //       name: this.venuarrOrg[i].name,
   //       icon: {
   //         url: "assets/imgs/locpin.svg",
