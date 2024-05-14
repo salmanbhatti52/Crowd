@@ -55,6 +55,7 @@ export class HomePage implements OnInit {
   claimedVenues: any = [];
   yourVoiceInput = '';
   listener: boolean = false;
+  listening:boolean = false;
   ai = "";
   aiToggleChecked: boolean = false;
   currentLat:any;
@@ -222,6 +223,11 @@ export class HomePage implements OnInit {
    
   }
 
+  clearVoiceInput(){
+    this.yourVoiceInput = '';
+    this.listening = false;
+  }
+
   async startSpeechRecognition(){
     
     if(this.listener){
@@ -258,23 +264,64 @@ export class HomePage implements OnInit {
     if(available){
       this.listener = true;
 
-      SpeechRecognition.start({
-        language: "en-US",
-        popup: false,
-        partialResults:true,
-      });
+      // ===========speech start try catch====================
 
-      SpeechRecognition.addListener("partialResults", async (data: any) => {
-        // console.log("partialResults was fired", data.matches);
-        if(data.matches && data.matches.length > 0){  
-          this.yourVoiceInput = data.matches[0];
-          this.changeDetectorRef.detectChanges();
-          
-        }
-      }).then((res: any) => {
-        // console.log('fall in then case for partial results');
+
+      try {
+        SpeechRecognition.start({
+          language: "en-US",
+          popup: false,
+          partialResults:true,
+        });
+      } catch (error) {
+        console.log("Speech Start error: ",error);
+      }
+
+      // ===========partial results try catch====================
+      
+      try {
+        SpeechRecognition.addListener("partialResults", async (data: any) => {
+          // console.log("partialResults was fired", data.matches);
+          if(data.matches && data.matches.length > 0){  
+            if(this.listener == true){
+              this.yourVoiceInput = data.matches[0];
+              this.changeDetectorRef.detectChanges();
+            }
+            
+          }
+        });
+      } catch (error) {
+        console.log('partial results error:',error);
+      }
+
+      // ===========listening state try catch====================
+
+      try {
+        SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
+          if(data.status == "started"){
+            this.listening = true;  
+          }else{
+            setTimeout( async () => {
+              this.listening = false;
+              // this.listener = false;
+              // SpeechRecognition.stop();
+              // this.stopSpeechRecognition();
+            }, 200);
+            
+          }
+        });
+      } catch (error) {
+        console.log("Listening state error: ",error);
         
-      });
+      }
+
+      setTimeout(() => {
+        if(this.yourVoiceInput == ''){
+          this.listening= false;
+          this.yourVoiceInput = '';
+          this.stopSpeechRecognition();
+        }
+      }, 5000);
       
     }
   }
