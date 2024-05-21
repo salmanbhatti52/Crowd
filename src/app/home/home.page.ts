@@ -1,5 +1,5 @@
 import { FilterPage } from "./../filter/filter.page";
-import { ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import { Router } from "@angular/router";
 import { IonContent, ModalController } from "@ionic/angular";
 
@@ -18,7 +18,7 @@ import { Platform } from "@ionic/angular";
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit,OnDestroy {
   @ViewChild("IonContent", { static: true })
   content!: IonContent;
   segmentModel = "venu";
@@ -55,9 +55,15 @@ export class HomePage implements OnInit {
   claimedVenues: any = [];
   yourVoiceInput = '';
   listener: boolean = false;
+  listeningStatus:string = '';
+  listeningStoppedCount = 0;
   listening:boolean = false;
   ai = "";
   aiToggleChecked: boolean = false;
+  isAnimating = false;
+  timeout:any;
+  inactivityDelay = 5000;
+
   currentLat:any;
   currentLong:any;
   intervalId:any;
@@ -82,7 +88,24 @@ export class HomePage implements OnInit {
     
   }
 
+  ngOnDestroy(): void {
+    this.clearInactivityTimeout();
+    throw new Error("Method not implemented.");
+  }
 
+  // ngOnInit() {
+  //   // Simulate user speaking and stopping
+  //   setTimeout(() => this.showAnimation(), 1000);  // Start animation after 1 second
+  //   setTimeout(() => this.hideAnimation(), 5000);  // Stop animation after 5 seconds
+  // }
+
+  showAnimation() {
+    this.isAnimating = true;
+  }
+
+  hideAnimation() {
+    this.isAnimating = false;
+  }
 
 
   getVenueAIKeywords(){
@@ -229,13 +252,19 @@ export class HomePage implements OnInit {
   }
 
   async startSpeechRecognition(){
+    this.listening = false;
+    this.listeningStoppedCount = 0;
+    this.hideAnimation();
+    // this.yourVoiceInput = '';
+    // this.listening = false;
     
-    if(this.listener){
+    // if(this.listener){
       // console.log(this.listener);
       
-      this.listener = false;
+      // this.listener = false;
       SpeechRecognition.stop();
-    }
+      this.setInactivityTimeout();
+    // }
 
     if(this.segmentModel == "venu"){
       this.venuarr = this.venuarrOrg;
@@ -262,7 +291,7 @@ export class HomePage implements OnInit {
     // console.log('availability res: ',available);
 
     if(available){
-      this.listener = true;
+      // this.listener = true;
 
       // ===========speech start try catch====================
 
@@ -277,36 +306,59 @@ export class HomePage implements OnInit {
         console.log("Speech Start error: ",error);
       }
 
+      this.listening = true;
       // ===========partial results try catch====================
       
       try {
         SpeechRecognition.addListener("partialResults", async (data: any) => {
           // console.log("partialResults was fired", data.matches);
           if(data.matches && data.matches.length > 0){  
-            if(this.listener == true){
+            // if(this.listener == true){
               this.yourVoiceInput = data.matches[0];
               this.changeDetectorRef.detectChanges();
-            }
-            
+
+            // }
           }
+          this.resetInactivityTimeout();
         });
       } catch (error) {
         console.log('partial results error:',error);
-      }
+      } 
 
       // ===========listening state try catch====================
 
       try {
         SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
           if(data.status == "started"){
-            this.listening = true;  
-          }else{
-            setTimeout( async () => {
-              this.listening = false;
+
+            this.listeningStatus = data.status;
+            console.log("listening Status: ",this.listeningStatus);
+            // this.listening = true;  
+            this.showAnimation();
+          }
+          else{
+            this.listeningStoppedCount++;
+            this.listeningStatus = data.status;
+            console.log("listening Status: ",this.listeningStatus);
+            this.hideAnimation();
+            // if(this.listeningStoppedCount >= 2){
+            //   this.stopSpeechRecognition();
+            // }
+
+            // SpeechRecognition.stop();
+            // SpeechRecognition.start({
+            //   language: "en-US",
+            //   popup: false,
+            //   partialResults:true,
+            // });
+
+            // setTimeout( async () => {
+              
+              // this.listening = false;
               // this.listener = false;
               // SpeechRecognition.stop();
               // this.stopSpeechRecognition();
-            }, 200);
+            // }, 200);
             
           }
         });
@@ -315,30 +367,54 @@ export class HomePage implements OnInit {
         
       }
 
-      setTimeout(() => {
-        if(this.yourVoiceInput == ''){
-          this.listening= false;
-          this.yourVoiceInput = '';
-          this.stopSpeechRecognition();
-        }
-      }, 5000);
+      let result  = SpeechRecognition.isListening();
+      console.log("isListening: ",result);
       
+      // setTimeout(() => {
+      //   if(this.yourVoiceInput == ''){
+      //     // this.listening= false;
+      //     this.stopSpeechRecognition();
+      //   }
+      // }, 5000);
+      
+    }
+  }
+
+  setInactivityTimeout(){
+    this.clearInactivityTimeout();
+    this.timeout = setTimeout(() => {
+      this.stopSpeechRecognition();
+    }, this.inactivityDelay);
+  }
+
+  resetInactivityTimeout(){
+    this.setInactivityTimeout();
+  }
+
+  clearInactivityTimeout(){
+    if(this.timeout){
+      clearTimeout(this.timeout);
+      this.timeout = null;
     }
   }
 
   async stopSpeechRecognition(){
     // console.log('stopSpeechRecognition');
     
-    if(this.listener){
+    // if(this.listener){
       // console.log(this.listener);
       
-      this.listener = false;
+      // this.listener = false;
       SpeechRecognition.stop();
-    }
+      this.dismissModal();
+      this.clearInactivityTimeout();
+    // }
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
     if(this.yourVoiceInput !='' ){
+      
       // setTimeout(() => {
-        this.dismissModal();  
+        // this.listening = false;
+        // this.dismissModal();  
       // }, 1500);
       
       this.findResults();
@@ -1953,12 +2029,12 @@ export class HomePage implements OnInit {
   dismissModal(){
     console.log('stopSpeechRecognition');
     
-    if(this.listener){
-      console.log(this.listener);
+    // if(this.listener){
+      // console.log(this.listener);
       
-      this.listener = false;
+      // this.listener = false;
       SpeechRecognition.stop();
-    }
+    // }
     this.modalCtrlr.dismiss();
   }
 

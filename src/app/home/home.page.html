@@ -395,7 +395,7 @@
   <ion-fab slot="fixed" vertical="center" horizontal="end">
     <ion-fab-button>
       <!-- (click)="startSpeechRecognition()" -->
-      <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="clearVoiceInput()"   
+      <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"   
        style="height: 58px;
        width: 58px;"
        src="../../assets/imgs/icons/ai_icon.svg" alt="">
@@ -405,28 +405,52 @@
 
   <ion-modal style="--border-radius: 16px 16px 0px 0px;" trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]" (ionModalWillDismiss)="dismissModal()" >
     <ng-template>
-      <div style="background: black;">
-        <div style="text-align: right;padding: 15px 15px 0px">
+      <div style="background: transparent;">
+        <!-- <div style="text-align: right;padding: 15px 15px 0px">
           <img (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
-        </div>
+        </div> -->
         
         <div class="block">
-        
-          <div *ngIf="!listener" class="modal_text_color" style="text-align: center;">Tap the microphone to start listening</div>
-          <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
-            Listening...
-  
+
+          <!-- <div class="animation_container" *ngIf="listening">
+            <div class="circle">
+              <div class="stars"></div>
+              <div class="waves"></div>
+            </div>
+          </div> -->
+          <div class="container">
+            <div class="circle static-circle" [ngClass]="{'hidden': isAnimating}">
+              <div class="stars"></div>
+              <div class="waves static-waves"></div>
+            </div>
+            <div class="circle animated-circle" [ngClass]="{'hidden': !isAnimating}">
+              <div class="stars"></div>
+              <div class="waves"></div>
+            </div>
           </div>
+          
+          <div style="margin: 15px;text-align: center;">
+            
+            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
+              Listening...
+    
+            </div>
+
+            <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
+              {{yourVoiceInput}}
+            </div>
+
+          </div>
+          <!-- <div *ngIf="!listener" class="modal_text_color" style="text-align: center;">Tap the microphone to start listening</div> -->
+          
           <!-- <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
             Listening...
   
           </div> -->
-          <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
-            {{yourVoiceInput}}
-          </div>
+          
           
   
-          <div style="display: flex;
+          <!-- <div style="display: flex;
             flex-direction: column;
             align-items: center;margin-bottom: 5px;">
             <div style="text-align: center;
@@ -449,15 +473,10 @@
             <div class="modal_text_color" style="text-align: center;">"A venue name have 30% discount"</div>
 
             
-            <div class="animation_container" *ngIf="listening">
-              <div class="circle">
-                <div class="stars"></div>
-                <div class="waves"></div>
-              </div>
-            </div>
+            
           
            
-          </div>
+          </div> -->
         </div>
       </div>
      
