@@ -61,63 +61,41 @@
       [directions]="directionsResults">
     </map-directions-renderer>
   </google-map>
-  <!-- (click)="startSpeechRecognition()" -->
+  
   <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map"   style="position: fixed;z-index: 11;
   right: 15px;
-  bottom: 62%; height: 58px; width: 58px;" src="../../assets/imgs/icons/ai_icon.svg" alt="">
+  bottom: 62%; height: 58px; width: 58px;" (click)="startSpeechRecognition()" src="../../assets/imgs/icons/ai_btn_light.png" alt="">
 
   <ion-modal style="--border-radius: 16px 16px 0px 0px;"  trigger="open-modal-map" [initialBreakpoint]="1" [breakpoints]="[0, 1]" (ionModalWillDismiss)="dismissModal()">
     <ng-template>
-      <div style="background: black;">
-        <div style="text-align: right;padding: 15px 15px 0px">
-          <img (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
-        </div>
+      <div style="background: transparent;">
         
         <div class="block">
-        
-          <div *ngIf="!listener" class="modal_text_color" style="text-align: center;">Tap the microphone to start listening</div>
-          <div *ngIf="listener == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
-            Listening...
-  
-          </div>
-          <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
-            {{yourVoiceInput}}
+
+          <div class="container">
+            <div class="circle static-circle" [ngClass]="{'hidden': isAnimating}">
+              <div class="stars"></div>
+              <div class="waves static-waves"></div>
+            </div>
+            <div class="circle animated-circle" [ngClass]="{'hidden': !isAnimating}">
+              <div class="stars"></div>
+              <div class="waves"></div>
+            </div>
           </div>
           
-  
-          <div style="display: flex;
-            flex-direction: column;
-            align-items: center;">
-
-            <div style="text-align: center;
-              margin-top: 30px;">
-      
-              <img (click)="startSpeechRecognition()" class="not_listening" *ngIf="!listener"  src="../../assets/imgs/icons/mic_32.png" alt="">
-              <div (click)="stopSpeechRecognition()" *ngIf="listener" style="height: 63px;
-              width: 63px;
-              background: brown;
-              border-radius: 90px;
-              padding: 21px;">
-                <div style="height: 21px;
-                width: 21px;
-                background: white;"></div>
-              </div>
+          <div style="margin: 15px;text-align: center;">
             
-            </div>
-
-            <div class="modal_text_color" style="text-align: center;margin-top: 20px;">Try Saying</div>
-            <div class="modal_text_color" style="text-align: center;">"A venue name"</div>
-            <div class="modal_text_color" style="text-align: center;">"A venue name have 30% discount"</div>
+            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
+              Listening...
     
-            <div class="animation_container" *ngIf="listener">
-              <div class="circle">
-                <div class="stars"></div>
-                <div class="waves"></div>
-              </div>
             </div>
-          
-            
+
+            <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
+              {{yourVoiceInput}}
+            </div>
+
           </div>
+  
         </div>
       </div>
      

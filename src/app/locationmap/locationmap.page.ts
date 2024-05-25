@@ -7,6 +7,7 @@ import {
   ViewChild,
   Renderer2,
   ChangeDetectorRef,
+  OnDestroy,
 } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -32,7 +33,7 @@ import { format, getDay, isEqual, parse } from "date-fns";
   templateUrl: "./locationmap.page.html",
   styleUrls: ["./locationmap.page.scss"],
 })
-export class LocationmapPage implements OnInit {
+export class LocationmapPage implements OnInit, OnDestroy {
   ////angular map
 
   @ViewChild("search")
@@ -331,8 +332,14 @@ export class LocationmapPage implements OnInit {
   showDetail = false;
   yourVoiceInput = '';
   listener: boolean = false;
+  listeningStatus:string = '';
+  listening:boolean = false;
   ai = '';
   aiToggleChecked: boolean = false;
+  isAnimating = false;
+  timeout:any;
+  inactivityDelay = 5000;
+  
   venueKeywords: any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   constructor(
@@ -349,6 +356,10 @@ export class LocationmapPage implements OnInit {
   ) {
     
     
+  }
+  ngOnDestroy(): void {
+    this.clearInactivityTimeout();
+    throw new Error("Method not implemented.");
   }
 
   getVenueAIKeywords(){
@@ -396,61 +407,134 @@ export class LocationmapPage implements OnInit {
     });
   }
 
+  requestPermissions(){
+    SpeechRecognition.requestPermissions().then((PermissionStatus)=>{
+      console.log(PermissionStatus);
+    });
+   
+  }
+
   async startSpeechRecognition(){
+    this.listening = false;
+    this.hideAnimation();
     
-    if(this.listener){
-      console.log(this.listener);
-      
-      this.listener = false;
-      SpeechRecognition.stop();
-    }
+    SpeechRecognition.stop();
+    this.setInactivityTimeout();
 
     this.venuarr = this.venuarrOrg;
 
     this.yourVoiceInput = '';
-    console.log('startSpeechRecognition');
     
     const {available} = await SpeechRecognition.available();
-    console.log('availability res: ',available);
+    // console.log('availability res: ',available);
 
-    if(available){
-      this.listener = true;
+    if(!available){
+      if(!this.platform.is("mobileweb")){
+        console.log('Requesting permissions');
+        
+        this.requestPermissions();
+        
+      }
+    }else if(available){
 
-      SpeechRecognition.start({
-        language: "en-US",
-        popup: false,
-        partialResults:true,
-      });
+      // ===========speech start try catch====================
+      
+      try {
+        SpeechRecognition.start({
+          language: "en-US",
+          popup: false,
+          partialResults:true,
+        });
+      } catch (error) {
+        console.log("Speech Start error: ",error);
+      }
 
-      SpeechRecognition.addListener("partialResults", async (data: any) => {
-        // console.log("partialResults was fired", data.matches);
-        if(data.matches && data.matches.length > 0){  
-          this.yourVoiceInput = data.matches[0];
-          this.changeDetectorRef.detectChanges();
-          
-        }
-      }).then((res: any) => {
-        // console.log('fall in then case for partial results');
-      });
+      this.listening = true;
+      
+      // ===========partial results try catch====================
+      
+      try {
+        SpeechRecognition.addListener("partialResults", async (data: any) => {
+          // console.log("partialResults was fired", data.matches);
+          if(data.matches && data.matches.length > 0){  
+            // if(this.listener == true){
+              this.yourVoiceInput = data.matches[0];
+              this.changeDetectorRef.detectChanges();
 
+            // }
+          }
+          this.resetInactivityTimeout();
+        });
+      } catch (error) {
+        console.log('partial results error:',error);
+      } 
+
+      // ===========listening state try catch====================
+
+      try {
+        SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
+          if(data.status == "started"){
+
+            this.listeningStatus = data.status;
+            console.log("listening Status: ",this.listeningStatus);
+            // this.listening = true;  
+            this.showAnimation();
+          }
+          else{
+           
+            this.listeningStatus = data.status;
+            console.log("listening Status: ",this.listeningStatus);
+            this.hideAnimation();
+          }
+        });
+      } catch (error) {
+        console.log("Listening state error: ",error);
+        
+      }
+
+      let result  = SpeechRecognition.isListening();
+      console.log("isListening: ",result);
+      
+    }
+    else{
+      
     }
   }
 
-  async stopSpeechRecognition(){
-    console.log('stopSpeechRecognition');
-    
-    if(this.listener){
-      console.log(this.listener);
-      
-      this.listener = false;
-      SpeechRecognition.stop();
+  setInactivityTimeout(){
+    this.clearInactivityTimeout();
+    this.timeout = setTimeout(() => {
+      this.stopSpeechRecognition();
+    }, this.inactivityDelay);
+  }
+
+  resetInactivityTimeout(){
+    this.setInactivityTimeout();
+  }
+
+  clearInactivityTimeout(){
+    if(this.timeout){
+      clearTimeout(this.timeout);
+      this.timeout = null;
     }
+  }
+
+  showAnimation() {
+    this.isAnimating = true;
+  }
+
+  hideAnimation() {
+    this.isAnimating = false;
+  }
+
+  async stopSpeechRecognition(){
+    
+    SpeechRecognition.stop();
+    this.dismissModal();
+    this.clearInactivityTimeout();
+
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
-    if(this.yourVoiceInput !='' ){
-      // setTimeout(() => {
-        this.dismissModal();  
-      // }, 1500);
-      
+    if(this.yourVoiceInput !='' ){      
       this.findResults();
     }
   }
@@ -1471,7 +1555,7 @@ export class LocationmapPage implements OnInit {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
-                url: "../../assets/imgs/icons/location_28.svg",
+                url: "../../assets/imgs/icons/loc_pin_light.png",
                 
               },
             },

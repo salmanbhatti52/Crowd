@@ -56,7 +56,6 @@ export class HomePage implements OnInit,OnDestroy {
   yourVoiceInput = '';
   listener: boolean = false;
   listeningStatus:string = '';
-  listeningStoppedCount = 0;
   listening:boolean = false;
   ai = "";
   aiToggleChecked: boolean = false;
@@ -87,26 +86,6 @@ export class HomePage implements OnInit,OnDestroy {
     }
     
   }
-
-  ngOnDestroy(): void {
-    this.clearInactivityTimeout();
-    throw new Error("Method not implemented.");
-  }
-
-  // ngOnInit() {
-  //   // Simulate user speaking and stopping
-  //   setTimeout(() => this.showAnimation(), 1000);  // Start animation after 1 second
-  //   setTimeout(() => this.hideAnimation(), 5000);  // Stop animation after 5 seconds
-  // }
-
-  showAnimation() {
-    this.isAnimating = true;
-  }
-
-  hideAnimation() {
-    this.isAnimating = false;
-  }
-
 
   getVenueAIKeywords(){
     let data = {
@@ -187,9 +166,18 @@ export class HomePage implements OnInit,OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this.segmentModel = 'venu';
+  }
+
   // ionViewWillLeave() {
   //   clearInterval(this.intervalId);
   // }
+
+  ngOnDestroy(): void {
+    this.clearInactivityTimeout();
+    throw new Error("Method not implemented.");
+  }
 
   alwaysSendCurrentLocation() {
     this.intervalId = setInterval(()=>{
@@ -220,11 +208,6 @@ export class HomePage implements OnInit,OnDestroy {
     
   
   }
-  
-  ngOnInit() {
-    this.segmentModel = 'venu';
-    
-  }
 
   getClaimedVenues(){
     let data = {
@@ -246,25 +229,12 @@ export class HomePage implements OnInit,OnDestroy {
    
   }
 
-  clearVoiceInput(){
-    this.yourVoiceInput = '';
-    this.listening = false;
-  }
-
   async startSpeechRecognition(){
     this.listening = false;
-    this.listeningStoppedCount = 0;
     this.hideAnimation();
-    // this.yourVoiceInput = '';
-    // this.listening = false;
     
-    // if(this.listener){
-      // console.log(this.listener);
-      
-      // this.listener = false;
-      SpeechRecognition.stop();
-      this.setInactivityTimeout();
-    // }
+    SpeechRecognition.stop();
+    this.setInactivityTimeout();
 
     if(this.segmentModel == "venu"){
       this.venuarr = this.venuarrOrg;
@@ -285,17 +255,21 @@ export class HomePage implements OnInit,OnDestroy {
     }
 
     this.yourVoiceInput = '';
-    // console.log('startSpeechRecognition');
     
     const {available} = await SpeechRecognition.available();
     // console.log('availability res: ',available);
 
-    if(available){
-      // this.listener = true;
+    if(!available){
+      if(!this.platform.is("mobileweb")){
+        console.log('Requesting permissions');
+        
+        this.requestPermissions();
+        
+      }
+    }else if(available){
 
       // ===========speech start try catch====================
-
-
+      
       try {
         SpeechRecognition.start({
           language: "en-US",
@@ -307,6 +281,7 @@ export class HomePage implements OnInit,OnDestroy {
       }
 
       this.listening = true;
+      
       // ===========partial results try catch====================
       
       try {
@@ -337,29 +312,10 @@ export class HomePage implements OnInit,OnDestroy {
             this.showAnimation();
           }
           else{
-            this.listeningStoppedCount++;
+           
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             this.hideAnimation();
-            // if(this.listeningStoppedCount >= 2){
-            //   this.stopSpeechRecognition();
-            // }
-
-            // SpeechRecognition.stop();
-            // SpeechRecognition.start({
-            //   language: "en-US",
-            //   popup: false,
-            //   partialResults:true,
-            // });
-
-            // setTimeout( async () => {
-              
-              // this.listening = false;
-              // this.listener = false;
-              // SpeechRecognition.stop();
-              // this.stopSpeechRecognition();
-            // }, 200);
-            
           }
         });
       } catch (error) {
@@ -370,14 +326,11 @@ export class HomePage implements OnInit,OnDestroy {
       let result  = SpeechRecognition.isListening();
       console.log("isListening: ",result);
       
-      // setTimeout(() => {
-      //   if(this.yourVoiceInput == ''){
-      //     // this.listening= false;
-      //     this.stopSpeechRecognition();
-      //   }
-      // }, 5000);
+    }
+    else{
       
     }
+    
   }
 
   setInactivityTimeout(){
@@ -398,25 +351,22 @@ export class HomePage implements OnInit,OnDestroy {
     }
   }
 
+  showAnimation() {
+    this.isAnimating = true;
+  }
+
+  hideAnimation() {
+    this.isAnimating = false;
+  }
+
   async stopSpeechRecognition(){
-    // console.log('stopSpeechRecognition');
     
-    // if(this.listener){
-      // console.log(this.listener);
-      
-      // this.listener = false;
-      SpeechRecognition.stop();
-      this.dismissModal();
-      this.clearInactivityTimeout();
-    // }
+    SpeechRecognition.stop();
+    this.dismissModal();
+    this.clearInactivityTimeout();
+
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
-    if(this.yourVoiceInput !='' ){
-      
-      // setTimeout(() => {
-        // this.listening = false;
-        // this.dismissModal();  
-      // }, 1500);
-      
+    if(this.yourVoiceInput !='' ){      
       this.findResults();
     }
   }
@@ -2028,13 +1978,8 @@ export class HomePage implements OnInit,OnDestroy {
 
   dismissModal(){
     console.log('stopSpeechRecognition');
-    
-    // if(this.listener){
-      // console.log(this.listener);
-      
-      // this.listener = false;
       SpeechRecognition.stop();
-    // }
+
     this.modalCtrlr.dismiss();
   }
 
