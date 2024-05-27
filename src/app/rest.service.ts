@@ -45,6 +45,7 @@ export class RestService {
   discountPercentage: any;
   venueDiscountToken: any;
   profile_updated = false;
+  deniedVoicePermissionCount = 0;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   constructor(
     public toastCtrl: ToastController,
@@ -145,7 +146,7 @@ export class RestService {
   async presentToast(msg: any) {
     const toast = await this.toastCtrl.create({
       message: msg,
-      duration: 1500,
+      duration: 2500,
       position: "bottom",
     });
 

@@ -83,14 +83,14 @@
             </div>
           </div>
           
-          <div style="margin: 15px;text-align: center;">
+          <div style="margin: 15px;text-align: left;">
             
-            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
+            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" >
               Listening...
     
             </div>
 
-            <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
+            <div *ngIf="yourVoiceInput != ''" class="modal_text_color" >
               {{yourVoiceInput}}
             </div>
 
@@ -236,7 +236,7 @@
         style="height: 24px;
         margin: 8px 0px 8px 15px;
         width: 24px;"
-        src="/assets/imgs/pin.svg"
+        src="../../assets/imgs/icons/loc_pin_dark.png"
       />
       <!-- (ionInput)="searchVenues($event)"
       (click)="hideExtraElements()" -->

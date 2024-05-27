@@ -420,14 +420,14 @@
             </div>
           </div>
           
-          <div style="margin: 15px;text-align: center;">
+          <div style="margin: 15px;text-align: left;">
             
-            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" style="text-align: left;">
+            <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" >
               Listening...
     
             </div>
 
-            <div *ngIf="yourVoiceInput != ''" class="modal_text_color" style="text-align: left;">
+            <div *ngIf="yourVoiceInput != ''" class="modal_text_color">
               {{yourVoiceInput}}
             </div>
 

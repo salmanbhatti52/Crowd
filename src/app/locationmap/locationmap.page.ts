@@ -7,7 +7,6 @@ import {
   ViewChild,
   Renderer2,
   ChangeDetectorRef,
-  OnDestroy,
 } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -33,7 +32,7 @@ import { format, getDay, isEqual, parse } from "date-fns";
   templateUrl: "./locationmap.page.html",
   styleUrls: ["./locationmap.page.scss"],
 })
-export class LocationmapPage implements OnInit, OnDestroy {
+export class LocationmapPage implements OnInit {
   ////angular map
 
   @ViewChild("search")
@@ -339,6 +338,7 @@ export class LocationmapPage implements OnInit, OnDestroy {
   isAnimating = false;
   timeout:any;
   inactivityDelay = 5000;
+  deniedVoicePermissionCount = 0;
   
   venueKeywords: any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
@@ -357,9 +357,13 @@ export class LocationmapPage implements OnInit, OnDestroy {
     
     
   }
-  ngOnDestroy(): void {
+  // ngOnDestroy(): void {
+  //   this.clearInactivityTimeout();
+  //   throw new Error("Method not implemented.");
+  // }
+
+  ionViewWillLeave() {
     this.clearInactivityTimeout();
-    throw new Error("Method not implemented.");
   }
 
   getVenueAIKeywords(){
@@ -407,36 +411,60 @@ export class LocationmapPage implements OnInit, OnDestroy {
     });
   }
 
-  requestPermissions(){
-    SpeechRecognition.requestPermissions().then((PermissionStatus)=>{
-      console.log(PermissionStatus);
-    });
+  async requestPermissions(): Promise<string>{
+
+    try {
+      const permissionStatus = await SpeechRecognition.requestPermissions();
+      console.log("PermissionStatus: ", permissionStatus);
+      if (permissionStatus.speechRecognition !== 'granted') {
+        return 'denied';
+      }
+      return 'granted';
+    } catch (error) {
+      console.error("Error requesting permissions: ", error);
+      return 'denied';  // Ensure a string is always returned even in case of an error
+    }
+   
    
   }
 
   async startSpeechRecognition(){
+
     this.listening = false;
     this.hideAnimation();
     
     SpeechRecognition.stop();
-    this.setInactivityTimeout();
+
+    let checkPermissionsStatus = (await SpeechRecognition.checkPermissions()).speechRecognition;
+    console.log('checkPermissionsResult: ',checkPermissionsStatus);
+
+    if(checkPermissionsStatus!== "granted"){
+      if(!this.platform.is("mobileweb")){
+        console.log('Requesting permissions');
+        
+        let permissionStaus =  await this.requestPermissions();
+        console.log("PermissionStatus 2",permissionStaus);
+       
+        if(permissionStaus === 'granted'){
+          checkPermissionsStatus = 'granted';
+        }
+        else{
+          this.rest.deniedVoicePermissionCount++;
+        }
+      }
+    }
+    
 
     this.venuarr = this.venuarrOrg;
 
     this.yourVoiceInput = '';
     
     const {available} = await SpeechRecognition.available();
-    // console.log('availability res: ',available);
+    console.log('availability res: ',available);
 
-    if(!available){
-      if(!this.platform.is("mobileweb")){
-        console.log('Requesting permissions');
-        
-        this.requestPermissions();
-        
-      }
-    }else if(available){
+    if(checkPermissionsStatus=== 'granted' && available){
 
+      this.setInactivityTimeout();
       // ===========speech start try catch====================
       
       try {
@@ -497,7 +525,10 @@ export class LocationmapPage implements OnInit, OnDestroy {
       
     }
     else{
-      
+      if(this.rest.deniedVoicePermissionCount>=2){
+        this.rest.presentToast('Voice recording denied; reinstall app to enable AI feature.');
+      }
+      this.dismissModal();
     }
   }
 
