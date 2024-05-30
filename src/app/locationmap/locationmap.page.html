@@ -105,13 +105,16 @@
   <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
     right: 12px;
     bottom: 51%;
-    background: #740899;
-    border-radius: 90px;
-    height: 60px;
-    width: 60px;
-    text-align: center;
-    padding: 11px 0px;">
-    <img src="../../assets/imgs/icons/bar_icon.svg" alt="">
+    /* background: #740899; */
+    /* border-radius: 90px; */
+    /* height: 60px;
+    width: 60px; */
+    /* text-align: center; */
+    /* padding: 11px 0px; */
+    "
+    >
+    <img style="height: 60px;
+    width: 60px;" src="../../assets/imgs/bar_circle.svg" alt="">
     
   </div>
 
@@ -236,7 +239,7 @@
         style="height: 24px;
         margin: 8px 0px 8px 15px;
         width: 24px;"
-        src="../../assets/imgs/icons/loc_pin_dark.png"
+        src="../../assets/imgs/icons/location.svg"
       />
       <!-- (ionInput)="searchVenues($event)"
       (click)="hideExtraElements()" -->

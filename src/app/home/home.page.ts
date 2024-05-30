@@ -2640,6 +2640,8 @@ export class HomePage implements OnInit {
       users_customers_id: this.userID,
       page_number: this.pageNumber,
     });
+    console.log("events payloads",ss);
+    
     if(this.eventarr.length == 0){ 
       this.rest.presentLoader();
     }
