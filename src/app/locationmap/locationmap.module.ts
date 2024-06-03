@@ -11,6 +11,14 @@ import { LocationmapPage } from "./locationmap.page";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { GoogleMapsModule } from "@angular/google-maps";
 
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+
+// Note we need a separate function as it's required by the module
+export function playerFactory() {
+  return player;
+}
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +26,7 @@ import { GoogleMapsModule } from "@angular/google-maps";
     IonicModule,
     LocationmapPageRoutingModule,
     GoogleMapsModule,
+    LottieModule.forRoot({ player: playerFactory })
   ],
   declarations: [LocationmapPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

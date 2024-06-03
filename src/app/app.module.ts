@@ -37,6 +37,15 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 // import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 // import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator/ngx';
 // type PDFGenerator = typeof PDFGenerator;
+
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+
+// Note we need a separate function as it's required by the module
+export function playerFactory() {
+  return player;
+}
+
 @NgModule({
   declarations: [AppComponent,SearchComponentComponent,],
   imports: [      
@@ -52,6 +61,7 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
     FilterPageModule,
     PaymentmethodPageModule,
     CancelReservationPageModule,
+    LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [
     Camera,

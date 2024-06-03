@@ -12,13 +12,15 @@ import { MapGeocoder} from "@angular/google-maps";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import { eachMinuteOfInterval, format, getDay, isEqual, parse, parseISO } from "date-fns";
 import { Platform } from "@ionic/angular";
-
+import {AnimationOptions  } from 'ngx-lottie';
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
+  // @ViewChild('lottie', { static: true }) lottie: LottieAnimationView;
+  // animationItem: AnimationItem;
   @ViewChild("IonContent", { static: true })
   content!: IonContent;
   segmentModel = "venu";
@@ -70,6 +72,8 @@ export class HomePage implements OnInit {
   venueKeywords:any = [];
   eventKeywords:any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
+
+  lottieConfig!: AnimationOptions;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -81,10 +85,14 @@ export class HomePage implements OnInit {
   ) {
     if(!this.platform.is("mobileweb")){
       console.log('Requesting permissions');
-      
-      
-      
     }
+
+    this.lottieConfig = {
+      path: 'assets/animation.json', // Path to your Lottie animation file
+      renderer: 'svg', // 'svg', 'canvas', 'html'
+      autoplay: true,
+      loop: true,
+    };
     
   }
 
@@ -2580,6 +2588,9 @@ export class HomePage implements OnInit {
         this.rest.venuArrHome = [];
       }
       // this.initialize();
+    },(error:any)=>{
+      this.rest.presentToast("Server error. Try again later.");
+      this.rest.dismissLoader();
     });
   }
 
@@ -2625,6 +2636,9 @@ export class HomePage implements OnInit {
           this.reservationsArr = [];
           this.filteredReservationsArr = [];
         }
+    },(error:any)=>{
+      this.rest.presentToast("Server error. Try again later.");
+      this.rest.dismissLoader();
     });
   }
 
@@ -2682,6 +2696,9 @@ export class HomePage implements OnInit {
         this.eventarr = [];
         this.eventsArrayCopy = [];
       }
+    },(error:any)=>{
+      this.rest.presentToast("Server error. Try again later.");
+      this.rest.dismissLoader();
     });
   }
 

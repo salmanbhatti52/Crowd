@@ -124,6 +124,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  
 
   <div class="margincls"  *ngIf="segmentModel === 'venu'">
     <p
@@ -409,7 +410,7 @@
         
         <div class="block">
 
-          <div class="container">
+          <!-- <div class="container">
             <div class="circle static-circle" [ngClass]="{'hidden': isAnimating}">
               <div class="stars"></div>
               <div class="waves static-waves"></div>
@@ -418,8 +419,10 @@
               <div class="stars"></div>
               <div class="waves"></div>
             </div>
+          </div> -->
+          <div class="container_lottie">
+            <ng-lottie [options]="lottieConfig"></ng-lottie>
           </div>
-          
           <div style="margin: 15px;text-align: left;">
             
             <div *ngIf="listening == true && yourVoiceInput== ''" class="modal_text_color" >
