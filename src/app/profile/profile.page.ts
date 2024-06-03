@@ -158,7 +158,7 @@ export class ProfilePage implements OnInit {
     })
   }
 
-  startChatWithAdmin(){
+  async startChatWithAdmin() {
     if(this.rest.adminId === undefined){
       
       console.log("Admin Id if undefined: ",this.rest.adminId);
@@ -183,8 +183,9 @@ export class ProfilePage implements OnInit {
         this.rest.dismissLoader();
         console.log("Start Chat Ress: ",res);
         if(res.status == 'success'){
-          this.rest.comingFrom = 'startChatWithAdmin'
-          this.router.navigate(['/chat']);
+          this.rest.comingFrom = 'startChatWithAdmin';
+          // this.router.navigate(['/chat']);
+           this.navCtrl.navigateForward('chat');
 
         }
 
@@ -195,9 +196,9 @@ export class ProfilePage implements OnInit {
       });
     }else{
       console.log("admin id: ",this.rest.adminId);
-      this.rest.comingFrom = 'startChatWithAdmin'
-      this.router.navigate(['/chat']);
-      
+      this.rest.comingFrom = 'startChatWithAdmin';
+      // this.router.navigate(['/chat']);
+      this.navCtrl.navigateForward('chat');      
     }
 
    
@@ -209,23 +210,28 @@ export class ProfilePage implements OnInit {
   }
 
   gotoEvents(){
-    this.router.navigate(["my-events"]);
+    // this.router.navigate(["my-events"]);
+    this.navCtrl.navigateForward('my-events');
   }
 
   gotoDiscounts(){
-    this.router.navigate(["discounts"]);
+    // this.router.navigate(["discounts"]);
+    this.navCtrl.navigateForward('discounts');
   }
 
   gotoAddPaymentMethods(){
-    this.router.navigate(["payment-methods"]);
+    this.navCtrl.navigateForward('payment-methods');
+    // this.router.navigate(["payment-methods"]);
   }
 
   gotoRefundPage(){
-    this.router.navigate(["my-refunds"]);
+    this.navCtrl.navigateForward('my-refunds');
+    // this.router.navigate(["my-refunds"]);
   }
 
   changePass() {
-    this.router.navigate(["changepass"]);
+    // this.router.navigate(["changepass"]);
+    this.navCtrl.navigateForward('changepass');
   }
 
   async signOutForGoogle(){
@@ -259,7 +265,8 @@ export class ProfilePage implements OnInit {
   }
 
   godelete() {
-    this.router.navigate(["deletact"]);
+    this.navCtrl.navigateForward('deletact');
+    // this.router.navigate(["deletact"]);
   }
 
   notitoggle(event: any) {
@@ -380,6 +387,7 @@ export class ProfilePage implements OnInit {
 
   gotoReservation(){
     this.rest.comfrom = 'profile'
-    this.router.navigate(['myreservations'])
+    // this.router.navigate(['myreservations'])
+    this.navCtrl.navigateForward('myreservations');
   }
 }

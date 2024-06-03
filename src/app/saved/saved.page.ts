@@ -21,16 +21,23 @@ export class SavedPage implements OnInit {
   noevenu = 0;
 
   constructor(public router: Router, public rest: RestService) {}
+  
+  
   ngOnInit() {}
+
+
   HideFilter() {
     this.showfilter = false;
   }
+
   tab1Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["home"]);
   }
   tab2Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["locationmap"]);
   }
   tab3Click() {
@@ -39,6 +46,7 @@ export class SavedPage implements OnInit {
   }
   tab4Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["noti"]);
   }
 
@@ -46,6 +54,7 @@ export class SavedPage implements OnInit {
     this.HideFilter();
     this.router.navigate(["profile"]);
   }
+
   segmentChanged(event: any) {
     this.HideFilter();
     console.log(this.segmentModel);
@@ -53,15 +62,19 @@ export class SavedPage implements OnInit {
     console.log(event);
   }
 
-  goToDetail(opt: any) {
-    this.setClaimedVenueRemTime();
+  async goToDetail(opt: any) {
+    setTimeout(async () => {
+      await this.setClaimedVenueRemTime();
+    }, 2000);
+    
     this.HideFilter();
     console.log(opt);
     this.rest.detail = opt;
+    
     this.router.navigate(["venuedetail"]);
   }
 
-  setClaimedVenueRemTime(){
+  async setClaimedVenueRemTime(){
     let hours = 23;
     let minutes = 59;
     let seconds = 59;
@@ -148,7 +161,7 @@ export class SavedPage implements OnInit {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg.sort((a: any, b: any) => {
-      console.log("testppppppppppopopopopopoopopopopopopopopo");
+      console.log("test");
       return a.distance - b.distance;
     });
   }
@@ -162,7 +175,12 @@ export class SavedPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     console.log("userdata----", this.userdata);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.getsavedVenues();
+    
+    if(this.segmentModel == 'venu'){
+      this.getsavedVenues();
+    }else{
+      this.getsavedEvents();
+    }
     this.getClaimedVenues();
   }
 
@@ -196,6 +214,8 @@ export class SavedPage implements OnInit {
         // });
       } else {
         // this.rest.presentToast(res.message);
+        this.venuarr = [];
+        this.venuarrOrg = [];
         this.noevenu = 1;
       }
     });
@@ -226,7 +246,9 @@ export class SavedPage implements OnInit {
         });
       } else {
         // this.rest.presentToast(res.message);
+        this.eventarr = [];
         this.noevent = 1;
+
       }
     });
   }
@@ -274,6 +296,7 @@ export class SavedPage implements OnInit {
     this.rest.events_like_unlike(ss).subscribe((res: any) => {
       console.log(res);
     });
+    this.getsavedEvents();
   }
 
   likevenu(obj: any) {
@@ -304,6 +327,7 @@ export class SavedPage implements OnInit {
     this.rest.venues_like_unlike(ss).subscribe((res: any) => {
       console.log(res);
     });
+    this.getsavedVenues();
   }
 
   handleRefresh(ev: any) {
@@ -314,9 +338,9 @@ export class SavedPage implements OnInit {
     this.ionViewWillEnter();
   }
 
-  clearTheURLEncode(val: any) {
-    console.log("clearTheURLEncode----", encodeURI(val));
+  // clearTheURLEncode(val: any) {
+  //   console.log("clearTheURLEncode----", encodeURI(val));
 
-    // return encodeURI(val);
-  }
+  //   // return encodeURI(val);
+  // }
 }

@@ -59,30 +59,12 @@ export class ChatPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.currentUser = JSON.parse(this.userdata).users_customers_id;
 
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log("Handler was called!");
-    });
   }
 
   ngOnInit() {}
 
   goBack() {
     this.location.back();
-  }
-
-  showPopup(val: any) {
-    this.matchpopupHidden = false;
-    console.log(val);
-    this.popupSelectedVal = val;
-  }
-
-  hidePopup() {
-    this.matchpopupHidden = true;
-  }
-
-  goToMemberShip() {
-    this.hidePopup();
-    this.router.navigate(["smspkg"]);
   }
 
   ionViewWillEnter() {

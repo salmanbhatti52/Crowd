@@ -2191,14 +2191,17 @@ export class HomePage implements OnInit {
   }
   tab2Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["locationmap"]);
   }
   tab3Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["saved"]);
   }
   tab4Click() {
     this.HideFilter();
+    this.segmentModel = 'venu';
     this.router.navigate(["noti"]);
   }
 
@@ -2232,15 +2235,15 @@ export class HomePage implements OnInit {
   }
 
   //  set claimed venue rem time
-  goToVenuDetail(opt: any) {
+  async goToVenuDetail(opt: any) {
+    await this.rest.presentToast('Please wait..');
     console.log("detail opt",opt);
-    
-    this.getVenuesSuggested(opt);
+    await this.getVenuesSuggested(opt);
     this.setClaimedVenueRemTime();
   }
 
   
-  getVenuesSuggested(opt: any) {
+  async getVenuesSuggested(opt: any) {
     let data = {
       // longitude:"71.4706624",
       // lattitude:"30.2170521",
@@ -2249,10 +2252,8 @@ export class HomePage implements OnInit {
       venues_id: opt.venues_id,
       users_customers_id: this.userID,
     };
-    this.rest.presentLoader();
     this.rest.sendRequest("venues_suggested", data).subscribe(
       (res: any) => {
-        this.rest.dismissLoader();
         console.log("Response venues_suggested : ", res);
         if (res.status == "success") {
           this.venueList = [];
@@ -2275,10 +2276,9 @@ export class HomePage implements OnInit {
           this.router.navigate(["venuedetail"]);
         }
       },
-      // (err) => {
-      //   this.rest.dismissLoader();
-      //   console.log("API Errror: ", err);
-      // }
+      (err) => {
+        console.log("API Errror: ", err);
+      }
     );
   }
 
@@ -2354,7 +2354,8 @@ export class HomePage implements OnInit {
     }
   }
 
-  goToReservationDetail(ev: any) {
+  async goToReservationDetail(ev: any) {
+    await this.rest.presentToast('Please wait..');
     this.setClaimedVenueRemTime();
     console.log(ev);
     this.rest.detail = ev;
@@ -2518,7 +2519,13 @@ export class HomePage implements OnInit {
     this.getClaimedVenues();
     this.getVenueAIKeywords();
     this.getEventAIKeywords();
-    this.getVenues();
+    if(this.segmentModel == 'venu'){
+      this.getVenues();
+    }else if(this.segmentModel == 'reservation'){
+      this.getReservations();
+    }else{
+      this.getEvents();
+    }
     this.ai = JSON.parse(this.userdata).ai_feature;
     // this.segmentModel = 'venu';
     if (this.ai == "No") {

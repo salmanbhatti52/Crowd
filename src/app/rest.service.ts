@@ -106,11 +106,11 @@ export class RestService {
 
   
   
-  presentLoader(msg?: any) {
+  async presentLoader(msg?: any) {
     if(msg == undefined){
       msg = "Please wait..."
     }
-    this.loadingController
+    await this.loadingController
       .create({
         message: msg,
         cssClass: "loader-css-class",
@@ -121,8 +121,8 @@ export class RestService {
       });
   }
 
-  presentLoaderWd() {
-    this.loadingController
+  async presentLoaderWd() {
+    await this.loadingController
       .create({
         message: "Please wait...",
         cssClass: "loader-css-class",
@@ -134,8 +134,8 @@ export class RestService {
       });
   }
 
-  dismissLoader() {
-    this.loadingController
+  async dismissLoader() {
+   await this.loadingController
       .dismiss()
       .then((response) => {
         console.log("Loader closed!", response);
@@ -148,7 +148,7 @@ export class RestService {
   async presentToast(msg: any) {
     const toast = await this.toastCtrl.create({
       message: msg,
-      duration: 2500,
+      duration: 2000,
       position: "bottom",
     });
 
