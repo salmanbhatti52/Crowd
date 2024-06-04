@@ -33,7 +33,7 @@ export class SplashvideoPage implements OnInit {
   }
   ionViewWillLeave() {
     // enable the root left menu when leaving this page
-    this.menuCtrl.enable(true);
+    // this.menuCtrl.enable(true);
   }
   gotoSignIn() {
     this.navCtrl.navigateRoot(["/sign-in-screen"]);
