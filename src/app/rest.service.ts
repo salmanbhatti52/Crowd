@@ -18,7 +18,8 @@ export class RestService {
   comingFrom: any = "";
   venuesArray:any = [];
   orgEventsArr:any = [];
-
+  systemSettings:any = [];
+  stripeKeys:any = [];
   comfrom = '';
   // baseURL = "https://crowd.eigix.net/api/";
   // baseURLimg = "https://crowd.eigix.net/public/";

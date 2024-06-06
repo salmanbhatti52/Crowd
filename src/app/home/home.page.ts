@@ -37,7 +37,6 @@ export class HomePage implements OnInit {
   filterTypeEv: any = "no";
   reservationFeature:any = '';
   // venusArray:any = []
-  venues!: Observable<any>
   noevent = 0;
   noevenu = 0;
   noReservations = 0;
@@ -2502,7 +2501,7 @@ export class HomePage implements OnInit {
   records_limit: any = 0;
   
   ionViewWillEnter() {
-
+    this.getStripeKeys();
     this.getSystemSettings();
     this.getCurrentPosition();
     
@@ -2712,6 +2711,7 @@ export class HomePage implements OnInit {
   getSystemSettings(){
     this.rest.system_settings().subscribe((res:any)=>{
       console.log("system_settings res: ",res);
+      this.rest.systemSettings = res.data;
       for (var i = 0; i < res.data.length; i++) {
         if (res.data[i].type == "reservation_feature") {
           this.reservationFeature = res.data[i].description;
@@ -2719,6 +2719,15 @@ export class HomePage implements OnInit {
         }
       }
     });
+  }
+
+  getStripeKeys(){
+    this.rest.getRequest('get_stripe_keys').subscribe((res:any)=>{
+      console.log("Stripe Keys Res: ",res);
+      if(res.status == 'success'){
+        this.rest.stripeKeys = res.data;
+      }
+    })
   }
 
   handleRefresh(ev: any) {

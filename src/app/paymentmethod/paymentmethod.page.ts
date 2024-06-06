@@ -39,6 +39,7 @@ export class PaymentmethodPage implements OnInit {
   userEmail: any;
   txnsId: any;
   amount: any = 0;
+  stripePublishableKey:string = '';
   // paymentRequest!: google.payments.api.PaymentDataRequest;
   constructor(
     public location: Location,
@@ -51,12 +52,24 @@ export class PaymentmethodPage implements OnInit {
     public navCtrl:NavController
     
   ){
-
+    for (var i = 0; i < this.rest.stripeKeys.length; i++) {
+      if (this.rest.stripeKeys[i].keys_type == "Publishable") {
+        this.stripePublishableKey = this.rest.stripeKeys[i].key;
+       
+      }
+    }
+    console.log("this.stripePublishableKey: ",this.stripePublishableKey);
+    
+      console.log('Initializing stripe');
+      
      Stripe.initialize({
+      publishableKey:this.stripePublishableKey,
       // publishableKey: environment.stripe.publishableKey,
-      publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
+      // publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
       // pk_live_51NLjiSCq21ty1Wx6QEkeL6t0cET2uCqTy7B13Br59c2akGDesFI4kPpvaN1LlY3I8otGdNVHEZTK2kCVfhndzNTK00iIM1dlHF
     });
+    console.log('initialization done');
+    
     this.android = platform.is("android");
     this.ios = platform.is("ios");
     let data = {
@@ -102,12 +115,15 @@ export class PaymentmethodPage implements OnInit {
     
     this.rest.sendRequest('payment_sheet',data).subscribe((res:any)=>{
       console.log("Ress: ",res);
-      this.customerId = res.customer;
-      this.ephemeralKey = res.ephemeralkey?.secret;
-      this.paymentIntent = res.paymentintent?.client_secret;
-      console.log("customerId: ",this.customerId);
-      console.log("ephemeralKey: ",this.ephemeralKey);
-      console.log("paymentIntent: ",this.paymentIntent);
+      if(res!=null){
+        this.customerId = res.customer;
+        this.ephemeralKey = res.ephemeralkey?.secret;
+        this.paymentIntent = res.paymentintent?.client_secret;
+        console.log("customerId: ",this.customerId);
+        console.log("ephemeralKey: ",this.ephemeralKey);
+        console.log("paymentIntent: ",this.paymentIntent);
+      }
+      
       
     })
   

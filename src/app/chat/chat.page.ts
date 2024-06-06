@@ -90,7 +90,7 @@ export class ChatPage implements OnInit {
     this.getMessages();
     this.autoSaveInterval = setInterval(() => {
       this.updateMessages();
-    }, 3000);
+    }, 5000);
   }
   ionViewWillLeave() {
     clearInterval(this.autoSaveInterval);
@@ -108,6 +108,8 @@ export class ChatPage implements OnInit {
     let userBusinessId;
     let action;
     if(this.restService.comingFrom == 'event-detail'){
+      console.log('calling update message event');
+      
       if(this.detailObj.events){
         userBusinessId = this.detailObj.events?.users_business_id;
       }else{
@@ -116,9 +118,13 @@ export class ChatPage implements OnInit {
       // userBusinessId = this.detailObj.user_business_id;
       action = 'users_chat';
     }else if(this.restService.comingFrom == 'startChatWithAdmin'){
+      console.log('calling update message live');
+      
       userBusinessId = this.restService.adminId;
       action = 'user_chat_live';
     }else{
+      console.log('calling update message venue');
+
       userBusinessId = this.detailObj.users_business_id;
       action = 'user_chat';
     }
