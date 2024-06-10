@@ -2600,52 +2600,61 @@ export class HomePage implements OnInit {
     });
   }
 
-  getReservations(){
+   getReservations(){
+    const getReservationFeatureStatus = this.getSystemSettings();
+    console.log('getReservationFeatureStatus: ',getReservationFeatureStatus);
+    console.log('now calling reservation');
+
     this.noReservations = 0;
     this.pageNumber = 1;
     this.reservationFilter = "no";
-    console.log('get Reservations called');
-
-    var ss = JSON.stringify({
-      longitude: localStorage.getItem("longitude"),
-      lattitude: localStorage.getItem("lattitude"),
-      users_customers_id: this.userID,
-      page_number: this.pageNumber,
-    });
-
-    if(this.filteredReservationsArr.length == 0){
-        
-      this.rest.presentLoader();
-    }
-    
-    this.rest.reservations(ss).subscribe((res:any)=>{
-      console.log("get reservations res: ",res);
+    if(this.reservationFeature === 'On'){
+      console.log('starting');
+      
+      console.log('get Reservations called');
+  
+      var ss = JSON.stringify({
+        longitude: localStorage.getItem("longitude"),
+        lattitude: localStorage.getItem("lattitude"),
+        users_customers_id: this.userID,
+        page_number: this.pageNumber,
+      });
+  
       if(this.filteredReservationsArr.length == 0){
-        
-        this.rest.dismissLoader();
+          
+        this.rest.presentLoader();
       }
       
-        if(res.status == 'success'){
-          for(let i=0; i<res.data.length; i++){
-            res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+      this.rest.reservations(ss).subscribe((res:any)=>{
+        console.log("get reservations res: ",res);
+        if(this.filteredReservationsArr.length == 0){
+          
+          this.rest.dismissLoader();
+        }
+        
+          if(res.status == 'success'){
+            for(let i=0; i<res.data.length; i++){
+              res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+            }
+            this.reservationsArr = res.data.sort((a: any, b: any) => {
+              return a.distance - b.distance;
+            });
+            this.filteredReservationsArr = this.reservationsArr;
+            
+            console.log("Reservations Array: ",this.reservationsArr);
+            
           }
-          this.reservationsArr = res.data.sort((a: any, b: any) => {
-            return a.distance - b.distance;
-          });
-          this.filteredReservationsArr = this.reservationsArr;
-          
-          console.log("Reservations Array: ",this.reservationsArr);
-          
-        }
-        else{
-          this.noReservations = 1;
-          this.reservationsArr = [];
-          this.filteredReservationsArr = [];
-        }
-    },(error:any)=>{
-      this.rest.presentToast("Server error. Try again later.");
-      this.rest.dismissLoader();
-    });
+          else{
+            this.noReservations = 1;
+            this.reservationsArr = [];
+            this.filteredReservationsArr = [];
+          }
+      },(error:any)=>{
+        this.rest.presentToast("Server error. Try again later.");
+        this.rest.dismissLoader();
+      });
+    }
+    
   }
 
   getEvents(){
@@ -2708,7 +2717,7 @@ export class HomePage implements OnInit {
     });
   }
 
-  getSystemSettings(){
+  getSystemSettings():number{
     this.rest.system_settings().subscribe((res:any)=>{
       console.log("system_settings res: ",res);
       this.rest.systemSettings = res.data;
@@ -2719,6 +2728,7 @@ export class HomePage implements OnInit {
         }
       }
     });
+    return 1;
   }
 
   getStripeKeys(){

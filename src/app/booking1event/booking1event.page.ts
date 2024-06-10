@@ -27,6 +27,7 @@ export class Booking1eventPage implements OnInit {
   longitude: string | null | undefined;
   availableTickets: any ;
   allTicketsSold = false;
+  isModalOpen = false;
   constructor(
     public location: Location,
     public router: Router,
@@ -63,6 +64,10 @@ export class Booking1eventPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 
   getBusinessList(){
     this.rest.presentLoader();
@@ -155,7 +160,11 @@ export class Booking1eventPage implements OnInit {
     await modal.present();
   }
   dismissModal(){
+    this.isModalOpen = false;
     this.modalCtrl.dismiss();
+  }
+  setModalValue(){
+    this.isModalOpen = false;
   }
   goToChat() {
     this.router.navigate(["chat"]);

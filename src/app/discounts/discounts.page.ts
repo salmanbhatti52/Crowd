@@ -202,10 +202,18 @@ export class DiscountsPage implements OnInit {
       if (res.status == "success") {
         this.specialOffersArr = res.data;
         let dayNumber = getDay(new Date());
+        let orderdSpecialOffers = [];
         for(let venue of this.specialOffersArr){
           venue.start_hours = venue.venue_timing[dayNumber].start_hours;
           venue.close_hours = venue.venue_timing[dayNumber].close_hours;
         }
+        for(let i=this.specialOffersArr.length-1, j=0; i>= 0; i--){
+          orderdSpecialOffers[j] = this.specialOffersArr[i];
+          j++;
+        }
+        this.specialOffersArr = orderdSpecialOffers;
+        console.log('custom ordered offers:',this.specialOffersArr);
+        
         this.getClaimedVenues();
       }
     });

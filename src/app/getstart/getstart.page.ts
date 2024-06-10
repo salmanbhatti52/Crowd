@@ -12,7 +12,7 @@ import {
   NativeGeocoderOptions,
 } from "@awesome-cordova-plugins/native-geocoder/ngx";
 
-import { AlertController } from "@ionic/angular";
+import { AlertController, NavController } from "@ionic/angular";
 
 import { Platform } from "@ionic/angular";
 import { MapGeocoder, MapGeocoderResponse } from "@angular/google-maps";
@@ -54,7 +54,8 @@ export class GetstartPage implements OnInit {
     public alertcontroller: AlertController,
     public platform: Platform,
     public rest: RestService,
-    private geoCoder: MapGeocoder
+    private geoCoder: MapGeocoder,
+    public navCtrl:NavController
   ) {
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -129,7 +130,8 @@ export class GetstartPage implements OnInit {
     if (this.from) {
       // localStorage.setItem("location", this.from);
       if (localStorage.getItem("longitude")) {
-        this.router.navigate(["home"]);
+        // this.router.navigate(["home"]);
+        this.navCtrl.navigateRoot('home');
       } else {
         this.restService.presentToast("Please enter the location.");
       }

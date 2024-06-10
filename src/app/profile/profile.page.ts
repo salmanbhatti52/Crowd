@@ -206,7 +206,7 @@ export class ProfilePage implements OnInit {
 
 
   goBack() {
-    this.router.navigate(['/home']);
+    this.navCtrl.navigateRoot('/home');
   }
 
   gotoEvents(){

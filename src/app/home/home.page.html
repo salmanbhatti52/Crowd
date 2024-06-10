@@ -392,8 +392,8 @@
   </div>
   
   <ion-fab slot="fixed" vertical="center" horizontal="end">
-    <ion-fab-button>
-      <img [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'" id="open-modal" (click)="startSpeechRecognition()"   
+    <ion-fab-button [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
+      <img id="open-modal" (click)="startSpeechRecognition()"   
        style="height: 58px;
        width: 58px;"
        src="../../assets/imgs/icons/ai_btn_light.png" alt="">

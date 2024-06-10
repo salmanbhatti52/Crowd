@@ -63,9 +63,9 @@
       </div>
     </div>
 
-    <!-- (click)="goToChat()" -->
-    <div
-    id="open-modal"
+    
+    <div (click)="setOpen(true)"
+     
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         display: flex;
@@ -83,25 +83,7 @@
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
-  <ion-modal class="message_note_popup" #modal trigger="open-modal">
-    <ng-template>
-      <ion-content style="--background: white !important;">
-        <div class="modal_popup">
-          <div class="right">
-            <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
-          </div>
-          <div class="msg_btn_sec">
-            <div class="work_sans" style="font-weight: 400;
-            font-size: 18px;color: #262626;">You can chat with the event organizer once the ticket is purchased.</div>
-            <ion-button (click)="dismissModal()" style="margin-top: 20px;
-            opacity: 1;" class="work_sans btnbg">OK</ion-button>
-          </div>
-          
-        </div>
-        
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+  
     <div
       (click)="goLocation()"
       style="
@@ -167,4 +149,26 @@
       </div>
     </div>
   </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="setModalValue()" class="message_note_popup" >
+    <ng-template>
+      <ion-content>
+        <div class="modal_popup" style="background: white;">
+          <div class="right">
+            <img (click)="dismissModal()" src="../../assets/imgs/cross.svg" alt="">
+          </div>
+          <div class="msg_btn_sec">
+            <div class="work_sans" style="font-weight: 400;
+            font-size: 18px;color: #262626;">You can chat with the event organizer once the ticket is purchased.</div>
+            <ion-button (click)="dismissModal()" style="margin-top: 20px;
+            opacity: 1;" class="work_sans btnbg">OK</ion-button>
+          </div>
+          
+        </div>
+      </ion-content>
+        
+        
+      
+    </ng-template>
+  </ion-modal>
 </ion-content>

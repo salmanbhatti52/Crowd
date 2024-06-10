@@ -66,7 +66,6 @@
 
   <div
     style="
-      /* padding-top: 15px; */
       display: flex;
       flex-wrap: wrap;
       width: 100%;
@@ -76,63 +75,49 @@
     "
     *ngIf="segmentModel === 'Upcoming'"
   >
-  <div *ngFor="let aa of orderd_upcomingArr" style="background: black;
-  margin-top: 15px;
-  border-radius: 20px;
-   width: 92%;">
-    <div class="elementBg" *ngIf="aa.ticket.length> 0">
-      <img  (click)="gotoEventDetails(aa)"
-        style="
-          width: 104px;
-          height: 104px;
-          border-radius: 16px;
-          margin-right: 10px;
-        "
-        src="{{rest.baseURLimg}}{{aa.events_images.name}}"
-      />
-      
-
-      <div>
-        <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+    <div *ngFor="let aa of orderd_upcomingArr" style="width: 92%;">
+      <div   style="background: black;
+        margin-top: 15px;
+        border-radius: 20px;">
+        <div class="elementBg" >
+          <img  (click)="gotoEventDetails(aa)"
+            style="
+              width: 104px;
+              height: 104px;
+              border-radius: 16px;
+              margin-right: 10px;
+            "
+            src="{{rest.baseURLimg}}{{aa.events_images.name}}"
+          />
+          
+    
+          <div>
+            <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
+            <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img class="imm" src="assets/imgs/pinwhite.svg" />
+              <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+            </div>
+    
+            <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img class="imm" src="assets/imgs/ccc.svg" />
+              <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
+            </div>
+    
+            <div style="display: flex; align-items: center; margin-bottom: 2px">
+              <img class="imm" src="assets/imgs/watch.svg" />
+              <p class="date work_sans">
+                {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 2px">
-          <img class="imm" src="assets/imgs/watch.svg" />
-          <p class="date work_sans">
-            {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
-          </p>
-        </div>
-
-        <!-- <div
-          *ngIf="aa.status != 'Cancelled'"
-          style="display: flex; margin-top: 20px"
-        >
-          <p (click)="cancelBooking(aa)" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p (click)="editbooking(aa)" class="canc work_sans">Modify</p>
-        </div>
-        <div
-          *ngIf="aa.status == 'Cancelled'"
-          style="display: flex; margin-top: 20px"
-        >
-          <p class="canc work_sans">Cancelled</p>
-        </div> -->
       </div>
     </div>
-  </div>
+  
   </div>
 
   <div
     style="
-      /* padding-top: 15px; */
       display: flex;
       flex-wrap: wrap;
       width: 100%;
@@ -156,15 +141,6 @@
         "
         src="{{rest.baseURLimg}}{{aa.events_images.name}}"
         />
-        <!-- <img *ngIf="!aa?.venues_details?.cover_images"
-          style="
-            width: 104px;
-            height: 104px;
-            border-radius: 16px;
-            margin-right: 10px;
-          "
-          src="assets/imgs/ccc.svg"
-        /> -->
 
         <div>
           <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
@@ -184,24 +160,6 @@
               {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
             </p>
           </div>
-
-          <!-- <div style="display: flex; margin-top: 20px">
-            <p *ngIf="aa.status == 'Pending'" class="canc work_sans">
-              {{aa.status}}
-            </p>
-            <p *ngIf="aa.status == 'Completed'" class="completed work_sans">
-              {{aa.status}}
-            </p>
-            <p *ngIf="aa.status == 'Cancelled'" class="canc work_sans">
-              {{aa.status}}
-            </p>
-            <p *ngIf="aa.status == 'Accepted'" class="canc work_sans">
-              {{aa.status}}
-            </p>
-            <p *ngIf="aa.status == 'Rejected'" class="canc work_sans">
-              {{aa.status}}
-            </p>
-          </div> -->
         </div>
       </div>
       

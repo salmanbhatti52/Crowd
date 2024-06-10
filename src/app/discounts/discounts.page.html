@@ -48,7 +48,7 @@
       >
         <ion-label>In Queue</ion-label>
       </ion-segment-button>
-      <ion-segment-button class="work_sans segment_text"
+      <ion-segment-button class="work_sans segment_text" 
         style="
           --indicator-color: #7825CB;
           --color: #262626;
@@ -56,6 +56,7 @@
           --border-radius: 20px;
           --background-checked: #7825CB;
         "
+        (click)="getClaimedVenues()"
         value="Claimed"
       >
         <ion-label>Claimed</ion-label>
