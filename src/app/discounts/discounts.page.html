@@ -19,9 +19,6 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
   
   <div style="margin: 25px 0px 10px; text-align: -webkit-center">
     <ion-segment class="work_sans segment_text"
@@ -69,6 +66,7 @@
           --border-radius: 20px;
           --background-checked: #7825CB;
         "
+        (click)="getSpecialOffers()"
         value="Special Offers"
       >
         <ion-label>Special Offers</ion-label>

@@ -117,8 +117,6 @@ export class MyreservationsPage implements OnInit {
     }
   }
 
-  handleRefresh(ev: any) {}
-
   async cancelBooking(aa: any) {
     this.rest.selectedBooking = aa;
     console.log("model");

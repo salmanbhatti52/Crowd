@@ -111,10 +111,11 @@ export class MyRefundsPage implements OnInit {
 
  
   goBack() {
-    this.location.back();
+    // this.location.back();
+    this.router.navigate(['/profile']);
   }
 
-  handleRefresh(ev: any) {}
+
 
   async cancelBooking(aa: any) {
     this.rest.selectedBooking = aa;

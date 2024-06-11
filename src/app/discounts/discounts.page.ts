@@ -189,13 +189,20 @@ export class DiscountsPage implements OnInit {
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    
+    this.getSpecialOffers();
+   
+  }
+
+  getSpecialOffers(){
     var ss = {
       users_customers_id: this.userID,
       lattitude: localStorage.getItem("longitude"),
       longitude: localStorage.getItem("lattitude"),
     };
-    this.rest.presentLoaderWd();
+    if(this.specialOffersArr.length == 0){
+      this.rest.presentLoaderWd();
+    }
+    
     this.rest.sendRequest("special_offers",ss).subscribe((res: any) => {
       console.log("special_offers--", res);
       
@@ -222,8 +229,6 @@ export class DiscountsPage implements OnInit {
   goBack() {
     this.router.navigate(['/profile']);
   }
-
-  handleRefresh(ev: any) {}
 
   getDate(aa: any) {
     return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");

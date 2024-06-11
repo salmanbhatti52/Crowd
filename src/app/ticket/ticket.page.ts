@@ -484,10 +484,10 @@ export class TicketPage implements OnInit {
   dismissModal(isOpen: boolean){
     this.isModalOpen = isOpen;
     // this.modalCtrl.dismiss();
-    setTimeout(() => {
+    // setTimeout(() => {
       
       // this.navCtrl.navigateRoot(['/home']);
-    }, 500);
+    // }, 500);
   }
 
   requestRefund(isOpen: boolean){
@@ -499,7 +499,7 @@ export class TicketPage implements OnInit {
     setTimeout(() => {
       
       this.router.navigate(['/request-refund']);
-    }, 1000);
+    }, 500);
     // if(this.refundRequestCount != 1){
       // let data = {
       //   users_customers_id:this.userId,

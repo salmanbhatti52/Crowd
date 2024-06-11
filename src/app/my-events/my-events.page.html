@@ -19,9 +19,6 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
   
   <div style="margin: 25px 0px 10px; text-align: -webkit-center">
     <ion-segment
@@ -76,7 +73,7 @@
     *ngIf="segmentModel === 'Upcoming'"
   >
     <div *ngFor="let aa of orderd_upcomingArr" style="width: 92%;">
-      <div   style="background: black;
+      <div *ngIf="aa.ticket.length>0"  style="background: black;
         margin-top: 15px;
         border-radius: 20px;">
         <div class="elementBg" >

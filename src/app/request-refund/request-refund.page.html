@@ -28,7 +28,8 @@
       <div style="display: flex; justify-content: space-between; align-items: center">
         <p style="margin: 0px" class="dd work_sans">Enter No. of tickets to refund </p>
         <!-- <p style="margin: 0px" class="dd work_sans">£</p> -->
-        <ion-input style="text-align: center;" class="ddi work_sans" placeholder="0" type="number" (ionInput)="getTicketCount($event)" ></ion-input>
+        <!-- (ionInput)="getTicketCount($event)" -->
+        <ion-input style="text-align: center;" class="ddi work_sans" placeholder="0" type="number"  [(ngModel)]="ticketRequested"></ion-input>
       </div>
     </div>
     

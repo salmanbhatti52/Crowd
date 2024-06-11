@@ -108,7 +108,7 @@ export class MyEventsPage implements OnInit {
     this.router.navigate(['/profile']);
   }
 
-  handleRefresh(ev: any) {}
+  
 
   async cancelBooking(aa: any) {
     this.rest.selectedBooking = aa;
