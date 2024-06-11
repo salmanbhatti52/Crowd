@@ -10,7 +10,7 @@ import { RestService } from "../rest.service";
 })
 export class SeepeoplePage implements OnInit {
   userdata: any = "";
-  visitorArr: any = "";
+  visitorArr: any = [];
   constructor(
     public location: Location,
     public router: Router,

@@ -330,14 +330,6 @@ export class SavedPage implements OnInit {
     this.getsavedVenues();
   }
 
-  handleRefresh(ev: any) {
-    console.log("ev-----", ev);
-    setTimeout(() => {
-      ev.target.complete();
-    }, 1000);
-    this.ionViewWillEnter();
-  }
-
   // clearTheURLEncode(val: any) {
   //   console.log("clearTheURLEncode----", encodeURI(val));
 

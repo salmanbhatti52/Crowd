@@ -34,6 +34,7 @@ export class MyreservationsPage implements OnInit {
   ngOnInit() {}
   
   ionViewWillEnter() {
+    this.segmentModel = 'Upcoming';
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getUpcomingBookings();

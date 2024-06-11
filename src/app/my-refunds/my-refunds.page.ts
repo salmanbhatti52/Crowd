@@ -33,7 +33,7 @@ export class MyRefundsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    
+    this.segmentModel = 'inProcess';
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     console.log("user id:", this.userID);

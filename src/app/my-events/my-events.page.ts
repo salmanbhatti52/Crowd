@@ -32,7 +32,7 @@ export class MyEventsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    
+    this.segmentModel = 'Upcoming';
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getUpcomingBookings();
@@ -60,10 +60,11 @@ export class MyEventsPage implements OnInit {
       }
       if (res.status == "success") {
         this.upcomingArr = res.data;
-        for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
-          this.orderd_upcomingArr[j] = this.upcomingArr[i];
-          j++;        
-        }
+        this.orderd_upcomingArr = this.upcomingArr;
+        // for(let i= this.upcomingArr.length-1, j=0; i>=0; i--){
+        //   this.orderd_upcomingArr[j] = this.upcomingArr[i];
+        //   j++;        
+        // }
         console.log("orderd_upcomingArr: ",this.orderd_upcomingArr);
         
       }
@@ -87,10 +88,11 @@ export class MyEventsPage implements OnInit {
       }
       if (res.status == "success") {
         this.previousArr = res.data;
-        for(let i= this.previousArr.length-1, j=0; i>=0; i--){
-          this.orderd_previousArr[j] = this.previousArr[i];
-          j++;        
-        }
+        this.orderd_previousArr = this.previousArr;
+        // for(let i= this.previousArr.length-1, j=0; i>=0; i--){
+        //   this.orderd_previousArr[j] = this.previousArr[i];
+        //   j++;        
+        // }
         console.log("orderd_previousArr: ",this.orderd_previousArr);
       }
     });

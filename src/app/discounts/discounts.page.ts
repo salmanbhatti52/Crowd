@@ -103,12 +103,14 @@ export class DiscountsPage implements OnInit {
             // discountClaimedStatus = 'true';
             discountClaimedStatus = claimedVenue.status;
             offerVenue.discount_token = claimedVenue.claimed_token;
+            offerVenue.remaining_time = claimedVenue.remaining_time;
             foundVenue = offerVenue;
             break;
               
           }else{
             discountClaimedStatus = 'false';
             offerVenue.discount_token = null;
+            offerVenue.remaining_time = null;
             foundVenue = offerVenue;
           }
         // }
@@ -190,7 +192,7 @@ export class DiscountsPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getSpecialOffers();
-   
+    this.segmentModel = "Special Offers";
   }
 
   getSpecialOffers(){

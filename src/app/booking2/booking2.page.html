@@ -23,46 +23,49 @@
 
 <ion-content style="--background: #262626">
   <div style="width: 90%; text-align: center; margin: 5% auto">
-    <div style="display: flex; margin-top: 30px">
-      <img
+    <div style="display: flex; margin-top: 30px;align-items: center;">
+      <div>
+        <img
         style="
-          width: 104px;
-          height: 104px;
+          width: 124px;
+          height: 124px;
           border-radius: 16px;
           margin-right: 10px;
         "
         src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80"
       />
+      </div>
+      
 
       <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
+        <div style="display: flex; align-items: center; margin-bottom: 9px">
           <img class="imm" src="assets/imgs/ttt.svg" />
           <p class="bb work_sans">Booking confirmed</p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
+        <div style="display: flex; align-items: center; margin-bottom: 9px">
           <img class="imm" src="assets/imgs/uuu.svg" />
           <p class="date work_sans">{{selectedBooking.no_of_diners}} people</p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
+        <div style="display: flex; align-items: center; margin-bottom: 9px">
           <img class="imm" src="assets/imgs/ccc.svg" />
           <p class="date work_sans">
             {{mdate}} at {{mtime}}
           </p>
         </div>
 
-        <div style="display: flex; margin-top: 20px" *ngIf="selectedBooking.status != 'Cancelled'">
-          <p (click)="cancelBooking()" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p (click)="editbooking()" class="canc work_sans">Modify</p>
+        <div style="display: flex; margin-top: 12px" *ngIf="selectedBooking.status != 'Cancelled'">
+          <p style="margin-bottom: 0px;" (click)="cancelBooking()" class="canc work_sans">Cancel</p>
+          <p style="margin-bottom: 0px;" class="canc work_sans" style="margin: 0px 10px">|</p>
+          <p style="margin-bottom: 0px;" (click)="editbooking()" class="canc work_sans">Modify</p>
         </div>
 
         <div
           *ngIf="selectedBooking.status == 'Cancelled'"
-          style="display: flex; margin-top: 20px"
+          style="display: flex; margin-top: 12px"
         >
-          <p class="canc work_sans">Cancelled</p>
+          <p style="margin-bottom: 0px;" class="canc work_sans">Cancelled</p>
         </div>
       </div>
     </div>
