@@ -154,7 +154,8 @@
   ::ng-deep .gm-style-iw {
     border-radius: 30px !important; /* Rounded corners with 15px border radius */
     background-color: #fff; /* White background */
-    // padding:  8px 8px !important;
+    padding: 8px  !important;
+    margin-top: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
     // width:auto !important; /* Set the desired width */
   }
@@ -164,6 +165,16 @@
     width: 30px;
     margin-right: 5px;
   }
+
+  ::ng-deep .gm-style-iw-ch {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+    padding-top: 0px !important;
+    overflow: hidden;
+}
   
   ::ng-deep .gm-style-iw ion-label {
     font-weight: 500;

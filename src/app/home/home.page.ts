@@ -1,7 +1,7 @@
 import { FilterPage } from "./../filter/filter.page";
-import { ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,Renderer2} from "@angular/core";
 import { Router } from "@angular/router";
-import { IonContent, ModalController } from "@ionic/angular";
+import { IonContent, IonInput, ModalController } from "@ionic/angular";
 
 import { RestService } from "../rest.service";
 import { SelectVenuePopupPage } from "../select-venue-popup/select-venue-popup.page";
@@ -13,6 +13,7 @@ import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import { eachMinuteOfInterval, format, getDay, isEqual, parse, parseISO } from "date-fns";
 import { Platform } from "@ionic/angular";
 import {AnimationOptions  } from 'ngx-lottie';
+import { Keyboard } from "@capacitor/keyboard";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -21,8 +22,11 @@ import {AnimationOptions  } from 'ngx-lottie';
 export class HomePage implements OnInit {
   // @ViewChild('lottie', { static: true }) lottie: LottieAnimationView;
   // animationItem: AnimationItem;
-  @ViewChild("IonContent", { static: true })
-  content!: IonContent;
+  // @ViewChild("IonContent", { static: true })
+  // @ViewChild('hiddenInput',{static:true}) hiddenInput!:ElementRef
+  // content!: IonContent;
+  // @ViewChild('hiddenInput', { static: true }) hiddenInput!: ElementRef;
+  @ViewChild(IonContent, { static: true }) content!: IonContent;
   segmentModel = "venu";
   showfilter = false;
   venuarr: any = [];
@@ -64,14 +68,16 @@ export class HomePage implements OnInit {
   timeout:any;
   inactivityDelay = 5000;
   // deniedVoicePermissionCount = 0;
-
+  toggleThemeChecked = true;
+  typedText:any = '';
   currentLat:any;
   currentLong:any;
   intervalId:any;
   venueKeywords:any = [];
   eventKeywords:any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
-
+  isAIModalOpen = false;
+  
   lottieConfig!: AnimationOptions;
   constructor(
     public router: Router,
@@ -80,7 +86,8 @@ export class HomePage implements OnInit {
     private http:HttpClient,
     private geoCoder: MapGeocoder,
     private changeDetectorRef: ChangeDetectorRef,
-    private platform:Platform
+    private platform:Platform,
+    private renderer:Renderer2
   ) {
     if(!this.platform.is("mobileweb")){
       console.log('Requesting permissions');
@@ -92,6 +99,55 @@ export class HomePage implements OnInit {
       autoplay: true,
       loop: true,
     };
+
+    
+    
+  }
+
+  setOpenValueForAI(isOpen: boolean) {
+    this.isAIModalOpen = isOpen;
+    this.typedText = '';
+
+    
+  }
+
+  toggleTheme(ev:any){
+    this.typedText = '';
+    console.log(ev);
+    
+    this.toggleThemeChecked = !this.toggleThemeChecked;
+    console.log(this.toggleThemeChecked);
+    
+  }
+
+  showKeyboard(){
+    console.log('show keyboard called, stop speech recognition');
+    this.listening = false;
+    this.lottieConfig = {
+      loop:false,
+      autoplay:false,
+    }
+    
+    SpeechRecognition.stop();
+    // this.dismissModal();
+    
+    this.clearInactivityTimeout();
+  }
+
+  onInputForAI(ev:any){
+    console.log("input event triggered",ev);
+    
+    this.typedText = ev.target.value;
+    console.log(this.typedText);
+    
+  }
+
+  searchForAIInput(ev:any){
+    console.log('ion Blur input',ev);
+    if(this.typedText != ''){
+      this.dismissModal();
+      this.findResults(this.typedText);
+    }
     
   }
 
@@ -176,17 +232,30 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.segmentModel = 'venu';
+
+    Keyboard.addListener('keyboardWillShow', () => {
+      console.log('keyboard will show');
+      
+    });
+
+    Keyboard.addListener('keyboardWillHide', () => {
+      console.log('keyboard will hide');
+      if(this.typedText != '' && this.isAIModalOpen == true){
+        console.log('back button pressed 2');
+          
+        this.dismissModal();
+        this.findResults(this.typedText);
+      }
+      
+    }); 
   }
+
+  
 
   ionViewWillLeave() {
     // clearInterval(this.intervalId);
     this.clearInactivityTimeout();
   }
-
-  // ngOnDestroy(): void {
-  //   this.clearInactivityTimeout();
-  //   throw new Error("Method not implemented.");
-  // }
 
   alwaysSendCurrentLocation() {
     this.intervalId = setInterval(()=>{
@@ -250,8 +319,15 @@ export class HomePage implements OnInit {
 
   async startSpeechRecognition(){
 
+    this.lottieConfig = {
+      path: 'assets/animation.json', // Path to your Lottie animation file
+      renderer: 'svg', // 'svg', 'canvas', 'html'
+      autoplay: true,
+      loop: true,
+    };
+
     this.listening = false;
-    this.hideAnimation();
+    // this.hideAnimation();
     
     SpeechRecognition.stop();
 
@@ -343,13 +419,13 @@ export class HomePage implements OnInit {
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             // this.listening = true;  
-            this.showAnimation();
+            // this.showAnimation();
           }
           else{
            
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
-            this.hideAnimation();
+            // this.hideAnimation();
           }
         });
       } catch (error) {
@@ -399,18 +475,24 @@ export class HomePage implements OnInit {
   async stopSpeechRecognition(){
     
     SpeechRecognition.stop();
-    this.dismissModal();
+    // this.dismissModal();
+    this.listening = false;
+    this.lottieConfig = {
+      loop:false,
+      autoplay:false,
+    }
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
-    if(this.yourVoiceInput !='' ){      
-      this.findResults();
+    if(this.yourVoiceInput !='' ){   
+      this.dismissModal();   
+      this.findResults(this.yourVoiceInput);
     }
   }
 
-  findResults(){
-    this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
-    let tokens = this.yourVoiceInput.split(/\s+/);
+  findResults(userInput:string){
+    userInput = userInput.toLowerCase();
+    let tokens = userInput.split(/\s+/);
     console.log(tokens);
     if(this.segmentModel == "venu"){
       this.findVenueAndDiscount(tokens);
@@ -2016,7 +2098,7 @@ export class HomePage implements OnInit {
   dismissModal(){
     console.log('stopSpeechRecognition');
       SpeechRecognition.stop();
-
+      this.isAIModalOpen = false;
     this.modalCtrlr.dismiss();
   }
 
@@ -2505,7 +2587,6 @@ export class HomePage implements OnInit {
     this.getSystemSettings();
     this.getCurrentPosition();
     
-    this.filtertype = "no";
     this.records_limit = localStorage.getItem("records_limit");
     this.noevent = 0;
     this.noReservations = 0;
@@ -2538,7 +2619,7 @@ export class HomePage implements OnInit {
   getVenues(){
     this.noevenu = 0;
     this.pageNumber = 1;
-    this.filtertype = "no";
+    // this.filtertype = "no";
     console.log('get venues called');
     
     var ss = JSON.stringify({
@@ -2563,27 +2644,46 @@ export class HomePage implements OnInit {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
         }
-        this.venuarr = res.data.sort((a: any, b: any) => {
-          return a.distance - b.distance;
-        });
 
+        if(this.filtertype == 'no'){
+          this.venuarr = res.data.sort((a: any, b: any) => {
+            return a.distance - b.distance;
+          });
+  
+          
+  
+          console.log('venuArray: ',this.venuarr);
+          
+          // //FILTER VENUES NEAR USER LOCATION
+          // this.getVenuesNearUserLocation();
+  
+          this.rest.venuesArray = this.venuarr;
+          console.log("this.rest.venuesArray: ",this.rest.venuesArray);
+          
+          this.venuarrOrg = this.venuarr;
+          console.log('venuarrOrg: ',this.venuarrOrg);
+          
+          this.filteredvenuarr = this.venuarrOrg;
+          this.rest.venuArrHome = this.venuarr;
+          
+          console.log('venuArrHome: ',this.rest.venuArrHome);
+        }else{
+          this.venuarrOrg = res.data.sort((a: any, b: any) => {
+            return a.distance - b.distance;
+          });
+  
+          // //FILTER VENUES NEAR USER LOCATION
+          // this.getVenuesNearUserLocation();
+  
+          this.rest.venuesArray = this.venuarrOrg;
+          console.log("this.rest.venuesArray: ",this.rest.venuesArray);
+          
+          this.filteredvenuarr = this.venuarrOrg;
+          this.rest.venuArrHome = this.venuarrOrg;
+          
+          console.log('venuArrHome: ',this.rest.venuArrHome);
+        }
         
-
-        console.log('venuArray: ',this.venuarr);
-        
-        // //FILTER VENUES NEAR USER LOCATION
-        // this.getVenuesNearUserLocation();
-
-        this.rest.venuesArray = this.venuarr;
-        console.log("this.rest.venuesArray: ",this.rest.venuesArray);
-        
-        this.venuarrOrg = this.venuarr;
-        console.log('venuarrOrg: ',this.venuarrOrg);
-        
-        this.filteredvenuarr = this.venuarrOrg;
-        this.rest.venuArrHome = this.venuarr;
-        
-        console.log('venuArrHome: ',this.rest.venuArrHome);
       } else {
         // this.rest.presentToast(res.message);
         this.noevenu = 1;
@@ -2607,7 +2707,7 @@ export class HomePage implements OnInit {
 
     this.noReservations = 0;
     this.pageNumber = 1;
-    this.reservationFilter = "no";
+    // this.reservationFilter = "no";
     if(this.reservationFeature === 'On'){
       console.log('starting');
       
@@ -2633,15 +2733,28 @@ export class HomePage implements OnInit {
         }
         
           if(res.status == 'success'){
-            for(let i=0; i<res.data.length; i++){
-              res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+
+            if(this.reservationFilter == 'no'){
+              for(let i=0; i<res.data.length; i++){
+                res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+              }
+              this.reservationsArr = res.data.sort((a: any, b: any) => {
+                return a.distance - b.distance;
+              });
+              this.filteredReservationsArr = this.reservationsArr;
+              
+              console.log("Reservations Array: ",this.reservationsArr);
+            }else{
+              for(let i=0; i<res.data.length; i++){
+                res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_images}`;
+              }
+              this.reservationsArr = res.data.sort((a: any, b: any) => {
+                return a.distance - b.distance;
+              });
+              
+              console.log("Reservations Array: ",this.reservationsArr);
             }
-            this.reservationsArr = res.data.sort((a: any, b: any) => {
-              return a.distance - b.distance;
-            });
-            this.filteredReservationsArr = this.reservationsArr;
             
-            console.log("Reservations Array: ",this.reservationsArr);
             
           }
           else{
@@ -2660,7 +2773,7 @@ export class HomePage implements OnInit {
   getEvents(){
     this.noevent = 0;
     this.pageNumber = 1;
-    this.filterTypeEv = "no";
+    // this.filterTypeEv = "no";
     console.log('get Events called');
 
     var ss = JSON.stringify({
@@ -2682,29 +2795,21 @@ export class HomePage implements OnInit {
         this.rest.dismissLoader();
       }
       if (res.status == "success") {
-        this.eventarr = res.data.sort((a: any, b: any) => {
-          // console.log("test");
-          return a.distance - b.distance;
-        });
-        // for(let event of this.eventarr){
-        //   if(event.event_start_time != null && event.event_end_time != null){
-        //     //parse date
-        //     let start_time;
-        //     let end_time;
-        //     // parse in date object format
-        //     start_time = parse(event.event_start_time, 'HH:mm:ss', new Date());
-        //     end_time = parse(event.event_end_time, 'HH:mm:ss', new Date());
-        //     //format the date
-        //     start_time = format(start_time, 'h:mm aaaa');
-        //     end_time = format(end_time, 'h:mm aaaa');
-        //     // console.log('startTime',start_time);
-        //     // console.log('endTime',end_time);
-        //     event.formatted_start_time = start_time;
-        //     event.formatted_end_time = end_time;
-            
-        //   }
-        // }
-        this.eventsArrayCopy = this.eventarr
+
+        if(this.filterTypeEv == 'no'){
+          this.eventarr = res.data.sort((a: any, b: any) => {
+            // console.log("test");
+            return a.distance - b.distance;
+          });
+         
+          this.eventsArrayCopy = this.eventarr
+        }else{
+          this.eventsArrayCopy = res.data.sort((a: any, b: any) => {
+            // console.log("test");
+            return a.distance - b.distance;
+          });
+        }
+        
       } else {
         // this.rest.presentToast(res.message);
         this.noevent = 1;
