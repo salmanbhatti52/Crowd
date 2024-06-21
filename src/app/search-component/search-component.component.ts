@@ -41,8 +41,11 @@ export class SearchComponentComponent  implements OnInit {
   }
 
   handleInput(event:any) {
-    if (event.detail.value === '') {
-      this.modalCtrl.dismiss();
+    console.log(event);
+    
+    if (event.detail === null) {
+      // this.modalCtrl.dismiss();
+      this.results = this.venues;
     }else{
       const query = event.target.value.toLowerCase();
       this.results = this.venues.filter((d:any) => d.name.toLowerCase().indexOf(query) > -1);
