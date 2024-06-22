@@ -88,6 +88,24 @@
 
 // =======================done====================
 
+// ============= AI Welcom note css===================
+
+.typewriter {
+  // font-family: monospace; /* or any font you prefer */
+  font-family: "work-sans";
+  display: inline-block;
+  overflow: hidden; /* Ensures the overflow is hidden */
+  white-space: nowrap; /* Keeps the text in a single line */
+  /* Remove border-right and animation for blinking cursor */
+}
+
+.center_text{
+  text-align: center;
+}
+
+
+// =====================done=========================
+
 .titlefont{
   font-weight: 700;
   font-size: 16px;

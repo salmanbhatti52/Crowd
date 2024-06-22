@@ -400,7 +400,7 @@
     </ion-fab-button>
   </ion-fab>
   <!-- [initialBreakpoint]="1" [breakpoints]="[0, 1]" -->
-  <ion-modal [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" [isOpen]="isAIModalOpen"  (ionModalWillDismiss)="dismissModal()" >
+  <ion-modal [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()" [isOpen]="isAIModalOpen"  (ionModalWillDismiss)="dismissModal()" >
     <ng-template>
       <!-- style="background: transparent;" -->
       <div >
@@ -419,9 +419,16 @@
             </div>
 
             <!-- *ngIf="listening == true && yourVoiceInput== ''" -->
-            <div *ngIf="typedText=='' && yourVoiceInput==''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"  >
+            <!-- <div *ngIf="typedText=='' && yourVoiceInput==''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"  >
               Hey, how can I help?
+            </div> -->
+
+            <div *ngIf="typedText=='' && yourVoiceInput==''" class="center_text">
+              <div class="typewriter" >
+                <span #welcomeMessage [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></span>
+              </div>
             </div>
+            
 
             <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
             Listening...

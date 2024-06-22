@@ -20,6 +20,8 @@ import { Keyboard } from "@capacitor/keyboard";
   styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
+  @ViewChild('welcomeMessage', { static: false })
+  welcomeMessage!: ElementRef;
   // @ViewChild('lottie', { static: true }) lottie: LottieAnimationView;
   // animationItem: AnimationItem;
   // @ViewChild("IonContent", { static: true })
@@ -104,9 +106,34 @@ export class HomePage implements OnInit {
     
   }
 
+  typeWriter() {
+    if (!this.welcomeMessage) {
+      console.error('welcomeMessage ViewChild not yet initialized');
+      return;
+    }
+
+    const message = "Hey, how can I help you?";
+    let index = 0;
+
+    const type = () => {
+      if (index < message.length) {
+        this.welcomeMessage.nativeElement.innerHTML += message.charAt(index);
+        index++;
+        setTimeout(type, 100); // Adjust the speed here (100 ms)
+      }
+    };
+
+    type();
+  }
+
+  onModalDidPresent() {
+    this.typeWriter();
+  }
+
   setOpenValueForAI(isOpen: boolean) {
     this.isAIModalOpen = isOpen;
     this.typedText = '';
+    // setTimeout(() => this.typeWriter(), 2000);
 
     
   }
