@@ -249,7 +249,7 @@ export class GetstartPage implements OnInit {
         this.rest.presentToast("Plz check your device location is on");
         
       }
-    }, 3500);
+    }, 4000);
 
   }
 

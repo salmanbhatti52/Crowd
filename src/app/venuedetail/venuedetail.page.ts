@@ -105,9 +105,13 @@ export class VenuedetailPage implements OnInit {
       
       this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
       this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
+      this.rest.detail.db_start_hours = this.detailObj.start_hours;
+      this.rest.detail.db_close_hours = this.detailObj.close_hours;
+
       // parsed time
       this.detailObj.start_hours = parse(this.detailObj.start_hours, 'HH:mm:ss', new Date());
       this.detailObj.close_hours = parse(this.detailObj.close_hours, 'HH:mm:ss', new Date());
+      
       //formated time
       this.detailObj.start_hours = format(this.detailObj.start_hours, 'h:mma');
       this.detailObj.close_hours = format(this.detailObj.close_hours, 'h:mma');

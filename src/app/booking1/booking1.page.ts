@@ -5,7 +5,7 @@ import { RestService } from "../rest.service";
 import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, getDaysInMonth, eachDayOfInterval} from 'date-fns';
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
-import { ModalController } from "@ionic/angular";
+import { ModalController, NavController } from "@ionic/angular";
 import { CalendarPage } from "../calendar/calendar.page";
 
 @Component({
@@ -47,8 +47,8 @@ export class Booking1Page implements OnInit {
 
   myDate: any = '';
   // myDate: any = "2022-04-02";
-
-  usertime: any = format(parseISO(new Date().toISOString()),'HH:mm');
+  invalidTime = false;
+  usertime: any = format(parseISO(new Date().toISOString()),'HH:mm:ss');
   // usertime: any = '';
   peopleArr = [
     {
@@ -93,12 +93,15 @@ export class Booking1Page implements OnInit {
     },
   ];
 
+  venueStartHours:any;
+  venueCloseHours:any;
   selectedVenue: any = "";
   userID: any = "";
 
   constructor(
     public location: Location,
     public router: Router,
+    public navCtrl:NavController,
     public rest: RestService,
     public datePicker: DatePicker,
     public modalCtrlr:ModalController
@@ -274,6 +277,11 @@ export class Booking1Page implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.selectedVenue = this.rest.detail;
+    console.log(this.selectedVenue);
+    console.log('db_start_hours',this.selectedVenue.db_start_hours);
+    console.log('db_close_hours',this.selectedVenue.db_close_hours);
+    this.venueStartHours = this.selectedVenue.db_start_hours;
+    this.venueCloseHours = this.selectedVenue.db_close_hours;
     this.datesArr = this.getDate();
   }
 
@@ -319,6 +327,8 @@ export class Booking1Page implements OnInit {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
+    } else if(this.invalidTime){
+      this.rest.presentToast(`Please select time between ${this.selectedVenue.start_hours} and ${this.selectedVenue.close_hours}`);
     } else {
       if(this.setMonthNumberStatus == false){
         selectedMonthNumber++;
@@ -348,14 +358,14 @@ export class Booking1Page implements OnInit {
       console.log(ss);
 
       this.rest.bookings_add(ss).subscribe((res: any) => {
-        console.log(res);
+        console.log(res);                     
 
         if (res.status == "success") {
           this.rest.selectedBooking = res.data;
           this.rest.selectedBooking.coming_from = 'other';
           this.rest.comingFrom = 'booking1';
           this.rest.venueDiscountToken = undefined;
-          this.router.navigate(["booking2"]);
+          this.navCtrl.navigateRoot("booking2");
         } else {
           this.rest.presentToast("Error");
         }
@@ -405,7 +415,12 @@ export class Booking1Page implements OnInit {
     
   }
   formattedTime(ev:any){
-    this.usertime  = format(parseISO(ev.detail.value), "HH:mm");
+    this.usertime  = format(parseISO(ev.detail.value), "HH:mm:ss");
+    if(this.usertime < this.venueStartHours || this.usertime > this.venueCloseHours){
+      this.invalidTime = true;
+    }else{
+      this.invalidTime = false;
+    }
     console.log('DateValues: ',ev.detail.value);
     console.log(this.usertime);
     

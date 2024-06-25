@@ -14,6 +14,7 @@ import { eachMinuteOfInterval, format, getDay, isEqual, parse, parseISO } from "
 import { Platform } from "@ionic/angular";
 import {AnimationOptions  } from 'ngx-lottie';
 import { Keyboard } from "@capacitor/keyboard";
+import { LocationService } from "../location.service";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
@@ -53,6 +54,7 @@ export class HomePage implements OnInit {
   venueList: any;
   selectedVenue = {};
   selectedVenueName = "";
+  timeInMinutes = 0;
 
   filteredvenuarr: any = "";
   eventsArrayCopy: any;
@@ -74,12 +76,17 @@ export class HomePage implements OnInit {
   typedText:any = '';
   currentLat:any;
   currentLong:any;
+  firstTimeLat:any = undefined;
+  firstTimeLong:any = undefined;
+
   intervalId:any;
   venueKeywords:any = [];
   eventKeywords:any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   isAIModalOpen = false;
-  
+
+  radiusInMeters = 10; // 10 meters
+
   lottieConfig!: AnimationOptions;
   constructor(
     public router: Router,
@@ -89,7 +96,8 @@ export class HomePage implements OnInit {
     private geoCoder: MapGeocoder,
     private changeDetectorRef: ChangeDetectorRef,
     private platform:Platform,
-    private renderer:Renderer2
+    private renderer:Renderer2,
+    public locationService:LocationService
   ) {
     if(!this.platform.is("mobileweb")){
       console.log('Requesting permissions');
@@ -287,16 +295,34 @@ export class HomePage implements OnInit {
   alwaysSendCurrentLocation() {
     this.intervalId = setInterval(()=>{
       this.alwaysGetCurrentPosition();
-    }, 120000);
+    }, 300000);
   }
 
   async alwaysGetCurrentPosition() {
+    
     const getCurrentLocation = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
+      // enableHighAccuracy: true,
+
     });
+    
     console.log("Current Location: ", getCurrentLocation);
     this.currentLat = getCurrentLocation.coords.latitude;
     this.currentLong = getCurrentLocation.coords.longitude;
+
+    if(this.firstTimeLat == undefined && this.firstTimeLong == undefined){
+      this.firstTimeLat = this.currentLat;
+      this.firstTimeLong = this.currentLong;
+    }else{
+      const isWithinRadius = this.locationService.isWithinRadius(this.firstTimeLat,this.firstTimeLong,this.currentLat,this.currentLong,this.radiusInMeters);
+      if(isWithinRadius){
+        console.log('user location not changed, user in inside the venue');
+      }else{
+        this.timeInMinutes = 0;
+        this.firstTimeLat = this.currentLat;
+        this.firstTimeLong = this.currentLong;
+      }
+    }
+
     console.log("getCurrentPositionCalled");
     
     console.log("currentLat: ", this.currentLat);
@@ -305,12 +331,18 @@ export class HomePage implements OnInit {
     let data = {
       customer_id:this.userID,  
       current_longitude:this.currentLong,
-      current_latitude:this.currentLat
+      current_latitude:this.currentLat,
+      location_time: this.timeInMinutes,
     }
+  
+    console.log("Update Location Payloads: ",data);
+    
+
     this.rest.sendRequest('updateLocation',data).subscribe((res:any)=>{
       console.log('send current location res: ',res);
     });
     
+    this.timeInMinutes+=5;
   
   }
 
@@ -2622,7 +2654,15 @@ export class HomePage implements OnInit {
     this.pageNumber = 1;
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    this.alwaysSendCurrentLocation();
+    if(this.timeInMinutes == 0){
+      this.alwaysSendCurrentLocation();
+      console.log("time in minutes:",this.timeInMinutes);
+      console.log("time in minutes is not zero");
+      
+    }else{
+      console.log("time in minutes:",this.timeInMinutes);      
+    }
+    
     this.getClaimedVenues();
     this.getVenueAIKeywords();
     this.getEventAIKeywords();
