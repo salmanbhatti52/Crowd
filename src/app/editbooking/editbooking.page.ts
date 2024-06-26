@@ -53,6 +53,10 @@ export class EditbookingPage implements OnInit {
 
   selectedBooking: any = "";
 
+  // venueStartHours:any;
+  // venueCloseHours:any;
+  // invalidTime = false;
+
   peopleArr = [
     {
       id: 1,
@@ -125,6 +129,14 @@ export class EditbookingPage implements OnInit {
     // this.datesArr = this.getDate();
     this.selectedVenue = this.rest.detail;
     this.selectedBooking = this.rest.selectedBooking;
+    console.log('selectedVenue: ',this.selectedVenue);
+    console.log('selectedBooking: ',this.selectedBooking);
+
+    // console.log('db_start_hours',this.selectedVenue.db_start_hours);
+    // console.log('db_close_hours',this.selectedVenue.db_close_hours);
+    // this.venueStartHours = this.selectedVenue.db_start_hours;
+    // this.venueCloseHours = this.selectedVenue.db_close_hours;
+
     console.log(this.selectedBooking);
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;

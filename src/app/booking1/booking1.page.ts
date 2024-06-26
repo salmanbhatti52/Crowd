@@ -47,7 +47,7 @@ export class Booking1Page implements OnInit {
 
   myDate: any = '';
   // myDate: any = "2022-04-02";
-  invalidTime = false;
+  // invalidTime = false;
   usertime: any = format(parseISO(new Date().toISOString()),'HH:mm:ss');
   // usertime: any = '';
   peopleArr = [
@@ -93,8 +93,8 @@ export class Booking1Page implements OnInit {
     },
   ];
 
-  venueStartHours:any;
-  venueCloseHours:any;
+  // venueStartHours:any;
+  // venueCloseHours:any;
   selectedVenue: any = "";
   userID: any = "";
 
@@ -278,10 +278,10 @@ export class Booking1Page implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.selectedVenue = this.rest.detail;
     console.log(this.selectedVenue);
-    console.log('db_start_hours',this.selectedVenue.db_start_hours);
-    console.log('db_close_hours',this.selectedVenue.db_close_hours);
-    this.venueStartHours = this.selectedVenue.db_start_hours;
-    this.venueCloseHours = this.selectedVenue.db_close_hours;
+    // console.log('db_start_hours',this.selectedVenue.db_start_hours);
+    // console.log('db_close_hours',this.selectedVenue.db_close_hours);
+    // this.venueStartHours = this.selectedVenue.db_start_hours;
+    // this.venueCloseHours = this.selectedVenue.db_close_hours;
     this.datesArr = this.getDate();
   }
 
@@ -318,8 +318,8 @@ export class Booking1Page implements OnInit {
   }
 
   bookTable() {
-    let selectedMonthNumber = this.selectedMonthNumber;
     
+    let selectedMonthNumber = this.selectedMonthNumber;
     
     this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
     
@@ -327,9 +327,11 @@ export class Booking1Page implements OnInit {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
-    } else if(this.invalidTime){
-      this.rest.presentToast(`Please select time between ${this.selectedVenue.start_hours} and ${this.selectedVenue.close_hours}`);
-    } else {
+    }
+    //  else if(this.invalidTime){
+    //   this.rest.presentToast(`Please select time between ${this.selectedVenue.start_hours} and ${this.selectedVenue.close_hours}`);
+    // }
+     else {
       if(this.setMonthNumberStatus == false){
         selectedMonthNumber++;
         this.setMonthNumberStatus = true;
@@ -416,11 +418,11 @@ export class Booking1Page implements OnInit {
   }
   formattedTime(ev:any){
     this.usertime  = format(parseISO(ev.detail.value), "HH:mm:ss");
-    if(this.usertime < this.venueStartHours || this.usertime > this.venueCloseHours){
-      this.invalidTime = true;
-    }else{
-      this.invalidTime = false;
-    }
+    // if(this.usertime < this.venueStartHours || this.usertime > this.venueCloseHours){
+    //   this.invalidTime = true;
+    // }else{
+    //   this.invalidTime = false;
+    // }
     console.log('DateValues: ',ev.detail.value);
     console.log(this.usertime);
     

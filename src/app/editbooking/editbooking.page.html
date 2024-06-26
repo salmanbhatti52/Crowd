@@ -10,7 +10,7 @@
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont work_sans"
-          >{{selectedVenue.name}}</ion-label
+          >{{selectedBooking.venues_details.name}}</ion-label
         >
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
@@ -159,6 +159,8 @@
       locale="en-US"
       [(ngModel)]="usertime"
     ></ion-datetime>
+
+    <!-- <div class="invalid_time work_sans" *ngIf="invalidTime">Please select another time slot, this time is unavailable.</div> -->
 
     <div style="margin-top: 10px">
       <ion-button
