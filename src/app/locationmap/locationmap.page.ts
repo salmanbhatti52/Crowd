@@ -47,6 +47,8 @@ export class LocationmapPage implements OnInit {
   textInput!: ElementRef;
   @ViewChild(IonModal)
   modal!: IonModal;
+  @ViewChild('welcomeMessage', { static: false })
+  welcomeMessage!: ElementRef;
 
   foundVenue :any;
 
@@ -341,10 +343,16 @@ export class LocationmapPage implements OnInit {
   timeout:any;
   inactivityDelay = 5000;
   deniedVoicePermissionCount = 0;
+  toggleThemeChecked = true;
   
   venueKeywords: any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   lottieConfig!: AnimationOptions;
+  typedText:any = '';
+
+  // keyboardIsVisible = false;
+  // showMicIcon = false;
+
   constructor(
     public router: Router,
     public rest: RestService,
@@ -372,6 +380,75 @@ export class LocationmapPage implements OnInit {
 
   ionViewWillLeave() {
     this.clearInactivityTimeout();
+  }
+
+
+  typeWriter() {
+    if (!this.welcomeMessage) {
+      console.error('welcomeMessage ViewChild not yet initialized');
+      return;
+    }
+
+    const message = "Hey, how can I help you?";
+    let index = 0;
+
+    const type = () => {
+      if (index < message.length) {
+        this.welcomeMessage.nativeElement.innerHTML += message.charAt(index);
+        index++;
+        setTimeout(type, 100); // Adjust the speed here (100 ms)
+      }
+    };
+
+    type();
+  }
+
+  onModalDidPresent() {
+    this.typeWriter();
+  }
+
+  toggleTheme(ev:any){
+    this.typedText = '';
+    console.log(ev);
+    
+    this.toggleThemeChecked = !this.toggleThemeChecked;
+    console.log(this.toggleThemeChecked);
+    
+  }
+
+  showKeyboard(){
+    // this.keyboardIsVisible = true;
+    // console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+    
+    console.log('show keyboard called, stop speech recognition');
+    this.listening = false;
+    this.lottieConfig = {
+      loop:false,
+      autoplay:false,
+    }
+    
+    SpeechRecognition.stop();
+    // this.dismissModal();
+    
+    this.clearInactivityTimeout();
+  }
+
+  onInputForAI(ev:any){
+    console.log("input event triggered",ev);
+    
+    this.typedText = ev.target.value;
+    console.log(this.typedText);
+    
+  }
+
+  searchForAIInput(ev:any){
+    // this.keyboardIsVisible = false;
+    console.log('ion Blur input',ev);
+    if(this.typedText != ''){
+      this.dismissModal();
+      this.findResults(this.typedText);
+    }
+    
   }
 
   getVenueAIKeywords(){
@@ -437,9 +514,15 @@ export class LocationmapPage implements OnInit {
   }
 
   async startSpeechRecognition(){
-
+    // this.lottieConfig = {
+    //   path: 'assets/animation.json', // Path to your Lottie animation file
+    //   renderer: 'svg', // 'svg', 'canvas', 'html'
+    //   autoplay: true,
+    //   loop: true,
+    // };
+    this.typedText = '';
     this.listening = false;
-    this.hideAnimation();
+    // this.hideAnimation();
     
     SpeechRecognition.stop();
 
@@ -461,16 +544,17 @@ export class LocationmapPage implements OnInit {
         }
       }
     }
-    
 
     this.venuarr = this.venuarrOrg;
 
     this.yourVoiceInput = '';
+
     
+
     const {available} = await SpeechRecognition.available();
     console.log('availability res: ',available);
 
-    if(checkPermissionsStatus=== 'granted' && available){
+    if( checkPermissionsStatus=== 'granted' && available){
 
       this.setInactivityTimeout();
       // ===========speech start try catch====================
@@ -484,6 +568,7 @@ export class LocationmapPage implements OnInit {
       } catch (error) {
         console.log("Speech Start error: ",error);
       }
+      // this.keyboardIsVisible = false;
 
       this.listening = true;
       
@@ -514,13 +599,13 @@ export class LocationmapPage implements OnInit {
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             // this.listening = true;  
-            this.showAnimation();
+            // this.showAnimation();
           }
           else{
            
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
-            this.hideAnimation();
+            // this.hideAnimation();
           }
         });
       } catch (error) {
@@ -538,6 +623,7 @@ export class LocationmapPage implements OnInit {
       }
       this.dismissModal();
     }
+    
   }
 
   setInactivityTimeout(){
@@ -569,18 +655,25 @@ export class LocationmapPage implements OnInit {
   async stopSpeechRecognition(){
     
     SpeechRecognition.stop();
-    this.dismissModal();
+    // this.dismissModal();
+    this.listening = false;
+    this.lottieConfig = {
+      loop:false,
+      autoplay:false,
+    }
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
-    if(this.yourVoiceInput !='' ){      
-      this.findResults();
+    if(this.yourVoiceInput !='' ){   
+      this.dismissModal();   
+      this.findResults(this.yourVoiceInput);
     }
   }
 
-  findResults(){
-    this.yourVoiceInput = this.yourVoiceInput.toLowerCase();
-    let tokens = this.yourVoiceInput.split(/\s+/);
+
+  findResults(userInput:string){
+    userInput = userInput.toLowerCase();
+    let tokens = userInput.split(/\s+/);
     console.log(tokens);
     
     this.findVenueAndDiscount(tokens);
@@ -1221,13 +1314,7 @@ export class LocationmapPage implements OnInit {
 
   dismissModal(){
     console.log('stopSpeechRecognition');
-    
-    if(this.listener){
-      console.log(this.listener);
-      
-      this.listener = false;
-      SpeechRecognition.stop();
-    }
+    SpeechRecognition.stop();
     this.modalCtrl.dismiss();
   }
 
@@ -1684,7 +1771,23 @@ export class LocationmapPage implements OnInit {
   ngAfterViewInit(): void {}
 
   async ngOnInit() {
+    Keyboard.addListener('keyboardWillShow', () => {
+      console.log('keyboard will show');
+      // this.showKeyboard();
+    });
+
+    Keyboard.addListener('keyboardWillHide', () => {
+      console.log('keyboard will hide');
+      // this.keyboardIsVisible = false;
+      if(this.typedText != '' ){
+        console.log('back button pressed 2');
+          
+        this.dismissModal();
+        this.findResults(this.typedText);
       }
+      
+    }); 
+  }
 
   // setMarkerPosition(latitude: any, longitude: any) {
   //   console.log("marker position");

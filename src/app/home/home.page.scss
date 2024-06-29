@@ -360,6 +360,29 @@
     text-transform: capitalize;
   }
 
+  // ========================speech gif animation===================
+
+/* styles.css */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.speech-gif {
+  display: block;
+  margin: 0 auto;
+  width: 200px; /* Adjust the width as needed */
+  animation: pulse 1s infinite;
+}
+
+  // =====================done=============================
 
   .white_model_bg{
     --background:white !important;
@@ -367,7 +390,8 @@
     // --background:red !important;
   }
   .black_model_bg{
-    --background:#16171B !important;
+    // --background:#16171B !important;
+    --background:black !important;
     --border-radius: 0px 0px 0px 0px;
     // --background:yellow !important;
   }
@@ -375,19 +399,19 @@
   .block {
     width: 100%;
     background: transparent;
-    padding: 20px 20px 0px;
+    padding: 15px 15px 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 90vh;
   }
 
-  // .input_type_align{
-  //   margin: 0px 10px 0px 7px;
-    // position: absolute;
+  .input_type_align{
+    margin: 0px 10px 0px 7px;
+    position: absolute;
     // left: 20px;
-    // bottom: 4.4vh;
-  // }
+    // bottom: 4.2vh;
+  }
 
   .black_mic{
     color: black;
@@ -480,6 +504,12 @@
 .hide_ai{
   display: none;
 }
+
+video {
+  background-color: transparent;
+  display: block;
+}
+
 
 .filtertextClear{
   // margin-top: 153px;

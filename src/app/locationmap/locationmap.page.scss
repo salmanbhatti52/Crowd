@@ -91,17 +91,139 @@
     height: 100%; 
 
   }
-  ion-modal {
-    --height: auto;
-    --background: rgba(0, 0, 0, 0.3);
+  // ion-modal {
+  //   --height: auto;
+  //   --background: rgba(0, 0, 0, 0.3);
+  // }
+  // .block {
+  //   width: 100%;
+  //   background: transparent;
+  //   padding: 20px;
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: space-between;
+  // }
+
+  .input_type_align{
+    margin: 0px 10px 0px 7px;
+    position: absolute;
+    // left: 20px;
+    // bottom: 4.2vh;
   }
+
+  .modal_text_color_white{
+    text-align: center;
+    color: white;
+  }
+  
+  .modal_text_color_black{
+    text-align: center;
+    color: black;
+  }
+
+  .black_mic{
+    color: black;
+    height: 24px;
+    width: 24px;
+  }
+
+  .white_mic{
+    color: white;
+    height: 24px;
+    width: 24px;
+  }
+
+  .white_mic_border{
+    display: flex;
+    margin: 0px 9px 0px 9px;
+    border: 1px solid white;
+    border-radius: 100px;
+    padding: 2px;
+  }
+
+  .black_mic_border{
+    display: flex;
+    margin: 0px 9px 0px 9px;
+    border: 1px solid black;
+    border-radius: 100px;
+    padding: 2px;
+  }
+
+  .toggle_lable_white{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #ffffff;
+    text-transform: capitalize;
+  }
+
+  .toggle_lable_black{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #16171B;
+    text-transform: capitalize;
+  }
+
+  .typewriter {
+    // font-family: monospace; /* or any font you prefer */
+    font-family: "work-sans";
+    display: inline-block;
+    overflow: hidden; /* Ensures the overflow is hidden */
+    white-space: nowrap; /* Keeps the text in a single line */
+    /* Remove border-right and animation for blinking cursor */
+  }
+
+  .center_text{
+    text-align: center;
+  }
+
+  .hide_ai{
+    display: none;
+  }
+
+  .input_text_color_white{
+    --placeholder-color: white;
+    --color: white !important;
+   height: 33px;
+    border:1px solid white;
+    border-radius: 18px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+  
+  .input_text_color_black{
+    --placeholder-color: black;
+    --color: black !important;
+    height: 33px;
+    border:1px solid black;
+    border-radius: 18px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+
   .block {
     width: 100%;
     background: transparent;
-    padding: 20px;
+    padding: 20px 20px 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 90vh;
+  }
+
+  .white_model_bg{
+    --background:white !important;
+    --border-radius: 0px 0px 0px 0px;
+    // --background:red !important;
+  }
+  .black_model_bg{
+    // --background:#16171B !important;
+    --background:black !important;
+    --border-radius: 0px 0px 0px 0px;
+    // --background:yellow !important;
   }
 
   .modal_text_color{

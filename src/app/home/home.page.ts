@@ -84,10 +84,11 @@ export class HomePage implements OnInit {
   eventKeywords:any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   isAIModalOpen = false;
-
+  gettingInput = false;
   radiusInMeters = 10; // 10 meters
 
-  lottieConfig!: AnimationOptions;
+  // lottieConfig!: AnimationOptions;
+  keyboardIsVisible = false;
   constructor(
     public router: Router,
     public rest: RestService,
@@ -103,12 +104,12 @@ export class HomePage implements OnInit {
       console.log('Requesting permissions');
     }
 
-    this.lottieConfig = {
-      path: 'assets/animation.json', // Path to your Lottie animation file
-      renderer: 'svg', // 'svg', 'canvas', 'html'
-      autoplay: true,
-      loop: true,
-    };
+    // this.lottieConfig = {
+    //   path: 'assets/animation.json', // Path to your Lottie animation file
+    //   renderer: 'svg', // 'svg', 'canvas', 'html'
+    //   autoplay: true,
+    //   loop: true,
+    // };
 
     
     
@@ -156,12 +157,14 @@ export class HomePage implements OnInit {
   }
 
   showKeyboard(){
+    // this.keyboardIsVisible = true;
+    // console.log("keyboardIsVisible: ",this.keyboardIsVisible);
     console.log('show keyboard called, stop speech recognition');
     this.listening = false;
-    this.lottieConfig = {
-      loop:false,
-      autoplay:false,
-    }
+    // this.lottieConfig = {
+    //   loop:false,
+    //   autoplay:false,
+    // }
     
     SpeechRecognition.stop();
     // this.dismissModal();
@@ -178,6 +181,7 @@ export class HomePage implements OnInit {
   }
 
   searchForAIInput(ev:any){
+    // this.keyboardIsVisible = false;
     console.log('ion Blur input',ev);
     if(this.typedText != ''){
       this.dismissModal();
@@ -270,19 +274,28 @@ export class HomePage implements OnInit {
 
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
-      
+      this.keyboardIsVisible = true;
+      this.listening = false;
+      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+      console.log("listening: ",this.listening);
+      this.changeDetectorRef.detectChanges();
+      this.stopSpeechRecognition();
+      // this.showKeyboard();
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
       console.log('keyboard will hide');
-      if(this.typedText != '' && this.isAIModalOpen == true){
+      this.keyboardIsVisible = false;
+      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+      this.changeDetectorRef.detectChanges();
+      if(this.typedText != '' ){
         console.log('back button pressed 2');
           
         this.dismissModal();
         this.findResults(this.typedText);
       }
       
-    }); 
+    });
   }
 
   
@@ -377,13 +390,13 @@ export class HomePage implements OnInit {
   }
 
   async startSpeechRecognition(){
-
-    this.lottieConfig = {
-      path: 'assets/animation.json', // Path to your Lottie animation file
-      renderer: 'svg', // 'svg', 'canvas', 'html'
-      autoplay: true,
-      loop: true,
-    };
+    this.gettingInput = false;
+    // this.lottieConfig = {
+    //   path: 'assets/animation.json', // Path to your Lottie animation file
+    //   renderer: 'svg', // 'svg', 'canvas', 'html'
+    //   autoplay: true,
+    //   loop: true,
+    // };
 
     this.listening = false;
     // this.hideAnimation();
@@ -448,7 +461,7 @@ export class HomePage implements OnInit {
       } catch (error) {
         console.log("Speech Start error: ",error);
       }
-
+      // this.keyboardIsVisible = false;
       this.listening = true;
       
       // ===========partial results try catch====================
@@ -459,8 +472,9 @@ export class HomePage implements OnInit {
           if(data.matches && data.matches.length > 0){  
             // if(this.listener == true){
               this.yourVoiceInput = data.matches[0];
+              this.gettingInput = true;
               this.changeDetectorRef.detectChanges();
-
+              
             // }
           }
           this.resetInactivityTimeout();
@@ -474,14 +488,16 @@ export class HomePage implements OnInit {
       try {
         SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
           if(data.status == "started"){
-
+            this.gettingInput = true;
+            // this.changeDetectorRef.detectChanges();
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             // this.listening = true;  
             // this.showAnimation();
           }
           else{
-           
+           this.gettingInput = false;
+          //  this.changeDetectorRef.detectChanges();
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             // this.hideAnimation();
@@ -489,7 +505,7 @@ export class HomePage implements OnInit {
         });
       } catch (error) {
         console.log("Listening state error: ",error);
-        
+        this.gettingInput = false;
       }
 
       let result  = SpeechRecognition.isListening();
@@ -536,10 +552,10 @@ export class HomePage implements OnInit {
     SpeechRecognition.stop();
     // this.dismissModal();
     this.listening = false;
-    this.lottieConfig = {
-      loop:false,
-      autoplay:false,
-    }
+    // this.lottieConfig = {
+    //   loop:false,
+    //   autoplay:false,
+    // }
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
