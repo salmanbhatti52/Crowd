@@ -444,7 +444,7 @@
             
 
             <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
-            Listening...
+            Speak Now...
             </div>
             
             <div style="margin-top: 10px;" *ngIf="keyboardIsVisible == true && typedText== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
@@ -468,8 +468,13 @@
           </video> -->
           
           <div style="text-align: center;" [ngClass]="{'hide_ai':!listening}">
-            <img  [ngClass]="{'speech-gif':gettingInput}" style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif.gif" alt="">
+            <!-- [ngClass]="{'speech-gif':gettingInput}" -->
+            <img *ngIf="toggleThemeChecked"   style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif.gif" alt="">
+            <img *ngIf="!toggleThemeChecked"  style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif_white.gif" alt="">
+            
           </div>
+
+
            <!-- ========================lottie======================= -->
           <!-- <div [ngClass]="{'hide':!listening}">
             <ng-lottie [options]="lottieConfig"></ng-lottie>
@@ -486,17 +491,21 @@
             <img (click)="showKeyboard()" class="input_type_align" *ngIf="!toggleThemeChecked && listening" src="../../assets/imgs/icons/keyboard_black.svg" alt=""> -->
             <!-- <ion-input placeholder="Ask AI" [ngClass]="{'input_text_color_white':toggleThemeChecked,'input_text_color_black':!toggleThemeChecked}"  type="text" (ionBlur)="searchForAIInput($event)" (ionInput)="onInputForAI($event)" ></ion-input> -->
             <div style="width: 75%;"></div>
-            <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening" class="white_mic_border">
-              <ion-icon class="white_mic" name="mic"></ion-icon>      
+            <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening" >
+              <!-- <ion-icon class="white_mic" name="mic"></ion-icon>       -->
+               <img src="../../assets/imgs/icons/mic-fill-white-32.svg" alt="">
             </div>
-            <div (click)="stopSpeechRecognition()" *ngIf="!toggleThemeChecked && listening" class="black_mic_border">
-              <ion-icon class="black_mic" name="mic"></ion-icon>  
+            <div (click)="stopSpeechRecognition()" *ngIf="!toggleThemeChecked && listening" >
+              <!-- <ion-icon class="black_mic" name="mic"></ion-icon>   -->
+               <img src="../../assets/imgs/icons/mic-fill-gray-32.svg" alt="">
             </div>
-            <div (click)="startSpeechRecognition()" *ngIf="toggleThemeChecked && !listening" class="white_mic_border">
-              <ion-icon class="white_mic " name="mic-outline"></ion-icon>
+            <div (click)="startSpeechRecognition()" *ngIf="toggleThemeChecked && !listening" >
+              <!-- <ion-icon class="white_mic " name="mic-outline"></ion-icon> -->
+              <img src="../../assets/imgs/icons/mic-white-32.svg" alt="">
             </div>
-            <div (click)="startSpeechRecognition()" *ngIf="!toggleThemeChecked && !listening" class="black_mic_border">
-              <ion-icon class="black_mic " name="mic-outline"></ion-icon>  
+            <div (click)="startSpeechRecognition()" *ngIf="!toggleThemeChecked && !listening" >
+              <!-- <ion-icon class="black_mic " name="mic-outline"></ion-icon>   -->
+              <img src="../../assets/imgs/icons/mic-gray-32.svg" alt="">
             </div>
             <!-- <div style="width: 20%;"></div> -->
             <!-- <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening" class="white_mic_border">

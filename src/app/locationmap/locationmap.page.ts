@@ -347,10 +347,10 @@ export class LocationmapPage implements OnInit {
   
   venueKeywords: any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
-  lottieConfig!: AnimationOptions;
+  // lottieConfig!: AnimationOptions;
   typedText:any = '';
 
-  // keyboardIsVisible = false;
+  keyboardIsVisible = false;
   // showMicIcon = false;
 
   constructor(
@@ -366,12 +366,12 @@ export class LocationmapPage implements OnInit {
     private renderer: Renderer2
   ) {
     
-    this.lottieConfig = {
-      path: 'assets/animation.json', // Path to your Lottie animation file
-      renderer: 'svg', // 'svg', 'canvas', 'html'
-      autoplay: true,
-      loop: true,
-    };
+    // this.lottieConfig = {
+    //   path: 'assets/animation.json', // Path to your Lottie animation file
+    //   renderer: 'svg', // 'svg', 'canvas', 'html'
+    //   autoplay: true,
+    //   loop: true,
+    // };
   }
   // ngOnDestroy(): void {
   //   this.clearInactivityTimeout();
@@ -417,15 +417,13 @@ export class LocationmapPage implements OnInit {
   }
 
   showKeyboard(){
-    // this.keyboardIsVisible = true;
-    // console.log("keyboardIsVisible: ",this.keyboardIsVisible);
     
     console.log('show keyboard called, stop speech recognition');
     this.listening = false;
-    this.lottieConfig = {
-      loop:false,
-      autoplay:false,
-    }
+    // this.lottieConfig = {
+    //   loop:false,
+    //   autoplay:false,
+    // }
     
     SpeechRecognition.stop();
     // this.dismissModal();
@@ -442,7 +440,6 @@ export class LocationmapPage implements OnInit {
   }
 
   searchForAIInput(ev:any){
-    // this.keyboardIsVisible = false;
     console.log('ion Blur input',ev);
     if(this.typedText != ''){
       this.dismissModal();
@@ -568,10 +565,9 @@ export class LocationmapPage implements OnInit {
       } catch (error) {
         console.log("Speech Start error: ",error);
       }
-      // this.keyboardIsVisible = false;
 
       this.listening = true;
-      
+      this.changeDetectorRef.detectChanges();
       // ===========partial results try catch====================
       
       try {
@@ -595,7 +591,6 @@ export class LocationmapPage implements OnInit {
       try {
         SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
           if(data.status == "started"){
-
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
             // this.listening = true;  
@@ -657,10 +652,11 @@ export class LocationmapPage implements OnInit {
     SpeechRecognition.stop();
     // this.dismissModal();
     this.listening = false;
-    this.lottieConfig = {
-      loop:false,
-      autoplay:false,
-    }
+    this.changeDetectorRef.detectChanges();
+    // this.lottieConfig = {
+    //   loop:false,
+    //   autoplay:false,
+    // }
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
@@ -1773,12 +1769,19 @@ export class LocationmapPage implements OnInit {
   async ngOnInit() {
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
-      // this.showKeyboard();
+      this.keyboardIsVisible = true;
+      this.listening = false;
+      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+      console.log("listening: ",this.listening);
+      this.changeDetectorRef.detectChanges();
+      this.stopSpeechRecognition();
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
       console.log('keyboard will hide');
-      // this.keyboardIsVisible = false;
+      this.keyboardIsVisible = false;
+      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+      this.changeDetectorRef.detectChanges();
       if(this.typedText != '' ){
         console.log('back button pressed 2');
           
@@ -1786,7 +1789,7 @@ export class LocationmapPage implements OnInit {
         this.findResults(this.typedText);
       }
       
-    }); 
+    });
   }
 
   // setMarkerPosition(latitude: any, longitude: any) {

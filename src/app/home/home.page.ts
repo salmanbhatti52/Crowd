@@ -84,7 +84,7 @@ export class HomePage implements OnInit {
   eventKeywords:any = [];
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   isAIModalOpen = false;
-  gettingInput = false;
+  // gettingInput = false;
   radiusInMeters = 10; // 10 meters
 
   // lottieConfig!: AnimationOptions;
@@ -157,8 +157,6 @@ export class HomePage implements OnInit {
   }
 
   showKeyboard(){
-    // this.keyboardIsVisible = true;
-    // console.log("keyboardIsVisible: ",this.keyboardIsVisible);
     console.log('show keyboard called, stop speech recognition');
     this.listening = false;
     // this.lottieConfig = {
@@ -181,7 +179,7 @@ export class HomePage implements OnInit {
   }
 
   searchForAIInput(ev:any){
-    // this.keyboardIsVisible = false;
+
     console.log('ion Blur input',ev);
     if(this.typedText != ''){
       this.dismissModal();
@@ -280,7 +278,6 @@ export class HomePage implements OnInit {
       console.log("listening: ",this.listening);
       this.changeDetectorRef.detectChanges();
       this.stopSpeechRecognition();
-      // this.showKeyboard();
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
@@ -390,14 +387,14 @@ export class HomePage implements OnInit {
   }
 
   async startSpeechRecognition(){
-    this.gettingInput = false;
+    // this.gettingInput = false;
     // this.lottieConfig = {
     //   path: 'assets/animation.json', // Path to your Lottie animation file
     //   renderer: 'svg', // 'svg', 'canvas', 'html'
     //   autoplay: true,
     //   loop: true,
     // };
-
+    this.typedText = '';
     this.listening = false;
     // this.hideAnimation();
     
@@ -461,9 +458,8 @@ export class HomePage implements OnInit {
       } catch (error) {
         console.log("Speech Start error: ",error);
       }
-      // this.keyboardIsVisible = false;
       this.listening = true;
-      
+      this.changeDetectorRef.detectChanges();
       // ===========partial results try catch====================
       
       try {
@@ -472,7 +468,7 @@ export class HomePage implements OnInit {
           if(data.matches && data.matches.length > 0){  
             // if(this.listener == true){
               this.yourVoiceInput = data.matches[0];
-              this.gettingInput = true;
+              // this.gettingInput = true;
               this.changeDetectorRef.detectChanges();
               
             // }
@@ -488,7 +484,7 @@ export class HomePage implements OnInit {
       try {
         SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
           if(data.status == "started"){
-            this.gettingInput = true;
+            // this.gettingInput = true;
             // this.changeDetectorRef.detectChanges();
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
@@ -496,7 +492,7 @@ export class HomePage implements OnInit {
             // this.showAnimation();
           }
           else{
-           this.gettingInput = false;
+          //  this.gettingInput = false;
           //  this.changeDetectorRef.detectChanges();
             this.listeningStatus = data.status;
             console.log("listening Status: ",this.listeningStatus);
@@ -505,7 +501,7 @@ export class HomePage implements OnInit {
         });
       } catch (error) {
         console.log("Listening state error: ",error);
-        this.gettingInput = false;
+        // this.gettingInput = false;
       }
 
       let result  = SpeechRecognition.isListening();
@@ -552,6 +548,7 @@ export class HomePage implements OnInit {
     SpeechRecognition.stop();
     // this.dismissModal();
     this.listening = false;
+    this.changeDetectorRef.detectChanges();
     // this.lottieConfig = {
     //   loop:false,
     //   autoplay:false,
