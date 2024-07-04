@@ -294,6 +294,7 @@ export class PaymentmethodPage implements OnInit {
               amount: t_amount
             }],
             merchantIdentifier: 'merchant.com.microwd.app',
+            // merchantDisplayName: 'Getbootstrap',
             // countryCode: 'UK',
             // currency: 'GBP',
             countryCode: 'US',
@@ -418,13 +419,13 @@ export class PaymentmethodPage implements OnInit {
   
         setTimeout(async () => {
           // Present Google Pay
-            if (isAvailable == false) {
-              // disable to use Google Pay
-              this.rest.dismissLoader();
-              console.log("Google Pay is not available.");
-              this.rest.presentToast('Google Pay is not available.')
-              return;
-            }else{
+              if (isAvailable == false) {
+                // disable to use Google Pay
+                this.rest.dismissLoader();
+                console.log("Google Pay is not available.");
+                this.rest.presentToast('Google Pay is not available.')
+                return;
+              }else{
               this.rest.dismissLoader();
               const result = await Stripe.presentGooglePay();
               console.log("Result: ",result);

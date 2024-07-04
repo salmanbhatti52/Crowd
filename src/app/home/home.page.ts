@@ -70,7 +70,7 @@ export class HomePage implements OnInit {
   aiToggleChecked: boolean = false;
   isAnimating = false;
   timeout:any;
-  inactivityDelay = 5000;
+  inactivityDelay = 6000;
   // deniedVoicePermissionCount = 0;
   toggleThemeChecked = true;
   typedText:any = '';
@@ -87,6 +87,7 @@ export class HomePage implements OnInit {
   // gettingInput = false;
   radiusInMeters = 10; // 10 meters
 
+  inputFeatureActive = false;
   // lottieConfig!: AnimationOptions;
   keyboardIsVisible = false;
   constructor(
@@ -116,12 +117,20 @@ export class HomePage implements OnInit {
   }
 
   typeWriter() {
+    this.inputFeatureActive = false;
+    this.typedText = '';
+    this.listening = false;
+    this.yourVoiceInput = '';
+    this.changeDetectorRef.detectChanges();
+    
+    SpeechRecognition.stop();
+    
     if (!this.welcomeMessage) {
       console.error('welcomeMessage ViewChild not yet initialized');
       return;
     }
 
-    const message = "Hey, how can I help you?";
+    const message = "Hello I'm Ori, here to uncover your ultimate social hotspot! How can I help?";
     let index = 0;
 
     const type = () => {
@@ -272,12 +281,13 @@ export class HomePage implements OnInit {
 
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
+      SpeechRecognition.stop();
+      this.inputFeatureActive = true;
       this.keyboardIsVisible = true;
       this.listening = false;
       console.log("keyboardIsVisible: ",this.keyboardIsVisible);
       console.log("listening: ",this.listening);
       this.changeDetectorRef.detectChanges();
-      this.stopSpeechRecognition();
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
@@ -285,6 +295,9 @@ export class HomePage implements OnInit {
       this.keyboardIsVisible = false;
       console.log("keyboardIsVisible: ",this.keyboardIsVisible);
       this.changeDetectorRef.detectChanges();
+      if(this.typedText == ''){
+        this.inputFeatureActive = false;
+      }
       if(this.typedText != '' ){
         console.log('back button pressed 2');
           
@@ -387,18 +400,12 @@ export class HomePage implements OnInit {
   }
 
   async startSpeechRecognition(){
-    // this.gettingInput = false;
-    // this.lottieConfig = {
-    //   path: 'assets/animation.json', // Path to your Lottie animation file
-    //   renderer: 'svg', // 'svg', 'canvas', 'html'
-    //   autoplay: true,
-    //   loop: true,
-    // };
-    this.typedText = '';
-    this.listening = false;
-    // this.hideAnimation();
-    
-    SpeechRecognition.stop();
+   this.inputFeatureActive = true;
+    // this.typedText = '';
+    // this.listening = false;
+   
+    // SpeechRecognition.stop();
+    // this.yourVoiceInput = '';
 
     let checkPermissionsStatus = (await SpeechRecognition.checkPermissions()).speechRecognition;
     console.log('checkPermissionsResult: ',checkPermissionsStatus);
@@ -436,9 +443,6 @@ export class HomePage implements OnInit {
     }else{
 
     }
-
-    this.yourVoiceInput = '';
-
     
 
     const {available} = await SpeechRecognition.available();
@@ -470,10 +474,10 @@ export class HomePage implements OnInit {
               this.yourVoiceInput = data.matches[0];
               // this.gettingInput = true;
               this.changeDetectorRef.detectChanges();
-              
+              this.resetInactivityTimeout();
             // }
           }
-          this.resetInactivityTimeout();
+          
         });
       } catch (error) {
         console.log('partial results error:',error);
@@ -549,6 +553,9 @@ export class HomePage implements OnInit {
     // this.dismissModal();
     this.listening = false;
     this.changeDetectorRef.detectChanges();
+    if(this.yourVoiceInput == ''){
+      this.inputFeatureActive = false;
+    }
     // this.lottieConfig = {
     //   loop:false,
     //   autoplay:false,

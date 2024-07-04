@@ -341,7 +341,7 @@ export class LocationmapPage implements OnInit {
   aiToggleChecked: boolean = false;
   isAnimating = false;
   timeout:any;
-  inactivityDelay = 5000;
+  inactivityDelay = 6000;
   deniedVoicePermissionCount = 0;
   toggleThemeChecked = true;
   
@@ -350,6 +350,7 @@ export class LocationmapPage implements OnInit {
   // lottieConfig!: AnimationOptions;
   typedText:any = '';
 
+  inputFeatureActive = false;
   keyboardIsVisible = false;
   // showMicIcon = false;
 
@@ -384,12 +385,20 @@ export class LocationmapPage implements OnInit {
 
 
   typeWriter() {
+    this.inputFeatureActive = false;
+    this.typedText = '';
+    this.listening = false;
+    this.yourVoiceInput = '';
+    this.changeDetectorRef.detectChanges();
+    SpeechRecognition.stop();
+
+
     if (!this.welcomeMessage) {
       console.error('welcomeMessage ViewChild not yet initialized');
       return;
     }
 
-    const message = "Hey, how can I help you?";
+    const message = "Hello I'm Ori, here to uncover your ultimate social hotspot! How can I help?";
     let index = 0;
 
     const type = () => {
@@ -432,6 +441,7 @@ export class LocationmapPage implements OnInit {
   }
 
   onInputForAI(ev:any){
+    this.inputFeatureActive = true;
     console.log("input event triggered",ev);
     
     this.typedText = ev.target.value;
@@ -440,6 +450,11 @@ export class LocationmapPage implements OnInit {
   }
 
   searchForAIInput(ev:any){
+    if(this.typedText == ''){
+      this.inputFeatureActive = false;
+    }
+    console.log(this.inputFeatureActive);
+    
     console.log('ion Blur input',ev);
     if(this.typedText != ''){
       this.dismissModal();
@@ -511,17 +526,12 @@ export class LocationmapPage implements OnInit {
   }
 
   async startSpeechRecognition(){
-    // this.lottieConfig = {
-    //   path: 'assets/animation.json', // Path to your Lottie animation file
-    //   renderer: 'svg', // 'svg', 'canvas', 'html'
-    //   autoplay: true,
-    //   loop: true,
-    // };
-    this.typedText = '';
-    this.listening = false;
-    // this.hideAnimation();
+    this.inputFeatureActive = true;
+    // this.typedText = '';
+    // this.listening = false;
     
-    SpeechRecognition.stop();
+    // SpeechRecognition.stop();
+    // this.yourVoiceInput = '';
 
     let checkPermissionsStatus = (await SpeechRecognition.checkPermissions()).speechRecognition;
     console.log('checkPermissionsResult: ',checkPermissionsStatus);
@@ -543,10 +553,6 @@ export class LocationmapPage implements OnInit {
     }
 
     this.venuarr = this.venuarrOrg;
-
-    this.yourVoiceInput = '';
-
-    
 
     const {available} = await SpeechRecognition.available();
     console.log('availability res: ',available);
@@ -577,10 +583,10 @@ export class LocationmapPage implements OnInit {
             // if(this.listener == true){
               this.yourVoiceInput = data.matches[0];
               this.changeDetectorRef.detectChanges();
-
+              this.resetInactivityTimeout();
             // }
           }
-          this.resetInactivityTimeout();
+          
         });
       } catch (error) {
         console.log('partial results error:',error);
@@ -652,6 +658,11 @@ export class LocationmapPage implements OnInit {
     SpeechRecognition.stop();
     // this.dismissModal();
     this.listening = false;
+    if(this.yourVoiceInput == ''){
+      this.inputFeatureActive = false;
+    }
+    console.log('input feature active: ',this.inputFeatureActive);
+    
     this.changeDetectorRef.detectChanges();
     // this.lottieConfig = {
     //   loop:false,
@@ -1769,19 +1780,28 @@ export class LocationmapPage implements OnInit {
   async ngOnInit() {
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
+      SpeechRecognition.stop();
+      this.inputFeatureActive = true;
       this.keyboardIsVisible = true;
       this.listening = false;
       console.log("keyboardIsVisible: ",this.keyboardIsVisible);
       console.log("listening: ",this.listening);
       this.changeDetectorRef.detectChanges();
-      this.stopSpeechRecognition();
+      
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
       console.log('keyboard will hide');
       this.keyboardIsVisible = false;
       console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+      if(this.typedText == ''){
+        this.inputFeatureActive = false;
+      }
+      console.log('input feature active: ',this.inputFeatureActive);
+
       this.changeDetectorRef.detectChanges();
+      
+      console.log(this.inputFeatureActive);
       if(this.typedText != '' ){
         console.log('back button pressed 2');
           

@@ -391,8 +391,9 @@
     </ion-infinite-scroll>
   </div>
   
+  <!-- (click)="startSpeechRecognition()" -->
   <ion-fab slot="fixed" vertical="center" horizontal="end">
-    <ion-fab-button (click)="startSpeechRecognition()" [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
+    <ion-fab-button  [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
       <img (click)="setOpenValueForAI(true)"   
        style="height: 58px;
        width: 58px;"
@@ -419,7 +420,12 @@
                   --handle-width: 13px;
                   width: 40px;
                 "
-              ></ion-toggle>
+              >
+              
+            </ion-toggle>
+            <ion-icon *ngIf="toggleThemeChecked" style="color: white;height: 20px;width: 20px;" name="moon"></ion-icon>
+            <ion-icon *ngIf="!toggleThemeChecked" style="color: black;height: 20px;width: 20px;" name="sunny"></ion-icon>
+            
           <img *ngIf="toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
           <img *ngIf="!toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close_black.svg" alt="">
 
@@ -436,15 +442,15 @@
               Hey, how can I help?
             </div> -->
 
-            <div *ngIf="typedText=='' && yourVoiceInput==''" class="center_text">
+            <div *ngIf="typedText=='' && yourVoiceInput=='' && !inputFeatureActive" class="center_text">
               <div class="typewriter" >
-                <span #welcomeMessage [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></span>
+                <div #welcomeMessage [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></div>
               </div>
             </div>
             
 
             <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
-            Speak Now...
+              Listening...
             </div>
             
             <div style="margin-top: 10px;" *ngIf="keyboardIsVisible == true && typedText== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">

@@ -62,9 +62,10 @@
     </map-directions-renderer>
   </google-map>
   
+  <!-- (click)="startSpeechRecognition()" -->
   <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map"   style="position: fixed;z-index: 11;
   right: 15px;
-  bottom: 62%; height: 58px; width: 58px;" (click)="startSpeechRecognition()" src="../../assets/imgs/icons/ai_btn_light.png" alt="">
+  bottom: 62%; height: 58px; width: 58px;"  src="../../assets/imgs/icons/ai_btn_light.png" alt="">
 
   <ion-modal  trigger="open-modal-map" [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()"   (ionModalWillDismiss)="dismissModal()" >
     <ng-template>
@@ -102,7 +103,7 @@
               Hey, how can I help?
             </div> -->
 
-            <div *ngIf="typedText=='' && yourVoiceInput==''" class="center_text">
+            <div *ngIf="typedText=='' && yourVoiceInput=='' && !inputFeatureActive" class="center_text">
               <div class="typewriter" >
                 <span #welcomeMessage [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></span>
               </div>
@@ -110,7 +111,7 @@
             
 
             <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
-              Speak Now...
+              Listening...
             </div>
             
             <div style="margin-top: 10px;" *ngIf="keyboardIsVisible == true && typedText== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
