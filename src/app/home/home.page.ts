@@ -70,7 +70,7 @@ export class HomePage implements OnInit {
   aiToggleChecked: boolean = false;
   isAnimating = false;
   timeout:any;
-  inactivityDelay = 6000;
+  inactivityDelay = 5000;
   // deniedVoicePermissionCount = 0;
   toggleThemeChecked = true;
   typedText:any = '';
@@ -117,13 +117,14 @@ export class HomePage implements OnInit {
   }
 
   typeWriter() {
+    SpeechRecognition.stop();
     this.inputFeatureActive = false;
     this.typedText = '';
     this.listening = false;
     this.yourVoiceInput = '';
     this.changeDetectorRef.detectChanges();
     
-    SpeechRecognition.stop();
+    
     
     if (!this.welcomeMessage) {
       console.error('welcomeMessage ViewChild not yet initialized');
@@ -157,7 +158,7 @@ export class HomePage implements OnInit {
   }
 
   toggleTheme(ev:any){
-    this.typedText = '';
+    // this.typedText = '';
     console.log(ev);
     
     this.toggleThemeChecked = !this.toggleThemeChecked;
@@ -166,17 +167,10 @@ export class HomePage implements OnInit {
   }
 
   showKeyboard(){
-    console.log('show keyboard called, stop speech recognition');
-    this.listening = false;
-    // this.lottieConfig = {
-    //   loop:false,
-    //   autoplay:false,
-    // }
-    
-    SpeechRecognition.stop();
-    // this.dismissModal();
-    
-    this.clearInactivityTimeout();
+    // console.log('show keyboard called, stop speech recognition');
+    // this.listening = false;
+    // SpeechRecognition.stop();
+    // this.clearInactivityTimeout();
   }
 
   onInputForAI(ev:any){
@@ -189,11 +183,13 @@ export class HomePage implements OnInit {
 
   searchForAIInput(ev:any){
 
-    console.log('ion Blur input',ev);
-    if(this.typedText != ''){
-      this.dismissModal();
-      this.findResults(this.typedText);
-    }
+    // console.log('ion Blur input',ev);
+    // console.log('this.typedText: ',this.typedText);
+    
+    // if(this.typedText != ''){
+    //   this.dismissModal();
+    //   this.findResults(this.typedText);
+    // }
     
   }
 
@@ -294,15 +290,38 @@ export class HomePage implements OnInit {
       console.log('keyboard will hide');
       this.keyboardIsVisible = false;
       console.log("keyboardIsVisible: ",this.keyboardIsVisible);
-      this.changeDetectorRef.detectChanges();
+      
       if(this.typedText == ''){
         this.inputFeatureActive = false;
       }
+      console.log('input feature active: ',this.inputFeatureActive);
+
+      this.changeDetectorRef.detectChanges();
+      
       if(this.typedText != '' ){
         console.log('back button pressed 2');
-          
+        
+        if(this.segmentModel == "venu"){
+          this.venuarr = this.venuarrOrg;
+          this.filtertype = "no"; 
+          this.noevenu = 0;
+        }
+        else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
+          this.filteredReservationsArr = this.reservationsArr;
+          this.reservationFilter = "no";
+          this.noReservations = 0;
+        }
+        else if(this.segmentModel == 'event'){
+          this.eventarr = this.eventsArrayCopy;
+          this.filterTypeEv = "no";
+          this.noevent = 0;
+        }else{
+    
+        }
+
         this.dismissModal();
         this.findResults(this.typedText);
+
       }
       
     });
@@ -550,16 +569,14 @@ export class HomePage implements OnInit {
   async stopSpeechRecognition(){
     
     SpeechRecognition.stop();
-    // this.dismissModal();
+
     this.listening = false;
-    this.changeDetectorRef.detectChanges();
     if(this.yourVoiceInput == ''){
       this.inputFeatureActive = false;
     }
-    // this.lottieConfig = {
-    //   loop:false,
-    //   autoplay:false,
-    // }
+    console.log('input feature active: ',this.inputFeatureActive);
+    this.changeDetectorRef.detectChanges();
+    
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
@@ -570,6 +587,9 @@ export class HomePage implements OnInit {
   }
 
   findResults(userInput:string){
+    this.typedText = '';
+    this.yourVoiceInput = '';
+    console.log('userInput: ',userInput);
     userInput = userInput.toLowerCase();
     let tokens = userInput.split(/\s+/);
     console.log(tokens);

@@ -341,7 +341,7 @@ export class LocationmapPage implements OnInit {
   aiToggleChecked: boolean = false;
   isAnimating = false;
   timeout:any;
-  inactivityDelay = 6000;
+  inactivityDelay = 5000;
   deniedVoicePermissionCount = 0;
   toggleThemeChecked = true;
   
@@ -385,12 +385,13 @@ export class LocationmapPage implements OnInit {
 
 
   typeWriter() {
+    SpeechRecognition.stop();
     this.inputFeatureActive = false;
     this.typedText = '';
     this.listening = false;
     this.yourVoiceInput = '';
     this.changeDetectorRef.detectChanges();
-    SpeechRecognition.stop();
+    
 
 
     if (!this.welcomeMessage) {
@@ -417,7 +418,7 @@ export class LocationmapPage implements OnInit {
   }
 
   toggleTheme(ev:any){
-    this.typedText = '';
+    // this.typedText = '';
     console.log(ev);
     
     this.toggleThemeChecked = !this.toggleThemeChecked;
@@ -426,22 +427,13 @@ export class LocationmapPage implements OnInit {
   }
 
   showKeyboard(){
-    
-    console.log('show keyboard called, stop speech recognition');
-    this.listening = false;
-    // this.lottieConfig = {
-    //   loop:false,
-    //   autoplay:false,
-    // }
-    
-    SpeechRecognition.stop();
-    // this.dismissModal();
-    
-    this.clearInactivityTimeout();
+    // console.log('show keyboard called, stop speech recognition');
+    // this.listening = false;
+    // SpeechRecognition.stop();
+    // this.clearInactivityTimeout();
   }
 
   onInputForAI(ev:any){
-    this.inputFeatureActive = true;
     console.log("input event triggered",ev);
     
     this.typedText = ev.target.value;
@@ -450,16 +442,12 @@ export class LocationmapPage implements OnInit {
   }
 
   searchForAIInput(ev:any){
-    if(this.typedText == ''){
-      this.inputFeatureActive = false;
-    }
-    console.log(this.inputFeatureActive);
     
-    console.log('ion Blur input',ev);
-    if(this.typedText != ''){
-      this.dismissModal();
-      this.findResults(this.typedText);
-    }
+    // console.log('ion Blur input',ev);
+    // if(this.typedText != ''){
+    //   this.dismissModal();
+    //   this.findResults(this.typedText);
+    // }
     
   }
 
@@ -656,7 +644,6 @@ export class LocationmapPage implements OnInit {
   async stopSpeechRecognition(){
     
     SpeechRecognition.stop();
-    // this.dismissModal();
     this.listening = false;
     if(this.yourVoiceInput == ''){
       this.inputFeatureActive = false;
@@ -664,10 +651,7 @@ export class LocationmapPage implements OnInit {
     console.log('input feature active: ',this.inputFeatureActive);
     
     this.changeDetectorRef.detectChanges();
-    // this.lottieConfig = {
-    //   loop:false,
-    //   autoplay:false,
-    // }
+    
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
@@ -679,6 +663,10 @@ export class LocationmapPage implements OnInit {
 
 
   findResults(userInput:string){
+    this.typedText = '';
+    this.yourVoiceInput = '';
+    console.log('userInput: ',userInput);
+    
     userInput = userInput.toLowerCase();
     let tokens = userInput.split(/\s+/);
     console.log(tokens);
@@ -688,6 +676,8 @@ export class LocationmapPage implements OnInit {
   }
 
   findVenueAndDiscount = (inputTokens:string[]) => {
+    console.log('inputTokens: ',inputTokens);
+    
     let filteredVenues:any[] = [];
     
     let findNearMe = false;
@@ -1804,7 +1794,7 @@ export class LocationmapPage implements OnInit {
       console.log(this.inputFeatureActive);
       if(this.typedText != '' ){
         console.log('back button pressed 2');
-          
+        this.venuarr = this.venuarrOrg;
         this.dismissModal();
         this.findResults(this.typedText);
       }
