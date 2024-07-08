@@ -131,7 +131,7 @@ export class HomePage implements OnInit {
       return;
     }
 
-    const message = "Hello I'm Ori, here to uncover your ultimate social hotspot! How can I help?";
+    const message = "Hello I'm Ora, here to uncover your ultimate social hotspot! How can I help?";
     let index = 0;
 
     const type = () => {

@@ -399,7 +399,7 @@ export class LocationmapPage implements OnInit {
       return;
     }
 
-    const message = "Hello I'm Ori, here to uncover your ultimate social hotspot! How can I help?";
+    const message = "Hello I'm Ora, here to uncover your ultimate social hotspot! How can I help?";
     let index = 0;
 
     const type = () => {
@@ -1678,7 +1678,7 @@ export class LocationmapPage implements OnInit {
               animation: google.maps.Animation.DROP,
               draggable: false,
               icon: {
-                url: "../../assets/imgs/icons/loc_pin_light.png",
+                url: "../../assets/imgs/icons/loc_pin_new.svg",
                 
               },
             },
