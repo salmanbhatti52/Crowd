@@ -189,10 +189,10 @@ export class DiscountsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.segmentModel = "Special Offers";
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getSpecialOffers();
-    this.segmentModel = "Special Offers";
   }
 
   getSpecialOffers(){
@@ -201,9 +201,9 @@ export class DiscountsPage implements OnInit {
       lattitude: localStorage.getItem("longitude"),
       longitude: localStorage.getItem("lattitude"),
     };
-    if(this.specialOffersArr.length == 0){
+    // if(this.specialOffersArr.length == 0){
       this.rest.presentLoaderWd();
-    }
+    // }
     
     this.rest.sendRequest("special_offers",ss).subscribe((res: any) => {
       console.log("special_offers--", res);

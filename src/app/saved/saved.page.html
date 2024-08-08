@@ -33,7 +33,7 @@
           *ngIf="segmentModel == 'venu'"
           (click)="showHideFilterN()"
           style="height: 25px; width: 25px"
-          src="assets/imgs/treeeline.svg"
+          src="../../assets/imgs/icons/filter_icon.svg"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
@@ -65,11 +65,11 @@
       >
         <ion-segment-button
           style="
-            --indicator-color: #611ea5;
+            --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
             --color: #000000;
             --color-checked: #fff;
             --border-radius: 20px;
-            --background-checked: #611ea5;
+            /* --background-checked: #611ea5; */
           "
           value="venu" (click)="getsavedVenues()"
         >

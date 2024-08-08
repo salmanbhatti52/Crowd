@@ -31,15 +31,15 @@
       "
       mode="ios"
       [(ngModel)]="segmentModel"
-      value="In Queue"
+
     >
       <ion-segment-button class="work_sans segment_text"
         style="
-          --indicator-color: #611EA5;
+          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
-          --background-checked: #611EA5;
+          /* --background-checked: #611EA5; */
         "
         value="In Queue"
       >
@@ -47,28 +47,30 @@
       </ion-segment-button>
       <ion-segment-button class="work_sans segment_text" 
         style="
-          --indicator-color: #7825CB;
+          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
-          --background-checked: #7825CB;
+          /* --background-checked: #7825CB; */
         "
-        (click)="getClaimedVenues()"
         value="Claimed"
       >
+        <!-- (click)="getClaimedVenues()" -->
+
         <ion-label>Claimed</ion-label>
       </ion-segment-button>
       <ion-segment-button
         style="
-          --indicator-color: #7825CB;
+          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
-          --background-checked: #7825CB;
+          /* --background-checked: #7825CB; */
         "
-        (click)="getSpecialOffers()"
+        
         value="Special Offers"
       >
+      <!-- (click)="getSpecialOffers()" -->
         <ion-label>Special Offers</ion-label>
       </ion-segment-button>
     </ion-segment>

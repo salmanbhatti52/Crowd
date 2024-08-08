@@ -453,6 +453,12 @@
           {{searchObject.name}}
         </p>
 
+        <img (click)="clearSearchObject()" style="position: absolute;
+        right: 12px;
+        top: 6px;
+        height: 16px;
+        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt="">
+
         <ion-badge 
           *ngIf="searchObject.discount_percentage != 0 && searchObject.discount_percentage != null  && searchObject.venues_id != null"
           style="
@@ -460,7 +466,7 @@
             padding: 8px 10px;
             position: absolute;
             right: 8px;
-            top: 8px;
+            top: 30px;
             border-radius: 20px;
             /* background: #7825cb; */
             background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);;
@@ -476,7 +482,7 @@
             padding: 8px 10px;
             position: absolute;
             right:8px;
-            top: 8x;
+            top: 30x;
             border-radius: 20px;
             /* background: #7825cb; */
             background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);

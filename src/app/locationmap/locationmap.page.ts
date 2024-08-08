@@ -379,6 +379,15 @@ export class LocationmapPage implements OnInit {
   //   throw new Error("Method not implemented.");
   // }
 
+  clearSearchObject(){
+    this.searchObject = '';
+    this.infoContent = '';
+    this.infoWindow.close();
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.getCurrentLocation();
+    // this.renderOptions
+  }
+
   ionViewWillLeave() {
     this.clearInactivityTimeout();
   }
