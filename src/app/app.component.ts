@@ -2,10 +2,11 @@ import { RestService } from "./rest.service";
 import { Component } from "@angular/core";
 // import { OneSignal } from "@awesome-cordova-plugins/onesignal/ngx";
 import { Platform } from "@ionic/angular";
-
-import OneSignal from "onesignal-cordova-plugin"; 
+import { Stripe } from '@capacitor-community/stripe';
+import OneSignal from "onesignal-cordova-plugin";
 // import { LottieSplashScreen } from "@awesome-cordova-plugins/lottie-splash-screen/ngx";
 import { register } from 'swiper/element/bundle';
+import { error } from "console";
 
 register();
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent {
   oneSignalAppId = "dbcd73be-ee2e-42b8-a165-146f91116f0b";
   oneSignalFirebaseId = "46465632729";
   identy: any = "";
+  stripeKeys: any = [];
 
   constructor(
     public platform: Platform, // public lottieSplashScreen: LottieSplashScreen
@@ -39,6 +41,44 @@ export class AppComponent {
           localStorage.setItem("records_limit", res.data[i].description);
         }
       }
+    });
+
+    setTimeout(async () => {
+      this.rest.stripePublishableKey = await this.getStripeKeys();
+      Stripe.initialize({
+        publishableKey: this.rest.stripePublishableKey,
+        // publishableKey: environment.stripe.publishableKey,
+      });
+    }, 0);
+
+   
+
+  }
+
+  async getStripeKeys(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.rest.getRequest('get_stripe_keys').subscribe({
+        next: (res: any) => {
+          console.log("Stripe Keys Res: ", res);
+          if (res.status === 'success') {
+            const keys = res.data;
+            const publishableKey = keys.find((key: { keys_type: string; }) => key.keys_type === "Publishable");
+            if (publishableKey) {
+              resolve(publishableKey.key);
+            } else {
+              reject('Publishable key not found');
+            }
+          } else {
+            reject('Failed to fetch keys');
+          }
+        },
+        error: (error: any) => {
+          reject('Error fetching keys: ' + error);
+        },
+        complete: () => {
+          // Optional: handle completion if necessary
+        }
+      });
     });
   }
 
@@ -70,12 +110,12 @@ export class AppComponent {
     // } else {
     //   this.navCtrl.navigateRoot('home/tabs/home2');
     // }
-    if(!this.platform.is('mobileweb')){
-      console.log("Platform is: ",this.platform); 
+    if (!this.platform.is('mobileweb')) {
+      console.log("Platform is: ", this.platform);
       this.pushNotification();
     }
 
-    
+
   }
   pushNotification() {
     console.log("push notification in function.....");

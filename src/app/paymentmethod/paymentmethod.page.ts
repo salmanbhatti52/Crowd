@@ -39,7 +39,6 @@ export class PaymentmethodPage implements OnInit {
   userEmail: any;
   txnsId: any;
   amount: any = 0;
-  stripePublishableKey:string = '';
   // paymentRequest!: google.payments.api.PaymentDataRequest;
   constructor(
     public location: Location,
@@ -52,21 +51,11 @@ export class PaymentmethodPage implements OnInit {
     public navCtrl:NavController
     
   ){
-    for (var i = 0; i < this.rest.stripeKeys.length; i++) {
-      if (this.rest.stripeKeys[i].keys_type == "Publishable") {
-        this.stripePublishableKey = this.rest.stripeKeys[i].key;
-       
-      }
-    }
-    console.log("this.stripePublishableKey: ",this.stripePublishableKey);
-    
-      console.log('Initializing stripe');
+    console.log('Initializing stripe');
       
-     Stripe.initialize({
-      publishableKey:this.stripePublishableKey,
+    Stripe.initialize({
+      publishableKey:this.rest.stripePublishableKey,
       // publishableKey: environment.stripe.publishableKey,
-      // publishableKey:"pk_test_51NLjiSCq21ty1Wx6S2nBXtuBtmDqGwwAbCPA4rt1oXxlr9sTRamGNjF5KpTZfrWbDsVwPDhqaNwAJDOA9pKz80cF00IgQ0c5Yn",
-      // pk_live_51NLjiSCq21ty1Wx6QEkeL6t0cET2uCqTy7B13Br59c2akGDesFI4kPpvaN1LlY3I8otGdNVHEZTK2kCVfhndzNTK00iIM1dlHF
     });
     console.log('initialization done');
     
@@ -101,7 +90,7 @@ export class PaymentmethodPage implements OnInit {
   httpPost(){
     // let amount = String(this.rest.billDetails.total_bill * 100)
     console.log("Amount before multiply by 100: ", this.rest.billDetails.pre_pay_amount);
-    this.amount = this.rest.billDetails.pre_pay_amount * 100
+    this.amount = this.rest.billDetails.pre_pay_amount * 100;
     this.amount = this.convertInDecimal(this.amount);
     console.log("Amount after multiply by 100: ", this.amount);
    
@@ -214,7 +203,10 @@ export class PaymentmethodPage implements OnInit {
             paymentIntentClientSecret: this.paymentIntent,
             customerId: this.customerId,
             customerEphemeralKeySecret: this.ephemeralKey,
-            merchantDisplayName: 'Getbootstrap'
+            merchantDisplayName: 'Crowd', // it should be related to app name / business name
+            GooglePayIsTesting:true,
+            // applePayMerchantId: 
+            // applePayMerchantId: 'merchant.com.yourappname', // Your Apple Pay Merchant ID
           });
           this.rest.dismissLoader();
           console.log("createPaymentSheet");
@@ -261,10 +253,9 @@ export class PaymentmethodPage implements OnInit {
         let isAvailable:any;
         setTimeout(async () => {
           try {
-            // Stripe.isGooglePayAvailable().catch(() => undefined);
             await Stripe.isApplePayAvailable().then((res)=>{
               isAvailable = res;
-              console.log("Res: ",res);
+              console.log("isApplePayAvailable res: ",res);
             },(error:any)=>{
               console.log("errr: ",error);
               isAvailable = false;
@@ -272,7 +263,7 @@ export class PaymentmethodPage implements OnInit {
           } catch (error) {
             console.log("catch: ",error);
             
-          } 
+          }
           
           // be able to get event of Apple Pay
           Stripe.addListener(ApplePayEventsEnum.Completed, () => {
@@ -293,7 +284,8 @@ export class PaymentmethodPage implements OnInit {
               // amount: 1099.00
               amount: t_amount
             }],
-            merchantIdentifier: 'merchant.com.microwd.app',
+            // merchantIdentifier: 'merchant.com.microwd.app',
+            merchantIdentifier: 'merchant.com.microwd', // com.microwd.app/ merchant.com.microwd
             // merchantDisplayName: 'Getbootstrap',
             // countryCode: 'UK',
             // currency: 'GBP',
@@ -358,7 +350,7 @@ export class PaymentmethodPage implements OnInit {
             // Stripe.isGooglePayAvailable().catch(() => undefined);
             await Stripe.isGooglePayAvailable().then((res)=>{
               isAvailable = res;
-              console.log("Res: ",res);
+              console.log("isGooglePayAvailable Res: ",res);
             },(error:any)=>{
               console.log("errr: ",error);
               isAvailable = false;
@@ -395,8 +387,8 @@ export class PaymentmethodPage implements OnInit {
                 amount: t_amount
                 // amount: this.rest.billDetails.pre_pay_amount
               }],
-              // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
-              merchantIdentifier: 'merchant.com.microwd.app',
+              merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+              // merchantIdentifier: 'merchant.com.microwd.app',
               // countryCode: 'UK',
               // currency: 'GBP',
               countryCode: 'US',

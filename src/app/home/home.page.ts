@@ -2682,7 +2682,6 @@ export class HomePage implements OnInit {
   records_limit: any = 0;
   
   ionViewWillEnter() {
-    this.getStripeKeys();
     this.getSystemSettings();
     this.getCurrentPosition();
     
@@ -2943,14 +2942,7 @@ export class HomePage implements OnInit {
     return 1;
   }
 
-  getStripeKeys(){
-    this.rest.getRequest('get_stripe_keys').subscribe((res:any)=>{
-      console.log("Stripe Keys Res: ",res);
-      if(res.status == 'success'){
-        this.rest.stripeKeys = res.data;
-      }
-    })
-  }
+  
 
   handleRefresh(ev: any) {
     console.log("ev123-----", ev);
