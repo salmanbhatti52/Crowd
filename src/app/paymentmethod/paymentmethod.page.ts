@@ -258,6 +258,7 @@ export class PaymentmethodPage implements OnInit {
               console.log("isApplePayAvailable res: ",res);
             },(error:any)=>{
               console.log("errr: ",error);
+              // this.rest.presentToast('Apple Pay is not available.')
               isAvailable = false;
             });
           } catch (error) {
@@ -284,8 +285,8 @@ export class PaymentmethodPage implements OnInit {
               // amount: 1099.00
               amount: t_amount
             }],
-            // merchantIdentifier: 'merchant.com.microwd.app',
-            merchantIdentifier: 'merchant.com.microwd', // com.microwd.app/ merchant.com.microwd
+            merchantIdentifier: 'merchant.com.microwd.app',
+            // merchantIdentifier: 'merchant.com.microwd', // com.microwd.app/ merchant.com.microwd
             // merchantDisplayName: 'Getbootstrap',
             // countryCode: 'UK',
             // currency: 'GBP',
@@ -387,8 +388,8 @@ export class PaymentmethodPage implements OnInit {
                 amount: t_amount
                 // amount: this.rest.billDetails.pre_pay_amount
               }],
-              merchantIdentifier: 'merchant.com.getcapacitor.stripe',
-              // merchantIdentifier: 'merchant.com.microwd.app',
+              // merchantIdentifier: 'merchant.com.getcapacitor.stripe',
+              merchantIdentifier: 'merchant.com.microwd.app',
               // countryCode: 'UK',
               // currency: 'GBP',
               countryCode: 'US',
