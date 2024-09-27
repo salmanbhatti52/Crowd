@@ -346,26 +346,44 @@
 
   .md .crowd_filter{
     position: absolute;
-    right: 85px;
-    bottom: 27.8%;
+    right: 75px;
+    bottom: 38.8%;
+    display: flex;
   }
 
   .ios .crowd_filter{
     position: absolute;
-    right: 85px;
-    bottom: 28%;
+    right: 75px;
+    bottom: 39%;
+    display: flex;
   }
 
   .md .categories_filter{
     position: absolute;
-    right: 85px;
-    bottom: 38.8%;
+    right: 75px;
+    bottom: 49.8%;
+    display: flex;
   }
 
   .ios .categories_filter{
     position: absolute;
-    right: 85px;
-    bottom: 39%;
+    right: 75px;
+    bottom: 50%;
+    display: flex;
+  }
+
+  .md .events_filter{
+    position: absolute;
+    right: 75px;
+    bottom: 27.8%;
+    display: flex;
+  }
+
+  .ios .events_filter{
+    position: absolute;
+    right: 75px;
+    bottom: 28%;
+    display: flex;
   }
   // #custom-infowindow {
   //   background-color: white;
@@ -380,16 +398,25 @@
 
   .filter_btn{
     background: #740899;
-    // background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
     color: white;
     text-align: center;
     border-radius: 15px;
     height: 42px;
-    width: 150px;
-    padding: 9px;
     font-size: 14px;
     font-weight: 400;
-    // margin-bottom: 18px;
+    margin-right: 9px;
+    padding: 10px 13px;
+  }
+  .event_filter_btn{
+    background: white;
+    color: #690C8E;
+    text-align: center;
+    border-radius: 15px;
+    height: 42px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 9px;
+    padding: 10px 13px;
   }
   .pdt-10{
     padding-top: 10px;

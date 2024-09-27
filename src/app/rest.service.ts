@@ -13,6 +13,7 @@ export class RestService {
   filterEvArr:any;
   detail: any = "";
   venuArrHome: any = "";
+  eventArrHome: any = "";
   pinobject: any = "";
   selectedBooking: any = "";
   comingFrom: any = "";
@@ -50,6 +51,8 @@ export class RestService {
   profile_updated = false;
   deniedVoicePermissionCount = 0;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
+  private appID = 'dbcd73be-ee2e-42b8-a165-146f91116f0b'; // Replace with your OneSignal App ID
+  private apiUrl = 'https://onesignal.com/api/v1/notifications';
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,
@@ -81,12 +84,36 @@ export class RestService {
 
   }
 
+  // sendNotification(tokenIdList?: string[], contents?: string, heading?: string): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json; charset=UTF-8',
+  //     'Authorization': 'YTliM2E1Y2QtOWFjOS00N2JhLWExYzYtYmQ2MGExNDQ4NmZj'
+  //   });
+
+  //   const body = {
+  //     app_id: this.appID,
+  //     include_player_ids: [
+  //       // '4cddce29-939a-4bc3-83c8-eb1bd4bfb93c',
+  //       '5042db90-e550-4ed7-9cc6-4b4175323b5d'
+  //     ],
+  //     android_accent_color: 'FF9976D2',
+  //     small_icon: 'ic_stat_onesignal_default',
+  //     large_icon: 'https://www.filepicker.io/api/file/zPloHSmnQsix82nlj9Aj?filename=name.jpg',
+  //     headings: { en: 'Notification From Front-end' },
+  //     contents: { en: 'Debug Engineer has sent this notification' }
+  //   };
+
+  //   return this.http.post(this.apiUrl, JSON.stringify(body), { headers });
+  // }
+
   sendRequest(action: any, data?: any) {
     let header;
 
     header = new HttpHeaders({
       "Content-Type": "application/json",
     });
+    console.log(`${this.baseURL}${action}`);
+    console.log(data);
 
     return this.http.post(`${this.baseURL}${action}`, JSON.stringify(data), {
       headers: header,

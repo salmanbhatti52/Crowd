@@ -322,14 +322,18 @@ export class Booking1Page implements OnInit {
     let selectedMonthNumber = this.selectedMonthNumber;
     
     this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
-    
+    let availableCapacity = this.selectedVenue.capacity - this.selectedVenue.availability_count;
     if (this.myDate == "") {
       this.rest.presentToast("Please select date");
     } else if (this.usertime == "") {
       this.rest.presentToast("Please select time");
     }
-    //  else if(this.invalidTime){
-    //   this.rest.presentToast(`Please select time between ${this.selectedVenue.start_hours} and ${this.selectedVenue.close_hours}`);
+    //  else if(availableCapacity < this.people){
+    //   if(availableCapacity>0){
+    //     this.rest.presentToast(`We have capacity of maximum  ${availableCapacity} people.`);
+    //   }else{
+    //     this.rest.presentToast('Please select another time slot, as this one is not available.')
+    //   }
     // }
      else {
       if(this.setMonthNumberStatus == false){
@@ -369,7 +373,7 @@ export class Booking1Page implements OnInit {
           this.rest.venueDiscountToken = undefined;
           this.navCtrl.navigateRoot("booking2");
         } else {
-          this.rest.presentToast("Error");
+          this.rest.presentToast(res.message);
         }
       });
     }

@@ -48,7 +48,7 @@ export class EventdetailPage implements OnInit {
     let currentDate = new Date();
     console.log("currentDate: ",currentDate);
     let eventDate = new Date(this.detailObj.event_date);
-    // console.log(" eventDate:  ",eventDate);
+    console.log(" eventDate:  ",eventDate);
     this.detailObj.formatted_date = format(eventDate, 'E, dd MMM');
     // console.log(this.detailObj.formatted_date);
     
@@ -74,7 +74,8 @@ export class EventdetailPage implements OnInit {
 
     this.availableTickets = this.detailObj.no_of_tickets - this.detailObj.booked_tickets; 
     console.log("Available Tickets: ",this.availableTickets);
-    if(this.availableTickets < 1 || eventDate < currentDate){
+    // if(this.availableTickets < 1 || eventDate < currentDate){
+    if(this.availableTickets < 1 ){
       this.allTicketsSold = true;
     }
   }

@@ -38,6 +38,7 @@ export class Booking1eventPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+
     this.userdata = localStorage.getItem('userdata');
     this.userId = JSON.parse(this.userdata).users_customers_id;
     this.latitude = localStorage.getItem('lattitude');
@@ -47,6 +48,9 @@ export class Booking1eventPage implements OnInit {
     console.log("detaill----", this.selectedEvent);
     this.availableTickets = this.selectedEvent.no_of_tickets - this.selectedEvent.booked_tickets; 
     console.log("Available Tickets: ",this.availableTickets);
+    if(this.availableTickets < 1){
+      this.allTicketsSold = true;
+    }
 
     let currentDate = new Date();
     console.log("currentDate: ",currentDate);
@@ -55,8 +59,9 @@ export class Booking1eventPage implements OnInit {
 
     this.getBusinessList();
     setTimeout(() => {
-      if(this.availableTickets < 1 || eventDate < currentDate){
-        this.allTicketsSold = true;
+      // if(this.availableTickets < 1 || eventDate < currentDate){
+      if(this.availableTickets < 1){
+        // this.allTicketsSold = true;
         this.rest.presentToast('All tickets are sold out.')
       }
     }, 1000);

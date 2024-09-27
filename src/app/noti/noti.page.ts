@@ -20,9 +20,9 @@ export class NotiPage implements OnInit {
   constructor(public router: Router, public rest: RestService) {}
 
   ionViewWillEnter() {
-    // this.interval = setInterval(()=>{
-    //   this.getNotificationsAgain();
-    // },3000);
+    this.interval = setInterval(()=>{
+      this.getNotificationsAgain();
+    },4000);
   }
 
   ngOnInit() {

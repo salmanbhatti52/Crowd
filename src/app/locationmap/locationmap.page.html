@@ -171,62 +171,10 @@
               <!-- <ion-icon class="black_mic " name="mic-outline"></ion-icon>   -->
               <img src="../../assets/imgs/icons/mic-gray-32.svg" alt="">
             </div>
-            <!-- <div style="width: 20%;"></div> -->
-            <!-- <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening" class="white_mic_border">
-              <ion-icon class="white_mic" name="mic"></ion-icon>
-            </div>
-            <div (click)="stopSpeechRecognition()" *ngIf="!toggleThemeChecked && listening" class="black_mic_border">
-              <ion-icon class="black_mic" name="mic"></ion-icon>  
-            </div>
-            <div (click)="startSpeechRecognition()" *ngIf="toggleThemeChecked && !listening" class="white_mic_border">
-              <ion-icon class="white_mic " name="mic-outline"></ion-icon>
-            </div>
-            <div (click)="startSpeechRecognition()" *ngIf="!toggleThemeChecked && !listening" class="black_mic_border">
-              <ion-icon class="black_mic " name="mic-outline"></ion-icon>  
-            </div> -->
-          
-            <!-- style="opacity: 0;height: 24px;width: 24px;" -->
-            <!-- <div style="display: flex; align-items: center">
-              <ion-label
-                *ngIf="toggleThemeChecked"
-                class="toggle_lable_white"
-                >Light Mode</ion-label
-              >
-              <ion-label
-                *ngIf="!toggleThemeChecked"
-                class="toggle_lable_black"
-                >Dark Mode</ion-label
-              >
-        
-              <ion-toggle
-                [checked]="toggleThemeChecked"
-                (ionChange)="toggleTheme($event)"
-                mode="ios"
-                style="
-                  --handle-background-checked: white;
-                  --background: #ac3dba;
-                  --background-checked: #ac3dba;
-                  margin-left: 8px;
-                  height: 16px;
-                  --handle-height: 16px;
-                  --handle-width: 13px;
-                  width: 40px;
-                "
-              ></ion-toggle>
-            </div> -->
+            
           </div>
           
-          <!-- <div class="container">
-            <div class="circle static-circle" [ngClass]="{'hidden': isAnimating}">
-              <div class="stars"></div>
-              <div class="waves static-waves"></div>
-            </div>
-            <div class="circle animated-circle" [ngClass]="{'hidden': !isAnimating}">
-              <div class="stars"></div>
-              <div class="waves"></div>
-            </div>
-          </div> -->
-
+          
           <!-- ========================lottie======================= -->
           <!-- <div class="container_lottie">
             <ng-lottie [options]="lottieConfig"></ng-lottie>
@@ -241,14 +189,7 @@
 
   <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
     right: 12px;
-    bottom: 51%;
-    /* background: #740899; */
-    /* border-radius: 90px; */
-    /* height: 60px;
-    width: 60px; */
-    /* text-align: center; */
-    /* padding: 11px 0px; */
-    "
+    bottom: 51%; "
     >
     <img style="height: 60px;
     width: 60px;" src="../../assets/imgs/bar_circle.svg" alt="">
@@ -256,14 +197,15 @@
   </div>
 
   <div *ngIf="showCategories" class="categories_filter">
-    <div class="filter_btn work_sans mgb_16" (click)="setMarkersAgain()" >Bars</div>
+    <div class="filter_btn work_sans mgb_16" (click)="selectedVenueCategory('bars')" >Bars</div>
+    <!-- (click)="setMarkersAgain()" -->
+    <div class="filter_btn work_sans" (click)="selectedVenueCategory('restaurants')">Restaurants</div>
+
+    <div class="filter_btn work_sans mgb_16" (click)="selectedVenueCategory('clubs')" >Clubs</div>
     
-    <div class="filter_btn work_sans mgb_16" (click)="setMarkersAgain()" >Clubs</div>
-    
-    <div class="filter_btn work_sans" (click)="setMarkersAgain()">Restaurants</div>
   </div>
 
-  <div *ngIf="showSideElements" (click)="showHideFilterN()" style="position: absolute;
+  <div *ngIf="showSideElements" (click)="toggleCrowdFilter()" style="position: absolute;
     right: 12px;
     bottom: 40%;
     background: #740899;
@@ -276,15 +218,16 @@
     <img  style="height: 27px;width: 27px;" src="../../assets/imgs/icons/group_icon.svg" alt="">
   </div>
 
-  <div *ngIf="showfilter" class="crowd_filter" >
-    <div class="filter_btn work_sans mgb_16" (click)="showHideFilter('Very Busy')" >Very Busy</div>
+  <div *ngIf="showCrowdfilters" class="crowd_filter" >
+    <div class="filter_btn work_sans" (click)="selectedCrowdFilter('Quiet')">Quiet</div>
     
-    <div class="filter_btn work_sans mgb_16" (click)="showHideFilter('Busy')" >Busy</div>
+    <div class="filter_btn work_sans mgb_16" (click)="selectedCrowdFilter('Busy')" >Busy</div>
     
-    <div class="filter_btn work_sans" (click)="showHideFilter('Quiet')">Quiet</div>
+    <div class="filter_btn work_sans mgb_16" (click)="selectedCrowdFilter('Very Busy')" >Very Busy</div>
+    
   </div>
 
-  <div *ngIf="showSideElements" style="position: absolute;
+  <div *ngIf="showSideElements" (click)="toggleEventCategories()" style="position: absolute;
     right: 12px;
     bottom: 29%;
     background: white;
@@ -294,75 +237,21 @@
     width: 60px;
     text-align: center;
     padding: 15px 0px;">
-    <img (click)="getCurrentLocation()" style="height: 28px;width: 28px;" src="../../assets/imgs/icons/pin_icon.svg" alt="">
-    <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
+    <!-- (click)="getCurrentLocation()" -->
+    <img  style="height: 28px;width: 28px;" src="../../assets/imgs/icons/icon_ticket_purple.svg" alt="">
     
   </div>
 
+  <div *ngIf="showEventCategories" class="events_filter">
+    <div class="event_filter_btn work_sans mgb_16" (click)="selectedEventCategory('bars')" >Bars</div>
+    
+    <div class="event_filter_btn work_sans mgb_16" (click)="selectedEventCategory('promo')" >Promo</div>
+    <!-- (click)="setMarkersAgain()" -->
+    <div class="event_filter_btn work_sans" (click)="selectedEventCategory('clubs')">Clubs</div>
+  </div>
+
   
-  <!-- <ion-icon slot="start" style="height: 30px;width: 30px;" name="compass-outline" color="#ffffff"></ion-icon> -->
-  
-  <!-- <div
-    *ngIf="showfilter"
-    style="
-      position: absolute;
-      background: rgb(255, 255, 255);
-      height: auto;
-      width: auto;
-      left: 50px;
-      top: 50px;
-      z-index: 9999;
-      border-radius: 10px;
-      padding: 3px 21px 12px;
-    "
-  >
-    <p class="filtertext" (click)="showHideFilter('Very Busy')">Very Busy</p>
-    <p class="filtertext" (click)="showHideFilter('Busy')">Busy</p>
-    <p class="filtertext" (click)="showHideFilter('Quite')">Quite</p>
-    <p
-      style="
-        font-size: 8px;
-        text-align: right;
-        margin-right: -12px;
-        margin-top: 5px;
-        margin-bottom: -3px;
-      "
-      class="filtertext"
-      *ngIf="filtertype != 'no';"
-      (click)="clearFilter()"
-    >
-      Clear Filter
-    </p>
-  </div> -->
   <div class="boxshadowww"></div>
-
-  <!-- <ion-row class="paddingtop pdt-10"
-    style="position: absolute; z-index: 99;  width: 100%"
-  >
-    <ion-col size="0.5" style="text-align: center">
-      
-      <img
-        (click)="showHideFilterN()"
-        style="height: 25px; width: 25px"
-        src="assets/imgs/treeeline.svg"
-      />
-    </ion-col>
-
-    <ion-col size="9.2" style="text-align: center">
-      <div style="display: flex;align-items: center; justify-content: space-between;">
-        <div (click)="setMarkersAgain()" class="venue_item">Restaurants</div>
-        <div (click)="setMarkersAgain()" class="venue_item">Clubs</div>
-        <div (click)="setMarkersAgain()" class="venue_item" style="margin-right: 0px;">Bars</div>
-      </div>
-    </ion-col>
-    <ion-col size="2" style="text-align: center">
-      <img
-        (click)="goToProfile()"
-        style="margin-top: 4px; height: 25px; width: 25px"
-        src="assets/imgs/user.svg"
-      />
-    </ion-col>
-  </ion-row> -->
 
   <div  class="searchtop" style="width: 100%;
   justify-content: center;">
@@ -378,9 +267,7 @@
         width: 24px;"
         src="../../assets/imgs/icons/location.svg"
       />
-      <!-- (ionInput)="searchVenues($event)"
-      (click)="hideExtraElements()" -->
-      <!-- id="open-modal" -->
+    
       <ion-input #textInput
         style="padding-left: 15px !important; margin-right: 8px;"
         [readonly]="true"
@@ -389,8 +276,6 @@
         type="text"
         placeholder="Search here"
       ></ion-input>
-      <!-- <input #textInput class="input_html" (input)="searchVenues($event)"  style="padding-left: 15px !important; margin-right: 8px;" type="text" placeholder="Search here"> -->
-      <!-- <img style="margin: 10px" src="/assets/imgs/search.svg" /> -->
       <img 
         (click)="goToProfile()"
         style="margin-top: 8px; margin-right: 3px; height: 25px; width: 25px"
@@ -414,19 +299,24 @@
   >
     <div *ngIf="searchObject.venues_id != null">
       <img
+        (click)="getDirections()"
+        style="position: absolute; bottom: 11px; right: 40px; height: 20px;width: 20px;"
+        src="../../assets/imgs/icons/icon_nav.svg"
+      />
+      <img
         (click)="likevenu()"
         *ngIf="searchObject.likes == 0"
-        style="position: absolute; bottom: 10px; right: 20px"
-        src="assets/imgs/heartwhite.svg"
+        style="position: absolute; bottom: 11px; right: 11px"
+        src="../../assets/imgs/heart_white.svg"
       />
       <img
         (click)="likeoutvenu()"
         *ngIf="searchObject.likes != 0"
-        style="position: absolute; bottom: 10px; right: 20px"
-        src="assets/imgs/likemapheart.svg"
+        style="position: absolute; bottom: 11px; right: 11px"
+        src="../../assets/imgs/heart_filled.svg"
       />
     </div>
-    <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;">
+    <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;align-items: center;">
       <img
         style="
           border-radius: 22px;
@@ -503,6 +393,112 @@
              {{searchObject.start_hours}} - {{searchObject.close_hours}}
           </p>
           <p *ngIf="searchObject.start_hours==null" class="work_sans titlesub">Closed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="loc_info"
+    *ngIf="searchEventObject"
+    
+  >
+    <div *ngIf="searchEventObject.events_id != null">
+      <img
+        (click)="getEventDirections()"
+        style="position: absolute; bottom: 11px; right: 40px; height: 20px;width: 20px;"
+        src="../../assets/imgs/icons/icon_nav.svg"
+      />
+      <img
+        (click)="likeevent()"
+        *ngIf="searchEventObject.likes == 0"
+        style="position: absolute; bottom: 11px; right: 11px"
+        src="../../assets/imgs/heart_white.svg"
+      />
+      <img
+        (click)="likeoutevent()"
+        *ngIf="searchEventObject.likes != 0"
+        style="position: absolute; bottom: 11px; right: 11px"
+        src="../../assets/imgs/heart_filled.svg"
+      />
+    </div>
+    <div *ngIf="showEventDetail" (click)="gotoEventdetail()" style="width: 100%; display: flex;align-items: center;">
+      <img
+        style="
+          border-radius: 22px;
+          height: 100px;
+          width: 100px;
+          padding: 10px;
+          object-fit: cover;
+        "
+        src="{{this.rest.baseURLimg}}{{searchEventObject.cover_images}}"
+      />
+
+      <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 51%;">
+        <p
+          style="
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 21px;
+            color: #ffffff;
+            
+          "
+          class="work_sans"
+        >
+          {{searchEventObject.name}}
+        </p>
+
+        <img (click)="clearSearchEventObject()" style="position: absolute;
+        right: 12px;
+        top: 6px;
+        height: 16px;
+        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt="">
+
+        <ion-badge 
+          *ngIf="searchEventObject.discount_percentage != 0 && searchEventObject.discount_percentage != null  && searchEventObject.events_id != null"
+          style="
+            font-size: 10px;
+            padding: 8px 10px;
+            position: absolute;
+            right: 8px;
+            top: 30px;
+            border-radius: 20px;
+            /* background: #7825cb; */
+            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);;
+            font-weight: 400;
+          "
+          >{{searchEventObject.discount_percentage}}% off</ion-badge
+        >
+
+        <ion-badge
+          *ngIf="searchEventObject.discount_percentage == 0 && searchEventObject.events_id != null"
+          style="
+            font-size: 10px;
+            padding: 8px 10px;
+            position: absolute;
+            right:8px;
+            top: 30x;
+            border-radius: 20px;
+            /* background: #7825cb; */
+            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+            font-weight: 400;
+          "
+          >No Discount</ion-badge
+        >
+
+        <div style="display: flex; margin-top: 10px">
+          <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
+          <p class="work_sans titlesub">
+            {{searchEventObject.distance | number : '1.1-1'}} Miles
+          </p>
+        </div>
+        <div style="display: flex; margin-top: 10px" *ngIf="searchEventObject.events_id != null">
+          <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
+          <p class="work_sans titlesub" *ngIf="searchEventObject.event_start_time!=null">
+             {{searchEventObject.formatted_start_time}} - {{searchEventObject.formatted_end_time}}
+          </p>
+          <!-- <p *ngIf="searchObject.start_hours==null" class="work_sans titlesub">Closed</p> -->
         </div>
       </div>
     </div>

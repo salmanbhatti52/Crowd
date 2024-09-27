@@ -87,7 +87,7 @@ export class LoginPage implements OnInit {
       var ss = {
         email: this.email,
         password: this.pass,
-        // one_signal_id: localStorage.getItem("onesignaluserid"),
+        one_signal_id: localStorage.getItem("onesignaluserid"),
       };
 
       console.log("signin_payload",ss);

@@ -25,7 +25,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
 import { IonInput } from "@ionic/angular";
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { format, getDay, isEqual, parse } from "date-fns";
+import { format, getDay, isEqual, parse, parseISO } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 
 import {AnimationOptions  } from 'ngx-lottie';
@@ -307,20 +307,25 @@ export class LocationmapPage implements OnInit {
 
   public defaultStyle = [];
   markers = [] as any;
+  eventMarkers = [] as any;
 
   //// angular map
-  showfilter = false;
+  showCrowdfilters = false;
 
   currentLatitude:any;
   currentLongitude:any;
 
   title = "Title here";
   venuarr: any = "";
+  eventarr: any = "";
   venuarrOrg: any = "";
+  eventArrOrg: any = "";
 
   filtertype = "no";
+  // filterTypeEv = "no";
   showSideElements = true;
   searchObject: any = "";
+  searchEventObject: any = "";
   markerscheck = [];
 
   dbLati: any = "";
@@ -329,10 +334,16 @@ export class LocationmapPage implements OnInit {
   a: any = "";
   b: any = "";
   ss: any;
+
+  selectedVenueCat = '';
+  selectedEventCat = '';
+  selectedCrowdCat = '';
   userLocation:any;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   showCategories = false;
+  showEventCategories = false;
   showDetail = false;
+  showEventDetail = false;
   yourVoiceInput = '';
   listener: boolean = false;
   listeningStatus:string = '';
@@ -346,12 +357,15 @@ export class LocationmapPage implements OnInit {
   toggleThemeChecked = true;
   
   venueKeywords: any = [];
+  eventKeywords:any = [];
+
   dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
   // lottieConfig!: AnimationOptions;
   typedText:any = '';
 
   inputFeatureActive = false;
   keyboardIsVisible = false;
+  allVenueEventMarkers: any;
   // showMicIcon = false;
 
   constructor(
@@ -381,6 +395,15 @@ export class LocationmapPage implements OnInit {
 
   clearSearchObject(){
     this.searchObject = '';
+    this.infoContent = '';
+    this.infoWindow.close();
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.getCurrentLocation();
+    // this.renderOptions
+  }
+
+  clearSearchEventObject(){
+    this.searchEventObject = '';
     this.infoContent = '';
     this.infoWindow.close();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
@@ -423,7 +446,11 @@ export class LocationmapPage implements OnInit {
   }
 
   onModalDidPresent() {
+    this.markers = this.allVenueEventMarkers;
+    console.log('OnModalDidPresent Markers',this.markers);
+    
     this.typeWriter();
+
   }
 
   toggleTheme(ev:any){
@@ -505,6 +532,41 @@ export class LocationmapPage implements OnInit {
     });
   }
 
+  getEventAIKeywords(){
+    let data = {
+      "customer_id":this.userID
+    }
+    this.rest.sendRequest('event_keywords',data).subscribe((res:any)=>{
+      console.log("Event_keywords are", res);
+      if(res.status == 'success'){
+        let eventKeywordsObj:any = {};
+       
+        eventKeywordsObj.music = res.data[0].Event_Music;
+        eventKeywordsObj.types = res.data[0].Event_Exp;
+        eventKeywordsObj.negations = ['non','do not include'];
+        eventKeywordsObj.checks = ['near me','around me','in my area'];
+        // 9:00 p.m. 12:00 p.m.
+       
+
+      
+        for(let i=0; i<eventKeywordsObj.types.length; i++){
+          eventKeywordsObj.types[i] = eventKeywordsObj.types[i].event_type;
+        }
+        for(let i=0; i<eventKeywordsObj.music.length; i++){
+          eventKeywordsObj.music[i] = eventKeywordsObj.music[i].event_music;
+          // venueKeywordsObj.music[i] = venueKeywordsObj.music[i].split(/\s+/)[0];
+        }
+
+      
+        // console.log(eventKeywordsObj);
+        this.eventKeywords = [...eventKeywordsObj.negations , ...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks, ...this.dayTimeKeywords];
+      
+        console.log('Event Keywords:', this.eventKeywords);
+
+      }      
+    });
+  }
+
   async requestPermissions(): Promise<string>{
 
     try {
@@ -550,11 +612,12 @@ export class LocationmapPage implements OnInit {
     }
 
     this.venuarr = this.venuarrOrg;
+    this.eventarr = this.eventArrOrg;
 
     const {available} = await SpeechRecognition.available();
     console.log('availability res: ',available);
 
-    if( checkPermissionsStatus=== 'granted' && available){
+    if( checkPermissionsStatus === 'granted' && available){
 
       this.setInactivityTimeout();
       // ===========speech start try catch====================
@@ -651,7 +714,9 @@ export class LocationmapPage implements OnInit {
   }
 
   async stopSpeechRecognition(){
-    
+    this.searchObject= '';
+    this.searchEventObject = '';
+   
     SpeechRecognition.stop();
     this.listening = false;
     if(this.yourVoiceInput == ''){
@@ -679,8 +744,11 @@ export class LocationmapPage implements OnInit {
     userInput = userInput.toLowerCase();
     let tokens = userInput.split(/\s+/);
     console.log(tokens);
-    
-    this.findVenueAndDiscount(tokens);
+    if(tokens.includes('venue') || tokens.includes('avenue')){
+      this.findVenueAndDiscount(tokens);
+    }else{
+      this.findEventAndDiscount(tokens);
+    }
     
   }
 
@@ -1067,10 +1135,440 @@ export class LocationmapPage implements OnInit {
     }
 
     this.filtertype = 'yes';
-    console.log("filteredVenues: ",filteredVenues); 
+    console.log("filteredVenues: ",filteredVenues)
     this.venuarr = filteredVenues;
 
     this.setMarkersForFoundVenues(filteredVenues);
+    
+  };
+
+  findEventAndDiscount = (inputTokens:string[]) => {
+    // this.noevent = 0;
+    let filteredEvents = [];
+
+    let findNearMe = false;
+    let findAroundMe = false;
+    let findInMyArea = false;
+    let findDayTime = false;
+   
+    let foundNearMe = false;
+    let foundAroundMe = false;
+    let foundInMyArea = false;
+    let foundDayTime = false;
+
+    let foundEventName = false;
+    let foundDiscount = false;
+    let foundNamedLocation = false;
+    let foundSpecifiedChecks = false; 
+    
+    
+    let eventName:string = '';
+    let eventNameTokens: string[] = [];
+    let eventLocationName:string = '';
+    let eventLocationNameTokens: string[] = [];
+    let eventDiscount = '';
+    let dayTimeTokens: string[] = [];
+    let eventEndTime:string;
+    let eventDateStr: string;
+
+    let foundWords = this.findWordsforEvents(inputTokens);
+    console.log("foundWords for loop: ",foundWords); 
+    // let find
+    
+    if(foundWords.length > 0){
+      findNearMe = foundWords.includes('near me');
+      findAroundMe = foundWords.includes('around me');
+      findInMyArea = foundWords.includes('in my area');
+      dayTimeTokens = this.findCommonDayTimeTokens(foundWords);
+      console.log('dayTimeTokens: ',dayTimeTokens);
+      console.log('findNearMe: ',findNearMe);
+      console.log('findInMyArea: ',findInMyArea);
+
+      if(dayTimeTokens.length >=3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) && 
+      (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.')) ){
+        findDayTime = true;
+      }
+    
+    }
+
+    for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
+      foundDiscount = false;
+      foundEventName = false;
+      foundSpecifiedChecks = false;
+      foundNamedLocation = false;
+      foundNearMe = false;
+      foundAroundMe = false;
+      foundInMyArea = false;
+      foundDayTime = false;
+
+      // ================= fetching data from venue data from next line =====================
+      
+     
+      if(foundWords.length == 0){
+        
+        if(this.eventarr[eventIndex].discount_percentage != null){
+          eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
+        }else{
+          eventDiscount = '';
+        }
+       
+        // console.log("eventDiscount: ",eventDiscount);
+
+        eventName = this.eventarr[eventIndex].name.toLowerCase();
+        eventNameTokens = eventName.split(/\s+/);
+  
+        // console.log(eventNameTokens);
+
+        eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
+        eventLocationNameTokens = eventLocationName.split(/\s+/);
+        // console.log(eventLocationNameTokens);
+      }else if(foundWords.length > 0){
+        
+        eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
+        eventLocationNameTokens = eventLocationName.split(/\s+/);
+        // console.log(eventLocationNameTokens);
+
+
+       
+        // if(findDayTime){
+        //   eventEndTime = this.eventarr[eventIndex].event_end_time;
+        // }
+        // if(findDayTime && dayTimeTokens.includes('tonight')){
+        //   eventDateStr = this.eventarr[eventIndex].event_date;
+        // }
+        
+      }else{}
+
+      // =========== finding required results from next line ===========================
+      
+      if(foundWords.length == 0){
+        foundEventName = this.filterForAI(inputTokens, eventNameTokens);
+        console.log('foundEventName: ',foundEventName);
+      
+        foundDiscount = this.filterForAI(inputTokens,eventDiscount.split(/\s+/));
+        console.log('foundDiscount: ',foundDiscount);
+        
+        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+    
+      }else if(foundWords.length >0){
+
+        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
+        console.log('foundNamedLocation: ',foundNamedLocation);
+
+        // ---------------------looking for daytime match----------------------
+        
+        if(findDayTime && !dayTimeTokens.includes('tonight')){
+          // foundDayTime will be true for all events have matched time
+          console.log('tonight not found');
+          
+          let requestedTime:string = '';
+          eventEndTime = this.eventarr[eventIndex].event_end_time;
+          
+          if(dayTimeTokens[0] === 'until') { 
+            requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+          }else if(dayTimeTokens[0] === 'till') {
+            requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+          }
+
+          if(this.isVenueClosingTimeMatch(eventEndTime,requestedTime, dayTimeTokens)){
+            foundDayTime = true;
+          }else{
+            foundDayTime = false;
+          }
+
+          console.log('foundDayTime:',foundDayTime);
+          
+          
+          // try {
+          //   let requestedTimeDate = new Date();
+          //   let eventEndTimeDate; 
+
+          //   eventEndTime = this.eventarr[eventIndex].event_end_time;
+          //   eventEndTimeDate = parse(eventEndTime, 'HH:mm:ss', new Date());
+
+          //   if(dayTimeTokens[0] === 'until') { 
+          //     requestedTimeDate = parse(`${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`, 'h:mm aaaa', new Date());
+          //   }else if(dayTimeTokens[0] === 'till') {
+          //     requestedTimeDate = parse(`${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`, 'h:mm aaaa', new Date());
+          //   }
+
+          //   console.log('requestedTimeDate: ',requestedTimeDate);
+            
+          //   console.log('eventEndTimeDate: ',eventEndTimeDate);
+
+          //   // Adjust date2 to next day if it's earlier than date1
+          //   // if (eventEndTimeDate < new Date()) {
+          //   //   eventEndTimeDate.setDate(eventEndTimeDate.getDate() + 1);
+          //   // }else if(requestedTimeDate < new Date()){
+          //   //   requestedTimeDate.setDate(requestedTimeDate.getDate() + 1);
+          //   // }else{
+
+          //   // }
+
+          //   // if(requestedTimeDate <= eventEndTimeDate){
+
+          //   // }
+            
+          // } catch (error) {
+          //   console.log(error);
+            
+          // }
+        }
+
+        if(findDayTime && dayTimeTokens.includes('tonight')){
+          // foundDayTime will be true for only events have matched time and today date  
+          console.log('tonight found');
+          
+          let todayDate = new Date();
+          eventDateStr = this.eventarr[eventIndex].event_date;
+          const eventDate = parseISO(eventDateStr);
+
+          const formattedTodayDate = format(todayDate, 'yyyy-MM-dd');
+          const formattedEventDate = format(eventDate, 'yyyy-MM-dd');
+
+          console.log('formattedTodayDate: ',formattedTodayDate);
+          console.log('formattedEventDate: ',formattedEventDate);
+
+          let requestedTime:string = '';
+          eventEndTime = this.eventarr[eventIndex].event_end_time;
+          
+          if(dayTimeTokens[0] === 'until') { 
+            requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+          }else if(dayTimeTokens[0] === 'till') {
+            requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
+          }
+
+          if(formattedTodayDate === formattedEventDate && this.isVenueClosingTimeMatch(eventEndTime,requestedTime, dayTimeTokens)){
+            foundDayTime = true;
+          }else{
+            foundDayTime = false;
+          }
+
+          console.log('foundDayTime:',foundDayTime);
+          
+          
+        }
+
+        // -------------------------- till here --------------------------
+    
+      }else{}
+       
+      if(foundWords.length > 0){
+        // if(this.eventarr[eventIndex].venue_keywords.length > 0 && foundWords.length > 0){
+          let eventKeywords =  this.eventarr[eventIndex].event_keywords
+          foundSpecifiedChecks = this.filterEventsForAIFeature(eventKeywords, foundWords); 
+          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        // } 
+
+        if(findNearMe){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+            foundNearMe = true;
+            console.log("foundNearMe: ",findNearMe);
+          }
+        }
+
+        if(findAroundMe){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+            foundAroundMe = true;
+            console.log("findAroundMe: ",findAroundMe);
+          }
+        }
+        // else
+        if(findInMyArea){
+          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 2.1){
+            foundInMyArea = true;
+            console.log("foundInMyArea: ",foundInMyArea);
+          }
+        }
+        // else{}
+      }  
+
+        
+
+      // ==================== time to count found results=====================
+
+      if(foundWords.length > 0){
+
+        if(findNearMe && foundSpecifiedChecks && findDayTime){
+          if(foundNearMe && foundDayTime){
+            console.log('adding venue by 1');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 1');
+          }
+        }
+
+        else if(findAroundMe &&  foundSpecifiedChecks && findDayTime){
+          if(foundAroundMe && foundDayTime){
+            console.log('adding venue by 1.1');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 1.1');
+          }
+        }
+  
+        else if(findInMyArea  && foundSpecifiedChecks && findDayTime){
+          if(foundInMyArea && foundDayTime){
+            console.log('adding venue by 2');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 2');
+          }
+        }
+        
+        else if(foundNamedLocation &&  foundSpecifiedChecks && findDayTime){
+          if(foundDayTime){
+            console.log('adding venue by 3');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 3');
+          }
+        }
+
+        else if(foundSpecifiedChecks && findDayTime){
+          if(foundDayTime){
+            console.log('adding venue by 4');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 4');
+          }
+        }
+
+        else if(findNearMe &&  foundSpecifiedChecks  ){
+          if(foundNearMe){
+            console.log('adding venue by 5');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 5');
+          }
+        }
+
+        else if(findAroundMe &&  foundSpecifiedChecks ){
+          if(foundAroundMe){
+            console.log('adding venue by 6');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 6');
+          }
+        }
+  
+        else if(findInMyArea  && foundSpecifiedChecks ){
+          if(foundInMyArea){
+            console.log('adding venue by 7');
+            filteredEvents.push(this.eventarr[eventIndex]);
+          }else{
+            console.log('No matching criteria found 7');
+          }
+          
+        }
+        
+        else if(foundNamedLocation &&  foundSpecifiedChecks ){
+          console.log('adding venue by 3');
+          filteredEvents.push(this.eventarr[eventIndex]);
+        }
+
+        else if( foundSpecifiedChecks){
+          filteredEvents.push(this.eventarr[eventIndex]);
+          console.log('adding venue by 9');
+        }
+
+        // else if(findNearMe ){
+        //   if(foundNearMe ){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by 4');
+
+        // }
+  
+        // else if(findInMyArea){
+        //   if(foundInMyArea ){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by 5');
+
+        // }
+        
+        // else if(foundNamedLocation){
+        //   filteredEvents.push(this.eventarr[eventIndex]);
+        //   console.log('adding venue by 6');
+        // }
+  
+         //================== handling single cases====================
+
+        //  else if(!findNearMe && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 1');
+
+        // }
+  
+        // else if(!findInMyArea && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 2');
+
+        // }
+        
+        // else if(!foundNamedLocation && findbusyStatus){
+        //   if(foundbusyStatus){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 3');
+
+        // }
+
+        // else if(findNearMe && !findbusyStatus){
+        //   if(foundNearMe){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 4');
+
+        // }
+  
+        // else if(findInMyArea && !findbusyStatus){
+        //   if(foundInMyArea){
+        //     filteredEvents.push(this.eventarr[eventIndex]);
+        //   }
+        //   console.log('adding venue by single case 5');
+
+        // }
+
+      
+        // ============== single case done =================
+  
+        else{
+  
+        }
+
+      }else if(foundWords.length == 0){
+        if(foundEventName || foundDiscount || foundNamedLocation){
+          console.log("foundEventName: ",foundEventName);
+          console.log("foundDiscount: ",foundDiscount);
+          console.log('foundNamedLocation: ', foundNamedLocation);
+          console.log('adding venue by 11');
+          
+          filteredEvents.push(this.eventarr[eventIndex]);
+        }
+
+      }else{
+
+      }
+      
+    }
+
+    // this.filterTypeEv = 'yes';
+    console.log("filteredEvents: ",filteredEvents); 
+    this.eventarr = filteredEvents;
+
+    if(filteredEvents.length == 0){
+      // this.noevent = 1;
+    }else{
+      this.setMarkersForFoundEvents(filteredEvents);
+      // this.noevent = 0;
+    }
     
   };
   
@@ -1126,6 +1624,66 @@ export class LocationmapPage implements OnInit {
         
       } 
     });
+    // console.log(foundWords);
+    return foundWords;
+    
+  }
+
+  findWordsforEvents(inputTokens:string[]) {
+    let foundWords:string[] = [];
+    // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00
+    let specialTimeCase = false;
+    let specialTimeValue = '';
+    this.eventKeywords.forEach((keyword:string) => {
+      const formattedEventKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      // console.log("formattedEventKeyword: ",formattedEventKeyword);
+      let result = formattedEventKeyword.every((key:string)=>{
+        let res = false;
+        inputTokens.forEach((token:string)=>{
+          
+          if(token == 'rnb' && key == 'r&b'){
+            res = true;
+          }
+          else if(token.includes(':') && key.includes(':')){
+            console.log("token is", token);
+           
+            let splitToken = token.split(':');
+            let splitKey = key.split(':');
+    
+            if(splitToken[0] === splitKey[0]){
+              console.log('splitToken:',splitToken);
+              console.log('splitKey: ', splitKey);
+              specialTimeCase = true;
+              specialTimeValue = token;
+              res = true;
+            }
+           
+          }
+          else{
+            if(token === key){
+              res = true;
+            }else if(this.stemWord(token) === key ){
+              res = true;
+            }
+           
+          }
+          
+        });
+        return res;
+      });
+      
+      // console.log(result);
+      if(result){
+        if(specialTimeCase){
+          foundWords.push(specialTimeValue);
+          specialTimeCase = false;
+        }else{
+          // console.log('Match found');
+          foundWords.push(keyword);
+        }
+      } 
+    });
+    
     // console.log(foundWords);
     return foundWords;
     
@@ -1197,6 +1755,109 @@ export class LocationmapPage implements OnInit {
         }
        
       return res;
+    });
+  }
+
+  filterEventsForAIFeature(keywords:any[], queryParams:string[]){
+    let otherKeys = ['non','do not include','near me','around me','in my area', 'until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
+    let negationKeyIndex: number | undefined = undefined;
+    return queryParams.every((param:string)=>{
+      const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
+      console.log('New param is: ',paramKey);
+      console.log('negationKeyIndex: ',negationKeyIndex);
+      
+      let res = false;
+      
+      for(let i=0; i<keywords.length; i++){
+        let keyword = keywords[i].keyword_value;
+        const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+        
+        
+        res = paramKey.every((pk:any,index)=>{
+          if(keys.includes(pk) && negationKeyIndex === undefined){
+            // console.log('case 1');
+            console.log('keys: ',keys);
+            console.log('paramKey: ',paramKey);
+            return true;
+          }
+          else if(keys.includes(pk) && negationKeyIndex !== undefined){
+            // if(index === paramKey.length-1){
+              negationKeyIndex = undefined;
+            // }
+            // console.log('case 2');
+            console.log('keys: ',keys);
+            console.log('paramKey: ',paramKey);
+            return false;
+          }
+          else if(!keys.includes(pk) && negationKeyIndex === undefined){
+            // the following check param.includes(':') is to check if the param is a time range of special case.
+            // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00 
+            if(otherKeys.includes(param) || param.includes(':')){
+            
+              if(param === 'non' || param === 'do not include'){
+
+                if(index === paramKey.length-1){
+                  negationKeyIndex = queryParams.indexOf(param);
+
+                }
+                console.log('other keys(negation)');
+                // console.log('case 4');
+                
+                console.log(param);
+                return true;
+                
+              }else{
+                // console.log('case 5');
+
+                console.log('other keys');
+                console.log(param);
+                return true;
+              }
+           
+            }else{
+              // console.log('case 6');
+              
+              return false;
+            }
+          } 
+          else{
+            // console.log('case 7');
+            return false;
+          }
+        });
+        if(res){ 
+          console.log('Match found: ', res);
+          console.log('word is: ',paramKey);
+          console.log('key is: ',keys);
+          
+          break;
+        }
+      }
+
+      if(!res && negationKeyIndex !== undefined){
+        res = true;
+        negationKeyIndex = undefined;
+      }else if(!res && negationKeyIndex === undefined){
+        console.log('Result for this parma is:', res);
+        console.log('word is: ',paramKey);
+      }
+       
+      return res;
+    });
+  }
+
+  filterForAI(inputTokens:string[], targetTokens:string[]){
+    return targetTokens.some((token:any)=>{
+      if(token == '0%'){
+        if(inputTokens.includes('0%') || inputTokens.includes('zero')){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return inputTokens.includes(token);
+      }
+      
     });
   }
 
@@ -1293,7 +1954,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(foundVenues[i].lattitude),
           lng: parseFloat(foundVenues[i].longitude),
         },
-        title: "" + foundVenues[i].public_check_ins,
+        title: "" + foundVenues[i].availability_count,
         name: foundVenues[i].name,
         venueId: foundVenues[i].venues_id,
         options: {
@@ -1318,8 +1979,54 @@ export class LocationmapPage implements OnInit {
     this.showCategories = false;
   }
 
+  setMarkersForFoundEvents = (foundEvents:any) => {
+    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showEventDetail = false;
+    this.map.googleMap?.setZoom(13);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
+    this.eventarr = [];
+    this.markers = [];
+    console.log("Eventarr founEvents: ",foundEvents);
+    
+    for (var i = 0; i < foundEvents.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(foundEvents[i].lattitude),
+          lng: parseFloat(foundEvents[i].longitude),
+        },
+        title: "" + foundEvents[i].availability_count,
+        name: foundEvents[i].name,
+        eventId: foundEvents[i].events_id,
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+
+      this.eventarr.push(obj);
+    }
+
+    this.markers = this.eventarr;
+    console.log("EventArr : ",this.eventarr);
+    console.log("markersArr : ",this.markers);
+    this.showEventCategories = false;
+  }
+
   dismissModal(){
     console.log('stopSpeechRecognition');
+    this.showCrowdfilters= false;
+    this.showCategories= false;
+    this.showEventCategories = false;
     SpeechRecognition.stop();
     this.modalCtrl.dismiss();
   }
@@ -1353,7 +2060,7 @@ export class LocationmapPage implements OnInit {
         lat: parseFloat(this.foundVenue.lattitude),
         lng: parseFloat(this.foundVenue.longitude),
       },
-      title: "" + this.foundVenue.public_check_ins,
+      title: "" + this.foundVenue.availability_count,
       name: this.foundVenue.name,
       venueId: this.foundVenue.venues_id,
       options: {
@@ -1395,6 +2102,23 @@ export class LocationmapPage implements OnInit {
     console.log("directionsResults: ",this.rest.directionsResults$);
     // this.router.navigate(["see-path"]);
   }
+  getEventDirections(){
+
+    const request: google.maps.DirectionsRequest = {
+      destination: {lat: +this.searchEventObject.lattitude, lng: +this.searchEventObject.longitude},
+      origin: {lat: this.currentLatitude, lng: this.currentLongitude },
+      travelMode: google.maps.TravelMode.DRIVING,
+
+    };
+    console.log(request.destination);
+    console.log(request.origin);
+    
+    
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
+    this.rest.directionsResults$ = this.directionsResults$;
+    console.log("directionsResults: ",this.rest.directionsResults$);
+    // this.router.navigate(["see-path"]);
+  }
 
   async ionViewWillEnter() {
    
@@ -1414,17 +2138,19 @@ export class LocationmapPage implements OnInit {
     }
     
     this.venuarrOrg = this.rest.venuArrHome;
+    this.eventArrOrg = this.rest.eventArrHome;
     console.log("this.venuarrOrg",this.venuarrOrg.length);
     this.makeMarkerArray();
+    this.makeEventMarkerArray();
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getVenueAIKeywords();
+    this.getEventAIKeywords();
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
 
     this.getCurrentLocation();
     this.map.googleMap?.setZoom(13);
-    
   }
   
 
@@ -1485,7 +2211,7 @@ export class LocationmapPage implements OnInit {
                 lat: parseFloat(this.venuarrOrg[i].lattitude),
                 lng: parseFloat(this.venuarrOrg[i].longitude),
               },
-              title: "" + this.venuarrOrg[i].public_check_ins,
+              title: "" + this.venuarrOrg[i].availability_count,
               name: this.venuarrOrg[i].name,
               venueId: this.venuarrOrg[i].venues_id,
               options: {
@@ -1516,7 +2242,7 @@ export class LocationmapPage implements OnInit {
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
-    this.setMarkersAgain();
+    // this.setMarkersAgain();
     // console.log("this.venuarr",this.venuarr);
     
     // var newVenuArr = [];
@@ -1526,7 +2252,7 @@ export class LocationmapPage implements OnInit {
     //       lat: parseFloat(this.venuarr[i].lattitude),
     //       lng: parseFloat(this.venuarr[i].longitude),
     //     },
-    //     title: "" + this.venuarr[i].public_check_ins,
+    //     title: "" + this.venuarr[i].availability_count,
     //     name: this.venuarr[i].name,
     //     options: {
     //       animation: google.maps.Animation.DROP,
@@ -1550,9 +2276,22 @@ export class LocationmapPage implements OnInit {
     
   }
 
-  showHideFilter(item: any) {
+  
+
+  async toggleCrowdFilter() {
+    
+    this.showCrowdfilters = !this.showCrowdfilters;
+    this.showCategories = false;
+    this.showEventCategories = false;
+   
+  }
+
+  selectedCrowdFilter(item: any) {
+    this.showCrowdfilters = !this.showCrowdfilters;
+    this.selectedCrowdCat = item;
+    this.searchObject = "";
+    this.searchEventObject = "";
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
-    this.showDetail = false;
     this.map.googleMap?.setZoom(13);
     this.center = {
       lat: this.currentLatitude,
@@ -1560,38 +2299,79 @@ export class LocationmapPage implements OnInit {
     };
     this.searchAndFilterItems(item);
 
-    this.filtertype = item;
-
-    if (this.showfilter) {
-      this.showfilter = false;
-    } else {
-      this.showfilter = true;
-    }
-  }
-
-  async showHideFilterN() {
-    
-    this.showfilter = !this.showfilter;
-    this.showCategories = false;
-
+    // this.filtertype = item;
    
   }
 
   toggleCategories(){
-    // this.searchObject = "";
+    
     this.showCategories = !this.showCategories;
-    this.showfilter = false;
+    this.showCrowdfilters = false;
+    this.showEventCategories = false;
   }
 
+  selectedVenueCategory(val:any){
+    console.log(val);
+    this.selectedVenueCat = val;
+    this.selectedCrowdCat = '';
+    this.showCategories = !this.showCategories;
+    this.searchObject = "";
+    this.searchEventObject = "";
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.map.googleMap?.setZoom(13);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
+    this.searchAndFilterVenuItems(val);
+    // this.setMarkersAgain();
+  }
+
+  toggleEventCategories(){
+    this.searchObject = "";
+    this.searchEventObject = "";
+    this.showEventCategories = !this.showEventCategories;
+    this.showCrowdfilters = false;
+    this.showCategories = false;
+  }
+
+  selectedEventCategory(val:any){
+    console.log(val);
+    this.selectedEventCat = val;
+    this.selectedCrowdCat = '';
+    this.showEventCategories = !this.showEventCategories;
+    this.searchObject = "";
+    this.searchEventObject = "";
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
+    this.map.googleMap?.setZoom(13);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
+    this.searchAndFilterEventItems(val);
+    // this.setEventMarkersAgain();
+  }
+  
   searchAndFilterItems(searchTerm: any) {
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      if (
-        this.venuarrOrg[i].availability.toLowerCase() ==
-        searchTerm.toLowerCase()
-      ) {
-        this.venuarr.push(this.venuarrOrg[i]);
+      if(this.selectedVenueCat!=''){
+        if (
+          this.venuarrOrg[i].availability.toLowerCase() ==
+          searchTerm.toLowerCase() &&  this.venuarrOrg[i].venue_genre.toLowerCase() ==
+          this.selectedVenueCat.toLowerCase()
+        ) {
+          this.venuarr.push(this.venuarrOrg[i]);
+        }
+      }else{
+        if (
+          this.venuarrOrg[i].availability.toLowerCase() ==
+          searchTerm.toLowerCase()
+        ) {
+          this.venuarr.push(this.venuarrOrg[i]);
+        }
       }
+      
     }
 
     var newVenuArr = [];
@@ -1601,7 +2381,62 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarr[i].lattitude),
           lng: parseFloat(this.venuarr[i].longitude),
         },
-        title: "" + this.venuarr[i].public_check_ins,
+        title: "" + this.venuarr[i].availability_count,
+        name: this.venuarr[i].name,
+        venueId: this.venuarr[i].venues_id,
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+      newVenuArr.push(obj);
+    }
+
+    this.venuarr = [];
+    this.venuarr = newVenuArr;
+    
+    this.markers = this.venuarr;
+    console.log('results: ',this.markers);
+    
+  }
+
+  searchAndFilterVenuItems(searchTerm: any) {
+    this.venuarr = [];
+    for (var i = 0; i < this.venuarrOrg.length; i++) {
+      if(this.selectedCrowdCat!=''){
+        if (
+          this.venuarrOrg[i].venue_genre.toLowerCase() ==
+          searchTerm.toLowerCase() && this.venuarrOrg[i].availability.toLowerCase() ==
+          this.selectedCrowdCat.toLowerCase()
+        ) {
+          this.venuarr.push(this.venuarrOrg[i]);
+        }
+      }else{
+        if (
+          this.venuarrOrg[i].venue_genre.toLowerCase() ==
+          searchTerm.toLowerCase()
+        ) {
+          this.venuarr.push(this.venuarrOrg[i]);
+        }
+      }
+      
+    }
+
+    var newVenuArr = [];
+    for (var i = 0; i < this.venuarr.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(this.venuarr[i].lattitude),
+          lng: parseFloat(this.venuarr[i].longitude),
+        },
+        title: "" + this.venuarr[i].availability_count,
         name: this.venuarr[i].name,
         venueId: this.venuarr[i].venues_id,
         options: {
@@ -1622,11 +2457,54 @@ export class LocationmapPage implements OnInit {
     this.venuarr = [];
     this.venuarr = newVenuArr;
     this.markers = this.venuarr;
+    console.log('results: ',this.markers);
+    
+  }
+
+  searchAndFilterEventItems(searchTerm: any) {
+    this.eventarr = [];
+    for (var i = 0; i < this.eventArrOrg.length; i++) {
+      if (
+        this.eventArrOrg[i].events_genre.toLowerCase() ==
+        searchTerm.toLowerCase()
+      ) {
+        this.eventarr.push(this.eventArrOrg[i]);
+      }
+    }
+
+    var newEventArr = [];
+    for (var i = 0; i < this.eventarr.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(this.eventarr[i].lattitude),
+          lng: parseFloat(this.eventarr[i].longitude),
+        },
+        title: "" + this.eventarr[i].availability_count,
+        name: this.eventarr[i].name,
+        eventId: this.eventarr[i].events_id,
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+      newEventArr.push(obj);
+    }
+
+    this.eventarr = [];
+    this.eventarr = newEventArr;
+    this.markers = this.eventarr;
+    console.log('results: ',this.markers);
     
   }
 
   getTime(val:any){
-    
     return val.substring(0,5);
   }
 
@@ -1640,7 +2518,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].public_check_ins,
+        title: "" + this.venuarrOrg[i].availability_count,
         name: this.venuarrOrg[i].name,
         venueId:this.venuarrOrg[i].venues_id,
         
@@ -1663,6 +2541,47 @@ export class LocationmapPage implements OnInit {
     this.markers = this.venuarr;
     console.log("Venuarr : ",this.venuarr);
     console.log("markersArr : ",this.markers);
+  }
+
+  makeEventMarkerArray() {
+    this.eventarr = [];
+    console.log("Eventarr ORG: ",this.eventArrOrg);
+    
+    for (var i = 0; i < this.eventArrOrg.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(this.eventArrOrg[i].lattitude),
+          lng: parseFloat(this.eventArrOrg[i].longitude),
+        },
+        title: "" + this.eventArrOrg[i].availability_count,
+        name: this.eventArrOrg[i].name,
+        eventId:this.eventArrOrg[i].events_id,
+        
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+
+      this.eventarr.push(obj);
+    }
+    // this.eventMarkers = this.eventarr;
+    
+    for (let index = 0; index < this.eventarr.length; index++) {
+      this.markers.push(this.eventarr[index]);
+    }
+    // let mark = [];
+    // mark.
+    console.log("EventArr : ",this.eventarr);
+    console.log("markersArr : ",this.markers);
+    this.allVenueEventMarkers = this.markers;
   }
 
   getCurrentLocation(){
@@ -1703,7 +2622,8 @@ export class LocationmapPage implements OnInit {
     }
     
     this.showCategories = false;
-    this.showfilter = false;
+    this.showCrowdfilters = false;
+    this.showEventCategories = false;
     this.map.googleMap?.setZoom(13);
   }
 
@@ -1725,7 +2645,7 @@ export class LocationmapPage implements OnInit {
           lat: parseFloat(this.venuarrOrg[i].lattitude),
           lng: parseFloat(this.venuarrOrg[i].longitude),
         },
-        title: "" + this.venuarrOrg[i].public_check_ins,
+        title: "" + this.venuarrOrg[i].availability_count,
         name: this.venuarrOrg[i].name,
         venueId: this.venuarrOrg[i].venues_id,
         options: {
@@ -1750,23 +2670,54 @@ export class LocationmapPage implements OnInit {
     this.showCategories = false;
   }
 
-  async HideFilter() {
-    this.searchObject = "";
-    this.showfilter = false;
-   
+  setEventMarkersAgain(){
+    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+    this.showEventDetail = false;
+    this.map.googleMap?.setZoom(13);
+    this.center = {
+      lat: this.currentLatitude,
+      lng: this.currentLongitude,
+    };
+    this.eventarr = [];
+    // this.markers = [];
+    console.log("EventArr ORG: ",this.eventArrOrg);
+    
+    for (var i = 0; i < this.eventArrOrg.length; i++) {
+      var obj = {
+        position: {
+          lat: parseFloat(this.eventArrOrg[i].lattitude),
+          lng: parseFloat(this.eventArrOrg[i].longitude),
+        },
+        title: "" + this.eventArrOrg[i].availability_count,
+        name: this.eventArrOrg[i].name,
+        eventId: this.eventArrOrg[i].events_id,
+        options: {
+          animation: google.maps.Animation.DROP,
+          draggable: false,
+          icon: {
+            url: "assets/imgs/locpin2.svg",
+            size: {
+              height: 48,
+              width: 48,
+            },
+          },
+        },
+      };
+
+      this.eventarr.push(obj);
+    }
+
+    this.markers = this.eventarr;
+    console.log("EventArr : ",this.eventarr);
+    console.log("markersArr : ",this.markers);
+    this.showEventCategories = false;
   }
 
-  // async goTOinfopage() {
-  //   this.HideFilter();
-
-  //   const modal = await this.modalCtrl.create({
-  //     component: PininfoPage,
-  //     cssClass: "pinModal",
-  //   });
-  //   await modal.present();
-
-  //   this.modalopen = 1;
-  // }
+  async HideFilter() {
+    this.searchObject = "";
+    this.searchEventObject = "";
+    this.showCrowdfilters = false;
+  }
 
   gotodetail() {
     this.rest.detail = this.searchObject;
@@ -1774,9 +2725,16 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["venuedetail"]);
   }
 
+  gotoEventdetail() {
+    this.rest.detail = this.searchEventObject;
+    this.HideFilter();
+    this.router.navigate(["eventdetail"]);
+  }
+
   ngAfterViewInit(): void {}
 
   async ngOnInit() {
+
     Keyboard.addListener('keyboardWillShow', () => {
       console.log('keyboard will show');
       SpeechRecognition.stop();
@@ -1821,7 +2779,7 @@ export class LocationmapPage implements OnInit {
   //         lat: parseFloat(this.venuarrOrg[i].lattitude),
   //         lng: parseFloat(this.venuarrOrg[i].longitude),
   //       },
-  //       title: "" + this.venuarrOrg[i].public_check_ins,
+  //       title: "" + this.venuarrOrg[i].availability_count,
   //       name: this.venuarrOrg[i].name,
   //       icon: {
   //         url: "assets/imgs/locpin.svg",
@@ -1908,8 +2866,13 @@ export class LocationmapPage implements OnInit {
     
     console.log("markerobj-----------", markerobj);
     console.log("content title-----------", content);
-
-    this.filterArrypin(markerobj.venueId);
+    if(markerobj.venueId){
+      this.searchEventObject = '';
+      this.filterArrypin(markerobj.venueId);
+    }else{
+      this.searchObject = '';
+      this.filterEventArrypin(markerobj.eventId);
+    }
   }
 
   async filterArrypin(searchTerm: any) {
@@ -1940,9 +2903,45 @@ export class LocationmapPage implements OnInit {
     console.log("this.searchObject: ",this.searchObject);
     this.showDetail = true;
     this.rest.pinobject = this.searchObject;
-    this.getDirections();
+    // this.getDirections();
     this.showCategories = false;
-    this.showfilter = false;
+    this.showCrowdfilters = false;
+    // this.goTOinfopage();
+  }
+  async filterEventArrypin(searchTerm: any) {
+    for (var i = 0; i < this.eventArrOrg.length; i++) {
+      // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
+      if (this.eventArrOrg[i].events_id == searchTerm) {
+        this.searchEventObject = this.eventArrOrg[i];
+        // let dayNumber = getDay(new Date());
+        // console.log(dayNumber);
+        // if(this.searchObject.venue_timing[dayNumber].start_hours != null && this.searchObject.venue_timing[dayNumber].close_hours != null){
+      
+          // this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
+          // this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
+
+          // parsed time
+          // this.searchObject.start_hours = parse(this.searchObject.start_hours, 'HH:mm:ss', new Date());
+          // this.searchObject.close_hours = parse(this.searchObject.close_hours, 'HH:mm:ss', new Date());
+          this.searchEventObject.formatted_start_time = parse(this.searchEventObject.event_start_time, 'HH:mm:ss', new Date());
+          this.searchEventObject.formatted_end_time = parse(this.searchEventObject.event_end_time, 'HH:mm:ss', new Date());
+          //formated time
+          this.searchEventObject.formatted_start_time = format(this.searchEventObject.formatted_start_time, 'h:mma');
+          this.searchEventObject.formatted_end_time = format(this.searchEventObject.formatted_end_time, 'h:mma');
+        // }
+        // else{
+          // this.searchObject.start_hours = null;
+          // this.searchObject.close_hours = null;
+        // }
+
+      }
+    }
+    console.log("this.searchObject event: ",this.searchEventObject);
+    this.showEventDetail = true;
+    this.rest.pinobject = this.searchEventObject;
+    // this.getDirections();
+    this.showEventCategories = false;
+    this.showCrowdfilters = false;
     // this.goTOinfopage();
   }
 
@@ -1963,15 +2962,48 @@ export class LocationmapPage implements OnInit {
     }
   }
 
-  likeDislikeUServenu(events_id: any) {
-    console.log(events_id);
+  likeDislikeUServenu(venues_id: any) {
+    console.log(venues_id);
     var ss = JSON.stringify({
       users_customers_id: this.userID,
-      venues_id: events_id,
+      venues_id: venues_id,
     });
 
     console.log(ss);
     this.rest.venues_like_unlike(ss).subscribe((res: any) => {
+      console.log(res);
+    });
+  }
+
+  likeevent() {
+    console.log("likeEvent", this.searchEventObject);
+
+    if (this.searchEventObject.likes == 0) {
+      this.searchEventObject.likes = 1;
+      this.likeDislikeUSerEvents(this.searchEventObject.events_id);
+    }
+  }
+
+  likeoutevent() {
+    console.log("likeoutevent", this.searchEventObject);
+
+    if (this.searchEventObject.likes == 1) {
+      this.searchEventObject.likes = 0;
+      this.likeDislikeUSerEvents(this.searchEventObject.events_id);
+    }
+  }
+
+  likeDislikeUSerEvents(events_id: any) {
+    console.log(events_id);
+
+    var ss = JSON.stringify({
+      users_customers_id: this.userID,
+      events_id: events_id,
+    });
+
+    console.log(ss);
+
+    this.rest.events_like_unlike(ss).subscribe((res: any) => {
       console.log(res);
     });
   }

@@ -64,6 +64,8 @@ export class PaymentmethodPage implements OnInit {
     let data = {
       users_business_id: this.rest.billDetails.user_business_id
     }
+    console.log(data);
+    
     this.rest.presentLoader();
     this.rest.sendRequest('get_business_payment_gateway',data).subscribe((res:any)=>{
       console.log("get_payment_method resss", res);

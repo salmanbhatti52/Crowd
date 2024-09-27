@@ -103,8 +103,12 @@ export class HomePage implements OnInit {
   ) {
     if(!this.platform.is("mobileweb")){
       console.log('Requesting permissions');
+      
     }
-
+    // this.rest.sendNotification().subscribe((res:any)=>{
+    //   console.log('send Notification Res: ',res);
+      
+    // });
     // this.lottieConfig = {
     //   path: 'assets/animation.json', // Path to your Lottie animation file
     //   renderer: 'svg', // 'svg', 'canvas', 'html'
@@ -237,6 +241,7 @@ export class HomePage implements OnInit {
       }      
     });
   }
+  
   getEventAIKeywords(){
     let data = {
       "customer_id":this.userID
@@ -274,57 +279,61 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.segmentModel = 'venu';
-
-    Keyboard.addListener('keyboardWillShow', () => {
-      console.log('keyboard will show');
-      SpeechRecognition.stop();
-      this.inputFeatureActive = true;
-      this.keyboardIsVisible = true;
-      this.listening = false;
-      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
-      console.log("listening: ",this.listening);
-      this.changeDetectorRef.detectChanges();
-    });
-
-    Keyboard.addListener('keyboardWillHide', () => {
-      console.log('keyboard will hide');
-      this.keyboardIsVisible = false;
-      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+    if(this.platform.is('capacitor')){
+      console.log('plaform is capacitor based');
       
-      if(this.typedText == ''){
-        this.inputFeatureActive = false;
-      }
-      console.log('input feature active: ',this.inputFeatureActive);
-
-      this.changeDetectorRef.detectChanges();
-      
-      if(this.typedText != '' ){
-        console.log('back button pressed 2');
+      Keyboard.addListener('keyboardWillShow', () => {
+        console.log('keyboard will show');
+        SpeechRecognition.stop();
+        this.inputFeatureActive = true;
+        this.keyboardIsVisible = true;
+        this.listening = false;
+        console.log("keyboardIsVisible: ",this.keyboardIsVisible);
+        console.log("listening: ",this.listening);
+        this.changeDetectorRef.detectChanges();
+      });
+  
+      Keyboard.addListener('keyboardWillHide', () => {
+        console.log('keyboard will hide');
+        this.keyboardIsVisible = false;
+        console.log("keyboardIsVisible: ",this.keyboardIsVisible);
         
-        if(this.segmentModel == "venu"){
-          this.venuarr = this.venuarrOrg;
-          this.filtertype = "no"; 
-          this.noevenu = 0;
+        if(this.typedText == ''){
+          this.inputFeatureActive = false;
         }
-        else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
-          this.filteredReservationsArr = this.reservationsArr;
-          this.reservationFilter = "no";
-          this.noReservations = 0;
-        }
-        else if(this.segmentModel == 'event'){
-          this.eventarr = this.eventsArrayCopy;
-          this.filterTypeEv = "no";
-          this.noevent = 0;
-        }else{
-    
-        }
-
-        this.dismissModal();
-        this.findResults(this.typedText);
-
-      }
+        console.log('input feature active: ',this.inputFeatureActive);
+  
+        this.changeDetectorRef.detectChanges();
+        
+        if(this.typedText != '' ){
+          console.log('back button pressed 2');
+          
+          if(this.segmentModel == "venu"){
+            this.venuarr = this.venuarrOrg;
+            this.filtertype = "no"; 
+            this.noevenu = 0;
+          }
+          else if(this.segmentModel == "reservation"  && this.reservationFeature == 'On'){
+            this.filteredReservationsArr = this.reservationsArr;
+            this.reservationFilter = "no";
+            this.noReservations = 0;
+          }
+          else if(this.segmentModel == 'event'){
+            this.eventarr = this.eventsArrayCopy;
+            this.filterTypeEv = "no";
+            this.noevent = 0;
+          }else{
       
-    });
+          }
+  
+          this.dismissModal();
+          this.findResults(this.typedText);
+  
+        }
+        
+      });
+    }
+    
   }
 
   
@@ -334,59 +343,59 @@ export class HomePage implements OnInit {
     this.clearInactivityTimeout();
   }
 
-  alwaysSendCurrentLocation() {
-    this.intervalId = setInterval(()=>{
-      this.alwaysGetCurrentPosition();
-    }, 300000);
-  }
+  // alwaysSendCurrentLocation() {
+  //   this.intervalId = setInterval(()=>{
+  //     this.alwaysGetCurrentPosition();
+  //   }, 300000);
+  // }
 
-  async alwaysGetCurrentPosition() {
+  // async alwaysGetCurrentPosition() {
     
-    const getCurrentLocation = await Geolocation.getCurrentPosition({
-      // enableHighAccuracy: true,
+  //   const getCurrentLocation = await Geolocation.getCurrentPosition({
+  //     // enableHighAccuracy: true,
 
-    });
+  //   });
     
-    console.log("Current Location: ", getCurrentLocation);
-    this.currentLat = getCurrentLocation.coords.latitude;
-    this.currentLong = getCurrentLocation.coords.longitude;
+  //   console.log("Current Location: ", getCurrentLocation);
+  //   this.currentLat = getCurrentLocation.coords.latitude;
+  //   this.currentLong = getCurrentLocation.coords.longitude;
 
-    if(this.firstTimeLat == undefined && this.firstTimeLong == undefined){
-      this.firstTimeLat = this.currentLat;
-      this.firstTimeLong = this.currentLong;
-    }else{
-      const isWithinRadius = this.locationService.isWithinRadius(this.firstTimeLat,this.firstTimeLong,this.currentLat,this.currentLong,this.radiusInMeters);
-      if(isWithinRadius){
-        console.log('user location not changed, user in inside the venue');
-      }else{
-        this.timeInMinutes = 0;
-        this.firstTimeLat = this.currentLat;
-        this.firstTimeLong = this.currentLong;
-      }
-    }
+  //   if(this.firstTimeLat == undefined && this.firstTimeLong == undefined){
+  //     this.firstTimeLat = this.currentLat;
+  //     this.firstTimeLong = this.currentLong;
+  //   }else{
+  //     const isWithinRadius = this.locationService.isWithinRadius(this.firstTimeLat,this.firstTimeLong,this.currentLat,this.currentLong,this.radiusInMeters);
+  //     if(isWithinRadius){
+  //       console.log('user location not changed, user in inside the venue');
+  //     }else{
+  //       this.timeInMinutes = 0;
+  //       this.firstTimeLat = this.currentLat;
+  //       this.firstTimeLong = this.currentLong;
+  //     }
+  //   }
 
-    console.log("getCurrentPositionCalled");
+  //   console.log("getCurrentPositionCalled");
     
-    console.log("currentLat: ", this.currentLat);
-    console.log("currentLong: ", this.currentLong);
+  //   console.log("currentLat: ", this.currentLat);
+  //   console.log("currentLong: ", this.currentLong);
 
-    let data = {
-      customer_id:this.userID,  
-      current_longitude:this.currentLong,
-      current_latitude:this.currentLat,
-      location_time: this.timeInMinutes,
-    }
+  //   let data = {
+  //     customer_id:this.userID,  
+  //     current_longitude:this.currentLong,
+  //     current_latitude:this.currentLat,
+  //     location_time: this.timeInMinutes,
+  //   }
   
-    console.log("Update Location Payloads: ",data);
+  //   console.log("Update Location Payloads: ",data);
     
 
-    this.rest.sendRequest('updateLocation',data).subscribe((res:any)=>{
-      console.log('send current location res: ',res);
-    });
+  //   this.rest.sendRequest('updateLocation',data).subscribe((res:any)=>{
+  //     console.log('send current location res: ',res);
+  //   });
     
-    this.timeInMinutes+=5;
+  //   this.timeInMinutes+=5;
   
-  }
+  // }
 
   getClaimedVenues(){
     let data = {
@@ -2693,14 +2702,14 @@ export class HomePage implements OnInit {
     this.pageNumber = 1;
     console.log("records_limit----", this.records_limit);
     this.userID = JSON.parse(this.userdata).users_customers_id;
-    if(this.timeInMinutes == 0){
-      this.alwaysSendCurrentLocation();
-      console.log("time in minutes:",this.timeInMinutes);
-      console.log("time in minutes is not zero");
+    // if(this.timeInMinutes == 0){
+    //   this.alwaysSendCurrentLocation();
+    //   console.log("time in minutes:",this.timeInMinutes);
+    //   console.log("time in minutes is not zero");
       
-    }else{
-      console.log("time in minutes:",this.timeInMinutes);      
-    }
+    // }else{
+    //   console.log("time in minutes:",this.timeInMinutes);      
+    // }
     
     this.getClaimedVenues();
     this.getVenueAIKeywords();
@@ -2745,7 +2754,7 @@ export class HomePage implements OnInit {
         
         this.rest.dismissLoader();
       }
-
+      this.getEvents();
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
@@ -2909,11 +2918,13 @@ export class HomePage implements OnInit {
           });
          
           this.eventsArrayCopy = this.eventarr
+          this.rest.eventArrHome = this.eventarr;
         }else{
           this.eventsArrayCopy = res.data.sort((a: any, b: any) => {
             // console.log("test");
             return a.distance - b.distance;
           });
+          this.rest.eventArrHome = this.eventarr;
         }
         
       } else {
