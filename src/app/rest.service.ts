@@ -53,6 +53,7 @@ export class RestService {
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   private appID = 'dbcd73be-ee2e-42b8-a165-146f91116f0b'; // Replace with your OneSignal App ID
   private apiUrl = 'https://onesignal.com/api/v1/notifications';
+  comingForLoc: boolean = false;
   constructor(
     public toastCtrl: ToastController,
     private http: HttpClient,

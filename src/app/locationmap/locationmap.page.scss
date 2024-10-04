@@ -248,14 +248,21 @@
   }
 
   .filtertextClear{
-    // margin-top: 153px;
     font-style: normal;
     font-weight: 400;
     font-size: 10px;
     line-height: 149.8%;
     color: #ffffff;
-    text-align: right;
     margin-right: 10px;
+    position: absolute;
+    right: 12px;
+    top: 80px;
+    background: #8D2FB9;
+    height: 20px;
+    padding: 2px 5px 5px;
+    text-align: center;
+    border-radius: 10px;
+    width: 65px;
   }
 
   .md .searchtop{
@@ -280,6 +287,13 @@
     margin-top: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
     // width:auto !important; /* Set the desired width */
+  }
+
+  ::ng-deep .gm-style .gm-style-iw-t {
+    position: absolute;
+    width: 100%;
+    left: -7px;
+    top: -51px;
   }
   
   ::ng-deep .gm-style-iw img {
@@ -334,7 +348,8 @@
   }
 
   .md .loc_info  {
-    background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    // background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    background: #8D2FB9;
     display: flex;
     /* width: 84%; */
     margin: 6px 12px;
@@ -346,43 +361,44 @@
 
   .md .crowd_filter{
     position: absolute;
-    right: 75px;
-    bottom: 38.8%;
+    right: 73px;
+    bottom: 39.3%;
     display: flex;
   }
 
   .ios .crowd_filter{
     position: absolute;
-    right: 75px;
-    bottom: 39%;
+    right: 73px;
+    bottom: 39.3%;
     display: flex;
   }
 
   .md .categories_filter{
     position: absolute;
-    right: 75px;
-    bottom: 49.8%;
+    right: 73px;
+    bottom: 50.3%;
     display: flex;
+
   }
 
   .ios .categories_filter{
     position: absolute;
-    right: 75px;
-    bottom: 50%;
+    right: 73px;
+    bottom: 50.3%;
     display: flex;
   }
 
   .md .events_filter{
     position: absolute;
-    right: 75px;
-    bottom: 27.8%;
+    right: 73px;
+    bottom: 28.3%;
     display: flex;
   }
 
   .ios .events_filter{
     position: absolute;
-    right: 75px;
-    bottom: 28%;
+    right: 73px;
+    bottom: 28.3%;
     display: flex;
   }
   // #custom-infowindow {
@@ -400,23 +416,25 @@
     background: #740899;
     color: white;
     text-align: center;
-    border-radius: 15px;
-    height: 42px;
-    font-size: 14px;
-    font-weight: 400;
-    margin-right: 9px;
-    padding: 10px 13px;
+    border-radius: 12px;
+    height: 37px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 6px;
+    padding: 9px 6px;
+    width: 87px;
   }
   .event_filter_btn{
     background: white;
     color: #690C8E;
     text-align: center;
-    border-radius: 15px;
-    height: 42px;
-    font-size: 14px;
+    border-radius: 12px;
+    height: 37px;
+    font-size: 13px;
     font-weight: 500;
-    margin-right: 9px;
-    padding: 10px 13px;
+    margin-right: 6px;
+    padding: 9px 6px;
+    width: 87px;
   }
   .pdt-10{
     padding-top: 10px;
@@ -430,7 +448,8 @@
   }
   
   .ios .loc_info  {
-    background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    // background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
+    background: #8D2FB9;
     display: flex;
     /* width: 84%; */
     margin: 6px 13px;

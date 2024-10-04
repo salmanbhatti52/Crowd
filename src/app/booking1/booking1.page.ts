@@ -7,6 +7,7 @@ import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, getDaysInMont
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 import { ModalController, NavController } from "@ionic/angular";
 import { CalendarPage } from "../calendar/calendar.page";
+import { error } from "console";
 
 @Component({
   selector: "app-booking1",
@@ -97,6 +98,7 @@ export class Booking1Page implements OnInit {
   // venueCloseHours:any;
   selectedVenue: any = "";
   userID: any = "";
+  venueHoursDay: any;
 
   constructor(
     public location: Location,
@@ -118,6 +120,9 @@ export class Booking1Page implements OnInit {
     this.currentMonthNumber = this.selectedMonthNumber;
     this.selectedYearNumber = getYear(new Date());
     this.selectedDayNumber = this.todayDayNumber;
+    
+    
+    
     // =================setting day numbers in month from today to last date of month=====================
     this.daysInMonth = [];
     for (let index = 0; index < this.remainingDaysCountInMonth; index++) {
@@ -153,6 +158,12 @@ export class Booking1Page implements OnInit {
     });
     console.log("this.daysNamesAndNumbers",this.daysNamesAndNumbers);
     
+    for (let index:any = 0; index < this.daysNamesAndNumbers.length; index++) {
+      if(this.selectedDayNumber == this.daysNamesAndNumbers[index].number ){
+        this.selectDay(this.daysNamesAndNumbers[index]);
+      }
+    }
+    
   }
 
   ngOnInit() {}
@@ -161,8 +172,30 @@ export class Booking1Page implements OnInit {
     this.location.back();
   }
 
-  selectDay(dayNumber:any){
-    this.selectedDayNumber = dayNumber;
+  selectDay(day:any){
+    this.selectedDayNumber = day.number;
+    console.log(day);
+    console.log(this.selectedDayNumber);
+    if(day.name == "Sun"){
+      this.venueHoursDay = 1;
+    }else if(day.name == "Mon"){
+      this.venueHoursDay = 2;
+    }else if(day.name == "Tue"){
+      this.venueHoursDay = 3;
+    }else if(day.name == "Wed"){
+      this.venueHoursDay = 4;
+    }else if(day.name == "Thu"){
+      this.venueHoursDay = 5;
+    }else if(day.name == "Fri"){
+      this.venueHoursDay = 6;
+    }else if(day.name == "Sat"){
+      this.venueHoursDay = 7;
+    }else {
+
+    }
+    console.log("venueHoursDay: ",this.venueHoursDay);
+    
+    
   }
 
   // ====================================custom calendar code start here===========================================
@@ -263,6 +296,12 @@ export class Booking1Page implements OnInit {
     });
 
     console.log(this.daysNamesAndNumbers);
+
+    for (let index:any = 0; index < this.daysNamesAndNumbers.length; index++) {
+      if(this.selectedDayNumber == this.daysNamesAndNumbers[index].number ){
+        this.selectDay(this.daysNamesAndNumbers[index]);
+      }
+    }
     
   }
 
@@ -354,6 +393,7 @@ export class Booking1Page implements OnInit {
       var ss = JSON.stringify({
         venues_id: this.selectedVenue.venues_id,
         users_customers_id: this.userID,
+        venues_hours_days: this.venueHoursDay,
         no_of_diners: this.people,
         bookings_date: this.myDate,
         claim_discounts:discountStatus,
@@ -375,6 +415,9 @@ export class Booking1Page implements OnInit {
         } else {
           this.rest.presentToast(res.message);
         }
+      },(error:any)=>{
+        console.log(error);
+        this.rest.presentToast(error.error.message);
       });
     }
   }

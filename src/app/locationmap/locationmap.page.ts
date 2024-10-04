@@ -7,6 +7,9 @@ import {
   ViewChild,
   Renderer2,
   ChangeDetectorRef,
+  ViewChildren,
+  QueryList,
+  // AfterViewInit,
 } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -49,6 +52,7 @@ export class LocationmapPage implements OnInit {
   modal!: IonModal;
   @ViewChild('welcomeMessage', { static: false })
   welcomeMessage!: ElementRef;
+  @ViewChildren('markerElem') markerElems!: QueryList<MapMarker>;
 
   foundVenue :any;
 
@@ -366,6 +370,9 @@ export class LocationmapPage implements OnInit {
   inputFeatureActive = false;
   keyboardIsVisible = false;
   allVenueEventMarkers: any;
+  detailObj: any;
+  markerElements: Map<MapMarker, any> = new Map();
+  // sffr:boolean =  Boolean();
   // showMicIcon = false;
 
   constructor(
@@ -393,21 +400,42 @@ export class LocationmapPage implements OnInit {
   //   throw new Error("Method not implemented.");
   // }
 
-  clearSearchObject(){
+  collectMarkers() {
+    this.changeDetectorRef.detectChanges(); // Detect changes and update the view
+
+    this.markerElements.clear(); // Clear any existing map entries
+    const markerArray = this.markerElems.toArray();
+
+    markerArray.forEach((markerElem, index) => {
+      
+      const markerData = this.markers[index];
+
+      if (markerData && markerData.name) {
+        this.markerElements.set(markerData.name, markerElem); // Map each marker by its unique ID
+      }
+
+    });
+
+    console.log('markerElems:', this.markerElems);
+    console.log('markerElements:', this.markerElements);
+  }
+
+
+  async clearSearchObject(){
     this.searchObject = '';
     this.infoContent = '';
     this.infoWindow.close();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
-    this.getCurrentLocation();
+    await this.getCurrentLocation();
     // this.renderOptions
   }
 
-  clearSearchEventObject(){
+  async clearSearchEventObject(){
     this.searchEventObject = '';
     this.infoContent = '';
     this.infoWindow.close();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
-    this.getCurrentLocation();
+    await this.getCurrentLocation();
     // this.renderOptions
   }
 
@@ -2121,7 +2149,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-   
+    await this.getCurrentLocation();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
@@ -2148,9 +2176,10 @@ export class LocationmapPage implements OnInit {
     this.getEventAIKeywords();
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
-
-    this.getCurrentLocation();
     this.map.googleMap?.setZoom(13);
+
+    
+    
   }
   
 
@@ -2239,6 +2268,8 @@ export class LocationmapPage implements OnInit {
 
 
   clearFilter() {
+    this.clearSearchObject();
+    this.clearSearchEventObject();
     this.HideFilter();
     this.filtertype = "no";
     this.venuarr = this.venuarrOrg;
@@ -2572,22 +2603,52 @@ export class LocationmapPage implements OnInit {
 
       this.eventarr.push(obj);
     }
-    // this.eventMarkers = this.eventarr;
     
     for (let index = 0; index < this.eventarr.length; index++) {
       this.markers.push(this.eventarr[index]);
     }
-    // let mark = [];
-    // mark.
+   
     console.log("EventArr : ",this.eventarr);
     console.log("markersArr : ",this.markers);
     this.allVenueEventMarkers = this.markers;
+
+    this.collectMarkers();
+    this.openRequestedMarker();
+    
+    
   }
 
-  getCurrentLocation(){
+  openRequestedMarker() {
+    if(this.rest.comingForLoc == true){
+      this.detailObj = this.rest.detail;
+      console.log('detail object: ',this.detailObj);
+      this.rest.comingForLoc = false;
+
+      if(this.detailObj.name){
+        const marker = this.markerElements.get(this.detailObj.name);
+        const markerData = this.markers.find((m: { name: any; }) => m.name === this.detailObj.name);
+        if (marker && markerData) {
+          console.log('found marker: ',marker);
+          console.log('found markerData: ',markerData);
+
+          this.openInfo(marker, markerData.title, markerData);
+          if(this.detailObj.venues_id){
+            this.getDirections();
+          }else if(this.detailObj.events_id){
+            this.getEventDirections();
+          }else{
+            
+          }
+        }
+      }
+      
+    }
+  }
+
+  getCurrentLocation = async()=>{
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
+      try {
+        const position = await this.getPosition();
           const pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -2611,11 +2672,14 @@ export class LocationmapPage implements OnInit {
               },
             },
           };
-        },
-        () => {
-          // handleLocationError(true, infoWindow, map.getCenter()!);
-        }
-      );
+          this.map.googleMap?.setZoom(13);
+      } catch (error) {
+        console.error('Error getting position', error);
+      }
+      
+
+      
+
     } else {
       // Browser doesn't support Geolocation
       // handleLocationError(false, infoWindow, map.getCenter()!);
@@ -2624,7 +2688,12 @@ export class LocationmapPage implements OnInit {
     this.showCategories = false;
     this.showCrowdfilters = false;
     this.showEventCategories = false;
-    this.map.googleMap?.setZoom(13);
+  }
+
+  getPosition():Promise<GeolocationPosition>{
+    return new Promise((resolve,reject)=>{
+      navigator.geolocation.getCurrentPosition(resolve,reject);
+    })
   }
 
   setMarkersAgain(){
@@ -2714,6 +2783,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async HideFilter() {
+    
     this.searchObject = "";
     this.searchEventObject = "";
     this.showCrowdfilters = false;
@@ -2731,7 +2801,6 @@ export class LocationmapPage implements OnInit {
     this.router.navigate(["eventdetail"]);
   }
 
-  ngAfterViewInit(): void {}
 
   async ngOnInit() {
 
@@ -2856,8 +2925,10 @@ export class LocationmapPage implements OnInit {
 
   infoContent: string | undefined;
 
-  openInfo(marker: MapMarker | undefined, content: string, markerobj: any) {
-  
+  openInfo(marker: MapMarker | undefined | any, content: string, markerobj: any) {
+    // this.clearSearchObject();
+    // this.clearSearchEventObject();
+    this.filtertype = 'yes';
     this.infoContent = content;
     if(marker){
       this.infoWindow.open(marker);

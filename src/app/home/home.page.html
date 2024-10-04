@@ -393,11 +393,9 @@
   
   <!-- (click)="startSpeechRecognition()" -->
   <ion-fab slot="fixed" vertical="center" horizontal="end">
-    <ion-fab-button  [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
+    <ion-fab-button style="--background: transparent;height: 60px;width: 60px;"  [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
       <img (click)="setOpenValueForAI(true)"   
-       style="height: 58px;
-       width: 58px;"
-       src="../../assets/imgs/icons/ora_ai_btn.jpg" alt="">
+       src="../../assets/imgs/icons/ora_ai_btn.png" alt="">
     </ion-fab-button>
   </ion-fab>
   <!-- [initialBreakpoint]="1" [breakpoints]="[0, 1]" -->

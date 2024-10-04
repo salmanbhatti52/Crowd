@@ -64,8 +64,8 @@
   
   <!-- (click)="startSpeechRecognition()" -->
   <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map"   style="position: fixed;z-index: 11;
-  right: 15px;
-  bottom: 62%; height: 58px; width: 58px;border-radius: 100px;"  src="../../assets/imgs/icons/ora_ai_btn.jpg" alt="">
+  right: 10px;
+  bottom: 62%; height: 60px; width: 60px;border-radius: 100px;"  src="../../assets/imgs/icons/ora_ai_btn.png" alt="">
 
   <ion-modal  trigger="open-modal-map" [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()"   (ionModalWillDismiss)="dismissModal()" >
     <ng-template>
@@ -86,7 +86,11 @@
                   --handle-width: 13px;
                   width: 40px;
                 "
-              ></ion-toggle>
+          ></ion-toggle>
+
+          <ion-icon *ngIf="toggleThemeChecked" style="color: white;height: 20px;width: 20px;" name="moon"></ion-icon>
+          <ion-icon *ngIf="!toggleThemeChecked" style="color: black;height: 20px;width: 20px;" name="sunny"></ion-icon>
+
           <img *ngIf="toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
           <img *ngIf="!toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close_black.svg" alt="">
 
@@ -191,8 +195,8 @@
     right: 12px;
     bottom: 51%; "
     >
-    <img style="height: 60px;
-    width: 60px;" src="../../assets/imgs/bar_circle.svg" alt="">
+    <img style="height: 58px;
+    width: 58px;" src="../../assets/imgs/bar_circle.svg" alt="">
     
   </div>
 
@@ -211,8 +215,8 @@
     background: #740899;
     
     border-radius: 90px;
-    height: 60px;
-    width: 60px;
+    height: 58px;
+    width: 58px;
     text-align: center;
     padding: 15px 0px;">
     <img  style="height: 27px;width: 27px;" src="../../assets/imgs/icons/group_icon.svg" alt="">
@@ -233,12 +237,12 @@
     background: white;
    
     border-radius: 90px;
-    height: 60px;
-    width: 60px;
+    height: 58px;
+    width: 58px;
     text-align: center;
     padding: 15px 0px;">
     <!-- (click)="getCurrentLocation()" -->
-    <img  style="height: 28px;width: 28px;" src="../../assets/imgs/icons/icon_ticket_purple.svg" alt="">
+    <img  style="height: 28px;width: 30px;" src="../../assets/imgs/icons/icon_ticket_purple.svg" alt="">
     
   </div>
 
@@ -343,11 +347,11 @@
           {{searchObject.name}}
         </p>
 
-        <img (click)="clearSearchObject()" style="position: absolute;
+        <!-- <img (click)="clearSearchObject()" style="position: absolute;
         right: 12px;
         top: 6px;
         height: 16px;
-        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt="">
+        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
 
         <ion-badge 
           *ngIf="searchObject.discount_percentage != 0 && searchObject.discount_percentage != null  && searchObject.venues_id != null"
@@ -355,12 +359,13 @@
             font-size: 10px;
             padding: 8px 10px;
             position: absolute;
-            right: 8px;
-            top: 30px;
+            right: 10px;
+            top: 13px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);;
+            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
             font-weight: 400;
+            width: 60px;
           "
           >{{searchObject.discount_percentage}}% off</ion-badge
         >
@@ -371,8 +376,8 @@
             font-size: 10px;
             padding: 8px 10px;
             position: absolute;
-            right:8px;
-            top: 30x;
+            right: 9px;
+            top: 12px;
             border-radius: 20px;
             /* background: #7825cb; */
             background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
@@ -449,11 +454,11 @@
           {{searchEventObject.name}}
         </p>
 
-        <img (click)="clearSearchEventObject()" style="position: absolute;
+        <!-- <img (click)="clearSearchEventObject()" style="position: absolute;
         right: 12px;
         top: 6px;
         height: 16px;
-        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt="">
+        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
 
         <ion-badge 
           *ngIf="searchEventObject.discount_percentage != 0 && searchEventObject.discount_percentage != null  && searchEventObject.events_id != null"
@@ -461,12 +466,13 @@
             font-size: 10px;
             padding: 8px 10px;
             position: absolute;
-            right: 8px;
-            top: 30px;
+            right: 10px;
+            top: 13px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);;
+            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
             font-weight: 400;
+            width: 60px;
           "
           >{{searchEventObject.discount_percentage}}% off</ion-badge
         >
@@ -477,8 +483,8 @@
             font-size: 10px;
             padding: 8px 10px;
             position: absolute;
-            right:8px;
-            top: 30x;
+            right: 9px;
+            top: 12px;
             border-radius: 20px;
             /* background: #7825cb; */
             background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);

@@ -257,19 +257,25 @@ export class VenuedetailPage implements OnInit {
   }
 
   public goLocation() {
+    this.rest.detail = this.detailObj;
+    this.rest.comingForLoc =true;
+    this.router.navigate(['/locationmap']);
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
-    var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
+    // ----- show in google map-----------
+    // var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
 
-    if (this.platform.is("ios")) {
-      window.open("maps://?q=" + geocoords, "_system");
-    } else {
-      var label = encodeURI(this.detailObj.location); // encode the label!
-      console.log("labellll: ",label);
+    // if (this.platform.is("ios")) {
+    //   window.open("maps://?q=" + geocoords, "_system");
+    // } else {
+    //   var label = encodeURI(this.detailObj.location); // encode the label!
+    //   console.log("labellll: ",label);
       
-      window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
+    //   window.open("geo:0,0?q=" + geocoords + "(" + label + ")", "_system");
 
-      // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
-    }
+    //   // window.open("https://www.google.com/maps/search/?api=1&query=" + geocoords)
+    // }
+      // -------done------------
+  
   }
 
   goWeb() {
