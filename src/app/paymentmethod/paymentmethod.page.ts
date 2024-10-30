@@ -127,59 +127,6 @@ export class PaymentmethodPage implements OnInit {
     return Number.parseFloat(decimalString);
   }
 
-  payCash(paymentType:any){
-    let discountStatus = 'pending';
-    if(this.rest.claimDiscount == true){
-      discountStatus = 'claimed';
-    }
-    if(this.rest.discountedAmount == undefined){
-      this.rest.discountedAmount = 0
-    }
-    let data = {
-      events_id:this.rest.billDetails.event_id,
-      user_id:this.userId,
-      user_business_id:this.rest.billDetails.user_business_id,
-      number_of_ticket:this.rest.billDetails.ticket_requested,
-      package_name:this.rest.billDetails.package_name,
-      package_type:this.rest.billDetails.package_type,
-      package_price: this.rest.billDetails.package_price,
-      booking_percentage: this.rest.booking_percentage,
-      price_per_ticket:this.rest.billDetails.price_per_ticket,
-      total_amount:this.rest.billDetails.total_bill,
-      paid_amount:this.rest.billDetails.pre_pay_amount,
-      remaining_amount: this.rest.billDetails.remaining_amount,
-      transiction_id:this.txnsId,
-      transiction_status:"Paid",
-      payment_type:paymentType,
-      claim_discounts:discountStatus,
-      discounted_amount:this.rest.discountedAmount
-    }
-    console.log('pay with cash dataaa: ',data);
-    this.rest.presentLoader();
-    this.rest.sendRequest('event_bookings',data).subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log("Resssss: ",res);
-      if(res.status == 'success'){
-        this.rest.ticketTokens = res.data.tickets;
-        this.rest.eventBookingId = res.data.event_booking_id;
-        this.rest.eventId = res.data.events_id;
-        this.rest.bookingStatus = res.data.status;
-        this.rest.transactionStatus = res.data.transiction_status;
-
-        this.rest.presentToast('Success');
-        this.paynow();
-      }
-      
-    }
-    // ,(err)=>{
-    //   this.rest.dismissLoader();
-    //   console.log("Errr: ",err );
-      
-    // }
-    )
-    
-  }
-
   async paymentSheet() {
     if(this.userName){
       try {
@@ -222,7 +169,7 @@ export class PaymentmethodPage implements OnInit {
           if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
             this.splitAndJoin(this.paymentIntent);
             console.log("paymentIntent",this.paymentIntent);
-            this.payCash('Stripe');
+            this.saveBookingPaymentInfo('Stripe');
             // Happy path
           }
         }, 3000);
@@ -316,7 +263,7 @@ export class PaymentmethodPage implements OnInit {
             if (result.paymentResult === ApplePayEventsEnum.Completed) {
               this.splitAndJoin(this.paymentIntent);
               console.log("paymentIntent",this.paymentIntent);
-              this.payCash('Apple Pay');
+              this.saveBookingPaymentInfo('Apple Pay');
               // Happy path
               // Happy path
             }
@@ -428,7 +375,7 @@ export class PaymentmethodPage implements OnInit {
               if (result!.paymentResult === GooglePayEventsEnum.Completed) {
                 this.splitAndJoin(this.paymentIntent);
                 console.log("paymentIntent",this.paymentIntent);
-                this.payCash('Google Pay');
+                this.saveBookingPaymentInfo('Google Pay');
                 // Happy path
                 // Happy path
               }
@@ -459,6 +406,59 @@ export class PaymentmethodPage implements OnInit {
     
   }
 
+  saveBookingPaymentInfo(paymentType:any){
+    let discountStatus = 'pending';
+    if(this.rest.claimDiscount == true){
+      discountStatus = 'claimed';
+    }
+    if(this.rest.discountedAmount == undefined){
+      this.rest.discountedAmount = 0
+    }
+    let data = {
+      events_id:this.rest.billDetails.event_id,
+      user_id:this.userId,
+      user_business_id:this.rest.billDetails.user_business_id,
+      number_of_ticket:this.rest.billDetails.ticket_requested,
+      package_name:this.rest.billDetails.package_name,
+      package_type:this.rest.billDetails.package_type,
+      package_price: this.rest.billDetails.package_price,
+      booking_percentage: this.rest.booking_percentage,
+      price_per_ticket:this.rest.billDetails.price_per_ticket,
+      total_amount:this.rest.billDetails.total_bill,
+      paid_amount:this.rest.billDetails.pre_pay_amount,
+      remaining_amount: this.rest.billDetails.remaining_amount,
+      transiction_id:this.txnsId,
+      transiction_status:"Paid",
+      payment_type:paymentType,
+      claim_discounts:discountStatus,
+      discounted_amount:this.rest.discountedAmount
+    }
+    console.log('pay with cash dataaa: ',data);
+    this.rest.presentLoader();
+    this.rest.sendRequest('event_bookings',data).subscribe((res:any)=>{
+      this.rest.dismissLoader();
+      console.log("Resssss: ",res);
+      if(res.status == 'success'){
+        this.rest.ticketTokens = res.data.tickets;
+        this.rest.eventBookingId = res.data.event_booking_id;
+        this.rest.eventId = res.data.events_id;
+        this.rest.bookingStatus = res.data.status;
+        this.rest.transactionStatus = res.data.transiction_status;
+
+        this.rest.presentToast('Success');
+        this.paynow();
+      }
+      
+    }
+    // ,(err)=>{
+    //   this.rest.dismissLoader();
+    //   console.log("Errr: ",err );
+      
+    // }
+    )
+    
+  }
+
   ionViewWillEnter() {
     this.selectedVenue = this.rest.detail;
     this.userdata = localStorage.getItem('userdata');
@@ -473,24 +473,6 @@ export class PaymentmethodPage implements OnInit {
   ngOnInit() {
     
   }
-
-  // async onLoadPaymentData(event:Event){
-  //   const paymentData = (event as CustomEvent<google.payments.api.PaymentData>).detail;
-  //   // await this.storeService.processOrder(
-  //   //   [
-  //   //     {
-  //   //       item: this.item,
-  //   //       quantity: this.quantity,
-  //   //       size: this.size,
-  //   //     },
-  //   //   ],
-  //   //   paymentData,
-  //   // );
-
-  //   console.log("paymentData: ",paymentData);
-    
-
-  // }
 
   goBack() {
     this.location.back();

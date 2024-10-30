@@ -19,132 +19,24 @@
 <ion-content style="--background: #262626">
   <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between; ">
     <div style="height: 10%;"></div>
-     <!-- <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
-      <div class="title work_sans">Cards</div>
 
-      <img (click)="addcard()" src="assets/imgs/plus.svg" />
-    </div>
-
-    <div
-      style="
-        background: #000000;
-        border-radius: 15px;
-        align-items: center;
-        padding: 20px 10px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-      "
-    >
-      <img src="assets/imgs/visa.svg" />
-
-      <p style="margin: 0px" class="total work_sans">************7342</p>
-      <p style="margin: 0px; color: red" class="total work_sans">Delete</p>
-    </div>
-
-    <div
-      style="
-        background: #000000;
-        border-radius: 15px;
-        align-items: center;
-        padding: 20px 10px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-      "
-    >
-      <img src="assets/imgs/visa.svg" />
-
-      <p style="margin: 0px" class="total work_sans">************7342</p>
-      <p style="margin: 0px; color: red" class="total work_sans">Delete</p>
-    </div> -->
     <div style="width: 90%; text-align: center; margin: 5% auto 0px">
       <div class="bt">
         <div style="display: flex; flex-direction: column; align-items: center">
-          
-          <!-- <ion-button expand="block" class="ion-margin-top" (click)="paymentSheet()">Payment Sheet</ion-button>
-          <ion-button expand="block" class="ion-margin-top" (click)="paymentFlow()">Payment Flow</ion-button> -->
-          
-          <!-- <div *ngIf="paymentMethodCash" (click)="payCash()" style="
-            background: #000000;
-            align-items: center;
-            padding: 15px 30px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            border-radius: 50px;
-            width: fit-content;
-            height: fit-content;
-            width: 280px;
-            height: 50px;
-          ">
-            <p style="margin: 0px" class="title roboto">
-              Pay with Cash
-            </p>
-          </div> -->
-
-          <div *ngIf="paymentMethodStripe" (click)="paymentSheet()" style="
-            background: #000000;
-            align-items: center;
-            padding: 15px 30px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            border-radius: 50px;
-            width: fit-content;
-            height: fit-content;
-            width: 280px;
-            height: 50px;
-          ">
+         
+          <div *ngIf="paymentMethodStripe" (click)="paymentSheet()" class="payment_button">
             <p style="margin: 0px" class="title roboto">
               Pay with Credit/Debit card
             </p>
           </div>
-          
   
-          <div *ngIf="android && paymentMethodGooglePay" (click)="googlePay()"
-            style="
-              background: #000000;
-              align-items: center;
-              padding: 15px 30px;
-              margin-top: 10px;
-              margin-bottom: 10px;
-              display: flex;
-              justify-content: center;
-              border-radius: 50px;
-              width: fit-content;
-              height: fit-content;
-              width: 280px;
-              height: 50px;
-            "
-          >
+          <div *ngIf="android && paymentMethodGooglePay" (click)="googlePay()" class="payment_button">
             <p style="margin: 0px" class="title roboto">
               Pay with <img style="margin-left: 4px;" src="../../assets/imgs/google_pay_icon.svg" />
             </p>
           </div>
           
-          <div *ngIf="ios && paymentMethodApplePay" (click)="applePay()"
-            style="
-              background: #000000;
-              align-items: center;
-              padding: 15px 30px;
-              margin-top: 10px;
-              margin-bottom: 10px;
-              display: flex;
-              justify-content: center;
-              border-radius: 50px;
-              width: fit-content;
-              height: fit-content;
-              width: 280px;
-              height: 50px;
-            "
-          >
+          <div *ngIf="ios && paymentMethodApplePay" (click)="applePay()" class="payment_button">
             <p style="margin: 0px" class="title roboto">
               Pay with <img style="margin-left: 4px;" src="../../assets/imgs/apple_pay_icon.svg" />
             </p>
@@ -154,18 +46,7 @@
       </div>
     </div>
     <div style="width: 90%; text-align: center; margin: 5% auto 0px;padding-bottom: 20px;">
-      <div
-        style="
-          background: #000000;
-          border-radius: 15px;
-          height: 112px;
-          align-items: center;
-          padding: 0px 20px;
-          margin-top: 20px;
-          margin-bottom: 10px;
-          padding-top: 22px;
-        "
-      >
+      <div class="pay_info_box">
         <div style="display: flex; justify-content: space-between">
           <p style="margin: 0px" class="total work_sans">Total Amount</p>
           <p style="margin: 0px" class="total work_sans">£{{rest.billDetails.total_bill}}</p>
@@ -176,13 +57,6 @@
           <p style="margin: 0px" class="total work_sans">£{{rest.billDetails.pre_pay_amount}}</p>
         </div>
       </div>
-
-      <!-- <ion-button
-        (click)="paynow()"
-        style="margin-top: 10px; opacity: 1"
-        class="btnbg work_sans"
-        >Pay Now</ion-button
-      > -->
     </div>
   </div>
   <div >
