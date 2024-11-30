@@ -8,10 +8,10 @@ padding: 37px 20px 10px;">
           (click)="cancel()"
           style="height: 24px; width: 20px;
           "
-          src="assets/imgs/backbtn.svg"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       
-      <ion-searchbar  class="ion_search work_sans"  #searchbar  [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+      <ion-searchbar  class="ion_search roboto"  #searchbar  [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
     </div>
     
   
@@ -22,12 +22,12 @@ padding: 37px 20px 10px;">
 
 <ion-content class="ion-padding paddingtop" style="--background: #262626;">
   
-  <!-- <ion-searchbar class="ion_search work_sans"  #searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar> -->
+  <!-- <ion-searchbar class="ion_search roboto"  #searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar> -->
 
   <ion-list style="background: #262626; margin-bottom: 25px;" >
     <ion-item *ngFor="let result of results"  style="--background: #262626;--color:white;--border-color: white;--padding-start: 10px;
     --padding-end: 10px;">
-      <ion-label class="work_sans" style="font-weight: 400;
+      <ion-label class="roboto" style="font-weight: 400;
       font-size: 16px;"  (click)="selectVenue(result)">{{ result.name }}</ion-label>
     </ion-item>
   </ion-list>

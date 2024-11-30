@@ -194,7 +194,7 @@
     }
   
     .bdg{
-        background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+        background: linear-gradient(180deg, #9218a6, #5a0670);
         position: absolute;
         right: 10px;
         bottom: 10px;
@@ -242,17 +242,6 @@
     width: 100%;
     border-radius: 0px;
 }
-   
-
-.titlesub{
-  font-style: normal;
-font-weight: 300;
-font-size: 12px;
-line-height: 14px;
-display: flex;
-align-items: center;
-color: #FFFFFF;
-}
   
   
 .bdgw{
@@ -265,14 +254,25 @@ color: #FFFFFF;
   line-height: 0.8;
 }
 
+.pp{
+  margin: 15px 0px;
+  color: #FFFFFF;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13.7px;
+  line-height: 19px;
+  display: flex;
+}
+
+
 .titlemain{
   // margin-bottom: 8px;
   font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
+  font-weight: bold;
+  font-size: 18px;
   line-height: 23px;
   text-transform: capitalize;
-  color: #AC3DBA;
+  color: white;
 }
 .titlemain2{
   font-style: normal;
@@ -293,7 +293,7 @@ ion-col{
   line-height: 16px;
   display: flex;
   align-items: center;
-  color: #FFFFFF;
+  color: #d9d9d9;
 }
 
 p {
@@ -321,10 +321,32 @@ p {
   vertical-align: baseline;
 }
 
-.rating_text{
+.rating_text_old{
   font-size: 14px;
   font-weight: 300;
   color: white;
+}
+
+.rating_text{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  background: #15171b;
+  border-radius: 8px;
+  padding: 3px 49px;
+  width: 144px;
+  margin-left: auto;
+  margin-bottom: 5px;
+}
+
+.star-icon{
+  margin-left: 3px;
+  height: 14px;
+  width: 14px;
 }
 
 .margin_row{
@@ -343,12 +365,23 @@ padding-left: 11px;
     margin-top: 8px;
 }
 
+.timing_info{
+  font-style: normal;
+    font-weight: 400;
+    font-size: 13.7px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+    margin: 0px 15px 0px 0px;
+    text-align: center;
+}
+
 .btnbg1{
   margin: 25px 0px 0px;
   height: 53px;
-  background: #531C7C;
-  opacity: 0.8;
-  border-radius: 42px;
+  background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+  // opacity: 0.8;
+  border-radius: 16px;
   width: 100%;
   font-style: normal;
   font-weight: 500;
@@ -366,7 +399,7 @@ padding-left: 11px;
   font-size: 12px;
   line-height: 14px;
   text-align: justify;
-  color: #FFFFFF;
+  color: #f7f7f7;
 }
 
 

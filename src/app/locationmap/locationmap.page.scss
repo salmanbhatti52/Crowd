@@ -84,6 +84,18 @@
 
 // =======================done====================
 
+#mapbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* 100% of the viewport height */
+}
+
+/* Ensure the body and html elements take full height as well */
+html, body, ion-app, ion-content {
+  height: 100%;
+}
 
 .bg {
     /* The image used */
@@ -349,7 +361,7 @@
 
   .md .loc_info  {
     // background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
-    background: #8D2FB9;
+    // background: #8D2FB9;
     display: flex;
     /* width: 84%; */
     margin: 6px 12px;
@@ -357,6 +369,7 @@
     position: absolute;
     width: 93%;
     bottom: 73px;
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
   }
 
   .md .crowd_filter{
@@ -413,27 +426,27 @@
   }
 
   .filter_btn{
-    background: #740899;
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
     color: white;
     text-align: center;
-    border-radius: 12px;
-    height: 37px;
-    font-size: 13px;
+    border-radius: 35px;
+    height: 35px;
+    font-size: 12px;
     font-weight: 500;
     margin-right: 6px;
-    padding: 9px 6px;
+    padding: 8px 6px;
     width: 87px;
   }
   .event_filter_btn{
     background: white;
-    color: #690C8E;
+    color: #790e8e;
     text-align: center;
-    border-radius: 12px;
-    height: 37px;
-    font-size: 13px;
-    font-weight: 500;
+    border-radius: 35px;
+    height: 35px;
+    font-size: 12px;
+    font-weight: 600;
     margin-right: 6px;
-    padding: 9px 6px;
+    padding: 8px 6px;
     width: 87px;
   }
   .pdt-10{
@@ -449,7 +462,7 @@
   
   .ios .loc_info  {
     // background: linear-gradient(270deg, #ac3dba 0%, #7825cb 100%);
-    background: #8D2FB9;
+    // background: #8D2FB9;
     display: flex;
     /* width: 84%; */
     margin: 6px 13px;
@@ -457,6 +470,7 @@
     position: absolute;
     width: 93%;
     bottom: 115px;
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
   } 
 
   .or_cls{
@@ -623,7 +637,7 @@
     font-size: 12px;
     line-height: 14px;
     text-align: center;
-    color: #AC3DBA;
+    color: #790e8e;
     margin-top: 6px;
   }
 
@@ -638,7 +652,7 @@
 .titlesub{
   font-style: normal;
 font-weight: 300;
-font-size: 12px;
+font-size: 11px;
 line-height: 14px;
 display: flex;
 align-items: center;

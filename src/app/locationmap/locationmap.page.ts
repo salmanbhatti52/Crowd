@@ -12,7 +12,7 @@ import {
   // AfterViewInit,
 } from "@angular/core";
 import { Router } from "@angular/router";
-
+import mapboxgl from 'mapbox-gl';
 import { IonModal, ModalController, Platform } from "@ionic/angular";
 import {
   GoogleMap,
@@ -39,6 +39,7 @@ import {AnimationOptions  } from 'ngx-lottie';
 })
 export class LocationmapPage implements OnInit {
   ////angular map
+  mapbox!: mapboxgl.Map;
 
   @ViewChild("search")
   public searchElementRef!: ElementRef;
@@ -387,18 +388,9 @@ export class LocationmapPage implements OnInit {
     // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
-    
-    // this.lottieConfig = {
-    //   path: 'assets/animation.json', // Path to your Lottie animation file
-    //   renderer: 'svg', // 'svg', 'canvas', 'html'
-    //   autoplay: true,
-    //   loop: true,
-    // };
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3Jvd2RhcHAiLCJhIjoiY20zcjkxOTE0MDNneTJrc2FkaWtrMHNuYSJ9.Xqwl58YnNlk5HwP6UH4cfQ';
   }
-  // ngOnDestroy(): void {
-  //   this.clearInactivityTimeout();
-  //   throw new Error("Method not implemented.");
-  // }
+
 
   collectMarkers() {
     this.changeDetectorRef.detectChanges(); // Detect changes and update the view
@@ -2149,6 +2141,7 @@ export class LocationmapPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    
     await this.getCurrentLocation();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
@@ -2168,21 +2161,123 @@ export class LocationmapPage implements OnInit {
     this.venuarrOrg = this.rest.venuArrHome;
     this.eventArrOrg = this.rest.eventArrHome;
     console.log("this.venuarrOrg",this.venuarrOrg.length);
-    this.makeMarkerArray();
-    this.makeEventMarkerArray();
+    if(!this.map){
+      this.buildMap2();
+    }
+    // this.makeMarkerArray();
+    this.makeMapboxVenueMarkerArray();
+
+    // this.makeEventMarkerArray();
+    this.makeMapboxEventMarkerArray();
+    
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getVenueAIKeywords();
     this.getEventAIKeywords();
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
-    this.map.googleMap?.setZoom(13);
-
+    // this.map.googleMap?.setZoom(13);
+    
     
     
   }
   
+  buildMap2(){
+    this.mapbox = new mapboxgl.Map({
+      container: 'mapbox',
+      center: [this.currentLongitude, this.currentLatitude],
+      // center: [71.4662095, 30.1986799],
+      // zoom: 13,
+      zoom: 15.27,
+      pitch: 42,
+      bearing: -50,
+      style: 'mapbox://styles/mapbox/standard',
+      // minZoom: 15,
+      // maxZoom: 16
+    });
 
+    this.mapbox.on('style.load', () => {
+      // Set the light preset to dusk mode
+      (this.mapbox as any).setConfigProperty('basemap', 'lightPreset', 'dusk');
+
+      // Define the eraser source and model source
+      this.mapbox.addSource('eraser', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Polygon',
+                coordinates: [
+                  [
+                    [-0.12573, 51.53222],
+                    [-0.12458, 51.53219],
+                    [-0.12358, 51.53492],
+                    [-0.12701, 51.53391],
+                    [-0.12573, 51.53222]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      });
+
+      this.mapbox.addSource('model', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {
+            'model-uri': 'https://docs.mapbox.com/mapbox-gl-js/assets/tower.glb'
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [-0.12501974, 51.5332374]
+          }
+        }
+      });
+
+      // Add the clip layer
+      
+      this.mapbox.addLayer({
+        id: 'eraser',
+        type: 'clip',
+        source: 'eraser',
+        layout: {
+          'clip-layer-types': ['symbol', 'model'],
+          'clip-layer-scope': ['basemap']
+        }
+      });
+
+      // Add the model layer
+      this.mapbox.addLayer({
+        id: 'tower',
+        type: 'model',
+        slot: 'middle',
+        source: 'model',
+        minzoom: 15,
+        layout: {
+          'model-id': ['get', 'model-uri']
+        },
+        paint: {
+          'model-opacity': 1,
+          'model-rotation': [0.0, 0.0, 35.0],
+          'model-scale': [0.8, 0.8, 1.2],
+          'model-color-mix-intensity': 0,
+          'model-cast-shadows': true,
+          'model-emissive-strength': 0.8
+        }
+      });
+    });
+
+    this.mapbox.on('click',(event)=>{
+      
+    })
+
+  }
   
   isIOS() {
     return this.platform.is('ios');
@@ -2574,6 +2669,59 @@ export class LocationmapPage implements OnInit {
     console.log("markersArr : ",this.markers);
   }
 
+  makeMapboxVenueMarkerArray(){
+    this.venuarr = [];
+    console.log("Venuarr ORG: ",this.venuarrOrg);
+    
+    for (let i = 0; i < this.venuarrOrg.length; i++) {
+      const eventInfo = this.venuarrOrg[i];
+      const popup = new mapboxgl.Popup().setHTML(
+        `<div style="display: flex;align-items: center;"><img
+          style="height: 30px; width: 30px; margin-right: 10px"
+          src="assets/imgs/maphuman.svg"
+        /><p style="margin: 0px;font-size:16px;">${this.venuarrOrg[i].availability_count}</p></div>`
+      );
+
+      // Create the marker DOM element and add a click event listener
+    // const el = document.createElement('div');
+    // el.className = 'marker';
+    // el.style.width = '30px';  // Ensure the marker has a defined size
+    // el.style.height = '30px';
+    // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
+
+    // Attach the click event directly to the element
+    
+
+    // Create the Mapbox marker using the custom element
+      const marker = new mapboxgl.Marker()
+      .setLngLat([eventInfo.longitude, eventInfo.lattitude])
+      .setPopup(popup)
+      .addTo(this.mapbox);
+
+      console.log("Marker adding ven id", eventInfo.venues_id);
+
+
+      // marker.getElement().addEventListener('click', () => {
+      //   console.log("Marker clicked", this.venuarrOrg[i].venues_id);
+      //   this.filterArrypin(this.venuarrOrg[i].venues_id);  // Call your custom function
+      // });
+
+      marker.getElement().addEventListener('click',((eventData)=>()=>{
+        console.log("Marker clicked", this.venuarrOrg[i].venues_id);
+        this.filterArrypin(this.venuarrOrg[i].venues_id);
+      })(eventInfo));
+
+      this.venuarr.push(marker);
+
+
+    }
+
+    this.markers = this.venuarr;
+    console.log("Venuarr : ",this.venuarr);
+    console.log("markersArr : ",this.markers);
+
+  }
+
   makeEventMarkerArray() {
     this.eventarr = [];
     console.log("Eventarr ORG: ",this.eventArrOrg);
@@ -2615,6 +2763,86 @@ export class LocationmapPage implements OnInit {
     this.collectMarkers();
     this.openRequestedMarker();
     
+    
+  }
+
+  makeMapboxEventMarkerArray(){
+    this.eventarr = [];
+    console.log("Eventarr ORG: ",this.eventArrOrg);
+    
+    for (let i = 0; i < this.eventArrOrg.length; i++) {
+      const eventInfo = this.eventArrOrg[i];
+     const popup = new mapboxgl.Popup().setHTML(
+    `<div style="display: flex; align-items: center;">
+      <img style="height: 30px; width: 30px; margin-right: 10px" src="assets/imgs/maphuman.svg" />
+      <p style="margin: 0px; font-size:16px;">${eventInfo.availability_count}</p>
+     </div>`
+    );
+
+    // Create the marker DOM element and add a click event listener
+    // const el = document.createElement('div');
+    // el.className = 'marker';
+    // el.style.width = '30px';  // Ensure the marker has a defined size
+    // el.style.height = '30px';
+    // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
+
+    // Attach the click event directly to the element
+    
+
+    // Create the Mapbox marker using the custom element
+      const marker = new mapboxgl.Marker()
+      .setLngLat([eventInfo.longitude, eventInfo.lattitude])
+      .setPopup(popup)
+      .addTo(this.mapbox);
+
+      console.log("Marker adding event id", eventInfo.events_id);
+
+      // Add a click event listener directly to the Mapbox marker
+      marker.getElement().addEventListener('click', ((eventData) => () => {
+        console.log("Marker clicked", eventData.events_id); // Access the correct eventInfo object
+        this.filterEventArrypin(eventData.events_id);
+      })(eventInfo));  // Pass eventInfo as a parameter to an IIFE (Immediately Invoked Function Expression)
+
+
+      // el.addEventListener('click',()=>{
+      //   console.log('event click');
+      //   this.filterEventArrypin(this.eventArrOrg[i].events_id)
+      // })
+      // var obj = {
+      //   position: {
+      //     lat: parseFloat(this.eventArrOrg[i].lattitude),
+      //     lng: parseFloat(this.eventArrOrg[i].longitude),
+      //   },
+      //   title: "" + this.eventArrOrg[i].availability_count,
+      //   name: this.eventArrOrg[i].name,
+      //   eventId:this.eventArrOrg[i].events_id,
+        
+      //   options: {
+      //     animation: google.maps.Animation.DROP,
+      //     draggable: false,
+      //     icon: {
+      //       url: "assets/imgs/locpin2.svg",
+      //       size: {
+      //         height: 48,
+      //         width: 48,
+      //       },
+      //     },
+      //   },
+      // };
+
+      this.eventarr.push(marker);
+    }
+    
+    for (let index = 0; index < this.eventarr.length; index++) {
+      this.markers.push(this.eventarr[index]);
+    }
+   
+    console.log("EventArr : ",this.eventarr);
+    console.log("markersArr : ",this.markers);
+    this.allVenueEventMarkers = this.markers;
+
+    this.collectMarkers();
+    this.openRequestedMarker();
     
   }
 
@@ -2672,7 +2900,7 @@ export class LocationmapPage implements OnInit {
               },
             },
           };
-          this.map.googleMap?.setZoom(13);
+          // this.map.googleMap?.setZoom(13);
       } catch (error) {
         console.error('Error getting position', error);
       }

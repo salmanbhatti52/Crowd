@@ -35,18 +35,18 @@
         <img
           *ngIf="segmentModel == 'venu'"
           (click)="showHideFilterN()" 
-          style="height: 25px; width: 25px"
+          style="height: 25px;"
           src="../../assets/imgs/icons/filter_icon.svg"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Home</ion-label>
+        <ion-label class="titlefont roboto">Home</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goToProfile()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/user.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
         />
       </ion-col>
     </ion-row>
@@ -68,7 +68,7 @@
       >
         <ion-segment-button
           style="
-            --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+            --indicator-color: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
             --color: #000000;
             --color-checked: #fff;
             --border-radius: 20px;
@@ -81,7 +81,7 @@
 
         <ion-segment-button
           style="
-            --indicator-color: #262626;
+            --indicator-color: radial-gradient(circle at 0% 0%, #4d4d4d,#222222);
             --color: #000000;
             --color-checked: #ffffff;
             --border-radius: 20px;
@@ -96,11 +96,7 @@
         <ion-segment-button
         (click)="getEvents()"
           style="
-            --indicator-color: linear-gradient(
-              89.73deg,
-              #ebd87a -0.24%,
-              #956b1c 99.77%
-            );
+            --indicator-color: radial-gradient(circle at 0% 0%, #fad66a, #825807);
             --color: #000000;
             --color-checked: #fff;
             --border-radius: 20px;
@@ -134,7 +130,7 @@
     >
       Clear Filter
     </p>
-    <p *ngIf="noevenu == 1" style="margin-top: 70%;" class="notFound work_sans">No Venus Found</p>
+    <p *ngIf="noevenu == 1" style="margin-top: 70%;" class="notFound roboto">No Venus Found</p>
     <div style="display: flex; flex-wrap: wrap;">
       <div
       style="width: 50%; position: relative"
@@ -163,10 +159,10 @@
           *ngIf="opt.likes==1"
           src="assets/imgs/heartactive.svg"
         />
-        <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg"
+        <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="roboto bdg"
           >No Discount
         </ion-badge>
-        <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg"
+        <ion-badge *ngIf="opt.discount_percentage > 0" class="roboto bdg"
           >{{opt.discount_percentage}}% Off
         </ion-badge>
       </div>
@@ -176,14 +172,14 @@
           style=" 
           position: relative;
           height: 100%;
-          border-radius: 15px;
+          border-radius: 32px;
           background-size: cover;
           background-image: url('{{opt.cover_images}}');
         "
         >
           <div style="position: absolute; bottom: 0px; left: 15px">
-            <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">
+            <p class="title1 roboto">{{opt.name}}</p>
+            <p class="title2 roboto">
               {{opt.distance | number : '1.2-2'}} Miles
             </p>
           </div>
@@ -223,7 +219,7 @@
     >
       Clear Filter
     </div>
-    <p *ngIf="noReservations == 1" class="notFound work_sans">No Reservations Found</p>
+    <p *ngIf="noReservations == 1" class="notFound roboto">No Reservations Found</p>
     
     <div
       style="width: 50%; position: relative"
@@ -252,10 +248,10 @@
         *ngIf="opt.likes==1"
         src="assets/imgs/heartactive.svg"
       />
-      <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg work_sans"
+      <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg roboto"
         >No Discount
       </ion-badge>
-      <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg work_sans"
+      <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg roboto"
         >{{opt.discount_percentage}}% Off
       </ion-badge>
     </div>
@@ -265,14 +261,14 @@
         style=" 
       position: relative;
       height: 100%;
-      border-radius: 15px;
+      border-radius: 32px;
       background-size: cover;
       background-image: url('{{opt.cover_images}}');
       "
       >
         <div style="position: absolute; bottom: 0px; left: 15px">
-          <p class="title1 work_sans">{{opt.name}}</p>
-          <p class="title2 work_sans">
+          <p class="title1 roboto">{{opt.name}}</p>
+          <p class="title2 roboto">
             {{opt.distance | number : '1.2-2'}} Miles
           </p>
         </div>
@@ -287,7 +283,7 @@
   </div>
 
   <div>
-    <p  class="notFound work_sans" style="margin-top: 70%;" *ngIf="segmentModel === 'reservation' && reservationFeature != 'On'">Reservations Coming Soon</p>
+    <p  class="notFound roboto" style="margin-top: 70%;" *ngIf="segmentModel === 'reservation' && reservationFeature != 'On'">Reservations Coming Soon</p>
   </div>
 
   <div class="margincls" style="display: flex; flex-wrap: wrap" *ngIf="segmentModel === 'event'" >
@@ -320,7 +316,7 @@
       Clear Filter
     </p>
     
-    <p *ngIf="noevent == 1" class="notFound work_sans">No Events Found</p>
+    <p *ngIf="noevent == 1" class="notFound roboto">No Events Found</p>
     <div
       style="
         width: 100%;
@@ -356,10 +352,10 @@
             *ngIf="opt.likes!=0"
             src="assets/imgs/heartactive.svg"
           />
-          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg work_sans"
+          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg roboto"
             >No Discount
           </ion-badge>
-          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg work_sans"
+          <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg roboto"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
         </div>
@@ -369,14 +365,14 @@
           style=" 
           position: relative;
           height: 100%;
-        border-radius: 15px;
+        border-radius: 32px;
         background-size: cover;
         background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
       "
         >
           <div style="position: absolute; bottom: 0px; left: 15px">
-            <p class="title1 work_sans">{{opt.name}}</p>
-            <p class="title2 work_sans">
+            <p class="title1 roboto">{{opt.name}}</p>
+            <p class="title2 roboto">
               {{opt.distance | number : '1.2-2'}} Miles
             </p>
           </div>
@@ -577,7 +573,7 @@
       </div>
      
     </ng-template>
-  </ion-modal>
+  </ion-modal>    
   
 </ion-content>
 
@@ -586,23 +582,23 @@
     <ion-tab-bar slot="bottom" class="ion-no-border">
       <hr />
       <ion-tab-button (click)="tab1Click()">
-        <img src="assets/imgs/homeactive.svg" class="img" />
-        <ion-label class="fontactive work_sans">Home</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/home_icon_select.png" class="img" />
+        <ion-label class="fontactive roboto">Home</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab2Click()">
-        <img src="assets/imgs/location.svg" class="activeimg" />
-        <ion-label class="font work_sans">Location</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/location_icon.png" class="activeimg" />
+        <ion-label class="font roboto">Location</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab3Click()">
-        <img src="assets/imgs/heart.svg" class="img" />
-        <ion-label class="font work_sans">Saved</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/saved_icon.png" class="img" />
+        <ion-label class="font roboto">Saved</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab4Click()">
-        <img src="assets/imgs/bell.svg" class="img" />
-        <ion-label class="font work_sans">Notification</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/notification_icon.png" class="img" />
+        <ion-label class="font roboto">Notification</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>

@@ -9,28 +9,28 @@
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goBack()"
-          style="height: 25px; width: 25px; margin-right: 15px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;; margin-right: 15px"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="4" style="text-align: center"> </ion-col>
       <ion-col size="6" style="text-align: right">
         <img
           (click)="goToProfile()"
-          style="height: 25px; width: 25px; margin-right: 15px"
+          style="height: 25px;; margin-right: 15px"
           src="assets/imgs/user.svg"
         />
 
         <img
           (click)="likeevent()"
           *ngIf="detailObj.events.likes==0"
-          style="height: 25px; width: 25px; margin-right: 10px"
+          style="height: 25px;; margin-right: 10px"
           src="assets/imgs/heartww.svg"
         />
         <img
           (click)="likeoutevent()"
           *ngIf="detailObj.events.likes!=0"
-          style="height: 25px; width: 25px; margin-right: 10px"
+          style="height: 25px;; margin-right: 10px"
           src="assets/imgs/heartactive.svg"
         />
       </ion-col>
@@ -54,8 +54,8 @@
   </div>
 
   <div style="width: 92%; margin: 4% auto">
-    <p class="titlemain work_sans">{{detailObj.events.name}}</p>
-    <p class="titlesubmain work_sans">{{detailObj.events.venue_name}}</p>
+    <p class="titlemain roboto">{{detailObj.events.name}}</p>
+    <p class="titlesubmain roboto">{{detailObj.events.venue_name}}</p>
 
     <ion-row>
       <ion-col size="3.1" style="display: flex; align-items: center; padding: 0px;">
@@ -64,7 +64,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
-          <p class="work_sans titlesub" style="width: 73px;overflow: hidden;">
+          <p class="roboto titlesub" style="width: 73px;overflow: hidden;">
             {{detailObj.event_distance | number : '1.1-1'}} Miles
           </p>
         </div>
@@ -75,7 +75,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/icons/calendar.svg"
           />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{getDate(detailObj.events.event_date)}}
           </p>
         </div>
@@ -86,7 +86,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/watch.svg"
           />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{getTime(detailObj.events.event_start_time)}} - {{getTime(detailObj.events.event_end_time)}}
           </p>
         </div>
@@ -95,18 +95,18 @@
 
     <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
       <div style="display: flex; align-items: center; width: 65%;">
-        <p class="work_sans titlesub">{{detailObj.events.location}}</p>
+        <p class="roboto titlesub">{{detailObj.events.location}}</p>
       </div>
       <div style="display: flex; align-items: center">
         <img style="margin-right: 14px;" src="../../assets/imgs/icons/people.svg" alt="">
-        <p style="margin-right: 10px;" class="work_sans titlesub">0</p>
+        <p style="margin-right: 10px;" class="roboto titlesub">0</p>
       </div>
 
     </div>
 
     <!-- <ion-row style="margin-top: 10px">
       <ion-col size="8" style="display: flex; align-items: center">
-        <p class="work_sans titlesub">{{detailObj.events.location}}</p>
+        <p class="roboto titlesub">{{detailObj.events.location}}</p>
       </ion-col>
     </ion-row> -->
 
@@ -116,19 +116,19 @@
       <div>
         <img
           (click)="goLocation()"
-          style="height: 25px; width: 25px; margin-right: 20px"
+          style="height: 25px;; margin-right: 20px"
           src="assets/imgs/target.svg"
         />
 
         <img
           (click)="goWeb()"
-          style="height: 25px; width: 25px; margin-right: 20px"
+          style="height: 25px;; margin-right: 20px"
           src="assets/imgs/web.svg"
         />
 
         <a href="tel:{{detailObj.events.phone_number}}"
           ><img
-            style="height: 25px; width: 25px; margin-right: 20px"
+            style="height: 25px;; margin-right: 20px"
             src="assets/imgs/call.svg"
         /></a>
       </div>
@@ -140,7 +140,7 @@
           border-radius: 20px;
         "
       >
-        <p class="see work_sans">See who's out!</p>
+        <p class="see roboto">See who's out!</p>
       </div>
     </div>
 
@@ -149,11 +149,11 @@
     <ion-button
       (click)="viewTicket()"
       style="margin-top: 22px; opacity: 1"
-      class="btnbg work_sans"
+      class="btnbg roboto"
       >View Ticket</ion-button
     >
 
-    <!-- <p class="work_sans des">{{detailObj.events.description}}</p> -->
+    <!-- <p class="roboto des">{{detailObj.events.description}}</p> -->
 
     <div
       (click)="goToChat()"
@@ -169,8 +169,8 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Send message</p>
-        <p class="desc work_sans">Contact Event Organizer</p>
+        <p class="title roboto">Send message</p>
+        <p class="desc roboto">Contact Event Organizer</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
@@ -189,13 +189,13 @@
     <div
       style="display: flex; flex-direction: column; align-items: flex-start"
     >
-      <p class="title work_sans">Get Location</p>
-      <p class="desc work_sans">Click to open the location of event venue</p>
+      <p class="title roboto">Get Location</p>
+      <p class="desc roboto">Click to open the location of event venue</p>
     </div>
     <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
 
-    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
+    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 roboto">
       Amount Detail
     </p>
 
@@ -207,9 +207,9 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">Standard Ticket</p>
-      <p style="margin: 0px" class="dd work_sans">{{detailObj.number_of_ticket}}x£{{detailObj.price_per_ticket}}</p>
-      <p style="margin: 0px" class="dd work_sans">£{{ticketTotal}}</p>
+      <p style="margin: 0px" class="dd roboto">Standard Ticket</p>
+      <p style="margin: 0px" class="dd roboto">{{detailObj.number_of_ticket}}x£{{detailObj.price_per_ticket}}</p>
+      <p style="margin: 0px" class="dd roboto">£{{ticketTotal}}</p>
     </div>
 
     <!-- <div
@@ -220,9 +220,9 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">VIP Ticket</p>
-      <p style="margin: 0px" class="dd work_sans">01x£50</p>
-      <p style="margin: 0px" class="dd work_sans">£50</p>
+      <p style="margin: 0px" class="dd roboto">VIP Ticket</p>
+      <p style="margin: 0px" class="dd roboto">01x£50</p>
+      <p style="margin: 0px" class="dd roboto">£50</p>
     </div>
     
     <div
@@ -233,9 +233,9 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">Queue Jump</p>
-      <p style="margin: 0px" class="dd work_sans">02x£10</p>
-      <p style="margin: 0px" class="dd work_sans">£20</p>
+      <p style="margin: 0px" class="dd roboto">Queue Jump</p>
+      <p style="margin: 0px" class="dd roboto">02x£10</p>
+      <p style="margin: 0px" class="dd roboto">£20</p>
     </div> -->
 
     <div
@@ -246,9 +246,9 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">{{detailObj.package_type}}</p>
-      <p style="margin: 0px" class="dd work_sans">{{detailObj.package_name}}</p>
-      <p style="margin: 0px" class="dd work_sans">£{{detailObj.package_price}}</p>
+      <p style="margin: 0px" class="dd roboto">{{detailObj.package_type}}</p>
+      <p style="margin: 0px" class="dd roboto">{{detailObj.package_name}}</p>
+      <p style="margin: 0px" class="dd roboto">£{{detailObj.package_price}}</p>
     </div>
 
     <div
@@ -259,19 +259,19 @@
         margin: 10px 0px 0px;
       "
     >
-      <p style="margin: 0px" class="dd work_sans">Crowd Fees</p>
-      <p style="margin: 0px" class="dd work_sans">£5</p>
+      <p style="margin: 0px" class="dd roboto">Crowd Fees</p>
+      <p style="margin: 0px" class="dd roboto">£5</p>
     </div>
 
-    <p style="margin-top: 13px" class="title2 work_sans">Description</p>
-    <p style="margin-top: 13px" class="desc2 work_sans">{{detailObj.events.description}}</p>
+    <p style="margin-top: 13px" class="title2 roboto">Description</p>
+    <p style="margin-top: 13px" class="desc2 roboto">{{detailObj.events.description}}</p>
 
-    <p class="title2 work_sans" style="margin-top: 13px">Refund Policy</p>
-    <p class="desc2 work_sans" style="margin-top: 13px">
+    <p class="title2 roboto" style="margin-top: 13px">Refund Policy</p>
+    <p class="desc2 roboto" style="margin-top: 13px">
       {{detailObj.events.refund_policy}}
     </p>
 
-    <p style="margin-top: 10px" class="title2 work_sans">Organizer</p>
+    <p style="margin-top: 10px" class="title2 roboto">Organizer</p>
     <div style="display: flex; margin-top: 13px">
       <img *ngIf="organizer"
         style="
@@ -297,9 +297,9 @@
       />
       
       <div>
-        <p *ngIf="organizer" class="username work_sans">{{organizer?.first_name}}</p>
+        <p *ngIf="organizer" class="username roboto">{{organizer?.first_name}}</p>
 
-        <p (click)="gotoOrganizerEvents()" class="buyTicket work_sans">See All Events</p>
+        <p (click)="gotoOrganizerEvents()" class="buyTicket roboto">See All Events</p>
       </div>
     </div>
   </div>

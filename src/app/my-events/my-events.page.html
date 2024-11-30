@@ -10,7 +10,7 @@
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">My Events</ion-label>
+        <ion-label class="titlefont roboto">Events</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center"> </ion-col>
     </ion-row>
@@ -36,7 +36,7 @@
     >
       <ion-segment-button
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: radial-gradient(Circle at 0% 0%, #fad66a, #825807);
           --color: #000000;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -48,7 +48,7 @@
       </ion-segment-button>
       <ion-segment-button
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: #323232;
           --color: #000000;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -73,7 +73,7 @@
     *ngIf="segmentModel === 'Upcoming'"
   >
     <div *ngFor="let aa of orderd_upcomingArr" style="width: 92%;">
-      <div *ngIf="aa.ticket.length>0"  style="background: black;
+      <div *ngIf="aa.ticket.length>0"  style="background: #323232;
         margin-top: 15px;
         border-radius: 20px;">
         <div class="elementBg" >
@@ -89,20 +89,20 @@
           
     
           <div>
-            <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
+            <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
             <div style="display: flex; align-items: center; margin-bottom: 8px">
               <img class="imm" src="assets/imgs/pinwhite.svg" />
-              <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+              <p class="bb roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
             </div>
     
             <div style="display: flex; align-items: center; margin-bottom: 8px">
               <img class="imm" src="assets/imgs/ccc.svg" />
-              <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
+              <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
             </div>
     
             <div style="display: flex; align-items: center; margin-bottom: 2px">
               <img class="imm" src="assets/imgs/watch.svg" />
-              <p class="date work_sans">
+              <p class="date roboto">
                 {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
               </p>
             </div>
@@ -124,7 +124,7 @@
     "
     *ngIf="segmentModel === 'Previous'"
   >
-    <div  *ngFor="let aa of orderd_previousArr" style="background: black;
+    <div  *ngFor="let aa of orderd_previousArr" style="background: #323232;
     margin-top: 15px;
     border-radius: 20px;
      width: 92%;">
@@ -140,20 +140,20 @@
         />
 
         <div>
-          <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.events.name}}</div>
+          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb work_sans">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+            <p class="bb roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{getDate(aa.events.event_date)}} </p>
+            <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">
+            <p class="date roboto">
               {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
             </p>
           </div>

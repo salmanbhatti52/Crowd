@@ -256,6 +256,18 @@ const routes: Routes = [
     path: 'reviews',
     loadChildren: () => import('./reviews/reviews.module').then( m => m.ReviewsPageModule)
   },
+  {
+    path: 'terms-and-conditions',
+    loadChildren: () => import('./terms-and-conditions/terms-and-conditions.module').then( m => m.TermsAndConditionsPageModule)
+  },
+  {
+    path: 'ai-model',
+    loadChildren: () => import('./ai-model/ai-model.module').then( m => m.AiModelPageModule)
+  },
+  {
+    path: 'booking-detail',
+    loadChildren: () => import('./booking-detail/booking-detail.module').then( m => m.BookingDetailPageModule)
+  },
  
 
 ];

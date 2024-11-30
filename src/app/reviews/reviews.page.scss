@@ -1,7 +1,11 @@
 .container{
-  width: 90%; 
-  margin: 5% auto;
+  height: 90%;
+  width: 90%;
+  margin: 5% auto 5%;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .bg{
@@ -21,4 +25,31 @@
   text-align: center;
   text-transform: capitalize;
   color: #FFFFFF;
+}
+
+.note_style{
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 9px;
+  color: #a6a6a6;
+  width: 90%;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.margin_row{
+  padding-left: 11px;
+}
+
+.star_margin{
+  margin-right: 7px;
+  height: 16px;
+  width: 16px;
+  vertical-align: baseline;
+}
+
+.rating_text_old{
+  font-size: 15px;
+  font-weight: bold;
+  color: #fafafa;
 }

@@ -1,0 +1,265 @@
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+    
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  .heading_text{
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    position: absolute;
+    top: 95px;
+    left: 45px;
+    text-align: center;
+    right: 45px;
+    // background: #262626;
+    background: transparent;
+    border-radius: 5px;
+    padding: 3px 6px;
+    z-index: 12;
+  } 
+
+  .rating_text{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    position: absolute;
+    top: 155px;
+    left: 120px;
+    text-align: center;
+    right: 120px;
+    background: #262626;
+    border-radius: 15px;
+    padding: 3px 6px;
+    z-index: 12;
+    width: 130px;
+  }
+
+  .star-icon{
+    margin-left: 3px;
+    height: 14px;
+    width: 14px;
+  }
+
+  .btn{ 
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 16px;
+    display: block;
+    height: 50px;
+    width: 80%;
+    margin: 12px auto 0px;
+    padding: 14px;
+  }
+
+  .bg-gray{
+    background: #343434;
+  }
+
+  .bg-purple-gd{
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+  }
+
+  .back-icon{
+    height: 25px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+
+  .confirm_booking{
+    margin: 50px auto 0px;
+    font-size: 17.5px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+  }
+
+  .last-container{
+    width: 90%;
+    margin: 0px auto 20px;
+  }
+
+  .sure{
+    margin-top: 15px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 122.8%;
+    text-align: center;
+    color: white;
+}
+
+.footer_text{
+    color: #c8c5c5;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    margin: 25px auto 20px;
+}
+
+.info-text{
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+}
+
+  .flex_info_box{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin: 0px auto;
+    position: absolute;
+    top: 213px;
+    left: 16px;
+    z-index: 12;
+  }
+
+  .flex_center{
+    display: flex;
+    align-items: center;
+  }
+
+  .icon_style{
+    height: 24px;width: 24px;
+    margin: 20px auto;
+  }
+  
+  .small_icon_style{
+    height: 10px;
+    width: 10px;
+    margin: 0px 6px auto auto;
+  }
+
+  .thanks_text{
+    margin-top: 8px;
+    font-size: 8.5px;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+  }
+  
+  .info_text{
+    font-size: 10.1px;
+    font-weight: 400;
+    color: white;
+    background: #262626;
+    border-radius: 5px;
+    padding: 4px 6px;
+  }
+
+  .close_btn{
+    width: 80%;
+    margin: 15px auto 35px;
+  }
+
+  .view_booking_btn{
+    width: 80%;
+    margin: 15px auto 5px;
+  }
+
+  .card_bg{
+    text-align: center;
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+    position: absolute;
+    top: 238px;
+    width: 100%;
+    margin: 0px auto;
+    border-radius: 12px;
+  }
+  .date{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: #FFFFFF;
+    margin: 0px;
+    text-align: left;
+  }
+
+  .bb{
+    margin: 0px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: #FFFFFF;
+    text-align: left;
+  }
+
+
+  .canc{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FF285C;
+  }
+
+  .imm{
+    width:20px;
+    height:20px;
+    margin-right: 10px;
+  }
+
+  .title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+
+  .desc{
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+  }
+
+
+  .title2{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FFFFFF;
+    text-align: left;
+  }
+
+  .desc2{
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: justify;
+    color: #FFFFFF;
+  }

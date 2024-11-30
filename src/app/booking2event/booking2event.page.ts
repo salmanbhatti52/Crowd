@@ -26,9 +26,15 @@ export class Booking2eventPage implements OnInit {
   totalTickets = 0;
   pricePerTicket = 0;
   prePayPercentage= 0;
-  ticketRequested!: number | null;
+  ticketRequested = 0;
+  vipTicketRequested = 0;
   totalBill = 0;
   availableTickets = 0;
+  showStandardTicketInfo = false;
+  showTicketExtras = false;
+  showTablePackages = false;
+  selectedExtrasPackage : number = 0;
+  selectedTablePackage : number = 0;
   constructor(
     public location: Location,
     public router: Router,
@@ -49,63 +55,133 @@ export class Booking2eventPage implements OnInit {
     
   }
 
+  showStandardTicketDetail(){
+    this.showStandardTicketInfo = !this.showStandardTicketInfo;
+  }
+
+  showTicketExtrasFunc(){
+    
+    if(this.showTicketExtras){
+      this.showTablePackages = false;
+      this.showTicketExtras = false;
+    }else{
+      this.showTicketExtras = true;
+      this.showTablePackages = false;
+    }
+    // this.showTicketExtras = !this.showTicketExtras;
+    // this.showTablePackages = !this.showTablePackages;
+
+  }
+  
+  showTablePackagesFunc(){
+    if(this.showTablePackages){
+      this.showTicketExtras = false;
+      this.showTablePackages = false;
+    }else{
+      this.showTablePackages = true;
+      this.showTicketExtras = false;
+    }
+    // this.showTablePackages = !this.showTablePackages;
+    // this.showTicketExtras = !this.showTicketExtras;
+
+  }
+
+  selectTablePackage(input: number){
+    this.selectedTablePackage = input;
+    console.log(this.selectedTablePackage);
+    this.selectPackage('abc','25.75')
+  }
+
+  selectExtrasPackage(input: number){
+    this.selectedExtrasPackage = input;
+    console.log(this.selectedExtrasPackage);
+
+  }
+
   ngOnInit() {}
 
   goBack() {
     this.location.back();
   }
-  getTicketCount(ev:any){
 
-    if(ev.target.value > this.availableTickets){
-      ev.target.value = '';
-      this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
+  incrementStandardTickets(){
+    if(this.ticketRequested < this.availableTickets){
+      this.ticketRequested++;
     }else{
-      this.ticketRequested = ev.target.value;
-    }  
-    
+      this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
+    }
     console.log("tickets requested", this.ticketRequested);
     this.calculateTotalAmount();
-    
+  }
+
+  decrementStandardTickets(){
+    if(this.ticketRequested>0){
+      this.ticketRequested--;
+    }
+    console.log("tickets requested", this.ticketRequested);
+    this.calculateTotalAmount();
+  }
+
+  incrementVipTickets(){
+    // if(this.ticketRequested < this.availableTickets){
+      this.vipTicketRequested++;
+    // }else{
+    //   this.rest.presentToast(`Max available tickets are ${this.availableTickets}.`);
+    // }
+    // console.log("tickets requested", this.ticketRequested);
+    // this.calculateTotalAmount();
+  }
+
+  decrementVipTickets(){
+    if(this.vipTicketRequested>0){
+      this.vipTicketRequested--;
+    }
+    // console.log("tickets requested", this.ticketRequested);
+    // this.calculateTotalAmount();
   }
 
   selectPackage(val:any,price:any){
-    if(val == 'p4p2'){
-      this.p4p1 = false;
-      this.p4p2 = true;
-      this.p6p1 = false;
-      this.p6p2 = false;
-      this.packagePrice = this.convertInDecimal(price);
-      this.calculateTotalAmount();
-      this.packageType = 'Table for 4'
-      this.packageName = 'Drinking Package 2'
-    }else if(val == 'p6p1'){
-      this.p4p1 = false;
-      this.p4p2 = false;
-      this.p6p1 = true;
-      this.p6p2 = false;
-      this.packagePrice = this.convertInDecimal(price);
-      this.calculateTotalAmount();
-      this.packageType = 'Table for 6'
-      this.packageName = 'Drinking Package 1'
-    }else if(val == 'p6p2'){
-      this.p4p1 = false;
-      this.p4p2 = false;
-      this.p6p1 = false;
-      this.p6p2 = true;
-      this.packagePrice = this.convertInDecimal(price);
-      this.calculateTotalAmount();
-      this.packageType = 'Table for 6'
-      this.packageName = 'Drinking Package 2'
-    }else{
-      this.p4p1 = true;
-      this.p4p2 = false;
-      this.p6p1 = false;
-      this.p6p2 = false;
-      this.packagePrice = this.convertInDecimal(price);
-      this.calculateTotalAmount();
-      this.packageType = 'Table for 4'
-      this.packageName = 'Drinking Package 1'
-    }
+    this.packagePrice = this.convertInDecimal(price);
+    this.calculateTotalAmount();
+    this.packageType = 'Table for 4'
+    this.packageName = 'Drinking Package 2'
+    // if(val == 'p4p2'){
+    //   this.p4p1 = false;
+    //   this.p4p2 = true;
+    //   this.p6p1 = false;
+    //   this.p6p2 = false;
+    //   this.packagePrice = this.convertInDecimal(price);
+    //   this.calculateTotalAmount();
+    //   this.packageType = 'Table for 4'
+    //   this.packageName = 'Drinking Package 2'
+    // }else if(val == 'p6p1'){
+    //   this.p4p1 = false;
+    //   this.p4p2 = false;
+    //   this.p6p1 = true;
+    //   this.p6p2 = false;
+    //   this.packagePrice = this.convertInDecimal(price);
+    //   this.calculateTotalAmount();
+    //   this.packageType = 'Table for 6'
+    //   this.packageName = 'Drinking Package 1'
+    // }else if(val == 'p6p2'){
+    //   this.p4p1 = false;
+    //   this.p4p2 = false;
+    //   this.p6p1 = false;
+    //   this.p6p2 = true;
+    //   this.packagePrice = this.convertInDecimal(price);
+    //   this.calculateTotalAmount();
+    //   this.packageType = 'Table for 6'
+    //   this.packageName = 'Drinking Package 2'
+    // }else{
+    //   this.p4p1 = true;
+    //   this.p4p2 = false;
+    //   this.p6p1 = false;
+    //   this.p6p2 = false;
+    //   this.packagePrice = this.convertInDecimal(price);
+    //   this.calculateTotalAmount();
+    //   this.packageType = 'Table for 4'
+    //   this.packageName = 'Drinking Package 1'
+    // }
     
   }
 

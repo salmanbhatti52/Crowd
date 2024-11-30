@@ -10,25 +10,28 @@
   >
     <div
       style="
-        background: white;
-        padding: 20px 20px 20px 20px;
-        border-radius: 20px;
+        background: linear-gradient(180deg, #e1e1e1, #ffffff, #e4e4e4);
+        padding: 20px 16px;
         margin: 20px;
+        clip-path: polygon(50% 0%, 100% 3%, 100% 97.5%, 50% 100%, 0% 97.5%, 0% 3%);
+        border-radius: 60px 60px 60px 60px;
       "
     >
-      <div style="display: flex; justify-content: flex-end">
+      <div style="display: flex; justify-content: space-between">
+        <div class="header_start"></div>
+        <div class="modal_logo">Crowd<span class="live_part">Live</span></div>
         <img (click)="closeModel()" src="assets/imgs/cross.svg" />
       </div>
-      <p style="margin: 25px 0px 15px 0px" class="sure work_sans">
-        Turning on “BE SEEN” will make your Name and Image public. It will give
-        options to other people to see you out or not.
+      <p style="margin: 25px 0px 15px 0px" class="sure roboto">
+        Your profile image and name will be visible to other users using the CrowdLive  feature.
       </p>
       <ion-button
         (click)="closeModel()"
-        style="margin-top: 20px; opacity: 1"
-        class="btnbg work_sans"
-        >OK</ion-button
+        style="margin-top: 20px; opacity: 1;--border-radius: 16px;"
+        class="btnbg roboto"
+        >Activate</ion-button
       >
+      <div class="roboto footer_label">By activating, you are agreeing to CrowdLive  <span class="roboto terms">Terms & Conditions</span></div>
     </div>
   </div>
 </ion-content>

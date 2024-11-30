@@ -1,26 +1,26 @@
 <ion-header>
   <ion-toolbar class="bg paddingtop">
     <div class="title_bar" >
-      <img style="height: 25px; width: 25px" (click)="goBack()" src="../../assets/imgs/backbtn.svg" alt="">
-      <div class="work_sans titlefont">{{rest.business_owner_name}} Events</div>
-      <div style="height: 25px; width: 25px" ></div>
+      <img style="height: 25px;" (click)="goBack()" src="../../../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
+      <div class="roboto titlefont">{{rest.business_owner_name}} Events</div>
+      <div style="height: 25px;" ></div>
     </div>
     <!-- <ion-row>
       <ion-col size="2" style="text-align: center">
         <img
           *ngIf="segmentModel == 'venu'"
           (click)="showHideFilterN()"
-          style="height: 25px; width: 25px"
+          style="height: 25px;"
           src="assets/imgs/treeeline.svg"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Home</ion-label>
+        <ion-label class="titlefont roboto">Home</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goToProfile()"
-          style="height: 25px; width: 25px"
+          style="height: 25px;"
           src="assets/imgs/user.svg"
         />
       </ion-col>
@@ -30,7 +30,7 @@
 
 <ion-content style="--background: #262626">
   <div style="display: flex; flex-wrap: wrap" class="margincls"  >
-    <!-- <p *ngIf="noevenu == 1" class="notFound work_sans">No Venus Found</p> -->
+    <!-- <p *ngIf="noevenu == 1" class="notFound roboto">No Venus Found</p> -->
     <div
       style="width: 50%; position: relative"
       [class.heighclassbig]="i % 2 != 0"
@@ -78,8 +78,8 @@
       "
       >
         <div style="position: absolute; bottom: 0px; left: 15px">
-          <p class="title1 work_sans">{{opt.name}}</p>
-          <p class="title2 work_sans">
+          <p class="title1 roboto">{{opt.name}}</p>
+          <p class="title2 roboto">
             {{opt.distance | number : '1.2-2'}} Miles
           </p>
         </div>

@@ -9,6 +9,7 @@ import { RestService } from "../rest.service";
 import { AlertController } from '@ionic/angular';
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
+import { AiModelPage } from "../ai-model/ai-model.page";
 
 @Component({
   selector: "app-profile",
@@ -114,6 +115,12 @@ export class ProfilePage implements OnInit {
 
     
   }
+
+  goToTermsAndCondtions(){
+    this.router.navigate(['/terms-and-conditions']);
+  }
+
+
   ngOnInit() {
     setTimeout(async () => {
       const result = await Camera.checkPermissions();
@@ -307,7 +314,7 @@ export class ProfilePage implements OnInit {
 
     if (event.detail.checked) {
       if (this.ai == "No") {
-        
+        this.showPointAI();
       }
 
       this.aiToggleValue = "Yes";
@@ -321,6 +328,16 @@ export class ProfilePage implements OnInit {
     console.log("model");
     const modal = await this.modalCtrl.create({
       component: BeseenPage,
+      cssClass: "riz",
+    });
+
+    await modal.present();
+  }
+
+  async showPointAI() {
+    console.log("model");
+    const modal = await this.modalCtrl.create({
+      component: AiModelPage,
       cssClass: "riz",
     });
 

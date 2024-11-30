@@ -4,18 +4,18 @@
       <ion-col size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px; "
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-title class="titlefont work_sans">Profile</ion-title>
+        <ion-title class="titlefont roboto">Profile</ion-title>
       </ion-col>
       <ion-col class="centerall" size="2">
         <img
           (click)="goLogout()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/logout.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/ExitIcon.png"
       /></ion-col>
     </ion-row>
   </ion-toolbar>
@@ -35,6 +35,10 @@
       src="{{imgdataComing}}"
     />
 
+    <div class="roboto" style="margin-top: 10px;  color: white;font-size: 14px;font-weight: 500;">{{name}} 
+      <img style="margin-left: 4px;  height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
+    </div>
+
     <!--
       
       <img style="border-radius: 50%;
@@ -47,27 +51,18 @@
 
   <div
     style="
-     margin: 30px 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
+     margin: 20px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+     
     "
   >
-    <div style="display: flex; align-items: center">
-      <ion-label
-        style="
-          font-style: normal;
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 16px;
-          color: #ffffff;
-          text-transform: uppercase;
-        "
-        class="work_sans"
-        >Be seen</ion-label
-      >
-
-      <ion-toggle
+    <div style="display: flex;
+    flex-direction: column;
+    align-items: center;">
+      <div>
+        <ion-toggle
         [checked]="seenToggleChecked"
         (ionChange)="beseentoggle($event)"
         mode="ios"
@@ -75,11 +70,65 @@
           --handle-background-checked: white;
           --background: #9d9d9d;
           --background-checked: #ac3dba;
-          margin-left: 13px;
+          width: 60px;
         "
       ></ion-toggle>
+      </div>
+      
+      <div>
+        <ion-label
+        style="
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: #ffffff;
+          text-transform: capitalize;
+        "
+        class="roboto"
+        >CrowdLive</ion-label
+        >
+      </div>
+      
+
+      
     </div>
-    <div style="display: flex; align-items: center">
+
+    <div style="display: flex;
+    flex-direction: column;
+    align-items: center;">
+        <div>
+          <ion-toggle
+          [checked]="aiToggleChecked"
+          (ionChange)="aiToggle($event)"
+          mode="ios"
+          style="
+            --handle-background-checked: white;
+            --background: #9d9d9d;
+            --background-checked: #ac3dba;
+            width: 60px;
+          "
+        ></ion-toggle>
+        </div>
+        <div>
+          <ion-label
+            style="
+              font-style: normal;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 16px;
+              color: #ffffff;
+              text-transform: capitalize;
+            "
+            class="roboto"    
+            >CrowdAI</ion-label  
+          >
+        </div>
+    
+
+    
+  </div>
+    <!-- <div style="display: flex; align-items: center">
       <ion-label
         style="
           font-style: normal;
@@ -89,7 +138,7 @@
           color: #ffffff;
           text-transform: uppercase;
         "
-        class="work_sans"
+        class="roboto"
         >Reset Location</ion-label
       >
 
@@ -103,39 +152,13 @@
           margin-left: 13px;
         "
       ></ion-toggle>
-    </div>
+    </div> -->
   </div>
 
-  <div style="display: flex; align-items: center;justify-content: center;
-  margin-top: 18px;">
-    <ion-label
-      style="
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 16px;
-        color: #ffffff;
-        text-transform: uppercase;
-      "
-      class="work_sans"
-      >Artificial Intelligence</ion-label
-    >
+  
 
-    <ion-toggle
-      [checked]="aiToggleChecked"
-      (ionChange)="aiToggle($event)"
-      mode="ios"
-      style="
-        --handle-background-checked: white;
-        --background: #9d9d9d;
-        --background-checked: #ac3dba;
-        margin-left: 13px;
-      "
-    ></ion-toggle>
-  </div>
-
-  <div style="width: 90%; margin: 0% auto">
-    <div
+  <div style="width: 93%; margin: 0% auto 25px;">
+    <!-- <div
       class="inputfieldblack"
       style="height: 52px; display: flex; margin-top: 20px"
     >
@@ -149,9 +172,9 @@
         type="text"
         placeholder="User Name"
       />
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       class="inputfieldblack"
       style="height: 52px; display: flex; margin-top: 20px"
     >
@@ -160,9 +183,9 @@
         src="/assets/imgs/userblue.svg"
       />
       <input [(ngModel)]="name" class="input" type="text" placeholder="Name" />
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       class="inputfieldblack"
       style="height: 52px; display: flex; margin-top: 20px"
     >
@@ -176,9 +199,93 @@
         type="text"
         placeholder="Email"
       />
+    </div> -->
+
+
+    <div style="display: flex;flex-wrap: wrap;justify-content: space-between;align-items: center;">
+      <div class="profile_option" (click)="gotoReservation()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Reservations</div>
+          <div class="roboto option_desc" >See all Reservation History</div>
+        </div>
+      </div>  
+      
+      <div class="profile_option" (click)="gotoEvents()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Events</div>
+          <div class="roboto option_desc" >See all Event History</div>
+        </div>
+      </div>
+
+      <div class="profile_option" (click)="gotoDiscounts()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Discounts</div>
+          <div class="roboto option_desc" >See all Claimed Discounts</div>
+        </div>
+      </div>
+
+      <div class="profile_option" >
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Billing & Payments</div>
+          <div class="roboto option_desc" >Edit/Add Payment Method</div>
+        </div>
+      </div>
+
+      <div class="profile_option" (click)="gotoRefundPage()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Refunds</div>
+          <div class="roboto option_desc" >Track Event Refunds</div>
+        </div>
+      </div>
+      
+      <div class="profile_option" (click)="goToTermsAndCondtions()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Terms & Conditions</div>
+          <div class="roboto option_desc" >View All Terms</div>
+        </div>
+      </div>
+     
+      <div class="profile_option" >
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >My Reviews</div>
+          <div class="roboto option_desc" >Submitted & Pending</div>
+        </div>
+      </div>
+      
+      <div class="profile_option">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Support Enquiries</div>
+          <div class="roboto option_desc" >Submit / View Ticket Status</div>
+        </div>
+      </div>
+      
+      <div class="profile_option">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Profile Settings</div>
+          <div class="roboto option_desc" >Edit Profile Settings</div>
+        </div>
+      </div>
+      
+      <div class="profile_option" (click)="godelete()">
+        <div><img class="opiton_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></div>
+        <div>
+          <div class="roboto option_title" >Delete Account</div>
+          <div class="roboto option_desc" >Permanently Delete Account</div>
+        </div>
+      </div>
     </div>
 
-    <div
+    
+    <!-- <div
       (click)="gotoReservation()"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -191,8 +298,8 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Reservations</p>
-        <p class="desc work_sans">See all your reservations history</p>
+        <p class="title roboto">Reservations</p>
+        <p class="desc roboto">See all your reservations history</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
@@ -210,8 +317,8 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Events</p>
-        <p class="desc work_sans">See all your events ticket history</p>
+        <p class="title roboto">Events</p>
+        <p class="desc roboto">See all your events ticket history</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div>
@@ -229,11 +336,11 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Discounts</p>
-        <p class="desc work_sans">See all your claimed discounts</p>
+        <p class="title roboto">Discounts</p>
+        <p class="desc roboto">See all your claimed discounts</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
+    </div> -->
 
     <!-- <div
       (click)="gotoAddPaymentMethods()"
@@ -248,13 +355,13 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Payment</p>
-        <p class="desc work_sans">Add/Edit payment Methods</p>
+        <p class="title roboto">Payment</p>
+        <p class="desc roboto">Add/Edit payment Methods</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div> -->
     
-    <div
+    <!-- <div
       (click)="gotoRefundPage()"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -267,12 +374,12 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Refund</p>
-        <p class="desc work_sans">Track Events Refund requests</p>
+        <p class="title roboto">Refund</p>
+        <p class="desc roboto">Track Events Refund requests</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
-    <div
+    </div> -->
+    <!-- <div
       (click)="startChatWithAdmin()"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -285,13 +392,13 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Customer Support</p>
-        <p class="desc work_sans">Chat with Admin</p>
+        <p class="title roboto">Customer Support</p>
+        <p class="desc roboto">Chat with Admin</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       (click)="changePass()"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -304,13 +411,13 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Password</p>
-        <p class="desc work_sans">Update your password</p>
+        <p class="title roboto">Password</p>
+        <p class="desc roboto">Update your password</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       (click)="godelete()"
       style="
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -323,29 +430,29 @@
       <div
         style="display: flex; flex-direction: column; align-items: flex-start"
       >
-        <p class="title work_sans">Delete Account</p>
-        <p class="desc work_sans">Delete your account</p>
+        <p class="title roboto">Delete Account</p>
+        <p class="desc roboto">Delete your account</p>
       </div>
       <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
+    </div> -->
 
     <!-- <ion-button
       (click)="changePass()"
       style="margin-top: 20px"
-      class="btnbg work_sans"
+      class="btnbg roboto"
       >Change Password</ion-button
     > -->
-    <ion-button
+    <!-- <ion-button
       (click)="save()"
       style="margin-top: 20px; margin-bottom: 30px"
-      class="btnbg work_sans"
+      class="btnbg roboto"
       >SAVE</ion-button
-    >
+    > -->
 
     <!-- <ion-button
       style="margin-top: 20px"
       (click)="godelete()"
-      class="btnbgred work_sans"
+      class="btnbgred roboto"
       >Delete Account</ion-button
     > -->
   </div>

@@ -2406,8 +2406,6 @@ export class HomePage implements OnInit {
     
     console.log("Latitude123: ", this.latitude);
     console.log("Longitude123: ", this.longitude);
-    
-  
   }
 
   goToProfile() {
@@ -2690,9 +2688,9 @@ export class HomePage implements OnInit {
   userID : any = "";
   records_limit: any = 0;
   
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getSystemSettings();
-    this.getCurrentPosition();
+    await this.getCurrentPosition();
     
     this.records_limit = localStorage.getItem("records_limit");
     this.noevent = 0;
@@ -2738,11 +2736,15 @@ export class HomePage implements OnInit {
     console.log('get venues called');
     
     var ss = JSON.stringify({
-      longitude: localStorage.getItem("longitude"),
-      lattitude: localStorage.getItem("lattitude"),
+      // longitude: localStorage.getItem("longitude"),
+      // lattitude: localStorage.getItem("lattitude"),
+      longitude: this.longitude,
+      lattitude: this.latitude,
       users_customers_id: this.userID,
       page_number: this.pageNumber,
     });
+    console.log('venue payloads',ss);
+    
 
     if(this.venuarr.length == 0){ 
       this.rest.presentLoader();
@@ -2754,7 +2756,7 @@ export class HomePage implements OnInit {
         
         this.rest.dismissLoader();
       }
-      this.getEvents();
+      // this.getEvents();
       if (res.status == "success") {
         for(let i=0; i<res.data.length; i++){
           res.data[i].cover_images =  `${this.rest.baseURLimg}${res.data[i].cover_image}`
@@ -2829,11 +2831,16 @@ export class HomePage implements OnInit {
       console.log('get Reservations called');
   
       var ss = JSON.stringify({
-        longitude: localStorage.getItem("longitude"),
-        lattitude: localStorage.getItem("lattitude"),
+        // longitude: localStorage.getItem("longitude"),
+        // lattitude: localStorage.getItem("lattitude"),
+        longitude: this.longitude,
+        lattitude: this.latitude,
         users_customers_id: this.userID,
         page_number: this.pageNumber,
       });
+
+    console.log('reservation payloads',ss);
+
   
       if(this.filteredReservationsArr.length == 0){
           
@@ -2892,8 +2899,10 @@ export class HomePage implements OnInit {
     console.log('get Events called');
 
     var ss = JSON.stringify({
-      longitude: localStorage.getItem("longitude"),
-      lattitude: localStorage.getItem("lattitude"),
+      // longitude: localStorage.getItem("longitude"),
+      // lattitude: localStorage.getItem("lattitude"),
+      longitude: this.longitude,
+      lattitude: this.latitude,
       users_customers_id: this.userID,
       page_number: this.pageNumber,
     });

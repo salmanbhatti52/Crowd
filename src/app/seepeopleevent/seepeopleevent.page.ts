@@ -23,6 +23,10 @@ export class SeepeopleeventPage implements OnInit {
     this.location.back();
   }
 
+  goToProfile(){
+    this.router.navigate(['/profile']);
+  }
+
   ionViewWillEnter() {
     var ss = JSON.stringify({
       events_id: this.rest.detail.events_id,

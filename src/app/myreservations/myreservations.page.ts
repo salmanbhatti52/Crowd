@@ -1,6 +1,6 @@
 import { RestService } from "./../rest.service";
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { CancelbookPage } from "../cancelbook/cancelbook.page";
@@ -15,7 +15,7 @@ import { format, parse, parseISO } from "date-fns";
 })
 export class MyreservationsPage implements OnInit {
   segmentModel = "Upcoming";
-
+  deleteOldBooking = false;
   upcomingArr: any = [];
   orderd_upcomingArr: any = [];
   previousArr: any = [];
@@ -28,7 +28,8 @@ export class MyreservationsPage implements OnInit {
     public location: Location,
     public modalCtrl: ModalController,
     public rest: RestService,
-    public router: Router
+    public router: Router,
+    public changeDetectorRef:ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -43,6 +44,15 @@ export class MyreservationsPage implements OnInit {
   segmentChanged(event: any) {
     console.log(this.segmentModel);
     console.log("eee", event);
+  }
+
+  closeModel(){
+    this.deleteOldBooking = false;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  deleteReservation(){
+    this.deleteOldBooking = true;
   }
 
   getUpcomingBookings(){
@@ -105,12 +115,12 @@ export class MyreservationsPage implements OnInit {
     console.log('this.rest.selectedBooking: ',this.rest.selectedBooking);
     console.log("comingFrom     ::::::",this.rest.comingFrom);
     
-    this.router.navigate(['/booking2']);
+    this.router.navigate(['/booking-detail']);
   }
 
  
   goBack() {
-    if(this.rest.comfrom == 'booking2'){
+    if(this.rest.comfrom == 'booking-detail'){
       this.router.navigate(['/home']);
       this.rest.comfrom = '';
     }else{

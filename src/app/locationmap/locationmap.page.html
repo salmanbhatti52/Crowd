@@ -1,9 +1,8 @@
 <ion-content [fullscreen]="true" >
   <div class="bg paddingtop">
 
-  <!-- <capacitor-google-map #map></capacitor-google-map> -->
-
-  <google-map 
+  <div id='map' style='width: 400px; height: 300px;'></div>
+  <!-- <google-map 
     height="100%"
     width="100%"
     #myGoogleMap
@@ -26,12 +25,6 @@
 
     <map-info-window  style=" border-radius: 15px; border-bottom: none;">
       <div  style="display: flex; align-items: center;" >
-        <!-- <ion-icon (click)="closeWindow()" name="close" style="height: 16px;
-        width: 16px;
-        opacity: 0.6;
-        position: absolute;
-        top: 6px;
-        right: 11px;"></ion-icon> -->
         <img
           style="height: 30px; width: 30px; margin-right: 10px"
           src="assets/imgs/maphuman.svg"
@@ -60,7 +53,8 @@
     <map-directions-renderer  [options]="renderOptions"  *ngIf="(directionsResults$ | async) as directionsResults"
       [directions]="directionsResults">
     </map-directions-renderer>
-  </google-map>
+  </google-map> -->
+  <!-- <div id="mapbox" style="position: absolute; top: 0; bottom: 0; width: 100%; height: 100%;"></div> -->
   
   <!-- (click)="startSpeechRecognition()" -->
   <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map"   style="position: fixed;z-index: 11;
@@ -69,8 +63,7 @@
 
   <ion-modal  trigger="open-modal-map" [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()"   (ionModalWillDismiss)="dismissModal()" >
     <ng-template>
-      <!-- style="background: transparent;" -->
-      <div >
+      <div>
         <div style="padding: 15px 15px 0px;display: flex;align-items: center;justify-content: space-between;">
           <ion-toggle
                 [checked]="toggleThemeChecked"
@@ -195,24 +188,28 @@
     right: 12px;
     bottom: 51%; "
     >
-    <img style="height: 58px;
-    width: 58px;" src="../../assets/imgs/bar_circle.svg" alt="">
-    
+    <div style="background: linear-gradient(180deg,#51086a,#670b7e,#710a81,#840c8e);border-radius: 50px;padding: 5px;height: 58px;width: 58px;">
+
+      <img style="height: 31px;
+      width: 29px;
+      margin: 8px 10px;" src="../../assets/imgs/icons/drink_icon.svg" alt="">
+      
+    </div>
   </div>
 
   <div *ngIf="showCategories" class="categories_filter">
-    <div class="filter_btn work_sans mgb_16" (click)="selectedVenueCategory('bars')" >Bars</div>
+    <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('bars')" >Bars</div>
     <!-- (click)="setMarkersAgain()" -->
-    <div class="filter_btn work_sans" (click)="selectedVenueCategory('restaurants')">Restaurants</div>
+    <div class="filter_btn roboto" (click)="selectedVenueCategory('restaurants')">Restaurants</div>
 
-    <div class="filter_btn work_sans mgb_16" (click)="selectedVenueCategory('clubs')" >Clubs</div>
+    <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('clubs')" >Clubs</div>
     
   </div>
 
   <div *ngIf="showSideElements" (click)="toggleCrowdFilter()" style="position: absolute;
     right: 12px;
     bottom: 40%;
-    background: #740899;
+    background: linear-gradient(180deg,#51086a,#670b7e,#710a81,#840c8e);
     
     border-radius: 90px;
     height: 58px;
@@ -223,11 +220,11 @@
   </div>
 
   <div *ngIf="showCrowdfilters" class="crowd_filter" >
-    <div class="filter_btn work_sans" (click)="selectedCrowdFilter('Quiet')">Quiet</div>
+    <div class="filter_btn roboto" (click)="selectedCrowdFilter('Quiet')">Quiet</div>
     
-    <div class="filter_btn work_sans mgb_16" (click)="selectedCrowdFilter('Busy')" >Busy</div>
+    <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Busy')" >Busy</div>
     
-    <div class="filter_btn work_sans mgb_16" (click)="selectedCrowdFilter('Very Busy')" >Very Busy</div>
+    <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Very Busy')" >Very Busy</div>
     
   </div>
 
@@ -247,11 +244,11 @@
   </div>
 
   <div *ngIf="showEventCategories" class="events_filter">
-    <div class="event_filter_btn work_sans mgb_16" (click)="selectedEventCategory('bars')" >Bars</div>
+    <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('bars')" >Bars</div>
     
-    <div class="event_filter_btn work_sans mgb_16" (click)="selectedEventCategory('promo')" >Promo</div>
+    <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('promo')" >Promo</div>
     <!-- (click)="setMarkersAgain()" -->
-    <div class="event_filter_btn work_sans" (click)="selectedEventCategory('clubs')">Clubs</div>
+    <div class="event_filter_btn roboto" (click)="selectedEventCategory('clubs')">Clubs</div>
   </div>
 
   
@@ -267,10 +264,9 @@
     >
       <img
         style="height: 24px;
-        margin: 8px 0px 8px 15px;
-        width: 24px;"
-        src="../../assets/imgs/icons/location.svg"
-      />
+        margin: 8px 0px 8px 15px; "
+        src="../../assets/imgs/icons/menu_bar_icons/home_icon_select.png"
+      />        
     
       <ion-input #textInput
         style="padding-left: 15px !important; margin-right: 8px;"
@@ -282,8 +278,8 @@
       ></ion-input>
       <img 
         (click)="goToProfile()"
-        style="margin-top: 8px; margin-right: 3px; height: 25px; width: 25px"
-        src="assets/imgs/user.svg"
+        style="margin-top: 8px; margin-right: 3px; height: 25px;"
+        src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
       />
     </div>
   </div>
@@ -323,7 +319,7 @@
     <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;align-items: center;">
       <img
         style="
-          border-radius: 22px;
+          border-radius: 44px;
           height: 100px;
           width: 100px;
           padding: 10px;
@@ -337,12 +333,12 @@
           style="
             font-style: normal;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 15px;
             line-height: 21px;
             color: #ffffff;
             
           "
-          class="work_sans"
+          class="roboto"
         >
           {{searchObject.name}}
         </p>
@@ -363,7 +359,8 @@
             top: 13px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
             font-weight: 400;
             width: 60px;
           "
@@ -380,7 +377,8 @@
             top: 12px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
             font-weight: 400;
           "
           >No Discount</ion-badge
@@ -388,16 +386,16 @@
 
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{searchObject.distance | number : '1.1-1'}} Miles
           </p>
         </div>
         <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-          <p class="work_sans titlesub" *ngIf="searchObject.start_hours!=null">
+          <p class="roboto titlesub" *ngIf="searchObject.start_hours!=null">
              {{searchObject.start_hours}} - {{searchObject.close_hours}}
           </p>
-          <p *ngIf="searchObject.start_hours==null" class="work_sans titlesub">Closed</p>
+          <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p>
         </div>
       </div>
     </div>
@@ -430,7 +428,7 @@
     <div *ngIf="showEventDetail" (click)="gotoEventdetail()" style="width: 100%; display: flex;align-items: center;">
       <img
         style="
-          border-radius: 22px;
+          border-radius: 44px;
           height: 100px;
           width: 100px;
           padding: 10px;
@@ -444,12 +442,12 @@
           style="
             font-style: normal;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 15px;
             line-height: 21px;
             color: #ffffff;
             
           "
-          class="work_sans"
+          class="roboto"
         >
           {{searchEventObject.name}}
         </p>
@@ -470,7 +468,8 @@
             top: 13px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
             font-weight: 400;
             width: 60px;
           "
@@ -487,7 +486,8 @@
             top: 12px;
             border-radius: 20px;
             /* background: #7825cb; */
-            background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
             font-weight: 400;
           "
           >No Discount</ion-badge
@@ -495,21 +495,24 @@
 
         <div style="display: flex; margin-top: 10px">
           <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{searchEventObject.distance | number : '1.1-1'}} Miles
           </p>
         </div>
         <div style="display: flex; margin-top: 10px" *ngIf="searchEventObject.events_id != null">
           <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-          <p class="work_sans titlesub" *ngIf="searchEventObject.event_start_time!=null">
+          <p class="roboto titlesub" *ngIf="searchEventObject.event_start_time!=null">
              {{searchEventObject.formatted_start_time}} - {{searchEventObject.formatted_end_time}}
           </p>
-          <!-- <p *ngIf="searchObject.start_hours==null" class="work_sans titlesub">Closed</p> -->
+          <!-- <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p> -->
         </div>
       </div>
     </div>
   </div>
   </div>
+
+  
+  
 </ion-content>
 
 <ion-footer class="ion-no-border">
@@ -517,23 +520,23 @@
     <ion-tab-bar slot="bottom" class="ion-no-border">
       <hr />
       <ion-tab-button (click)="tab1Click()">
-        <img src="assets/imgs/home.svg" class="img" />
-        <ion-label class="font work_sans">Home</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/home_icon.png" class="img" />
+        <ion-label class="font roboto">Home</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab2Click()">
-        <img src="assets/imgs/locationactive.svg" class="activeimg" />
-        <ion-label class="fontactive work_sans">Location</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/location_icon_select.png" class="activeimg" />
+        <ion-label class="fontactive roboto">Location</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab3Click()">
-        <img src="assets/imgs/heart.svg" class="img" />
-        <ion-label class="font work_sans">Saved</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/saved_icon.png" class="img" />
+        <ion-label class="font roboto">Saved</ion-label>
       </ion-tab-button>
 
       <ion-tab-button (click)="tab4Click()">
-        <img src="assets/imgs/bell.svg" class="img" />
-        <ion-label class="font work_sans">Notification</ion-label>
+        <img src="../../assets/imgs/icons/menu_bar_icons/notification_icon.png" class="img" />
+        <ion-label class="font roboto">Notification</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>

@@ -1,37 +1,48 @@
-<ion-content style="--background: #00000059">
-  <div
-    style="
-      position: absolute;
-      top: 31%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    "
-  >
-    <div
-      style="
-        background: white;
-        padding: 20px 20px 20px 20px;
-        border-radius: 20px;
-        margin: 20px;
-      "
-    >
-      <div style="display: flex; justify-content: flex-end">
-        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
-      </div>
-      <p style="margin: 10px 0px 5px 0px" class="hh work_sans">
-        Payment Successful
-      </p>
+<ion-content style="--background: #262626">
+  <ion-modal [isOpen]="showBookingModel" class="booking_popup" (ionModalDidDismiss)="closeModal()">
+    <ng-template>
+      <img style="
+      height: 268px;
+      margin: 0px auto;
+      width: 97.5%;
+      clip-path: polygon(50% 0%, 100% 7%, 100% 92%, 50% 100%, 0% 92%, 0% 7%);
+      border-radius: 60px 58px 0px 0px;z-index: 11;" src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}" alt="">
 
-      <p style="margin: 10px 0px 5px 0px" class="sure work_sans">
-        You have completed your payment successfully.
-      </p>
-      <ion-button
-        (click)="closeModel()"
-        style="margin-top: 20px; opacity: 1"
-        class="btnbg work_sans"
-        >Show Ticket</ion-button
-      >
-    </div>
-  </div>
+      <div class="content_position">
+        <div class="roboto heading_text">{{selectedEvent.name}}</div>
+
+        <div class="flex_info_box">
+          <div class="flex_center info_text" style="margin: 0px auto 0px 0px;">
+            <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" alt="">
+            <div class="roboto" style="line-height: normal;">{{getDate(selectedEvent.event_date)}}</div>
+          </div>
+          <div class="flex_center info_text" style="margin: 0px 0px auto auto;">
+            <img class="small_icon_style" src="../../assets/imgs/icons/ticket_clock.svg" alt="">
+            <div class="roboto" style="line-height: normal;">{{getTime(selectedEvent.event_start_time)}} - {{getTime(selectedEvent.event_end_time)}}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card_bg">
+        <img class="confirm_icon" src="../../assets/imgs/icons/new_icons/ConfirmedIcon.png" alt="">
+        <div class="roboto confirm_booking" >Payment Complete</div>
+        <div class="roboto thanks_text">Thank you</div>
+
+        <!-- <img class="icon_style" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""> -->
+        <div class="thanks_text" style="margin-top: 20px;">All QR tickets can be found in your Profile</div>
+
+        <ion-button class="btnsimple roboto view_booking_btn" style="--border-radius: 16px;" (click)="viewBooking()">
+          View Ticket
+        </ion-button>
+           
+        <ion-button 
+          (click)="closeModal()"
+          style="margin-top: 10px;--border-radius: 16px;"
+          class="btngray roboto close_btn"
+          >Close
+        </ion-button>
+      </div>
+      
+    </ng-template>
+  </ion-modal>
 </ion-content>

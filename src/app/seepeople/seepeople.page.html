@@ -4,14 +4,20 @@
       <ion-col size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">See who's out!</ion-label>
+        <ion-label class="titlefont roboto">CrowdLive</ion-label>
       </ion-col>
-      <ion-col class="centerall" size="2"> </ion-col>
+      <ion-col class="centerall" size="2">
+        <img
+        (click)="goToProfile()"
+        style="height: 25px;"
+        src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
+        />   
+      </ion-col>
     </ion-row>
   </ion-toolbar>
 </ion-header>
@@ -20,16 +26,16 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div style="width: 90%; text-align: center; margin: 5% auto">
+  <div class="visitors">
     <div *ngFor="let opt of visitorArr">
-      <div class="mainDiv" *ngIf="opt.be_seen ==  'Yes'">
+      <div class="mainDiv" >
         <img
           class="uimg"
           src="{{rest.baseURLimg}}{{opt.profile_picture}}"
           (error)="handleImgError2($event, opt.profile_picture)"
         />
 
-        <p class="uname work_sans">{{opt.username}}</p>
+        <p class="uname roboto">{{opt.username}}</p>
       </div>
     </div>
   </div>

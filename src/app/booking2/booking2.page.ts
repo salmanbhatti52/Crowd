@@ -1,8 +1,7 @@
 import { ModalController, NavController } from "@ionic/angular";
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { CancelbookPage } from "../cancelbook/cancelbook.page";
 import { RestService } from "../rest.service";
 import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
 import { format, parse, parseISO } from "date-fns";
@@ -23,6 +22,7 @@ export class Booking2Page implements OnInit {
   mtime: any = "";
   userID: any = "";
   startChatStatus: any;
+  showBookingModel: boolean = false;
 
   constructor(
     public location: Location,
@@ -30,7 +30,8 @@ export class Booking2Page implements OnInit {
     public rest: RestService,
     public modalCtrl: ModalController,
     public iab: InAppBrowser,
-    public navCtrl:NavController
+    public navCtrl:NavController,
+    public changeDetectorRef:ChangeDetectorRef
   ) {}
 
   ionViewWillLeave() {
@@ -51,8 +52,24 @@ export class Booking2Page implements OnInit {
     this.mtime = format(this.mtime, 'h:mma');
     // this.mtime = this.selectedBooking.bookings_time.substring(0,5);
     console.log("this.selectedBooking.bookings_time", this.mtime);
-    this.startChat();
+    
+    this.showBookingModel = true; // show modal with info
+    // this.startChat();
   }
+
+  viewBooking(){
+    // this.rest.comfrom = 'booking2';
+    this.showBookingModel = false;
+    this.changeDetectorRef.detectChanges();
+    this.navCtrl.navigateRoot('booking-detail');
+  }
+
+  closeModal(){
+    this.showBookingModel = false;
+    this.changeDetectorRef.detectChanges();
+    this.gotoReservations();
+  }
+
 
   ngOnInit() {}
 
@@ -62,7 +79,6 @@ export class Booking2Page implements OnInit {
 
   gotoReservations(){
     this.rest.comfrom = 'booking2';
-    // this.router.navigate(['/myreservations']);
     this.navCtrl.navigateRoot('myreservations');
   }
 
@@ -73,48 +89,5 @@ export class Booking2Page implements OnInit {
     const imgSrc = `assets/imgs/inplace.jpeg`;
     source.src = imgSrc;
   }
-
-  async cancelBooking() {
-    console.log("model");
-    // this.rest.comingFrom = "booking2";
-    const modal = await this.modalCtrl.create({
-      component: CancelbookPage,
-      cssClass: "riz",
-    });
-
-    await modal.present();
-  }
-
-  startChat(){
-    var ss = JSON.stringify({
-      requestType: "startChat",
-      users_customers_id: this.userID,
-      other_users_customers_id: this.selectedVenue.users_business_id,
-      venues_id: this.selectedVenue.venues_id,
-    });
-    console.log("start chat payload", ss);
-    
-    this.rest.user_chat(ss).subscribe((res: any) => {
-      console.log(res);
-      if (res.status == "success"){
-        this.startChatStatus = 'success';
-      }
-    });
-  }
-
-  goToChat() {
-    if(this.startChatStatus == 'success'){
-      this.router.navigate(["chat"])
-    }
-  }
-
-  openBrowserLink() {
-    console.log("opennnnn");
-
-    this.iab.create(this.selectedVenue.website, "_blank");
-  }
-
-  editbooking() {
-    this.router.navigate(["editbooking"]);
-  }
+ 
 }

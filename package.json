@@ -61,6 +61,7 @@
     "html2canvas": "^1.4.1",
     "ionicons": "^6.0.3",
     "lottie-web": "^5.12.2",
+    "mapbox-gl": "^3.7.0",
     "ng-otp-input": "^1.8.5",
     "ng-scroll-calendar": "^1.1.2",
     "ngx-lottie": "^10.0.0",

@@ -67,6 +67,10 @@ export class ChatPage implements OnInit {
     this.location.back();
   }
 
+  goToProfile() {
+    this.router.navigate(["profile"]);
+  }
+
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;

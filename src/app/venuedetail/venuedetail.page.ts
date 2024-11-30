@@ -29,6 +29,7 @@ export class VenuedetailPage implements OnInit {
   discountToken:any;
   hideClaimDiscountButton: boolean = false;
   reviews:any = [];
+  venueTimingShow: any = false;
   constructor(
     public router: Router,
     public location: Location,
@@ -98,16 +99,18 @@ export class VenuedetailPage implements OnInit {
     this.detailObj = this.rest.detail;
     console.log("detaill----", this.detailObj);
     console.log("discountPercentage: ",this.detailObj.discount_percentage);
-    
+
+    this.formatDetailObjVenueTimings();
     let dayNumber = getDay(new Date());
     console.log(dayNumber);
+   
     if(this.detailObj.venue_timing[dayNumber].start_hours != null && this.detailObj.venue_timing[dayNumber].close_hours != null){
       
       this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
       this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
       // this.rest.detail.db_start_hours = this.detailObj.start_hours;
       // this.rest.detail.db_close_hours = this.detailObj.close_hours;
-
+      this.detailObj.day_name = this.detailObj.venue_timing[dayNumber].days_name;
       // parsed time
       this.detailObj.start_hours = parse(this.detailObj.start_hours, 'HH:mm:ss', new Date());
       this.detailObj.close_hours = parse(this.detailObj.close_hours, 'HH:mm:ss', new Date());
@@ -156,6 +159,31 @@ export class VenuedetailPage implements OnInit {
     // this.userID = JSON.parse(this.userdata).users_customers_id;
 
     
+  }
+
+  formatDetailObjVenueTimings(){
+    let startHours, closeHours;
+    
+    for(let i=0; i<this.detailObj.venue_timing.length;i++){
+      if(this.detailObj.venue_timing[i].start_hours != null && this.detailObj.venue_timing[i].close_hours != null){
+      
+        startHours = this.detailObj.venue_timing[i].start_hours;
+        closeHours = this.detailObj.venue_timing[i].close_hours;
+        // this.rest.detail.db_start_hours = this.detailObj.start_hours;
+        // this.rest.detail.db_close_hours = this.detailObj.close_hours;
+  
+        // parsed time
+        startHours = parse(startHours, 'HH:mm:ss', new Date());
+        closeHours = parse(closeHours, 'HH:mm:ss', new Date());
+        
+        //formated time
+        this.detailObj.venue_timing[i].formatted_start_hours = format(startHours, 'h:mma');
+        this.detailObj.venue_timing[i].formatted_close_hours = format(closeHours, 'h:mma');
+
+      }else{
+        
+      }
+    }
   }
 
   getTime(val:any){
@@ -345,4 +373,14 @@ export class VenuedetailPage implements OnInit {
 
     this.router.navigate(["booking1"]);
   }
+
+  hideShowtimings() {
+    if (this.venueTimingShow) {
+      this.venueTimingShow = false;
+    } else {
+      this.venueTimingShow = true;
+    }
+  }
+
+  
 }

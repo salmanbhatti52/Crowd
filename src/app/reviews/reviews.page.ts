@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from "@angular/common";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../rest.service';
 @Component({
   selector: 'app-reviews',
@@ -11,8 +11,11 @@ export class ReviewsPage implements OnInit {
   venueId:any;
   userId:any;
   reviews:any = [];
+  reviews2:any = [1,2,3,4,5,6,7,8,8,9,8];
+
+  ratingValue:any = 0.0;
   // reviewFound:any = false;
-  constructor(public location: Location,public route: ActivatedRoute,public rest: RestService) { }
+  constructor(public location: Location,public route: ActivatedRoute,public rest: RestService, public router:Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -23,6 +26,10 @@ export class ReviewsPage implements OnInit {
     });
 
     this.getVenueReviews(); 
+  }
+
+  ionViewWillEnter(){
+
   }
 
   getVenueReviews(){
@@ -43,6 +50,10 @@ export class ReviewsPage implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  goForAddReview(){
+    this.router.navigate(['/add-review'],{queryParams:{venueId:this.venueId}});
   }
 
 }

@@ -9,29 +9,28 @@
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goBack()"
-          style="height: 25px; width: 25px; margin-right: 15px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;; margin-right: 15px"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="4" style="text-align: center"> </ion-col>
       <ion-col size="6" style="text-align: right">
         <img
-          (click)="goToProfile()"
-          style="height: 25px; width: 25px; margin-right: 15px"
-          src="assets/imgs/user.svg"
-        />
-
-        <img
           (click)="likeevent()"
           *ngIf="detailObj.likes==0"
-          style="height: 25px; width: 25px; margin-right: 10px"
+          style="height: 25px;; margin-right: 10px"
           src="assets/imgs/heartww.svg"
         />
         <img
           (click)="likeoutevent()"
           *ngIf="detailObj.likes!=0"
-          style="height: 25px; width: 25px; margin-right: 10px"
+          style="height: 25px;; margin-right: 10px"
           src="assets/imgs/heartactive.svg"
+        />
+        <img
+          (click)="goToProfile()"
+          style="height: 25px;; margin-right: 15px"
+          src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
         />
       </ion-col>
     </ion-row>
@@ -61,8 +60,11 @@
   </div>
 
   <div style="width: 92%; margin: 4% auto">
-    <p class="titlemain work_sans">{{detailObj.name}}</p>
-    <p class="titlesubmain work_sans">{{detailObj.venue_name}}</p>
+    <div class="roboto rating_text">4.5 <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
+      <span style="margin-left: 4px;">Exceptional</span>
+    </div>
+    <p class="titlemain roboto">{{detailObj.name}} </p>
+    <p class="titlesubmain roboto">{{detailObj.venue_name}}</p>
 
     <ion-row>
       <ion-col size="3.1" style="display: flex; align-items: center; padding: 0px;">
@@ -71,7 +73,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/pinwhite.svg"
           />
-          <p class="work_sans titlesub" style="width: 73px;overflow: hidden;">
+          <p class="roboto titlesub" style="width: 73px;overflow: hidden;">
             {{detailObj.distance | number : '1.1-1'}} Miles
           </p>
         </div>
@@ -82,7 +84,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/icons/calendar.svg"
           />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{detailObj.formatted_date}}
           </p>
         </div>
@@ -93,7 +95,7 @@
             style="height: 15px; margin-right: 7px; width: 12px"
             src="assets/imgs/watch.svg"
           />
-          <p class="work_sans titlesub">
+          <p class="roboto titlesub">
             {{detailObj.formatted_start_time}} - {{detailObj.formatted_end_time}}
           </p>
         </div>
@@ -102,11 +104,11 @@
 
     <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
       <div style="display: flex; align-items: center; width: 65%;">
-        <p class="work_sans titlesub">{{detailObj.location}}</p>
+        <p class="roboto titlesub">{{detailObj.location}}</p>
       </div>
       <div style="display: flex; align-items: center">
-        <img style="margin-right: 14px;" src="../../assets/imgs/icons/people.svg" alt="">
-        <p style="margin-right: 10px;" class="work_sans titlesub">{{detailObj.availability_count}}</p>
+        <img style="height: 18px; width: 18px;margin-right: 7px; margin-left: 2px;" src="../../assets/imgs/icons/new_icons/PersonIcon1.png" alt="">
+        <p style="margin-right: 10px;" class="roboto titlesub">{{detailObj.availability_count}}</p>
       </div>
 
     </div>
@@ -118,19 +120,19 @@
         <!-- src="assets/imgs/target.svg" -->
         <img
           (click)="goLocation()"
-          style="height: 25px; width: 25px; margin-right: 20px"
+          style="height: 25px;; margin-right: 20px"
           src="../../assets/imgs/icons/icon_nav.svg"
         />
 
         <img
           (click)="goWeb()"
-          style="height: 25px; width: 25px; margin-right: 20px"
+          style="height: 25px;; margin-right: 20px"
           src="assets/imgs/web.svg"
         />
 
         <a href="tel:{{detailObj.phone_number}}"
           ><img
-            style="height: 25px; width: 25px; margin-right: 20px"
+            style="height: 25px;; margin-right: 20px"
             src="assets/imgs/call.svg"
         /></a>
       </div>
@@ -142,11 +144,11 @@
           border-radius: 20px;
         "
       >
-        <p class="see work_sans">See who's out!</p>
+        <p class="see roboto">See who's out!</p>
       </div>
     </div>
 
-    <ion-list  class="btnbg1 work_sans" [class.hide]="detailObj.discount_percentage < 0.1 || allTicketsSold==true || rest.claimDiscount == true">
+    <ion-list  class="btnbg1 roboto" [class.hide]="detailObj.discount_percentage < 0.1 || allTicketsSold==true || rest.claimDiscount == true">
       <ion-item-sliding
       
         #slidingItem
@@ -169,40 +171,40 @@
         <ion-item
           style="color: white; opacity: 1"
           lines="none"
-          class="btnbg margintopcls work_sans"
+          class="btnbg margintopcls roboto"
         >
           <ion-label>Claim Discount</ion-label>
           <img
             style="
               rotate: 180deg;
               height: 25px;
-              width: 25px;
+              /* width: 25px; */
               margin-right: 20px;
             "
-            src="assets/imgs/backbtn.svg"
+            src="../../assets/imgs/icons/new_icons/BackIcon.png"
           />
         </ion-item>
       </ion-item-sliding>
     </ion-list>
 
-    <div class="claim_msg work_sans" *ngIf="rest.claimDiscount == true" 
+    <div class="claim_msg roboto" *ngIf="rest.claimDiscount == true" 
       >Discount Claimed!
     </div>
     <ion-button *ngIf="!allTicketsSold"
       (click)="buyTicket()"
-      style="margin-top: 22px; opacity: 1"
-      class="btnwhite work_sans"
+      style="margin-top: 22px;"
+      class="btngray roboto"
       >Buy Ticket</ion-button
     >
 
     <ion-button *ngIf="allTicketsSold"
       (click)="buyTicket()"
       style="margin-top: 22px; opacity: 1"
-      class="btnwhite work_sans"
+      class="btnwhite roboto"
       >See Details</ion-button
     >
 
-    <p class="work_sans des">{{detailObj.description}}</p>
+    <p class="roboto des">{{detailObj.description}}</p>
   </div>
 </ion-content>
 

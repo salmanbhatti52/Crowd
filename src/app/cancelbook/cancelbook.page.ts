@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ModalController, NavController } from "@ionic/angular";
 import { RestService } from "../rest.service";
 
@@ -12,12 +12,14 @@ export class CancelbookPage implements OnInit {
   selectedVenue: any = "";
   userdata: any = "";
   userID: any = "";
+ 
 
   constructor(
     public modalCtrl: ModalController,
     public router: Router,
     public rest: RestService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public changeDetectorRef:ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -25,6 +27,8 @@ export class CancelbookPage implements OnInit {
   closeModel() {
     this.modalCtrl.dismiss();
   }
+
+  
 
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
@@ -43,9 +47,9 @@ export class CancelbookPage implements OnInit {
     this.rest.bookings_cancel(ss).subscribe((res: any) => {
       console.log(res);
       if (res.status == "success") {
-        this.modalCtrl.dismiss();
+        this.modalCtrl.dismiss('cancelled','cancelBooking');
         // if (this.rest.comingFrom == "booking2") {
-          this.navCtrl.navigateRoot(["home"]);
+          
         // }
       }
     });

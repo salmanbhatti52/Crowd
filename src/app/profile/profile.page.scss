@@ -1,6 +1,6 @@
 .titlefont{
-    font-weight: 700;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: 15px;
     text-align: center;
     text-transform: capitalize;
     color: #FFFFFF;
@@ -9,6 +9,34 @@
   .bg{
     --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
     padding: 0px 0px 0px 0px;
+  }
+
+  .profile_option{
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    width: 48.7%;
+    margin-top: 14px;
+  }
+
+  .option_title{
+    font-size: 12.8px;
+    color: white;
+    font-weight: 500;
+  }
+
+  .option_desc{
+    font-size: 8.8px;
+    color: white;
+    font-weight: 400;
+  }
+
+  .opiton_icon{
+    height: 18px;
+    width: 18px;
+    margin-right: 9px;
   }
     
     .or_cls{

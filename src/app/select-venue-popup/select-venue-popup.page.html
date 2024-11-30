@@ -1,13 +1,18 @@
 <ion-content>
   <div class="wrapper">
-    <div style="position: fixed; z-index: 9999; background: white; width: 90%">
-      <div class="cross_icon">
+    <div >
+      <!-- <div class="cross_icon">
         <img (click)="dismiss()" src="../../assets/imgs/cross.svg" alt="" />
+      </div> -->
+      <div style="text-align: center;">
+        <img style="height: 35px;width: 35px;" src="../../assets/imgs/icons/new_icons/AlertIcon.png" alt="">
       </div>
-      <div class="popup_heading work_sans">Which Venue?</div>
-      <div class="popup_desc work_sans">
-        There are multiple venues within your location. Please choose the one
-        you are in.
+      <div class="popup_heading roboto">Venue Confirmation</div>
+      <div class="popup_desc roboto">
+        There are multiple Venues within the one building. 
+      </div>
+      <div class="popup_desc2 roboto">
+        Please select the correct Venue
       </div>
     </div>
     <!-- <ion-list class="ion_select">
@@ -17,14 +22,14 @@
       <div class="align_center">
         <!-- <ion-select
         (ionChange)="selectedValue($event)"
-        class="ion_select work_sans"
+        class="ion_select roboto"
         placeholder="Venue Name"
       > -->
         <div
           style="display: flex; justify-content: center"
           *ngFor="let data of venue_list"
         >
-          <p class="ion_button work_sans" (click)="sendValue(data.name)">
+          <p class="ion_button roboto" (click)="sendValue(data.name)">
             {{data.name}}
           </p>
           <!-- <ion-select-option>{{data.name}}</ion-select-option> -->
@@ -38,7 +43,7 @@
     <!-- </ion-item>
     </ion-list> -->
     <!-- <div class="align_center">
-      <ion-button class="ion_button work_sans" (click)="sendValue()"
+      <ion-button class="ion_button roboto" (click)="sendValue()"
         >OK</ion-button
       >
     </div> -->

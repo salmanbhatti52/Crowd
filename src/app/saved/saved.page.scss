@@ -1,6 +1,6 @@
 .titlefont{
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 15px;
   text-align: center;
   text-transform: capitalize;
   color: #FFFFFF;
@@ -177,12 +177,12 @@
     font-size: 12px;
     line-height: 14px;
     text-align: center;
-    color: #AC3DBA;
+    color: #790e8e;
     margin-top: 6px;
   }
 
   .bdg{
-    background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
     position: absolute;
     right: 10px;
     top: 10px;

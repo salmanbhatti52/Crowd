@@ -41,7 +41,9 @@ export class Booking1Page implements OnInit {
   userdata: any = "";
   visitorArr: any = "";
   people = 2;
+  table = 'Food';
   peopleShow = false;
+  tableShowDD = false;
 
   datesArr: any = "";
   selectedIndexDate = -1;
@@ -91,6 +93,19 @@ export class Booking1Page implements OnInit {
       id: 8,
       people: 8,
       name: "people",
+    },
+  ];
+  
+  tablesArr = [
+    {
+      id: 1,
+      imageName: 'TableIcon',
+      name: "Food",
+    },
+    {
+      id: 2,
+      imageName: 'DrinkIcon',
+      name: "Drink",
     },
   ];
 
@@ -322,6 +337,21 @@ export class Booking1Page implements OnInit {
     // this.venueStartHours = this.selectedVenue.db_start_hours;
     // this.venueCloseHours = this.selectedVenue.db_close_hours;
     this.datesArr = this.getDate();
+
+    const datetime = document.querySelector('ion-datetime') as HTMLIonDatetimeElement | null;
+
+    if (datetime && datetime.shadowRoot) {
+        const shadowRoot = datetime.shadowRoot;
+        const columns = shadowRoot.querySelectorAll('.picker-column-internal');
+
+        columns.forEach((column) => {
+            const columnElement = column as HTMLElement;
+            columnElement.style.fontSize = '14px';
+            columnElement.style.setProperty('font-size', '14px', 'important'); // Force it with `important`
+        });
+    }
+
+
   }
 
   getDate() {
@@ -355,6 +385,8 @@ export class Booking1Page implements OnInit {
   dateSelected(val: any) {
     this.selectedIndexDate = val;
   }
+
+ 
 
   bookTable() {
     
@@ -427,12 +459,25 @@ export class Booking1Page implements OnInit {
     console.log(a);
     this.people = a.people;
   }
+  tableClick(a: any) {
+    this.tableShowDD = false;
+    console.log(a);
+    this.table = a.name;
+  }
 
   hideShowPeople() {
     if (this.peopleShow) {
       this.peopleShow = false;
     } else {
       this.peopleShow = true;
+    }
+  }
+  
+  hideShowTables() {
+    if (this.tableShowDD) {
+      this.tableShowDD = false;
+    } else {
+      this.tableShowDD = true;
     }
   }
 

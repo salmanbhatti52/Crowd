@@ -5,12 +5,12 @@
         >
         <img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Request Refund</ion-label>
+        <ion-label class="titlefont roboto">Request Refund</ion-label>
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -21,15 +21,15 @@
   <div class="container">
 
     <div>
-      <div style="margin-top: 20px; margin-bottom: 8px" class="title2 work_sans">
+      <div style="margin-top: 20px; margin-bottom: 8px" class="title2 roboto">
         Refund Ticket
       </div>
   
       <div style="display: flex; justify-content: space-between; align-items: center">
-        <p style="margin: 0px" class="dd work_sans">Enter No. of tickets to refund </p>
-        <!-- <p style="margin: 0px" class="dd work_sans">£</p> -->
+        <p style="margin: 0px" class="dd roboto">Enter No. of tickets to refund </p>
+        <!-- <p style="margin: 0px" class="dd roboto">£</p> -->
         <!-- (ionInput)="getTicketCount($event)" -->
-        <ion-input style="text-align: center;" class="ddi work_sans" placeholder="0" type="number"  [(ngModel)]="ticketRequested"></ion-input>
+        <ion-input style="text-align: center;" class="ddi roboto" placeholder="0" type="number"  [(ngModel)]="ticketRequested"></ion-input>
       </div>
     </div>
     
@@ -39,7 +39,7 @@
           style="opacity: 1;width: 85%;
           display: flex;
           margin: 40px auto;"
-          class="btnbgred work_sans"
+          class="btnbgred roboto"
           >Request Refund</ion-button
         >
     </div>

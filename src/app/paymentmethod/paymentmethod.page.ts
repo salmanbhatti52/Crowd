@@ -488,14 +488,15 @@ export class PaymentmethodPage implements OnInit {
 
   async paynow() {
     console.log("model");
-    const modal = await this.modalCtrl.create({
-      component: PaymentsuccessPage,
-      cssClass: "riz",
-    });
+    this.navCtrl.navigateForward(['paymentsuccess']);
+    // const modal = await this.modalCtrl.create({
+    //   component: PaymentsuccessPage,
+    //   cssClass: "riz",
+    // });
 
-    await modal.present();
-    this.rest.comfrom = 'paymentmethod'
-    this.navCtrl.navigateRoot(['/ticket']);
+    // await modal.present();
+    // this.rest.comfrom = 'paymentmethod'
+    // this.navCtrl.navigateRoot(['/ticket']);
   }
 
   buyTicket() {

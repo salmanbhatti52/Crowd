@@ -64,6 +64,21 @@
     font-family: 'Roboto', sans-serif;
   }
 
+  // ================mapbox css==================
+  .mapboxgl-popup-close-button {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 0;
+    border-radius: 0 3px 0 0;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+
+  // ====done===========
+
   .gm-style .gm-style-iw-tc::after {
     background: #fff;
     /* -webkit-clip-path: polygon(0 0,50% 100%,100% 0); */
@@ -185,10 +200,13 @@ body.scanner-active {
   overflow: hidden;
 }
 .select_venue{
-  --height: 371px;
+  --height: 400px;
   --border-radius: 20px;
   --width: 90%;
   background: rgba(15, 23, 42, 0.5);
+  --border-color: #848484;
+    --border-style: solid;
+    --border-width: 2px;
 }
 
 
@@ -196,16 +214,17 @@ body.scanner-active {
   --box-shadow: none !important;
   text-transform:none !important;
   height: 53px;
-  --background: #531C7C;
+  // --background: #531C7C;
+  --background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
   --background-activated: #351150;
   --background-focused: #351150;
   --background-hover: #351150;
-  opacity: 0.8;
-  --border-radius: 42px;
+  // opacity: 0.8;
+  --border-radius: 16px;
   width: 100%;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
+  // font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
   line-height: 21px;
   text-align: center;
   letter-spacing: -0.3px;
@@ -232,21 +251,42 @@ body.scanner-active {
 // }
 
 .btnwhite{
-  text-transform:none !important;
-  height: 53px;
-  --background: #ffffff;
-  --background-activated: #dddddd;
-  --background-focused: #dddddd;
-  --background-hover: #dddddd;
-  --border-radius: 42px;
-  width: 100%;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  text-align: center;
-  letter-spacing: -0.3px;
-  color: #7825CB;
+  text-transform: none !important;
+    height: 53px;
+    --background-activated: #dddddd;
+    --background-focused: #dddddd;
+    --background-hover: #dddddd;
+    --border-radius: 16px;
+    width: 99%;
+    margin: 0px auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    --color: white;
+    --background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+
+}
+
+.btngray{
+  text-transform: none !important;
+    height: 53px;
+    --background-activated: #dddddd;
+    --background-focused: #dddddd;
+    --background-hover: #dddddd;
+    --border-radius: 16px;
+    width: 100%;
+    margin: 0px auto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    --color: white;
+    --background: #343434;
 
 }
 
@@ -258,12 +298,13 @@ body.scanner-active {
   --background-activated: #ebd87a73;
   --background-focused: #ebd87a73;
   --background-hover: #ebd87a73;
-  --border-radius: 42px;
-  width: 100%;
+  --border-radius: 16px;
+  width: 99%;
+  margin: 0px auto;
   opacity: 0.8;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
   text-align: center;
   letter-spacing: -0.3px;
@@ -278,11 +319,12 @@ body.scanner-active {
   --background-focused: #d2224e;
   --background-hover: #d2224e;
   opacity: 0.8;
-  --border-radius: 42px;
-  width: 100%;
+  --border-radius: 16px;
+  width: 99%;
+  margin: 0px auto;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
   text-align: center;
   letter-spacing: -0.3px;
@@ -293,17 +335,18 @@ body.scanner-active {
   height: 53px;
   text-transform:none !important;
   --border-width: 2px;
-  --border-radius: 28px;
+  --border-radius: 16px;
   --background: #15d31500;
   --background-activated: #531C7C36;
   --background-focused: #531C7C36;
   --background-hover: #531C7C36;
   --border-color: white;
   --border-style: solid;
-  width: 100%;
+  width: 99%;
+  margin: 0px auto;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
   text-align: center;
   letter-spacing: -0.3px;
@@ -352,10 +395,16 @@ input{
 
 
   .inputfieldtransparent{
-    border-radius: 52px;
-    background: rgba(0, 0, 0, 0);
-    border: 1px solid white;
+    // background: linear-gradient(180deg, #262626, #302f2f);
+    border: 2px solid white;
+    border-radius: 24px;
   }
+
+  .dropdown-transparent{
+    background: linear-gradient(180deg, #262626, #302f2f);
+    border-radius: 24px;
+  }
+
   .input{
     // text-align: left;
     --placeholder-color:#ffffff;
@@ -527,6 +576,12 @@ input{
   --width: 88%;
   --height: 242px;
   
+}
+
+.booking_popup{
+  --width: 88%;
+  --height: 85%;
+  --background: #262626; 
 }
 
 .refund_popup{

@@ -4,12 +4,12 @@
       <ion-col size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Add Review</ion-label>
+        <ion-label class="titlefont roboto">Add Review</ion-label>
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -20,28 +20,39 @@
   <div class="container">
 
     <div>
-      <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="work_sans textarea" rows="8" cols="20" placeholder="Enter Here" [(ngModel)]="feedback"></ion-textarea>
+      <div class="roboto rating_value">{{ratingValue}}<span *ngIf="ratingValue>0">.0</span></div>
       <div class="margin_row">
-        <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="rateStar1==false;" (click)="rateStar(1.0)">
-        <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt="" *ngIf="rateStar1==true;" (click)="rateStar(1.0)">
-        <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="rateStar2==false;" (click)="rateStar(2.0)">
-        <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt="" *ngIf="rateStar2==true;" (click)="rateStar(2.0)">
-        <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="rateStar3==false;" (click)="rateStar(3.0)">
-        <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt="" *ngIf="rateStar3==true;" (click)="rateStar(3.0)">
-        <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="rateStar4==false;" (click)="rateStar(4.0)">
-        <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt="" *ngIf="rateStar4==true;" (click)="rateStar(4.0)">
-        <img class="star_margin"  src="../../assets/imgs/unfilled_star.svg" alt="" *ngIf="rateStar5==false;" (click)="rateStar(5.0)">
-        <img class="star_margin"  src="../../assets/imgs/filled_star.svg" alt="" *ngIf="rateStar5==true;" (click)="rateStar(5.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar1==false;" (click)="rateStar(1.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar1==true;" (click)="rateStar(1.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar2==false;" (click)="rateStar(2.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar2==true;" (click)="rateStar(2.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar3==false;" (click)="rateStar(3.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar3==true;" (click)="rateStar(3.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar4==false;" (click)="rateStar(4.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar4==true;" (click)="rateStar(4.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar5==false;" (click)="rateStar(5.0)">
+        <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar5==true;" (click)="rateStar(5.0)">
       </div>
+      <div class="roboto exclusive">212 Exclusive</div>
+      <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="roboto textarea" rows="8" cols="20" placeholder="We'd love to hear your experience!" [(ngModel)]="feedback"></ion-textarea>
+      <div class="review_note">Please ensure that your review: <br>
+        Is respectful and free from hate speech or offensive language. <br>
+        Does not include personal information. <br>
+        Remains relevant to the event or venue being reviewed.</div>
     </div>
     
 
     <ion-button
         (click)="addReview()"
-        style="margin-top: 20px; opacity: 1"
-        class="btnbg work_sans"
-        >Save</ion-button
+        style="margin-top: 20px; opacity: 1;--border-radius:15px"
+        class="btnbg roboto"
+        >Submit Review</ion-button
       >
+
+      <div class="roboto note_style">
+        By submitting your review, you agree to adhere to our community guidelines.
+        For more details, please review our <span style="color: #fafafa;">Terms and Conditions</span> in your profile.
+      </div>
   </div>
   
 </ion-content>

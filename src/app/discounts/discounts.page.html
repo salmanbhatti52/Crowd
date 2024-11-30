@@ -5,12 +5,12 @@
       <ion-col style="text-align: center" size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">Discounts</ion-label>
+        <ion-label class="titlefont roboto">Discounts</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center"> </ion-col>
     </ion-row>
@@ -21,7 +21,7 @@
 <ion-content style="--background: #262626">
   
   <div style="margin: 25px 0px 10px; text-align: -webkit-center">
-    <ion-segment class="work_sans segment_text"
+    <ion-segment class="roboto segment_text"
       style="
         height: 48px;
         width: 92%;
@@ -33,9 +33,9 @@
       [(ngModel)]="segmentModel"
 
     >
-      <ion-segment-button class="work_sans segment_text"
+      <ion-segment-button class="roboto segment_text"
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: linear-gradient(180deg, #9218a6, #5a0670);
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -43,11 +43,11 @@
         "
         value="In Queue"
       >
-        <ion-label>In Queue</ion-label>
+        <ion-label>Active</ion-label>
       </ion-segment-button>
-      <ion-segment-button class="work_sans segment_text" 
+      <ion-segment-button class="roboto segment_text" 
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: #323232;
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -61,7 +61,7 @@
       </ion-segment-button>
       <ion-segment-button
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: linear-gradient(180deg, #9218a6, #5a0670);
           --color: #262626;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -101,25 +101,25 @@
         />
         
         <div>
-          <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.name}}</div>
+          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb work_sans">{{aa.distance | number : '1.2-2'}} Miles</p>
+            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date work_sans">{{aa.discount_token}} </p>
+            <p class="date roboto">{{aa.discount_token}} </p>
           </div>
 
           <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{aa.events.event_date }} </p>
+            <p class="date roboto">{{aa.events.event_date }} </p>
           </div> -->
 
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">
+            <p class="date roboto">
               {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
               <!-- 8:00PM - 10:00PM -->
             </p>
@@ -127,7 +127,7 @@
 
         </div>
       </div>
-      <div class="rem_time work_sans" >{{aa.remaining_time}} Remaining</div>
+      <div class="rem_time roboto" >{{aa.remaining_time}} Remaining</div>
     </div>
 
     
@@ -158,25 +158,25 @@
         />
         
         <div>
-          <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.name}}</div>
+          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb work_sans">{{aa.distance | number : '1.2-2'}} Miles</p>
+            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date work_sans">{{aa.discount_token}} </p>
+            <p class="date roboto">{{aa.discount_token}} </p>
           </div>
 
           <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{aa.events.event_date }} </p>
+            <p class="date roboto">{{aa.events.event_date }} </p>
           </div> -->
 
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">
+            <p class="date roboto">
               {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
               <!-- 8:00PM - 10:00PM -->
             </p>
@@ -213,25 +213,25 @@
         />
         
         <div>
-          <div class="bb work_sans" style="margin-bottom: 8px;">{{aa.name}}</div>
+          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb work_sans">{{aa.distance | number : '1.2-2'}} Miles</p>
+            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date work_sans">{{aa.discount_percentage}}% </p>
+            <p class="date roboto">{{aa.discount_percentage}}% </p>
           </div>
 
           <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
             <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date work_sans">{{aa.events.event_date }} </p>
+            <p class="date roboto">{{aa.events.event_date }} </p>
           </div> -->
 
           <div style="display: flex; align-items: center; margin-bottom: 2px">
             <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date work_sans">
+            <p class="date roboto">
               {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
               <!-- 8:00PM - 10:00PM -->
             </p>
@@ -241,7 +241,7 @@
       </div>
       
       <!-- [class.hide]="hideClaimDiscountButton" -->
-      <ion-list class="btnbg1 work_sans" >
+      <ion-list class="btnbg1 roboto" >
         <ion-item-sliding
           #slidingItem
           (ionDrag)="claimDrag(slidingItem, $event, aa)"
@@ -263,27 +263,27 @@
           <ion-item
             style="color: white; opacity: 1"
             lines="none"
-            class="btnbg margintopcls work_sans"
+            class="btnbg margintopcls roboto"
           >
             <ion-label>Claim Discount</ion-label>
             <img
               style="
                 rotate: 180deg;
                 height: 25px;
-                width: 25px;
+                /* width: 25px; */
                 margin-right: 20px;
               "
-              src="assets/imgs/backbtn.svg"
+              src="../../assets/imgs/icons/new_icons/BackIcon.png"
             />
           </ion-item>
         </ion-item-sliding>
       </ion-list>
 
-      <!-- <div class="claim_msg work_sans" *ngIf="aa.remaining_time != null" >
+      <!-- <div class="claim_msg roboto" *ngIf="aa.remaining_time != null" >
         Already Claimed!
       </div>
 
-      <div class="rem_time work_sans" *ngIf="aa.remaining_time" >{{aa.remaining_time}} Remaining</div> -->
+      <div class="rem_time roboto" *ngIf="aa.remaining_time" >{{aa.remaining_time}} Remaining</div> -->
     </div>
 
     
@@ -302,18 +302,18 @@
     <div style="text-align: center">
       <img src="assets/imgs/disc.svg" alt="" />
       
-      <p class="two work_sans">Instant</p>
+      <p class="two roboto">Instant</p>
       <p *ngIf="detailObj.discount_percentage <= 0" class="three">
         No Discount
       </p>
       <p *ngIf="detailObj.discount_percentage > 0" class="mg_top_7">
-        <span class="three work_sans">{{detailObj.discount_percentage}}% </span> <span class="dis_off work_sans">off</span> 
+        <span class="three roboto">{{detailObj.discount_percentage}}% </span> <span class="dis_off roboto">off</span> 
       </p>
-      <p class="one work_sans">Discount Claim!</p>
+      <p class="one roboto">Discount Claim!</p>
 
-      <div class="work_sans token_num" >{{discountToken}}</div>
-      <div class="work_sans token_info_one"  >Show this code at the venue.</div>
-      <div class="work_sans token_info_two" >*its a one time code, save it</div>
+      <div class="roboto token_num" >{{discountToken}}</div>
+      <div class="roboto token_info_one"  >Show this code at the venue.</div>
+      <div class="roboto token_info_two" >*its a one time code, save it</div>
     </div>
   </div>
 </div>

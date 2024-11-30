@@ -4,12 +4,12 @@
       <ion-col style="text-align: center" size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" style="text-align: center">
-        <ion-label class="titlefont work_sans">My Reservations</ion-label>
+        <ion-label class="titlefont roboto">My Reservations</ion-label>
       </ion-col>
       <ion-col size="2" style="text-align: center"> </ion-col>
     </ion-row>
@@ -35,7 +35,7 @@
     >
       <ion-segment-button
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
           --color: #000000;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -47,7 +47,7 @@
       </ion-segment-button>
       <ion-segment-button
         style="
-          --indicator-color: linear-gradient(to right, #8429C7, #AE43C6);
+          --indicator-color: #323232;
           --color: #000000;
           --color-checked: #fff;
           --border-radius: 20px;
@@ -75,8 +75,8 @@
       <img (click)="gotoBookingDetails(aa)"
         style="
           width: 124px;
-          height: 124px;
-          border-radius: 16px;
+          height: 145px;
+          border-radius: 35px;
           margin-right: 10px;
         "
         src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
@@ -84,36 +84,44 @@
 
       <div>
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
+          <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+          <p class="bb roboto">{{aa.venues_details.name}}</p>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">{{aa.no_of_diners}} people</p>
+          <img class="imm" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
+          <p class="date roboto">{{aa.no_of_diners}}</p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">
-            {{getDate(aa.bookings_date) }} at {{getTime(aa.bookings_time)}}
+        <div style="display: flex; align-items: center; margin-bottom: 8px">
+          <img class="imm" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+          <p class="date roboto">
+            {{getDate(aa.bookings_date) }}
           </p>
         </div>
 
-        <div
-          *ngIf="aa.status != 'Cancelled'"
-          style="display: flex; margin-top: 20px"
-        >
-          <p (click)="cancelBooking(aa)" class="canc work_sans">Cancel</p>
-          <p class="canc work_sans" style="margin: 0px 10px">|</p>
-          <p (click)="editbooking(aa)" class="canc work_sans">Modify</p>
+        <div style="display: flex; align-items: center; margin-bottom: 8px">
+          <img class="imm" src="../../assets/imgs/icons/ticket_clock.svg" />
+          <p class="date roboto">
+            {{getTime(aa.bookings_time)}}
+          </p>
         </div>
-        <div
+
+        <!-- <div
+          *ngIf="aa.status != 'Cancelled'"
+          style="display: flex; margin-top: 10px"
+        >
+          <p (click)="cancelBooking(aa)" class="canc roboto">Cancel</p>
+          <p class="canc roboto" style="margin: 0px 10px">|</p>
+          <p (click)="editbooking(aa)" class="canc roboto">Modify</p>
+        </div> -->
+        <div (click)="gotoBookingDetails(aa)" class="view_btn roboto">view</div>
+        <!-- <div
           *ngIf="aa.status == 'Cancelled'"
           style="display: flex; margin-top: 20px"
         >
-          <p class="canc work_sans">Cancelled</p>
-        </div>
+          <p class="canc roboto">Cancelled</p>
+        </div> -->
       </div>
     </div>
   </div>
@@ -133,51 +141,120 @@
       <img
         style="
           width: 124px;
-          height: 124px;
-          border-radius: 16px;
+          height: 145px;
+          border-radius: 35px;
           margin-right: 10px;
         "
         src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
       />
 
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ttt.svg" />
-          <p class="bb work_sans">Booking confirmed</p>
+      <div style="width: 100%;">
+        <div class="flex_center space_between">
+          <div style="display: flex; align-items: center; margin-bottom: 8px">
+            <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+            <p class="bb roboto">{{aa.venues_details.name}}</p>
+          </div>
+          <img class="del_icon" (click)="deleteReservation()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
         </div>
+        
 
         <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/uuu.svg" />
-          <p class="date work_sans">{{aa.no_of_diners}} people</p>
+          <img class="imm" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
+          <p class="date roboto">{{aa.no_of_diners}}</p>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: -8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date work_sans">
-            {{getDate(aa.bookings_date) }} at {{getTime(aa.bookings_time)}}
+        <div style="display: flex; align-items: center; margin-bottom: 8px">
+          <img class="imm" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+          <p class="date roboto">
+            {{getDate(aa.bookings_date) }}
           </p>
         </div>
 
-        <div style="display: flex; margin-top: 20px">
-          <p *ngIf="aa.status == 'Pending'" class="canc work_sans">
+        <div style="display: flex; align-items: center; margin-bottom: 8px">
+          <img class="imm" src="../../assets/imgs/icons/ticket_clock.svg" />
+          <p class="date roboto">
+            {{getTime(aa.bookings_time)}}
+          </p>
+        </div>
+
+        <div style="display: flex; ">
+          <p *ngIf="aa.status == 'Pending'" class="view_btn roboto">
             {{aa.status}}
           </p>
-          <p *ngIf="aa.status == 'Completed'" class="completed work_sans">
+          <p *ngIf="aa.status == 'Completed'" class="view_btn roboto">
             {{aa.status}}
           </p>
-          <p *ngIf="aa.status == 'Cancelled'" class="canc work_sans">
+          <p *ngIf="aa.status == 'Cancelled'" class="view_btn roboto">
             {{aa.status}}
           </p>
-          <p *ngIf="aa.status == 'Accepted'" class="canc work_sans">
+          <p *ngIf="aa.status == 'Accepted'" class="view_btn roboto">
             {{aa.status}}
           </p>
-          <p *ngIf="aa.status == 'Rejected'" class="canc work_sans">
+          <p *ngIf="aa.status == 'Rejected'" class="view_btn roboto">
             {{aa.status}}
           </p>
         </div>
       </div>
     </div>
   </div>
+
+  <ion-modal [isOpen]="deleteOldBooking" style="--background: #00000059" (ionModalDidDismiss)="closeModel()">
+    <ng-template>
+      <ion-content style="--background: #00000059">
+        <div
+          style="
+            position: absolute;
+            top: 31%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              background: linear-gradient(135deg, #262626, #302f2f);
+              padding: 20px 20px 20px 20px;
+              border-radius: 10px;
+              margin: 20px;
+              border: 2px solid #848484;
+              width: 85%;
+            "
+          >
+            <div style="display: flex; justify-content: flex-end">
+              <img (click)="closeModel()" style="height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/RemoveIcon.png" />
+            </div>
+            <div style="text-align: center;">
+              <img style="height: 40px;width: 40px;" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
+            </div>
+            <p style="margin: 20px 0px 5px 0px" class="sure roboto">
+              Confirm Delete
+            </p>
+            
+            <ion-button
+            (click)="closeModel()"
+            style="margin-top: 20px;
+            opacity: 1;
+            --border-radius: 18px;
+            --background: linear-gradient(135deg, #262626, #302f2f);
+            --border-color: #fafafa;
+            --border-width: 1px;
+            --border-style: solid;"
+            class="btnbgred roboto"
+            >Yes</ion-button
+            >
+           
+            <ion-button
+              (click)="closeModel()"
+              style="margin-top: 20px; opacity: 1;--border-radius: 18px;width: 98%;"
+              class="btnbg roboto"
+              >No</ion-button
+            >
+            
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 

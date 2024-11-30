@@ -18,7 +18,7 @@ export class AddReviewPage implements OnInit {
   rateStar4 = false;
   rateStar5 = false;
 
-  ratingValue: any;
+  ratingValue: any = 0;
   feedback: string = "";
 
   userdata: any;
@@ -28,7 +28,7 @@ export class AddReviewPage implements OnInit {
   constructor(public location: Location, public rest: RestService, public route:ActivatedRoute) {}
 
   ngOnInit() {
-    this.rateStar(1.0);
+    // this.rateStar(1.0);
     this.route.queryParams.subscribe(params=>{
       console.log(params);
       this.venueId = params['venueId'];

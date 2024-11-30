@@ -22,21 +22,27 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-    color: #FFFFFF;
     margin: 0px;
+    margin-top: 10px;
+    color: #FFFFFF;
   }
 
   .uimg{
-    width: 43px;
-    height: 39.98px;
-    border-radius: 10px;
-    margin-right: 15px;
+    border-radius: 50px;
+    height: 100px;
+    width: 100px;
   }
 
   .mainDiv{
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 10px;
     padding-top: 10px;
+    margin-right: 14px;
+  }
+
+  .visitors{
+    width: 96%;
+    text-align: center;
+    margin: 5% 0% 5% 4.4%;
+    display: flex;
+    flex-wrap: wrap;
   }

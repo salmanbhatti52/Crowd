@@ -58,4 +58,8 @@ export class SeepeoplePage implements OnInit {
     const imgSrc = `assets/imgs/inplace.jpeg`;
     source.src = imgSrc;
   }
+
+  goToProfile(){
+    this.router.navigate(['/profile']);
+  }
 }

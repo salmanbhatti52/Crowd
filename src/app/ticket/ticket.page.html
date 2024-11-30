@@ -5,12 +5,12 @@
         >
         <img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Ticket</ion-label>
+        <ion-label class="titlefont roboto">Ticket</ion-label>
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -111,7 +111,7 @@
     <div  style="width: 100%;">
       <ion-button (click)="setOpen(true)" 
           style="margin-top: 10px; opacity: 1;"
-          class="btnbgred work_sans"
+          class="btnbgred roboto"
           >Request Refund</ion-button
         >
     </div>
@@ -123,10 +123,10 @@
               <img (click)="dismissModal(false)" src="../../assets/imgs/cross.svg" alt="">
             </div>
             <div class="msg_btn_sec">
-              <div class="work_sans modal_title">Refund?</div>
-              <div class="work_sans modal_desc">Are you sure you want to refund the ticket?</div>
+              <div class="roboto modal_title">Refund?</div>
+              <div class="roboto modal_desc">Are you sure you want to refund the ticket?</div>
               <ion-button (click)="requestRefund(false)" style="margin-top: 20px;
-              opacity: 1;" class="work_sans btnbgred">Continue</ion-button>
+              opacity: 1;" class="roboto btnbgred">Continue</ion-button>
             </div>
             
           </div>

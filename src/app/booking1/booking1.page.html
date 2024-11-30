@@ -4,12 +4,12 @@
       <ion-col size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans"
+        <ion-label class="titlefont roboto"
           >{{selectedVenue.name}}</ion-label
         >
       </ion-col>
@@ -20,59 +20,107 @@
 
 <ion-content style="--background: #262626">
   <div style="width: 90%; text-align: center; margin: 4% auto">
-    <p class="makeBook">Make a booking</p>
-    <p class="inputTitle">No. of diners</p>
+    <p class="makeBook">Reservation</p>
 
-    <div
-      (click)="hideShowPeople()"
-      class="inputfieldtransparent"
-      style="
-        height: 52px;
-        margin-top: 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      "
-    >
-      <p class="people">{{people}} people</p>
-
-      <img
-        style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
-        src="/assets/imgs/downw.svg"
-      />
+    <div style="display: flex;justify-content: center;">
+      <div style="margin-right: 20px;">
+        <p class="inputTitle">Party number</p>
+        <!-- <p class="inputTitle">No. of diners</p> -->
+    
+        <div
+          (click)="hideShowPeople()"
+          class="dropdown-transparent"
+          style="
+            height: 38px;
+            margin-top: 14px;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            width: 120px;
+          "
+        >
+          <p class="people">{{people}} </p>
+    
+          <img class="dd_icon" [class.dd_icon_active]="peopleShow"
+            src="/assets/imgs/downw.svg"
+          />
+        </div>
+    
+        <div
+          style="
+            position: absolute;
+            width: 120px;
+            background: linear-gradient(180deg, #262626, #302f2f);
+            z-index: 999;
+            border-radius: 0px 0px 20px 20px;
+          "
+          *ngIf="peopleShow"
+        >
+          <p class="roboto pp" (click)="peopleClick(a)" *ngFor="let a of peopleArr">
+            {{a.people}}
+          </p>
+        </div>
+      </div>
+     
+      
+      <div>
+        <p class="inputTitle">Table Type</p>
+  
+        <div
+          (click)="hideShowTables()"
+          class="dropdown-transparent"
+          style="
+            height: 38px;
+            margin-top: 14px;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            width: 140px;
+          "
+        >
+          <p class="people" style="display: flex;">Food <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></p>
+    
+          <img
+          class="dd_icon" [class.dd_icon_active]="tableShowDD"
+            src="/assets/imgs/downw.svg"
+          />
+        </div>
+    
+        <div
+          style="
+            position: absolute;
+            width: 140px;
+            background: linear-gradient(180deg, #262626, #302f2f);
+            z-index: 999;
+            border-radius: 0px 0px 20px 20px;
+          "
+          *ngIf="tableShowDD"
+        >
+          <p class="pp roboto" (click)="tableClick(a)" *ngFor="let a of tablesArr">
+             {{a.name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/{{a.imageName}}.png" alt="">
+          </p>
+        </div>
+      </div>
+      
     </div>
-
-    <div
-      style="
-        position: absolute;
-        width: 87%;
-        background: #3a3a3a;
-        z-index: 999;
-        border-radius: 0px 0px 20px 20px;
-      "
-      *ngIf="peopleShow"
-    >
-      <p class="pp" (click)="peopleClick(a)" *ngFor="let a of peopleArr">
-        {{a.people}} {{a.name}}
-      </p>
-    </div>
+    
  
     <div style="height: 20px;"></div>
-    <p style="margin: 0px 0px 15px" class="inputTitle" >Select Date</p>
+    <p style="margin: 0px 0px 15px" class="inputTitle" >Required date</p>
 
     <div style="display: flex;
     justify-content: center;">
       <img style="margin-right: 20px;" src="../../assets/imgs/icons/arrow_left.svg" alt="">
-      <span (click)="selectDate()" class="poppins" style="color: #ADA4A5;font-size: 14px;font-weight: 400;">{{selectedMonthAndYear}}</span>
+      <span (click)="selectDate()" class="roboto" style="color: #ADA4A5;font-size: 12.4px;font-weight: 400;">{{selectedMonthAndYear}}</span>
       <img style="margin-left: 20px;" src="../../assets/imgs/icons/arrow_right.svg" alt="">
 
     </div>
 
    <div style="display: flex;
    overflow: scroll;margin-top: 15px;"> 
-    <div *ngFor="let day of daysNamesAndNumbers;" (click)="selectDay(day)" class="dayBox" [class.selected_dayBox]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">
-      <div class="inter dayName"  [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
-      <div class="inter dayNumber"  [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>
+    <div *ngFor="let day of daysNamesAndNumbers;" (click)="selectDay(day)" style="font-family: 'Roboto', sans-serif !important;" class="dayBox " [class.selected_dayBox]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">
+      <div class="inter dayName" style="font-family: 'Roboto', sans-serif !important;" [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
+      <div class="inter dayNumber" style="font-family: 'Roboto', sans-serif !important;"  [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>
     </div>
    </div>
     
@@ -158,7 +206,7 @@
         <p class="dateClas">{{getDay4(dd)}}</p>
       </div>
     </div> -->
-    <p style="margin: 15px 0px" class="inputTitle">Select Time</p>
+    <p style="margin: 15px 0px" class="inputTitle">Required time</p>
     <ion-datetime
       presentation="time"
       [preferWheel]="true"
@@ -167,15 +215,21 @@
     ></ion-datetime>
     <!-- [(ngModel)]="usertime" -->
 
-    <!-- <div class="invalid_time work_sans" *ngIf="invalidTime">Please select another time slot, as this one is not available.</div> -->
+    <div class="roboto q_style" >Do you have any special requests? (allergies, seating preferences)</div>
+    <ion-input></ion-input>
+    <div class="roboto q_style">Celebrating an occasion? (birthday, anniversary)</div>
+    <ion-input></ion-input>
+    <!-- <div class="invalid_time roboto" *ngIf="invalidTime">Please select another time slot, as this one is not available.</div> -->
     <div style="margin-top: 10px">
       <ion-button
         (click)="bookTable()"
         style="margin-top: 20px"
-        class="btnwhite work_sans"
-        >Book Table</ion-button
+        class="btnwhite roboto"
+        >Confirm Reservation</ion-button
       >
     </div>
+
+    <div class="roboto note_style">By confirming your booking, you agree to our <span style="color: #fafafa;">Terms and Conditions</span> including our cancellation policy. Please review the full terms in your profile.</div>
     <!-- <ionic-horizontal-calendar
       locale="de"
       [minDate]="minDate"
@@ -194,4 +248,5 @@
     <!-- <p class="inputTitle">Select Time</p>
     <ion-datetime presentation="time" locale="en-US"></ion-datetime> -->
   </div>
+  
 </ion-content>

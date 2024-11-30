@@ -4,12 +4,12 @@
       <ion-col size="2" class="centerall"
         ><img
           (click)="goBack()"
-          style="height: 25px; width: 25px"
-          src="assets/imgs/backbtn.svg"
+          style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-label class="titlefont work_sans">Add Credit Card</ion-label>
+        <ion-label class="titlefont roboto">Add Credit Card</ion-label>
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -21,7 +21,7 @@
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-    <ion-input class="ddi work_sans" maxlength="36" (ionChange)="getUserName($event)" placeholder="Enter Name" type="text"></ion-input>
+    <ion-input class="ddi roboto" maxlength="36" (ionChange)="getUserName($event)" placeholder="Enter Name" type="text"></ion-input>
       <!-- <input  /> -->
     </div>
 
@@ -33,7 +33,7 @@
         margin-top: 10px;
       "
     >
-    <ion-input class="ddi work_sans" maxlength="19" (ionChange)="checkCardType($event)"
+    <ion-input class="ddi roboto" maxlength="19" (ionChange)="checkCardType($event)"
     placeholder="Credit card number"
     type="tel"></ion-input>
       
@@ -47,7 +47,7 @@
         margin-top: 10px;
       "
     >
-    <div id="open-modal" class="select_date work_sans">
+    <div id="open-modal" class="select_date roboto">
       <div value=""  style="color: white;" *ngIf="expiryDate == 'Expire Date'">{{expiryDate}}</div>
       <div value=""  style="color: white;" *ngIf="expiryDate !== 'Expire Date'">{{expiryDate}}</div>
     </div>
@@ -65,7 +65,7 @@
 
     
       
-    <ion-input class="ddi work_sans" maxlength="3" (ionChange)="getCvc($event)" placeholder="cvv" type="tel"></ion-input>
+    <ion-input class="ddi roboto" maxlength="3" (ionChange)="getCvc($event)" placeholder="cvv" type="tel"></ion-input>
 
     </div>
 
@@ -73,7 +73,7 @@
       <ion-button
         (click)="goToNext()"
         style="margin-top: 10px; opacity: 1"
-        class="btnbg work_sans"
+        class="btnbg roboto"
         >Save</ion-button
       >
     </div>

@@ -1,0 +1,37 @@
+<ion-content style="--background: #00000059">
+  <div
+    style="
+      position: absolute;
+      top: 31%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    "
+  >
+    <div
+      style="
+        background: linear-gradient(180deg, #e1e1e1, #ffffff, #e4e4e4);
+        padding: 20px 16px;
+        margin: 20px;
+        clip-path: polygon(50% 0%, 100% 3%, 100% 97.5%, 50% 100%, 0% 97.5%, 0% 3%);
+        border-radius: 60px 60px 60px 60px;
+      "
+    >
+      <div style="display: flex; justify-content: space-between">
+        <div class="header_start"></div>
+        <div class="modal_logo">Crowd<span class="live_part">AI</span></div>
+        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
+      </div>
+      <p style="margin: 25px 0px 15px 0px" class="sure roboto">
+        Enabling the CrowdAI feature allows you to use Ora in both Home and Location Tabs.
+      </p>
+      <ion-button
+        (click)="closeModel()"
+        style="margin-top: 20px; opacity: 1; --border-radius: 16px;"
+        class="btnbg roboto"
+        >Activate</ion-button
+      >
+      <div class="roboto footer_label">By activating, you are agreeing to CrowdAI  <span class="roboto terms">Terms & Conditions</span></div>
+    </div>
+  </div>
+</ion-content>

@@ -10,31 +10,48 @@
   >
     <div
       style="
-        background: white;
+        background: linear-gradient(135deg, #262626, #302f2f);
         padding: 20px 20px 20px 20px;
-        border-radius: 20px;
+        border-radius: 10px;
         margin: 20px;
+        border: 2px solid #848484;
+        width: 85%;
       "
     >
       <div style="display: flex; justify-content: flex-end">
-        <img (click)="closeModel()" src="assets/imgs/cross.svg" />
+        <img (click)="closeModel()" style="height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/RemoveIcon.png" />
       </div>
-      <p style="margin: 10px 0px 5px 0px" class="sure work_sans">
-        Are you sure you want to cancel this booking?
+      <div style="text-align: center;">
+        <img style="height: 24px;width: 24px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">
+      </div>
+      <p style="margin: 20px 0px 5px 0px" class="sure roboto">
+        Cancel Reservation?
       </p>
+      
+      <ion-button
+        (click)="cancelBook()"
+        style="margin-top: 20px;
+        opacity: 1;
+        --border-radius: 18px;
+        --background: linear-gradient(135deg, #262626, #302f2f);
+        --border-color: #fafafa;
+        --border-width: 1px;
+        --border-style: solid;"
+        class="btnbgred roboto"
+        >Yes</ion-button
+      >
+      
       <ion-button
         (click)="closeModel()"
-        style="margin-top: 20px; opacity: 1"
-        class="btnbg work_sans"
+        style="margin-top: 20px; opacity: 1;--border-radius: 18px;"
+        class="btnbg roboto"
         >No</ion-button
       >
 
-      <ion-button
-        (click)="cancelBook()"
-        style="margin-top: 20px; opacity: 1"
-        class="btnbgred work_sans"
-        >Yes</ion-button
-      >
+      <div class="footer_text">Terms and Conditions Apply.</div>
+      
     </div>
   </div>
+  
 </ion-content>
+
