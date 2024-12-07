@@ -9,7 +9,7 @@
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goBack()"
-          style="height: 25px;; margin-right: 15px"
+          style="height: 25px;margin-right: 15px"
           src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
@@ -18,18 +18,18 @@
         <img
           (click)="likeevent()"
           *ngIf="detailObj.likes==0"
-          style="height: 25px;; margin-right: 10px"
-          src="assets/imgs/heartww.svg"
+          style="height: 25px;margin-right: 10px"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
         />
         <img
           (click)="likeoutevent()"
           *ngIf="detailObj.likes!=0"
-          style="height: 25px;; margin-right: 10px"
-          src="assets/imgs/heartactive.svg"
+          style="height: 25px;margin-right: 10px"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
         />
         <img
           (click)="goToProfile()"
-          style="height: 25px;; margin-right: 15px"
+          style="height: 25px;margin-right: 15px"
           src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
         />
       </ion-col>
@@ -66,34 +66,37 @@
     <p class="titlemain roboto">{{detailObj.name}} </p>
     <p class="titlesubmain roboto">{{detailObj.venue_name}}</p>
 
-    <ion-row>
-      <ion-col size="3.1" style="display: flex; align-items: center; padding: 0px;">
+    <ion-row style="margin-bottom: 15px;">
+      <ion-col size="4" style="display: flex; align-items: center; padding: 0px;justify-content: left;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/pinwhite.svg"
+            style="height: 18px; margin-right: 7px; width: 15px"
+            src="../../assets/imgs/icons/new_icons/LocationPinIcon.png"
           />
-          <p class="roboto titlesub" style="width: 73px;overflow: hidden;">
+          <p class="roboto titlesub" style="width: 73px;overflow: hidden;line-height: normal;">
             {{detailObj.distance | number : '1.1-1'}} Miles
           </p>
         </div>
       </ion-col>
-      <ion-col size="3.8" style="display: flex; align-items: center;padding: 0px;">
+      <ion-col size="4" style="display: flex; align-items: center;padding: 0px;justify-content: center;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/icons/calendar.svg"
+            style="height: 18px; margin-right: 7px; width: 15px"
+            src="../../assets/imgs/icons/new_icons/CalanderIcon.png"
           />
-          <p class="roboto titlesub">
+          <p class="roboto titlesub" style="line-height: normal;">
             {{detailObj.formatted_date}}
           </p>
         </div>
       </ion-col>
-      <ion-col size="5.1" style="display: flex; align-items: center; padding: 0px;">
+      <ion-col size="4" style="display: flex; align-items: center; padding: 0px;justify-content: right;">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/watch.svg"
+            style="height: 18px;
+            margin-left: 15px;
+            width: 18px;
+            margin-right: 7px;"
+            src="../../assets/imgs/icons/new_icons/ClockIcon.png"
           />
           <p class="roboto titlesub">
             {{detailObj.formatted_start_time}} - {{detailObj.formatted_end_time}}
@@ -102,13 +105,13 @@
       </ion-col>
     </ion-row>
 
-    <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
+    <div style="margin-top: 0px; display: flex;align-items: center;justify-content: space-between;">
       <div style="display: flex; align-items: center; width: 65%;">
         <p class="roboto titlesub">{{detailObj.location}}</p>
       </div>
       <div style="display: flex; align-items: center">
-        <img style="height: 18px; width: 18px;margin-right: 7px; margin-left: 2px;" src="../../assets/imgs/icons/new_icons/PersonIcon1.png" alt="">
-        <p style="margin-right: 10px;" class="roboto titlesub">{{detailObj.availability_count}}</p>
+        <img style="height: 16px; width: 16px; margin-right: 7px; margin-left: 2px;" src="../../assets/imgs/icons/new_icons/PersonIcon1.png" alt="">
+        <p style="margin-right: 1px;" class="roboto titlesub">{{detailObj.availability_count}}</p>
       </div>
 
     </div>
@@ -136,15 +139,8 @@
             src="assets/imgs/call.svg"
         /></a>
       </div>
-      <div
-        (click)="goToSee()"
-        style="
-          border: 1px solid #ffffff;
-          padding: 5px 10px;
-          border-radius: 20px;
-        "
-      >
-        <p class="see roboto">See who's out!</p>
+      <div (click)="goToSee()" class="live_icon">
+        <img style="width: 34px;" src="../../assets/imgs/icons/new_icons/CrowdLiveIcons.png" alt="">
       </div>
     </div>
 
@@ -158,13 +154,13 @@
         <ion-item-options side="start">
           <ion-item-option
             style="
-              color: #531c7c;
+              color: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
               margin-top: -10px;
-              background: #531c7c;
+              background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
               margin-left: 5px;
             "
             expandable
-            >Claim</ion-item-option
+            ></ion-item-option
           >
         </ion-item-options>
 
@@ -177,7 +173,7 @@
           <img
             style="
               rotate: 180deg;
-              height: 25px;
+              height: 20px;
               /* width: 25px; */
               margin-right: 20px;
             "
@@ -194,7 +190,7 @@
       (click)="buyTicket()"
       style="margin-top: 22px;"
       class="btngray roboto"
-      >Buy Ticket</ion-button
+      >Book Now</ion-button
     >
 
     <ion-button *ngIf="allTicketsSold"
@@ -213,11 +209,40 @@
   style="height: 100%; width: 100%; background: #262626; opacity: 0.9"
 >
   <div class="v-center">
-    <div class="icondiv" (click)="closeslide(slidingItem)">
+    <!-- <div class="icondiv" (click)="closeslide(slidingItem)">
       <img src="assets/imgs/cross.svg" alt="" />
-    </div>
+    </div> -->
 
     <div style="text-align: center">
+      <!-- <img src="assets/imgs/disc.svg" alt="" /> -->
+      <img src="{{rest.baseURLimg}}{{detailObj.images[0].name}}" style="margin-top: 5px;
+      height: 246px;
+      width: 97.5%;
+      clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      position: relative;
+      z-index: 3;" alt="">
+      <div class="roboto heading_text">{{detailObj.name}}</div>
+      <img class="bg_disc_card"  src="../../assets/imgs/icons/new_icons/BookingShape2.png" alt="">
+      <div class="card_bg">
+
+        <p class="two roboto">{{detailObj.discount_percentage}}%</p>
+      
+        <p class="one roboto">Discount Claimed</p>
+
+        <!-- <div class="roboto token_num">{{discountToken}}</div> -->
+        <!-- <div class="roboto token_info_one">All discounts can be found in your Profile</div> -->
+        <!-- <div class="roboto token_info_two" >*its a one time code, save it</div> -->
+        <ion-button (click)="hideDiscCard()" class="btngray" style="height: 45px;
+        --background: linear-gradient(180deg, #262626, #302f2f);
+        width: 70%;
+        margin-top: 25px;">Close</ion-button>
+      </div>  
+      
+    </div>
+
+    <!-- <div style="text-align: center">
       <img src="assets/imgs/disc.svg" alt="" />
       <p class="one">Discount Claim!</p>
       <p class="two">Instant</p>
@@ -227,6 +252,6 @@
       <p *ngIf="detailObj.discount_percentage > 0" class="three">
         {{detailObj.discount_percentage}}% off
       </p>
-    </div>
+    </div> -->
   </div>
 </div>

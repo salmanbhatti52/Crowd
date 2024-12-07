@@ -3,11 +3,14 @@
   <ion-modal [isOpen]="showBookingModel" class="booking_popup" (ionModalDidDismiss)="closeModal()">
     <ng-template>
       <img style="
-      height: 268px;
+      height: 246px;
       margin: 0px auto;
       width: 97.5%;
-      clip-path: polygon(50% 0%, 100% 7%, 100% 92%, 50% 100%, 0% 92%, 0% 7%);
-      border-radius: 60px 58px 0px 0px;z-index: 11;" src="{{selectedVenue.cover_images}}" alt="">
+      clip-path: polygon(50% 0%, 100% 0%, 100% 92%, 50% 100%, 0% 92%, 0% 0%);
+      z-index: 11;
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;" src="{{selectedVenue.cover_images}}" alt="">
+
 
       <div class="content_position">
         <div class="roboto heading_text">{{selectedVenue.name}}</div>
@@ -27,7 +30,10 @@
           </div>
         </div>
       </div>
-      
+      <img style="position: absolute;
+      width: 100%;
+      top: 224px;" src="../../assets/imgs/icons/new_icons/BookingShape2.png" alt="">
+
       <div class="card_bg">
         <div class="roboto confirm_booking" >Booking Confirmed!</div>
         <div class="roboto thanks_text">Thank you</div>

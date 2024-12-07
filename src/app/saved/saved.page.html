@@ -1,7 +1,9 @@
 <ion-header>
-  <ion-toolbar class="bg paddingtop">
-    <div
-    class="bg "
+  <ion-toolbar>
+  
+  <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
+  <div
+    class="header_content"
     style=" width: 100%; z-index: 9999; padding: 10px 0px 15px;"
   >
     <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
@@ -134,17 +136,17 @@
             (click)="likevenu(opt)"
             class="imgcls"
             *ngIf="opt.likes==0"
-            src="assets/imgs/heartww.svg"
+            src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
           />
           <img
             (click)="likeoutvenu(opt)"
             class="imgcls"
             *ngIf="opt.likes!=0"
-            src="assets/imgs/heartactive.svg"
+            src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
           />
-          <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="roboto bdg"
+          <!-- <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="roboto bdg"
             >No Discount
-          </ion-badge>
+          </ion-badge> -->
           <ion-badge *ngIf="opt.discount_percentage > 0" class="roboto bdg"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
@@ -155,7 +157,7 @@
           style=" 
             position: relative;
            height: 100%;
-          border-radius: 32px;
+          border-radius: 10px;
           background-size: cover;
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "
@@ -218,7 +220,7 @@
           style=" 
             position: relative;
            height: 100%;
-          border-radius: 15px;
+          border-radius: 10px;
           background-size: cover;
           background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
         "

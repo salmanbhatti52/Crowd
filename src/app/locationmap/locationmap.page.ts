@@ -2164,11 +2164,11 @@ export class LocationmapPage implements OnInit {
     if(!this.map){
       this.buildMap2();
     }
-    // this.makeMarkerArray();
-    this.makeMapboxVenueMarkerArray();
+    this.makeMarkerArray();
+    // this.makeMapboxVenueMarkerArray();
 
-    // this.makeEventMarkerArray();
-    this.makeMapboxEventMarkerArray();
+    this.makeEventMarkerArray();
+    // this.makeMapboxEventMarkerArray();
     
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -2176,7 +2176,7 @@ export class LocationmapPage implements OnInit {
     this.getEventAIKeywords();
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
-    // this.map.googleMap?.setZoom(13);
+    this.map.googleMap?.setZoom(13);
     
     
     

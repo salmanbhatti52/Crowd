@@ -114,12 +114,42 @@
   color: #FFFFFF;
 }
 
-.bg{
-  --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
-  padding: 0px 0px 0px 0px;
+.md .header_bg{
+  width: 100%;
+  height: 120px;
+}
+
+.ios .header_bg{
+  width: 100%;
+  height: 157px;
+}
+
+.md .header_content{
+  width: 100%;
+  z-index: 9999;
+  padding: 10px 0px 15px;
+  position: absolute;
+  top: 0px;
+}
+
+.ios .header_content{
+  width: 100%;
+  z-index: 9999;
+  padding: 10px 0px 15px;
+  position: absolute;
+  top: 30px;
+}
+
+
+
+// .bg{
+  // background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+  // padding: 0px 0px 0px 0px;
+  // --background: url('../../assets/imgs/icons/new_icons/Background1.png') no-repeat center center; 
+  // background-size: cover;
   // background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
   // padding: 10px 0px 10px 0px;
-}
+// }
   
   .or_cls{
     margin-left: 15px;
@@ -150,11 +180,19 @@
         width: 90%;
       }
   }
+
+  .ora_ai_icon{
+    position: fixed;
+    z-index: 11;
+    right: -12px;
+    bottom: 35%;
+    width: 105px;
+    border-radius: 100px;
+  }
   
   
   
   ////////tab bar style
-  /// 
   
   
   .img{
@@ -442,13 +480,13 @@
   }
 
   .bdg{
-    background: linear-gradient(180deg,#9218a6, #5a0670);
+    background: linear-gradient(180deg, #9218a6, #5a0670);
     position: absolute;
     right: 10px;
     top: 10px;
-    padding: 10px;
+    padding: 7.5px 12px;
     border-radius: 22px;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 10px;
   }
 
@@ -456,6 +494,8 @@
     position: absolute;
     left: 15px;
     top: 15px;
+    height: 22px;
+    width: 22px;
   }
 
   .title1{

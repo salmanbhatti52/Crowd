@@ -26,17 +26,50 @@
 
     .claim_msg{
       padding: 13px !important;
-        margin: 25px 0px 0px;
-        background: #531C7C;
-        opacity: 0.8;
-        border-radius: 42px;
-        width: 100%;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 18px;
-        text-align: center;
-        color: #FFFFFF;
+      margin: 25px 0px 0px;
+      background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+      opacity: 0.8;
+      border-radius: 16px;
+      width: 100%;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      text-align: center;
+      color: #FFFFFF;
     }
+
+    .card_bg{
+      position: relative;
+      z-index: 1;
+      padding-top: 7px;
+      // padding: 20px;
+      // background: url('../../assets/imgs/icons/new_icons/DiscountShape2.png') center center no-repeat;
+    }
+
+    .bg_disc_card{
+      position: absolute;
+      left: 0px;
+      top: 222px;
+      z-index: 0;
+      height: 275px;
+      width: 100%;
+    }
+
+    .heading_text{
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      color: white;
+      position: absolute;
+      top: 125px;
+      left: 45px;
+      text-align: center;
+      right: 45px;
+      background: transparent;
+      border-radius: 5px;
+      padding: 3px 6px;
+      z-index: 12;
+    } 
     
     @media (orientation: landscape) {
       .btm{
@@ -194,13 +227,32 @@
     }
   
     .bdg{
-        background: linear-gradient(180deg, #9218a6, #5a0670);
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        padding: 15px;
-        border-radius: 22px;
-        z-index: 999;
+      background: linear-gradient(180deg, #9218a6, #5a0670);
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      padding: 12px 20px;
+      border-radius: 16px;
+      z-index: 999;
+    }
+
+    .live_icon{
+      width: 76px;
+      background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+      padding: 0px 0px 2px 11px;
+      text-align: center;
+      border-radius: 11px;
+    }
+
+    .booking_btn_icon{
+      height: 16px;
+      width: 16px;
+      margin-left: 4px;
+    }
+
+    .booking_btn_text{
+      width: 100%;
+      margin-left: 40px;
     }
   
     .imgcls{
@@ -255,13 +307,12 @@
 }
 
 .pp{
-  margin: 15px 0px;
+  margin: 10px 0px;
   color: #FFFFFF;
   font-style: normal;
   font-weight: 400;
   font-size: 13.7px;
-  line-height: 19px;
-  display: flex;
+  line-height: normal;
 }
 
 
@@ -290,10 +341,20 @@ ion-col{
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  line-height: 16px;
+  // line-height: 16px;
   display: flex;
   align-items: center;
-  color: #d9d9d9;
+  color: white;
+}
+
+.today{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  // line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: white;
 }
 
 p {
@@ -376,6 +437,38 @@ padding-left: 11px;
     text-align: center;
 }
 
+.dd_icon{
+  margin: 17px 15px 17px 12px;;
+  width: 10.81px;
+}
+
+.dd_icon_active{
+  margin: 17px 15px 17px 12px;
+  width: 10.81px;
+  transform: rotate(180deg);
+}
+
+.mgr_30{
+  margin-right: 30px;
+}
+
+.mgr_25{
+  margin-right: 25px;
+}
+
+.mgr_15{
+  margin-right: 15px;
+}
+
+.mgr_2{
+  margin-right: 2px;
+}
+
+.align_right{
+  position: absolute;
+  right: 10px;
+}
+
 .btnbg1{
   margin: 25px 0px 0px;
   height: 53px;
@@ -409,14 +502,13 @@ padding-left: 11px;
 }
 
 .one{
-      margin-top: 0px;
+  margin-top: 10px;
   font-style: normal;
-  font-weight: 700;
-  font-size: 26px;
-  line-height: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: normal;
   text-align: center;
-  color: #7825CB;
- 
+  color: white;
 }
 
 .mg_top_7{
@@ -424,12 +516,21 @@ padding-left: 11px;
 }
 
 .token_num{
-  text-align: center; color: black; font-size: 26px;font-weight: 700; margin-top: 10px;
+  margin-top: 15px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: normal;
+  text-align: center;
+  color: white;
 }
 
 .token_info_one{
-  margin-top: 5px;
-  text-align: center; color: #262626; font-size: 14px;  font-weight: 500; word-wrap: break-word
+  margin-top: 15px;
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 500;
 }
 
 .token_info_two{
@@ -437,17 +538,12 @@ padding-left: 11px;
 }
 
 .two{
-  margin-top: 20px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
+  margin-top: 10px;
+  font-size: 40px;
+  line-height: normal;
   text-align: center;
-  
-  /* background */
-  
-  color: #262626;
- 
+  color: white;
+  font-weight: bold; 
 }
 
 .dis_off{

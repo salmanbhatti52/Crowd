@@ -116,8 +116,8 @@ export class VenuedetailPage implements OnInit {
       this.detailObj.close_hours = parse(this.detailObj.close_hours, 'HH:mm:ss', new Date());
       
       //formated time
-      this.detailObj.start_hours = format(this.detailObj.start_hours, 'h:mma');
-      this.detailObj.close_hours = format(this.detailObj.close_hours, 'h:mma');
+      this.detailObj.start_hours = format(this.detailObj.start_hours, 'haaa');
+      this.detailObj.close_hours = format(this.detailObj.close_hours, 'haaa');
     }else{
       this.detailObj.start_hours = null;
       this.detailObj.close_hours = null;
@@ -177,13 +177,17 @@ export class VenuedetailPage implements OnInit {
         closeHours = parse(closeHours, 'HH:mm:ss', new Date());
         
         //formated time
-        this.detailObj.venue_timing[i].formatted_start_hours = format(startHours, 'h:mma');
-        this.detailObj.venue_timing[i].formatted_close_hours = format(closeHours, 'h:mma');
+        this.detailObj.venue_timing[i].formatted_start_hours = format(startHours, 'haaa');
+        this.detailObj.venue_timing[i].formatted_close_hours = format(closeHours, 'haaa');
 
       }else{
         
       }
     }
+  }
+
+  hideDiscCard(){
+    this.displaydiv = false;
   }
 
   getTime(val:any){

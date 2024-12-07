@@ -3,12 +3,12 @@
     <div class="boxshadow"></div>
     <ion-row
       class="paddingtop"
-      style="margin-top: 10px; position: absolute; z-index: 999; width: 100%"
+      style="margin-top: 25px; position: absolute; z-index: 999; width: 100%"
     >
       <ion-col size="2" style="text-align: center">
         <img
           (click)="goBack()"
-          style="height: 25px;; margin-right: 15px"
+          style="height: 25px; margin-right: 15px"
           src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
@@ -17,14 +17,14 @@
         <img
           (click)="likevenu()"
           *ngIf="detailObj.likes==0 && detailObj.discount_percentage != null"
-          style="height: 25px;; margin-right: 10px"
-          src="assets/imgs/heartww.svg"
+          style="height: 25px; margin-right: 10px"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
         />
         <img
           (click)="likeoutvenu()"
           *ngIf="detailObj.likes==1 && detailObj.discount_percentage != null"
-          style="height: 25px;; margin-right: 10px"
-          src="assets/imgs/heartactive.svg"
+          style="height: 25px; margin-right: 10px"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
         />
         <img *ngIf="detailObj.discount_percentage != null"
           (click)="goToProfile()"
@@ -107,10 +107,10 @@
       <ion-col size="3.5" style="display: flex; align-items: center">
         <div style="display: flex">
           <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/pinwhite.svg"
+            style="height: 18px; margin-right: 7px; width: 15px"
+            src="../../assets/imgs/icons/new_icons/LocationPinIcon.png"
           />
-          <p class="roboto titlesub" style="width: 73px;overflow: hidden;">
+          <p class="roboto titlesub" style="width: 73px;overflow: hidden;line-height: normal;">
             {{detailObj.distance | number : '1.1-1'}} Miles
           </p>
         </div>
@@ -129,16 +129,18 @@
           >
             <!-- <p class="people">{{people}} </p> -->
             <img
-            style="height: 15px;
+            style="height: 18px;
             margin-left: 15px;
-            width: 12px;
+            width: 18px;
             margin-right: 7px;"
-            src="assets/imgs/watch.svg"
+            src="../../assets/imgs/icons/new_icons/ClockIcon.png"
           />
-            <p *ngIf="detailObj.start_hours!=null" class="roboto titlesub">{{detailObj.day_name.substring(0,3)}} {{detailObj.start_hours}} - {{detailObj.close_hours}}</p>
-            <p *ngIf="detailObj.start_hours==null" class="roboto titlesub">Closed</p>
+            <!-- <p *ngIf="detailObj.start_hours!=null" class="roboto titlesub"><span class="mgr_15">{{detailObj.day_name}}</span>{{detailObj.start_hours}} - {{detailObj.close_hours}}</p> -->
+            <!-- <p *ngIf="detailObj.start_hours!=null" class="roboto titlesub"><span class="mgr_15">Opens at</span>{{detailObj.start_hours}}</p> -->
+            <p *ngIf="detailObj.start_hours!=null" class="roboto titlesub mgr_25"><span class="mgr_2">Opens at </span><span class="mgr_15">{{detailObj.start_hours}}</span> </p>
+            <p *ngIf="detailObj.start_hours==null" class="roboto titlesub mgr_25"><span class="mgr_15">{{detailObj.day_name}}</span> Closed</p>
             <img
-              style="margin: 17px 17px 17px 15px; width: 15.81px; height: 8.81px"
+              class="dd_icon" [class.dd_icon_active]="venueTimingShow"
               src="/assets/imgs/downw.svg"
             />
           </div>
@@ -152,18 +154,18 @@
               padding: 0px 10px;
               top: 36px;
               left: 4px;
-              width: 85%;
+              width: 80%;
             "
             *ngIf="venueTimingShow"
           >
           
             <div class="roboto pp" *ngFor="let a of detailObj.venue_timing">
-              <img
+              <!-- <img
                 style="height: 15px; margin-right: 7px; width: 12px"
                 src="assets/imgs/watch.svg"
-              />
-              <p *ngIf="a.start_hours!=null" class="roboto titlesub">{{a.days_name.substring(0,3)}} {{a.formatted_start_hours}} - {{a.formatted_close_hours}}</p>
-              <p *ngIf="a.start_hours==null" class="roboto titlesub">Closed</p>
+              /> -->
+              <div *ngIf="a.start_hours!=null" class="roboto titlesub" [class.today]="detailObj.day_name == a.days_name"><div >{{a.days_name}}</div> <div class="align_right">{{a.formatted_start_hours}} - {{a.formatted_close_hours}}</div></div>
+              <div *ngIf="a.start_hours==null" class="roboto titlesub" [class.today]="detailObj.day_name == a.days_name"><div>{{a.days_name}}</div> <div class="align_right">Closed</div></div>
 
             </div>
           </div>
@@ -187,15 +189,15 @@
     </ion-row>
 
     <ion-row style="margin-top: 0px;margin-bottom: 16px;" >
-      <ion-col size="8" style="display: flex; align-items: center">
+      <ion-col size="8.5" style="display: flex; align-items: center">
         <p class="roboto titlesub">{{detailObj.location}}</p>
       </ion-col>
       <ion-col *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null"
-        size="4"
+        size="3.5"
         style="display: flex; align-items: center; justify-content: flex-end"
       >
         <img
-          style="height: 18px; width: 18px; margin-right: 7px; margin-left: 2px;"
+          style="height: 16px; width: 16px; margin-right: 7px; margin-left: 2px;"
           src="../../assets/imgs/icons/new_icons/PersonIcon1.png"
         />
         <p class="inhouse roboto" style="margin-right: 4px;">{{detailObj.availability_count}}</p>
@@ -230,7 +232,10 @@
         /></a>
       </div>
 
-      <div *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null"
+      <div *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null" (click)="goToSee()" class="live_icon">
+        <img style="width: 34px;" src="../../assets/imgs/icons/new_icons/CrowdLiveIcons.png" alt="">
+      </div>
+      <!-- <div *ngIf="detailObj.venues_id != null && detailObj.discount_percentage != null"
         (click)="goToSee()"
         style="
           border: 1px solid #ffffff;
@@ -239,7 +244,7 @@
         "
       >
         <p class="see roboto">See who's out!</p>
-      </div>
+      </div> -->
     </div>
 
     <ion-list class="btnbg1 roboto" [class.hide]="hideClaimDiscountButton">
@@ -251,13 +256,13 @@
         <ion-item-options side="start">
           <ion-item-option
             style="
-              color: #531c7c;
+              color: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
               margin-top: -10px;
-              background: #531c7c;
+              background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
               margin-left: 5px;
             "
             expandable
-            >Claim</ion-item-option
+            ></ion-item-option
           >
         </ion-item-options>
 
@@ -266,13 +271,11 @@
           lines="none"
           class="btnbg margintopcls roboto"
         >
-          <ion-label>Claim Discount</ion-label>
+          <ion-label style="margin-left: 20px;">Claim Discount</ion-label>
           <img
             style="
               rotate: 180deg;
-              height: 25px;
-              /* width: 25px; */
-              margin-right: 20px;
+              height: 20px;
             "
             src="../../assets/imgs/icons/new_icons/BackIcon.png"
           />
@@ -291,7 +294,10 @@
         (click)="bookTable()"
         style="margin-top: 20px;"
         class="btngray roboto"
-        >Book Now</ion-button
+        ><span class="booking_btn_text">Reserve Table</span> 
+        <img class="booking_btn_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">
+        <img class="booking_btn_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt="">
+        </ion-button
       >
     </div>
 
@@ -347,25 +353,35 @@
   style="height: 100%; width: 100%; background: #262626; opacity: 0.9"
 >
   <div class="v-center">
-    <div class="icondiv" (click)="closeslide(slidingItem)">
+    <!-- <div class="icondiv" (click)="closeslide(slidingItem)">
       <img src="assets/imgs/cross.svg" alt="" />
-    </div>
+    </div> -->
 
     <div style="text-align: center">
-      <img src="assets/imgs/disc.svg" alt="" />
-      
-      <p class="two roboto">Instant</p>
-      <p *ngIf="detailObj.discount_percentage <= 0" class="three">
-        No Discount
-      </p>
-      <p *ngIf="detailObj.discount_percentage > 0" class="mg_top_7">
-        <span class="three roboto">{{detailObj.discount_percentage}}% </span> <span class="dis_off roboto">off</span> 
-      </p>
-      <p class="one roboto">Discount Claim!</p>
+      <!-- <img src="assets/imgs/disc.svg" alt="" /> -->
+      <img src="{{detailObj.cover_images}}" style="margin-top: 5px;
+      height: 246px;
+      width: 97.5%;
+      clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      position: relative;
+      z-index: 3;" alt="">
+      <div class="roboto heading_text">{{detailObj.name}}</div>
+      <img class="bg_disc_card"  src="../../assets/imgs/icons/new_icons/BookingShape2.png" alt="">
+      <div class="card_bg">
 
-      <div class="roboto token_num" >{{discountToken}}</div>
-      <div class="roboto token_info_one"  >Show this code at the venue.</div>
-      <div class="roboto token_info_two" >*its a one time code, save it</div>
+        <p class="two roboto">{{detailObj.discount_percentage}}%</p>
+      
+        <p class="one roboto">Discount Claimed</p>
+
+        <div class="roboto token_num">{{discountToken}}</div>
+        <div class="roboto token_info_one">All discounts can be found in your Profile</div>
+        <!-- <div class="roboto token_info_two" >*its a one time code, save it</div> -->
+        <ion-button (click)="hideDiscCard()" class="btngray" style="height: 45px; --background: linear-gradient(180deg, #262626,#302f2f);width: 70%;
+    margin-top: 10px;">Close</ion-button>
+      </div>  
+      
     </div>
   </div>
 </div>

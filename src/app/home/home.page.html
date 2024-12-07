@@ -1,10 +1,7 @@
-<ion-header>
-  <ion-toolbar class="bg paddingtop">
-    <div
-    class="bg "
-    style=" width: 100%;
-     z-index: 9999; 
-    padding: 10px 0px 15px;"
+<ion-header >
+  <ion-toolbar >
+    <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
+    <div class="header_content"
   >
     <div style="padding-top: 10px" *ngIf="showfilter" class="filterdivstyle">
       <p
@@ -51,7 +48,7 @@
       </ion-col>
     </ion-row>
 
-    <div style="margin: 10px 0px 2px; text-align: -webkit-center">
+    <div style="margin: 10px 0px 2px; text-align: center">
       <ion-segment
         style="
           height: 48px;
@@ -72,7 +69,7 @@
             --color: #000000;
             --color-checked: #fff;
             --border-radius: 20px;
-            /* --background-checked: #611ea5; */
+            --background-checked: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
           "
           value="venu" (click)="getVenues()"
         >
@@ -85,7 +82,7 @@
             --color: #000000;
             --color-checked: #ffffff;
             --border-radius: 20px;
-            --background-checked: #262626;
+            --background-checked: radial-gradient(circle at 0% 0%, #4d4d4d,#222222);
           "
           value="reservation"
           (click)="getReservations()"
@@ -100,11 +97,7 @@
             --color: #000000;
             --color-checked: #fff;
             --border-radius: 20px;
-            --background-checked: linear-gradient(
-              89.73deg,
-              #ebd87a -0.24%,
-              #956b1c 99.77%
-            ); ;
+            --background-checked: radial-gradient(circle at 0% 0%, #fad66a, #825807);
           "
           value="event"
         >
@@ -151,17 +144,17 @@
           (click)="likevenu(opt)"
           class="imgcls"
           *ngIf="opt.likes==0"
-          src="assets/imgs/heartww.svg"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
         />
         <img
           (click)="likeoutvenu(opt)"
           class="imgcls"
           *ngIf="opt.likes==1"
-          src="assets/imgs/heartactive.svg"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
         />
-        <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="roboto bdg"
+        <!-- <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="roboto bdg"
           >No Discount
-        </ion-badge>
+        </ion-badge> -->
         <ion-badge *ngIf="opt.discount_percentage > 0" class="roboto bdg"
           >{{opt.discount_percentage}}% Off
         </ion-badge>
@@ -172,7 +165,7 @@
           style=" 
           position: relative;
           height: 100%;
-          border-radius: 32px;
+          border-radius: 10px;
           background-size: cover;
           background-image: url('{{opt.cover_images}}');
         "
@@ -240,17 +233,17 @@
         (click)="likevenu(opt)"
         class="imgcls"
         *ngIf="opt.likes==0"
-        src="assets/imgs/heartww.svg"
+        src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
       />
       <img
         (click)="likeoutvenu(opt)"
         class="imgcls"
         *ngIf="opt.likes==1"
-        src="assets/imgs/heartactive.svg"
+        src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
       />
-      <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg roboto"
+      <!-- <ion-badge *ngIf="opt.discount_percentage <= 0 && opt.discount_percentage != null" class="bdg roboto"
         >No Discount
-      </ion-badge>
+      </ion-badge> -->
       <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg roboto"
         >{{opt.discount_percentage}}% Off
       </ion-badge>
@@ -261,7 +254,7 @@
         style=" 
       position: relative;
       height: 100%;
-      border-radius: 32px;
+      border-radius: 10px;
       background-size: cover;
       background-image: url('{{opt.cover_images}}');
       "
@@ -344,17 +337,17 @@
             (click)="likeevent(opt)"
             class="imgcls"
             *ngIf="opt.likes==0"
-            src="assets/imgs/heartww.svg"
+            src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
           />
           <img
             (click)="likeoutevent(opt)"
             class="imgcls"
             *ngIf="opt.likes!=0"
-            src="assets/imgs/heartactive.svg"
+            src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
           />
-          <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg roboto"
+          <!-- <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg roboto"
             >No Discount
-          </ion-badge>
+          </ion-badge> -->
           <ion-badge *ngIf="opt.discount_percentage > 0" class="bdg roboto"
             >{{opt.discount_percentage}}% Off
           </ion-badge>
@@ -365,7 +358,7 @@
           style=" 
           position: relative;
           height: 100%;
-        border-radius: 32px;
+        border-radius: 10px;
         background-size: cover;
         background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
       "
@@ -388,12 +381,14 @@
   </div>
   
   <!-- (click)="startSpeechRecognition()" -->
-  <ion-fab slot="fixed" vertical="center" horizontal="end">
+  <!-- <ion-fab slot="fixed" vertical="center" horizontal="end">
     <ion-fab-button style="--background: transparent;height: 60px;width: 60px;"  [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'">
       <img (click)="setOpenValueForAI(true)"   
-       src="../../assets/imgs/icons/ora_ai_btn.png" alt="">
+       src="../../assets/imgs/icons/new_icons/Map Icons/OraAIIcon.png" alt="">
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
+  <img (click)="setOpenValueForAI(true)" [class.hide_ai]="aiToggleChecked == false" *ngIf="segmentModel === 'venu' || segmentModel === 'reservation' && reservationFeature === 'On' || segmentModel === 'event'"   
+  class="ora_ai_icon"  src="../../assets/imgs/icons/new_icons/Map Icons/OraAIIcon.png" alt="">
   <!-- [initialBreakpoint]="1" [breakpoints]="[0, 1]" -->
   <ion-modal [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()" [isOpen]="isAIModalOpen"  (ionModalWillDismiss)="dismissModal()" >
     <ng-template>

@@ -63,8 +63,8 @@ export class EventdetailPage implements OnInit {
       // console.log('start_time: ttttttttt', parse(this.detailObj.event_end_time, 'HH:mm:ss', new Date()));
       
       //format the date
-      start_time = format(start_time, 'h:mma');
-      end_time = format(end_time, 'h:mma');
+      start_time = format(start_time, 'haaa');
+      end_time = format(end_time, 'haaa');
       // console.log('startTime',start_time);
       // console.log('endTime',end_time);
       this.detailObj.formatted_start_time = start_time;
@@ -125,6 +125,10 @@ export class EventdetailPage implements OnInit {
   ////======================done==================================//
   goBack() {
     this.location.back();
+  }
+
+  hideDiscCard(){
+    this.displaydiv = false;
   }
 
   getTime(val:any){
