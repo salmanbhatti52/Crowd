@@ -27,8 +27,8 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div class="visitors">
-    <div *ngFor="let opt of visitorArr">
+  <ion-row class="visitors">
+    <ion-col size="4" *ngFor="let opt of visitorArr">
       <div class="mainDiv" >
         <img
           class="uimg"
@@ -38,6 +38,6 @@
 
         <p class="uname roboto">{{opt.username}}</p>
       </div>
-    </div>
-  </div>
+    </ion-col>
+  </ion-row>
 </ion-content>

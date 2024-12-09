@@ -79,8 +79,8 @@
         <div class="elementBg" >
           <img  (click)="gotoEventDetails(aa)"
             style="
-              width: 124px;
-              height: 124px;
+              width: 135px;
+              height: 145px;
               border-radius: 16px;
               margin-right: 10px;
             "
@@ -89,24 +89,28 @@
           
     
           <div>
-            <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
+            <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
             <div style="display: flex; align-items: center; margin-bottom: 8px">
-              <img class="imm" src="assets/imgs/pinwhite.svg" />
-              <p class="bb roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.events.name}}</p>
             </div>
     
             <div style="display: flex; align-items: center; margin-bottom: 8px">
-              <img class="imm" src="assets/imgs/ccc.svg" />
+              <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
               <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
             </div>
     
-            <div style="display: flex; align-items: center; margin-bottom: 2px">
-              <img class="imm" src="assets/imgs/watch.svg" />
+            <div style="display: flex; align-items: center; margin-bottom: 18px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
               <p class="date roboto">
                 {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
               </p>
             </div>
+
+            <div (click)="gotoEventDetails(aa)" class="view_btn roboto">view</div>
           </div>
+
+          
         </div>
       </div>
     </div>
@@ -131,32 +135,40 @@
       <div class="elementBg">
         <img
         style="
-          width: 124px;
-          height: 124px;
+          width: 135px;
+          height: 145px;
           border-radius: 16px;
           margin-right: 10px;
         "
         src="{{rest.baseURLimg}}{{aa.events_images[0].name}}"
         />
 
-        <div>
-          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+        <div style="width: 100%;">
+          <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
+          <div class="flex_center space_between">
+            <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.events.name}}</p>
+            </div>
+
+            <img class="del_icon" (click)="deleteBooking()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
           </div>
 
           <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/ccc.svg" />
+            <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
             <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
           </div>
 
-          <div style="display: flex; align-items: center; margin-bottom: 2px">
-            <img class="imm" src="assets/imgs/watch.svg" />
+          <div style="display: flex; align-items: center; margin-bottom: 18px">
+            <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
             <p class="date roboto">
               {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
             </p>
           </div>
+
+          <div class="view_btn roboto">Complete</div>
+          <!-- <div *ngIf="" class="view_btn roboto">Complete</div> -->
+          <!-- <div *ngIf="" class="view_btn roboto">Refunded</div> -->
         </div>
       </div>
       

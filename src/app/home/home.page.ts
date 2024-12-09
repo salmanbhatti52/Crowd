@@ -42,6 +42,7 @@ export class HomePage implements OnInit {
   filtertype: any = "no";
   reservationFilter: any = "no";
   filterTypeEv: any = "no";
+  showWeather = false;
   reservationFeature:any = '';
   // venusArray:any = []
   noevent = 0;
@@ -118,6 +119,16 @@ export class HomePage implements OnInit {
 
     
     
+  }
+
+  closeNewModel(){
+    this.showWeather = false;
+    this.changeDetectorRef.detectChanges();
+    this.router.navigate(['weather-detail']);
+  }
+
+  showWeatherFunc(){
+    this.showWeather = true;
   }
 
   typeWriter() {

@@ -1,6 +1,7 @@
 <ion-header>
-  <ion-toolbar class="bg paddingtop">
-    <ion-row>
+  <ion-toolbar >
+    <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
+    <ion-row class="header_content">
       <ion-col size="2" class="centerall"
         >
         <img
@@ -20,79 +21,43 @@
 <ion-content style="--background: #262626">
 <div class="container"  style="position: relative;" >
   
-  <swiper-container  [slidesPerView]="1.2" [spaceBetween]="13" [centeredSlides]="true" (slidechange)="onSlideChange($event)" style="height: 100%;">
+  <swiper-container  [slidesPerView]="1.2" [spaceBetween]="13" [centeredSlides]="true" (slidechange)="onSlideChange($event)" >
     <swiper-slide *ngFor="let ticket of tickets;let i=index" style="width: 335px;">
-      <div class="ticket"  style="padding: 13px 5px 0px;">
-        <div id="ticket-p-a">
-          <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt="">
-          <div style="margin: 25px 5px 5px; position: relative;">
-            <div class="flex_center">
-              <!-- <div class="font gilroy">slslsl</div>
-              <div class="font gilroy">slslsl</div> -->
-              <div class="font gilroy" style="width: 50%;
-              text-align: left;">{{userName}}</div>
-              <div class="font gilroy" style="text-align: right;">{{rest.billDetails.event_name}}</div>
+      <div class="ticket">
+        <div id="ticket-p-a" style="position: relative;z-index: 1;text-align: center;">
+          <!-- <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt=""> -->
+          <img src="{{rest.baseURLimg}}{{detailObj.events_images[0].name}}" style="height: 240px;
+          width: 95%;
+          clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);
+          border-radius: 25px 25px 0px 0px;" alt="">
+
+          <div class="content_position">
+            <div class="roboto heading_text">{{detailObj.events.venue_name}}</div>
+            <div class="roboto event_name">{{detailObj.events.name}}</div>
+            
+            <div class="flex_center info_text1" style="margin: 0px auto 0px 0px;">
+              <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" alt="">
+              <div class="roboto" style="line-height: normal;">{{getDate(detailObj.events.event_date)}}</div>
             </div>
-            <div class="flex_center">
-              <!-- <div class="font gilroy">slslsl</div>
-              <div class="font gilroy">slslsl</div> -->
-              <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_cal.svg" alt=""></span>{{rest.billDetails.event_date}}</div>
-              <div class="font gilroy"><span> <img style="margin-right: 6px;" src="../../assets/imgs/icons/ticket_clock.svg" alt=""></span>{{getTime(rest.billDetails.event_start_time)}} - {{getTime(rest.billDetails.event_end_time)}}</div>
-            </div>
-            <!-- <div style="margin: 10px;position: relative;"> -->
-              <!-- <google-map
-              height="148"
-              width="85%"
-              #myGoogleMap
-              [zoom]="zoom"
-              [center]="center"
-              [options]="options"
-            > -->
-              <!-- <map-marker
-                #markerElem="mapMarker"
-                *ngFor="let marker of markers"
-                [position]="marker.position"
-                [label]="marker.label"
-                [title]="marker.title"
-                [options]="marker.options"
-                (mapDrag)="eventHandler($event,'mapDragMarker')"
-                (mapDragend)="eventHandler($event,'mapDragend')"
-                (mapClick)="openInfo(markerElem, marker.title, marker)"
-              >
-              </map-marker>
-      
-              <map-info-window>
-                <div style="display: flex; align-items: center">
-                  <img
-                    style="height: 30px; width: 30px; margin-right: 5px"
-                    src="assets/imgs/maphuman.svg"
-                  />
-                  <ion-label
-                    style="
-                      font-weight: 500;
-                      font-size: 17px;
-                      line-height: 26px;
-                      text-align: center;
-                      color: #7825cb;
-                    "
-                    >{{ infoContent }}</ion-label
-                  >
-                </div>
-              </map-info-window> -->
-            <!-- </google-map> -->
-            <!-- </div> -->
-            <div style="position: relative;">
-              <div class="location">{{rest.billDetails.location}}</div>
-              <img class="center" style="margin-top: 5px; height: 95px;" src="../../assets/imgs/map_bg.jpg" alt="">
+            <div class="flex_center info_text2" style="margin: 0px 0px auto auto;">
+              <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/ClockIcon.png" alt="">
+              <div class="roboto" style="line-height: normal;">{{getTime(detailObj.events.event_start_time)}} - {{getTime(detailObj.events.event_end_time)}}</div>
             </div>
           </div>
+          
+          <div style="margin: 7px 5px 5px; position: relative;">
+          </div>
+
         </div>
-        <div class="center font gilroy" style="margin-top: 5px;position: relative;">{{ticket.random_string}}</div>
-        <!-- <div class="center font gilroy" style="margin-top: 10px;position: relative;">WD321ASF12</div> -->
-        <!-- <div class="center font gilroy" style="margin-top: 168px;position: relative;">WD321ASF12</div> -->
-        <div class="ticket-p-b">
-          <hr >
-          <div class="center" style="margin-top: 4px;">
+        
+        <img style="position: absolute;
+        top: 204px;
+        height: 74%;
+        z-index: 0;width: 100%;"  src="../../assets/imgs/icons/new_icons/TicketBackground2.png" alt="">
+
+        <div class="ticket-p-b" style="position: relative;z-index: 1;">
+          <!-- <hr > -->
+          <div class="center" >
     
             <qrcode 
               [qrdata]="ticket.my_qr_code" 
@@ -100,21 +65,38 @@
               [width]="200" 
               [errorCorrectionLevel]="'M'">
             </qrcode>
+              <!-- [width]="200"  -->
+
+          </div>
+          <div class="center font roboto">{{userName}}</div>
+          <div class="center font roboto" style="margin-top: 5px;position: relative;">{{ticket.random_string}}</div>
+          <div >
+            <div class="center roboto loc_label" >Location</div>
+            <div class="center roboto location">{{rest.billDetails.location}}</div>
+            <!-- <img class="center" style="margin-top: 5px; height: 95px;" src="../../assets/imgs/map_bg.jpg" alt=""> -->
+          </div>
+          <div class="ticket-buttons">
+            <img (click)="setOpen(true)" class="small_icon_style" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
+            <img class="small_icon_style" src="../../assets/imgs/icons/icon_nav.svg" alt="">
+            <img (click)="generatePDF()" class="small_icon_style" src="../../assets/imgs/icons/new_icons/DownloadIcon.png" alt="">
           </div>
         </div>
       </div>
     </swiper-slide>
   </swiper-container>
   
-  <div class="flex_center" [class.align_center]="this.rest.comfrom == 'event-detail'" style="margin: 2px 20px;">
-    <!-- (click)="goToHome()" -->
-    <div  style="width: 100%;">
-      <ion-button (click)="setOpen(true)" 
-          style="margin-top: 10px; opacity: 1;"
-          class="btnbgred roboto"
-          >Request Refund</ion-button
-        >
-    </div>
+    <!-- <div class="flex_center" [class.align_center]="this.rest.comfrom == 'event-detail'" style="margin: 2px 20px;">
+      <div  style="width: 100%;">
+        <ion-button (click)="setOpen(true)" 
+            style="margin-top: 10px; opacity: 1;"
+            class="btnbgred roboto"
+            >Request Refund</ion-button
+          >
+      </div>
+      <img *ngIf="this.rest.comfrom != 'event-detail'" style="margin-left: 11px;" (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
+
+      
+    </div> -->
     <ion-modal class="refund_popup" #modal [isOpen]="isModalOpen">
       <ng-template>
         <ion-content style="--background: white !important;">
@@ -134,8 +116,5 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-      <img *ngIf="this.rest.comfrom != 'event-detail'" style="margin-left: 11px;" (click)="generatePDF()" src="../../assets/imgs/download_btn.svg" alt="">
   </div>
-
-</div>
 </ion-content>

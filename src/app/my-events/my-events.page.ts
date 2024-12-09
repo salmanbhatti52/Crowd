@@ -42,6 +42,10 @@ export class MyEventsPage implements OnInit {
     console.log(this.segmentModel);
     console.log("eee", event);
   }
+
+  deleteBooking(){
+    
+  }
   
   getUpcomingBookings(){
     if(this.orderd_upcomingArr.length == 0){

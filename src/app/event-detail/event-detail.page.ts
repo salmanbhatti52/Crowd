@@ -71,6 +71,10 @@ export class EventDetailPage implements OnInit {
       this.startChat();
     }
 
+    requestRefund(){
+      
+    }
+
     getBusinessList(){
       this.rest.presentLoader();
       this.rest.getRequest('get_business_list').subscribe((res:any)=>{

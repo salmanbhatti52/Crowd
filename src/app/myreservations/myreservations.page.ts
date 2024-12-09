@@ -120,7 +120,7 @@ export class MyreservationsPage implements OnInit {
 
  
   goBack() {
-    if(this.rest.comfrom == 'booking-detail'){
+    if(this.rest.comfrom == 'booking2'){
       this.router.navigate(['/home']);
       this.rest.comfrom = '';
     }else{
@@ -152,7 +152,7 @@ export class MyreservationsPage implements OnInit {
   getTime(aa:any){
     // return aa.substring(0,5);
      aa = parse(aa, 'HH:mm:ss', new Date());
-    return aa = format(aa, 'h:mma');
+    return aa = format(aa, 'h:mmaaa');
   }
 
   editbooking(aa: any) {

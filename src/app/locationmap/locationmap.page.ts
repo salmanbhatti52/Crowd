@@ -373,6 +373,7 @@ export class LocationmapPage implements OnInit {
   allVenueEventMarkers: any;
   detailObj: any;
   markerElements: Map<MapMarker, any> = new Map();
+  showWeather: boolean = false;
   // sffr:boolean =  Boolean();
   // showMicIcon = false;
 
@@ -412,6 +413,16 @@ export class LocationmapPage implements OnInit {
     console.log('markerElements:', this.markerElements);
   }
 
+  closeNewModel(){
+    this.showWeather = false;
+    this.changeDetectorRef.detectChanges();
+    this.router.navigate(['weather-detail']);
+  }
+
+  showWeatherFunc(){
+    this.showWeather = true;
+    
+  }
 
   async clearSearchObject(){
     this.searchObject = '';

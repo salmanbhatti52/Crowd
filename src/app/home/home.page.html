@@ -176,9 +176,90 @@
               {{opt.distance | number : '1.2-2'}} Miles
             </p>
           </div>
+          
+        </div>
+        <div style="position: relative;">
+          <div (click)="showWeatherFunc()" class="weather-badge"><img class="weather-icon" src="../../assets/imgs/icons/new_icons/Weather Icons/ShowersIcon.png" alt=""> 12</div>
+  
         </div>
       </div>
     </div>
+
+    <ion-modal [isOpen]="showWeather" style="--background: #00000059" (ionModalDidDismiss)="closeNewModel()">
+      <ng-template>
+        <ion-content style="--background: #00000059">
+          <div
+            style="
+              position: absolute;
+              top: 22%;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <div
+              style="
+                background: linear-gradient(135deg, #262626, #302f2f);
+                padding: 20px 20px 20px 20px;
+                border-radius: 10px;
+                margin: 20px;
+                border: 2px solid #848484;
+                width: 85%;
+              "
+            >
+              <!-- <div style="display: flex; justify-content: flex-end">
+                <img (click)="closeNewModel()" style="height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/RemoveIcon.png" />
+              </div> -->
+
+              <!-- <div style="text-align: center;">
+                <img style="height: 40px;width: 40px;" src="../../assets/imgs/icons/new_icons/ConfirmedIcon.png" alt="">
+              </div> -->
+              <div class="weather_heading center_text roboto">Manchester</div>
+              <div class="weather_sub_heading center_text roboto">Heavy Showers</div>
+    
+              <div class="flex_center">
+                <div class="roboto">
+                  <div class="weather_temp"><span class="main_temp">12</span>  <sup  class="font-w-100" style="color: white;font-size: 22px;">o</sup></div>
+                  <div class="weather_detail">Feels like: <span class="font-bold">10</span>  <sup class="font-w-100">o</sup></div>
+                  <div class="weather_detail"><span>High: <span class="font-bold">15</span> <sup class="font-w-100">o</sup> </span> <span style="margin-left: 4px;"> Low: <span class="font-bold">10</span> <sup class="font-w-100">o</sup></span></div>
+                  <div class="weather_detail">Humidity: <span class="font-bold">25%</span></div>
+                </div>
+                <img class="weather_icon2" src="../../assets/imgs/icons/new_icons/Weather Icons/ShowersIcon.png" alt="">
+              </div>
+              <!-- <div class="roboto info-text">Thank you, we will inform the venue.</div> -->
+              
+              <div class="weather_detail_box">
+                <div class="flex_col_center">
+                  <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/Weather Icons/WindIcon.png" alt="">
+                  <div class="weather_detail">Wind</div>
+                  <div class="weather_detail">9km/h</div>
+                </div>
+                <div class="flex_col_center">
+                  <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/Weather Icons/WaterDropIcon.png" alt="">
+                  <div class="weather_detail">Rain</div>
+                  <div class="weather_detail">85%</div>
+                </div>
+                <div class="flex_col_center">
+                  <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/Weather Icons/VisionIcon.png" alt="">
+                  <div class="weather_detail">Visibility</div>
+                  <div class="weather_detail">Clear</div>
+                </div>
+              </div>
+              <ion-button
+                (click)="closeNewModel()"
+                style="margin-top: 20px; opacity: 1;--border-radius: 18px;"
+                class="btnsimple roboto"
+                >View More</ion-button
+              >
+        
+              <!-- <div class="footer_text">Terms and Conditions Apply.</div> -->
+              
+            </div>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    
    
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event,'venues')">
       <ion-infinite-scroll-content

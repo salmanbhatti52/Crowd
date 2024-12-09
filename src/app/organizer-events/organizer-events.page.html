@@ -1,6 +1,7 @@
 <ion-header>
-  <ion-toolbar class="bg paddingtop">
-    <div class="title_bar" >
+  <ion-toolbar >
+    <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
+    <div class="title_bar header_content" >
       <img style="height: 25px;" (click)="goBack()" src="../../../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
       <div class="roboto titlefont">{{rest.business_owner_name}} Events</div>
       <div style="height: 25px;" ></div>
@@ -51,13 +52,13 @@
           (click)="likevenu(opt)"
           class="imgcls"
           *ngIf="opt.likes==0"
-          src="assets/imgs/heartww.svg"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
         />
         <img
           (click)="likeoutvenu(opt)"
           class="imgcls"
           *ngIf="opt.likes!=0"
-          src="assets/imgs/heartactive.svg"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
         />
         <ion-badge *ngIf="opt.discount_percentage <= 0" class="bdg"
           >No Discount
@@ -72,7 +73,7 @@
         style=" 
           position: relative;
          height: 100%;
-        border-radius: 15px;
+        border-radius: 10px;
         background-size: cover;
         background-image: url('{{rest.baseURLimg}}{{opt.cover_images}}');
       "

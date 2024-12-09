@@ -9,6 +9,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 declare var pdfMake: any; // Declare the pdfMake variable
 import html2canvas from 'html2canvas';
+import { format,parse } from 'date-fns';
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.page.html',
@@ -29,6 +30,7 @@ export class TicketPage implements OnInit {
   @ViewChild("myGoogleMap", { static: false })
   zoom = 13;
   maxZoom = 15;
+  detailObj:any;
   tickets:any;
   minZoom = 8;
   interval:any;
@@ -58,7 +60,7 @@ export class TicketPage implements OnInit {
     ) { }
 
   async ngOnInit() {
-
+    this.detailObj = this.rest.detail;
     console.log("ngOnInitFired");
     
     this.noOfTickets = this.rest.billDetails.ticket_requested;
@@ -532,9 +534,28 @@ export class TicketPage implements OnInit {
     
   }
 
+  // getTime(val:any){
+  //   if(val){
+  //     return val.substring(0,5);
+  //   }
+  // }
+
   getTime(val:any){
     if(val){
-      return val.substring(0,5);
+       val = parse(val, 'HH:mm:ss', new Date());
+       return val = format(val, 'h:mma');
+    }
+    else{
+      return val;
+    }
+  }
+
+  getDate(val:any){
+    if(val){
+      return format(new Date(val), 'E, dd MMM');
+    }
+    else{
+      return val;
     }
   }
 

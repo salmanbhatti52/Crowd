@@ -77,8 +77,14 @@
 }
 
 .imm{
-  width:20px;
-  height:20px;
+  // width:20px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.imm_calender{
+  // width:20px;
+  height: 16px;
   margin-right: 10px;
 }
 
@@ -111,10 +117,9 @@
   font-style: normal;
   font-weight: 400;
   font-size: 11.9px;
-  // line-height: 19px;
-  letter-spacing: -0.3px;
   color: #FFFFFF;
   margin: 0px;
+  line-height: normal;
 }
 
 .bb{

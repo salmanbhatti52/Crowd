@@ -5,8 +5,8 @@
       height: 268px;
       margin: 0px auto;
       width: 97.5%;
-      clip-path: polygon(50% 0%, 100% 7%, 100% 92%, 50% 100%, 0% 92%, 0% 7%);
-      border-radius: 60px 58px 0px 0px;z-index: 11;" src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}" alt="">
+      clip-path: polygon(50% 0%, 100% 0%, 100% 92%, 50% 100%, 0% 92%, 0% 0%);
+      border-radius: 25px 25px 0px 0px;z-index: 11;" src="{{rest.baseURLimg}}{{selectedEvent.cover_images}}" alt="">
 
       <div class="content_position">
         <div class="roboto heading_text">{{selectedEvent.name}}</div>
@@ -17,12 +17,15 @@
             <div class="roboto" style="line-height: normal;">{{getDate(selectedEvent.event_date)}}</div>
           </div>
           <div class="flex_center info_text" style="margin: 0px 0px auto auto;">
-            <img class="small_icon_style" src="../../assets/imgs/icons/ticket_clock.svg" alt="">
+            <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/ClockIcon.png" alt="">
             <div class="roboto" style="line-height: normal;">{{getTime(selectedEvent.event_start_time)}} - {{getTime(selectedEvent.event_end_time)}}</div>
           </div>
         </div>
       </div>
-      
+      <img style="position: absolute;
+      width: 100%;
+      top: 242px;height: 375px;" src="../../assets/imgs/icons/new_icons/BookingShape2.png" alt="">
+
       <div class="card_bg">
         <img class="confirm_icon" src="../../assets/imgs/icons/new_icons/ConfirmedIcon.png" alt="">
         <div class="roboto confirm_booking" >Payment Complete</div>

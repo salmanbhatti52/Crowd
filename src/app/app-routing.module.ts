@@ -268,6 +268,10 @@ const routes: Routes = [
     path: 'booking-detail',
     loadChildren: () => import('./booking-detail/booking-detail.module').then( m => m.BookingDetailPageModule)
   },
+  {
+    path: 'weather-detail',
+    loadChildren: () => import('./weather-detail/weather-detail.module').then( m => m.WeatherDetailPageModule)
+  },
  
 
 ];

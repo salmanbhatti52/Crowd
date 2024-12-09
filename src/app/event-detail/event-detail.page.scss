@@ -10,6 +10,124 @@
     --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
     padding: 0px 0px 0px 0px;
   }
+
+  .back-icon{
+    height: 25px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+
+  .heading_text{
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    position: absolute;
+    top: 130px;
+    left: 15px;
+    text-align: center;
+    background: transparent;
+    border-radius: 5px;
+    padding: 3px 6px;
+    z-index: 12;
+  } 
+
+  .event_name{
+    font-size: 16px;
+    color: #c0a24d;
+    font-weight: 600;
+    position: absolute;
+    top: 170px;
+    left: 17px;
+    border-radius: 10px;
+    padding: 3px 5px;
+    max-width: 142px;
+    overflow: hidden;
+    z-index: 12;
+    text-align: left;
+  }
+  
+  .flex_center{
+    display: flex;
+    align-items: center;
+  }
+
+  .info_text1{
+    font-size: 13px;
+    font-weight: 400;
+    color: white;
+    border-radius: 5px;
+    padding: 4px 6px;
+    position: absolute;
+    top: 135px;
+    right: 10px;
+    z-index: 12;
+  }
+
+  .info_text2{
+    font-size: 13px;
+    font-weight: 400;
+    color: white;
+    border-radius: 5px;
+    padding: 4px 6px;
+    position: absolute;
+    top: 170px;
+    right: 10px;
+    z-index: 12;
+  }
+
+  .small_icon_style{
+    height: 18px;
+    width: 18px;
+    margin: 0px 6px auto auto;
+  }
+
+  .btn{ 
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 16px;
+    display: block;
+    height: 50px;
+    width: 80%;
+    margin: 12px auto 0px;
+    padding: 14px;
+  }
+
+  .bg-gray{
+    background: #343434;
+  }
+
+  .bg-orange-gd{
+    background: radial-gradient(circle at 0% 0%, #fad66a, #825807);
+  }
+
+  .rating_text{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    position: absolute;
+    top: 205px;
+    left: 13px;
+    text-align: center;
+    right: 120px;
+    background: #262626;
+    border-radius: 15px;
+    padding: 3px 6px;
+    z-index: 12;
+    width: 130px;
+  }
+
+  .star-icon{
+    margin-left: 3px;
+    height: 14px;
+    width: 14px;
+  }
     
     .or_cls{
       margin-left: 15px;
@@ -207,32 +325,35 @@
       font-style: normal;
       font-weight: 300;
       font-size: 12px;
-      line-height: 14px;
+      // line-height: 14px;
       text-align: justify;
       color: #FFFFFF;
     }
     
     .username{
       font-style: normal;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
       line-height: 150%;
       color: #FFFFFF;
-      text-align: left;
-      margin-bottom: 6px;
+      text-align: center;
     }
 
     .buyTicket{
       padding: 6px 15px;
-      background: linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);
-      border-radius: 22px;
+      background: radial-gradient(circle at 0% 0%, #fad66a, #825807);
+      border-radius: 8px;
       font-style: normal;
       font-weight: 400;
       font-size: 13px;
       line-height: 100%;
+      width: 130px;
       text-align: center;
       color: #FFFFFF;
-  
+      position: absolute;
+      top: 224px;
+      right: 14px;
+      z-index: 12;
     }
 
     .heighclassbig{
@@ -438,11 +559,19 @@ p {
 
 .title2{
   font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 21px;
+  // font-weight: 400;
+  font-size: 13px;
+  line-height: normal;
   color: #FFFFFF;
-  text-align: left;
+  text-align: center;
+}
+
+.font-600{
+  font-weight: 600;
+}
+
+.font-400{
+  font-weight: 400;
 }
 
 .dd{

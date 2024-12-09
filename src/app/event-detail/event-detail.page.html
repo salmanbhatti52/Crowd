@@ -1,8 +1,8 @@
 <ion-content style="--background: #262626">
-  <div style="position: relative">
-    <div class="boxshadow"></div>
+  <div >
+    <!-- <div class="boxshadow"></div> -->
 
-    <ion-row
+    <!-- <ion-row
       class="paddingtop"
       style="margin-top: 10px; position: absolute; z-index: 999; width: 100%"
     >
@@ -34,273 +34,102 @@
           src="assets/imgs/heartactive.svg"
         />
       </ion-col>
-    </ion-row>
+    </ion-row> -->
+    <div style="text-align: center;">
 
-    <ion-row>
-      <ion-col class="slider_main">
-        <ion-slides pager="true" >
-          <ion-slide *ngFor="let p of detailObj.events_images; let i = index">
-            <div class="slide">
-              <img
-                src="{{rest.baseURLimg}}{{p.name}}"
-                style="width: 100%"
-                class="s_img"
-              />
-            </div>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
+      <img
+      src="{{rest.baseURLimg}}{{detailObj.events_images[0].name}}"
+      style="height: 300px;
+      width: 97.5%;
+      margin: 5px auto;
+      clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);"
+      />
+
+      <img
+      (click)="goBack()"
+      class="back-icon"
+      src="../../assets/imgs/icons/new_icons/BackIcon.png"
+      />
+
+      <div class="content_position">
+
+        <div class="roboto heading_text">{{detailObj.events.venue_name}}</div>
+        <div class="roboto event_name">{{detailObj.events.name}}</div>
+         <div class="roboto rating_text">4.5 <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
+          <span style="margin-left: 4px;">Exceptional</span>
+        </div>
+
+        <div style="margin-top: 13px;
+        position: absolute;
+        top: 186px;
+        z-index: 12;
+        right: 20px;
+        left: 20px;text-align: center;">
+          <img *ngIf="organizer"
+            style="
+              width: 57.3px;
+              height: 57.3px;
+              border: 1.5px solid #7825cb;
+              border-radius: 50%;
+              /* margin-right: 20px; */
+              object-fit: cover;
+            "
+            src="{{rest.baseURLimg}}{{organizer.user_image}}"
+          />
+          <img *ngIf="!organizer"
+            style="
+              width: 57.3px;
+              height: 57.3px;
+              border: 1.5px solid #7825cb;
+              border-radius: 50%;
+              /* margin-right: 20px; */
+              object-fit: cover;
+            "
+            src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
+          />
+          
+          <div>
+            <p *ngIf="organizer" class="username roboto">{{organizer?.first_name}}</p>
+            <p class="title2 font-400 roboto">Event Organizer</p>
+    
+            
+          </div>
+        </div>
+
+        <div class="flex_center info_text1" style="margin: 0px auto 0px 0px;">
+          <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" alt="">
+          <div class="roboto" style="line-height: normal;">{{getDate(detailObj.events.event_date)}}</div>
+        </div>
+        <div class="flex_center info_text2" style="margin: 0px 0px auto auto;">
+          <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/ClockIcon.png" alt="">
+          <div class="roboto" style="line-height: normal;">{{getTime(detailObj.events.event_start_time)}} - {{getTime(detailObj.events.event_end_time)}}</div>
+        </div>
+
+        <p (click)="gotoOrganizerEvents()" class="buyTicket roboto">See All Events</p>
+
+      </div>
+
+
+    </div>
+    
+
+    
   </div>
 
   <div style="width: 92%; margin: 4% auto">
-    <p class="titlemain roboto">{{detailObj.events.name}}</p>
-    <p class="titlesubmain roboto">{{detailObj.events.venue_name}}</p>
+  
+    <div class="roboto btn bg-gray" (click)="viewTicket()">View Ticket</div>
+    <div class="roboto btn bg-orange-gd" (click)="goToChat()">Send Message</div>
+    <div class="roboto btn bg-gray" (click)="requestRefund()">Request Refund</div>
+    <div class="roboto btn bg-gray" (click)="goToProfile()">View Profile</div>
 
-    <ion-row>
-      <ion-col size="3.1" style="display: flex; align-items: center; padding: 0px;">
-        <div style="display: flex">
-          <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/pinwhite.svg"
-          />
-          <p class="roboto titlesub" style="width: 73px;overflow: hidden;">
-            {{detailObj.event_distance | number : '1.1-1'}} Miles
-          </p>
-        </div>
-      </ion-col>
-      <ion-col size="3.8" style="display: flex; align-items: center;padding: 0px;">
-        <div style="display: flex">
-          <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/icons/calendar.svg"
-          />
-          <p class="roboto titlesub">
-            {{getDate(detailObj.events.event_date)}}
-          </p>
-        </div>
-      </ion-col>
-      <ion-col size="5.1" style="display: flex; align-items: center;padding: 0px;">
-        <div style="display: flex">
-          <img
-            style="height: 15px; margin-right: 7px; width: 12px"
-            src="assets/imgs/watch.svg"
-          />
-          <p class="roboto titlesub">
-            {{getTime(detailObj.events.event_start_time)}} - {{getTime(detailObj.events.event_end_time)}}
-          </p>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <div style="margin-top: 10px; display: flex;align-items: center;justify-content: space-between;">
-      <div style="display: flex; align-items: center; width: 65%;">
-        <p class="roboto titlesub">{{detailObj.events.location}}</p>
-      </div>
-      <div style="display: flex; align-items: center">
-        <img style="margin-right: 14px;" src="../../assets/imgs/icons/people.svg" alt="">
-        <p style="margin-right: 10px;" class="roboto titlesub">0</p>
-      </div>
-
-    </div>
-
-    <!-- <ion-row style="margin-top: 10px">
-      <ion-col size="8" style="display: flex; align-items: center">
-        <p class="roboto titlesub">{{detailObj.events.location}}</p>
-      </ion-col>
-    </ion-row> -->
-
-    <div
-      style="margin-top: 10px; display: flex; justify-content: space-between"
-    >
-      <div>
-        <img
-          (click)="goLocation()"
-          style="height: 25px;; margin-right: 20px"
-          src="assets/imgs/target.svg"
-        />
-
-        <img
-          (click)="goWeb()"
-          style="height: 25px;; margin-right: 20px"
-          src="assets/imgs/web.svg"
-        />
-
-        <a href="tel:{{detailObj.events.phone_number}}"
-          ><img
-            style="height: 25px;; margin-right: 20px"
-            src="assets/imgs/call.svg"
-        /></a>
-      </div>
-      <div
-        (click)="goToSee()"
-        style="
-          border: 1px solid #ffffff;
-          padding: 5px 10px;
-          border-radius: 20px;
-        "
-      >
-        <p class="see roboto">See who's out!</p>
-      </div>
-    </div>
-
-   
-
-    <ion-button
-      (click)="viewTicket()"
-      style="margin-top: 22px; opacity: 1"
-      class="btnbg roboto"
-      >View Ticket</ion-button
-    >
-
-    <!-- <p class="roboto des">{{detailObj.events.description}}</p> -->
-
-    <div
-      (click)="goToChat()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-        padding-bottom: 12px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Send message</p>
-        <p class="desc roboto">Contact Event Organizer</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
-
-    <div
-    (click)="goLocation()"
-    style="
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-      padding-bottom: 12px;
-    "
-  >
-    <div
-      style="display: flex; flex-direction: column; align-items: flex-start"
-    >
-      <p class="title roboto">Get Location</p>
-      <p class="desc roboto">Click to open the location of event venue</p>
-    </div>
-    <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
-
-    <p style="margin-top: 20px; margin-bottom: 8px" class="title2 roboto">
-      Amount Detail
-    </p>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd roboto">Standard Ticket</p>
-      <p style="margin: 0px" class="dd roboto">{{detailObj.number_of_ticket}}x£{{detailObj.price_per_ticket}}</p>
-      <p style="margin: 0px" class="dd roboto">£{{ticketTotal}}</p>
-    </div>
-
-    <!-- <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd roboto">VIP Ticket</p>
-      <p style="margin: 0px" class="dd roboto">01x£50</p>
-      <p style="margin: 0px" class="dd roboto">£50</p>
-    </div>
-    
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd roboto">Queue Jump</p>
-      <p style="margin: 0px" class="dd roboto">02x£10</p>
-      <p style="margin: 0px" class="dd roboto">£20</p>
-    </div> -->
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd roboto">{{detailObj.package_type}}</p>
-      <p style="margin: 0px" class="dd roboto">{{detailObj.package_name}}</p>
-      <p style="margin: 0px" class="dd roboto">£{{detailObj.package_price}}</p>
-    </div>
-
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0px 0px;
-      "
-    >
-      <p style="margin: 0px" class="dd roboto">Crowd Fees</p>
-      <p style="margin: 0px" class="dd roboto">£5</p>
-    </div>
-
-    <p style="margin-top: 13px" class="title2 roboto">Description</p>
+    <p style="margin-top: 13px; text-align: left;" class="title2 font-600 roboto">Event Description</p>
     <p style="margin-top: 13px" class="desc2 roboto">{{detailObj.events.description}}</p>
 
-    <p class="title2 roboto" style="margin-top: 13px">Refund Policy</p>
+    <p class="title2 font-600 roboto" style="margin-top: 13px;text-align: left;">Refund Policy</p>
     <p class="desc2 roboto" style="margin-top: 13px">
       {{detailObj.events.refund_policy}}
-    </p>
+    </p>    
 
-    <p style="margin-top: 10px" class="title2 roboto">Organizer</p>
-    <div style="display: flex; margin-top: 13px">
-      <img *ngIf="organizer"
-        style="
-          width: 57.3px;
-          height: 57.3px;
-          border: 1.5px solid #7825cb;
-          border-radius: 50%;
-          margin-right: 20px;
-          object-fit: cover;
-        "
-        src="{{rest.baseURLimg}}{{organizer.user_image}}"
-      />
-      <img *ngIf="!organizer"
-        style="
-          width: 57.3px;
-          height: 57.3px;
-          border: 1.5px solid #7825cb;
-          border-radius: 50%;
-          margin-right: 20px;
-          object-fit: cover;
-        "
-        src="../../assets/imgs/avatar.png"
-      />
-      
-      <div>
-        <p *ngIf="organizer" class="username roboto">{{organizer?.first_name}}</p>
-
-        <p (click)="gotoOrganizerEvents()" class="buyTicket roboto">See All Events</p>
-      </div>
-    </div>
   </div>
 </ion-content>

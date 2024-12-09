@@ -66,8 +66,8 @@ color: #000000;
   }
   
   .small_icon_style{
-    height: 10px;
-    width: 10px;
+    height: 18px;
+    width: 18px;
     margin: 0px 6px auto auto;
   }
 
@@ -80,10 +80,10 @@ color: #000000;
   }
   
   .info_text{
-    font-size: 10.1px;
+    font-size: 13px;
     font-weight: 400;
     color: white;
-    background: #262626;
+    // background: #262626;
     border-radius: 5px;
     padding: 4px 6px;
   }
@@ -100,7 +100,6 @@ color: #000000;
 
   .card_bg{
     text-align: center;
-    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
     position: absolute;
     top: 238px;
     width: 100%;

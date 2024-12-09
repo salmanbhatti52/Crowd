@@ -334,7 +334,7 @@ body.scanner-active {
 .btnsimple{  
   height: 53px;
   text-transform:none !important;
-  --border-width: 2px;
+  --border-width: 1px;
   --border-radius: 16px;
   --background: #15d31500;
   --background-activated: #531C7C36;
@@ -345,7 +345,7 @@ body.scanner-active {
   width: 99%;
   // margin: 0px auto;
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 16px;
   line-height: 21px;
   text-align: center;
