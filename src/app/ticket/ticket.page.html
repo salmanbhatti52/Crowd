@@ -24,13 +24,15 @@
   <swiper-container  [slidesPerView]="1.2" [spaceBetween]="13" [centeredSlides]="true" (slidechange)="onSlideChange($event)" >
     <swiper-slide *ngFor="let ticket of tickets;let i=index" style="width: 335px;">
       <div class="ticket">
-        <div id="ticket-p-a" style="position: relative;z-index: 1;text-align: center;">
+        <!-- <div id="ticket-p-a" style="position: relative;z-index: 2;text-align: center;"> -->
           <!-- <img  class="ticket_tick" src="../../assets/imgs/ticket_tick.svg" alt=""> -->
-          <img src="{{rest.baseURLimg}}{{detailObj.events_images[0].name}}" style="height: 240px;
+          <!-- <img src="{{rest.baseURLimg}}{{detailObj.events_images[0].name}}" style="height: 220px;
           width: 95%;
-          clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);
-          border-radius: 25px 25px 0px 0px;" alt="">
-
+          clip-path: polygon(50% 0%, 100% 0%, 100% 93%, 50% 100%, 0% 93%, 0% 0%);
+          border-radius: 25px 25px 0px 0px;" alt=""> -->
+          <!-- <div style="background-color: #262626;
+          height: 120px;
+          clip-path: polygon(50% 0%, 100% 0%, 100% 93%, 50% 100%, 0% 93%, 0% 0%);"></div>
           <div class="content_position">
             <div class="roboto heading_text">{{detailObj.events.venue_name}}</div>
             <div class="roboto event_name">{{detailObj.events.name}}</div>
@@ -46,18 +48,45 @@
           </div>
           
           <div style="margin: 7px 5px 5px; position: relative;">
-          </div>
+          </div> -->
 
-        </div>
+        <!-- </div> -->
         
-        <img style="position: absolute;
-        top: 204px;
-        height: 74%;
-        z-index: 0;width: 100%;"  src="../../assets/imgs/icons/new_icons/TicketBackground2.png" alt="">
+       
 
         <div class="ticket-p-b" style="position: relative;z-index: 1;">
           <!-- <hr > -->
-          <div class="center" >
+          <img style="position: absolute;
+          top: 0px;
+          z-index: 0;
+          width: 100%;
+          height: 500px;"  src="../../assets/imgs/icons/new_icons/TicketBackground2.png" alt="">
+
+          <div style="background-color: #262626;
+          height: 120px;
+          position: relative;
+          border-radius: 10px 10px 0px 0px;
+          /* z-index: 1; */
+          width: 95%;
+          /* clip-path: polygon(50% 0%, 100% 0%, 100% 93%, 50% 100%, 0% 93%, 0% 0%); */
+          margin: 0px auto;"></div>
+          <div class="content_position">
+            <div class="roboto heading_text">{{eventObj.venueName}}</div>
+            <div class="roboto event_name">{{eventObj.name}}</div>
+            
+            <div class="flex_center info_text1" style="margin: 0px auto 0px 0px;">
+              <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" alt="">
+              <div class="roboto" style="line-height: normal;">{{getDate(eventObj.date)}}</div>
+            </div>
+            <div class="flex_center info_text2" style="margin: 0px 0px auto auto;">
+              <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/ClockIcon.png" alt="">
+              <div class="roboto" style="line-height: normal;">{{getTime(eventObj.startTime)}} - {{getTime(eventObj.endTime)}}</div>
+            </div>
+          </div>
+
+          <!-- <div style="margin: 7px 5px 5px; position: relative;">
+          </div> -->
+          <div class="center" style="margin-top: 10px;position: relative;">
     
             <qrcode 
               [qrdata]="ticket.my_qr_code" 
@@ -65,20 +94,19 @@
               [width]="200" 
               [errorCorrectionLevel]="'M'">
             </qrcode>
-              <!-- [width]="200"  -->
 
           </div>
-          <div class="center font roboto">{{userName}}</div>
+          <div class="center font roboto" style="position: relative;">{{userName}}</div>
           <div class="center font roboto" style="margin-top: 5px;position: relative;">{{ticket.random_string}}</div>
-          <div >
+          <div style="position: relative;">
             <div class="center roboto loc_label" >Location</div>
             <div class="center roboto location">{{rest.billDetails.location}}</div>
             <!-- <img class="center" style="margin-top: 5px; height: 95px;" src="../../assets/imgs/map_bg.jpg" alt=""> -->
           </div>
           <div class="ticket-buttons">
-            <img (click)="setOpen(true)" class="small_icon_style" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
-            <img class="small_icon_style" src="../../assets/imgs/icons/icon_nav.svg" alt="">
-            <img (click)="generatePDF()" class="small_icon_style" src="../../assets/imgs/icons/new_icons/DownloadIcon.png" alt="">
+            <img (click)="setOpen(true)" style="width: 18px;" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
+            <img style="width: 18px;" src="../../assets/imgs/icons/icon_nav.svg" alt="">
+            <img (click)="generatePDF()" style="width: 18px;" src="../../assets/imgs/icons/new_icons/DownloadIcon.png" alt="">
           </div>
         </div>
       </div>
@@ -87,7 +115,7 @@
   
     <!-- <div class="flex_center" [class.align_center]="this.rest.comfrom == 'event-detail'" style="margin: 2px 20px;">
       <div  style="width: 100%;">
-        <ion-button (click)="setOpen(true)" 
+        <ion-button (click)="setOpen(true)"
             style="margin-top: 10px; opacity: 1;"
             class="btnbgred roboto"
             >Request Refund</ion-button
@@ -101,14 +129,14 @@
       <ng-template>
         <ion-content style="--background: white !important;">
           <div class="modal_popup">
-            <div class="right">
-              <img (click)="dismissModal(false)" src="../../assets/imgs/cross.svg" alt="">
+            <div class="center">
+              <img style="width: 18px;"  (click)="dismissModal(false)" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
             </div>
             <div class="msg_btn_sec">
-              <div class="roboto modal_title">Refund?</div>
+              <div class="roboto modal_title">Confirm Refund Request</div>
               <div class="roboto modal_desc">Are you sure you want to refund the ticket?</div>
               <ion-button (click)="requestRefund(false)" style="margin-top: 20px;
-              opacity: 1;" class="roboto btnbgred">Continue</ion-button>
+              opacity: 1;" class="roboto btnbg">Continue</ion-button>
             </div>
             
           </div>

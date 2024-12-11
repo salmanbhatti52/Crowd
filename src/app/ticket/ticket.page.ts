@@ -30,7 +30,7 @@ export class TicketPage implements OnInit {
   @ViewChild("myGoogleMap", { static: false })
   zoom = 13;
   maxZoom = 15;
-  detailObj:any;
+  eventObj:any = {};
   tickets:any;
   minZoom = 8;
   interval:any;
@@ -49,6 +49,7 @@ export class TicketPage implements OnInit {
   currentTicketToken: any;
   refundRequestCount: any;
   pdfData: any;
+  // eventObject:Map<string,any> = new Map();
   constructor(public location:Location,
     public modalCtrl:ModalController,
     public router:Router,
@@ -60,7 +61,24 @@ export class TicketPage implements OnInit {
     ) { }
 
   async ngOnInit() {
-    this.detailObj = this.rest.detail;
+    const eventObj = this.rest.detail;
+    console.log("eventObj: ",eventObj);
+
+    if(this.rest.comfrom == 'paymentmethod'){
+      this.eventObj.name = eventObj.name;
+      this.eventObj.venueName = eventObj.venue_name;
+      this.eventObj.date = eventObj.event_date;
+      this.eventObj.startTime = eventObj.event_start_time;
+      this.eventObj.endTime = eventObj.event_end_time;
+    }else{
+      this.eventObj.name = eventObj.events.name;
+      this.eventObj.venueName = eventObj.events.venue_name;
+      this.eventObj.date = eventObj.events.event_date;
+      this.eventObj.startTime = eventObj.events.event_start_time;
+      this.eventObj.endTime = eventObj.events.event_end_time;
+    }
+    console.log("this.eventObj: ",this.eventObj);
+    
     console.log("ngOnInitFired");
     
     this.noOfTickets = this.rest.billDetails.ticket_requested;
@@ -87,16 +105,16 @@ export class TicketPage implements OnInit {
       console.log("this.tickets: ",this.tickets);
 
       if(this.rest.comfrom == 'event-detail'){
-        // console.log("coming form envent-detial");
-        // this.rest.presentLoader();
+        console.log("coming form envent-detial");
+        this.rest.presentLoader();
 
-        // setTimeout(() => {
-        //   this.getTicketImages2();
-        // }, 2000);
-      }else{
-        setTimeout(() => {
-          this.getTicketImages();
+        setTimeout(async () => {
+        await this.getTicketImages2();
         }, 2000);
+      }else{
+        // setTimeout(() => {
+        await this.getTicketImages();
+        // }, 2000);
       }
 
     if(this.rest.comfrom == 'paymentmethod'){
@@ -147,27 +165,30 @@ export class TicketPage implements OnInit {
     // }
   }
 
-  generatePDF(){ 
-    this.rest.presentLoader('Creating PDF..');
+  async generatePDF(){ 
     
-    setTimeout(() => {
+    
+    // setTimeout(() => {
       console.log("generatepddfCalled");
       let content: any[] = [];
       let lastIndex = this.tickets.length -1; 
       for(let i=0; i<this.tickets.length; i++){
         if(i != lastIndex ){
-          content.push({
-            text: new Date().toString(),
-            alignment: 'right',
-            style: 'subheader'
-          },{
-            image: this.data1,
-            width: 500
-          },{ 
-            text: this.tickets[i].random_string,
-            alignment: 'center',
-            style: 'header',
-          },
+          content.push(
+          //   {
+          //   text: new Date().toString(),
+          //   alignment: 'right',
+          //   style: 'subheader'
+          // },
+          // {
+          //   image: this.data1,
+          //   width: 500
+          // },
+          // { 
+          //   text: this.tickets[i].random_string,
+          //   alignment: 'center',
+          //   style: 'header',
+          // },
   
           {
             image: this.data2[i],
@@ -175,18 +196,21 @@ export class TicketPage implements OnInit {
             pageBreak: 'after'
           },)
         }else{
-          content.push({
-            text: new Date().toString(),
-            alignment: 'right',
-            style: 'subheader'
-          },{
-            image: this.data1,
-            width: 500
-          },{ 
-            text: this.tickets[i].random_string,
-            alignment: 'center',
-            style: 'header',
-          },
+          content.push(
+          //   {
+          //   text: new Date().toString(),
+          //   alignment: 'right',
+          //   style: 'subheader'
+          // },
+          // {
+          //   image: this.data1,
+          //   width: 500
+          // },
+          // { 
+          //   text: this.tickets[i].random_string,
+          //   alignment: 'center',
+          //   style: 'header',
+          // },
   
           {
             image: this.data2[i],
@@ -194,6 +218,7 @@ export class TicketPage implements OnInit {
           },)
         }
       }
+
       
       const docDefinition = {
         content: content,
@@ -211,10 +236,13 @@ export class TicketPage implements OnInit {
           
         }
       };
+      // this.rest.presentLoader('Creating PDF..');
+
       this.pdfObj = pdfMake.createPdf(docDefinition);
       console.log(this.pdfObj);
       this.downloadPdf();
-    }, 6000);
+      // this.rest.dismissLoader();
+    // }, 6000);
   }
 
   downloadPdf(){
@@ -252,87 +280,93 @@ export class TicketPage implements OnInit {
 
   }
 
-  getTicketImages(){
-    // if(this.rest.comfrom == 'paymentmethod'){
+  async getTicketImages():Promise<any>{
+    return new Promise(async (resolve:any)=>{
+      // if(this.rest.comfrom == 'paymentmethod'){
 
-        this.rest.presentLoader();
-    // }
-    // else{
+      this.rest.presentLoader();
+      // }
+      // else{
 
-    //   this.rest.presentLoader("Please wait..");
-    // }
-    const element: HTMLElement | null = document.getElementById('ticket-p-a');
-    if(element !== null){
-      html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-        this.data1 = canvas.toDataURL();
-        console.log("data1: ",this.data1);
+      //   this.rest.presentLoader("Please wait..");
+      // }
+      // const element: HTMLElement | null = document.getElementById('ticket-p-a');
+      // if(element !== null){
+      //   await html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+      //     this.data1 = canvas.toDataURL();
+      //     console.log("data1: ",this.data1);
 
-      });
-    }
+      //   });
+      // }
 
-    setTimeout(() => {
-      const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
-      const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
-      let base64;
-      // Now you can access individual elements in the array
-      for (const element of elementArray) {
-        // Perform operations on each element
-        html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-          base64 = undefined;
-          base64 = canvas.toDataURL();
-          console.log("data2: ",base64);
-          this.data2.push(base64)
-          
-        });
-        console.log(element);
-      }
-      
-      this.rest.dismissLoader();
-      
-      
-    }, 6000);
+      // setTimeout(() => {
+        const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
+        const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
+        let base64;
+        // Now you can access individual elements in the array
+        for (const element of elementArray) {
+          // Perform operations on each element
+          await html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+            base64 = undefined;
+            base64 = canvas.toDataURL();
+            console.log("data2: ",base64);
+            this.data2.push(base64)
+            
+          });
+          console.log(element);
+        }
+        
+        this.rest.dismissLoader();
+        
+        
+      // }, 6000);
+    })
+    
 
     
 
    
   }
 
-  getTicketImages2(){
-    this.rest.dismissLoader();
-    this.rest.presentLoader();
-    setTimeout(() => {
-      const element: HTMLElement | null = document.getElementById('ticket-p-a');
-      if(element !== null){
-        html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-          this.data1 = canvas.toDataURL();
-          console.log("data1: ",this.data1);
-        });
-      }  
-    }, 1000);
+  async getTicketImages2():Promise<any>{
+    return new Promise(async (resolve:any)=>{
+      this.rest.dismissLoader();
+      this.rest.presentLoader();
+      // setTimeout(async () => {
+        // const element: HTMLElement | null = document.getElementById('ticket-p-a');
+        // if(element !== null){
+        //   await html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+        //     this.data1 = canvas.toDataURL();
+        //     console.log("data1: ",this.data1);
+        //   });
+        // }  
+      // }, 1000);
+    
+      // setTimeout(() => {
+          const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
+          const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
+          let base64;
   
-    setTimeout(() => {
-        const elements: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('ticket-p-b') as HTMLCollectionOf<HTMLElement>;
-        const elementArray: HTMLElement[] = Array.from(elements); // Convert HTMLCollection to Array
-        let base64;
-
-        // Now you can access individual elements in the array
-        for (const element of elementArray) {
-          // Perform operations on each element
-          html2canvas(element).then((canvas:HTMLCanvasElement)=>{
-
-            base64 = undefined;
-            base64 = canvas.toDataURL();
-            console.log("data2: ",base64);
-            this.data2.push(base64)
-          
-          });
-          console.log(element);
-        }  
-
-        this.rest.dismissLoader();
-
-      
-    }, 6000);
+          // Now you can access individual elements in the array
+          for (const element of elementArray) {
+            // Perform operations on each element
+            await html2canvas(element).then((canvas:HTMLCanvasElement)=>{
+  
+              base64 = undefined;
+              base64 = canvas.toDataURL();
+              console.log("data2: ",base64);
+              this.data2.push(base64)
+            
+            });
+            console.log(element);
+          }  
+  
+          this.rest.dismissLoader();
+  
+        
+      // }, 6000);
+    });
+    
     
     // if(this.data2.length == this.tickets.length )
     // setTimeout(() => {
@@ -357,18 +391,22 @@ export class TicketPage implements OnInit {
       let lastIndex = tickets.length -1; 
       for(let i=0; i<tickets.length; i++){
         if(i != lastIndex ){
-          content.push({
-            text: new Date().toString(),
-            alignment: 'right',
-            style: 'subheader'
-          },{
-            image: this.data1,
-            width: 500
-          },{ 
-            text: tickets[i].random_string,
-            alignment: 'center',
-            style: 'header',
-          },
+          content.push(
+          //   {
+          //   text: new Date().toString(),
+          //   alignment: 'right',
+          //   style: 'subheader'
+          // }
+          // ,{
+          //   image: this.data1,
+          //   width: 500
+          // }
+          // ,
+          // { 
+          //   text: tickets[i].random_string,
+          //   alignment: 'center',
+          //   style: 'header',
+          // },
   
           {
             image: this.data2[i],
@@ -376,18 +414,21 @@ export class TicketPage implements OnInit {
             pageBreak: 'after'
           },)
         }else{
-          content.push({
-            text: new Date().toString(),
-            alignment: 'right',
-            style: 'subheader'
-          },{
-            image: this.data1,
-            width: 500
-          },{ 
-            text: tickets[i].random_string,
-            alignment: 'center',
-            style: 'header',
-          },
+          content.push(
+          //   {
+          //   text: new Date().toString(),
+          //   alignment: 'right',
+          //   style: 'subheader'
+          // },
+          // {
+          //   image: this.data1,
+          //   width: 500
+          // },
+          // { 
+          //   text: tickets[i].random_string,
+          //   alignment: 'center',
+          //   style: 'header',
+          // },
   
           {
             image: this.data2[i],

@@ -34,17 +34,20 @@
   }
     
   .heading_text{
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 600;
     color: white;
     position: absolute;
-    top: 120px;
-    left: 13px;
-    text-align: center;
+    top: 2px;
+    left: 12px;
     background: transparent;
     border-radius: 5px;
+    width: 136px;
     padding: 3px 6px;
     z-index: 12;
+    text-align: left;
+    overflow: hidden;
+    line-height: normal;
   } 
 
   .event_name{
@@ -52,11 +55,11 @@
     color: #c0a24d;
     font-weight: 600;
     position: absolute;
-    top: 154px;
-    left: 14px;
+    top: 60px;
+    left: 12px;
     border-radius: 10px;
     padding: 3px 5px;
-    width: 142px;
+    width: 135px;
     text-align: left;
   }
   
@@ -72,8 +75,8 @@
     border-radius: 5px;
     padding: 4px 6px;
     position: absolute;
-    top: 127px;
-    right: 13px;
+    top: 5px;
+    right: 10px;
   }
 
   .info_text2{
@@ -83,13 +86,13 @@
     border-radius: 5px;
     padding: 4px 6px;
     position: absolute;
-    top: 160px;
-    right: 13px;
+    top: 64px;
+    right: 10px;
   }
 
   .small_icon_style{
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     margin: 0px 6px auto auto;
   }
 
@@ -104,12 +107,12 @@
     font-size: 14px;
     font-style: normal;
     color: white;
-    margin-top: 6px;
   }
 
   .loc_label{
     color: white;
     margin-top: 10px;
+    font-size: 11px;
   }
 
   .center{
@@ -189,12 +192,13 @@
     color: white;
     font-size: 10px;
     width: 60%;
-    margin: 11px auto;
+    margin: 5px auto;
   }
 
   .ticket-buttons{
-    width: 30%;
-    margin: 34px auto 0px;
+    position: relative;
+    width: 40%;
+    margin: 15px auto 40px;
     display: flex;
     justify-content: space-between;
   }

@@ -218,17 +218,20 @@
 .weather-badge{
   color: white;
   border: 1px solid white;
-  position: absolute;
+  background-color: #262626;
   border-radius: 10px;
-  bottom: 2px;
   padding: 0px 6px 0px 0px;
-  right: 2px;
   font-size: 13px;
+  font-weight: 600;
+  position: fixed;
+  z-index: 11;
+  right: 12px;
+  bottom: 28%;
 }
 
 .weather-icon{
-  height: 28px;
-  width: 28px;
+  height: 36px;
+  width: 36px;
 }
 
 // .bg{
