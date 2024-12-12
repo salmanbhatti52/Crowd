@@ -603,7 +603,13 @@ input{
 
 .refund_popup{
   --width: 88%;
-  --height: 265px;
+  --height: 301px;
+  --backdrop-opacity: 0.9;
+  --border-radius: 20px;
+  background: rgba(15, 23, 42, 0.5);
+  --border-color: #848484;
+  --border-style: solid;
+  --border-width: 2px;
 }
 
 .calendar_popup{

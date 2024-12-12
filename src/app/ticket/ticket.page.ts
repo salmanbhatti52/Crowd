@@ -49,7 +49,11 @@ export class TicketPage implements OnInit {
   currentTicketToken: any;
   refundRequestCount: any;
   pdfData: any;
-  // eventObject:Map<string,any> = new Map();
+  isModalOpen = false;
+  isConfirmRefund = false;
+  showRefundReasons = false;
+  selectedRefundReason = 'Reason for Refund';
+  refundReasons = ['Unable to attend', 'Changed my mind', 'Event No Longer Suitable']
   constructor(public location:Location,
     public modalCtrl:ModalController,
     public router:Router,
@@ -134,6 +138,16 @@ export class TicketPage implements OnInit {
       
       // console.log("calling localAssetBase64");
       // this.loadLocalAssetToBase64();
+  }
+
+  hideShowRefundReasons(){
+    this.showRefundReasons = !this.showRefundReasons;
+  }
+
+  selectRefundReason(reason:string){
+    this.selectedRefundReason = reason;
+    console.log(this.selectedRefundReason);
+    this.showRefundReasons = false;
   }
 
   ionViewWillEnter() {
@@ -477,7 +491,6 @@ export class TicketPage implements OnInit {
     
   }
 
-  isModalOpen = false;
 
   setOpen(isOpen: boolean) {
     // setTimeout(() => {
@@ -524,8 +537,8 @@ export class TicketPage implements OnInit {
     }
   }
 
-  dismissModal(isOpen: boolean){
-    this.isModalOpen = isOpen;
+  dismissModal(){
+    this.isModalOpen = false;
     // this.modalCtrl.dismiss();
     // setTimeout(() => {
       
@@ -533,16 +546,19 @@ export class TicketPage implements OnInit {
     // }, 500);
   }
 
-  requestRefund(isOpen: boolean){
+  requestRefund(){
     console.log("requestRefundCalled");
     
-    this.isModalOpen = isOpen;
+    this.isModalOpen = false;
     console.log(this.isModalOpen);
-    
-    setTimeout(() => {
+    this.isConfirmRefund = true;
+
+    // setTimeout(() => {
       
-      this.router.navigate(['/request-refund']);
-    }, 500);
+    //   this.router.navigate(['/request-refund']);
+    // }, 500);
+
+
     // if(this.refundRequestCount != 1){
       // let data = {
       //   users_customers_id:this.userId,
@@ -573,6 +589,10 @@ export class TicketPage implements OnInit {
     // }
 
     
+  }
+
+  dismissConfirmRefundModal(){
+    this.isConfirmRefund = false;
   }
 
   // getTime(val:any){

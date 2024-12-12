@@ -329,6 +329,74 @@
       text-align: justify;
       color: #FFFFFF;
     }
+
+    .modal_popup{
+      background: linear-gradient(135deg, #262626, #302f2f);
+      padding: 25px 20px 12px 20px;
+    }
+
+
+    .modal_desc{
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 13px;
+      color: white;
+    }
+    
+    .center{
+      text-align: center;
+    }
+
+    .msg_btn_sec{
+      text-align: center;
+    }
+
+    .modal_title{
+      font-weight: 600;
+      font-size: 18px;
+      color: white;
+      margin-top: 25px;
+    }
+
+    .people{
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13.7px;
+      line-height: 19px;
+      letter-spacing: -0.3px;
+      color: #FFFFFF;
+      margin: 0px;
+      text-align: center;
+    }
+
+    .dd_icon{
+      margin: 17px 17px 17px 15px; width: 11.81px; 
+      // height: 8.81px
+    }
+    .dd_icon_active{
+      margin: 17px 17px 17px 15px; width: 11.81px;
+      // height: 8.81px; 
+      transform: rotate(180deg);
+    }
+
+    .pp{
+      margin: 12px 0px;
+      color: #FFFFFF;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 19px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer_text{
+      color: #c8c5c5;
+      font-size: 13px;
+      font-weight: 300;
+      text-align: center;
+      margin-top: 20px;
+    }
     
     .username{
       font-style: normal;

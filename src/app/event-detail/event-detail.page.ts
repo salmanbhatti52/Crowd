@@ -25,6 +25,12 @@ export class EventDetailPage implements OnInit {
   longitude: string | null | undefined;
   ticketsRequestedForRefund = 0;
   startChatStatus: any;
+
+  isModalOpen = false;
+  isConfirmRefund = false;
+  showRefundReasons = false;
+  selectedRefundReason = 'Reason for Refund';
+  refundReasons = ['Unable to attend', 'Changed my mind', 'Event No Longer Suitable']
   constructor(public location:Location,
     public router:Router,
     public platform: Platform,
@@ -71,9 +77,96 @@ export class EventDetailPage implements OnInit {
       this.startChat();
     }
 
-    requestRefund(){
+    setOpen(isOpen: boolean) {
+      // setTimeout(() => {
+        
+      // }, 1500);
+      console.log("availabe Tickets", this.rest.availableTicketsForRefund);
+      
+      if(this.rest.availableTicketsForRefund > 0){
+        console.log("is modal open",this.isModalOpen);
+        console.log(isOpen);
+        // isOpen = !isOpen
+        if(this.isModalOpen == true){
+          console.log("entered in if condition");
+          
+          this.isModalOpen = false;
+          console.log("is Modal is", this.isModalOpen);
+          
+          // this.isModalOpen =true;
+          // console.log("is Modal is", this.isModalOpen);
+        }else{
+          console.log("setopencalled");
+          
+          this.isModalOpen = isOpen;
+        }
+      }else{
+        this.rest.presentToast('You have already sent refund request for all tickets.')
+      }
       
     }
+  
+
+    requestRefund(){
+      console.log("requestRefundCalled");
+      
+      this.isModalOpen = false;
+      console.log(this.isModalOpen);
+      this.isConfirmRefund = true;
+  
+      // setTimeout(() => {
+        
+      //   this.router.navigate(['/request-refund']);
+      // }, 500);
+  
+  
+      // if(this.refundRequestCount != 1){
+        // let data = {
+        //   users_customers_id:this.userId,
+        //   event_booking_id:this.rest.eventBookingId,
+        //   events_id: this.rest.eventId
+        // }
+        // console.log("Refund Req Payload: ",data);
+        
+        // this.rest.presentLoaderWd();
+        // this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
+        //   this.rest.dismissLoader();
+        //   console.log("Refund Request Res: ", res);
+        //   if(res.status== 'success'){
+        //     this.rest.presentToast('Refund Request Sent.');
+        //     this.refundRequestCount = 1;
+        //     setTimeout(() => {
+        //       // this.navCtrl.navigateRoot(['/home']);
+        //     }, 1000);
+        //   }else if(res.status == 'error'){
+        //     console.log(res);
+            
+        //   }
+          
+        // })
+      // }else{
+      //   this.rest.presentToast('Refund Request already sent.');
+  
+      // }
+  
+      
+    }
+  
+    dismissConfirmRefundModal(){
+      this.isConfirmRefund = false;
+    }
+  
+    hideShowRefundReasons(){
+      this.showRefundReasons = !this.showRefundReasons;
+    }
+
+    selectRefundReason(reason:string){
+      this.selectedRefundReason = reason;
+      console.log(this.selectedRefundReason);
+      this.showRefundReasons = false;
+    }
+
+
 
     getBusinessList(){
       this.rest.presentLoader();

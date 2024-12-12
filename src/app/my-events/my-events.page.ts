@@ -21,6 +21,7 @@ export class MyEventsPage implements OnInit {
 
   userdata: any = "";
   userID: any = "";
+  deleteOldBooking: boolean = false;
   constructor(
     public location: Location,
     public modalCtrl: ModalController,
@@ -44,7 +45,15 @@ export class MyEventsPage implements OnInit {
   }
 
   deleteBooking(){
-    
+    this.deleteOldBooking = true;
+  }
+
+  // deleteReservation(){
+  // }
+
+  closeModel(){
+    this.deleteOldBooking = false;
+    // this.changeDetectorRef.detectChanges();
   }
   
   getUpcomingBookings(){

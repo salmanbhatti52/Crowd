@@ -125,19 +125,78 @@
 
       
     </div> -->
-    <ion-modal class="refund_popup" #modal [isOpen]="isModalOpen">
+    <ion-modal class="refund_popup" style="--background: #262626;" #modal [isOpen]="isModalOpen">
       <ng-template>
-        <ion-content style="--background: white !important;">
+        <ion-content >
           <div class="modal_popup">
             <div class="center">
-              <img style="width: 18px;"  (click)="dismissModal(false)" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
+              <img style="width: 30px;" src="../../assets/imgs/icons/new_icons/RefundIcon.png" alt="">
             </div>
             <div class="msg_btn_sec">
               <div class="roboto modal_title">Confirm Refund Request</div>
-              <div class="roboto modal_desc">Are you sure you want to refund the ticket?</div>
-              <ion-button (click)="requestRefund(false)" style="margin-top: 20px;
-              opacity: 1;" class="roboto btnbg">Continue</ion-button>
+              <!-- <div class="roboto modal_desc">Are you sure you want to refund the ticket?</div> -->
+                <div
+                  (click)="hideShowRefundReasons()"
+                  class="dropdown-transparent"
+                  style="
+                    height: 38px;
+                    display: flex;
+                    justify-content: end;
+                    align-items: center;
+                    width: 215px;
+                    margin: 20px auto 0px;
+                  "
+                >
+                  <p class="people">{{selectedRefundReason}}</p>
+            
+                  <img class="dd_icon" [class.dd_icon_active]="showRefundReasons"
+                    src="/assets/imgs/downw.svg"
+                  />
+                </div>
+          
+                <div
+                  style="
+                    position: absolute;
+                    width: 200px;
+                    right: 19%;
+                    background: linear-gradient(180deg, #262626, #302f2f);
+                    z-index: 999;
+                    border-radius: 0px 0px 20px 20px;
+                  "
+                  *ngIf="showRefundReasons"
+                >
+                  <p class="roboto pp" (click)="selectRefundReason(reason)" *ngFor="let reason of refundReasons">
+                    {{reason}}
+                  </p>
+                </div>
             </div>
+            <ion-button (click)="requestRefund()" style="display: flex;
+            width: 80%;margin: 28px auto 0px;" class="roboto btnbg">Confirm</ion-button>
+          
+            <div class="footer_text">Terms and Conditions Apply.</div>
+            
+          </div>
+          
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <ion-modal class="refund_popup" style="--background: #262626;" #modal [isOpen]="isConfirmRefund">
+      <ng-template>
+        <ion-content >
+          <div class="modal_popup">
+            <div class="center">
+              <img style="width: 52px;"   src="../../assets/imgs/icons/new_icons/ConfirmedIcon.png" alt="">
+            </div>
+            <div class="msg_btn_sec">
+              <div class="roboto modal_title">Refund Request Pending</div>
+              <div class="roboto modal_desc">Thank you, the Event has been informed.</div>
+                
+            </div>
+            <ion-button (click)="dismissConfirmRefundModal()" style="display: flex;
+            width: 80%;margin: 28px auto 0px;" class="roboto btnbg">Close</ion-button>
+          
+            <div class="footer_text">Terms and Conditions Apply.</div>
             
           </div>
           
