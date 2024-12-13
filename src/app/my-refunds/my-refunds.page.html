@@ -79,32 +79,39 @@
       <!-- (click)="gotoBookingDetails(aa)"  -->
       <img (click)="showTickets(aa)"
         style="
-          width: 124px;
-          height: 124px;
+          width: 135px;
+          height: 145px;
           border-radius: 16px;
-          margin-right: 10px;
+          margin-right: 19px;
         "
         src="{{rest.baseURLimg}}{{aa.events_images.name}}"
       />
 
-      <div>
-        <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="date roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+      <div class="flex_space_between">
+        <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
+        <div>
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm" style="margin-right: 17px;" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+            <p class="date roboto">{{aa.events.name}}</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <img class="imm" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+            <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
+          </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
-        </div>
+        <div class="refund_btn" style="width: 130px;">Pending</div>
+        
 
-        <div style="display: flex; align-items: center; margin-bottom: 7px">
+
+
+        <!-- <div style="display: flex; align-items: center; margin-bottom: 7px">
           <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date roboto">
             {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
           </p>
-        </div>
+        </div> -->
 
         <!-- <div style="display: flex; align-items: center; margin-bottom: 2px">
           <div class="ticket_icon">
@@ -148,32 +155,37 @@
     <div class="elementBg" *ngFor="let aa of orderd_refundedArr">
       <img (click)="showTickets(aa)"
         style="
-          width: 124px;
-          height: 124px;
+          width: 134px;
+          height: 145px;
           border-radius: 16px;
-          margin-right: 10px;
+          margin-right: 19px;
         "
         src="{{rest.baseURLimg}}{{aa.events_images.name}}"
       />
 
-      <div>
-        <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/pinwhite.svg" />
-          <p class="date roboto">{{aa.event_distance | number : '1.1-1'}} Miles</p>
+      <div class="flex_space_between">
+        <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
+        <div>
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm" style="margin-right: 17px;" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+            <p class="date roboto">{{aa.events.name}}</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <img class="imm" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+            <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
+          </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="assets/imgs/ccc.svg" />
-          <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
-        </div>
+        <div class="refund_btn" *ngIf="aa.refund_status == 'Refunded'">Completed <span style="margin-left: 2px;">{{getDateSlashFormat(aa.refunded_date)}}</span></div>
+        <div class="refund_btn" *ngIf="aa.refund_status == 'Cancelled'">Refund Declined</div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 7px">
+        <!-- <div style="display: flex; align-items: center; margin-bottom: 7px">
           <img class="imm" src="assets/imgs/watch.svg" />
           <p class="date roboto">
             {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
           </p>
-        </div>
+        </div> -->
 
         <!-- <div style="display: flex; align-items: center; margin-bottom: 2px">
           <div class="ticket_icon">

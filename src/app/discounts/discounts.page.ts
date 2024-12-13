@@ -104,7 +104,9 @@ export class DiscountsPage implements OnInit {
             discountClaimedStatus = claimedVenue.status;
             offerVenue.discount_token = claimedVenue.claimed_token;
             offerVenue.remaining_time = claimedVenue.remaining_time;
+            offerVenue.discount_claimed_date = claimedVenue.claimed_date
             foundVenue = offerVenue;
+
             break;
               
           }else{
@@ -240,6 +242,26 @@ export class DiscountsPage implements OnInit {
     if(val){
       return val.substring(0,5);
     }
+  }
+
+  showDiscountCard(selectedVenue:any, msg:string){
+      if(msg == 'show token'){
+        this.detailObj = selectedVenue;
+        this.displaydiv = true;  
+      }else{
+        this.detailObj = selectedVenue;
+        this.claimDiscount(selectedVenue);
+      }
+      
+    
+  }
+
+  showDiscountTokenCard(){
+    this.displaydiv = true;
+  }
+
+  hideDiscCard(){
+    this.displaydiv = false;
   }
 
 }

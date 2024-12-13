@@ -79,18 +79,19 @@
 .imm{
   // width:20px;
   height: 18px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .imm_calender{
   // width:20px;
   height: 16px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .del_icon{
   // height: 16px;
   margin-right: 2px;
+  margin-left: 8px;
   width: 16px;
 }
 
@@ -116,7 +117,7 @@
 .date{
   font-style: normal;
   font-weight: 400;
-  font-size: 11.9px;
+  font-size: 13.9px;
   color: #FFFFFF;
   margin: 0px;
   line-height: normal;
@@ -126,7 +127,7 @@
   margin: 0px;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   // line-height: 21px;
   text-transform: capitalize;
   color: #FFFFFF;
@@ -144,7 +145,7 @@
 
 .elementBg{
   display: flex;
-  align-items: center;
+  // align-items: center;
   margin-top: 15px;
   background: #323232;
   padding: 10px;
@@ -153,14 +154,20 @@
 }
 
 .view_btn{
-  height: 35px;
-  width: 145px;
   background: #262626;
-  font-size: 14px;
   color: white;
+  padding: 4px 5px 5px;
   text-align: center;
-  line-height: normal;
-  padding: 7px;
-  border-radius: 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 145px;
+  margin-top: 9px;
   margin-bottom: 0px;
+}
+
+.flex_space_between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

@@ -47,9 +47,9 @@
 }
 
 .imm{
-  width:20px;
-  height:20px;
-  margin-right: 10px;
+  // width:20px;
+  height:18px;
+  margin-right: 15px;
 }
 
 .ticket_icon{
@@ -104,10 +104,28 @@
 
 .elementBg{
   display: flex;
-  align-items: center;
+  // align-items: center;
   margin-top: 15px;
   background: #323232;
   padding: 10px;
   border-radius: 20px;
   width: 97%;
+}
+
+.flex_space_between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.refund_btn{
+  background: #262626;
+  color: white;
+  padding: 4px 5px 5px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 162px;
+  margin-top: 9px;
 }

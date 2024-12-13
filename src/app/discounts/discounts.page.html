@@ -89,45 +89,43 @@
     *ngIf="segmentModel === 'In Queue'"
   >
     <div class="elementBg" *ngFor="let aa of inQueueVenuesArr" >
-      <div style="display: flex;align-items: center;">
+      <div style="display: flex;">
         <img
           style="
-            width: 124px;
-            height: 124px;
+            width: 135px;
+            height: 145px;
             border-radius: 16px;
-            margin-right: 10px;
+            margin-right: 19px;
           "
           src="{{rest.baseURLimg}}{{aa.cover_images}}"
         />
         
-        <div>
-          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
+        <div class="flex_space_between">
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto" style="margin-left: 4px;">{{aa.name}}</p>
+              <!-- <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p> -->
+            </div>
+  
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/TimelimitIcon.png" />
+              <p class="date roboto">{{getDate(aa.discount_claimed_date)}} </p>
+            </div>
+  
+            <div style="display: flex; align-items: center; margin-bottom: 2px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LabelIcon.png" />
+              <p class="date roboto">
+                {{aa.discount_percentage}}% Discount
+              </p>
+            </div>
           </div>
-
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date roboto">{{aa.discount_token}} </p>
-          </div>
-
-          <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date roboto">{{aa.events.event_date }} </p>
-          </div> -->
-
-          <div style="display: flex; align-items: center; margin-bottom: 2px">
-            <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date roboto">
-              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
-              <!-- 8:00PM - 10:00PM -->
-            </p>
-          </div>
-
+          
+          <div class="disc_btn" (click)="showDiscountCard(aa,'show token')">View Code</div>
+          
         </div>
       </div>
-      <div class="rem_time roboto" >{{aa.remaining_time}} Remaining</div>
+      <!-- <div class="rem_time roboto" >{{aa.remaining_time}} Remaining</div> -->
     </div>
 
     
@@ -146,41 +144,47 @@
     *ngIf="segmentModel === 'Claimed'"
   >
     <div class="elementBg" *ngFor="let aa of claimedVenuesArr" >
-      <div style="display: flex;align-items: center;">
+      <div style="display: flex;">
         <img
           style="
-            width: 124px;
-            height: 124px;
+            width: 135px;
+            height: 145px;
             border-radius: 16px;
-            margin-right: 10px;
+            margin-right: 19px;
           "
           src="{{rest.baseURLimg}}{{aa.cover_images}}"
         />
         
-        <div>
-          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
+        <div class="flex_space_between">
+          <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div> -->
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.name}}</p>
+            </div>
+  
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" style="height: 18px;" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+              <p class="date roboto">{{getDate(aa.discount_claimed_date)}} </p>
+            </div>
+  
+            <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img class="imm" src="assets/imgs/ccc.svg" />
+              <p class="date roboto">{{aa.events.event_date }} </p>
+            </div> -->
+  
+            <div style="display: flex; align-items: center; margin-bottom: 2px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LabelIcon.png" />
+              <p class="date roboto">
+                {{aa.discount_percentage}}% Discount
+                <!-- 8:00PM - 10:00PM -->
+              </p>
+            </div>
           </div>
+          
 
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date roboto">{{aa.discount_token}} </p>
-          </div>
+          <div class="disc_btn" >Claimed</div>
 
-          <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date roboto">{{aa.events.event_date }} </p>
-          </div> -->
-
-          <div style="display: flex; align-items: center; margin-bottom: 2px">
-            <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date roboto">
-              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
-              <!-- 8:00PM - 10:00PM -->
-            </p>
-          </div>
 
         </div>
       </div>
@@ -201,47 +205,52 @@
     *ngIf="segmentModel === 'Special Offers'"
   >
     <div class="elementBg" *ngFor="let aa of orderd_specialOffersArr" >
-      <div style="display: flex;align-items: center;">
+      <div style="display: flex;">
         <img
           style="
-            width: 124px;
-            height: 124px;
+            width: 134px;
+            height: 145px;
             border-radius: 16px;
-            margin-right: 10px;
+            margin-right: 19px;
           "
           src="{{rest.baseURLimg}}{{aa.cover_images}}"
         />
         
-        <div>
-          <div class="bb roboto" style="margin-bottom: 8px;">{{aa.name}}</div>
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/pinwhite.svg" />
-            <p class="bb roboto">{{aa.distance | number : '1.2-2'}} Miles</p>
-          </div>
+        <div class="flex_space_between">
+          <div>
+            <!-- <div class="bb roboto" style="margin-bottom: 8px;"></div> -->
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.name}}</p>
+            </div>
 
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="../../assets/imgs/icons/event_note.svg" />
-            <p class="date roboto">{{aa.discount_percentage}}% </p>
-          </div>
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" style="height: 18px;" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+              <p class="date roboto">Dec 12 2024</p>
+            </div>
 
-          <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="assets/imgs/ccc.svg" />
-            <p class="date roboto">{{aa.events.event_date }} </p>
-          </div> -->
+            <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img class="imm" src="assets/imgs/ccc.svg" />
+              <p class="date roboto">{{aa.events.event_date }} </p>
+            </div> -->
 
-          <div style="display: flex; align-items: center; margin-bottom: 2px">
-            <img class="imm" src="assets/imgs/watch.svg" />
-            <p class="date roboto">
-              {{getTime(aa.start_hours)}} - {{getTime(aa.close_hours)}}
-              <!-- 8:00PM - 10:00PM -->
-            </p>
+            <div style="display: flex; align-items: center; margin-bottom: 2px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LabelIcon.png" />
+              <p class="date roboto">
+                {{aa.discount_percentage}}% Discount
+                <!-- 8:00PM - 10:00PM -->
+              </p>
+            </div>
           </div>
+          
+
+          <div class="disc_btn" (click)="showDiscountCard(aa, 'claim discount')">Claim</div>
 
         </div>
       </div>
       
       <!-- [class.hide]="hideClaimDiscountButton" -->
-      <ion-list class="btnbg1 roboto" >
+      <!-- <ion-list class="btnbg1 roboto" >
         <ion-item-sliding
           #slidingItem
           (ionDrag)="claimDrag(slidingItem, $event, aa)"
@@ -277,7 +286,7 @@
             />
           </ion-item>
         </ion-item-sliding>
-      </ion-list>
+      </ion-list> -->
 
       <!-- <div class="claim_msg roboto" *ngIf="aa.remaining_time != null" >
         Already Claimed!
@@ -295,25 +304,50 @@
   style="height: 100%; width: 100%; background: #262626; opacity: 0.9"
 >
   <div class="v-center">
-    <div class="icondiv" (click)="dismiss()">
+    <!-- <div class="icondiv" (click)="closeslide(slidingItem)">
       <img src="assets/imgs/cross.svg" alt="" />
-    </div>
+    </div> -->
 
     <div style="text-align: center">
-      <img src="assets/imgs/disc.svg" alt="" />
+      <!-- <img src="assets/imgs/disc.svg" alt="" /> -->
+      <img src="{{rest.baseURLimg}}{{detailObj.images[0].name}}" style="margin-top: 5px;
+      height: 246px;
+      width: 97.5%;
+      clip-path: polygon(50% 0%, 100% 0%, 100% 90%, 50% 100%, 0% 90%, 0% 0%);
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      position: relative;
+      z-index: 3;" alt="">
+      <div class="roboto heading_text">{{detailObj.name}}</div>
+      <img class="bg_disc_card"  src="../../assets/imgs/icons/new_icons/BookingShape2.png" alt="">
+      <div class="card_bg">
+
+        <p class="two roboto">{{detailObj.discount_percentage}}%</p>
       
-      <p class="two roboto">Instant</p>
+        <p class="one roboto">{{detailObj.discount_token}}</p>
+
+        <div class="three roboto">Valid until {{getDate(detailObj.discount_claimed_date)}}</div>
+        <!-- <div class="roboto token_num">{{discountToken}}</div> -->
+        <!-- <div class="roboto token_info_one">All discounts can be found in your Profile</div> -->
+        <!-- <div class="roboto token_info_two" >*its a one time code, save it</div> -->
+        <ion-button (click)="hideDiscCard()" class="btngray" style="height: 45px;
+        --background: linear-gradient(180deg, #262626, #302f2f);
+        width: 70%;
+        margin-top: 15px;">Close</ion-button>
+      </div>  
+      
+    </div>
+
+    <!-- <div style="text-align: center">
+      <img src="assets/imgs/disc.svg" alt="" />
+      <p class="one">Discount Claim!</p>
+      <p class="two">Instant</p>
       <p *ngIf="detailObj.discount_percentage <= 0" class="three">
         No Discount
       </p>
-      <p *ngIf="detailObj.discount_percentage > 0" class="mg_top_7">
-        <span class="three roboto">{{detailObj.discount_percentage}}% </span> <span class="dis_off roboto">off</span> 
+      <p *ngIf="detailObj.discount_percentage > 0" class="three">
+        {{detailObj.discount_percentage}}% off
       </p>
-      <p class="one roboto">Discount Claim!</p>
-
-      <div class="roboto token_num" >{{discountToken}}</div>
-      <div class="roboto token_info_one"  >Show this code at the venue.</div>
-      <div class="roboto token_info_two" >*its a one time code, save it</div>
-    </div>
+    </div> -->
   </div>
 </div>

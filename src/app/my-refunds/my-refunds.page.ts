@@ -161,6 +161,15 @@ export class MyRefundsPage implements OnInit {
       return val;
     }
   }
+  
+  getDateSlashFormat(val:any){
+    if(val){
+      return format(new Date(val), 'M/d/yyyy');
+    }
+    else{
+      return val;
+    }
+  }
 
   editbooking(aa: any) {
     this.rest.selectedBooking = aa;

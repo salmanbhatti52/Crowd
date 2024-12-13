@@ -41,29 +41,34 @@
 
 .profile_option{
   background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
-  border-radius: 60px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
-  padding: 12px 10px;
+  padding: 13px;
   width: 48.7%;
   margin-top: 14px;
-  // justify-content: space-between;
+}
+
+.r_icon{
+  height: 8px;
+  width: 8px;
+  margin-left: 1px;
 }
 
 .option_title{
-  font-size: 12.8px;
+  font-size: 13px;
   color: white;
   font-weight: 500;
 }
 
 .option_desc{
-  font-size: 8.8px;
+  font-size: 9.8px;
   color: white;
   font-weight: 400;
 }
 
-.opiton_icon{
-  height: 18px;
-  width: 18px;
-  margin-right: 9px;
+.option_icon{
+  height: 17px;
+  width: 17px;
+  margin-right: 8px;
 }

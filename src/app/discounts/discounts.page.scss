@@ -14,9 +14,27 @@
   
 
 .imm{
-  width:20px;
-  height:20px;
-  margin-right: 10px;
+  // width:20px;
+  height:18px;
+  margin-right: 15px;
+}
+
+.disc_btn{
+  background: #262626;
+  color: white;
+  padding: 4px 5px 5px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 130px;
+  margin-top: 9px;
+}
+
+.flex_space_between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .rem_time{
@@ -49,7 +67,7 @@
   margin: 0px;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 21px;
   text-transform: capitalize;
   color: #FFFFFF;
@@ -125,11 +143,64 @@
     z-index: 1;width: 100%;
   }
 
+  .heading_text{
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    position: absolute;
+    top: 125px;
+    left: 45px;
+    text-align: center;
+    right: 45px;
+    background: transparent;
+    border-radius: 5px;
+    padding: 3px 6px;
+    z-index: 12;
+  } 
+  
+  .bg_disc_card{
+    position: absolute;
+    left: 0px;
+    top: 222px;
+    z-index: 0;
+    height: 250px;
+    width: 100%;
+  }
+  
+  .card_bg{
+    position: relative;
+    z-index: 1;
+    padding-top: 7px;
+    // padding: 20px;
+    // background: url('../../assets/imgs/icons/new_icons/DiscountShape2.png') center center no-repeat;
+  }
+  
+  .two{
+    margin-top: 10px;
+    font-size: 40px;
+    line-height: normal;
+    text-align: center;
+    color: white;
+    font-weight: bold; 
+  }
+  
+  .one{
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: normal;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+  }
+
 
 .elementBg{
   margin-top: 15px;
   background: #323232;
-  padding: 16px 10px;
+  padding: 10px 10px;
   border-radius: 20px;
   width: 97%;
 }
@@ -139,40 +210,39 @@
       margin-right: 0%;
   }
 
-  .two{
-    margin-top: 20px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
+  // .two{
+  //   margin-top: 20px;
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   font-size: 14px;
+  //   line-height: 16px;
+  //   text-align: center;
     
-    /* background */
+  //   /* background */
     
-    color: #262626;
+  //   color: #262626;
    
-  }
+  // }
 
   .three{
-    line-height: 30px;
-    margin-top: 5px;
-    color: #AC3DBA;
-    font-size: 27px;
-    font-weight: 700;
-    line-height: 30px;
+    // margin-top: 10px;
+    font-size: 11px;
+    line-height: normal;
     text-align: center;
+    color: white;
+    font-weight: 400;
   }
 
-  .one{
-    margin-top: 0px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 30px;
-    text-align: center;
-    color: #7825CB;
+  // .one{
+  //   margin-top: 0px;
+  //   font-style: normal;
+  //   font-weight: 700;
+  //   font-size: 26px;
+  //   line-height: 30px;
+  //   text-align: center;
+  //   color: #7825CB;
 
-   }
+  //  }
 
    .ios .margintopcls {
     margin-top: 3px;

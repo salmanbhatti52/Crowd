@@ -82,29 +82,31 @@
               width: 135px;
               height: 145px;
               border-radius: 16px;
-              margin-right: 10px;
+              margin-right: 19px;
             "
             src="{{rest.baseURLimg}}{{aa.events_images[0].name}}"
           />
           
     
-          <div>
+          <div class="flex_space_between">
             <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
-            <div style="display: flex; align-items: center; margin-bottom: 8px">
-              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
-              <p class="bb roboto">{{aa.events.name}}</p>
-            </div>
-    
-            <div style="display: flex; align-items: center; margin-bottom: 8px">
-              <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
-              <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
-            </div>
-    
-            <div style="display: flex; align-items: center; margin-bottom: 18px">
-              <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
-              <p class="date roboto">
-                {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
-              </p>
+            <div>
+              <div style="display: flex; align-items: center; margin-bottom: 10px">
+                <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+                <p class="bb roboto">{{aa.events.name}}</p>
+              </div>
+      
+              <div style="display: flex; align-items: center; margin-bottom: 10px">
+                <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+                <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
+              </div>
+      
+              <div style="display: flex; align-items: center; ">
+                <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
+                <p class="date roboto">
+                  {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
+                </p>
+              </div>
             </div>
 
             <div (click)="gotoEventDetails(aa)" class="view_btn roboto">view</div>
@@ -138,33 +140,36 @@
           width: 135px;
           height: 145px;
           border-radius: 16px;
-          margin-right: 10px;
+          margin-right: 19px;
         "
         src="{{rest.baseURLimg}}{{aa.events_images[0].name}}"
         />
 
-        <div style="width: 100%;">
+        <div class="flex_space_between" style="width: 100%;">
           <!-- <div class="bb roboto" style="margin-bottom: 8px;">{{aa.events.name}}</div> -->
-          <div class="flex_center space_between">
-            <div style="display: flex; align-items: center; margin-bottom: 8px">
-              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
-              <p class="bb roboto">{{aa.events.name}}</p>
+          <div>
+            <div class="flex_center space_between">
+              <div style="display: flex; align-items: center; margin-bottom: 10px">
+                <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+                <p class="bb roboto">{{aa.events.name}}</p>
+              </div>
+  
+              <img class="del_icon" (click)="deleteBooking()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
             </div>
-
-            <img class="del_icon" (click)="deleteBooking()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
+  
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+              <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
+            </div>
+  
+            <div style="display: flex; align-items: center; margin-bottom: 2px">
+              <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
+              <p class="date roboto">
+                {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
+              </p>
+            </div>
           </div>
-
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="cal_icon" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
-            <p class="date roboto">{{getDate(aa.events.event_date)}} </p>
-          </div>
-
-          <div style="display: flex; align-items: center; margin-bottom: 18px">
-            <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
-            <p class="date roboto">
-              {{getTime(aa.events.event_start_time)}} - {{getTime(aa.events.event_end_time)}}
-            </p>
-          </div>
+          
 
           <div class="view_btn roboto">Complete</div>
           <!-- <div *ngIf="" class="view_btn roboto">Complete</div> -->

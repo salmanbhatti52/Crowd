@@ -78,34 +78,36 @@
           width: 135px;
           height: 145px;
           border-radius: 10px;
-          margin-right: 10px;
+          margin-right: 19px;
         "
         src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
       />
 
-      <div>
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
-          <p class="bb roboto">{{aa.venues_details.name}}</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
-          <p class="date roboto">{{aa.no_of_diners}} people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
-          <p class="date roboto">
-            {{getDate(aa.bookings_date) }}
-          </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
-          <p class="date roboto">
-            {{getTime(aa.bookings_time)}}
-          </p>
+      <div class="flex_space_between">
+        <div>
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+            <p class="bb roboto">{{aa.venues_details.name}}</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
+            <p class="date roboto">{{aa.no_of_diners}} people</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+            <p class="date roboto">
+              {{getDate(aa.bookings_date) }}
+            </p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
+            <p class="date roboto">
+              {{getTime(aa.bookings_time)}}
+            </p>
+          </div>
         </div>
 
         <!-- <div
@@ -144,39 +146,42 @@
           width: 135px;
           height: 145px;
           border-radius: 10px;
-          margin-right: 10px;
+          margin-right: 19px;
         "
         src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
       />
 
-      <div style="width: 100%;">
-        <div class="flex_center space_between">
-          <div style="display: flex; align-items: center; margin-bottom: 8px">
-            <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
-            <p class="bb roboto">{{aa.venues_details.name}}</p>
+      <div style="width: 100%;" class="flex_space_between">
+        <div>
+          <div class="flex_center space_between">
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.venues_details.name}}</p>
+            </div>
+            <img class="del_icon" (click)="deleteReservation()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
           </div>
-          <img class="del_icon" (click)="deleteReservation()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
+          
+  
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
+            <p class="date roboto">{{aa.no_of_diners}} people</p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+            <p class="date roboto">
+              {{getDate(aa.bookings_date) }}
+            </p>
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <img class="imm" style="margin-right: 12px;" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
+            <p class="date roboto">
+              {{getTime(aa.bookings_time)}}
+            </p>
+          </div>
         </div>
         
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="../../assets/imgs/icons/new_icons/WaveIcon.png" />
-          <p class="date roboto">{{aa.no_of_diners}} people</p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
-          <p class="date roboto">
-            {{getDate(aa.bookings_date) }}
-          </p>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 8px">
-          <img class="imm" src="../../assets/imgs/icons/new_icons/ClockIcon.png" />
-          <p class="date roboto">
-            {{getTime(aa.bookings_time)}}
-          </p>
-        </div>
 
         <div style="display: flex; ">
           <p *ngIf="aa.status == 'Pending'" class="view_btn roboto">
