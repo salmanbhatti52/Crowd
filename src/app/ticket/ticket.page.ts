@@ -613,7 +613,7 @@ export class TicketPage implements OnInit {
 
   getDate(val:any){
     if(val){
-      return format(new Date(val), 'E, dd MMM');
+      return format(new Date(val), 'E, do MMM');
     }
     else{
       return val;

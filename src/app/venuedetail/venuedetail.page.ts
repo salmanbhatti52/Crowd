@@ -40,6 +40,7 @@ export class VenuedetailPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.rest.reviewType = 'venue';
     if(this.rest.comingFrom == 'home'){
       this.rest.claimedVenDiscount = false;
     }
@@ -88,12 +89,12 @@ export class VenuedetailPage implements OnInit {
 
 
   showAllReviews(){
-    this.router.navigate(['/reviews'],{queryParams: {venueId: this.detailObj.venues_id, userId: this.userID}});
+    this.router.navigate(['/reviews'],{queryParams: {venueId: this.detailObj.venues_id, userId: this.userID, venueName: this.detailObj.name}});
   }
 
-  goForAddReview(){
-    this.router.navigate(['/add-review'],{queryParams:{venueId:this.detailObj.venues_id}});
-  }
+  // goForAddReview(){
+  //   this.router.navigate(['/add-review'],{queryParams:{venueId:this.detailObj.venues_id}});
+  // }
 
   ngOnInit() {
     this.detailObj = this.rest.detail;

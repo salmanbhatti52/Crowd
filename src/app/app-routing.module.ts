@@ -272,6 +272,10 @@ const routes: Routes = [
     path: 'weather-detail',
     loadChildren: () => import('./weather-detail/weather-detail.module').then( m => m.WeatherDetailPageModule)
   },
+  {
+    path: 'my-reviews',
+    loadChildren: () => import('./my-reviews/my-reviews.module').then( m => m.MyReviewsPageModule)
+  },
  
 
 ];

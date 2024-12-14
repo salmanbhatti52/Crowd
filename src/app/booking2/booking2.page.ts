@@ -45,7 +45,7 @@ export class Booking2Page implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
-    this.mdate = format(new Date(this.selectedBooking.bookings_date) ,"E, dd MMM");
+    this.mdate = format(new Date(this.selectedBooking.bookings_date) ,"E, do MMM");
     console.log("this.mdate Fff", this.mdate);
 
     this.mtime = parse(this.selectedBooking.bookings_time, 'HH:mm:ss', new Date());

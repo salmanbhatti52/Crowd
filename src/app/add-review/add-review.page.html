@@ -34,7 +34,7 @@
         <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png" alt="" *ngIf="rateStar5==false;" (click)="rateStar(5.0)">
         <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar5==true;" (click)="rateStar(5.0)">
       </div>
-      <div class="roboto exclusive">212 Exclusive</div>
+      <div class="roboto exclusive">{{venueName}}</div>
       <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="roboto textarea" rows="8" cols="20" placeholder="We'd love to hear your experience!" [(ngModel)]="feedback"></ion-textarea>
       <div class="review_note">Please ensure that your review: <br>
         Is respectful and free from hate speech or offensive language. <br>

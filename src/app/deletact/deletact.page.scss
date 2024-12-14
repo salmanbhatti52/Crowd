@@ -1,3 +1,31 @@
+.container{
+  width: 95%; 
+  text-align: center; 
+  margin: 5% auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+}
+
+.delete_acc_box{
+  color: #ff3131;
+  background-color: #343434;
+  padding: 14px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.active_delete_acc_box{
+  color: white;
+  background-color: #ff3131;
+  padding: 14px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
 .titlefont{
     font-weight: 700;
     font-size: 16px;
@@ -5,6 +33,17 @@
     text-transform: capitalize;
     color: #FFFFFF;
   }
+
+.del_note{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  // line-height: 150%;
+  text-align: center;
+  // letter-spacing: 0.3px;
+  color: #ffffff;
+  margin-top: 15px;
+}
   
   .bg{
     --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
@@ -31,6 +70,15 @@
     position: absolute;
     top: 42px;
     z-index: 1;width: 100%;
+  }
+
+  .note_style{
+    font-size: 11px;
+    font-weight: 300;
+    margin-top: 9px;
+    color: #a6a6a6;
+    margin: 10px auto;
+    text-align: center;
   }
     
     .or_cls{

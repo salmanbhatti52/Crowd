@@ -147,7 +147,7 @@ export class MyreservationsPage implements OnInit {
   }
 
   getDate(aa: any) {
-    return format(new Date(aa) ,"E, dd MMM");
+    return format(new Date(aa) ,"E, do MMM");
   }
   getTime(aa:any){
     // return aa.substring(0,5);

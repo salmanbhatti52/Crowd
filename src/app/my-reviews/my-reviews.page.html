@@ -2,27 +2,72 @@
   <ion-toolbar >
     <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
     <ion-row class="header_content">
-      <ion-col size="2" class="centerall"
+      <ion-col style="text-align: center" size="2" class="centerall"
         ><img
           (click)="goBack()"
           style="height: 25px;"
           src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
       </ion-col>
-      <ion-col size="8" class="centerall">
-        <ion-label class="titlefont roboto">Reviews</ion-label>
+      <ion-col size="8" style="text-align: center">
+        <ion-label class="titlefont roboto">My Reviews</ion-label>
       </ion-col>
-      <ion-col class="centerall" size="2">
-      <img style="height: 25px;width: 25px;" src="../../assets/imgs/icons/filter_icon.svg" alt="">  
-      </ion-col>
+      <ion-col size="2" style="text-align: center"> </ion-col>
     </ion-row>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="--background: #262626;" >
-  <div class="container">
-    <div class="roboto" style="color: white;text-align: center;margin-top: 50%;" *ngIf="reviews.length == 0">No Reviews Found.</div>
-  
+
+<ion-content style="--background: #262626">
+ 
+  <div style="margin: 25px 0px 10px; text-align: -webkit-center">
+    <ion-segment
+      style="
+        height: 48px;
+        width: 64%;
+        background: white;
+        padding: 3px 5px;
+        border-radius: 200px;
+      "
+      
+      mode="ios"
+      [(ngModel)]="segmentModel"
+      (ionChange)="segmentChanged($event)"
+      value="reviewed"
+    >
+      <ion-segment-button
+        style="
+          --indicator-color: radial-gradient(Circle at 0% 0%,#4d4d4d,#222222);
+          --color: #000000;
+          --color-checked: #fff;
+          --border-radius: 20px;
+          /* --background-checked: #611ea5; */
+        "
+        value="reviewed" (click)="getVenueReviews()"
+      >
+        <ion-label>Reviewed</ion-label>
+      </ion-segment-button>
+      <ion-segment-button
+        style="
+          --indicator-color: linear-gradient(180deg, #9218a6,#5a0670);
+          --color: #000000;
+          --color-checked: #fff;
+          --border-radius: 20px;
+          /* --background-checked: #611ea5; */
+        "
+        value="unrated" (click)="getPreviousBookings()"
+      >
+        <ion-label>Unrated</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div
+    class="container"
+    *ngIf="segmentModel === 'reviewed'"
+  >
+
     <div *ngFor="let rev of reviews;" >
       <div  style="background: linear-gradient(180deg, #262626, #302f2f);
       border-radius: 30px;
@@ -46,8 +91,11 @@
                 <div class="roboto" style="font-size: 15px;
                 font-weight: bold;
                 color: #fafafa;
-                line-height: normal;display: flex;">{{rev.user_profile.full_name}} <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
-                <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
+                line-height: normal;">
+                Aroma 
+                <!-- <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt=""> -->
+                <!-- <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">   -->
+                <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
               </div>
               <!-- <div class="roboto" style="font-size: 14px;
               font-weight: 300;
@@ -73,7 +121,7 @@
               </div>
               <div style="color: #d9d9d9;
               font-size: 9px;
-              font-weight: 300;">2 weeks ago</div>
+              font-weight: 300;">12/02/2025</div>
               </div>
               <div style="display: flex
               ;
@@ -93,31 +141,56 @@
       </div>
     </div>
     
-    
-    <div style="height: 25%;">
-      <ion-button
-      (click)="goForAddReview()"
-      style="margin-top: 20px;"
-      class="btnwhite roboto"
-      >Add Review</ion-button
-      >
-    
-      <div class="roboto note_style">Reviews may be subject to moderation to comply with our community guidelines. 
-        For more details, please visit our <span style="color: #fafafa;">Terms and Conditions</span>
+  </div>
+
+  <div
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      width: 96%;
+      margin-top: 8px;
+      margin-left: 3%;
+      padding-bottom: 20px;
+    "
+    *ngIf="segmentModel === 'unrated'"
+  >
+    <div class="elementBg" *ngFor="let aa of orderd_previousArr">
+      <img
+        style="
+          width: 135px;
+          height: 145px;
+          border-radius: 10px;
+          margin-right: 19px;
+        "
+        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
+      />
+
+      <div style="width: 100%;" class="flex_space_between">
+        <div>
+          <div class="flex_center space_between">
+            <div style="display: flex; align-items: center; margin-bottom: 10px">
+              <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
+              <p class="bb roboto">{{aa.venues_details.name}}</p>
+            </div>
+            <img class="alert_icon" src="../../assets/imgs/icons/new_icons/AlertIcon.png" alt="">
+          </div>
+  
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
+            <p class="date roboto">
+              {{getDate(aa.bookings_date) }}
+            </p>
+          </div>
+  
+        </div>
         
+
+        <div style="display: flex; ">
+          <p *ngIf="aa.status == 'Pending'" (click)="goForAddReview(aa)" class="leave_review_btn roboto">
+            Leave Review
+          </p>
+        </div>
       </div>
     </div>
-   
-    
-    
   </div>
-  
-
 </ion-content>
-
-  <!-- <ion-footer class="ion-no-border"  style="background: #262626;border: 1px solid #262626;">
-    <ion-toolbar class="ion-no-border container" style="--background: #262626;margin: 0% auto 5%;">
-      
-    </ion-toolbar>
-    
-</ion-footer> -->

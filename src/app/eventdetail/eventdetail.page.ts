@@ -30,6 +30,7 @@ export class EventdetailPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.rest.reviewType = 'event';
     if(this.rest.comingFrom == 'home'){
       this.rest.claimDiscount = false;
     }
@@ -49,7 +50,7 @@ export class EventdetailPage implements OnInit {
     console.log("currentDate: ",currentDate);
     let eventDate = new Date(this.detailObj.event_date);
     console.log(" eventDate:  ",eventDate);
-    this.detailObj.formatted_date = format(eventDate, 'E, dd MMM');
+    this.detailObj.formatted_date = format(eventDate, 'E, do MMM');
     // console.log(this.detailObj.formatted_date);
     
     
@@ -79,6 +80,11 @@ export class EventdetailPage implements OnInit {
       this.allTicketsSold = true;
     }
   }
+
+  showAllReviews(){
+    this.router.navigate(['/reviews'],{queryParams: {venueId: 53, userId: this.userID, venueName:this.detailObj.venue_name}});
+  }
+
   // =======================came from venue detail =================
   claimDrag2(slidingItem: IonItemSliding, event: any) {
     let ratio = event.detail.ratio;

@@ -48,4 +48,12 @@ export class DeletactPage implements OnInit {
       }
     });
   }
+
+  showConfirmationModal(){
+
+  }
+
+  selectDeleteRequestType(){
+    
+  }
 }

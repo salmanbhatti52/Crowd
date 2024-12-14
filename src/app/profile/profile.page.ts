@@ -120,6 +120,9 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/terms-and-conditions']);
   }
 
+  goToMyReviews(){
+    this.router.navigate(['/my-reviews']);
+  }
 
   ngOnInit() {
     setTimeout(async () => {

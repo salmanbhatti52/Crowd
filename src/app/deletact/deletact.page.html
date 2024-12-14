@@ -18,40 +18,42 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div style="width: 90%; text-align: center; margin: 5% auto">
-    <img style="height: 275px; margin-top: 40px" src="assets/imgs/delete.svg" />
+  <div class="container">
 
-    <p
-      style="
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 150%;
-        text-align: center;
-        letter-spacing: 0.3px;
-        color: #ffffff;
-        margin-top: 20px;
-      "
-      class="roboto"
-    >
-      Are you sure you want to <br />
-      delete your account?
-    </p>
+    <div style="margin-top: 15%;">
+      <div 
+      (click)="selectDeleteRequestType()"
+      class=" roboto delete_acc_box">Temporarily Deactivate</div>
 
-    <div class="btm">
-      <ion-button
-        (click)="goBack()"
-        style="margin-top: 20px"
-        class="btnbg roboto"
-        >NO</ion-button
+      <div
+        
+        class="del_note roboto"
       >
+        Deactivate your account temporarily and <br> come back anytime.
+      </div>
 
-      <ion-button
+      <div
         style="margin-top: 20px"
-        (click)="godelete()"
-        class="btnbgred roboto"
-        >YES</ion-button
+        (click)="selectDeleteRequestType()"
+        class="roboto delete_acc_box"
+        >Permanently Delete Account</div
       >
+      <div class="roboto del_note">Permanently deleting your account is undoable.</div>
+    </div>  
+    
+
+    <div>
+      
+      <ion-button
+      (click)="showConfirmationModal()"
+      style="margin-top: 20px; opacity: 1;--border-radius:15px"
+      class="btnbg roboto"
+      >Confirm</ion-button>
+
+      <div class="roboto note_style">
+        By submitting your review, you agree to adhere to our community guidelines.
+        For more details, please review our <span style="color: #fafafa;">Terms and Conditions</span> in your profile.
+      </div>
     </div>
   </div>
 </ion-content>

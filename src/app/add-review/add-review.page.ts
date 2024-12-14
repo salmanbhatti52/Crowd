@@ -24,6 +24,7 @@ export class AddReviewPage implements OnInit {
   userdata: any;
   userid: any;
   venueId:any;
+  venueName: any;
 
   constructor(public location: Location, public rest: RestService, public route:ActivatedRoute) {}
 
@@ -32,6 +33,7 @@ export class AddReviewPage implements OnInit {
     this.route.queryParams.subscribe(params=>{
       console.log(params);
       this.venueId = params['venueId'];
+      this.venueName = params['venueName'];
       console.log("venueId",this.venueId);
       
       

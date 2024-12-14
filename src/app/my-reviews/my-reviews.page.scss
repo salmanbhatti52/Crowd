@@ -1,0 +1,195 @@
+.container{
+  height: 90%;
+  width: 90%;
+  margin: 5% auto 5%;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.titlefont{
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+  
+  .bg{
+    --background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%);
+    padding: 0px 0px 0px 0px;
+  }
+
+  .md .header_bg{
+    width: 100%;
+    height: 60px;
+  }
+  
+  .ios .header_bg{
+    width: 100%;
+    height: 97px;
+  }
+  
+  .md .header_content{
+    position: absolute;
+    top: 12px;
+    z-index: 1;width: 100%;
+  }
+  
+  .ios .header_content{
+    position: absolute;
+    top: 42px;
+    z-index: 1;width: 100%;
+  }
+
+  .completed{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    background: linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0px;
+
+}
+
+.ticket_icon{
+  display: flex;
+  padding: 0px 2px;
+  background: white;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.imm_ticket{
+  height: 17px;width: 17px; border-radius: 5px;margin-right: 0px;
+}
+
+    
+.centerall{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.canc{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FF285C;
+  margin-bottom: 0px;
+}
+
+.flex_space_between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.refund_btn{
+  background: #262626;
+  color: white;
+  padding: 4px 5px 5px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 162px;
+  margin-top: 9px;
+}
+
+.elementBg{
+  display: flex;
+  // align-items: center;
+  margin-top: 15px;
+  background: #323232;
+  padding: 10px;
+  border-radius: 20px;
+  width: 97%;
+}
+
+.flex_center{
+  display: flex;
+  align-items: flex-start;
+}
+
+.space_between{
+  justify-content: space-between;
+}
+
+.imm{
+  // width:20px;
+  height: 18px;
+  margin-right: 15px;
+}
+
+.imm_calender{
+  // width:20px;
+  height: 16px;
+  margin-right: 15px;
+}
+
+.alert_icon{
+  margin-right: 2px;
+  margin-left: 8px;
+  width: 23px;
+}
+
+.date{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13.9px;
+  color: #FFFFFF;
+  margin: 0px;
+  line-height: normal;
+}
+
+.bb{
+  margin: 0px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  // line-height: 21px;
+  text-transform: capitalize;
+  color: #FFFFFF;
+  text-align: left;
+}
+
+.leave_review_btn{
+  background: linear-gradient(180deg, #9218a6, #5a0670);
+  color: white;
+  padding: 4px 5px 5px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 135px;
+  margin-top: 9px;
+  margin-bottom: 0px;
+}
+
+.size_14_icon{
+  margin-left: 5px; height: 14px;width: 14px;
+}
+
+.rating_text_old{
+  font-size: 15px;
+  font-weight: bold;
+  color: #fafafa;
+}
+
+.margin_row{
+  padding-left: 11px;
+}
+
+.star_margin{
+  margin-right: 7px;
+  height: 16px;
+  width: 16px;
+  vertical-align: baseline;
+}

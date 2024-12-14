@@ -11,9 +11,10 @@ export class ReviewsPage implements OnInit {
   venueId:any;
   userId:any;
   reviews:any = [];
-  reviews2:any = [1,2,3,4,5,6,7,8,8,9,8];
-
+  reviews2:any = [1,2,3,4,5,6,7,8,8,9,8]; 
+  
   ratingValue:any = 0.0;
+  venueName: any;
   // reviewFound:any = false;
   constructor(public location: Location,public route: ActivatedRoute,public rest: RestService, public router:Router) { }
 
@@ -21,6 +22,7 @@ export class ReviewsPage implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.venueId = params['venueId'];
       this.userId = params['userId'];
+      this.venueName = params['venueName'];
       console.log(this.venueId);
       console.log(this.userId);
     });
@@ -53,7 +55,7 @@ export class ReviewsPage implements OnInit {
   }
 
   goForAddReview(){
-    this.router.navigate(['/add-review'],{queryParams:{venueId:this.venueId}});
+    this.router.navigate(['/add-review'],{queryParams:{venueId:this.venueId,venueName:this.venueName}});
   }
 
 }
