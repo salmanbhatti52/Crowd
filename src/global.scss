@@ -294,7 +294,7 @@ body.scanner-active {
   border-radius: 28px;
   text-transform:none !important;
   height: 53px;
-  --background: linear-gradient(89.73deg, #EBD87A -0.24%, #956B1C 99.77%);
+  --background: radial-gradient(circle at 0% 0%, #fad66a, #825807);
   --background-activated: #ebd87a73;
   --background-focused: #ebd87a73;
   --background-hover: #ebd87a73;
@@ -398,7 +398,7 @@ input{
   .inputfieldtransparent{
     // background: linear-gradient(180deg, #262626, #302f2f);
     border: 2px solid white;
-    border-radius: 24px;
+    border-radius: 15px;
   }
 
   .dropdown-transparent{

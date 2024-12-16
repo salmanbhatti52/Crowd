@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-forgetpass",
@@ -8,11 +9,15 @@ import { RestService } from "../rest.service";
   styleUrls: ["./forgetpass.page.scss"],
 })
 export class ForgetpassPage implements OnInit {
-  constructor(public router: Router, public rest: RestService) {}
+  constructor(public router: Router, public rest: RestService, public location:Location) {}
 
   email: any = "";
 
   ngOnInit() {}
+
+  goBack(){
+    this.location.back();
+  }
 
   newPass() {
     if (this.email == "") {

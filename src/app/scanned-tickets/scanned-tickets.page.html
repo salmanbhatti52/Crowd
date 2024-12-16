@@ -1,22 +1,25 @@
 <ion-header>
-  <ion-toolbar class="bg paddingtop">
-    <div class="title_bar">
-      <div>
-        <img
+  <ion-toolbar >
+    <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
+
+    <ion-row class="header_content" >
+      <ion-col size="2" class="centerall"
+        ><img
           (click)="goBack()"
-          style="height: 25px;"
-          src="../../../../assets/imgs/icons/new_icons/BackIcon.png"
+          style="height: 25px; "
+          src="../../assets/imgs/icons/new_icons/BackIcon.png"
         />
-      </div>
-      <div class="titlefont roboto">Scanned Tickets</div>
-      <div>
+      </ion-col>
+      <ion-col size="8" class="centerall">
+        <ion-title class="titlefont roboto">Scanned Tickets</ion-title>
+      </ion-col>
+      <ion-col class="centerall" size="2">
         <img
           (click)="goLogout()"
           style="height: 25px;"
-          src="assets/imgs/logout.svg"
-      />
-      </div>
-    </div>
+          src="../../assets/imgs/icons/new_icons/ExitIcon.png"
+      /></ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
