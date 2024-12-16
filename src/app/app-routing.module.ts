@@ -284,6 +284,30 @@ const routes: Routes = [
     path: 'support-enquiries',
     loadChildren: () => import('./support-enquiries/support-enquiries.module').then( m => m.SupportEnquiriesPageModule)
   },
+  {
+    path: 'terms-of-service',
+    loadChildren: () => import('./terms-of-service/terms-of-service.module').then( m => m.TermsOfServicePageModule)
+  },
+  {
+    path: 'privacy-policy',
+    loadChildren: () => import('./privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
+  },
+  {
+    path: 'crowd-ai',
+    loadChildren: () => import('./crowd-ai/crowd-ai.module').then( m => m.CrowdAiPageModule)
+  },
+  {
+    path: 'crowd-live',
+    loadChildren: () => import('./crowd-live/crowd-live.module').then( m => m.CrowdLivePageModule)
+  },
+  {
+    path: 'event-and-reservations',
+    loadChildren: () => import('./event-and-reservations/event-and-reservations.module').then( m => m.EventAndReservationsPageModule)
+  },
+  {
+    path: 'intellectual-properties',
+    loadChildren: () => import('./intellectual-properties/intellectual-properties.module').then( m => m.IntellectualPropertiesPageModule)
+  },
  
 
 ];
