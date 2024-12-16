@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
   selectedAdmin: any;
   accountType: any;
   socialAccountType: any;
-
+  assetImage= false;
   constructor(
     public location: Location,
     public router: Router,
@@ -74,7 +74,8 @@ export class ProfilePage implements OnInit {
         this.imgdataComing =
           this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
       } else {
-        this.imgdataComing = "assets/imgs/addimg.svg";
+        this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
+        this.assetImage = true;
       }
     }else{
       let str = JSON.parse(this.userdata).profile_picture
@@ -85,7 +86,8 @@ export class ProfilePage implements OnInit {
         if (JSON.parse(this.userdata).profile_picture) {
           this.imgdataComing = JSON.parse(this.userdata).profile_picture;
         } else {
-          this.imgdataComing = "assets/imgs/addimg.svg";
+          this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
+          this.assetImage = true;
         }
       }
       
@@ -116,12 +118,20 @@ export class ProfilePage implements OnInit {
     
   }
 
+  gotoSupportEnquiries(){
+    this.router.navigate(['/support-enquiries']);
+  }
+
   goToTermsAndCondtions(){
     this.router.navigate(['/terms-and-conditions']);
   }
 
   goToMyReviews(){
     this.router.navigate(['/my-reviews']);
+  }
+
+  goForProfileSettings(){
+    this.router.navigate(['/profile-settings']);
   }
 
   ngOnInit() {

@@ -26,19 +26,16 @@
 <ion-content style="--background: #262626">
   <div style="text-align: center; margin-top: 20px">
     <img
-      (click)="addimg()"
-      style="
-        height: 174px;
-        width: 174px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 1px solid white;
-      "
+      [ngClass]="{'profile':true,'border_width':!assetImage}"
       src="{{imgdataComing}}"
     />
 
-    <div class="roboto" style="margin-top: 10px;  color: white;font-size: 14px;font-weight: 500;line-height: normal;">{{name}} 
+    <div class="roboto" style="margin-top: 14px;  color: white;font-size: 14px;font-weight: 500;line-height: normal;">{{name}} 
       <img style="margin-left: 4px;  height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
+    </div>
+    
+    <div class="roboto" style="margin-top: 8px;  color: white;font-size: 14px;font-weight: 400;line-height: normal;">
+      <img style="height: 16px;width: 16px;" src="../../assets/imgs/icons/new_icons/AtIcon.png" alt="">{{uname}} 
     </div>
 
     <!--
@@ -53,7 +50,7 @@
 
   <div
     style="
-     margin: 20px 15px;
+     margin: 20px 15px 10px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -68,12 +65,6 @@
         [checked]="seenToggleChecked"
         (ionChange)="beseentoggle($event)"
         mode="ios"
-        style="
-          --handle-background-checked: white;
-          --background: #9d9d9d;
-          --background-checked: #ac3dba;
-          width: 60px;
-        "
       ></ion-toggle>
       </div>
       
@@ -106,12 +97,6 @@
           [checked]="aiToggleChecked"
           (ionChange)="aiToggle($event)"
           mode="ios"
-          style="
-            --handle-background-checked: white;
-            --background: #9d9d9d;
-            --background-checked: #ac3dba;
-            width: 60px;
-          "
         ></ion-toggle>
         </div>
         <div>
@@ -164,49 +149,7 @@
   
 
   <div style="width: 93%; margin: 0% auto 25px;">
-    <!-- <div
-      class="inputfieldblack"
-      style="height: 52px; display: flex; margin-top: 20px"
-    >
-      <img
-        style="margin: 17px 17px 17px 15px"
-        src="/assets/imgs/userblue.svg"
-      />
-      <input
-        [(ngModel)]="uname"
-        class="input"
-        type="text"
-        placeholder="User Name"
-      />
-    </div> -->
-
-    <!-- <div
-      class="inputfieldblack"
-      style="height: 52px; display: flex; margin-top: 20px"
-    >
-      <img
-        style="margin: 17px 17px 17px 15px"
-        src="/assets/imgs/userblue.svg"
-      />
-      <input [(ngModel)]="name" class="input" type="text" placeholder="Name" />
-    </div> -->
-
-    <!-- <div
-      class="inputfieldblack"
-      style="height: 52px; display: flex; margin-top: 20px"
-    >
-      <img
-        style="margin: 17px 17px 17px 15px"
-        src="/assets/imgs/emailblue.svg"
-      />
-      <input
-        [(ngModel)]="email"
-        class="input"
-        type="text"
-        placeholder="Email"
-      />
-    </div> -->
-
+    
 
     <div style="display: flex;flex-wrap: wrap;justify-content: space-between;align-items: center;">
       <div class="profile_option" (click)="gotoReservation()">
@@ -265,7 +208,7 @@
         </div>
       </div>
       
-      <div class="profile_option">
+      <div class="profile_option" (click)="gotoSupportEnquiries()">
         <div><img class="option_icon" style="height: 24px;width: 24px;" src="../../assets/imgs/icons/new_icons/SupportIcon.png" alt=""></div>
         <div>
           <div class="roboto option_title" >Support Enquiries</div>
@@ -273,7 +216,7 @@
         </div>
       </div>
       
-      <div class="profile_option">
+      <div (click)="goForProfileSettings()" class="profile_option">
         <div><img class="option_icon" style="height: 24px;width: 24px;" src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" alt=""></div>
         <div>
           <div class="roboto option_title" >Profile Settings</div>
@@ -290,101 +233,9 @@
       </div>
     </div>
 
+   
     
-    <!-- <div
-      (click)="gotoReservation()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Reservations</p>
-        <p class="desc roboto">See all your reservations history</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
     
-    <div
-      (click)="gotoEvents()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Events</p>
-        <p class="desc roboto">See all your events ticket history</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div>
-    
-    <div
-      (click)="gotoDiscounts()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Discounts</p>
-        <p class="desc roboto">See all your claimed discounts</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div> -->
-
-    <!-- <div
-      (click)="gotoAddPaymentMethods()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Payment</p>
-        <p class="desc roboto">Add/Edit payment Methods</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div> -->
-    
-    <!-- <div
-      (click)="gotoRefundPage()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Refund</p>
-        <p class="desc roboto">Track Events Refund requests</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div> -->
     <!-- <div
       (click)="startChatWithAdmin()"
       style="
@@ -404,62 +255,7 @@
       <img class="imm" src="assets/imgs/rightarr.svg" />
     </div> -->
 
-    <!-- <div
-      (click)="changePass()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Password</p>
-        <p class="desc roboto">Update your password</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div> -->
 
-    <!-- <div
-      (click)="godelete()"
-      style="
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-      "
-    >
-      <div
-        style="display: flex; flex-direction: column; align-items: flex-start"
-      >
-        <p class="title roboto">Delete Account</p>
-        <p class="desc roboto">Delete your account</p>
-      </div>
-      <img class="imm" src="assets/imgs/rightarr.svg" />
-    </div> -->
 
-    <!-- <ion-button
-      (click)="changePass()"
-      style="margin-top: 20px"
-      class="btnbg roboto"
-      >Change Password</ion-button
-    > -->
-    <!-- <ion-button
-      (click)="save()"
-      style="margin-top: 20px; margin-bottom: 30px"
-      class="btnbg roboto"
-      >SAVE</ion-button
-    > -->
-
-    <!-- <ion-button
-      style="margin-top: 20px"
-      (click)="godelete()"
-      class="btnbgred roboto"
-      >Delete Account</ion-button
-    > -->
   </div>
 </ion-content>

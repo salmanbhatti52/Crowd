@@ -35,6 +35,18 @@
         <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar5==true;" (click)="rateStar(5.0)">
       </div>
       <div class="roboto exclusive">{{venueName}}</div>
+      <div class="packages_box" *ngIf="rest.reviewType=='venue'">
+        <div class="package_box">
+          <img style="height: 16px;" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt="">
+          <div class="roboto package_type">Drinks</div>
+          <ion-checkbox checked="true"></ion-checkbox>
+        </div>
+        <div class="package_box">
+          <img style="height: 16px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">
+          <div class="roboto package_type">Food</div>
+          <ion-checkbox></ion-checkbox>
+        </div>
+      </div>
       <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="roboto textarea" rows="8" cols="20" placeholder="We'd love to hear your experience!" [(ngModel)]="feedback"></ion-textarea>
       <div class="review_note">Please ensure that your review: <br>
         Is respectful and free from hate speech or offensive language. <br>

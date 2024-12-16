@@ -26,6 +26,39 @@
   font-weight: bolder;
 }
 
+.textarea{
+  --background: black;
+  margin-top: 20px;
+  border-radius: 28px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --padding-start: 18px;
+  --padding-end: 18px;
+  font-size: 13.5px;
+  --placeholder-color: white;
+  font-weight: 400;
+  --placeholder-font-weight: 400;
+  --placeholder-opacity: none;
+  --color: white;
+  height: auto;
+  overflow: scroll;
+  text-align: left;
+}
+
+.leaving_msg{
+  color: white;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 15px;
+}
+
+.sure_heading{
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .titlefont{
     font-weight: 700;
     font-size: 16px;

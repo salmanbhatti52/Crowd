@@ -44,7 +44,7 @@
           <p class="people">{{people}} </p>
     
           <img class="dd_icon" [class.dd_icon_active]="peopleShow"
-            src="/assets/imgs/downw.svg"
+            src="../../assets/imgs/icons/new_icons/DropDownArrowIcon.png"
           />
         </div>
     
@@ -84,7 +84,7 @@
     
           <img
           class="dd_icon" [class.dd_icon_active]="tableShowDD"
-            src="/assets/imgs/downw.svg"
+            src="../../assets/imgs/icons/new_icons/DropDownArrowIcon.png"
           />
         </div>
     
@@ -111,10 +111,10 @@
     <p style="margin: 0px 0px 15px" class="inputTitle" >Required date</p>
 
     <div style="display: flex;
-    justify-content: center;">
-      <img style="margin-right: 20px;" src="../../assets/imgs/icons/arrow_left.svg" alt="">
-      <span (click)="selectDate()" class="roboto" style="color: #ADA4A5;font-size: 12.4px;font-weight: 400;">{{selectedMonthAndYear}}</span>
-      <img style="margin-left: 20px;" src="../../assets/imgs/icons/arrow_right.svg" alt="">
+    justify-content: center;align-items: center;">
+      <img style="margin-right: 20px; height: 14px;" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
+      <span (click)="selectDate()" class="roboto" style="color: white;font-size: 12.4px;font-weight: 400;">{{selectedMonthAndYear}}</span>
+      <img style="margin-left: 20px;height: 14px; transform: rotate(180deg);" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
 
     </div>
 

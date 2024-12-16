@@ -1,0 +1,180 @@
+.container1{
+    padding: 5px 25px 10px;
+}
+
+.md .header_bg{
+    width: 100%;
+    height: 60px;
+  }
+  
+  .ios .header_bg{
+    width: 100%;
+    height: 97px;
+  }
+  
+  .md .header_content{
+    position: absolute;
+    top: 12px;
+    z-index: 1;width: 100%;
+  }
+  
+  .ios .header_content{
+    position: absolute;
+    top: 42px;
+    z-index: 1;width: 100%;
+  }
+
+  .centerall{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .titlefont{
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+  }
+
+.container2{
+    padding: 0px 15px 20px;
+}
+
+.support_heading{
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    margin-top: 16px;
+}
+
+.support_desc{
+    font-size: 12.5px;
+    font-weight: 400;
+    color: white;
+    margin-top: 6px;
+}
+
+.dd_box{
+    height: 42px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin: 14px auto 0px;
+    
+}
+
+.radius_circular{
+    border-radius: 15px;
+}
+
+.change_profile_btn{
+    background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
+    color: white;
+    padding: 7px;
+    border-radius: 8px;
+    margin: 18px auto 18px 0px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.width_42{
+    width: 42%;
+}
+
+.width_45{
+    width: 45%;
+}
+
+.width_38{
+    width: 38%;
+}
+
+.flex_space_around{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.radius_top{
+    border-radius: 15px 15px 0px 0px;
+}
+
+ion-checkbox{
+    --border-radius: 5px;
+    --checkbox-background: #fafafa;
+    --background: #fafafa;
+    --background-checked: #fafafa;
+    --border-color: #fafafa;
+    --border-color-checked: #fafafa;
+    --checkmark-color: #790e8e;
+    height: 18px;
+    width: 18px;
+  }
+
+  .flex_center{
+    display: flex;
+    align-items: center;
+  }
+
+.textarea{
+    --background: #343434;
+    margin-top: 20px;
+    border-radius: 20px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-size: 14.5px;
+    --placeholder-color: white;
+    font-weight: 400;
+    --placeholder-font-weight: 400;
+    --placeholder-opacity: none;
+    --color: white;
+    height: auto;
+    overflow: scroll;
+  }
+
+.issues_dd{
+    position: absolute;
+    width: 86%;
+    left: 25px;
+    right: 25px;
+    background: #343434;
+    z-index: 999;
+    border-radius: 0px 0px 15px 15px;
+}
+
+.people{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: normal;
+    color: #FFFFFF;
+    margin: 0px auto 0px 92px;
+    text-align: center;
+  }
+
+  .dd_icon{
+    margin: 17px 17px 17px 15px;
+    width: 11.81px;
+    // height: 8.81px;
+  }
+  .dd_icon_active{
+    margin: 17px 17px 17px 15px;
+    width: 11.81px;
+    // height: 8.81px;
+    transform: rotate(180deg);
+  }
+
+  .pp{
+    margin: 5px auto 20px;
+    color: #FFFFFF;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+  }

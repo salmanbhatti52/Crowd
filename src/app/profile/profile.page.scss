@@ -248,6 +248,27 @@
     margin-right: 10px;
   }
 
+  .profile{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .border_width{
+    border: 6px solid white;
+  }
+
+  ion-toggle{
+    --handle-background-checked: #f7f7f7;
+    --background: #3e4044;
+    --background-checked: #790e8e;
+    width: 60px;
+    --handle-height: 25px;
+    --handle-width: 25px;
+    height: 30px;
+  }
+
   .title{
     font-style: normal;
     font-weight: 500;

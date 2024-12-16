@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
 
@@ -10,16 +10,24 @@ import { RestService } from "../rest.service";
 })
 export class DeletactPage implements OnInit {
   userdata: any = "";
+  deleteRequestType = 'permanently'
+  deleteOldBooking = false;
+  feedback = '';
   constructor(
     public location: Location,
     public router: Router,
-    public rest: RestService
+    public rest: RestService,
+    public changeDetectorRef:ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
 
   goBack() {
     this.location.back();
+  }
+
+  closeModel(){
+    this.deleteOldBooking = false;
   }
 
   godelete() {
@@ -46,14 +54,17 @@ export class DeletactPage implements OnInit {
       } else {
         this.rest.presentToast(res.message);
       }
+      this.deleteOldBooking = false;
+      this.changeDetectorRef.detectChanges();
+      this.router.navigate(['/profile']);
     });
   }
 
   showConfirmationModal(){
-
+    this.deleteOldBooking = true;
   }
 
-  selectDeleteRequestType(){
-    
+  selectDeleteRequestType(requestType:string){
+    this.deleteRequestType = requestType;
   }
 }

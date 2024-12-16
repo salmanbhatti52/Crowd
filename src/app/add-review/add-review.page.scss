@@ -101,6 +101,38 @@
     margin-top: 15px;
 }
 
+.package_type{
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.packages_box{
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  margin: 24px auto 18px;
+}
+
+.package_box{
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+}
+
+ion-checkbox{
+  --border-radius: 5px;
+  --checkbox-background: #730899;
+  --background: #730899;
+  --background-checked: #730899;
+  --border-color: #730899;
+  --border-color-checked: #730899;
+  --checkmark-color: white;
+  height: 18px;
+  width: 18px;
+}
+
 .textarea{
   --background: black;
     margin-top: 20px;

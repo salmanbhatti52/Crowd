@@ -390,7 +390,7 @@ input{
   }
 
   .inputfieldblack{
-    border-radius: 52px;
+    border-radius: 15px;
     background: black;
   }
 
@@ -407,15 +407,8 @@ input{
   }
 
   .input{
-    // text-align: left;
-    --placeholder-color:#ffffff;
-    --placeholder-opacity: 1;
-    --placeholder-font-weight:400;
     font-weight: 400;
-    font-size: 16px;
-    // line-height: 19px;
-    letter-spacing: -0.3px;
-    --color: #ffffff !important;
+    font-size: 14px;
     color: white !important;
  }
   .input_html{

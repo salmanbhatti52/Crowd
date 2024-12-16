@@ -276,6 +276,14 @@ const routes: Routes = [
     path: 'my-reviews',
     loadChildren: () => import('./my-reviews/my-reviews.module').then( m => m.MyReviewsPageModule)
   },
+  {
+    path: 'profile-settings',
+    loadChildren: () => import('./profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule)
+  },
+  {
+    path: 'support-enquiries',
+    loadChildren: () => import('./support-enquiries/support-enquiries.module').then( m => m.SupportEnquiriesPageModule)
+  },
  
 
 ];
