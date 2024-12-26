@@ -26,7 +26,7 @@
 
     .claim_msg{
       padding: 13px !important;
-      margin: 25px 0px 0px;
+      margin: 16px 0px 0px;
       background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
       opacity: 0.8;
       border-radius: 16px;
@@ -227,21 +227,42 @@
     }
   
     .bdg{
-      background: linear-gradient(180deg, #9218a6, #5a0670);
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      padding: 12px 20px;
-      border-radius: 16px;
+      background: linear-gradient(180deg, #9218a6, #5a0670);     
+      padding: 13px 20px;
+      border-radius: 14px;
       z-index: 999;
     }
 
+    .info_bar1{
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .info_bar_2{
+      display: flex;
+      align-items: center;
+      width: 58%;
+      justify-content: space-between;
+    }
+
+    .info_bar_icon{
+      padding: 12px 20px;
+      background: #343434;
+      border-radius: 12px;
+    }
+
     .live_icon{
-      width: 76px;
+      width: 40%;
       background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
-      padding: 0px 0px 2px 11px;
+      padding: 6px 8px 9px 8px;
       text-align: center;
-      border-radius: 11px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
     }
 
     .booking_btn_icon{
@@ -293,6 +314,7 @@
     object-fit: cover;
     width: 100%;
     border-radius: 0px;
+    filter:brightness(0.8);
 }
   
   
@@ -340,8 +362,7 @@ ion-col{
 .titlesub{
   font-style: normal;
   font-weight: 300;
-  font-size: 14px;
-  // line-height: 16px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   color: white;
@@ -350,7 +371,7 @@ ion-col{
 .today{
   font-style: normal;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   // line-height: 16px;
   display: flex;
   align-items: center;
@@ -382,11 +403,11 @@ p {
   vertical-align: baseline;
 }
 
-.rating_text_old{
-  font-size: 14px;
-  font-weight: 300;
-  color: white;
-}
+// .rating_text_old{
+//   font-size: 14px;
+//   font-weight: 300;
+//   color: white;
+// }
 
 .rating_text{
   display: flex;
@@ -396,12 +417,41 @@ p {
   font-weight: 500;
   color: white;
   text-align: center;
-  background: #15171b;
-  border-radius: 8px;
+  background: radial-gradient(Circle at 0% 0%, #373737, #222222, #222222);
+  border-radius: 6px;
   padding: 3px 10px;
   width: 144px;
   margin-left: auto;
   margin-bottom: 5px;
+}
+
+.small_icon{
+  height: 14px;
+  margin-left: 5px;
+}
+
+.venue_type{
+  padding: 10.5px 10px;
+  margin-right: 8px;
+  background: radial-gradient(Circle at 0% 0%, #373737, #222222, #222222);
+  color: white;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 400;
+  
+}
+
+.venue_info{
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.color_9b19ab{
+  color: #9b19ab;
+}
+
+.color_white{
+  color: white;
 }
 
 .star-icon{
@@ -453,12 +503,16 @@ padding-left: 11px;
   margin-right: 30px;
 }
 
-.mgr_25{
-  margin-right: 25px;
+.mgr_20{
+  margin-right: 20px;
 }
 
 .mgr_15{
   margin-right: 15px;
+}
+
+.mgl_20{
+  margin-left: 20px;
 }
 
 .mgr_2{
@@ -466,12 +520,11 @@ padding-left: 11px;
 }
 
 .align_right{
-  position: absolute;
-  right: 10px;
+  margin-left: auto;
 }
 
 .btnbg1{
-  margin: 25px 0px 0px;
+  margin: 16px 0px 0px;
   height: 53px;
   background: linear-gradient(180deg, #51086a, #670b7e, #710a81, #840c8e);
   // opacity: 0.8;
@@ -486,15 +539,35 @@ padding-left: 11px;
   color: #FFFFFF;
 }
 
-.des{
-  margin-top: 20px;
+// .des{
+//   margin-top: 16px;
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 13px;
+//   line-height: 1.5;
+//   text-align: justify;
+//   color: #f7f7f7;
+// }
+
+// ====================more feature====================
+/* Container for text and toggle button */
+.truncated {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limits to 4 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.venue_desc{
+  margin-top: 12px;
   font-style: normal;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 14px;
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.5;
   text-align: justify;
   color: #f7f7f7;
 }
+// =============done====================
 
 
 .icondiv{

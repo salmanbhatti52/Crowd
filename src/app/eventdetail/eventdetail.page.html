@@ -38,9 +38,9 @@
     <!-- <ion-badge *ngIf="detailObj.discount_percentage <= 0" class="bdg"
       >No Discount</ion-badge
     > -->
-    <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
+    <!-- <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
       >{{detailObj.discount_percentage}}% Off</ion-badge
-    >
+    > -->
 
     <ion-row>
       <ion-col class="slider_main">
@@ -66,46 +66,42 @@
     <p class="titlemain roboto">{{detailObj.name}} </p>
     <p class="titlesubmain roboto">{{detailObj.venue_name}}</p>
 
-    <ion-row style="margin-bottom: 15px;">
-      <ion-col size="4" style="display: flex; align-items: center; padding: 0px;justify-content: left;">
-        <div style="display: flex">
-          <img
-            style="height: 18px; margin-right: 7px; width: 15px"
-            src="../../assets/imgs/icons/new_icons/LocationPinIcon.png"
-          />
-          <p class="roboto titlesub" style="width: 73px;overflow: hidden;line-height: normal;">
-            {{detailObj.distance | number : '1.1-1'}} Miles
-          </p>
-        </div>
-      </ion-col>
-      <ion-col size="4" style="display: flex; align-items: center;padding: 0px;justify-content: center;">
-        <div style="display: flex">
-          <img
-            style="height: 18px; margin-right: 7px; width: 15px"
-            src="../../assets/imgs/icons/new_icons/CalanderIcon.png"
-          />
-          <p class="roboto titlesub" style="line-height: normal;">
-            {{detailObj.formatted_date}}
-          </p>
-        </div>
-      </ion-col>
-      <ion-col size="4" style="display: flex; align-items: center; padding: 0px;justify-content: right;">
-        <div style="display: flex">
-          <img
-            style="height: 18px;
-            margin-left: 15px;
-            width: 18px;
-            margin-right: 7px;"
-            src="../../assets/imgs/icons/new_icons/ClockIcon.png"
-          />
-          <p class="roboto titlesub">
-            {{detailObj.formatted_start_time}} - {{detailObj.formatted_end_time}}
-          </p>
-        </div>
-      </ion-col>
-    </ion-row>
 
-    <div style="margin-top: 0px; display: flex;align-items: center;justify-content: space-between;">
+    <!-- <div style="display: flex">
+      <img
+        style="height: 18px; margin-right: 7px; width: 15px"
+        src="../../assets/imgs/icons/new_icons/LocationPinIcon.png"
+      />
+      <p class="roboto titlesub" style="width: 73px;overflow: hidden;line-height: normal;">
+        {{detailObj.distance | number : '1.1-1'}} Miles
+      </p>
+    </div> -->
+      
+
+    <div  class="flex_center">
+      <div class="time_item">
+        <img
+          style="width: 20px;
+          margin-right: 10px;"
+          src="../../assets/imgs/icons/new_icons/ClockIcon.png"
+        />
+        <p class="roboto titlesub">
+          {{detailObj.formatted_start_time}} - {{detailObj.formatted_end_time}}
+        </p>
+      </div>
+
+      <div class="date_item">
+        <img
+          style="height: 18px; margin-right: 10px;"
+          src="../../assets/imgs/icons/new_icons/CalanderIcon.png"
+        />
+        <p class="roboto titlesub" style="line-height: normal;">
+          {{detailObj.formatted_date}}
+        </p>
+      </div>
+    </div>
+
+    <!-- <div style="margin-top: 0px; display: flex;align-items: center;justify-content: space-between;">
       <div style="display: flex; align-items: center; width: 65%;">
         <p class="roboto titlesub">{{detailObj.location}}</p>
       </div>
@@ -114,34 +110,54 @@
         <p style="margin-right: 1px;" class="roboto titlesub">{{detailObj.availability_count}}</p>
       </div>
 
+    </div> -->
+
+    <div class="info_bar1">
+      <div class="roboto venue_type">Terrace <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <div class="roboto venue_type">Cocktails  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <div class="roboto venue_type">Bar  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
+        >{{detailObj.discount_percentage}}% Off
+      </ion-badge>
     </div>
 
     <div
-      style="margin-top: 16px; display: flex; justify-content: space-between"
+      style="
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      "
     >
-      <div>
-        <!-- src="assets/imgs/target.svg" -->
-        <img
+    <div class="roboto info_bar_2">
+        <!-- src="../../assets/imgs/target.svg" -->
+        <div class="info_bar_icon">
+          <img
           (click)="goLocation()"
-          style="height: 25px;; margin-right: 20px"
+          style="height: 20px;"
           src="../../assets/imgs/icons/icon_nav.svg"
-        />
-
-        <img
+          />
+        </div>
+        <div class="info_bar_icon">
+          <img 
           (click)="goWeb()"
-          style="height: 25px;; margin-right: 20px"
+          style="height: 20px;"
           src="assets/imgs/web.svg"
-        />
-
-        <a href="tel:{{detailObj.phone_number}}"
+          />
+        </div>
+        <div class="info_bar_icon">
+          <a  href="tel:{{detailObj.phone_number}}"
           ><img
-            style="height: 25px;; margin-right: 20px"
+            style="height: 20px;"
             src="assets/imgs/call.svg"
         /></a>
+        </div>
       </div>
+
       <div (click)="goToSee()" class="live_icon">
-        <img style="width: 34px;" src="../../assets/imgs/icons/new_icons/CrowdLiveIcons.png" alt="">
+        <img style="width: 34px;margin: 0px auto;" src="../../assets/imgs/icons/new_icons/CrowdLiveIcons.png" alt=""> <span style="margin: 3px auto 0px;">{{detailObj.availability_count}}</span>
       </div>
+
     </div>
 
     <ion-list  class="btnbg1 roboto" [class.hide]="detailObj.discount_percentage < 0.1 || allTicketsSold==true || rest.claimDiscount == true">
@@ -186,21 +202,36 @@
     <div class="claim_msg roboto" *ngIf="rest.claimDiscount == true" 
       >Discount Claimed!
     </div>
+
     <ion-button *ngIf="!allTicketsSold"
       (click)="buyTicket()"
-      style="margin-top: 22px;"
+      style="margin-top: 16px;"
       class="btngray roboto"
       >Book Now</ion-button
     >
 
     <ion-button *ngIf="allTicketsSold"
       (click)="buyTicket()"
-      style="margin-top: 22px; opacity: 1"
+      style="margin-top: 16px; opacity: 1"
       class="btnwhite roboto"
       >See Details</ion-button
     >
 
-    <p class="roboto des">{{detailObj.description}}</p>
+    <!-- <p class="roboto des">{{detailObj.description}}</p> -->
+
+    <div>
+      <p [ngClass]="{'roboto':true,'venue_desc':true,'truncated':!showFullText}">
+        {{ showFullText ? text : truncatedText }} 
+        <span
+          *ngIf="isTruncated"
+          (click)="toggleText()"
+          style="color: #9b19ab; cursor: pointer;"
+        >
+          {{ showFullText ? 'Less' : 'More' }}
+        </span>
+      </p>
+      
+    </div>
   </div>
 </ion-content>
 

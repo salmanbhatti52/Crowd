@@ -80,7 +80,7 @@
             width: 140px;
           "
         >
-          <p class="people" style="display: flex;">Food <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt=""></p>
+          <p class="people" style="display: flex;">{{selectedTable.name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/{{selectedTable.imageName}}.png" alt=""></p>
     
           <img
           class="dd_icon" [class.dd_icon_active]="tableShowDD"
@@ -98,6 +98,7 @@
           "
           *ngIf="tableShowDD"
         >
+
           <p class="pp roboto" (click)="tableClick(a)" *ngFor="let a of tablesArr">
              {{a.name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/{{a.imageName}}.png" alt="">
           </p>
@@ -110,16 +111,13 @@
     <div style="height: 20px;"></div>
     <p style="margin: 0px 0px 15px" class="inputTitle" >Required date</p>
 
-    <div style="display: flex;
-    justify-content: center;align-items: center;">
+    <div style="display: flex; justify-content: center; align-items: center;">
       <img style="margin-right: 20px; height: 14px;" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
       <span (click)="selectDate()" class="roboto" style="color: white;font-size: 12.4px;font-weight: 400;">{{selectedMonthAndYear}}</span>
       <img style="margin-left: 20px;height: 14px; transform: rotate(180deg);" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
-
     </div>
 
-   <div style="display: flex;
-   overflow: scroll;margin-top: 15px;"> 
+   <div style="display: flex; overflow: scroll;margin-top: 15px;"> 
     <div *ngFor="let day of daysNamesAndNumbers;" (click)="selectDay(day)" style="font-family: 'Roboto', sans-serif !important;" class="dayBox " [class.selected_dayBox]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">
       <div class="inter dayName" style="font-family: 'Roboto', sans-serif !important;" [class.selected_dayName]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.name}}</div>
       <div class="inter dayNumber" style="font-family: 'Roboto', sans-serif !important;"  [class.selected_dayNumber]="day.number == selectedDayNumber && currentMonthNumber == selectedMonthNumber">{{day.number}}</div>

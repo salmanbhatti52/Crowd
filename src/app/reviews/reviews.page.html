@@ -20,97 +20,109 @@
 </ion-header>
 
 <ion-content style="--background: #262626;" >
-  <div class="container">
-    <div class="roboto" style="color: white;text-align: center;margin-top: 50%;" *ngIf="reviews.length == 0">No Reviews Found.</div>
-  
-    <div *ngFor="let rev of reviews;" >
-      <div  style="background: linear-gradient(180deg, #262626, #302f2f);
-      border-radius: 30px;
-      padding: 15px 20px;
-      margin-bottom: 15px;
-        ">
-        <div style="display: flex;align-items: center;">
-            <div >
-              <img *ngIf="rev.user_profile.profile_picture != null" style="height: 55px;
-              width: 55px;
-              border-radius: 50px;
-              object-fit: cover;" src="{{rest.baseURLimg}}{{rev.user_profile.profile_picture}}" alt="">
-              <img style="height: 55px;
-              width: 55px;" *ngIf="rev.user_profile.profile_picture == null" src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" alt="">
-            </div>
+
+  <div class="flex_column space_between" style="height: 100%;">
+    <div class="container">
+      <div class="roboto" style="color: white;text-align: center;margin-top: 50%;" *ngIf="reviews.length == 0">No Reviews Found.</div>
     
-            <div style="width: 85%;display: flex;
-              align-items: center;
-              justify-content: space-between;">
-              <div style="margin-left: 10px;">
-                <div class="roboto" style="font-size: 15px;
-                font-weight: bold;
-                color: #fafafa;
-                line-height: normal;display: flex;">{{rev.user_profile.full_name}} <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
-                <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
+      <div *ngFor="let rev of visibleReviews;" >
+        <div  style="background: linear-gradient(180deg, #262626, #302f2f);
+        border-radius: 30px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+          ">
+          <div style="display: flex;align-items: center;">
+              <div >
+                <img *ngIf="rev.user_profile.profile_picture != null" style="height: 55px;
+                width: 55px;
+                border-radius: 50px;
+                object-fit: cover;" src="{{rest.baseURLimg}}{{rev.user_profile.profile_picture}}" alt="">
+                <img style="height: 55px;
+                width: 55px;" *ngIf="rev.user_profile.profile_picture == null" src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" alt="">
               </div>
-              <!-- <div class="roboto" style="font-size: 14px;
-              font-weight: 300;
-              color: white;">{{rev.review_ratings}} <span><img src="../../assets/imgs/rating_star.svg" alt=""></span></div> -->
-              <div style="display: flex;align-items:center;">
-                <div class="rating_text_old roboto">{{rev.review_ratings}}</div>
-                <div class="margin_row">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings==0">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=1">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<1.2">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=1.2 && rev.review_ratings<2 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=2">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<2.2">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=2.2 && rev.review_ratings<3 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=3 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<3.2">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=3.2 && rev.review_ratings<4 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=4 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<4.2">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=4.2 && rev.review_ratings<5 ">
-                  <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings==5" style="margin-right: 0px;">
-                </div> 
-              </div>
-              <div style="color: #d9d9d9;
-              font-size: 9px;
-              font-weight: 300;">2 weeks ago</div>
-              </div>
-              <div style="display: flex
-              ;
-                  flex-direction: column;
-                  align-items: center;">
-                <img style="height: 18px;" src="../../assets/imgs/icons/new_icons/FlatIcon.png" alt="">
-                <div style="font-size: 8px;
+      
+              <div style="width: 85%;display: flex;
+                align-items: center;
+                justify-content: space-between;">
+                <div style="margin-left: 10px;">
+                  <div class="roboto" style="font-size: 15px;
+                  font-weight: bold;
+                  color: #fafafa;
+                  line-height: normal;display: flex;">{{rev.user_profile.full_name}} <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
+                  <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
+                </div>
+                <!-- <div class="roboto" style="font-size: 14px;
                 font-weight: 300;
-                color: #848484;">Report</div>
+                color: white;">{{rev.review_ratings}} <span><img src="../../assets/imgs/rating_star.svg" alt=""></span></div> -->
+                <div style="display: flex;align-items:center;">
+                  <div class="rating_text_old roboto">{{rev.review_ratings}}</div>
+                  <div class="margin_row">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings==0">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=1">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<1.2">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=1.2 && rev.review_ratings<2 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=2">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<2.2">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=2.2 && rev.review_ratings<3 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=3 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<3.2">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=3.2 && rev.review_ratings<4 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings>=4 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon2.png"    alt=""  *ngIf="rev.review_ratings<4.2">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/ReviewStar4.png"             alt=""  *ngIf="rev.review_ratings>=4.2 && rev.review_ratings<5 ">
+                    <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png"     alt=""  *ngIf="rev.review_ratings==5" style="margin-right: 0px;">
+                  </div> 
+                </div>
+                <div style="color: #d9d9d9;
+                font-size: 9px;
+                font-weight: 300;">2 weeks ago</div>
+                </div>
+                <div style="display: flex
+                ;
+                    flex-direction: column;
+                    align-items: center;">
+                  <img style="height: 18px;" src="../../assets/imgs/icons/new_icons/FlatIcon.png" alt="">
+                  <div style="font-size: 8px;
+                  font-weight: 300;
+                  color: #848484;">Report</div>
+                </div>
               </div>
-            </div>
+          </div>
+          <div class="roboto venue_review" >{{rev.review}}</div>
         </div>
-        <div class="roboto" style="font-size: 12px;
-        font-weight: 300;
-        color: #fafafa;
-        margin-top: 10px;">{{rev.review}}</div>
       </div>
     </div>
-    
-    
-    <div style="height: 25%;">
-      <ion-button
-      (click)="goForAddReview()"
-      style="margin-top: 20px;"
-      class="btnwhite roboto"
-      >Add Review</ion-button
-      >
+  
+    <div class="footer_cotainer">
+      <div class="flex_row space_between">
+        <ion-button
+        (click)="goForAddReview()"
+        class="btnwhite roboto"
+        style="width: 70%;"
+        >Add Review</ion-button
+        >
+  
+        <div class="flex_row space_around" style="width: 25%;">
+          <div>
+            <img *ngIf="currentPage>1" (click)="goToPrevPage()" class="nav_icon" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
+            <img *ngIf="currentPage==1" class="nav_icon" src="../../assets/imgs/icons/new_icons/DimmedBackIcon.png" alt="">
+          </div>
+  
+          <div>
+            <img *ngIf="currentPage<lastPage" (click)="goToNextPage()" class="rotate_180 nav_icon" src="../../assets/imgs/icons/new_icons/BackIcon.png" alt="">
+            <img *ngIf="currentPage==lastPage" class="rotate_180 nav_icon" src="../../assets/imgs/icons/new_icons/DimmedBackIcon.png" alt="">
+          </div> 
+        </div>
+      </div>
+      
     
       <div class="roboto note_style">Reviews may be subject to moderation to comply with our community guidelines. 
         For more details, please visit our <span style="color: #fafafa;">Terms and Conditions</span>
         
       </div>
     </div>
-   
-    
-    
   </div>
+  
   
 
 </ion-content>

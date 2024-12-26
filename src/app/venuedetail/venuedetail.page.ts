@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonItemSliding, Platform } from "@ionic/angular";
 import { RestService } from "../rest.service";
@@ -11,7 +11,12 @@ import { eachMinuteOfInterval, format, getDate, getDay, parse } from "date-fns";
   templateUrl: "./venuedetail.page.html",
   styleUrls: ["./venuedetail.page.scss"],
 })
-export class VenuedetailPage implements OnInit {
+export class VenuedetailPage implements OnInit{
+  text: string = ''; // Full content received from API
+  truncatedText: string = ''; // Content truncated to 4 lines
+  isTruncated: boolean = false;
+  showFullText: boolean = false;
+
   detailObj: any = "";
   displaydiv = false;
   // num = 0;
@@ -30,6 +35,7 @@ export class VenuedetailPage implements OnInit {
   hideClaimDiscountButton: boolean = false;
   reviews:any = [];
   venueTimingShow: any = false;
+  venueStatus= '';
   constructor(
     public router: Router,
     public location: Location,
@@ -38,6 +44,43 @@ export class VenuedetailPage implements OnInit {
     public iab: InAppBrowser,
     public changeDetectorRef: ChangeDetectorRef,
   ) {}
+
+  // ======== more feature =========
+  checkTruncate() {
+    const maxLength = 200; // Adjust this value as needed
+    const tempElement = document.createElement('div');
+    tempElement.style.position = 'absolute';
+    tempElement.style.visibility = 'hidden';
+    tempElement.style.width = '100%';
+    tempElement.style.lineHeight = '1.5em'; // Set this to match your CSS
+    tempElement.style.maxHeight = '6em'; // 4 lines of 1.5em
+    tempElement.innerText = this.text;
+
+    document.body.appendChild(tempElement);
+    this.isTruncated = tempElement.scrollHeight > tempElement.offsetHeight;
+
+    if (this.isTruncated) {
+      // Use space-based truncation to avoid cutting words
+      const words = this.text.split(' ');
+      let truncatedText = '';
+      for (const word of words) {
+        if ((truncatedText + word).length > maxLength) break;
+        truncatedText += `${word} `;
+      }
+      this.truncatedText = truncatedText.trim() + '...'; // Add ellipsis for clarity
+    }else{
+      this.truncatedText = this.text;
+    }
+
+    document.body.removeChild(tempElement);
+  }
+
+  toggleText() {
+    this.showFullText = !this.showFullText;
+  }
+
+  // ==============================
+
 
   ionViewWillEnter() {
     this.rest.reviewType = 'venue';
@@ -98,6 +141,9 @@ export class VenuedetailPage implements OnInit {
 
   ngOnInit() {
     this.detailObj = this.rest.detail;
+    this.text = this.detailObj.description; // Replace with your API data
+    this.checkTruncate();
+
     console.log("detaill----", this.detailObj);
     console.log("discountPercentage: ",this.detailObj.discount_percentage);
 
@@ -106,22 +152,21 @@ export class VenuedetailPage implements OnInit {
     console.log(dayNumber);
    
     if(this.detailObj.venue_timing[dayNumber].start_hours != null && this.detailObj.venue_timing[dayNumber].close_hours != null){
-      
-      this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
-      this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
-      // this.rest.detail.db_start_hours = this.detailObj.start_hours;
-      // this.rest.detail.db_close_hours = this.detailObj.close_hours;
-      this.detailObj.day_name = this.detailObj.venue_timing[dayNumber].days_name;
+      const {start_hours, close_hours, days_name} = this.detailObj.venue_timing[dayNumber];
+      this.venueStatus =  this.getVenueStatus(start_hours,close_hours);
+      // this.detailObj.start_hours = this.detailObj.venue_timing[dayNumber].start_hours;
+      // this.detailObj.close_hours = this.detailObj.venue_timing[dayNumber].close_hours;
+      // this.detailObj.days_name = this.detailObj.venue_timing[dayNumber].days_name;
+
       // parsed time
-      this.detailObj.start_hours = parse(this.detailObj.start_hours, 'HH:mm:ss', new Date());
-      this.detailObj.close_hours = parse(this.detailObj.close_hours, 'HH:mm:ss', new Date());
-      
+      this.detailObj.start_hours = format(parse(start_hours, 'HH:mm:ss', new Date()),'haaa') ;
+      this.detailObj.close_hours = format(parse(close_hours, 'HH:mm:ss', new Date()),'haaa');
+      this.detailObj.days_name = days_name;
       //formated time
-      this.detailObj.start_hours = format(this.detailObj.start_hours, 'haaa');
-      this.detailObj.close_hours = format(this.detailObj.close_hours, 'haaa');
+      // this.detailObj.start_hours = format(this.detailObj.start_hours, 'haaa');
+      // this.detailObj.close_hours = format(this.detailObj.close_hours, 'haaa');
     }else{
-      this.detailObj.start_hours = null;
-      this.detailObj.close_hours = null;
+      this.detailObj.start_hours = this.detailObj.close_hours = null;
     }
    
     console.log("claimedVenues: ",this.rest.claimedVenues);
@@ -160,6 +205,26 @@ export class VenuedetailPage implements OnInit {
     // this.userID = JSON.parse(this.userdata).users_customers_id;
 
     
+  }
+
+  getVenueStatus(startHours:string, closeHours:string):string{
+    const currentTime = new Date();
+    const [startHour, startMins, startSecs] = startHours.split(':').map(Number);
+    const [closeHour, closeMins, closeSecs] = closeHours.split(':').map(Number);
+
+    const startTime = new Date();
+    startTime.setHours(startHour,startMins,startSecs,0);
+
+    const closeTime = new Date();
+    closeTime.setHours(closeHour,closeMins,closeSecs,0);
+
+    if(currentTime < startTime){
+      return 'closed'  
+    }else if(currentTime >= startTime && currentTime <= closeTime){
+      return 'open'
+    }else{
+      return 'closed'
+    }
   }
 
   formatDetailObjVenueTimings(){

@@ -11,10 +11,12 @@ export class ReviewsPage implements OnInit {
   venueId:any;
   userId:any;
   reviews:any = [];
-  reviews2:any = [1,2,3,4,5,6,7,8,8,9,8]; 
-  
+  visibleReviews:any = [];
   ratingValue:any = 0.0;
   venueName: any;
+  totalPages: number = 1;
+  currentPage: number = 1;
+  lastPage: number = 1;
   // reviewFound:any = false;
   constructor(public location: Location,public route: ActivatedRoute,public rest: RestService, public router:Router) { }
 
@@ -45,9 +47,27 @@ export class ReviewsPage implements OnInit {
       this.rest.dismissLoader();
       if(res.status == 'success'){
         this.reviews = res.data;
+        this.totalPages =  Math.ceil(this.reviews.length/4);
+        this.lastPage = this.totalPages;
+        this.visibleReviews = this.reviews.slice(0,4);
       }
       
     });
+  }
+
+  goToPrevPage(){
+    this.currentPage--;
+    let start = (this.currentPage-1)*4;
+    let end = this.currentPage*4;
+    this.visibleReviews = this.reviews.slice(start,end);
+
+  }
+
+  goToNextPage(){
+    this.currentPage++;
+    let start = (this.currentPage-1)*4;
+    let end = this.currentPage*4;
+    this.visibleReviews = this.reviews.slice(start,end);
   }
 
   goBack() {

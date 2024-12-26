@@ -80,7 +80,8 @@ export class BookingDetailPage implements OnInit {
   ngOnInit() {}
 
   goBack() {
-    this.location.back();
+    // this.location.back();
+    this.navCtrl.navigateRoot("myreservations");
   }
 
   gotoReservations(){

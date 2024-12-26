@@ -100,15 +100,20 @@ export class Booking1Page implements OnInit {
     {
       id: 1,
       imageName: 'TableIcon',
-      name: "Food",
+      name: "Dine",
     },
     {
       id: 2,
       imageName: 'DrinkIcon',
       name: "Drink",
     },
+    {
+      id: 3,
+      imageName: 'TableIcon',
+      name: "Bar",
+    },
   ];
-
+  selectedTable:any = this.tablesArr[0];
   // venueStartHours:any;
   // venueCloseHours:any;
   selectedVenue: any = "";
@@ -462,7 +467,7 @@ export class Booking1Page implements OnInit {
   tableClick(a: any) {
     this.tableShowDD = false;
     console.log(a);
-    this.table = a.name;
+    this.selectedTable = a;
   }
 
   hideShowPeople() {

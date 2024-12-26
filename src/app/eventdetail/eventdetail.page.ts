@@ -12,6 +12,11 @@ import { format, parse } from "date-fns";
   styleUrls: ["./eventdetail.page.scss"],
 })
 export class EventdetailPage implements OnInit {
+  text: string = ''; // Full content received from API
+  truncatedText: string = ''; // Content truncated to 4 lines
+  isTruncated: boolean = false;
+  showFullText: boolean = false;
+
   detailObj: any = "";
   displaydiv = false;
   num = 0;
@@ -42,8 +47,51 @@ export class EventdetailPage implements OnInit {
     this.updatevVisitor();
   }
 
+  // ======== more feature =========
+    checkTruncate() {
+      console.log('checkTruncate() called');
+      
+      const maxLength = 210; // Adjust this value as needed
+      const tempElement = document.createElement('div');
+      tempElement.style.position = 'absolute';
+      tempElement.style.visibility = 'hidden';
+      tempElement.style.width = '100%';
+      tempElement.style.lineHeight = '1.5em'; // Set this to match your CSS
+      tempElement.style.maxHeight = '6em'; // 4 lines of 1.5em
+      tempElement.innerText = this.text;
+
+      document.body.appendChild(tempElement);
+      this.isTruncated = tempElement.scrollHeight > tempElement.offsetHeight;
+
+      if (this.isTruncated) {
+        console.log('Text is truncated');
+        
+        // Use space-based truncation to avoid cutting words
+        const words = this.text.split(' ');
+        let truncatedText = '';
+        for (const word of words) {
+          if ((truncatedText + word).length > maxLength) break;
+          truncatedText += `${word} `;
+        }
+        this.truncatedText = truncatedText.trim() + '...'; // Add ellipsis for clarity
+      }else{
+        this.truncatedText = this.text;
+      }
+
+      document.body.removeChild(tempElement);
+    }
+
+    toggleText() {
+      this.showFullText = !this.showFullText;
+    }
+
+  // ==============================
+
   ngOnInit() {
     this.detailObj = this.rest.detail;
+    this.text = this.detailObj.description; // Replace with your API data
+    this.checkTruncate();
+
     console.log("detaill----", this.detailObj);
     this.rest.booking_percentage = this.detailObj.booking_percentage;
     let currentDate = new Date();

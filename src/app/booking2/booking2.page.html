@@ -9,22 +9,24 @@
       clip-path: polygon(50% 0%, 100% 0%, 100% 92%, 50% 100%, 0% 92%, 0% 0%);
       z-index: 11;
       border-top-left-radius: 25px;
-      border-top-right-radius: 25px;" src="{{selectedVenue.cover_images}}" alt="">
+      border-top-right-radius: 25px;
+      object-fit: cover;
+      filter: brightness(0.5);" src="{{selectedVenue.cover_images}}" alt="">
 
 
       <div class="content_position">
         <div class="roboto heading_text">{{selectedVenue.name}}</div>
 
         <div class="flex_info_box">
-          <div class="flex_center info_text" style="margin: 0px auto 0px 0px;">
+          <div class="flex_center info_text" >
             <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" alt="">
             <div class="roboto" style="line-height: normal;">{{mdate}}</div>
           </div>
           <div class="flex_center info_text" style="margin: 0px auto 0px;">
             <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/WaveIcon.png" alt="">
-            <div class="roboto" style="line-height: normal;">{{selectedBooking.no_of_diners}}</div>
+            <div class="roboto" style="line-height: normal;">{{selectedBooking.no_of_diners}} people</div>
           </div>
-          <div class="flex_center info_text" style="margin: 0px 0px auto auto;">
+          <div class="flex_center info_text" >
             <img class="small_icon_style" src="../../assets/imgs/icons/new_icons/ClockIcon.png" alt="">
             <div class="roboto" style="line-height: normal;">{{mtime}}</div>
           </div>
