@@ -21,6 +21,10 @@ export class ReviewsPage implements OnInit {
   constructor(public location: Location,public route: ActivatedRoute,public rest: RestService, public router:Router) { }
 
   ngOnInit() {
+    
+  }
+
+  ionViewWillEnter(){
     this.route.queryParams.subscribe(params => {
       this.venueId = params['venueId'];
       this.userId = params['userId'];
@@ -30,10 +34,6 @@ export class ReviewsPage implements OnInit {
     });
 
     this.getVenueReviews(); 
-  }
-
-  ionViewWillEnter(){
-
   }
 
   getVenueReviews(){

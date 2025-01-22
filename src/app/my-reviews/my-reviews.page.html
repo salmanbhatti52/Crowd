@@ -44,7 +44,7 @@
           --border-radius: 20px;
           /* --background-checked: #611ea5; */
         "
-        value="reviewed" (click)="getVenueReviews()"
+        value="reviewed" (click)="getUserReviews()"
       >
         <ion-label>Reviewed</ion-label>
       </ion-segment-button>
@@ -56,7 +56,7 @@
           --border-radius: 20px;
           /* --background-checked: #611ea5; */
         "
-        value="unrated" (click)="getPreviousBookings()"
+        value="unrated" (click)="getUnratedVenues()"
       >
         <ion-label>Unrated</ion-label>
       </ion-segment-button>
@@ -76,23 +76,23 @@
         ">
         <div style="display: flex;align-items: center;">
             <div >
-              <img *ngIf="rev.user_profile.profile_picture != null" style="height: 55px;
+              <img  style="height: 55px;
               width: 55px;
               border-radius: 50px;
-              object-fit: cover;" src="{{rest.baseURLimg}}{{rev.user_profile.profile_picture}}" alt="">
-              <img style="height: 55px;
-              width: 55px;" *ngIf="rev.user_profile.profile_picture == null" src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" alt="">
+              object-fit: cover;" src="{{rest.userProfile}}" alt="">
+              <!-- <img style="height: 55px;
+              width: 55px;" *ngIf="rev.user_profile.profile_picture == null" src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" alt=""> -->
             </div>
     
             <div style="width: 85%;display: flex;
               align-items: center;
               justify-content: space-between;">
-              <div style="margin-left: 10px;">
+              <div style="margin-left: 10px;margin-right: 10px;">
                 <div class="roboto" style="font-size: 15px;
                 font-weight: bold;
                 color: #fafafa;
                 line-height: normal;">
-                Aroma 
+                {{rev.name}} 
                 <!-- <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt=""> -->
                 <!-- <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">   -->
                 <img class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
@@ -121,7 +121,7 @@
               </div>
               <div style="color: #d9d9d9;
               font-size: 9px;
-              font-weight: 300;">12/02/2025</div>
+              font-weight: 300;">{{getDateSlashFormat(rev.review_date)}}</div>
               </div>
               <div style="display: flex
               ;
@@ -154,7 +154,7 @@
     "
     *ngIf="segmentModel === 'unrated'"
   >
-    <div class="elementBg" *ngFor="let aa of orderd_previousArr">
+    <div class="elementBg" *ngFor="let aa of unratedVenues">
       <img
         style="
           width: 135px;
@@ -162,7 +162,7 @@
           border-radius: 10px;
           margin-right: 19px;
         "
-        src="{{rest.baseURLimg}}{{aa.venues_details.cover_images}}"
+        src="{{rest.baseURLimg}}{{aa.image}}"
       />
 
       <div style="width: 100%;" class="flex_space_between">
@@ -170,7 +170,7 @@
           <div class="flex_center space_between">
             <div style="display: flex; align-items: center; margin-bottom: 10px">
               <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
-              <p class="bb roboto">{{aa.venues_details.name}}</p>
+              <p class="bb roboto">{{aa.name}}</p>
             </div>
             <img class="alert_icon" src="../../assets/imgs/icons/new_icons/AlertIcon.png" alt="">
           </div>
@@ -178,7 +178,7 @@
           <div style="display: flex; align-items: center; margin-bottom: 10px">
             <img class="imm_calender" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
             <p class="date roboto">
-              {{getDate(aa.bookings_date) }}
+              {{getDate(aa.booking_date) }}
             </p>
           </div>
   
@@ -186,7 +186,7 @@
         
 
         <div style="display: flex; ">
-          <p *ngIf="aa.status == 'Pending'" (click)="goForAddReview(aa)" class="leave_review_btn roboto">
+          <p  (click)="goForAddReview(aa)" class="leave_review_btn roboto">
             Leave Review
           </p>
         </div>

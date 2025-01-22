@@ -72,8 +72,8 @@
   </div>
 
   <div style="width: 92%; margin: 4% auto">
-    <div class="roboto rating_text" (click)="showAllReviews()">5.0 <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
-      <span style="margin-left: 4px;">Recommended</span>
+    <div class="roboto rating_text" (click)="showAllReviews()">{{parseValue(detailObj.average_rating)}} <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
+      <span *ngIf="detailObj.average_rating > 4.0" style="margin-left: 4px;">Recommended</span>
     </div>
     
     <div style="margin-bottom: 5px;" class="titlemain roboto">{{detailObj.name}}</div>
@@ -142,9 +142,10 @@
     </div>
 
     <div class="info_bar1">
-      <div class="roboto venue_type">Terrace <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <img style="height: 40px;margin-right: 10px;" *ngFor="let venueType of filteredVenueTypes" src="{{rest.baseURLimg}}{{venueType.keyword_image}}" alt="">
+      <!-- <div class="roboto venue_type">Terrace <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
       <div class="roboto venue_type">Cocktails  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
-      <div class="roboto venue_type">Bar  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <div class="roboto venue_type">Bar  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div> -->
       <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
         >{{detailObj.discount_percentage}}% Off
       </ion-badge>

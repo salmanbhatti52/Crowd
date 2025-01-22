@@ -80,7 +80,7 @@
             width: 140px;
           "
         >
-          <p class="people" style="display: flex;">{{selectedTable.name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/{{selectedTable.imageName}}.png" alt=""></p>
+          <p class="people" style="display: flex;">{{selectedTable?.table_type_name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="{{rest.baseURLimg}}{{selectedTable?.table_type_image}}" alt=""></p>
     
           <img
           class="dd_icon" [class.dd_icon_active]="tableShowDD"
@@ -99,8 +99,8 @@
           *ngIf="tableShowDD"
         >
 
-          <p class="pp roboto" (click)="tableClick(a)" *ngFor="let a of tablesArr">
-             {{a.name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="../../assets/imgs/icons/new_icons/{{a.imageName}}.png" alt="">
+          <p class="pp roboto" (click)="tableClick(a)" *ngFor="let a of selectedVenue.venues_table">
+             {{a?.table_type_name}} <img style="margin-left: 10px;height: 15px;width: 15px;" src="{{rest.baseURLimg}}{{a?.table_type_image}}" alt="">
           </p>
         </div>
       </div>
@@ -216,9 +216,9 @@
     <!-- [(ngModel)]="usertime" -->
 
     <div class="roboto q_style" >Do you have any special requests? (allergies, seating preferences)</div>
-    <ion-input></ion-input>
+    <ion-input [(ngModel)]="specialRequest" class="roboto"></ion-input>
     <div class="roboto q_style">Celebrating an occasion? (birthday, anniversary)</div>
-    <ion-input></ion-input>
+    <ion-input [(ngModel)]="occasion" class="roboto"></ion-input>
     <!-- <div class="invalid_time roboto" *ngIf="invalidTime">Please select another time slot, as this one is not available.</div> -->
     <div style="margin-top: 10px">
       <ion-button

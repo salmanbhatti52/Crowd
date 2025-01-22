@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { RestService } from '../rest.service';
 
 @Component({
   selector: 'app-ai-model',
@@ -8,10 +9,19 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./ai-model.page.scss'],
 })
 export class AiModelPage implements OnInit {
+  userId = '';
 
-  constructor(public modalCtrl: ModalController, public router: Router) {}
+  constructor(public modalCtrl: ModalController, public router: Router,
+    public rest:RestService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    let userData =  JSON.parse(localStorage.getItem('userdata')!) ;
+    console.log("userdata",userData);
+    
+    this.userId = userData.users_customers_id;
+  }
 
   closeModel() {
     this.modalCtrl.dismiss();
@@ -21,6 +31,22 @@ export class AiModelPage implements OnInit {
     localStorage.clear();
     this.modalCtrl.dismiss();
     this.router.navigate(["login"]);
+  }
+
+  activateAi(){
+    let data = {
+      users_customers_id:this.userId,
+      ai_feature:"yes"
+    }
+
+    this.rest.sendRequest('update_ai_feature',data).subscribe((res:any)=>{
+      console.log("Update Ai Feature: ",res);
+      if(res.status == 'success'){
+        this.rest.presentToast("Ai Feature Activated");
+        localStorage.setItem('userdata',JSON.stringify(res.data));
+        this.modalCtrl.dismiss(true,'activateAI');
+      }
+    });
   }
 
 }

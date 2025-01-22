@@ -36,6 +36,7 @@ export class VenuedetailPage implements OnInit{
   reviews:any = [];
   venueTimingShow: any = false;
   venueStatus= '';
+  filteredVenueTypes: any;
   constructor(
     public router: Router,
     public location: Location,
@@ -140,7 +141,9 @@ export class VenuedetailPage implements OnInit{
   // }
 
   ngOnInit() {
+
     this.detailObj = this.rest.detail;
+    
     this.text = this.detailObj.description; // Replace with your API data
     this.checkTruncate();
 
@@ -198,13 +201,19 @@ export class VenuedetailPage implements OnInit{
       this.hideClaimDiscountButton = false;
     }
 
+     this.filteredVenueTypes = this.detailObj.venue_keywords?.filter((keyword:any) => keyword.keyword_type == "venues_type" && keyword.keyword_image != null).slice(0,2);
 
+    console.log("filteredVenueTypes: ",this.filteredVenueTypes);
     
     // this.userdata = localStorage.getItem("userdata");
     // console.log("userdata----", this.userdata);
     // this.userID = JSON.parse(this.userdata).users_customers_id;
 
     
+  }
+
+  parseValue(val:any){
+    return parseFloat(val).toFixed(1);
   }
 
   getVenueStatus(startHours:string, closeHours:string):string{

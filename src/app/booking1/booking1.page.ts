@@ -113,12 +113,14 @@ export class Booking1Page implements OnInit {
       name: "Bar",
     },
   ];
-  selectedTable:any = this.tablesArr[0];
+  selectedTable:any;
   // venueStartHours:any;
   // venueCloseHours:any;
   selectedVenue: any = "";
   userID: any = "";
   venueHoursDay: any;
+  specialRequest: any;
+  occasion: any;
 
   constructor(
     public location: Location,
@@ -183,6 +185,8 @@ export class Booking1Page implements OnInit {
         this.selectDay(this.daysNamesAndNumbers[index]);
       }
     }
+
+    
     
   }
 
@@ -337,6 +341,9 @@ export class Booking1Page implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.selectedVenue = this.rest.detail;
     console.log(this.selectedVenue);
+    this.selectedTable= this.selectedVenue.venues_table[0];
+    console.log("selected table: ",this.selectedTable);
+    
     // console.log('db_start_hours',this.selectedVenue.db_start_hours);
     // console.log('db_close_hours',this.selectedVenue.db_close_hours);
     // this.venueStartHours = this.selectedVenue.db_start_hours;
@@ -436,6 +443,9 @@ export class Booking1Page implements OnInit {
         claim_discounts:discountStatus,
         discount_token:this.rest.venueDiscountToken,
         bookings_time: this.usertime,
+        special_request:this.specialRequest,
+        occasion:this.occasion,
+        venues_table_type_id:this.selectedTable.venues_table_type_id,
       });
 
       console.log(ss);

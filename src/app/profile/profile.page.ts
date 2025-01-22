@@ -35,13 +35,12 @@ export class ProfilePage implements OnInit {
 
   polnum: any = "";
 
-  seenToggleChecked = false;
-  be_seen = "";
-  beeseenToggleValue = "No";
+  beSeenToggleChecked = false;
+  crowdLive = "";
 
   aiToggleChecked = false;
   ai = "";
-  aiToggleValue = "No";
+
   
   noti: any = "No";
   adminsList: any;
@@ -92,24 +91,26 @@ export class ProfilePage implements OnInit {
       }
       
     }
+    this.rest.userProfile = this.imgdataComing;
     
 
-    this.be_seen = JSON.parse(this.userdata).be_seen;
+    this.crowdLive = JSON.parse(this.userdata).crowd_live;
 
-    if (this.be_seen == "No") {
-      this.seenToggleChecked = false;
+    if (this.crowdLive == "no") {
+      this.beSeenToggleChecked = false;
     } else {
-      this.seenToggleChecked = true;
-      this.beeseenToggleValue = "Yes";
+      this.beSeenToggleChecked = true;
+      
+      
     }
 
     this.ai = JSON.parse(this.userdata).ai_feature;
 
-    if (this.ai == "No") {
+    if (this.ai == "no") {
       this.aiToggleChecked = false;
     } else {
       this.aiToggleChecked = true;
-      this.aiToggleValue = "Yes";
+
     }
 
     this.getAdminsList();
@@ -309,15 +310,30 @@ export class ProfilePage implements OnInit {
     console.log('event.detail.checked',event.detail.checked);
 
     if (event.detail.checked) {
-      if (this.be_seen == "No") {
+      if (this.crowdLive == "no") {
         this.showPoint();
       }
-
-      this.beeseenToggleValue = "Yes";
+      
     } else {
-      this.be_seen = "No";
-      this.beeseenToggleValue = "No";
+      this.crowdLive = "no";
+      this.deActivateBeSeen();
+      this.beSeenToggleChecked = false;
     }
+  }
+
+  deActivateBeSeen(){
+    let data = {
+      users_customers_id:this.userid,
+      crowd_live:"no"
+    }
+
+    this.rest.sendRequest('update_crowd_live',data).subscribe((res:any)=>{
+      console.log("Update Crowd Live Feature: ",res);
+      if(res.status == 'success'){
+        this.rest.presentToast("Crowd Live Feature De-Activated");
+        localStorage.setItem('userdata',JSON.stringify(res.data));
+      }
+    });
   }
   
   aiToggle(event: any) {
@@ -326,15 +342,31 @@ export class ProfilePage implements OnInit {
     console.log('event.detail.checked',event.detail.checked);
 
     if (event.detail.checked) {
-      if (this.ai == "No") {
+      if (this.ai == "no") {
         this.showPointAI();
       }
-
-      this.aiToggleValue = "Yes";
+     
     } else {
-      this.ai = "No";
-      this.aiToggleValue = "No";
+      this.ai = "no";
+      this.deActivateAi();
+      this.aiToggleChecked = false;
+      
     }
+  }
+
+  deActivateAi(){
+    let data = {
+      users_customers_id:this.userid,
+      ai_feature:"no"
+    }
+
+    this.rest.sendRequest('update_ai_feature',data).subscribe((res:any)=>{
+      console.log("Update Ai Feature: ",res);
+      if(res.status == 'success'){
+        this.rest.presentToast("Ai Feature De-Activated");
+        localStorage.setItem('userdata',JSON.stringify(res.data));
+      }
+    });
   }
 
   async showPoint() {
@@ -345,6 +377,11 @@ export class ProfilePage implements OnInit {
     });
 
     await modal.present();
+    const {role} = await modal.onWillDismiss();
+    if(role == 'activateBeSeen'){
+      this.crowdLive = "yes";
+      this.beSeenToggleChecked = true;
+    }
   }
 
   async showPointAI() {
@@ -355,6 +392,11 @@ export class ProfilePage implements OnInit {
     });
 
     await modal.present();
+    const {role} = await modal.onWillDismiss();
+    if(role == 'activateAI'){
+      this.ai = "yes";
+      this.aiToggleChecked = true;
+    }
   }
 
   save() {
@@ -377,8 +419,7 @@ export class ProfilePage implements OnInit {
         username: this.uname,
         notifications: "Yes",
         profile_picture: this.imgdata,
-        be_seen: this.beeseenToggleValue,
-        ai_feature: this.aiToggleValue,
+
       });
 
       this.rest.update_profile(ss).subscribe((res: any) => {

@@ -26,6 +26,7 @@ export class MyReviewsPage implements OnInit {
   orderd_previousArr: any =[];
   userdata: any = "";
   userID: any = "";
+  unratedVenues: any = [];
   constructor(
     public location: Location,
     public modalCtrl: ModalController,
@@ -41,8 +42,8 @@ export class MyReviewsPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     console.log("user id:", this.userID);
-    // this.getReviewdVenues();
-    this.getVenueReviews(); 
+    this.getUnratedVenues();
+    this.getUserReviews(); 
 
   }
   
@@ -51,20 +52,20 @@ export class MyReviewsPage implements OnInit {
     console.log("eee", event);
   }
 
-  getVenueReviews(){
+  getUserReviews(){
     let data = {
       users_customers_id:this.userID,  
-      venues_id:"53"
+      // venues_id:"53"
     }
     this.rest.presentLoader();
-    this.rest.sendRequest('get_reviews',data ).subscribe((res: any)=>{
+    this.rest.sendRequest('get_user_reviews',data ).subscribe((res: any)=>{
       console.log(res);
       this.rest.dismissLoader();
       if(res.status == 'success'){
         this.reviews = res.data;
-        for(let rev of this.reviews){
-          rev.review_ratings = '4.5'
-        }
+        // for(let rev of this.reviews){
+        //   rev.review_ratings = '4.5'
+        // }
       }
       
     });
@@ -101,27 +102,16 @@ export class MyReviewsPage implements OnInit {
     // if(this.orderd_refundedArr.length == 0){
     //   this.rest.presentLoader();
     // }
-    // var ss = {
-    //   users_customers_id: this.userID,
-    //   lattitude: localStorage.getItem("longitude"),
-    //   longitude: localStorage.getItem("lattitude"),
-    // };
+    var ss = {
+      users_customers_id: this.userID,
+    };
 
-    // this.rest.sendRequest("refunded_requests",ss).subscribe((res: any) => {
-    //   console.log("refundedArr ressssss------", res);
-    //   if(this.orderd_refundedArr.length == 0){
-    //     this.rest.dismissLoader();
-    //   }
-    //   if (res.status == "success") {
-    //     this.refundedArr = res.data;
-    //     for(let i= this.refundedArr.length-1, j=0; i>=0; i--){
-    //       this.orderd_refundedArr[j] = this.refundedArr[i];
-    //       j++;        
-    //     }
-    //     console.log("orderd_refundedArr: ",this.orderd_refundedArr);
-        
-    //   }
-    // });
+    this.rest.sendRequest("get_unrated_venues",ss).subscribe((res: any) => {
+      console.log("refundedArr ressssss------", res);
+      if (res.status == "success") {
+        this.unratedVenues = res.data;
+      }
+    });
   }
 
  
@@ -134,6 +124,15 @@ export class MyReviewsPage implements OnInit {
     if(val){
        val = parse(val, 'HH:mm:ss', new Date());
        return val = format(val, 'h:mma');
+    }
+    else{
+      return val;
+    }
+  }
+
+  getDateSlashFormat(val:any){
+    if(val){
+      return format(new Date(val), 'M/d/yyyy');
     }
     else{
       return val;
@@ -154,14 +153,7 @@ export class MyReviewsPage implements OnInit {
     this.router.navigate(['/add-review'],{queryParams:{venueId:venue.venues_id,venueName:venue.venues_details.name}});
   }
   
-  getDateSlashFormat(val:any){
-    if(val){
-      return format(new Date(val), 'M/d/yyyy');
-    }
-    else{
-      return val;
-    }
-  }
+
 
   getPreviousBookings(){
     if(this.orderd_previousArr.length == 0){

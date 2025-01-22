@@ -23,6 +23,7 @@ export class RestService {
   stripePublishableKey = '';
   comfrom = '';
   reviewType = '';
+  userProfile:any;
   // baseURL = "https://crowd.eigix.net/api/";
   // baseURLimg = "https://crowd.eigix.net/public/";
   baseURL = "http://18.134.213.251/api/";
