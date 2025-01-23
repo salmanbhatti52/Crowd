@@ -35,7 +35,8 @@
         <img class="star_margin"  src="../../assets/imgs/icons/new_icons/StarIcon.png" alt="" *ngIf="rateStar5==true;" (click)="rateStar(5.0)">
       </div>
       <div class="roboto exclusive">{{venueName}}</div>
-      <div class="packages_box" *ngIf="rest.reviewType=='venue'">
+      <!-- *ngIf="rest.reviewType=='venue'" -->
+      <div class="packages_box" >
         <div class="package_box">
           <div class="roboto package_type">Dine</div>
           <img style="height: 16px;margin: 0px 6px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">

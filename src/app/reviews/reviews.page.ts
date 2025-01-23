@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../rest.service';
+import { formatDistanceToNow } from 'date-fns';
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.page.html',
@@ -34,6 +35,11 @@ export class ReviewsPage implements OnInit {
     });
 
     this.getVenueReviews(); 
+  }
+
+  formatDistanceToNow(val:any){
+    let date = new Date(val);
+    return formatDistanceToNow(date,{addSuffix:true});
   }
 
   getVenueReviews(){

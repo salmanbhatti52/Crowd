@@ -124,7 +124,7 @@ export class MyreservationsPage implements OnInit {
       this.router.navigate(['/home']);
       this.rest.comfrom = '';
     }else{
-      this.location.back();
+      this.router.navigate(['/profile']);
     }
   }
 

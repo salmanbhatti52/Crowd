@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RestService } from "./../rest.service";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
@@ -31,7 +31,8 @@ export class MyReviewsPage implements OnInit {
     public location: Location,
     public modalCtrl: ModalController,
     public rest: RestService,
-    public router: Router
+    public router: Router,
+    public changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -42,8 +43,9 @@ export class MyReviewsPage implements OnInit {
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     console.log("user id:", this.userID);
-    this.getUnratedVenues();
+    
     this.getUserReviews(); 
+    // this.getUnratedVenues();
 
   }
   
@@ -55,7 +57,6 @@ export class MyReviewsPage implements OnInit {
   getUserReviews(){
     let data = {
       users_customers_id:this.userID,  
-      // venues_id:"53"
     }
     this.rest.presentLoader();
     this.rest.sendRequest('get_user_reviews',data ).subscribe((res: any)=>{
@@ -63,54 +64,33 @@ export class MyReviewsPage implements OnInit {
       this.rest.dismissLoader();
       if(res.status == 'success'){
         this.reviews = res.data;
-        // for(let rev of this.reviews){
-        //   rev.review_ratings = '4.5'
-        // }
+        let orderedReviews = [];
+        for(let i= this.reviews.length-1, j=0; i>=0; i--){
+          orderedReviews[j] = this.reviews[i];
+          j++;        
+        }
+        this.reviews = orderedReviews;
       }
       
     });
   }
 
-  getReviewdVenues(){
-    // if(this.orderd_inProgressArr.length == 0){
-    //   this.rest.presentLoader();
-    // }
-    // var ss = {
-    //   users_customers_id: this.userID,
-    //   lattitude: localStorage.getItem("longitude"),
-    //   longitude: localStorage.getItem("lattitude"),
-    // };
-
-    // this.rest.sendRequest("pending_requests",ss).subscribe((res: any) => {
-    //   console.log("inProgressArr resss------", res);
-    //   if(this.orderd_inProgressArr.length == 0){
-    //     this.rest.dismissLoader();
-    //   }
-    //   if (res.status == "success") {
-    //     this.inProgressArr = res.data;
-    //     for(let i= this.inProgressArr.length-1, j=0; i>=0; i--){
-    //       this.orderd_inProgressArr[j] = this.inProgressArr[i];
-    //       j++;        
-    //     }
-    //     console.log("orderd_inProgressArr: ",this.orderd_inProgressArr);
-        
-    //   }
-    // });
-  }
-
   getUnratedVenues(){
-    // if(this.orderd_refundedArr.length == 0){
-    //   this.rest.presentLoader();
-    // }
     var ss = {
       users_customers_id: this.userID,
     };
-
+    this.rest.presentLoader();
     this.rest.sendRequest("get_unrated_venues",ss).subscribe((res: any) => {
+      this.rest.dismissLoader();
       console.log("refundedArr ressssss------", res);
       if (res.status == "success") {
         this.unratedVenues = res.data;
       }
+      if (res.status == "error") {
+        this.rest.presentToast(res.message);
+      }
+      this.changeDetectorRef.detectChanges();
+      
     });
   }
 
@@ -150,7 +130,7 @@ export class MyReviewsPage implements OnInit {
   }
 
   goForAddReview(venue:any){
-    this.router.navigate(['/add-review'],{queryParams:{venueId:venue.venues_id,venueName:venue.venues_details.name}});
+    this.router.navigate(['/add-review'],{queryParams:{venueId:venue.venues_id,venueName:venue.name}});
   }
   
 
