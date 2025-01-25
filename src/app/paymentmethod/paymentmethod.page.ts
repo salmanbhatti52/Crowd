@@ -10,6 +10,8 @@ import { ApplePayEventsEnum, GooglePayEventsEnum, PaymentFlowEventsEnum, Payment
 import { environment } from "src/environments/environment";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { first, lastValueFrom } from 'rxjs';
+import { loadScript } from "@paypal/paypal-js";
+
 @Component({
   selector: "app-paymentmethod",
   templateUrl: "./paymentmethod.page.html",
@@ -52,6 +54,8 @@ export class PaymentmethodPage implements OnInit {
     
   ){
     console.log('Initializing stripe');
+    this.renderPayPal();
+    
       
     Stripe.initialize({
       publishableKey:this.rest.stripePublishableKey,
@@ -87,6 +91,77 @@ export class PaymentmethodPage implements OnInit {
 
   }
 
+  renderPayPal(){
+    // let _this = this;
+    loadScript({ clientId: 'AfxjT9vN_CTexkdYchFEXSk50-c7h7G5j1NqJb5Rz-VSKDlbr0MR76cCGEKYohGxgELMbO1U_6qx2L3t' , }, )
+    .then((paypal) => {
+        console.log("PayPal JS SDK script loaded", paypal);
+        if(paypal){
+          paypal.Buttons?.({
+            // Set up the transaction
+            createOrder: (data, actions) => {
+              return actions.order.create({
+                intent: 'CAPTURE',
+                purchase_units: [
+                  {
+                    amount: {
+                      currency_code: 'USD',
+                      value: this.rest.billDetails.pre_pay_amount,
+                    },
+                  },
+                ],
+              });
+            },
+            // Finalize the transaction
+            onApprove: async (data, actions) => {
+              const order = await actions?.order?.capture();
+              console.log("order: ", order);
+              this.rest.presentToast("Payment Successfully");
+           
+              // this.sendPayPalDetails();
+              // this.navCtrl.navigateForward(['/ticket']);
+            },
+          }).render('#paypal-button-container');
+        }
+        // start to use the PayPal JS SDK script
+    })
+    .catch((err) => {
+        console.error("failed to load the PayPal JS SDK script", err);
+    });
+  
+  }
+
+  // sendPayPalDetails(){
+      
+  //   let data = {
+  //     booking_id:this.bookingId,
+  //     payment_gateways:"Paypal",
+  //     payer_paypal_email:this.payPalPaymentDetails.payer.eamil_address,
+  //     payer_name:this.payPalPaymentDetails.payer.name.given_name,
+  //     paid_amount:this.payPalPaymentDetails.purchase_units[0].amount.value,
+  //     payee_paypal_email:this.payPalPaymentDetails.purchase_units[0].payee.email_address,
+  //     gateway_status:this.payPalPaymentDetails.purchase_units[0].payments.captures[0].status,
+  //     transactions_status:this.payPalPaymentDetails.status
+  //   }
+  //   // console.log("Data: ",data);
+  //   this.api.showLoading();
+  //   this.api.sendRequest("storeCarsBookingTransactions",data).subscribe((res:any)=>{
+  //     // console.log("Response: ",res);
+  //     this.api.hideLoading();
+  //     if(res.status == 'success'){
+  //       this.openBookedModal();
+  //     }else if(res.status == 'error'){
+  //       this.openBookedModal();
+  //       this.api.presentToast(res.message)
+  //     }else{
+
+  //     }
+  //   },(err)=>{
+  //     this.api.hideLoading();
+  //     console.log("Api Error: ",err);
+      
+  //   })
+  // }
 
 
   httpPost(){

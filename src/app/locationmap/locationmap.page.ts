@@ -2154,6 +2154,7 @@ export class LocationmapPage implements OnInit {
   async ionViewWillEnter() {
     
     await this.getCurrentLocation();
+    
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
@@ -2175,11 +2176,11 @@ export class LocationmapPage implements OnInit {
     if(!this.map){
       this.buildMap2();
     }
-    this.makeMarkerArray();
-    // this.makeMapboxVenueMarkerArray();
+    // this.makeMarkerArray();
+    this.makeMapboxVenueMarkerArray();
 
-    this.makeEventMarkerArray();
-    // this.makeMapboxEventMarkerArray();
+    // this.makeEventMarkerArray();
+    this.makeMapboxEventMarkerArray();
     
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
@@ -2187,7 +2188,7 @@ export class LocationmapPage implements OnInit {
     this.getEventAIKeywords();
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
-    this.map.googleMap?.setZoom(13);
+    // this.map.googleMap?.setZoom(13);
     
     
     
@@ -2199,7 +2200,7 @@ export class LocationmapPage implements OnInit {
       center: [this.currentLongitude, this.currentLatitude],
       // center: [71.4662095, 30.1986799],
       // zoom: 13,
-      zoom: 15.27,
+      zoom: 12,
       pitch: 42,
       bearing: -50,
       style: 'mapbox://styles/mapbox/standard',
@@ -2287,6 +2288,10 @@ export class LocationmapPage implements OnInit {
     this.mapbox.on('click',(event)=>{
       
     })
+
+    // add marker in mapbox map
+    new mapboxgl.Marker({className: 'mapbox-user-location'}).setLngLat([this.currentLatitude,this.currentLongitude]).addTo(this.mapbox);
+      // done
 
   }
   
@@ -2688,29 +2693,39 @@ export class LocationmapPage implements OnInit {
       const eventInfo = this.venuarrOrg[i];
       const popup = new mapboxgl.Popup().setHTML(
         `<div style="display: flex;align-items: center;"><img
-          style="height: 30px; width: 30px; margin-right: 10px"
-          src="assets/imgs/maphuman.svg"
+          style="height: 24px; width: 24px; margin-right: 10px"
+          src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png"
         /><p style="margin: 0px;font-size:16px;">${this.venuarrOrg[i].availability_count}</p></div>`
       );
 
       // Create the marker DOM element and add a click event listener
+    const el = document.createElement('div');
+    el.className = 'mapbox-marker';
+    // el.style.width = '32px';  // Ensure the marker has a defined size
+    el.style.height = '32px';
+    el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
     // const el = document.createElement('div');
+    // // const width = marker.properties.iconSize[0];
+    // // const height = marker.properties.iconSize[1];
     // el.className = 'marker';
-    // el.style.width = '30px';  // Ensure the marker has a defined size
-    // el.style.height = '30px';
-    // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
+    // el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
+    // el.style.width = `24px`;
+    // el.style.height = `24px`;
 
     // Attach the click event directly to the element
     
 
     // Create the Mapbox marker using the custom element
-      const marker = new mapboxgl.Marker()
+      const marker = new mapboxgl.Marker(el)
       .setLngLat([eventInfo.longitude, eventInfo.lattitude])
       .setPopup(popup)
       .addTo(this.mapbox);
 
       console.log("Marker adding ven id", eventInfo.venues_id);
 
+      // add marker in mapbox map
+      
+      // done
 
       // marker.getElement().addEventListener('click', () => {
       //   console.log("Marker clicked", this.venuarrOrg[i].venues_id);
@@ -2726,6 +2741,16 @@ export class LocationmapPage implements OnInit {
 
 
     }
+    console.log("lat,long",this.currentLatitude,this.currentLongitude);
+    const el = document.createElement('div');
+        // const width = marker.properties.iconSize[0];
+        // const height = marker.properties.iconSize[1];
+        el.className = 'marker';
+        el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
+        el.style.width = `24px`;
+        el.style.height = `24px`;
+    
+    new mapboxgl.Marker(el).setLngLat([this.currentLongitude,this.currentLatitude]).addTo(this.mapbox);
 
     this.markers = this.venuarr;
     console.log("Venuarr : ",this.venuarr);
@@ -2785,7 +2810,7 @@ export class LocationmapPage implements OnInit {
       const eventInfo = this.eventArrOrg[i];
      const popup = new mapboxgl.Popup().setHTML(
     `<div style="display: flex; align-items: center;">
-      <img style="height: 30px; width: 30px; margin-right: 10px" src="assets/imgs/maphuman.svg" />
+      <img style="height: 30px; width: 30px; margin-right: 10px" src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png" />
       <p style="margin: 0px; font-size:16px;">${eventInfo.availability_count}</p>
      </div>`
     );
@@ -2801,7 +2826,7 @@ export class LocationmapPage implements OnInit {
     
 
     // Create the Mapbox marker using the custom element
-      const marker = new mapboxgl.Marker()
+      const marker = new mapboxgl.Marker({className: 'mapbox-marker'})
       .setLngLat([eventInfo.longitude, eventInfo.lattitude])
       .setPopup(popup)
       .addTo(this.mapbox);

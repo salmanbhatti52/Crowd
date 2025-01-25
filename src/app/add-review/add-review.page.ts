@@ -3,6 +3,7 @@ import { Location } from "@angular/common";
 import { IonTextarea } from '@ionic/angular';
 import { RestService } from '../rest.service';
 import { ActivatedRoute } from '@angular/router';
+import { error } from 'console';
 @Component({
   selector: 'app-add-review',
   templateUrl: './add-review.page.html',
@@ -26,6 +27,9 @@ export class AddReviewPage implements OnInit {
   venueId:any;
   venueName: any;
 
+  tableTypes: any = [];
+  selectedTableName: any;
+
   constructor(public location: Location, public rest: RestService, public route:ActivatedRoute) {}
 
   ngOnInit() {
@@ -47,6 +51,30 @@ export class AddReviewPage implements OnInit {
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
     this.userid = JSON.parse(this.userdata).users_customers_id;
+    this.getTableTypes();
+  }
+
+  getTableTypes() {
+   
+    this.rest.presentLoader();
+    this.rest.getRequest("get_table_types").subscribe((res: any) => {
+      this.rest.dismissLoader();
+      this.tableTypes = res.data;
+      console.log(res);
+    });
+  }
+
+  selectTableType(event:any,type:any){
+    this.selectedTableName = type.table_type_name;
+    if (event.detail.checked) {
+      this.selectedTableName = type.table_type_name;
+    }else{
+      this.selectedTableName = "";
+    }
+
+    console.log(event);
+    console.log(type);
+    console.log(this.selectedTableName);
   }
 
   addReview() {
@@ -57,6 +85,7 @@ export class AddReviewPage implements OnInit {
       users_customers_id: this.userid,
       venues_id: this.venueId,
       review: this.feedback,
+      table_type: this.selectedTableName,
       review_rating: this.ratingValue,
     };
     console.log(data);
@@ -67,10 +96,12 @@ export class AddReviewPage implements OnInit {
       if(res.status=='success'){
         this.rest.presentToast("Thanks for your review!");
         this.goBack();
-      }else if(res.status=='error'){
-        this.rest.presentToast(res.message);
-        this.goBack();
-
+      }
+    },(err)=>{
+      this.rest.dismissLoader();
+       err = err.error;
+      if(err.status=='error'){
+        this.rest.presentToast(err.message);
       }
     });
   }

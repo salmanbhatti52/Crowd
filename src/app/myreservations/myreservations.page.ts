@@ -23,6 +23,7 @@ export class MyreservationsPage implements OnInit {
 
   userdata: any = "";
   userID: any = "";
+  bookingToDeleteId: any = "";
 
   constructor(
     public location: Location,
@@ -51,8 +52,24 @@ export class MyreservationsPage implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  deleteReservation(){
+  deleteReservation(id:any){
     this.deleteOldBooking = true;
+    this.bookingToDeleteId = id;
+  }
+
+  delOldBooking(){
+    let data = {
+      venues_bookings_id:this.bookingToDeleteId
+    };
+    this.rest.presentLoader();
+    this.rest.sendRequest('delete_booking',data).subscribe((res: any) => {
+      this.rest.dismissLoader();
+      console.log("delete_booking",res);
+      if(res.status == 'success'){
+        this.getPreviousBookings();
+        this.deleteOldBooking = false;
+      }
+    });
   }
 
   getUpcomingBookings(){
@@ -82,6 +99,7 @@ export class MyreservationsPage implements OnInit {
   }
 
   getPreviousBookings(){
+    this.orderd_previousArr = [];
     if(this.orderd_previousArr.length == 0){
       this.rest.presentLoader();
     }

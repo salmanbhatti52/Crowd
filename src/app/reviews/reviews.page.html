@@ -49,7 +49,8 @@
                   font-weight: bold;
                   color: #fafafa;
                   line-height: normal;display: flex;">{{rev.user_profile.full_name}} <img class="size_14_icon" *ngIf="rev.verification_status == 1" src="../../assets/imgs/icons/new_icons/VerifiedIcon.png" alt="">
-                  <img *ngIf="rest.reviewType=='venue'" class="size_14_icon" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">  
+                  <!-- *ngIf="rest.reviewType=='venue'" -->
+                  <img  class="size_14_icon" src="{{rest.baseURLimg}}{{rev.table_type_image}}" alt="">  
                 </div>
                 <!-- <div class="roboto" style="font-size: 14px;
                 font-weight: 300;

@@ -51,6 +51,9 @@ export class CancelbookPage implements OnInit {
         // if (this.rest.comingFrom == "booking2") {
           
         // }
+      }else if (res.status == "error") {
+        this.modalCtrl.dismiss('cancelled','cancelBooking');
+        this.rest.presentToast(res.message);
       }
     });
   }

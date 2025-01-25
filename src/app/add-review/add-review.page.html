@@ -37,12 +37,12 @@
       <div class="roboto exclusive">{{venueName}}</div>
       <!-- *ngIf="rest.reviewType=='venue'" -->
       <div class="packages_box" >
-        <div class="package_box">
-          <div class="roboto package_type">Dine</div>
-          <img style="height: 16px;margin: 0px 6px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">
-          <ion-checkbox></ion-checkbox>
+        <div class="package_box" *ngFor="let type of tableTypes">
+          <div class="roboto package_type">{{type.table_type_name}}</div>
+          <img style="height: 16px;margin: 0px 6px;" src="{{rest.baseURLimg}}{{type.table_type_image}}" alt="">
+          <ion-checkbox (ionChange)="selectTableType($event,type)"></ion-checkbox>
         </div>
-        <div class="package_box">
+        <!-- <div class="package_box">
           <div class="roboto package_type">Drink</div>
           <img style="height: 16px;margin: 0px 6px;" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt="">
           <ion-checkbox checked="true"></ion-checkbox>
@@ -51,7 +51,7 @@
           <div class="roboto package_type">Bar</div>
           <img style="height: 16px;margin: 0px 6px;" src="../../assets/imgs/icons/new_icons/TableIcon.png" alt="">
           <ion-checkbox></ion-checkbox>
-        </div>
+        </div> -->
       </div>
       <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="roboto textarea" rows="8" cols="20" placeholder="We'd love to hear your experience!" [(ngModel)]="feedback"></ion-textarea>
       <div class="review_note">Please ensure that your review: <br>

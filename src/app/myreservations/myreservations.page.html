@@ -158,7 +158,7 @@
               <img class="imm" src="../../assets/imgs/icons/new_icons/LocationPinIcon.png" />
               <p class="bb roboto">{{aa.venues_details.name}}</p>
             </div>
-            <img class="del_icon" (click)="deleteReservation()" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
+            <img class="del_icon" (click)="deleteReservation(aa.venues_bookings_id)" src="../../assets/imgs/icons/new_icons/BinIcon.png" alt="">
           </div>
           
   
@@ -237,7 +237,7 @@
             </p>
             
             <ion-button
-            (click)="closeModel()"
+            (click)="delOldBooking()"
             style="margin-top: 20px;
             opacity: 1;
             --border-radius: 18px;

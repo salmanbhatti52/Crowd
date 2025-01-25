@@ -381,6 +381,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+@paypal/paypal-js
+Apache-2.0
+
 @zxing/browser
 MIT
 MIT License
