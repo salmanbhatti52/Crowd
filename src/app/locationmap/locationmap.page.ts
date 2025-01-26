@@ -32,6 +32,7 @@ import { format, getDay, isEqual, parse, parseISO } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 
 import {AnimationOptions  } from 'ngx-lottie';
+import { environment } from "src/environments/environment";
 @Component({
   selector: "app-locationmap",
   templateUrl: "./locationmap.page.html",
@@ -427,7 +428,10 @@ export class LocationmapPage implements OnInit {
   async clearSearchObject(){
     this.searchObject = '';
     this.infoContent = '';
-    this.infoWindow.close();
+    if(this.infoWindow){
+      this.infoWindow.close();
+    }
+    // this.infoWindow.close();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     await this.getCurrentLocation();
     // this.renderOptions
@@ -436,7 +440,10 @@ export class LocationmapPage implements OnInit {
   async clearSearchEventObject(){
     this.searchEventObject = '';
     this.infoContent = '';
-    this.infoWindow.close();
+    if(this.infoWindow){
+      this.infoWindow.close();
+    }
+    // this.infoWindow.close();
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     await this.getCurrentLocation();
     // this.renderOptions
@@ -1591,6 +1598,7 @@ export class LocationmapPage implements OnInit {
     }
 
     // this.filterTypeEv = 'yes';
+    this.filtertype = 'yes';
     console.log("filteredEvents: ",filteredEvents); 
     this.eventarr = filteredEvents;
 
@@ -2117,37 +2125,137 @@ export class LocationmapPage implements OnInit {
 
 
   getDirections(){
+    if(this.mapbox == undefined){
+      const request: google.maps.DirectionsRequest = {
+        destination: {lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude},
+        origin: {lat: this.currentLatitude, lng: this.currentLongitude },
+        travelMode: google.maps.TravelMode.DRIVING,
+  
+      };
+      console.log(request.destination);
+      console.log(request.origin);
+      
+      
+      this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
+      this.rest.directionsResults$ = this.directionsResults$;
+      console.log("directionsResults: ",this.rest.directionsResults$);
+    }else{
+      console.log("mapbox venue");
+      const end = ['71.4689853', '30.2088837'];
+      this.getRoute(end);
+      // create a function to make a directions request
+      
 
-    const request: google.maps.DirectionsRequest = {
-      destination: {lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude},
-      origin: {lat: this.currentLatitude, lng: this.currentLongitude },
-      travelMode: google.maps.TravelMode.DRIVING,
+      // this.mapbox.on('load', () => {
+        
+        // make an initial directions request that
+        // starts and ends at the same location
+        // this.getRoute(start);
 
-    };
-    console.log(request.destination);
-    console.log(request.origin);
+        // Add starting point to the map
+        // this.mapbox.addLayer({
+        //   id: 'point',
+        //   type: 'circle',
+        //   source: {
+        //     type: 'geojson',
+        //     data: {
+        //       type: 'FeatureCollection',
+        //       features: [
+        //         {
+        //           type: 'Feature',
+        //           properties: {},
+        //           geometry: {
+        //             type: 'Point',
+        //             coordinates: start
+        //           }
+        //         }
+        //       ]
+        //     }
+        //   },
+        //   paint: {
+        //     'circle-radius': 10,
+        //     'circle-color': '#3887be'
+        //   }
+        // });
+        // this is where the code from the next step will go
+      // });
+    }
+
     
-    
-    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
-    this.rest.directionsResults$ = this.directionsResults$;
-    console.log("directionsResults: ",this.rest.directionsResults$);
     // this.router.navigate(["see-path"]);
   }
-  getEventDirections(){
 
-    const request: google.maps.DirectionsRequest = {
-      destination: {lat: +this.searchEventObject.lattitude, lng: +this.searchEventObject.longitude},
-      origin: {lat: this.currentLatitude, lng: this.currentLongitude },
-      travelMode: google.maps.TravelMode.DRIVING,
-
+  async getRoute(end:any) {
+    // make a directions request using cycling profile
+    // an arbitrary start will always be the same
+    // only the end or destination will change
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${this.currentLongitude},${this.currentLatitude};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${environment.mapboxgl.accessToken}`,
+      { method: 'GET' }
+    );
+    const json = await query.json();
+    const data = json.routes[0];
+    const route = data.geometry.coordinates;
+    const geojson: GeoJSON.Feature = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
     };
-    console.log(request.destination);
-    console.log(request.origin);
+    // if the route already exists on the map, we'll reset it using setData
+    if (this.mapbox.getSource('route')) {
+      (this.mapbox?.getSource('route') as mapboxgl.GeoJSONSource)?.setData(geojson);
+    }
+    // otherwise, we'll make a new request
+    else {
+      this.mapbox.addLayer({
+        id: 'route',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#ffffff',
+          'line-width': 6,
+          "line-border-width": 10,
+          "line-border-color": "#ffffff",
+          'line-opacity': 1
+        },
+
+
+
+      });
+    }
+    // add turn instructions here at the end
+  }
+
+  getEventDirections(){
+    if(this.mapbox == undefined){
+      const request: google.maps.DirectionsRequest = {
+        destination: {lat: +this.searchEventObject.lattitude, lng: +this.searchEventObject.longitude},
+        origin: {lat: this.currentLatitude, lng: this.currentLongitude },
+        travelMode: google.maps.TravelMode.DRIVING,
+  
+      };
+      console.log(request.destination);
+      console.log(request.origin);
+      
+      
+      this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
+      this.rest.directionsResults$ = this.directionsResults$;
+      console.log("directionsResults: ",this.rest.directionsResults$);
+    }else {
+      console.log("mapbox event");
+    }
+
     
-    
-    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
-    this.rest.directionsResults$ = this.directionsResults$;
-    console.log("directionsResults: ",this.rest.directionsResults$);
     // this.router.navigate(["see-path"]);
   }
 
@@ -2195,103 +2303,114 @@ export class LocationmapPage implements OnInit {
   }
   
   buildMap2(){
-    this.mapbox = new mapboxgl.Map({
-      container: 'mapbox',
-      center: [this.currentLongitude, this.currentLatitude],
-      // center: [71.4662095, 30.1986799],
-      // zoom: 13,
-      zoom: 12,
-      pitch: 42,
-      bearing: -50,
-      style: 'mapbox://styles/mapbox/standard',
-      // minZoom: 15,
-      // maxZoom: 16
-    });
 
-    this.mapbox.on('style.load', () => {
-      // Set the light preset to dusk mode
-      (this.mapbox as any).setConfigProperty('basemap', 'lightPreset', 'dusk');
-
-      // Define the eraser source and model source
-      this.mapbox.addSource('eraser', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'Polygon',
-                coordinates: [
-                  [
-                    [-0.12573, 51.53222],
-                    [-0.12458, 51.53219],
-                    [-0.12358, 51.53492],
-                    [-0.12701, 51.53391],
-                    [-0.12573, 51.53222]
+    if(this.mapbox == undefined){
+      this.mapbox = new mapboxgl.Map({
+        container: 'mapbox',
+        center: [this.currentLongitude, this.currentLatitude],
+        // center: [71.4662095, 30.1986799],
+        // zoom: 13,
+        zoom: 12,
+        pitch: 42,
+        bearing: -50,
+        style: 'mapbox://styles/mapbox/standard',
+        // minZoom: 15,
+        // maxZoom: 16
+      });
+  
+      this.mapbox.on('style.load', () => {
+        // Set the light preset to dusk mode
+        (this.mapbox as any).setConfigProperty('basemap', 'lightPreset', 'dusk');
+  
+        // Define the eraser source and model source
+        this.mapbox.addSource('eraser', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [-0.12573, 51.53222],
+                      [-0.12458, 51.53219],
+                      [-0.12358, 51.53492],
+                      [-0.12701, 51.53391],
+                      [-0.12573, 51.53222]
+                    ]
                   ]
-                ]
+                }
               }
-            }
-          ]
-        }
-      });
-
-      this.mapbox.addSource('model', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {
-            'model-uri': 'https://docs.mapbox.com/mapbox-gl-js/assets/tower.glb'
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [-0.12501974, 51.5332374]
+            ]
           }
-        }
+        });
+  
+        this.mapbox.addSource('model', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {
+              'model-uri': 'https://docs.mapbox.com/mapbox-gl-js/assets/tower.glb'
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-0.12501974, 51.5332374]
+            }
+          }
+        });
+  
+        // Add the clip layer
+        
+        this.mapbox.addLayer({
+          id: 'eraser',
+          type: 'clip',
+          source: 'eraser',
+          layout: {
+            'clip-layer-types': ['symbol', 'model'],
+            'clip-layer-scope': ['basemap']
+          }
+        });
+  
+        // Add the model layer
+        this.mapbox.addLayer({
+          id: 'tower',
+          type: 'model',
+          slot: 'middle',
+          source: 'model',
+          minzoom: 15,
+          layout: {
+            'model-id': ['get', 'model-uri']
+          },
+          paint: {
+            'model-opacity': 1,
+            'model-rotation': [0.0, 0.0, 35.0],
+            'model-scale': [0.8, 0.8, 1.2],
+            'model-color-mix-intensity': 0,
+            'model-cast-shadows': true,
+            'model-emissive-strength': 0.8
+          }
+        });
       });
-
-      // Add the clip layer
-      
-      this.mapbox.addLayer({
-        id: 'eraser',
-        type: 'clip',
-        source: 'eraser',
-        layout: {
-          'clip-layer-types': ['symbol', 'model'],
-          'clip-layer-scope': ['basemap']
-        }
-      });
-
-      // Add the model layer
-      this.mapbox.addLayer({
-        id: 'tower',
-        type: 'model',
-        slot: 'middle',
-        source: 'model',
-        minzoom: 15,
-        layout: {
-          'model-id': ['get', 'model-uri']
-        },
-        paint: {
-          'model-opacity': 1,
-          'model-rotation': [0.0, 0.0, 35.0],
-          'model-scale': [0.8, 0.8, 1.2],
-          'model-color-mix-intensity': 0,
-          'model-cast-shadows': true,
-          'model-emissive-strength': 0.8
-        }
-      });
-    });
-
-    this.mapbox.on('click',(event)=>{
-      
-    })
-
-    // add marker in mapbox map
-    new mapboxgl.Marker({className: 'mapbox-user-location'}).setLngLat([this.currentLatitude,this.currentLongitude]).addTo(this.mapbox);
-      // done
+  
+      this.mapbox.on('click',(event)=>{
+        
+      })
+    }
+   
+    
+    // add user location marker in mapbox map
+    console.log("lat,long",this.currentLatitude,this.currentLongitude);
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
+    el.style.width = `24px`;
+    el.style.height = `24px`;
+    
+    new mapboxgl.Marker(el).setLngLat([this.currentLongitude,this.currentLatitude]).addTo(this.mapbox);
+    // done
 
   }
   
@@ -2695,42 +2814,33 @@ export class LocationmapPage implements OnInit {
         `<div style="display: flex;align-items: center;"><img
           style="height: 24px; width: 24px; margin-right: 10px"
           src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png"
-        /><p style="margin: 0px;font-size:16px;">${this.venuarrOrg[i].availability_count}</p></div>`
+        /><p class="roboto" style="
+            font-weight: 600;
+            font-size: 15px;
+            color: #730899;
+            margin: 0px;
+          ">${this.venuarrOrg[i].availability_count}</p></div>`
       );
 
       // Create the marker DOM element and add a click event listener
-    const el = document.createElement('div');
-    el.className = 'mapbox-marker';
-    // el.style.width = '32px';  // Ensure the marker has a defined size
-    el.style.height = '32px';
-    el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
-    // const el = document.createElement('div');
-    // // const width = marker.properties.iconSize[0];
-    // // const height = marker.properties.iconSize[1];
-    // el.className = 'marker';
-    // el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
-    // el.style.width = `24px`;
-    // el.style.height = `24px`;
+      // const el = document.createElement('div');
+      // el.className = 'marker';
+      // // Ensure the marker has a defined size
+      // el.style.height = '32px';
+      // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
 
-    // Attach the click event directly to the element
+      // Attach the click event directly to the element
     
 
-    // Create the Mapbox marker using the custom element
-      const marker = new mapboxgl.Marker(el)
+      // Create the Mapbox marker using the custom element
+      const marker = new mapboxgl.Marker()
       .setLngLat([eventInfo.longitude, eventInfo.lattitude])
       .setPopup(popup)
       .addTo(this.mapbox);
 
       console.log("Marker adding ven id", eventInfo.venues_id);
-
-      // add marker in mapbox map
       
       // done
-
-      // marker.getElement().addEventListener('click', () => {
-      //   console.log("Marker clicked", this.venuarrOrg[i].venues_id);
-      //   this.filterArrypin(this.venuarrOrg[i].venues_id);  // Call your custom function
-      // });
 
       marker.getElement().addEventListener('click',((eventData)=>()=>{
         console.log("Marker clicked", this.venuarrOrg[i].venues_id);
@@ -2741,16 +2851,6 @@ export class LocationmapPage implements OnInit {
 
 
     }
-    console.log("lat,long",this.currentLatitude,this.currentLongitude);
-    const el = document.createElement('div');
-        // const width = marker.properties.iconSize[0];
-        // const height = marker.properties.iconSize[1];
-        el.className = 'marker';
-        el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
-        el.style.width = `24px`;
-        el.style.height = `24px`;
-    
-    new mapboxgl.Marker(el).setLngLat([this.currentLongitude,this.currentLatitude]).addTo(this.mapbox);
 
     this.markers = this.venuarr;
     console.log("Venuarr : ",this.venuarr);
@@ -2796,8 +2896,8 @@ export class LocationmapPage implements OnInit {
     console.log("markersArr : ",this.markers);
     this.allVenueEventMarkers = this.markers;
 
-    this.collectMarkers();
-    this.openRequestedMarker();
+    // this.collectMarkers();
+    // this.openRequestedMarker();
     
     
   }
@@ -2810,61 +2910,38 @@ export class LocationmapPage implements OnInit {
       const eventInfo = this.eventArrOrg[i];
      const popup = new mapboxgl.Popup().setHTML(
     `<div style="display: flex; align-items: center;">
-      <img style="height: 30px; width: 30px; margin-right: 10px" src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png" />
-      <p style="margin: 0px; font-size:16px;">${eventInfo.availability_count}</p>
+      <img style="height: 24px; width: 24px; margin-right: 10px" src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png" />
+      <p class="roboto" style="
+            font-weight: 600;
+            font-size: 15px;
+            color: #730899;
+            margin: 0px;
+          ">${eventInfo.availability_count}</p>
      </div>`
     );
 
     // Create the marker DOM element and add a click event listener
     // const el = document.createElement('div');
     // el.className = 'marker';
-    // el.style.width = '30px';  // Ensure the marker has a defined size
-    // el.style.height = '30px';
+    // el.style.height = '32px';
     // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
 
     // Attach the click event directly to the element
     
 
     // Create the Mapbox marker using the custom element
-      const marker = new mapboxgl.Marker({className: 'mapbox-marker'})
-      .setLngLat([eventInfo.longitude, eventInfo.lattitude])
-      .setPopup(popup)
-      .addTo(this.mapbox);
+    const marker = new mapboxgl.Marker()
+    .setLngLat([eventInfo.longitude, eventInfo.lattitude])
+    .setPopup(popup)
+    .addTo(this.mapbox);
 
-      console.log("Marker adding event id", eventInfo.events_id);
+    console.log("Marker adding event id", eventInfo.events_id);
 
-      // Add a click event listener directly to the Mapbox marker
-      marker.getElement().addEventListener('click', ((eventData) => () => {
-        console.log("Marker clicked", eventData.events_id); // Access the correct eventInfo object
-        this.filterEventArrypin(eventData.events_id);
-      })(eventInfo));  // Pass eventInfo as a parameter to an IIFE (Immediately Invoked Function Expression)
-
-
-      // el.addEventListener('click',()=>{
-      //   console.log('event click');
-      //   this.filterEventArrypin(this.eventArrOrg[i].events_id)
-      // })
-      // var obj = {
-      //   position: {
-      //     lat: parseFloat(this.eventArrOrg[i].lattitude),
-      //     lng: parseFloat(this.eventArrOrg[i].longitude),
-      //   },
-      //   title: "" + this.eventArrOrg[i].availability_count,
-      //   name: this.eventArrOrg[i].name,
-      //   eventId:this.eventArrOrg[i].events_id,
-        
-      //   options: {
-      //     animation: google.maps.Animation.DROP,
-      //     draggable: false,
-      //     icon: {
-      //       url: "assets/imgs/locpin2.svg",
-      //       size: {
-      //         height: 48,
-      //         width: 48,
-      //       },
-      //     },
-      //   },
-      // };
+    // Add a click event listener directly to the Mapbox marker
+    marker.getElement().addEventListener('click', ((eventData) => () => {
+      console.log("Marker clicked", eventData.events_id); // Access the correct eventInfo object
+      this.filterEventArrypin(eventData.events_id);
+    })(eventInfo));  // Pass eventInfo as a parameter to an IIFE (Immediately Invoked Function Expression)
 
       this.eventarr.push(marker);
     }
@@ -2877,8 +2954,8 @@ export class LocationmapPage implements OnInit {
     console.log("markersArr : ",this.markers);
     this.allVenueEventMarkers = this.markers;
 
-    this.collectMarkers();
-    this.openRequestedMarker();
+    // this.collectMarkers();
+    // this.openRequestedMarker();
     
   }
 
@@ -3211,6 +3288,9 @@ export class LocationmapPage implements OnInit {
   }
 
   async filterArrypin(searchTerm: any) {
+    if(this.filtertype != 'yes'){
+      this.filtertype = 'yes';
+    }
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
       if (this.venuarrOrg[i].venues_id == searchTerm) {
@@ -3237,13 +3317,18 @@ export class LocationmapPage implements OnInit {
     }
     console.log("this.searchObject: ",this.searchObject);
     this.showDetail = true;
+    this.showEventDetail = false;
     this.rest.pinobject = this.searchObject;
     // this.getDirections();
     this.showCategories = false;
     this.showCrowdfilters = false;
     // this.goTOinfopage();
   }
+
   async filterEventArrypin(searchTerm: any) {
+    if(this.filtertype != 'yes'){
+      this.filtertype = 'yes';
+    }
     for (var i = 0; i < this.eventArrOrg.length; i++) {
       // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
       if (this.eventArrOrg[i].events_id == searchTerm) {
@@ -3272,6 +3357,7 @@ export class LocationmapPage implements OnInit {
       }
     }
     console.log("this.searchObject event: ",this.searchEventObject);
+    this.showDetail = false;
     this.showEventDetail = true;
     this.rest.pinobject = this.searchEventObject;
     // this.getDirections();

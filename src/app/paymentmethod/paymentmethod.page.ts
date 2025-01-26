@@ -98,6 +98,9 @@ export class PaymentmethodPage implements OnInit {
         console.log("PayPal JS SDK script loaded", paypal);
         if(paypal){
           paypal.Buttons?.({
+            style:{
+              color: 'gold',
+            },
             // Set up the transaction
             createOrder: (data, actions) => {
               return actions.order.create({

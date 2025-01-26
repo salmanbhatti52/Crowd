@@ -26,16 +26,17 @@
     <map-info-window  style=" border-radius: 15px; border-bottom: none;">
       <div  style="display: flex; align-items: center;" >
         <img
-          style="height: 30px; width: 30px; margin-right: 10px"
+          style="height: 24px; width: 24px; margin-right: 10px"
           src="../../assets/imgs/icons/new_icons/map_icons/PersonIcon.png"
         />
         <ion-label
+          class="roboto"
           style="
             font-weight: 600;
-            font-size: 18px;
+            font-size: 15px;
             line-height: normal;
             text-align: center;
-            color: #7825cb;
+            color: #730899;
             margin-right: 10px;
           "
           >{{ infoContent }}
@@ -367,223 +368,221 @@
       Clear Filter
     </p>
 
-  <div
-    class="loc_info"
-    *ngIf="searchObject"
-    
-  >
-    <div *ngIf="searchObject.venues_id != null">
-      <img
-        (click)="getDirections()"
-        style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
-        src="../../assets/imgs/icons/icon_nav.svg"
-      />
-      <img
-        (click)="likevenu()"
-        *ngIf="searchObject.likes == 0"
-        class="heart_icon"
-        src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
-      />
-      <img
-        (click)="likeoutvenu()"
-        *ngIf="searchObject.likes != 0"
-        class="heart_icon"
-        src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
-      />
-    </div>
-    <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;align-items: center;">
-      <img
-        style="
-          border-radius: 25px;
-          height: 100px;
-          width: 100px;
-          padding: 10px;
-          object-fit: cover;
-        "
-        src="{{searchObject.cover_images}}"
-      />
-
-      <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 50%;">
-        <p
+    <div
+      class="loc_info"
+      *ngIf="searchObject"
+    >
+      <div *ngIf="searchObject.venues_id != null">
+        <img
+          (click)="getDirections()"
+          style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
+          src="../../assets/imgs/icons/icon_nav.svg"
+        />
+        <img
+          (click)="likevenu()"
+          *ngIf="searchObject.likes == 0"
+          class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
+        />
+        <img
+          (click)="likeoutvenu()"
+          *ngIf="searchObject.likes != 0"
+          class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
+        />
+      </div>
+      <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;align-items: center;">
+        <img
           style="
-            font-style: normal;
-            font-weight: bold;
-            font-size: 15px;
-            line-height: 21px;
-            color: #ffffff;
-            
+            border-radius: 25px;
+            height: 100px;
+            width: 100px;
+            padding: 10px;
+            object-fit: cover;
           "
-          class="roboto"
-        >
-          {{searchObject.name}}
-        </p>
+          src="{{searchObject.cover_images}}"
+        />
 
-        <!-- <img (click)="clearSearchObject()" style="position: absolute;
-        right: 12px;
-        top: 6px;
-        height: 16px;
-        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
-
-        <ion-badge 
-          *ngIf="searchObject.discount_percentage != 0 && searchObject.discount_percentage != null  && searchObject.venues_id != null"
-          style="
-            font-size: 10px;
-            padding: 8px 10px;
-            position: absolute;
-            right: 10px;
-            top: 13px;
-            border-radius: 20px;
-            /* background: #7825cb; */
-            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
-            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
-            font-weight: bold;
-            width: 60px;
-          "
-          >{{searchObject.discount_percentage}}% off</ion-badge
-        >
-
-        <ion-badge
-          *ngIf="searchObject.discount_percentage == 0 && searchObject.venues_id != null"
-          style="
-            font-size: 10px;
-            padding: 8px 10px;
-            position: absolute;
-            right: 9px;
-            top: 12px;
-            border-radius: 20px;
-            /* background: #7825cb; */
-            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
-            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
-            font-weight: 500;
-          "
-          >No Discount</ion-badge
-        >
-
-        <div style="display: flex; margin-top: 10px">
-          <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-          <p class="roboto titlesub">
-            {{searchObject.distance | number : '1.1-1'}} Miles
+        <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 50%;">
+          <p
+            style="
+              font-style: normal;
+              font-weight: bold;
+              font-size: 15px;
+              line-height: 21px;
+              color: #ffffff;
+              
+            "
+            class="roboto"
+          >
+            {{searchObject.name}}
           </p>
-        </div>
-        <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
-          <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-          <p class="roboto titlesub" *ngIf="searchObject.start_hours!=null">
-             {{searchObject.start_hours}} - {{searchObject.close_hours}}
-          </p>
-          <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p>
+
+          <!-- <img (click)="clearSearchObject()" style="position: absolute;
+          right: 12px;
+          top: 6px;
+          height: 16px;
+          width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
+
+          <ion-badge 
+            *ngIf="searchObject.discount_percentage != 0 && searchObject.discount_percentage != null  && searchObject.venues_id != null"
+            style="
+              font-size: 10px;
+              padding: 8px 10px;
+              position: absolute;
+              right: 10px;
+              top: 13px;
+              border-radius: 20px;
+              /* background: #7825cb; */
+              /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+              background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
+              font-weight: bold;
+              width: 60px;
+            "
+            >{{searchObject.discount_percentage}}% off</ion-badge
+          >
+
+          <ion-badge
+            *ngIf="searchObject.discount_percentage == 0 && searchObject.venues_id != null"
+            style="
+              font-size: 10px;
+              padding: 8px 10px;
+              position: absolute;
+              right: 9px;
+              top: 12px;
+              border-radius: 20px;
+              /* background: #7825cb; */
+              /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+              background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
+              font-weight: 500;
+            "
+            >No Discount</ion-badge
+          >
+
+          <div style="display: flex; margin-top: 10px">
+            <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
+            <p class="roboto titlesub">
+              {{searchObject.distance | number : '1.1-1'}} Miles
+            </p>
+          </div>
+          <div style="display: flex; margin-top: 10px" *ngIf="searchObject.venues_id != null">
+            <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
+            <p class="roboto titlesub" *ngIf="searchObject.start_hours!=null">
+              {{searchObject.start_hours}} - {{searchObject.close_hours}}
+            </p>
+            <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div
-    class="loc_info"
-    *ngIf="searchEventObject"
-    
-  >
-    <div *ngIf="searchEventObject.events_id != null">
-      <img
-        (click)="getEventDirections()"
-        style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
-        src="../../assets/imgs/icons/icon_nav.svg"
-      />
-      <img
-        (click)="likeevent()"
-        *ngIf="searchEventObject.likes == 0"
-        class="heart_icon"
-        src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
-      />
-      <img
-        (click)="likeoutevent()"
-        *ngIf="searchEventObject.likes != 0"
-        class="heart_icon"
-        src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
-      />
-    </div>
-    <div *ngIf="showEventDetail" (click)="gotoEventdetail()" style="width: 100%; display: flex;align-items: center;">
-      <img
-        style="
-          border-radius: 25px;
-          height: 100px;
-          width: 100px;
-          padding: 10px;
-          object-fit: cover;
-        "
-        src="{{this.rest.baseURLimg}}{{searchEventObject.cover_images}}"
-      />
-
-      <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 51%;">
-        <p
+    <div
+      class="loc_info"
+      *ngIf="searchEventObject" 
+    >
+      <div *ngIf="searchEventObject.events_id != null">
+        <img
+          (click)="getEventDirections()"
+          style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
+          src="../../assets/imgs/icons/icon_nav.svg"
+        />
+        <img
+          (click)="likeevent()"
+          *ngIf="searchEventObject.likes == 0"
+          class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
+        />
+        <img
+          (click)="likeoutevent()"
+          *ngIf="searchEventObject.likes != 0"
+          class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
+        />
+      </div>
+      <div *ngIf="showEventDetail" (click)="gotoEventdetail()" style="width: 100%; display: flex;align-items: center;">
+        <img
           style="
-            font-style: normal;
-            font-weight: bold;
-            font-size: 15px;
-            line-height: 21px;
-            color: #ffffff;
-            
+            border-radius: 25px;
+            height: 100px;
+            width: 100px;
+            padding: 10px;
+            object-fit: cover;
           "
-          class="roboto"
-        >
-          {{searchEventObject.name}}
-        </p>
+          src="{{this.rest.baseURLimg}}{{searchEventObject.cover_images}}"
+        />
 
-        <!-- <img (click)="clearSearchEventObject()" style="position: absolute;
-        right: 12px;
-        top: 6px;
-        height: 16px;
-        width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
-
-        <ion-badge 
-          *ngIf="searchEventObject.discount_percentage != 0 && searchEventObject.discount_percentage != null  && searchEventObject.events_id != null"
-          style="
-            font-size: 10px;
-            padding: 8px 10px;
-            position: absolute;
-            right: 10px;
-            top: 13px;
-            border-radius: 20px;
-            /* background: #7825cb; */
-            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
-            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
-            font-weight: bold;
-            width: 60px;
-          "
-          >{{searchEventObject.discount_percentage}}% off</ion-badge
-        >
-
-        <ion-badge
-          *ngIf="searchEventObject.discount_percentage == 0 && searchEventObject.events_id != null"
-          style="
-            font-size: 10px;
-            padding: 8px 10px;
-            position: absolute;
-            right: 9px;
-            top: 12px;
-            border-radius: 20px;
-            /* background: #7825cb; */
-            /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
-            background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
-            font-weight: 500;
-          "
-          >No Discount</ion-badge
-        >
-
-        <div style="display: flex; margin-top: 10px">
-          <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
-          <p class="roboto titlesub">
-            {{searchEventObject.distance | number : '1.1-1'}} Miles
+        <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 51%;">
+          <p
+            style="
+              font-style: normal;
+              font-weight: bold;
+              font-size: 15px;
+              line-height: 21px;
+              color: #ffffff;
+              
+            "
+            class="roboto"
+          >
+            {{searchEventObject.name}}
           </p>
-        </div>
-        <div style="display: flex; margin-top: 10px" *ngIf="searchEventObject.events_id != null">
-          <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
-          <p class="roboto titlesub" *ngIf="searchEventObject.event_start_time!=null">
-             {{searchEventObject.formatted_start_time}} - {{searchEventObject.formatted_end_time}}
-          </p>
-          <!-- <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p> -->
+
+          <!-- <img (click)="clearSearchEventObject()" style="position: absolute;
+          right: 12px;
+          top: 6px;
+          height: 16px;
+          width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
+
+          <ion-badge 
+            *ngIf="searchEventObject.discount_percentage != 0 && searchEventObject.discount_percentage != null  && searchEventObject.events_id != null"
+            style="
+              font-size: 10px;
+              padding: 8px 10px;
+              position: absolute;
+              right: 10px;
+              top: 13px;
+              border-radius: 20px;
+              /* background: #7825cb; */
+              /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+              background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
+              font-weight: bold;
+              width: 60px;
+            "
+            >{{searchEventObject.discount_percentage}}% off</ion-badge
+          >
+
+          <ion-badge
+            *ngIf="searchEventObject.discount_percentage == 0 && searchEventObject.events_id != null"
+            style="
+              font-size: 10px;
+              padding: 8px 10px;
+              position: absolute;
+              right: 9px;
+              top: 12px;
+              border-radius: 20px;
+              /* background: #7825cb; */
+              /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
+              background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
+              font-weight: 500;
+            "
+            >No Discount</ion-badge
+          >
+
+          <div style="display: flex; margin-top: 10px">
+            <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
+            <p class="roboto titlesub">
+              {{searchEventObject.distance | number : '1.1-1'}} Miles
+            </p>
+          </div>
+          <div style="display: flex; margin-top: 10px" *ngIf="searchEventObject.events_id != null">
+            <img style="margin-right: 10px" src="assets/imgs/watch.svg" />
+            <p class="roboto titlesub" *ngIf="searchEventObject.event_start_time!=null">
+              {{searchEventObject.formatted_start_time}} - {{searchEventObject.formatted_end_time}}
+            </p>
+            <!-- <p *ngIf="searchObject.start_hours==null" class="roboto titlesub">Closed</p> -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   

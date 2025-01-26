@@ -414,8 +414,15 @@ input{
     padding: 4px 14px 6px;
     pointer-events: auto;
     position: relative;
-    bottom: 9px;
+    // bottom: 9px;
   }
+
+  .mapboxgl-popup-tip {
+    border: 2px solid transparent;
+    height: 0;
+    width: 0;
+    z-index: 1;
+}
 
   .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
     align-self: center;
