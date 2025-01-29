@@ -18,129 +18,13 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div class="container1">
+  <div *ngIf="privacyPolicy?.terms" class="container1">
 
     <div class="support_heading" style="margin-top: 10px;">Crowd® App - Privacy Policy</div>
-    <div class="support_desc">Last Updated: [Date]</div>
+    <div class="support_desc">Last Updated: {{getDateSlashFormat(privacyPolicy?.date_modified)}}</div>
     
-    <div class="support_heading" style="margin-top: 10px;">Data Collection</div>
-    <div class="support_desc">At MiCrowd Ltd, we are committed to protecting your privacy. The Crowd® App collects personal information solely for the purpose of creating and managing your user account. This information is essential for providing you with a personalised experience and enabling features within the app.</div>
+    <div [innerHTML]="privacyPolicy?.terms"></div>
     
-    <div class="support_heading" style="margin-top: 10px;">Types of Personal Information Collected:</div>
-    <div class="support_desc">During the account creation process, we may collect the following personal information:
-      <br><br>
-
-      <ul style="margin-bottom: 0px;">
-      
-        <li>Name</li>
-        <li>Email address</li>
-        <li>Phone number</li>
-        <li>Location data (when enabled)</li>
-      </ul>
-      
-      
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Purpose of Data Collection:</div>
-    <div class="support_desc">The personal information collected is used exclusively for:
-      <br><br>
-      <ul style="margin-bottom: 0px;">
-      
-        <li>Account creation and management</li>
-        <li>Facilitating bookings and reservations</li>
-        <li>Enhancing user experience through personalised content</li>
-        
-      </ul>
-      
-      
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Data Protection:</div>
-    <div class="support_desc">
-      <ul style="margin-bottom: 0px;">
-      
-        <li>We prioritise the security of your personal information. All data collected is stored safely and protected against unauthorised access or disclosure.</li>
-        <li>We implement industry-standard security measures, including encryption, to ensure the confidentiality and integrity of your personal information.</li>
-        
-      </ul>
-      
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">No Sale of Personal Data:</div>
-    <div class="support_desc">We do not sell, rent, or otherwise distribute your personal information to any third-party companies. Your data is not shared outside of MiCrowd Ltd without your explicit consent, except as required by law.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Data Usage</div>
-    <div class="support_desc">At MiCrowd Ltd, we use your personal data solely for essential purposes to provide and improve your experience within the Crowd® App. Our data usage practices are minimal and specific to account verification and feature activation.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Account Verification and User Authentication:</div>
-    <div class="support_desc">Your data is used to verify your identity, ensuring all users are legitimate and real. This verification process is required for account creation and access.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Enabling App Features:</div>
-    <div class="support_desc">
-      <ul style="margin-bottom: 0px;">
-      
-        <li>Once your account is verified, your data is only linked to app features that enhance your experience. For example, enabling CrowdLive® through your Profile activates location-based features that provide real-time viewing of that users location, Name and Profile Image. No other information is shown or used.</li>
-        <li>CrowdAI®: No personal data is used by the CrowdAI® feature. This feature operates independently and does not rely on user information.
-        </li>
-        
-      </ul>
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">No Additional Data Usage:</div>
-    <div class="support_desc">User data is not used for any other purposes beyond account verification and feature activation. We prioritise minimal data usage, respecting your privacy and data security.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">User Rights</div>
-    <div class="support_desc">At MiCrowd Ltd, we respect your rights over your personal data and are committed to ensuring you have full control over your information within the Crowd® App. In compliance with data protection laws, you have the following rights:</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Access to Your Data:</div>
-    <div class="support_desc">You have the right to request access to the personal information we hold about you. If you would like to review your data, please contact us at support@crowd-app.com</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Updating Your Information:</div>
-    <div class="support_desc">You may update or correct your personal information at any time within the Crowd® App. This can be done by accessing the settings in your profile.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Deletion of Your Account and Data:</div>
-    <div class="support_desc">You have the right to delete your account and all associated data at any time. This can be done through your profile by selecting the account deletion option. Once you delete your account, all personal data associated with your account will be permanently erased from our system within a reasonable time frame, in compliance with applicable data retention policies.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Restriction of Data Processing:</div>
-    <div class="support_desc">You may request restrictions on certain processing activities if you believe your data is being used beyond the agreed-upon terms. For more information, please contact our support team.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Filing a Complaint:</div>
-    <div class="support_desc">If you feel your data rights have been violated, you have the right to file a complaint with the relevant data protection authority in your jurisdiction.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Data Security</div>
-    <div class="support_desc">At MiCrowd Ltd, we prioritise the security of your personal data and take strong measures to protect it. The Crowd® App is hosted on Amazon Web Services (AWS), one of the world's most secure and reliable network servers, trusted by organisations globally for top-tier data protection. AWS provides industry-leading security protocols, ensuring your information is safeguarded against unauthorised access.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Advanced Network Security:</div>
-    <div class="support_desc">AWS uses advanced security protocols, encryption standards, and access controls to protect all user data stored on its servers. This includes measures such as intrusion detection, multi-layered encryption, and continuous monitoring to prevent unauthorised access and maintain the integrity of your information.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Encrypted Location Data:</div>
-    <div class="support_desc">To further protect your privacy, the Crowd® App encrypts your location data when you are not within a venue or at an Events Location. This means that your real-time location remains fully secure and cannot be accessed or viewed outside of a designated venue destination. Your location is only updated when you enter a venue to provide real-time venue insights through our app.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Back-End Encryption:</div>
-    <div class="support_desc">All personal and sensitive data, including your account information, is encrypted on the back end. This ensures that your data is protected during storage and transit, preventing unauthorised access at all times.</div>
-    
-    <div class="support_desc">With these security practices, MiCrowd Ltd provides a robust and secure environment for all users of the Crowd® App, giving you peace of mind while enjoying the app's features. </div>
-
-    <div class="support_heading" style="margin-top: 10px;">For any questions or concerns about our data security practices, please reach out to us at support@crowd-app.com</div>
-    
-    <!-- <ul style="margin-bottom: 0px;">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul> -->
-    <!-- <div class="support_heading" style="margin-top: 10px;"></div>
-    <div class="support_desc"></div> -->
-    
-    
-    
-    
-
-
   </div>
-
+  
 </ion-content>

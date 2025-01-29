@@ -424,6 +424,20 @@ input{
     z-index: 1;
 }
 
+.support_heading{
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  margin-top: 16px;
+}
+
+.support_desc{
+  font-size: 12.5px;
+  font-weight: 400;
+  color: white;
+  margin-top: 6px;
+}
+
   .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
     align-self: center;
     border-bottom: none;
