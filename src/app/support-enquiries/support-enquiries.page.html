@@ -1,13 +1,9 @@
 <ion-header>
-  <ion-toolbar >
+  <ion-toolbar>
     <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
     <ion-row class="header_content">
-      <ion-col size="2" class="centerall"
-        ><img
-          (click)="goBack()"
-          style="height: 25px;"
-          src="../../assets/imgs/icons/new_icons/BackIcon.png"
-        />
+      <ion-col size="2" class="centerall"><img (click)="goBack()" style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png" />
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont roboto">Support Enquiries</ion-label>
@@ -22,72 +18,51 @@
     <img src="../../assets/imgs/icons/new_icons/BubbleIcon1.png" alt="">
 
     <div class="support_heading" style="margin-top: 5px;">Common Issues & Solutions</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Login Issues</div>
-    <div class="support_desc">If you're having trouble logging in, double-check your email and password for accuracy. You can reset your password via the "Forgot Password?" link if needed. Still having issues? Reach out to Support.</div>
-    
-    <div class="support_heading">App Crashes or Freezes</div>
-    <div class="support_desc">If the app crashes or freezes, try restarting your device, updating the app to the latest version, or clearing the app cache. Reinstalling the app may also help if the problem persists.</div>
-    
-    <div class="support_heading">Slow Loading Times</div>
-    <div class="support_desc">For improved performance, ensure you're connected to a stable internet source. Switching between Wi-Fi and mobile data can sometimes resolve loading delays, as can closing other apps running in the background.</div>
-    
-    <div class="support_heading">Notifications Not Working</div>
-    <div class="support_desc">To receive notifications, enable push notifications for the app in your device's settings. Verify within the app that notifications are turned on as well to avoid missed updates.</div>
-    
-    <div class="support_heading">Update & Compatibility</div>
-    <div class="support_desc">Keep the app and your device's operating system updated for optimal compatibility. Check the App Store or Google Play regularly to stay current with new features and fixes.</div>
-    
-    <div class="support_heading">Report an Issue</div>
-    <div class="support_desc">Can't find your issue? Reach out to us directly!</div>
-    
-    <div class="support_heading">Submit a Ticket</div>
-    <div class="support_desc">Select your issue from the dropdown list.</div>
-    
-    <div
-          (click)="hideShowIssues()"
-          [ngClass]="{'dd_box':true, 'radius_circular':!showIssuesDd , 'radius_top':showIssuesDd}"
-          class=" dd_box" style="background: #343434;"
-    >
+
+    <div [innerHTML]="supportEnquiries?.terms"></div>
+
+    <div (click)="hideShowIssues()"
+      [ngClass]="{'dd_box':true, 'radius_circular':!showIssuesDd , 'radius_top':showIssuesDd}" class=" dd_box"
+      style="background: #343434;">
       <p class="people" style="display: flex;">{{selectedIssue}} </p>
 
       <img [ngClass]="{'dd_icon':!showIssuesDd, 'dd_icon_active':showIssuesDd}"
-        src="../../assets/imgs/icons/new_icons/DropDownArrowIcon.png"
-      />
+        src="../../assets/imgs/icons/new_icons/DropDownArrowIcon.png" />
     </div>
-    
-    <div
-      class="issues_dd" *ngIf="showIssuesDd"
-    >
-      <p class="pp roboto" (click)="issueClick(issue)" *ngFor="let issue of issues">
-          {{issue.name}} 
+
+    <div class="issues_dd" *ngIf="showIssuesDd">
+      <p  class="pp roboto" (click)="issueClick(issue)" *ngFor="let issue of issuesList">
+        {{issue.issues}}
       </p>
     </div>
-        
+
     <div class="support_heading">Detailed Description</div>
     <div class="support_desc">Provide a detailed description to help us understand the problem.</div>
-    
-    <ion-textarea #textarea auto-grow="true" name="feedback"  type="text" maxlength="250" class="roboto textarea" rows="7" cols="20" placeholder="" [(ngModel)]="feedback"></ion-textarea>
+
+    <ion-textarea  *ngIf="!showIssuesDd" #textarea auto-grow="true" name="feedback" type="text" maxlength="250" class="roboto textarea"
+      rows="7" cols="20" placeholder="" [(ngModel)]="feedback"></ion-textarea>
 
 
     <div class="support_heading">Attach Screenshots (Optional)</div>
     <div class="support_desc">Include screenshots to better illustrate the issue.</div>
     <!-- (click)="addimg()" -->
-    <div  class="change_profile_btn width_42">Upload</div>
-    
+    <div class="change_profile_btn width_42">Upload</div>
+
     <div class="support_heading">Preferred Contact Method</div>
-    
+
     <div class="flex_center">
-      <div  class="change_profile_btn flex_space_around width_38"><span style="margin: auto;">Email</span>  <ion-checkbox style="margin-right: 4px;" checked="true"></ion-checkbox></div>
-      <div  class="change_profile_btn flex_space_around width_45"><span style="margin: 0px auto 0px 5px;">In-App Message</span> <ion-checkbox          style="margin-right: 4px;" checked="true"></ion-checkbox></div>
+      <div class="change_profile_btn flex_space_around width_38"><span style="margin: auto;">Email</span> <ion-checkbox
+          style="margin-right: 4px;" checked="true"></ion-checkbox></div>
+      <!-- <div class="change_profile_btn flex_space_around width_45"><span style="margin: 0px auto 0px 5px;">In-App
+          Message</span> <ion-checkbox style="margin-right: 4px;" checked="true"></ion-checkbox></div> -->
     </div>
-    
-    
+
+
 
 
   </div>
 
   <div class="container2">
-    <ion-button  class=" btnbg roboto">Report </ion-button>
+    <ion-button class=" btnbg roboto">Report </ion-button>
   </div>
 </ion-content>

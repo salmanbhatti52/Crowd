@@ -18,67 +18,14 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div class="container1">
+
+  <div *ngIf="eventsAndReservationsTerms?.terms" class="container1">
 
     <div class="support_heading" style="margin-top: 10px;">Event and Reservation Purchases</div>
-    <div class="support_desc">Last Updated: [Date]</div>
+    <div class="support_desc">Last Updated: {{getDateSlashFormat(eventsAndReservationsTerms?.date_modified)}}</div>
     
-    <div class="support_heading" style="margin-top: 10px;">Data Collection for Purchases</div>
-    <div class="support_desc">When users purchase tickets, table reservations, or event packages through the Crowd® App, certain personal and payment information is collected to facilitate the transaction. This includes: <br> <br>
-
-      <ul style="margin-bottom: 0px;">
-        <li>Personal Information: Name, email, and address for order confirmation and event entry requirements.</li>
-        <li>Payment Information: Users can make payments either via the payment card connected to their Crowd account or through PayPal. All payment processing is conducted securely through our payment providers, and MiCrowd Ltd does not store complete payment card details on its servers.</li>
-
-      </ul>
-      
-      
-      </div>
+    <div [innerHTML]="eventsAndReservationsTerms?.terms"></div>
     
-    <div class="support_heading" style="margin-top: 10px;">Data Usage for Transaction Processing</div>
-    <div class="support_desc">The data collected during the purchase process is used solely for the purposes of completing and confirming the transaction. Specifically: <br> <br>
-
-      <ul style="margin-bottom: 0px;">
-        <li>Order Confirmation: Personal information, such as your name and address, is used to confirm and verify your ticket or reservation.</li>
-        <li>Payment Processing: Payment card information is securely processed through our payment gateway or PayPal, depending on your selection. Payment details are encrypted and handled according to industry standards to ensure security.</li>
-        <li>Event and Venue Access: Your name and any ticketing information are shared only with the event organizers or venue, as necessary, to grant entry or confirm your reservation.</li>
-       
-      </ul>
-      
-      
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Data Security and Protection</div>
-    <div class="support_desc">
-      <ul style="margin-bottom: 0px;">
-        <li>Secure Payment Processing: All payments are processed using secure, encrypted channels through reputable third-party payment processors, such as [Name of Payment Gateway] and PayPal, ensuring that your financial information is handled securely.</li>
-        <li>No Data Sales: MiCrowd Ltd does not sell or share personal or payment data with third parties beyond what is necessary for the completion of purchases and reservations.</li>
-      </ul>
-      
-      
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">Data Retention and Access</div>
-    <div class="support_desc">Transaction data, including purchase history, may be retained for record-keeping purposes and for users’ access in their order history. Personal data related to the transaction will be stored securely and will only be accessible to the user and authorised MiCrowd Ltd staff as required.</div>
-    
-    <div class="support_desc">For any questions about how your data is managed during purchases, please refer to our full Privacy Policy or contact us at support@crowd-app.com</div>
-    
-
-    <!-- <ul style="margin-bottom: 0px;">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul> -->
-    <!-- <div class="support_heading" style="margin-top: 10px;"></div>
-    <div class="support_desc"></div> -->
-    
-    
-    
-    
-
-
   </div>
 
 </ion-content>

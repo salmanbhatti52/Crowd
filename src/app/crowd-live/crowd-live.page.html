@@ -1,18 +1,14 @@
 <ion-header>
-  <ion-toolbar >
+  <ion-toolbar>
     <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
     <ion-row class="header_content">
-      <ion-col size="2" class="centerall"
-        ><img
-          (click)="goBack()"
-          style="height: 25px;"
-          src="../../assets/imgs/icons/new_icons/BackIcon.png"
-        />
+      <ion-col size="2" class="centerall"><img (click)="goBack()" style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png" />
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont roboto">CrowdLive<sup style="color: #fafafa;">
-          <img class="r_icon" src="../../assets/imgs/icons/new_icons/RIcon.png" alt="">
-        </sup></ion-label>
+            <img class="r_icon" src="../../assets/imgs/icons/new_icons/RIcon.png" alt="">
+          </sup></ion-label>
       </ion-col>
       <ion-col class="centerall" size="2"> </ion-col>
     </ion-row>
@@ -20,63 +16,14 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div class="container1">
+
+
+  <div *ngIf="crowdLiveTerms?.terms" class="container1">
 
     <div class="support_heading" style="margin-top: 10px;">Terms and Conditions for CrowdLive®</div>
-    <div class="support_desc">Last Updated: [Date]</div>
+    <div class="support_desc">Last Updated: {{getDateSlashFormat(crowdLiveTerms?.date_modified)}}</div>
 
-    <div class="support_desc">CrowdLive® is a proprietary feature within the Crowd® App, developed by MiCrowd Ltd. The feature is designed to enhance your experience within the app, utilising data with a focus on privacy, transparency, and minimal data usage. Below, we outline how the feature utilises data, our commitment to data protection, and our approach to transparency with our users.
-
-    </div>
-
-    <div class="support_heading" style="margin-top: 10px;">Data Filters and Limited Data Use</div>
-    <div class="support_desc">
-      <ul style="margin-bottom: 0px;">
-        <li>For CrowdLive® to function effectively, we collect a minimal amount of personal information, including the user’s name and profile image. This data is used strictly within the CrowdLive® feature to enhance visibility and interaction within the app in a secure manner.</li>
-        <li>Users' names and images are displayed only in designated CrowdLive® spaces and are not shared with any external parties or displayed outside the app.</li>
-        
-
-      </ul>
-    </div>
-
-    <div class="support_heading" style="margin-top: 10px;">Data Protection</div>
-    <div class="support_desc">
-      MiCrowd Ltd is committed to maintaining the highest standards of data protection for all users of the Crowd® App. We use advanced security protocols and encryption methods to safeguard user information, especially when used by features like CrowdLive®. <br> <br>
-      <ul style="margin-bottom: 0px;">
-       
-
-        <li>Security Measures: All user data associated with CrowdLive®, including names and profile images, is stored securely on AWS servers. AWS provides industry-leading security standards, including multi-layered encryption and strict access controls to prevent unauthorised access.</li>
-        <li>Encrypted Storage: Personal information is encrypted both during transmission and at rest to ensure that sensitive data remains secure throughout its use within the app.</li>
-        <li>Location Privacy: Users' location data is securely encrypted on the backend and is only updated when the user enters a designated venue, adding them to the venue count within CrowdLive®. Outside of these locations, real-time location data remains private and inaccessible.</li>
-      </ul>
-      
-      
-      </div>
-
-    <div class="support_heading" style="margin-top: 10px;">Transparency with Users</div>
-    <div class="support_desc">
-      We prioritise transparency and want users to feel confident in how their data is managed within the Crowd App. <br> <br>
-      <ul style="margin-bottom: 0px;">
-        
-
-        <li>Data Visibility: Users can view all information that CrowdLive® uses, such as their name and profile image, within their account settings. Users retain control over this information and can make adjustments or updates as needed.</li>
-        <li>Limited Data Scope: We maintain a strict policy of only using data necessary to support the features within the Crowd App, with no additional or background data collection.</li>
-        <li>Opt-Out Option: Users may choose to disable the CrowdLive® feature if they prefer not to display their name and profile image within your profile, by enabling or disabling directly. Disabling this feature will remove the user from CrowdLive’s display list and will prevent any further use of their information for this feature. The user will then also be unable to view other users using the CrowdLive® feature to keep to a fair use policy.</li>
-      </ul>
-      
-      
-      </div>
-
-    <div class="support_desc" style="margin-top: 10px;">Contact Us: For further details on our data usage, protection policies, or any concerns regarding privacy within CrowdAI®, please reach out to us at support@crowd-app.com</div>
-  
-
-    <!-- <div class="support_heading" style="margin-top: 10px;"></div>
-    <div class="support_desc"></div> -->
-    
-    
-    
-    
-
+    <div [innerHTML]="crowdLiveTerms?.terms"></div>
 
   </div>
 

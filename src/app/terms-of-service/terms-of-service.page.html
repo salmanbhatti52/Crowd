@@ -18,88 +18,12 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div class="container1">
+  <div *ngIf="termsOfService?.terms" class="container1">
 
-    <div class="support_heading" style="margin-top: 5px;">Crowd® App - Terms and Conditions</div>
-    <div class="support_desc">Last Updated: [Date]</div>
-    <div class="support_desc">Welcome to Crowd®, a mobile application owned and operated by MiCrowd Ltd (“we,” “us,” “our,” or “MiCrowd Ltd”). By using the Crowd App (“App”), you agree to comply with and be bound by these Terms and Conditions. Please read these terms carefully, as they contain important information about your rights and obligations.</div>
-
-    <div class="support_heading" style="margin-top: 10px;">1. Acceptance of Terms</div>
-    <div class="support_desc">By accessing or using the App, you accept and agree to be bound by these Terms and Conditions, as well as our Privacy Policy. If you do not agree to these terms, please do not use the App.</div>
-
-    <div class="support_heading" style="margin-top: 10px;">2. Account Creation and Responsibilities</div>
-    <div class="support_desc">To use certain features of the App, you may need to create a user account. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account. If you suspect any unauthorized access to your account, please notify us immediately.</div>
+    <div class="support_heading" style="margin-top: 10px;">Crowd® App - Terms and Conditions</div>
+    <div class="support_desc">Last Updated: {{getDateSlashFormat(termsOfService?.date_modified)}}</div>
     
-    <div class="support_heading" style="margin-top: 10px;">3. Reservation Policies</div>
-    <div class="support_desc">Users may book tables and make reservations at participating venues through the App. The terms of each booking, including cancellation policies and grace periods, are determined by the respective venue and displayed at the time of booking. Please review these policies carefully before completing your reservation.
-    </div>
+    <div [innerHTML]="termsOfService?.terms"></div>
     
-    <div class="support_heading" style="margin-top: 10px;">4. Review Guidelines</div>
-    <div class="support_desc">Crowd® allows users to leave reviews for venues. By leaving a review, you agree to the following guidelines: <br>
-      <br>
-      <ul style="margin-bottom: 0px;">
-        <li>Reviews must be honest and reflect genuine experiences.</li>
-        <li>No offensive, defamatory, or inappropriate content.</li>
-        <li>No promotional or spam content.</li>
-        <li>Reviews should avoid using personal information or violating privacy.</li>
-      </ul>
-      <br>
-      MiCrowd Ltd reserves the right to remove any review that violates these guidelines. Users who consistently violate these guidelines or leave fake reviews may have their accounts suspended or permanently terminated.
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">5. Privacy Policy</div>
-    <div class="support_desc">Your privacy is important to us. Please review our Privacy Policy for information on how we collect, use, and protect your data. <br> <br>
-      Data Collection and Use <br> <br>
-      <ul style="margin-bottom: 0px;">
-        <li>MiCrowd Ltd collects data to provide and improve the App experience. None of your personal data is sold to third-party companies. Your data is only used to support your account and provide App functionalities.</li>
-      </ul>
-      <br> 
-      Location Tracking <br> <br>
-      
-      <ul style="margin-bottom: 0px;">
-        <li>If you enable location tracking, your location data is encrypted and used solely to enhance your experience on the App. When you reach a venue location, your data is updated to reflect your presence at the venue, adding to the total user count at that location. Outside of this purpose, your location data remains encrypted and secure.</li>
-      </ul>
-      <br> 
-      
-      For more detailed information, please refer to the full Privacy Policy [link to full policy].
-      </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">6. Intellectual Property</div>
-    <div class="support_desc">All content, including but not limited to logos, text, graphics, and images in the App, is the property of MiCrowd Ltd and protected by copyright and intellectual property laws. Users may not copy, distribute, or create derivative works from the App's content without prior written permission from MiCrowd Ltd.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">7. Prohibited Activities</div>
-    <div class="support_desc">While using the App, users agree to avoid the following activities:
-      <br><br>
-      <ul style="margin-bottom: 0px;">
-        <li>Engaging in fraudulent, harmful, or illegal activities.</li>
-        <li>Attempting to interfere with or disrupt the App's operations.</li>
-        <li>Violating the privacy rights of other users.</li>
-      </ul>
-      <br>
-    </div>
-    
-    <div class="support_heading" style="margin-top: 10px;">8. Third-Party Services</div>
-    <div class="support_desc">The App may include links to third-party services or content not operated by MiCrowd Ltd. We are not responsible for the privacy practices or terms of these third-party sites and encourage users to review their respective policies.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">9. Disclaimers and Limitation of Liability</div>
-    <div class="support_desc">The App is provided on an “as-is” and “as-available” basis. MiCrowd Ltd makes no guarantees regarding the reliability, accuracy, or availability of the App. To the maximum extent permitted by law, MiCrowd Ltd shall not be liable for any damages arising from the use or inability to use the App.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">10. Modifications to Terms</div>
-    <div class="support_desc">MiCrowd Ltd reserves the right to modify these Terms and Conditions at any time. Changes will be effective immediately upon posting the revised Terms in the App. Continued use of the App after changes constitutes your acceptance of the new Terms.</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">11. Contact Information</div>
-    <div class="support_desc">If you have any questions about these Terms and Conditions, please contact us at [Contact Email].</div>
-    
-    <div class="support_heading" style="margin-top: 10px;">By using the Crowd® App, you acknowledge that you have read, understood, and agree to these Terms and Conditions.</div>
-    
-    <!-- <div class="support_heading" style="margin-top: 10px;"></div>
-    <div class="support_desc"></div> -->
-    
-    
-    
-    
-
-
   </div>
-
 </ion-content>

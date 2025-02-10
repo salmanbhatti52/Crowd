@@ -31,12 +31,12 @@ export class PrivacyPolicyPage implements OnInit {
   }
 
   getDateSlashFormat(val:any){
-      if(val){
-        return format(new Date(val), 'M/d/yyyy');
-      }
-      else{
-        return val;
-      }
+    if(val){
+      return format(new Date(val), 'M/d/yyyy');
     }
+    else{
+      return val;
+    }
+  }
 
 }
