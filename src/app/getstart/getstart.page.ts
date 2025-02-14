@@ -55,7 +55,7 @@ export class GetstartPage implements OnInit {
     public platform: Platform,
     public rest: RestService,
     private geoCoder: MapGeocoder,
-    public navCtrl:NavController
+    public navCtrl: NavController
   ) {
     if (this.platform.is("ios")) {
       this.platformcheck = "ios";
@@ -64,9 +64,9 @@ export class GetstartPage implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-   
+
   ngAfterViewInit(): void {
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(
@@ -83,44 +83,44 @@ export class GetstartPage implements OnInit {
           return;
         }
 
-        console.log("place and geometery locationnnnnnn lat: ",{ place }, place.geometry.location?.lat());
-        console.log("place and geometery locationnnnnnn lng: ",{ place }, place.geometry.location?.lng());
+        console.log("place and geometery locationnnnnnn lat: ", { place }, place.geometry.location?.lat());
+        console.log("place and geometery locationnnnnnn lng: ", { place }, place.geometry.location?.lng());
 
         //set latitude, longitude and zoom
-        this.latitude = this.roundOffLatLong(place.geometry.location?.lat()) ;
+        this.latitude = this.roundOffLatLong(place.geometry.location?.lat());
         this.longitude = this.roundOffLatLong(place.geometry.location?.lng());
         console.log(this.latitude);
         console.log(this.longitude);
-       
-        if(place?.name === place?.vicinity){
-          
+
+        if (place?.name === place?.vicinity) {
+
           this.currentaddress = place?.formatted_address;
-          
-        }else{
+
+        } else {
           this.currentaddress = place?.name + ", " + place?.vicinity;
-          
+
         }
 
-        
+
         this.from = this.currentaddress;
         console.log("curr addr===", this.currentaddress);
 
         localStorage.setItem("location", this.currentaddress);
         localStorage.setItem("longitude", this.longitude);
         localStorage.setItem("lattitude", this.latitude);
-        
-        
+
+
       });
     });
   }
 
-  roundOffLatLong(val:any){
-   return Number.parseFloat(val).toFixed(7);
+  roundOffLatLong(val: any) {
+    return Number.parseFloat(val).toFixed(7);
   }
 
   goToHome() {
     console.log("from--", this.from);
-    
+
     console.log(
       "localStorage.getItem('longitude')--",
       localStorage.getItem("longitude")
@@ -233,62 +233,64 @@ export class GetstartPage implements OnInit {
     console.log("getCurrentLocationCalled");
     this.rest.presentLoaderWd();
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log("position: ",position);
-      
+      console.log("position: ", position);
+
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
       this.rest.dismissLoader();
       this.getAddress(this.latitude, this.longitude);
-     
-    },(err)=>{
+
+    }, (err) => {
       console.log("errrr: ", err);
-      
+
     });
     setTimeout(() => {
-      if(!(this.latitude || this.longitude)){
+      if (!(this.latitude || this.longitude)) {
         this.rest.presentToast("Plz check your device location is on");
-        
+
       }
     }, 4000);
 
   }
 
   getAddress(latitude: any, longitude: any) {
-    let address:any;
+    let address: any;
     this.rest.presentLoaderWd();
     this.geoCoder
       .geocode({ location: { lat: latitude, lng: longitude } })
       .subscribe(
-        (addr: MapGeocoderResponse) => {
-          this.rest.dismissLoader();
-          console.log("Addressss: ",addr);
-          address = addr;
-          
-          if (address.status === "OK") {
-            if (address.results.length) {
-              for(let i = 0; i<address.results.length; i++){ 
-                if(address.results[i].types.length == 3){
-                  console.log("address found===", address.results[i].formatted_address);
-                  this.currentaddress = address.results[i].formatted_address;
-                  this.from = this.currentaddress;
-                }
-              }
-              console.log("curr addr===", this.currentaddress);
+        {
+          next: (addr: MapGeocoderResponse) => {
+            this.rest.dismissLoader();
+            console.log("Addressss: ", addr);
+            address = addr;
 
-              localStorage.setItem("location", this.currentaddress);
-              localStorage.setItem("longitude", longitude);
-              localStorage.setItem("lattitude", latitude);
+            if (address.status === "OK") {
+              if (address.results.length) {
+                for (let i = 0; i < address.results.length; i++) {
+                  if (address.results[i].types.length == 3) {
+                    console.log("address found===", address.results[i].formatted_address);
+                    this.currentaddress = address.results[i].formatted_address;
+                    this.from = this.currentaddress;
+                  }
+                }
+                console.log("curr addr===", this.currentaddress);
+
+                localStorage.setItem("location", this.currentaddress);
+                localStorage.setItem("longitude", longitude);
+                localStorage.setItem("lattitude", latitude);
+              } else {
+                this.currentaddress = "";
+                window.alert("No results found");
+              }
             } else {
               this.currentaddress = "";
-              window.alert("No results found");
+              window.alert("Geocoder failed due to: " + addr.status);
             }
-          } else {
-            this.currentaddress = "";
-            window.alert("Geocoder failed due to: " + addr.status);
+          },
+          error: (err) => {
+            this.rest.dismissLoader();
           }
-        },
-        (err) => {
-          this.rest.dismissLoader();
         }
       );
   }

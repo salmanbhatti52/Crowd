@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { RestService } from '../rest.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { delay } from 'rxjs';
 
 
 @Component({
@@ -12,12 +13,14 @@ import { Location } from '@angular/common';
   styleUrls: ['./profile-settings.page.scss'],
 })
 export class ProfileSettingsPage implements OnInit {
-  
+
   userdata: any = "";
-  
+
   uname: any = "";
-  firstName: any = "";
-  lastName: any = "";
+  firstName: string = "";
+  firstNameCopy: string = "";
+  lastName: string = "";
+  lastNameCopy: string = "";
   email: any = "";
 
   imgdata: any = "";
@@ -43,72 +46,182 @@ export class ProfileSettingsPage implements OnInit {
   // aiToggleChecked = false;
   // ai = "";
   // aiToggleValue = "No";
-  
+
   // noti: any = "No";
   // adminsList: any;
   // selectedAdmin: any;
   accountType: any;
   socialAccountType: any;
-  assetImage= false;
+  assetImage = false;
   constructor(public location: Location,
     public router: Router,
     public navCtrl: NavController,
     public rest: RestService,) { }
 
-    ngOnInit() {
-      setTimeout(async () => {
-        const result = await Camera.checkPermissions();
-        console.log("check permsisson result: ",result);
-      }, 500);
-  
-    }
+  ngOnInit() {
+    setTimeout(async () => {
+      const result = await Camera.checkPermissions();
+      console.log("check permsisson result: ", result);
+    }, 500);
+
+  }
 
   ionViewWillEnter() {
-    this.userdata = localStorage.getItem("userdata");
+    // this.userdata = localStorage.getItem("userdata");
+    this.userdata = JSON.parse(localStorage.getItem("userdata")!);
     console.log("userdata----", this.userdata);
 
-    this.email = JSON.parse(this.userdata).email;
-    const fullName = JSON.parse(this.userdata).full_name;
+    this.email = this.userdata.email;
+    const fullName = this.userdata.full_name;
     const nameParts = fullName.trim().split(' ');
     this.firstName = nameParts[0];
+    this.firstNameCopy = nameParts[0];
     this.lastName = nameParts.slice(1).join(' ');
-    this.uname = JSON.parse(this.userdata).username;
-    this.userid = JSON.parse(this.userdata).users_customers_id;
-    this.accountType = JSON.parse(this.userdata).account_type
-    this.socialAccountType = JSON.parse(this.userdata).social_acc_type;
-    if(JSON.parse(this.userdata).account_type == "SignupWithApp"){
-      if (JSON.parse(this.userdata).profile_picture) {
+    this.lastNameCopy = nameParts.slice(1).join(' ');
+    this.uname = this.userdata.username;
+    this.userid = this.userdata.users_customers_id;
+    this.accountType = this.userdata.account_type
+    this.socialAccountType = this.userdata.social_acc_type;
+
+    let parsedProfile = this.userdata.profile_picture;
+
+    if (this.userdata.account_type == "SignupWithApp") {
+      if (parsedProfile) {
         this.imgdataComing =
-          this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
+          this.rest.baseURLimg + parsedProfile;
       } else {
         this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
         this.assetImage = true;
       }
-    }else{
-      let str = JSON.parse(this.userdata).profile_picture
-      if(str.includes('uploads/')){
-        this.imgdataComing =
-        this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
-      }else{
-        if (JSON.parse(this.userdata).profile_picture) {
-          this.imgdataComing = JSON.parse(this.userdata).profile_picture;
-        } else {
-          this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
-          this.assetImage = true;
-        }
+    } else {
+
+      // if (parsedProfile.includes('uploads/')) {
+      //   this.imgdataComing =
+      //     this.rest.baseURLimg + parsedProfile;
+      // } else {
+      if (this.userdata.profile_picture) {
+        this.imgdataComing = parsedProfile;
+      } else {
+        this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
+        this.assetImage = true;
       }
-      
+      // }
+
     }
-    
+
   }
 
   goBack() {
     this.location.back();
   }
 
-  preventSpaces(ev:any){
+  async save() {
+
+    let isProfileUpdated = false;
+
+    // Check if any profile field has changed
+    if (
+      this.firstName.trim() !== this.firstNameCopy.trim() || this.lastName.trim() !== this.lastNameCopy.trim() ||
+      this.email !== this.userdata.email ||
+      this.uname !== this.userdata.username ||
+      this.imgdata !== ""
+    ) {
+
+      isProfileUpdated = true;
+    }
+
+    try {
+      if (isProfileUpdated) {
+        await this.updateProfile();
+      }
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+
+    if (isProfileUpdated) await this.delay(1000);
+
+    if (this.oldpass != "" && this.newpass != "") {
+      try {
+
+        await this.changePassword();
+      }
+      catch (error) {
+        console.log(error);
+      }
+
+    }
+
+  }
+
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  updateProfile(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (this.firstName.trim() === "" || this.lastName.trim() === "") {
+        this.rest.presentToast("Please enter your full name.");
+        return reject("Please enter your full name.");
+      }
+      if (this.uname == "" || this.uname == null) {
+        this.rest.presentToast("Please enter user_name.");
+        return reject("Please enter user_name.");
+
+      }
+      if (this.email == "" || this.email == null) {
+        this.rest.presentToast("Please enter email.");
+        return reject("Please enter email.");
+      }
+
+      if (!re.test(this.email)) {
+        this.rest.presentToast("Enter valid email.");
+        return reject("Enter valid email.");
+      }
+
+      let fullname = this.firstName.trim() + " " + this.lastName.trim();
+
+      var ss = JSON.stringify({
+        users_customers_id: this.userid,
+        email: this.email,
+        full_name: fullname.trim(),
+        username: this.uname,
+        profile_picture: this.imgdata,
+
+      });
+
+      this.rest.update_profile(ss).subscribe({
+        next: (res: any) => {
+          console.log(res);
+          if (res.status == "success") {
+            this.rest.presentToast("Profile updated successfully");
+            if (this.imageupdate == 1) {
+              // this.rest.profile_updated = true;
+            }
+
+            localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+            this.ionViewWillEnter();
+            return resolve(res);
+          } else {
+            this.rest.presentToast("Profile update failed.");
+            return reject("Error");
+          }
+        }, error: (err) => {
+          console.log(err);
+          this.rest.presentToast("Profile update failed.");
+          return reject(err);
+        }
+      });
+
+    });
+
+  }
+
+  preventSpaces(ev: any) {
     console.log(ev);
-    if(ev.key === ' ' || ev.code === 'space'){
+    if (ev.key === ' ' || ev.code === 'space') {
       ev.preventDefault();
       const message = "Spaces are not allowed in the username.";
       this.rest.presentToast(message);
@@ -130,28 +243,28 @@ export class ProfileSettingsPage implements OnInit {
 
     console.log("incoming img----", this.imgdata);
     this.imageupdate = 1;
-     
+
   }
 
-  submit() {
-    console.log("oldpass", this.oldpass);
-    console.log("newpass", this.newpass);
-    console.log("confirmpass", this.confirmpass);
-    this.userdata = localStorage.getItem("userdata");
-    console.log("userdata----", this.userdata);
+  changePassword(): Promise<any> {
 
-    var email = JSON.parse(this.userdata).email;
-    console.log("email----", email);
+    return new Promise((resolve, reject) => {
 
-    if (this.oldpass == "") {
-      this.rest.presentToast("Please enter Old Password");
-    } else if (this.newpass == "") {
-      this.rest.presentToast("Please enter New Password");
-    } else if (this.confirmpass == "") {
-      this.rest.presentToast("Please enter Confirm Password");
-    } else if (this.newpass == this.confirmpass) {
+      console.log("oldpass", this.oldpass);
+      console.log("newpass", this.newpass);
+      console.log("confirmpass", this.confirmpass);
+
+      if (this.confirmpass == "") {
+        this.rest.presentToast("Please enter Confirm Password");
+        return reject("Please enter Confirm Password");
+      }
+      if (this.newpass !== this.confirmpass) {
+        this.rest.presentToast("New password and confirm password not matched");
+        return reject("New password and confirm password not matched");
+      }
+
       var ss = JSON.stringify({
-        email: email,
+        email: this.email,
         old_password: this.oldpass,
         password: this.newpass,
         confirm_password: this.confirmpass,
@@ -159,18 +272,28 @@ export class ProfileSettingsPage implements OnInit {
 
       console.log("ss----", ss);
 
-      this.rest.change_password(ss).subscribe((res: any) => {
-        console.log(res);
+      this.rest.change_password(ss).subscribe({
+        next: (res: any) => {
+          console.log(res);
 
-        if (res.status == "success") {
-          this.rest.presentToast("Password updated successfully.");
-        } else {
-          this.rest.presentToast(res.message);
+          if (res.status == "success") {
+            this.rest.presentToast("Password updated successfully.");
+            this.goBack();
+            return resolve(res);
+          } else {
+            this.rest.presentToast(res.message);
+            return reject(res.message);
+          }
+        },
+
+        error: (error) => {
+          console.error(error);
+          this.rest.presentToast("Password change failed.");
+          return reject(error);
         }
       });
-    } else {
-      this.rest.presentToast("New password and confirm password not matched");
-    }
+    });
+
   }
 
   togglePass1() {

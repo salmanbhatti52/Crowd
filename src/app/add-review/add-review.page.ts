@@ -90,18 +90,21 @@ export class AddReviewPage implements OnInit {
     };
     console.log(data);
     this.rest.presentLoader();
-    this.rest.sendRequest("add_reviews", data).subscribe((res: any) => {
-      this.rest.dismissLoader();
-      console.log(res);
-      if(res.status=='success'){
-        this.rest.presentToast("Thanks for your review!");
-        this.goBack();
-      }
-    },(err)=>{
-      this.rest.dismissLoader();
-       err = err.error;
-      if(err.status=='error'){
-        this.rest.presentToast(err.message);
+    this.rest.sendRequest("add_reviews", data).subscribe({
+      next:(res: any) => {
+        this.rest.dismissLoader();
+        console.log(res);
+        if(res.status=='success'){
+          this.rest.presentToast("Thanks for your review!");
+          this.goBack();
+        }
+      },
+      error:(err)=>{
+        this.rest.dismissLoader();
+         err = err.error;
+        if(err.status=='error'){
+          this.rest.presentToast(err.message);
+        }
       }
     });
   }

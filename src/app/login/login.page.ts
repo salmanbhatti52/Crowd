@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
   pass: any = "";
   showPass3 = false;
   fbUserData: any;
-  appleUserData:any;
+  appleUserData: any;
   token: any;
   fbuser: any = "";
   googleUser: any = "";
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async initializeApp() {
     this.platform.ready().then(async () => {
@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
       await FacebookLogin.initialize({ appId: "828272794912378" });
     });
   }
-  
+
   goToSignup() {
     this.router.navigate(["signup"]);
   }
@@ -90,8 +90,8 @@ export class LoginPage implements OnInit {
         one_signal_id: localStorage.getItem("onesignaluserid"),
       };
 
-      console.log("signin_payload",ss);
-      
+      console.log("signin_payload", ss);
+
 
       this.rest.login(JSON.stringify(ss)).subscribe((res: any) => {
         console.log("res---", res);
@@ -125,32 +125,32 @@ export class LoginPage implements OnInit {
   async googleSignIn() {
 
     this.rest.presentToast('Accessing Your Google Account');
-    await GoogleAuth.signIn().then((res:any)=>{
+    await GoogleAuth.signIn().then((res: any) => {
       // this.api.hideLoading();
       this.rest.presentToast('Google Account Identified');
-      console.log('GoogleUserResponse: ',res);
+      console.log('GoogleUserResponse: ', res);
       this.googleUser = res;
-    },(err)=>{
+    }, (err) => {
       // this.api.hideLoading();
       this.rest.presentToast(err);
-      console.log("Error: ",err);
-      
+      console.log("Error: ", err);
+
     });
-    console.log('GoogleUserResponse: ',this.googleUser);
+    console.log('GoogleUserResponse: ', this.googleUser);
 
     // this.googleUser = await GoogleAuth.signIn();
     // console.log("googleUser-------", this.googleUser);
     let socialUserName;
-    if(this.platform.is('ios')){
-      socialUserName  = this.googleUser.name;
-    }else if(this.platform.is('android')){
+    if (this.platform.is('ios')) {
+      socialUserName = this.googleUser.name;
+    } else if (this.platform.is('android')) {
       socialUserName = this.googleUser.displayName;
     }
 
-    console.log("platform is ios: ",this.platform.is('ios'));
-    console.log("platform is android: ",this.platform.is('android'));
-  
-    console.log("Social user name: ",socialUserName);
+    console.log("platform is ios: ", this.platform.is('ios'));
+    console.log("platform is android: ", this.platform.is('android'));
+
+    console.log("Social user name: ", socialUserName);
     var ss = {
       email: this.googleUser.email,
       one_signal_id: localStorage.getItem("onesignaluserid"),
@@ -169,7 +169,7 @@ export class LoginPage implements OnInit {
     this.rest.presentLoader();
 
     this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
-      
+
       res.data[0].full_name = '';
       console.log(res);
       this.rest.dismissLoader();
@@ -188,90 +188,94 @@ export class LoginPage implements OnInit {
 
   async fbLogin() {
     const FACEBOOK_PERMISSIONS = [
-      "email", 
+      "email",
       "user_birthday",
       'user_photos',
       'user_gender'
     ];
     this.rest.presentToast('Accessing Your Facebook Account');
     await (<FacebookLoginResponse><unknown>(
-      FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS }).then((res:any)=>{
-        
-        const result = res;
-        console.log("Result: ",result);
+      FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS }).then((res: any) => {
 
-        if(result.accessToken && result.accessToken.userId){
+        const result = res;
+        console.log("Result: ", result);
+
+        if (result.accessToken && result.accessToken.userId) {
           this.token = result.accessToken;
           //Login Successful.
           this.rest.presentToast('Facebook Account Identified');
-          console.log(`Facebook access token is ${result.accessToken.token}`);  
-          this.loadUserData();    
+          console.log(`Facebook access token is ${result.accessToken.token}`);
+          this.loadUserData();
         }
 
-      },(err)=>{
-        console.log("Error: ",err);
+      }, (err) => {
+        console.log("Error: ", err);
         this.rest.presentToast(err);
-        
+
       })
     ));
-    
-  }     
+
+  }
 
   async loadUserData() {
-    const url = 'https://graph.facebook.com/'+this.token.userId+'?fields=id,name,picture.width(720),birthday,email&access_token='+this.token.token;
+    const url = 'https://graph.facebook.com/' + this.token.userId + '?fields=id,name,picture.width(720),birthday,email&access_token=' + this.token.token;
     this.rest.presentLoader();
-    this.http.post(url, {}, {}).subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log('Response: ' ,res);
-      this.fbuser = res;
-      
-      let ss={
-        email: this.fbuser.email,
-        one_signal_id: localStorage.getItem("onesignaluserid"),
-        google_access_token: this.fbuser.id,
-        account_type: "SignupWithSocial",
-        social_acc_type: "Facebook",
-        password: "dummy",
-        status: "Active",
-        verify_code: "dummy",
-        social_username: res.name,
-        social_profile: res.picture.data.url
-      }
-      if(ss.email == undefined){
-        ss.email = "dummy@email.com" 
-      }
-      //remove it later-----------------------
-      console.log("Facebook_signin_payload: ",ss);
-
-      this.rest.presentLoader();
-
-      this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
-        res.data[0].full_name = '';
-        console.log(res);
-
+    this.http.post(url, {}, {}).subscribe({
+      next: (res: any) => {
         this.rest.dismissLoader();
-        if (res.status == "success") {
-          localStorage.setItem("userdata", JSON.stringify(res.data[0]));
-          if (localStorage.getItem("location")) {
-            this.navCtrl.navigateRoot(["/home"]);
-          } else {
-            this.navCtrl.navigateRoot(["/getstart"]);
-          }
-        } else {
-          this.rest.presentToast(res.message);
+        console.log('Response: ', res);
+        this.fbuser = res;
+
+        let ss = {
+          email: this.fbuser.email,
+          one_signal_id: localStorage.getItem("onesignaluserid"),
+          google_access_token: this.fbuser.id,
+          account_type: "SignupWithSocial",
+          social_acc_type: "Facebook",
+          password: "dummy",
+          status: "Active",
+          verify_code: "dummy",
+          social_username: res.name,
+          social_profile: res.picture.data.url
         }
-      },(err)=>{
+        if (ss.email == undefined) {
+          ss.email = "dummy@email.com"
+        }
+        //remove it later-----------------------
+        console.log("Facebook_signin_payload: ", ss);
+
+        this.rest.presentLoader();
+
+        this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe({
+          next: (res: any) => {
+            res.data[0].full_name = '';
+            console.log(res);
+
+            this.rest.dismissLoader();
+            if (res.status == "success") {
+              localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+              if (localStorage.getItem("location")) {
+                this.navCtrl.navigateRoot(["/home"]);
+              } else {
+                this.navCtrl.navigateRoot(["/getstart"]);
+              }
+            } else {
+              this.rest.presentToast(res.message);
+            }
+          }, error: (err) => {
+            this.rest.dismissLoader();
+            console.log("Error: ", err);
+            this.rest.presentToast(err);
+          }
+        });
+
+
+      }, error: (err) => {
         this.rest.dismissLoader();
-        console.log("Error: ",err);
+        console.log("Error: ", err);
         this.rest.presentToast(err);
-      });
-      
-      
-    },(err)=>{
-      this.rest.dismissLoader();
-      console.log("Error: ",err);
-      this.rest.presentToast(err);
-    })    
+      }
+    })
   }
 
   signinwithapple() {
@@ -288,7 +292,7 @@ export class LoginPage implements OnInit {
         // alert("Send token to apple for verification----: " + res.identityToken);
         console.log(res);
         this.appleUserData = res;
-     
+
 
         console.log("AppleSigninPluginRes--------------", this.appleUserData);
 
@@ -300,8 +304,8 @@ export class LoginPage implements OnInit {
           social_acc_type: "Apple",
           password: "dummy",
           status: "Active",
-          social_username:"dummy",
-          social_profile:"dummy",
+          social_username: "dummy",
+          social_profile: "dummy",
           verify_code: "dummy",
         };
 
@@ -314,7 +318,7 @@ export class LoginPage implements OnInit {
         this.rest.presentLoader();
 
         this.rest.users_customers_signup_social(JSON.stringify(ss)).subscribe((res: any) => {
-          res.data[0].username= '';
+          res.data[0].username = '';
           res.data[0].profile_picture = '';
           res.data[0].full_name = '';
           console.log(res);

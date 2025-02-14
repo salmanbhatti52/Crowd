@@ -9,32 +9,32 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./request-refund.page.scss'],
 })
 export class RequestRefundPage implements OnInit {
-  ticketRequested:any;
+  ticketRequested: any;
   availableTickets: any;
-  userdata:any;
-  userId:any;
+  userdata: any;
+  userId: any;
   tickets: any;
-  constructor(public location:Location,
-    public rest:RestService,
-    public router:Router,
-    public navCtrl:NavController) {
-    
-   }
+  constructor(public location: Location,
+    public rest: RestService,
+    public router: Router,
+    public navCtrl: NavController) {
+
+  }
 
   ngOnInit() {
     // if(this.rest.billDetails.ticket_requested){
-      // this.availableTickets = this.rest.billDetails.ticket_requested;
-      this.availableTickets = this.rest.availableTicketsForRefund;
-      // console.log(this.availableTickets);
-      // if(this.rest.ticketsRequestedForRefund == 1){
-      //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} ticket`)
-      // }else if(this.rest.ticketsRequestedForRefund > 1){
-      //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} tickets`)
+    // this.availableTickets = this.rest.billDetails.ticket_requested;
+    this.availableTickets = this.rest.availableTicketsForRefund;
+    // console.log(this.availableTickets);
+    // if(this.rest.ticketsRequestedForRefund == 1){
+    //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} ticket`)
+    // }else if(this.rest.ticketsRequestedForRefund > 1){
+    //   this.rest.presentToast(`You have previously sent refund request for ${this.rest.ticketsRequestedForRefund} tickets`)
 
-      // }else{
+    // }else{
 
-      // }
-      
+    // }
+
     // }
   }
 
@@ -50,60 +50,62 @@ export class RequestRefundPage implements OnInit {
   //     this.ticketRequested = 0;
   //     this.rest.presentToast(`Available tickets for refund are ${this.availableTickets}.`);
   //   }  
-  
+
   //   console.log("tickets requested", this.ticketRequested);
-    
-    
+
+
   // }
 
-  requestRefund(){
-    if(this.ticketRequested > this.availableTickets){
+  requestRefund() {
+    if (this.ticketRequested > this.availableTickets) {
       this.rest.presentToast(`Available tickets for refund are ${this.availableTickets}.`);
       this.ticketRequested = undefined;
-      
-    }else if(this.ticketRequested > 0){
-      console.log("users_customers_id:",this.userId);
-      console.log("event_booking_id:",this.rest.eventBookingId,);
+
+    } else if (this.ticketRequested > 0) {
+      console.log("users_customers_id:", this.userId);
+      console.log("event_booking_id:", this.rest.eventBookingId,);
       console.log("events_id:", this.rest.eventId);
-      let ticketIds:any = []
-      for(let i=0; i<this.ticketRequested; i++){
-        ticketIds.push(this.tickets[i].tickets_id); 
+      let ticketIds: any = []
+      for (let i = 0; i < this.ticketRequested; i++) {
+        ticketIds.push(this.tickets[i].tickets_id);
       }
-      console.log("ticketIds: ",ticketIds);
-      
+      console.log("ticketIds: ", ticketIds);
+
       let data = {
-        users_customers_id:this.userId,
-        event_booking_id:this.rest.eventBookingId,
+        users_customers_id: this.userId,
+        event_booking_id: this.rest.eventBookingId,
         events_id: this.rest.eventId,
         requested_tickets: this.ticketRequested,
-        tickets_id:ticketIds
+        tickets_id: ticketIds
       }
-      console.log("Refund Req Payload: ",data);
-      
+      console.log("Refund Req Payload: ", data);
+
       this.rest.presentLoaderWd();
-      this.rest.sendRequest('request_refund',data).subscribe((res:any)=>{
-        this.rest.dismissLoader();
-        console.log("Refund Request Res: ", res);
-        if(res.status== 'success'){
-          this.rest.presentToast('Refund Request Sent.');
-          this.navCtrl.navigateRoot('my-refunds');
-        }else if(res.status == 'error'){
-          console.log(res);
-          this.rest.presentToast(res.message);
+      this.rest.sendRequest('request_refund', data).subscribe({
+        next: (res: any) => {
+          this.rest.dismissLoader();
+          console.log("Refund Request Res: ", res);
+          if (res.status == 'success') {
+            this.rest.presentToast('Refund Request Sent.');
+            this.navCtrl.navigateRoot('my-refunds');
+          } else if (res.status == 'error') {
+            console.log(res);
+            this.rest.presentToast(res.message);
+          }
+
+        }, error: (error: any) => {
+          this.rest.presentToast("Server error. Try again later.");
+          this.rest.dismissLoader();
         }
-        
-      },(error:any)=>{
-        this.rest.presentToast("Server error. Try again later.");
-        this.rest.dismissLoader();
       });
     }
     else {
       this.ticketRequested = undefined;
       this.rest.presentToast('Plz enter number of tickets for refund');
     }
-    
+
   }
-  goBack(){
+  goBack() {
     this.location.back();
   }
 }

@@ -61,7 +61,7 @@ export class ChatPage implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   goBack() {
     this.location.back();
@@ -76,17 +76,17 @@ export class ChatPage implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
 
     this.detailObj = this.restService.detail;
-    console.log("Detail Object: ",this.detailObj);
-    
-    if(this.restService.comingFrom == 'event-detail'){
-      if(this.detailObj.events){
+    console.log("Detail Object: ", this.detailObj);
+
+    if (this.restService.comingFrom == 'event-detail') {
+      if (this.detailObj.events) {
         this.detailObj.name = this.detailObj.events?.name;
-      }else{
+      } else {
         this.detailObj.name = this.detailObj.name;
       }
 
     }
-    if(this.restService.comingFrom == 'startChatWithAdmin'){
+    if (this.restService.comingFrom == 'startChatWithAdmin') {
       this.detailObj = {}
       this.detailObj.name = 'Chat With Admin';
     }
@@ -105,28 +105,28 @@ export class ChatPage implements OnInit {
     this.scrollDown();
   }
 
-  changeFunction(ev: any) {}
+  changeFunction(ev: any) { }
 
   updateMessages() {
 
     let userBusinessId;
     let action;
-    if(this.restService.comingFrom == 'event-detail'){
+    if (this.restService.comingFrom == 'event-detail') {
       console.log('calling update message event');
-      
-      if(this.detailObj.events){
+
+      if (this.detailObj.events) {
         userBusinessId = this.detailObj.events?.users_business_id;
-      }else{
+      } else {
         userBusinessId = this.detailObj.users_business_id;
       }
       // userBusinessId = this.detailObj.user_business_id;
       action = 'users_chat';
-    }else if(this.restService.comingFrom == 'startChatWithAdmin'){
+    } else if (this.restService.comingFrom == 'startChatWithAdmin') {
       console.log('calling update message live');
-      
+
       userBusinessId = this.restService.adminId;
       action = 'user_chat_live';
-    }else{
+    } else {
       console.log('calling update message venue');
 
       userBusinessId = this.detailObj.users_business_id;
@@ -134,52 +134,54 @@ export class ChatPage implements OnInit {
     }
 
     // geting all chats Messages
-    var data ={
+    var data = {
       requestType: "updateMessages",
       users_customers_id: this.userID,
       other_users_customers_id: userBusinessId,
     };
-    
+
     console.log("data-----", data);
-    this.restService.sendRequest(action,data).subscribe(
-      async (res: any) => {
+    this.restService.sendRequest(action, data).subscribe({
+      next: async (res: any) => {
         this.showSkeleton = false;
         console.log("updateMessage res", res);
-        
+
         if (res.status == "success") {
 
           let unread_messages = res.data.unread_messages;
 
           if (unread_messages.length > 0) {
-              for (let msg of unread_messages) {
-                this.allMessages.push({
-                  message: msg.message,
-                  msgType: msg.msgType,
-                  sender_type: msg.sender_type,
-                });
-              }
-              this.scrollDown();
+            for (let msg of unread_messages) {
+              this.allMessages.push({
+                message: msg.message,
+                msgType: msg.msgType,
+                sender_type: msg.sender_type,
+              });
+            }
+            this.scrollDown();
           }
           this.noChatlistFlag = false;
         } else {
           this.noChatlistFlag = true;
         }
       },
-      (err) => {
+      error: (err) => {
         this.restService.presentToast("Network error occured");
       }
+    }
+
     );
   }
 
   getMessages() {
     console.log("logged in user", this.currentUser);
     // geting all chats Messages
-    if(this.restService.comingFrom == 'event-detail'){ 
+    if (this.restService.comingFrom == 'event-detail') {
       let userBusinessId, eventsId;
-      if(this.detailObj.events){
+      if (this.detailObj.events) {
         userBusinessId = this.detailObj.events.users_business_id;
         eventsId = this.detailObj.events.events_id;
-      }else{
+      } else {
         userBusinessId = this.detailObj.users_business_id;
         eventsId = this.detailObj.events_id;
       }
@@ -193,51 +195,53 @@ export class ChatPage implements OnInit {
       console.log("payload get event msgs", data);
       this.restService.presentLoader();
       this.restService.event_chat(data).subscribe(
-        
-        async (res: any) => {
-          this.restService.dismissLoader();
-          this.showSkeleton = false;
-          console.log("response", res);
-  
-          if (res.status == "success") {
-            this.allMessages = res.data;
-            this.scrollDown();
-            // this.previousMsgsCount = res.data.length
-            // console.log("receving All chats messages", this.allMessages);
-            // this.allMessages.map((messages, index) => {
-            //   if (messages.msgType == "attachment") {
-            //     this.chatImagesArray.push({
-            //       image: messages.message,
-            //     });
-            //   }
-            // });
-            // console.log("allMsg array ", this.chatImagesArray);
-  
-            this.noChatlistFlag = false;
-          } else {
-            this.noChatlistFlag = true;
+
+        {
+          next: async (res: any) => {
+            this.restService.dismissLoader();
+            this.showSkeleton = false;
+            console.log("response", res);
+
+            if (res.status == "success") {
+              this.allMessages = res.data;
+              this.scrollDown();
+              // this.previousMsgsCount = res.data.length
+              // console.log("receving All chats messages", this.allMessages);
+              // this.allMessages.map((messages, index) => {
+              //   if (messages.msgType == "attachment") {
+              //     this.chatImagesArray.push({
+              //       image: messages.message,
+              //     });
+              //   }
+              // });
+              // console.log("allMsg array ", this.chatImagesArray);
+
+              this.noChatlistFlag = false;
+            } else {
+              this.noChatlistFlag = true;
+            }
+          },
+          error: (err) => {
+            this.restService.dismissLoader();
+            this.restService.presentToast("Network error occured");
           }
-        },
-        (err) => {
-          this.restService.dismissLoader();
-          this.restService.presentToast("Network error occured");
         }
       );
     }
-    else if(this.restService.comingFrom == 'startChatWithAdmin'){
+    else if (this.restService.comingFrom == 'startChatWithAdmin') {
       var data = JSON.stringify({
-        requestType:"getMessages",
+        requestType: "getMessages",
         users_customers_id: this.userID,
-        other_users_customers_id:this.restService.adminId
+        other_users_customers_id: this.restService.adminId
       });
       console.log("payload get admin msgs", data);
       this.restService.presentLoader();
-      this.restService.admin_chat(data).subscribe(
-        async (res: any) => {
+      this.restService.admin_chat(data).subscribe({
+        next: async (res: any) => {
           this.restService.dismissLoader();
           this.showSkeleton = false;
           console.log("response", res);
-  
+
           if (res.status == "success") {
             this.allMessages = res.data;
             this.scrollDown();
@@ -251,19 +255,21 @@ export class ChatPage implements OnInit {
             //   }
             // });
             // console.log("allMsg array ", this.chatImagesArray);
-  
+
             this.noChatlistFlag = false;
           } else {
             this.noChatlistFlag = true;
           }
         },
-        (err) => {
+        error: (err) => {
           this.restService.dismissLoader();
           this.restService.presentToast("Network error occured");
         }
+      }
+
       );
     }
-    else{
+    else {
       var data = JSON.stringify({
         requestType: "getMessages",
         users_customers_id: this.userID,
@@ -273,40 +279,42 @@ export class ChatPage implements OnInit {
       console.log("payload get venue msgs-------", data);
       this.restService.presentLoader();
       this.restService.user_chat(data).subscribe(
-        async (res: any) => {
-          this.restService.dismissLoader();
-          this.showSkeleton = false;
-          console.log("response", res);
-  
-          if (res.status == "success") {
-            this.allMessages = res.data;
-            this.scrollDown();
-            // this.previousMsgsCount = res.data.length
-            // console.log("receving All chats messages", this.allMessages);
-            // this.allMessages.map((messages, index) => {
-            //   if (messages.msgType == "attachment") {
-            //     this.chatImagesArray.push({
-            //       image: messages.message,
-            //     });
-            //   }
-            // });
-            // console.log("allMsg array ", this.chatImagesArray);
-  
-            this.noChatlistFlag = false;
-          } else {
-            this.noChatlistFlag = true;
+        {
+          next: async (res: any) => {
+            this.restService.dismissLoader();
+            this.showSkeleton = false;
+            console.log("response", res);
+
+            if (res.status == "success") {
+              this.allMessages = res.data;
+              this.scrollDown();
+              // this.previousMsgsCount = res.data.length
+              // console.log("receving All chats messages", this.allMessages);
+              // this.allMessages.map((messages, index) => {
+              //   if (messages.msgType == "attachment") {
+              //     this.chatImagesArray.push({
+              //       image: messages.message,
+              //     });
+              //   }
+              // });
+              // console.log("allMsg array ", this.chatImagesArray);
+
+              this.noChatlistFlag = false;
+            } else {
+              this.noChatlistFlag = true;
+            }
+          },
+          error: (err) => {
+            this.restService.dismissLoader();
+            this.restService.presentToast("Network error occured");
           }
-        },
-        (err) => {
-          this.restService.dismissLoader();
-          this.restService.presentToast("Network error occured");
         }
       );
     }
-    
 
 
-   
+
+
   }
 
   back() {
@@ -317,12 +325,12 @@ export class ChatPage implements OnInit {
   sendMsg() {
     // console.log("remainong smssss---", this.remainingSMS);
 
-      let msgToSend = this.user_input;
-      this.user_input = "";
-      if(msgToSend != ''){
-        this.sendMessage( msgToSend );
-      }
-      
+    let msgToSend = this.user_input;
+    this.user_input = "";
+    if (msgToSend != '') {
+      this.sendMessage(msgToSend);
+    }
+
     // }
   }
   scrollDown() {
@@ -331,8 +339,8 @@ export class ChatPage implements OnInit {
     }, 100);
   }
 
-  sendMessage( msg: any) {
-   
+  sendMessage(msg: any) {
+
     let userMessage = {
       message: msg,
       msgType: 'text',
@@ -341,56 +349,60 @@ export class ChatPage implements OnInit {
     this.allMessages.push(userMessage);
     this.scrollDown();
 
-    if(this.restService.comingFrom == 'event-detail'){
+    if (this.restService.comingFrom == 'event-detail') {
       let userBusinessId;
       let eventsId;
-      if(this.detailObj.events){
+      if (this.detailObj.events) {
         userBusinessId = this.detailObj.events?.users_business_id;
         eventsId = this.detailObj.events?.events_id
-      }else{
+      } else {
         userBusinessId = this.detailObj.users_business_id;
         eventsId = this.detailObj.events_id
       }
       var data = JSON.stringify({
-        requestType:"sendMessage",
-        events_id:eventsId,
-        sender_type:"Users",
-        messageType:"text",
-        users_customers_id:this.userID,
-        other_users_customers_id:userBusinessId,
-        content:msg
+        requestType: "sendMessage",
+        events_id: eventsId,
+        sender_type: "Users",
+        messageType: "text",
+        users_customers_id: this.userID,
+        other_users_customers_id: userBusinessId,
+        content: msg
       });
       console.log("my msg in events", data);
       this.restService.event_chat(data).subscribe(
-        async (res: any) => {
-          console.log("response", res);
-        },
-        (err) => {
-          this.restService.presentToast("Network error occured");
+        {
+          next: async (res: any) => {
+            console.log("response", res);
+          },
+          error: (err) => {
+            this.restService.presentToast("Network error occured");
+          }
         }
       );
     }
-    else if(this.restService.comingFrom == 'startChatWithAdmin'){
+    else if (this.restService.comingFrom == 'startChatWithAdmin') {
       var data = JSON.stringify({
-        requestType:"sendMessage",
-        sender_type:"Users",
-        messageType:"1",
-        users_customers_id:this.userID,
-        other_users_customers_id:this.restService.adminId,
-        content:msg
+        requestType: "sendMessage",
+        sender_type: "Users",
+        messageType: "1",
+        users_customers_id: this.userID,
+        other_users_customers_id: this.restService.adminId,
+        content: msg
       });
       console.log("my msg in admin chat", data);
       this.restService.admin_chat(data).subscribe(
-        async (res: any) => {
-          console.log("response", res);
-          
-        },
-        (err) => {
-          this.restService.presentToast("Network error occured");
+        {
+          next: async (res: any) => {
+            console.log("response", res);
+
+          },
+          error: (err) => {
+            this.restService.presentToast("Network error occured");
+          }
         }
       );
     }
-    else{
+    else {
       var data = JSON.stringify({
         requestType: "sendMessage",
         venues_id: this.detailObj.venues_id,
@@ -402,19 +414,21 @@ export class ChatPage implements OnInit {
       });
       console.log("my msg", data);
       this.restService.user_chat(data).subscribe(
-        async (res: any) => {
-          console.log("response", res);
-          
-        },
-        (err) => {
-          this.restService.presentToast("Network error occured");
+        {
+          next: async (res: any) => {
+            console.log("response", res);
+
+          },
+          error: (err) => {
+            this.restService.presentToast("Network error occured");
+          }
         }
       );
     }
 
-    
 
-    
+
+
   }
 
   handleImgError(ev: any, item: any, url: any) {

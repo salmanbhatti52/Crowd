@@ -18,19 +18,20 @@ export class DiscountsPage implements OnInit {
   segmentModel = "Special Offers";
 
   specialOffersArr: any = [];
-  orderd_specialOffersArr: any = [];
+  filtered_specialOffersArr: any = [];
   claimedVenuesArr: any = [];
-  orderd_claimedVenuesArr: any =[];
+  orderd_claimedVenuesArr: any = [];
   inQueueVenuesArr: any = [];
-  orderd_inQueueVenuesArr: any =[];
-  
+  orderd_inQueueVenuesArr: any = [];
+
   claimedVenues: any = [];
   displaydiv = false;
-  discountToken:any;
+  discountToken: any;
   userdata: any = "";
   userID: any = "";
   hideClaimDiscountButton: boolean = false;
   detailObj: any = "";
+  dayNumber:any;
   constructor(
     public location: Location,
     public modalCtrl: ModalController,
@@ -41,121 +42,120 @@ export class DiscountsPage implements OnInit {
   ngOnInit() {
   }
 
-  getClaimedVenues(){
+  getClaimedVenues() {
     let data = {
-      "users_customers_id":this.userID
+      "users_customers_id": this.userID
     };
-    this.rest.sendRequest('get_claimed_venues',data ).subscribe((res: any)=>{
-      console.log("get_claimed_venues",res);
-      if(res.status == 'success'){
+    this.rest.sendRequest('get_claimed_venues', data).subscribe((res: any) => {
+      console.log("get_claimed_venues", res);
+      if (res.status == 'success') {
         this.claimedVenues = res.data;
         this.setClaimedVenueRemTime();
       }
     });
   }
 
-  setClaimedVenueRemTime(){
-    let hours = 23;
-    let minutes = 59;
-    let seconds = 59;
-    let totalMinutes = 0;
+  setClaimedVenueRemTime() {
+    // let hours = 23;
+    // let minutes = 59;
+    // let seconds = 59;
+    // let totalMinutes = 0;
 
-    if(this.claimedVenues.length>0){
-      for(let venue of this.claimedVenues){
-        const resultMinutes = eachMinuteOfInterval({
-          start: new Date(venue.claimed_date),
-          end: new Date()
-        });
-        totalMinutes = resultMinutes.length;
-        hours = Math.floor(totalMinutes / 60) ;
-        minutes = totalMinutes % 60;
-        seconds = 0;
-        if(hours <= 23){
-          hours = 23 - hours;
-          minutes = 59 - minutes;
-          seconds = 59 - seconds;
-          venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        }else{
-          venue.remaining_time = null;
-        }
-      }
-      console.log("claimed venues: ",this.claimedVenues);
-      this.setVenueDiscountStatus(); 
-    }else if(this.claimedVenues.length == 0){
-      this.orderd_specialOffersArr = this.specialOffersArr;
-    }else{}
+    if (this.claimedVenues.length > 0) {
+      // for (let venue of this.claimedVenues) {
+        // const resultMinutes = eachMinuteOfInterval({
+        //   start: new Date(venue.claimed_date),
+        //   end: new Date()
+        // });
+        // totalMinutes = resultMinutes.length;
+        // hours = Math.floor(totalMinutes / 60);
+        // minutes = totalMinutes % 60;
+        // seconds = 0;
+        // if (hours <= 23) {
+        //   hours = 23 - hours;
+        //   minutes = 59 - minutes;
+        //   seconds = 59 - seconds;
+        //   venue.remaining_time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // } else {
+        //   venue.remaining_time = null;
+        // }
+      // }
+      // console.log("claimed venues: ", this.claimedVenues);
+      this.setVenueDiscountStatus();
+    } else if (this.claimedVenues.length == 0) {
+      this.filtered_specialOffersArr = this.specialOffersArr;
+    } else { }
   }
 
-  setVenueDiscountStatus(){
+  setVenueDiscountStatus() {
     let inQueueVenues: any = [];
     let claimedVenues: any = [];
     let specialOffers: any = [];
     let discountClaimedStatus = '';
     let foundVenue: any = "";
-   
-    for(let offerVenue of this.specialOffersArr){
+
+    for (let offerVenue of this.specialOffersArr) {
       discountClaimedStatus = '';
       foundVenue = undefined;
-      
-      for(let claimedVenue of this.claimedVenues){
-        // if(claimedVenue.remaining_time != null){
-          if(offerVenue.venues_id == claimedVenue.venues_id && claimedVenue.remaining_time != null){
-            // discountClaimedStatus = 'true';
-            discountClaimedStatus = claimedVenue.status;
-            offerVenue.discount_token = claimedVenue.claimed_token;
-            offerVenue.remaining_time = claimedVenue.remaining_time;
-            offerVenue.discount_claimed_date = claimedVenue.claimed_date
-            foundVenue = offerVenue;
 
-            break;
-              
-          }else{
-            discountClaimedStatus = 'false';
-            offerVenue.discount_token = null;
-            offerVenue.remaining_time = null;
-            foundVenue = offerVenue;
-          }
+      for (let claimedVenue of this.claimedVenues) {
+        // if (offerVenue.venues_id == claimedVenue.venues_id && claimedVenue.remaining_time != null) {
+        if (offerVenue.venues_id == claimedVenue.venues_id && this.getDate(claimedVenue.claimed_date) == this.getTodayDate() ) {
+          discountClaimedStatus = claimedVenue.status;
+          offerVenue.discount_token = claimedVenue.claimed_token;
+          // offerVenue.remaining_time = claimedVenue.remaining_time;
+          offerVenue.discount_claimed_date = claimedVenue.claimed_date
+          foundVenue = offerVenue;
+
+          break;
+
+        } else {
+          discountClaimedStatus = 'false';
+          offerVenue.discount_token = null;
+          // offerVenue.remaining_time = null;
+          foundVenue = offerVenue;
+        }
         // }
       }
 
-      if(discountClaimedStatus == 'Pending'){
+      if (discountClaimedStatus == 'Pending') {
         inQueueVenues.push(foundVenue);
-      }else if(discountClaimedStatus == 'Approved'){
+      } else if (discountClaimedStatus == 'Approved') {
         claimedVenues.push(foundVenue);
       }
-      else if(discountClaimedStatus == 'Rejected' || discountClaimedStatus == 'Expired'){
+      else if (discountClaimedStatus == 'Rejected' || discountClaimedStatus == 'Expired') {
         specialOffers.push(foundVenue);
-      }else if(discountClaimedStatus == 'false'){
-        specialOffers.push(foundVenue);       
-      }else{
+      } else if (discountClaimedStatus == 'false') {
+        specialOffers.push(foundVenue);
+      } else {
         console.log("else---else");
       }
     }
-    this.orderd_specialOffersArr = specialOffers;
+    this.filtered_specialOffersArr = specialOffers;
     this.inQueueVenuesArr = inQueueVenues;
     this.claimedVenuesArr = claimedVenues;
-    console.log("inQueueVenuesArr: ",this.inQueueVenuesArr);
-    console.log("claimedVenuesArr: ",this.claimedVenuesArr);
-    console.log("orderd_specialOffersArr: ",this.orderd_specialOffersArr);
-    
+    console.log("inQueueVenuesArr: ", this.inQueueVenuesArr);
+    console.log("claimedVenuesArr: ", this.claimedVenuesArr);
+    console.log("filtered_specialOffersArr: ", this.filtered_specialOffersArr);
+
   }
 
-  claimDrag(slidingItem: IonItemSliding, event: any, selectedVenue: any) {
-    this.detailObj = selectedVenue;
-    let ratio = event.detail.ratio;
+  // claimDrag(slidingItem: IonItemSliding, event: any, selectedVenue: any) {
+  //   this.detailObj = selectedVenue;
+  //   let ratio = event.detail.ratio;
 
-    if (ratio == -1) {
-      
-      // this.num = 0;
-      console.log("if---if", ratio);
-      
-      this.claimDiscount(selectedVenue);
-    }
+  //   if (ratio == -1) {
 
-    console.log("dragggggg---44444", ratio);
-  }
+  //     // this.num = 0;
+  //     console.log("if---if", ratio);
 
-  claimDiscount(venue:any) {
+  //     this.claimDiscount(selectedVenue);
+  //   }
+
+  //   console.log("dragggggg---44444", ratio);
+  // }
+
+  claimDiscount(venue: any) {
     var ss = JSON.stringify({
       users_customers_id: this.userID,
       venues_id: venue.venues_id,
@@ -166,7 +166,7 @@ export class DiscountsPage implements OnInit {
     this.rest.claim_discount(ss).subscribe((res: any) => {
       this.rest.dismissLoader();
       console.log("res claim discount-----", res);
-      if(res.status == 'success'){
+      if (res.status == 'success') {
         this.discountToken = res.data[0].claimed_token;
         this.displaydiv = true;
         // this.rest.claimedVenDiscount = true;
@@ -177,13 +177,14 @@ export class DiscountsPage implements OnInit {
       }
     });
   }
-  openSlider(slidingItem: IonItemSliding) {
-    console.log("opnessssssssssssssssss");
 
-    // this.num = 0;
-    slidingItem.close();
-    // console.log("else---else", this.num);
-  }
+  // openSlider(slidingItem: IonItemSliding) {
+  //   console.log("opnessssssssssssssssss");
+
+  //   // this.num = 0;
+  //   slidingItem.close();
+  //   // console.log("else---else", this.num);
+  // }
 
   dismiss() {
     this.displaydiv = false;
@@ -194,73 +195,78 @@ export class DiscountsPage implements OnInit {
     this.segmentModel = "Special Offers";
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
+    this.dayNumber = getDay(new Date());
     this.getSpecialOffers();
   }
 
-  getSpecialOffers(){
+  getSpecialOffers() {
     var ss = {
       users_customers_id: this.userID,
       lattitude: localStorage.getItem("longitude"),
       longitude: localStorage.getItem("lattitude"),
     };
     // if(this.specialOffersArr.length == 0){
-      this.rest.presentLoaderWd();
+    this.rest.presentLoaderWd();
     // }
-    
-    this.rest.sendRequest("special_offers",ss).subscribe((res: any) => {
+
+    this.rest.sendRequest("special_offers", ss).subscribe((res: any) => {
       console.log("special_offers--", res);
-      
+
       if (res.status == "success") {
         this.specialOffersArr = res.data;
-        let dayNumber = getDay(new Date());
+        // let dayNumber = getDay(new Date());
         let orderdSpecialOffers = [];
-        for(let venue of this.specialOffersArr){
-          venue.start_hours = venue.venue_timing[dayNumber].start_hours;
-          venue.close_hours = venue.venue_timing[dayNumber].close_hours;
-        }
-        for(let i=this.specialOffersArr.length-1, j=0; i>= 0; i--){
+        // for (let venue of this.specialOffersArr) {
+        //   venue.start_hours = venue.venue_timing[dayNumber].start_hours;
+        //   venue.close_hours = venue.venue_timing[dayNumber].close_hours;
+        // }
+        for (let i = this.specialOffersArr.length - 1, j = 0; i >= 0; i--) {
           orderdSpecialOffers[j] = this.specialOffersArr[i];
           j++;
         }
         this.specialOffersArr = orderdSpecialOffers;
-        console.log('custom ordered offers:',this.specialOffersArr);
-        
+        console.log('custom ordered offers:', this.specialOffersArr);
+
         this.getClaimedVenues();
       }
     });
   }
- 
+
   goBack() {
     this.router.navigate(['/profile']);
   }
 
   getDate(aa: any) {
-    return format(parseISO(new Date(aa).toISOString()) ,"MMM dd yyyy");
+    return format(parseISO(new Date(aa).toISOString()), "MMM dd yyyy");
   }
 
-  getTime(val:any){
-    if(val){
-      return val.substring(0,5);
+  getTodayDate(){
+    return format(parseISO(new Date().toISOString()), "MMM dd yyyy");
+  }
+ 
+  getTime(val: any) {
+    if (val) {
+      return val.substring(0, 5);
     }
   }
 
-  showDiscountCard(selectedVenue:any, msg:string){
-      if(msg == 'show token'){
-        this.detailObj = selectedVenue;
-        this.displaydiv = true;  
-      }else{
-        this.detailObj = selectedVenue;
-        this.claimDiscount(selectedVenue);
-      }
-      
-    
+  showDiscountCard(selectedVenue: any, msg: string) {
+    if (msg == 'show token') {
+      this.detailObj = selectedVenue;
+      this.displaydiv = true;
+    } else {
+      this.detailObj = selectedVenue;
+      this.claimDiscount(selectedVenue);
+    }
+
+
   }
 
-  showDiscountTokenCard(){
+  showDiscountTokenCard() {
     this.displaydiv = true;
   }
 
-  hideDiscCard(){
+  hideDiscCard() {
     this.displaydiv = false;
   }
 

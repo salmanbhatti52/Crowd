@@ -21,7 +21,7 @@ export class ProfilePage implements OnInit {
   roleMessage = '';
 
   userdata: any = "";
-  
+
   uname: any = "";
   name: any = "";
   email: any = "";
@@ -41,13 +41,13 @@ export class ProfilePage implements OnInit {
   aiToggleChecked = false;
   ai = "";
 
-  
+
   noti: any = "No";
   adminsList: any;
   selectedAdmin: any;
   accountType: any;
   socialAccountType: any;
-  assetImage= false;
+  assetImage = false;
   constructor(
     public location: Location,
     public router: Router,
@@ -56,7 +56,7 @@ export class ProfilePage implements OnInit {
     public modalCtrl: ModalController,
     // private camera: Camera,
     private alertController: AlertController
-  ) {}
+  ) { }
 
   ionViewWillEnter() {
     this.userdata = localStorage.getItem("userdata");
@@ -68,7 +68,7 @@ export class ProfilePage implements OnInit {
     this.userid = JSON.parse(this.userdata).users_customers_id;
     this.accountType = JSON.parse(this.userdata).account_type
     this.socialAccountType = JSON.parse(this.userdata).social_acc_type;
-    if(JSON.parse(this.userdata).account_type == "SignupWithApp"){
+    if (JSON.parse(this.userdata).account_type == "SignupWithApp") {
       if (JSON.parse(this.userdata).profile_picture) {
         this.imgdataComing =
           this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
@@ -76,12 +76,12 @@ export class ProfilePage implements OnInit {
         this.imgdataComing = "assets/imgs/icons/new_icons/MyProfileIcon.png";
         this.assetImage = true;
       }
-    }else{
+    } else {
       let str = JSON.parse(this.userdata).profile_picture
-      if(str.includes('uploads/')){
+      if (str.includes('uploads/')) {
         this.imgdataComing =
-        this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
-      }else{
+          this.rest.baseURLimg + JSON.parse(this.userdata).profile_picture;
+      } else {
         if (JSON.parse(this.userdata).profile_picture) {
           this.imgdataComing = JSON.parse(this.userdata).profile_picture;
         } else {
@@ -89,10 +89,10 @@ export class ProfilePage implements OnInit {
           this.assetImage = true;
         }
       }
-      
+
     }
     this.rest.userProfile = this.imgdataComing;
-    
+
 
     this.crowdLive = JSON.parse(this.userdata).crowd_live;
 
@@ -100,8 +100,8 @@ export class ProfilePage implements OnInit {
       this.beSeenToggleChecked = false;
     } else {
       this.beSeenToggleChecked = true;
-      
-      
+
+
     }
 
     this.ai = JSON.parse(this.userdata).ai_feature;
@@ -116,113 +116,118 @@ export class ProfilePage implements OnInit {
     this.getAdminsList();
     this.getAllChatLive();
 
-    
+
   }
 
-  gotoSupportEnquiries(){
+  gotoSupportEnquiries() {
     this.router.navigate(['/support-enquiries']);
   }
 
-  goToTermsAndCondtions(){
+  goToTermsAndCondtions() {
     this.router.navigate(['/terms-and-conditions']);
   }
 
-  goToMyReviews(){
+  goToMyReviews() {
     this.router.navigate(['/my-reviews']);
   }
 
-  goForProfileSettings(){
+  goForProfileSettings() {
     this.router.navigate(['/profile-settings']);
   }
 
   ngOnInit() {
     setTimeout(async () => {
       const result = await Camera.checkPermissions();
-      console.log("check permsisson result: ",result);
+      console.log("check permsisson result: ", result);
     }, 500);
 
   }
 
-  getAdminsList(){
-    let data = { 
-      users_customers_id: this.userid 
+  getAdminsList() {
+    let data = {
+      users_customers_id: this.userid
     };
-    this.rest.sendRequest('get_admin_list',data).subscribe((res:any)=>{
-      console.log("Get Admin List Ress: ",res);
-      if(res.status == 'success'){
+    this.rest.sendRequest('get_admin_list', data).subscribe((res: any) => {
+      console.log("Get Admin List Ress: ", res);
+      if (res.status == 'success') {
         this.adminsList = res.data;
-        console.log("adminsList: ",this.adminsList);  
+        console.log("adminsList: ", this.adminsList);
       }
-      
-      
+
+
     })
   }
 
-  getAllChatLive(){
-    let data ={
+  getAllChatLive() {
+    let data = {
       users_customers_id: this.userid
     }
-    this.rest.sendRequest("getAllChatLive",data).subscribe((res:any)=>{
-      console.log("getAllChatLive Resposne: ",res);
-      if(res.status == 'success'){
-        if(res.data.length > 0){
-          this.rest.adminId = res.data[0].receiver_id;
-          console.log("Admin Id: ",this.rest.adminId);
-        }
-        
-          
-      }
+    this.rest.sendRequest("getAllChatLive", data).subscribe({
+      next: (res: any) => {
+        console.log("getAllChatLive Resposne: ", res);
+        if (res.status == 'success') {
+          if (res.data.length > 0) {
+            this.rest.adminId = res.data[0].receiver_id;
+            console.log("Admin Id: ", this.rest.adminId);
+          }
 
-    },(err)=>{
-      console.log("Api Error: ",err);
-      
+
+        }
+
+      },
+      error: (err) => {
+        console.log("Api Error: ", err);
+
+      }
     })
   }
 
   async startChatWithAdmin() {
-    if(this.rest.adminId === undefined){
-      
-      console.log("Admin Id if undefined: ",this.rest.adminId);
+    if (this.rest.adminId === undefined) {
+
+      console.log("Admin Id if undefined: ", this.rest.adminId);
 
       let arrayLength = this.adminsList.length
-      console.log("arrayLength: ",arrayLength);
+      console.log("arrayLength: ", arrayLength);
       let randomValue = Math.floor(Math.random() * arrayLength)
-      console.log("randomValue: ",randomValue);
+      console.log("randomValue: ", randomValue);
       this.selectedAdmin = this.adminsList[randomValue];
-      console.log("Selected Admin: ",this.selectedAdmin);
-      
+      console.log("Selected Admin: ", this.selectedAdmin);
+
       this.rest.adminId = this.selectedAdmin.users_system_id;
-      console.log("Admin Id: ",this.rest.adminId);
-      
-      let data ={
-        requestType:"startChat",
-        users_customers_id:this.userid,
-        other_users_customers_id:this.selectedAdmin.users_system_id
+      console.log("Admin Id: ", this.rest.adminId);
+
+      let data = {
+        requestType: "startChat",
+        users_customers_id: this.userid,
+        other_users_customers_id: this.selectedAdmin.users_system_id
       }
       this.rest.presentLoader();
-      this.rest.sendRequest("user_chat_live",data).subscribe((res:any)=>{
-        this.rest.dismissLoader();
-        console.log("Start Chat Ress: ",res);
-        if(res.status == 'success'){
-          this.rest.comingFrom = 'startChatWithAdmin';
-          // this.router.navigate(['/chat']);
-           this.navCtrl.navigateForward('chat');
+      this.rest.sendRequest("user_chat_live", data).subscribe({
+        next: (res: any) => {
+          this.rest.dismissLoader();
+          console.log("Start Chat Ress: ", res);
+          if (res.status == 'success') {
+            this.rest.comingFrom = 'startChatWithAdmin';
+            // this.router.navigate(['/chat']);
+            this.navCtrl.navigateForward('chat');
+
+          }
+
+        }, error: (err: any) => {
+          this.rest.dismissLoader();
+          console.log("Api Error: ", err);
 
         }
-
-      },(err: any)=>{
-        this.rest.dismissLoader();
-        console.log("Api Error: ",err);
-        
       });
-    }else{
-      console.log("admin id: ",this.rest.adminId);
+    } else {
+      console.log("admin id: ", this.rest.adminId);
       this.rest.comingFrom = 'startChatWithAdmin';
       // this.router.navigate(['/chat']);
-      this.navCtrl.navigateForward('chat');      
+      this.navCtrl.navigateForward('chat');
     }
 
-   
+
   }
 
 
@@ -230,22 +235,22 @@ export class ProfilePage implements OnInit {
     this.navCtrl.navigateRoot('/home');
   }
 
-  gotoEvents(){
+  gotoEvents() {
     // this.router.navigate(["my-events"]);
     this.navCtrl.navigateForward('my-events');
   }
 
-  gotoDiscounts(){
+  gotoDiscounts() {
     // this.router.navigate(["discounts"]);
     this.navCtrl.navigateForward('discounts');
   }
 
-  gotoAddPaymentMethods(){
+  gotoAddPaymentMethods() {
     this.navCtrl.navigateForward('payment-methods');
     // this.router.navigate(["payment-methods"]);
   }
 
-  gotoRefundPage(){
+  gotoRefundPage() {
     this.navCtrl.navigateForward('my-refunds');
     // this.router.navigate(["my-refunds"]);
   }
@@ -255,23 +260,23 @@ export class ProfilePage implements OnInit {
     this.navCtrl.navigateForward('changepass');
   }
 
-  async signOutForGoogle(){
+  async signOutForGoogle() {
     await GoogleAuth.signOut();
     // this.googleUserData = null;
   }
 
-  async signOutForFacebook(){
+  async signOutForFacebook() {
     await FacebookLogin.logout();
   }
-  
-  async goLogout() { 
-    if(this.accountType == "SignupWithSocial"){
-      if(this.socialAccountType == "Google"){
+
+  async goLogout() {
+    if (this.accountType == "SignupWithSocial") {
+      if (this.socialAccountType == "Google") {
         await this.signOutForGoogle();
-      }else if(this.socialAccountType == "Facebook"){
+      } else if (this.socialAccountType == "Facebook") {
         await this.signOutForFacebook();
-      }else{
-        
+      } else {
+
       }
     }
     // this.rest.profile_updated = false;
@@ -282,7 +287,7 @@ export class ProfilePage implements OnInit {
     localStorage.setItem("onesignaluserid", this.onesignalid);
     localStorage.setItem("social_login_status", this.social_login_status);
     this.navCtrl.navigateRoot('/login');
-  
+
   }
 
   godelete() {
@@ -306,14 +311,14 @@ export class ProfilePage implements OnInit {
 
   beseentoggle(event: any) {
     console.log(event);
-    
-    console.log('event.detail.checked',event.detail.checked);
+
+    console.log('event.detail.checked', event.detail.checked);
 
     if (event.detail.checked) {
       if (this.crowdLive == "no") {
         this.showPoint();
       }
-      
+
     } else {
       this.crowdLive = "no";
       this.deActivateBeSeen();
@@ -321,50 +326,50 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  deActivateBeSeen(){
+  deActivateBeSeen() {
     let data = {
-      users_customers_id:this.userid,
-      crowd_live:"no"
+      users_customers_id: this.userid,
+      crowd_live: "no"
     }
 
-    this.rest.sendRequest('update_crowd_live',data).subscribe((res:any)=>{
-      console.log("Update Crowd Live Feature: ",res);
-      if(res.status == 'success'){
+    this.rest.sendRequest('update_crowd_live', data).subscribe((res: any) => {
+      console.log("Update Crowd Live Feature: ", res);
+      if (res.status == 'success') {
         this.rest.presentToast("Crowd Live Feature De-Activated");
-        localStorage.setItem('userdata',JSON.stringify(res.data));
+        localStorage.setItem('userdata', JSON.stringify(res.data));
       }
     });
   }
-  
+
   aiToggle(event: any) {
     console.log(event);
-    
-    console.log('event.detail.checked',event.detail.checked);
+
+    console.log('event.detail.checked', event.detail.checked);
 
     if (event.detail.checked) {
       if (this.ai == "no") {
         this.showPointAI();
       }
-     
+
     } else {
       this.ai = "no";
       this.deActivateAi();
       this.aiToggleChecked = false;
-      
+
     }
   }
 
-  deActivateAi(){
+  deActivateAi() {
     let data = {
-      users_customers_id:this.userid,
-      ai_feature:"no"
+      users_customers_id: this.userid,
+      ai_feature: "no"
     }
 
-    this.rest.sendRequest('update_ai_feature',data).subscribe((res:any)=>{
-      console.log("Update Ai Feature: ",res);
-      if(res.status == 'success'){
+    this.rest.sendRequest('update_ai_feature', data).subscribe((res: any) => {
+      console.log("Update Ai Feature: ", res);
+      if (res.status == 'success') {
         this.rest.presentToast("Ai Feature De-Activated");
-        localStorage.setItem('userdata',JSON.stringify(res.data));
+        localStorage.setItem('userdata', JSON.stringify(res.data));
       }
     });
   }
@@ -377,8 +382,8 @@ export class ProfilePage implements OnInit {
     });
 
     await modal.present();
-    const {role} = await modal.onWillDismiss();
-    if(role == 'activateBeSeen'){
+    const { role } = await modal.onWillDismiss();
+    if (role == 'activateBeSeen') {
       this.crowdLive = "yes";
       this.beSeenToggleChecked = true;
     }
@@ -392,51 +397,51 @@ export class ProfilePage implements OnInit {
     });
 
     await modal.present();
-    const {role} = await modal.onWillDismiss();
-    if(role == 'activateAI'){
+    const { role } = await modal.onWillDismiss();
+    if (role == 'activateAI') {
       this.ai = "yes";
       this.aiToggleChecked = true;
     }
   }
 
-  save() {
-    var re =
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // save() {
+  //   var re =
+  //     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (this.uname == "" || this.uname == null) {
-      this.rest.presentToast("Please enter user name.");
-    } else if (this.name == "" || this.name == null) {
-      this.rest.presentToast("Please enter name.");
-    } else if (this.email == "" || this.email == null) {
-      this.rest.presentToast("Please enter email.");
-    } else if (!re.test(this.email)) {
-      this.rest.presentToast("Enter valid email.");
-    } else {
-      var ss = JSON.stringify({
-        users_customers_id: this.userid,
-        email: this.email,
-        full_name: this.name,
-        username: this.uname,
-        notifications: "Yes",
-        profile_picture: this.imgdata,
+  //   if (this.uname == "" || this.uname == null) {
+  //     this.rest.presentToast("Please enter user name.");
+  //   } else if (this.name == "" || this.name == null) {
+  //     this.rest.presentToast("Please enter name.");
+  //   } else if (this.email == "" || this.email == null) {
+  //     this.rest.presentToast("Please enter email.");
+  //   } else if (!re.test(this.email)) {
+  //     this.rest.presentToast("Enter valid email.");
+  //   } else {
+  //     var ss = JSON.stringify({
+  //       users_customers_id: this.userid,
+  //       email: this.email,
+  //       full_name: this.name,
+  //       username: this.uname,
+  //       notifications: "Yes",
+  //       profile_picture: this.imgdata,
 
-      });
+  //     });
 
-      this.rest.update_profile(ss).subscribe((res: any) => {
-        console.log(res);
-        if (res.status == "success") {
-          this.rest.presentToast("Profile updated successfully");
-          if(this.imageupdate == 1){
-            // this.rest.profile_updated = true;
-          }
-          localStorage.setItem("userdata", JSON.stringify(res.data[0]));
-        } else {
-          this.rest.presentToast("Error");
-        }
-      });
-    }
-    console.log("save");
-  }
+  //     this.rest.update_profile(ss).subscribe((res: any) => {
+  //       console.log(res);
+  //       if (res.status == "success") {
+  //         this.rest.presentToast("Profile updated successfully");
+  //         if(this.imageupdate == 1){
+  //           // this.rest.profile_updated = true;
+  //         }
+  //         localStorage.setItem("userdata", JSON.stringify(res.data[0]));
+  //       } else {
+  //         this.rest.presentToast("Error");
+  //       }
+  //     });
+  //   }
+  //   console.log("save");
+  // }
 
   async addimg() {
     console.log("addd imge");
@@ -453,10 +458,10 @@ export class ProfilePage implements OnInit {
 
     console.log("incoming img----", this.imgdata);
     this.imageupdate = 1;
-     
+
   }
 
-  gotoReservation(){
+  gotoReservation() {
     this.rest.comfrom = 'profile'
     // this.router.navigate(['myreservations'])
     this.navCtrl.navigateForward('myreservations');

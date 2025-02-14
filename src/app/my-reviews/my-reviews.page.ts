@@ -71,6 +71,9 @@ export class MyReviewsPage implements OnInit {
         }
         this.reviews = orderedReviews;
       }
+      if (res.status == "error") {
+        this.rest.presentToast(res.message);
+      }
       
     });
   }

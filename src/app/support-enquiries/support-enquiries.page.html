@@ -38,15 +38,18 @@
 
     <div class="support_heading">Detailed Description</div>
     <div class="support_desc">Provide a detailed description to help us understand the problem.</div>
-
-    <ion-textarea  *ngIf="!showIssuesDd" #textarea auto-grow="true" name="feedback" type="text" maxlength="250" class="roboto textarea"
+    <!-- *ngIf="!showIssuesDd" -->
+    <ion-textarea   #textarea auto-grow="true" name="feedback" type="text" maxlength="250" class="roboto textarea"
       rows="7" cols="20" placeholder="" [(ngModel)]="feedback"></ion-textarea>
 
 
     <div class="support_heading">Attach Screenshots (Optional)</div>
     <div class="support_desc">Include screenshots to better illustrate the issue.</div>
-    <!-- (click)="addimg()" -->
-    <div class="change_profile_btn width_42">Upload</div>
+    <img
+      class="issue-img"
+        src="{{imgdataComing}}"
+      />
+    <div class="change_profile_btn width_42" (click)="addimg()">Upload</div>
 
     <div class="support_heading">Preferred Contact Method</div>
 
@@ -63,6 +66,6 @@
   </div>
 
   <div class="container2">
-    <ion-button class=" btnbg roboto">Report </ion-button>
+    <ion-button class=" btnbg roboto" (click)="report()">Report </ion-button>
   </div>
 </ion-content>

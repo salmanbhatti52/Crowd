@@ -1,13 +1,9 @@
 <ion-header>
-  <ion-toolbar >
+  <ion-toolbar>
     <img class="header_bg" src="../../assets/imgs/icons/new_icons/Background1.png" alt="">
     <ion-row class="header_content">
-      <ion-col size="2" class="centerall"
-        ><img
-          (click)="goBack()"
-          style="height: 25px;"
-          src="../../assets/imgs/icons/new_icons/BackIcon.png"
-        />
+      <ion-col size="2" class="centerall"><img (click)="goBack()" style="height: 25px;"
+          src="../../assets/imgs/icons/new_icons/BackIcon.png" />
       </ion-col>
       <ion-col size="8" class="centerall">
         <ion-label class="titlefont roboto">Profile Settings</ion-label>
@@ -18,81 +14,37 @@
 </ion-header>
 
 <ion-content style="--background: #262626">
-  <div >
-    
+  <div>
+
     <div style="text-align: center; padding: 25px 30px 0px">
-      <img
-        [ngClass]="{'profile':true,'border_width':!assetImage}"
-        src="{{imgdataComing}}"
-      />
+      <img [ngClass]="{'profile':true,'border_width':!assetImage}" src="{{imgdataComing}}" />
 
       <div (click)="addimg()" class="change_profile_btn">Change Profile Image</div>
 
-      <div
-        class="inputfieldblack"
-        style="height: 46px; display: flex; margin-top: 20px"
-      >
-        <img
-          style="margin: 15px"
-          src="../../assets/imgs/icons/new_icons/PersonIcon1.png"
-        />
-        <input
-          [(ngModel)]="firstName"
-          class="input"
-          type="text"
-          placeholder="First name"
-        />
-        </div>
+      <div class="inputfieldblack" style="height: 46px; display: flex; margin-top: 20px">
+        <img style="margin: 15px" src="../../assets/imgs/icons/new_icons/PersonIcon1.png" />
+        <input [(ngModel)]="firstName" class="input" type="text" placeholder="First name" />
+      </div>
 
-        <div
-          class="inputfieldblack"
-          style="height: 46px; display: flex; margin-top: 15px"
-        >
-          <img
-          style="margin: 15px"
-            src="../../assets/imgs/icons/new_icons/PersonIcon1.png"
-          />
-          <input
-            [(ngModel)]="lastName"
-            class="input"
-            type="text"
-            placeholder="Last name"
-          />
-        </div>
+      <div class="inputfieldblack" style="height: 46px; display: flex; margin-top: 15px">
+        <img style="margin: 15px" src="../../assets/imgs/icons/new_icons/PersonIcon1.png" />
+        <input [(ngModel)]="lastName" class="input" type="text" placeholder="Last name" />
+      </div>
 
-        <div
-          class="inputfieldblack"
-          style="height: 46px; display: flex; margin-top: 15px"
-        >
-          <img
-          style="margin: 15px"
-            src="../../assets/imgs/icons/new_icons/AtIcon.png"
-          />
-          <input [(ngModel)]="uname" (keydown)="preventSpaces($event)" class="input" type="text" placeholder="Username" />
-        </div>
+      <div class="inputfieldblack" style="height: 46px; display: flex; margin-top: 15px">
+        <img style="margin: 15px" src="../../assets/imgs/icons/new_icons/AtIcon.png" />
+        <input [(ngModel)]="uname" (keydown)="preventSpaces($event)" class="input" type="text" placeholder="Username" />
+      </div>
 
-      <div
-          class="inputfieldblack"
-          style="height: 46px; display: flex; margin-top: 15px"
-        >
-          <img
-            style="margin: 15px"
-            src="../../assets/imgs/icons/new_icons/EmailIcon.png"
-          />
-          <input
-            [(ngModel)]="email"
-            class="input"
-            type="text"
-            placeholder="Email Address"
-          />
-        </div>
+      <div class="inputfieldblack" style="height: 46px; display: flex; margin-top: 15px">
+        <img style="margin: 15px" src="../../assets/imgs/icons/new_icons/EmailIcon.png" />
+        <input [(ngModel)]="email" class="input" type="text" placeholder="Email Address" />
+      </div>
 
-        <div class="password_heading">Change Password?</div>
+      <div class="password_heading">Change Password?</div>
 
-        <div
-          [ngClass]="{'inputfieldblack':true,'password_field':true }"
-        >
-          <!-- <img
+      <div [ngClass]="{'inputfieldblack':true,'password_field':true }">
+        <!-- <img
             *ngIf="!showPass1"
             (click)="togglePass1()"
             style="margin: 17px 17px 17px 15px"
@@ -106,22 +58,13 @@
             src="/assets/imgs/eyeoff.svg"
           /> -->
 
-          <input
-            [(ngModel)]="oldpass"
-            class="input"
-            type="{{showPass1 ? 'text':'password' }}"
-            placeholder="Current Password"
-          />
-          <img
-            class="lock_icon"
-            src="../../assets/imgs/icons/new_icons/PadlockIcon.png"
-          />
-        </div>
+        <input [(ngModel)]="oldpass" class="input" type="{{showPass1 ? 'text':'password' }}"
+          placeholder="Current Password" />
+        <img class="lock_icon" src="../../assets/imgs/icons/new_icons/PadlockIcon.png" />
+      </div>
 
-        <div
-          [ngClass]="{'inputfieldblack':true,'password_field':true }"
-        >
-          <!-- <img
+      <div [ngClass]="{'inputfieldblack':true,'password_field':true }">
+        <!-- <img
             *ngIf="!showPass2"
             (click)="togglePass2()"
             style="margin: 17px 17px 17px 15px"
@@ -135,22 +78,13 @@
             src="/assets/imgs/eyeoff.svg"
           /> -->
 
-          <input
-            [(ngModel)]="newpass"
-            class="input"
-            type="{{showPass2 ? 'text':'password' }}"
-            placeholder="New Password"
-          />
-          <img
-            class="lock_icon"
-            src="../../assets/imgs/icons/new_icons/PadlockIcon.png"
-          />
-        </div>
+        <input [(ngModel)]="newpass" class="input" type="{{showPass2 ? 'text':'password' }}"
+          placeholder="New Password" />
+        <img class="lock_icon" src="../../assets/imgs/icons/new_icons/PadlockIcon.png" />
+      </div>
 
-        <div
-          [ngClass]="{'inputfieldblack':true,'password_field':true }"
-        >
-          <!-- <img
+      <div [ngClass]="{'inputfieldblack':true,'password_field':true }">
+        <!-- <img
             *ngIf="!showPass3"
             (click)="togglePass3()"
             style="margin: 17px 17px 17px 15px"
@@ -164,22 +98,14 @@
             src="/assets/imgs/eyeoff.svg"
           /> -->
 
-          <input
-            [(ngModel)]="confirmpass"
-            class="input"
-            type="{{showPass3 ? 'text':'password' }}"
-            placeholder="Confirm New Password"
-          />
-          <img
-            class="lock_icon"
-            src="../../assets/imgs/icons/new_icons/PadlockIcon.png"
-          />
-        </div>
+        <input [(ngModel)]="confirmpass" class="input" type="{{showPass3 ? 'text':'password' }}"
+          placeholder="Confirm New Password" />
+        <img class="lock_icon" src="../../assets/imgs/icons/new_icons/PadlockIcon.png" />
+      </div>
     </div>
-    <!-- (click)="submit()" -->
 
     <div style="margin: 20px;">
-      <ion-button  class=" btnbg roboto">Save</ion-button>
+      <ion-button class=" btnbg roboto" (click)="save()">Save</ion-button>
     </div>
 
   </div>

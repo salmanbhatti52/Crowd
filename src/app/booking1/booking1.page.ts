@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RestService } from "../rest.service";
-import {format, parseISO,addDays,isDate, getDate,getMonth,getYear, getDaysInMonth, eachDayOfInterval} from 'date-fns';
+import { format, parseISO, addDays, isDate, getDate, getMonth, getYear, getDaysInMonth, eachDayOfInterval } from 'date-fns';
 
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 import { ModalController, NavController } from "@ionic/angular";
@@ -15,22 +15,22 @@ import { error } from "console";
   styleUrls: ["./booking1.page.scss"],
 })
 export class Booking1Page implements OnInit {
-  minDate = format(parseISO(new Date().toISOString()),'yyyy-MM-dd');
-  
-  selectedMonthAndYear = format(new Date(),'MMM yyyy');
-  todayDayNumber = parseInt(format(new Date(),'d'));
+  minDate = format(parseISO(new Date().toISOString()), 'yyyy-MM-dd');
+
+  selectedMonthAndYear = format(new Date(), 'MMM yyyy');
+  todayDayNumber = parseInt(format(new Date(), 'd'));
   selectedDayNumber = this.todayDayNumber;
   currentMonthNumber = getMonth(new Date());
   selectedMonthNumber = this.currentMonthNumber;
   currentYearNumber = getYear(new Date());
   selectedYearNumber = this.currentYearNumber;
-  remainingDaysCountInMonth = getDaysInMonth(new Date())- this.todayDayNumber + 1;
- 
-  daysInMonth:number[] = [];
-  dayNamesInMonth:any[] = [];
-  daysNamesAndNumbers:any[] = [];
+  remainingDaysCountInMonth = getDaysInMonth(new Date()) - this.todayDayNumber + 1;
 
-  setMonthNumberStatus:boolean = false;
+  daysInMonth: number[] = [];
+  dayNamesInMonth: any[] = [];
+  daysNamesAndNumbers: any[] = [];
+
+  setMonthNumberStatus: boolean = false;
   config = {
     show: false,
     weekOffset: -2,
@@ -51,7 +51,7 @@ export class Booking1Page implements OnInit {
   myDate: any = '';
   // myDate: any = "2022-04-02";
   // invalidTime = false;
-  usertime: any = format(parseISO(new Date().toISOString()),'HH:mm:ss');
+  usertime: any = format(parseISO(new Date().toISOString()), 'HH:mm:ss');
   // usertime: any = '';
   peopleArr = [
     {
@@ -95,7 +95,7 @@ export class Booking1Page implements OnInit {
       name: "people",
     },
   ];
-  
+
   tablesArr = [
     {
       id: 1,
@@ -113,7 +113,7 @@ export class Booking1Page implements OnInit {
       name: "Bar",
     },
   ];
-  selectedTable:any;
+  selectedTable: any;
   // venueStartHours:any;
   // venueCloseHours:any;
   selectedVenue: any = "";
@@ -125,151 +125,151 @@ export class Booking1Page implements OnInit {
   constructor(
     public location: Location,
     public router: Router,
-    public navCtrl:NavController,
+    public navCtrl: NavController,
     public rest: RestService,
     public datePicker: DatePicker,
-    public modalCtrlr:ModalController
+    public modalCtrlr: ModalController
   ) {
-    console.log("this.minDate",this.minDate);
-    console.log("this.userTime",this.usertime);
-    
+    console.log("this.minDate", this.minDate);
+    console.log("this.userTime", this.usertime);
+
     this.setCurrentDaysInMonth();
-    
+
   }
 
-  setCurrentDaysInMonth(){
+  setCurrentDaysInMonth() {
     this.selectedMonthNumber = getMonth(new Date());
     this.currentMonthNumber = this.selectedMonthNumber;
     this.selectedYearNumber = getYear(new Date());
     this.selectedDayNumber = this.todayDayNumber;
-    
-    
-    
+
+
+
     // =================setting day numbers in month from today to last date of month=====================
     this.daysInMonth = [];
     for (let index = 0; index < this.remainingDaysCountInMonth; index++) {
       this.daysInMonth.push(this.todayDayNumber + index);
-      
-    }
-    console.log("this.daysInMonth",this.daysInMonth);
-    
 
-  // =================setting day names in month from today to last date of month=====================
+    }
+    console.log("this.daysInMonth", this.daysInMonth);
+
+
+    // =================setting day names in month from today to last date of month=====================
     let year = getYear(new Date());
     let month = getMonth(new Date());
     let days = getDaysInMonth(new Date());
-    this.dayNamesInMonth =  eachDayOfInterval({
+    this.dayNamesInMonth = eachDayOfInterval({
       start: new Date(year, month, this.todayDayNumber),
       end: new Date(year, month, days)
     });
-    console.log("this.dayNamesInMonth",this.dayNamesInMonth);
-    
+    console.log("this.dayNamesInMonth", this.dayNamesInMonth);
+
 
     //==================setting short day format for day names in month=====================
     for (let index = 0; index < this.dayNamesInMonth.length; index++) {
-      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
-      
+      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index], 'eee');
+
     }
 
     // =================combining days and names=====================
     this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
-        return {
-          number: day,
-          name: this.dayNamesInMonth[index],
-        };
+      return {
+        number: day,
+        name: this.dayNamesInMonth[index],
+      };
     });
-    console.log("this.daysNamesAndNumbers",this.daysNamesAndNumbers);
-    
-    for (let index:any = 0; index < this.daysNamesAndNumbers.length; index++) {
-      if(this.selectedDayNumber == this.daysNamesAndNumbers[index].number ){
+    console.log("this.daysNamesAndNumbers", this.daysNamesAndNumbers);
+
+    for (let index: any = 0; index < this.daysNamesAndNumbers.length; index++) {
+      if (this.selectedDayNumber == this.daysNamesAndNumbers[index].number) {
         this.selectDay(this.daysNamesAndNumbers[index]);
       }
     }
 
-    
-    
+
+
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   goBack() {
     this.location.back();
   }
 
-  selectDay(day:any){
+  selectDay(day: any) {
     this.selectedDayNumber = day.number;
     console.log(day);
     console.log(this.selectedDayNumber);
-    if(day.name == "Sun"){
+    if (day.name == "Sun") {
       this.venueHoursDay = 1;
-    }else if(day.name == "Mon"){
+    } else if (day.name == "Mon") {
       this.venueHoursDay = 2;
-    }else if(day.name == "Tue"){
+    } else if (day.name == "Tue") {
       this.venueHoursDay = 3;
-    }else if(day.name == "Wed"){
+    } else if (day.name == "Wed") {
       this.venueHoursDay = 4;
-    }else if(day.name == "Thu"){
+    } else if (day.name == "Thu") {
       this.venueHoursDay = 5;
-    }else if(day.name == "Fri"){
+    } else if (day.name == "Fri") {
       this.venueHoursDay = 6;
-    }else if(day.name == "Sat"){
+    } else if (day.name == "Sat") {
       this.venueHoursDay = 7;
-    }else {
+    } else {
 
     }
-    console.log("venueHoursDay: ",this.venueHoursDay);
-    
-    
+    console.log("venueHoursDay: ", this.venueHoursDay);
+
+
   }
 
   // ====================================custom calendar code start here===========================================
-  
+
   async selectDate() {
     let selectedMonthNumber = this.selectedMonthNumber;
     selectedMonthNumber++;
-    
+
     let selectedDate = this.selectedYearNumber + "-" + selectedMonthNumber;
 
     // =============setting date format in minimum 2 digit form for day and Month i.e 2024-01-03 means (3 january, 2024)=============================
-     
-      const [year, month] = selectedDate.split('-');
 
-      selectedDate = `${year}-${month.padStart(2, '0')}`;
+    const [year, month] = selectedDate.split('-');
 
-      console.log("selectedDateFormatted",selectedDate);
+    selectedDate = `${year}-${month.padStart(2, '0')}`;
+
+    console.log("selectedDateFormatted", selectedDate);
     // ========================done=========================
-      const modal = await this.modalCtrlr.create({
-        component: CalendarPage,
-        cssClass: "calendar_popup",
-        componentProps: {
-          selectedDate:selectedDate
-        }
-      });
+    const modal = await this.modalCtrlr.create({
+      component: CalendarPage,
+      cssClass: "calendar_popup",
+      componentProps: {
+        selectedDate: selectedDate
+      }
+    });
 
     await modal.present();
 
-    const {data,role} = await modal.onWillDismiss();
-    if(role == 'confirm'){
-      console.log("data",data);
+    const { data, role } = await modal.onWillDismiss();
+    if (role == 'confirm') {
+      console.log("data", data);
 
       let selectedMonthNumber = getMonth(new Date(data));
       let currentMonthNumber = getMonth(new Date());
       let selectedYearNumber = getYear(new Date(data));
       let currentYearNumber = getYear(new Date());
 
-      if(selectedMonthNumber ==  currentMonthNumber && selectedYearNumber == currentYearNumber ){
+      if (selectedMonthNumber == currentMonthNumber && selectedYearNumber == currentYearNumber) {
         console.log('entered');
-        this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+        this.selectedMonthAndYear = format(new Date(data), 'MMM yyyy');
         this.setCurrentDaysInMonth();
-        
-      }else{
-        
-        this.selectedMonthAndYear = format(new Date(data),'MMM yyyy');
+
+      } else {
+
+        this.selectedMonthAndYear = format(new Date(data), 'MMM yyyy');
         this.setDaysInMonth(data);
       }
-    }else if(role == 'cancel'){
-      
-    }else{
+    } else if (role == 'cancel') {
+
+    } else {
 
     }
 
@@ -277,7 +277,7 @@ export class Booking1Page implements OnInit {
   }
 
 
-  setDaysInMonth(date:any) {
+  setDaysInMonth(date: any) {
     this.selectedMonthNumber = getMonth(new Date(date));
     this.currentMonthNumber = this.selectedMonthNumber;
     this.selectedYearNumber = getYear(new Date(date));
@@ -288,45 +288,45 @@ export class Booking1Page implements OnInit {
     this.daysInMonth = [];
     for (let index = 1; index <= daysCountInMonth; index++) {
       this.daysInMonth.push(index);
-      
+
     }
     console.log(this.daysInMonth);
-    
 
-  // =================setting day names in month from today to last date of month=====================
+
+    // =================setting day names in month from today to last date of month=====================
     let year = getYear(new Date(date));
     let month = getMonth(new Date(date));
     let days = getDaysInMonth(new Date(date));
-    this.dayNamesInMonth =  eachDayOfInterval({
+    this.dayNamesInMonth = eachDayOfInterval({
       start: new Date(year, month, 1),
       end: new Date(year, month, days)
     });
 
     console.log(this.dayNamesInMonth);
-    
+
 
     //==================setting short day format for day names in month=====================
     for (let index = 0; index < this.dayNamesInMonth.length; index++) {
-      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index],'eee');
-      
+      this.dayNamesInMonth[index] = format(this.dayNamesInMonth[index], 'eee');
+
     }
 
     // =================combining days and names=====================
     this.daysNamesAndNumbers = this.daysInMonth.map((day, index) => {
-        return {
-          number: day,
-          name: this.dayNamesInMonth[index],
-        };
+      return {
+        number: day,
+        name: this.dayNamesInMonth[index],
+      };
     });
 
     console.log(this.daysNamesAndNumbers);
 
-    for (let index:any = 0; index < this.daysNamesAndNumbers.length; index++) {
-      if(this.selectedDayNumber == this.daysNamesAndNumbers[index].number ){
+    for (let index: any = 0; index < this.daysNamesAndNumbers.length; index++) {
+      if (this.selectedDayNumber == this.daysNamesAndNumbers[index].number) {
         this.selectDay(this.daysNamesAndNumbers[index]);
       }
     }
-    
+
   }
 
 
@@ -341,9 +341,9 @@ export class Booking1Page implements OnInit {
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.selectedVenue = this.rest.detail;
     console.log(this.selectedVenue);
-    this.selectedTable= this.selectedVenue.venues_table[0];
-    console.log("selected table: ",this.selectedTable);
-    
+    this.selectedTable = this.selectedVenue.venues_table[0];
+    console.log("selected table: ", this.selectedTable);
+
     // console.log('db_start_hours',this.selectedVenue.db_start_hours);
     // console.log('db_close_hours',this.selectedVenue.db_close_hours);
     // this.venueStartHours = this.selectedVenue.db_start_hours;
@@ -353,14 +353,14 @@ export class Booking1Page implements OnInit {
     const datetime = document.querySelector('ion-datetime') as HTMLIonDatetimeElement | null;
 
     if (datetime && datetime.shadowRoot) {
-        const shadowRoot = datetime.shadowRoot;
-        const columns = shadowRoot.querySelectorAll('.picker-column-internal');
+      const shadowRoot = datetime.shadowRoot;
+      const columns = shadowRoot.querySelectorAll('.picker-column-internal');
 
-        columns.forEach((column) => {
-            const columnElement = column as HTMLElement;
-            columnElement.style.fontSize = '14px';
-            columnElement.style.setProperty('font-size', '14px', 'important'); // Force it with `important`
-        });
+      columns.forEach((column) => {
+        const columnElement = column as HTMLElement;
+        columnElement.style.fontSize = '14px';
+        columnElement.style.setProperty('font-size', '14px', 'important'); // Force it with `important`
+      });
     }
 
 
@@ -398,12 +398,12 @@ export class Booking1Page implements OnInit {
     this.selectedIndexDate = val;
   }
 
- 
+
 
   bookTable() {
-    
+
     let selectedMonthNumber = this.selectedMonthNumber;
-    
+
     this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber + "-" + this.selectedDayNumber;
     let availableCapacity = this.selectedVenue.capacity - this.selectedVenue.availability_count;
     if (this.myDate == "") {
@@ -418,53 +418,56 @@ export class Booking1Page implements OnInit {
     //     this.rest.presentToast('Please select another time slot, as this one is not available.')
     //   }
     // }
-     else {
-      if(this.setMonthNumberStatus == false){
+    else {
+      if (this.setMonthNumberStatus == false) {
         selectedMonthNumber++;
         this.setMonthNumberStatus = true;
       }
-      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber.toString().padStart(2, '0') + "-" + this.selectedDayNumber.toString().padStart(2,'0');
+      this.myDate = this.selectedYearNumber + "-" + selectedMonthNumber.toString().padStart(2, '0') + "-" + this.selectedDayNumber.toString().padStart(2, '0');
 
       // var tt = moment(this.usertime).format("h:mm");
       let discountStatus = 'pending';
-      if(this.rest.venueDiscountToken != null){
+      if (this.rest.venueDiscountToken != null) {
         discountStatus = 'claimed';
       }
       console.log('Going to hit API');
-      
+
       console.log(this.myDate);
-      
+
       var ss = JSON.stringify({
         venues_id: this.selectedVenue.venues_id,
         users_customers_id: this.userID,
         venues_hours_days: this.venueHoursDay,
         no_of_diners: this.people,
         bookings_date: this.myDate,
-        claim_discounts:discountStatus,
-        discount_token:this.rest.venueDiscountToken,
+        claim_discounts: discountStatus,
+        discount_token: this.rest.venueDiscountToken,
         bookings_time: this.usertime,
-        special_request:this.specialRequest,
-        occasion:this.occasion,
-        venues_table_type_id:this.selectedTable.venues_table_type_id,
+        special_request: this.specialRequest,
+        occasion: this.occasion,
+        venues_table_type_id: this.selectedTable.venues_table_type_id,
       });
 
       console.log(ss);
 
-      this.rest.bookings_add(ss).subscribe((res: any) => {
-        console.log(res);                     
+      this.rest.bookings_add(ss).subscribe({
+        next: (res: any) => {
+          console.log(res);
 
-        if (res.status == "success") {
-          this.rest.selectedBooking = res.data;
-          this.rest.selectedBooking.coming_from = 'other';
-          this.rest.comingFrom = 'booking1';
-          this.rest.venueDiscountToken = undefined;
-          this.navCtrl.navigateRoot("booking2");
-        } else {
-          this.rest.presentToast(res.message);
+          if (res.status == "success") {
+            this.rest.selectedBooking = res.data;
+            this.rest.selectedBooking.coming_from = 'other';
+            this.rest.comingFrom = 'booking1';
+            this.rest.venueDiscountToken = undefined;
+            this.navCtrl.navigateRoot("booking2");
+          } else {
+            this.rest.presentToast(res.message);
+          }
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.rest.presentToast(error.error.message);
         }
-      },(error:any)=>{
-        console.log(error);
-        this.rest.presentToast(error.error.message);
       });
     }
   }
@@ -487,7 +490,7 @@ export class Booking1Page implements OnInit {
       this.peopleShow = true;
     }
   }
-  
+
   hideShowTables() {
     if (this.tableShowDD) {
       this.tableShowDD = false;
@@ -516,22 +519,22 @@ export class Booking1Page implements OnInit {
   //     );
   // }
 
-  formattedString(ev:any){
-    
+  formattedString(ev: any) {
+
     this.myDate = format(parseISO(ev.detail.value), 'yyyy-MM-dd');
-    console.log('DateValues: ',ev.detail.value);
+    console.log('DateValues: ', ev.detail.value);
     console.log(this.myDate);
-    
+
   }
-  formattedTime(ev:any){
-    this.usertime  = format(parseISO(ev.detail.value), "HH:mm:ss");
+  formattedTime(ev: any) {
+    this.usertime = format(parseISO(ev.detail.value), "HH:mm:ss");
     // if(this.usertime < this.venueStartHours || this.usertime > this.venueCloseHours){
     //   this.invalidTime = true;
     // }else{
     //   this.invalidTime = false;
     // }
-    console.log('DateValues: ',ev.detail.value);
+    console.log('DateValues: ', ev.detail.value);
     console.log(this.usertime);
-    
+
   }
 }

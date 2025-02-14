@@ -13,19 +13,19 @@ import { format, parse } from "date-fns";
   styleUrls: ["./booking1event.page.scss"],
 })
 export class Booking1eventPage implements OnInit {
-  userId:any;
+  userId: any;
   userdata: any = "";
   visitorArr: any = "";
   selectedEvent: any = "";
   latitude: any;
-  businessList:any;
-  organizer:any = {
+  businessList: any;
+  organizer: any = {
     first_name: null,
     user_image: null,
     users_business_id: null,
   };
   longitude: string | null | undefined;
-  availableTickets: any ;
+  availableTickets: any;
   allTicketsSold = false;
   isModalOpen = false;
   constructor(
@@ -35,7 +35,7 @@ export class Booking1eventPage implements OnInit {
     public modalCtrl: ModalController,
     public iab: InAppBrowser,
     public platform: Platform
-  ) {}
+  ) { }
 
   ionViewWillEnter() {
 
@@ -43,24 +43,24 @@ export class Booking1eventPage implements OnInit {
     this.userId = JSON.parse(this.userdata).users_customers_id;
     this.latitude = localStorage.getItem('lattitude');
     this.longitude = localStorage.getItem('longitude');
-    
+
     this.selectedEvent = this.rest.detail;
     console.log("detaill----", this.selectedEvent);
-    this.availableTickets = this.selectedEvent.no_of_tickets - this.selectedEvent.booked_tickets; 
-    console.log("Available Tickets: ",this.availableTickets);
-    if(this.availableTickets < 1){
+    this.availableTickets = this.selectedEvent.no_of_tickets - this.selectedEvent.booked_tickets;
+    console.log("Available Tickets: ", this.availableTickets);
+    if (this.availableTickets < 1) {
       this.allTicketsSold = true;
     }
 
     let currentDate = new Date();
-    console.log("currentDate: ",currentDate);
+    console.log("currentDate: ", currentDate);
     let eventDate = new Date(this.selectedEvent.event_date);
-    console.log(" eventDate:  ",eventDate);
+    console.log(" eventDate:  ", eventDate);
 
     this.getBusinessList();
     setTimeout(() => {
       // if(this.availableTickets < 1 || eventDate < currentDate){
-      if(this.availableTickets < 1){
+      if (this.availableTickets < 1) {
         // this.allTicketsSold = true;
         this.rest.presentToast('All tickets are sold out.')
       }
@@ -68,84 +68,89 @@ export class Booking1eventPage implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
 
-  getBusinessList(){
+  getBusinessList() {
     this.rest.presentLoader();
-    this.rest.getRequest('get_business_list').subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log("Ress:", res);
-      if(res.status=='success'){
-        // this.businessList = res.data;
-        console.log("Organizer Data before: ",this.organizer);
-        for(let i=0; i<res.data.length; i++){
-          if(this.selectedEvent.users_business_id == res.data[i].users_business_id){
-            this.organizer = res.data[i];
-            this.rest.business_owner_name = this.organizer.first_name;            
+    this.rest.getRequest('get_business_list').subscribe({
+      next: (res: any) => {
+        this.rest.dismissLoader();
+        console.log("Ress:", res);
+        if (res.status == 'success') {
+          // this.businessList = res.data;
+          console.log("Organizer Data before: ", this.organizer);
+          for (let i = 0; i < res.data.length; i++) {
+            if (this.selectedEvent.users_business_id == res.data[i].users_business_id) {
+              this.organizer = res.data[i];
+              this.rest.business_owner_name = this.organizer.first_name;
+            }
           }
         }
+        console.log("Organizer Data: ", this.organizer);
+      },
+      error: (err) => {
+        this.rest.dismissLoader();
+        console.log("Errr: ", err);
+
       }
-      console.log("Organizer Data: ",this.organizer);
-    },(err)=>{
-      this.rest.dismissLoader();
-      console.log("Errr: ",err);
-      
     })
   }
   goBack() {
     this.location.back();
   }
 
-  gotoOrganizerEvents(){
+  gotoOrganizerEvents() {
     this.rest.orgEventsArr = [];
     let data = {
-      users_business_id:this.selectedEvent.users_business_id,
-      users_customers_id:this.userId,
-      longitude:this.longitude,
-      lattitude:this.latitude,
-      page_number:"1"
+      users_business_id: this.selectedEvent.users_business_id,
+      users_customers_id: this.userId,
+      longitude: this.longitude,
+      lattitude: this.latitude,
+      page_number: "1"
     }
-    console.log("Api dataa: ",data);
+    console.log("Api dataa: ", data);
     this.rest.presentLoader();
-    this.rest.sendRequest('get_business_events',data).subscribe((res:any)=>{
-      this.rest.dismissLoader();
-      console.log("Org events REssssss: ",res);
-      
-      this.rest.orgEventsArr = res.data;
-      this.router.navigate(['/organizer-events']);
-      
-    },(err)=>{
-      this.rest.dismissLoader();
-      console.log("errrr: ",err);
-      
+    this.rest.sendRequest('get_business_events', data).subscribe({
+      next:(res: any) => {
+        this.rest.dismissLoader();
+        console.log("Org events REssssss: ", res);
+  
+        this.rest.orgEventsArr = res.data;
+        this.router.navigate(['/organizer-events']);
+  
+      },error: (err) => {
+        this.rest.dismissLoader();
+        console.log("errrr: ", err);
+  
+      }
     })
   }
 
-  getTime(val:any){
-    if(val){
-       val = parse(val, 'HH:mm:ss', new Date());
-       return val = format(val, 'h:mma');
+  getTime(val: any) {
+    if (val) {
+      val = parse(val, 'HH:mm:ss', new Date());
+      return val = format(val, 'h:mma');
     }
-    else{
+    else {
       return val;
     }
   }
-  
 
-  getDate(val:any){
-    if(val){
+
+  getDate(val: any) {
+    if (val) {
       return format(new Date(val), 'E, do MMM');
     }
-    else{
+    else {
       return val;
     }
   }
 
-  
+
 
   handleImgError2(ev: any, item: any) {
     console.log("hloooooo");
@@ -164,11 +169,11 @@ export class Booking1eventPage implements OnInit {
 
     await modal.present();
   }
-  dismissModal(){
+  dismissModal() {
     this.isModalOpen = false;
     this.modalCtrl.dismiss();
   }
-  setModalValue(){
+  setModalValue() {
     this.isModalOpen = false;
   }
   goToChat() {

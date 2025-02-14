@@ -204,8 +204,9 @@
     "
     *ngIf="segmentModel === 'Special Offers'"
   >
-    <div class="elementBg" *ngFor="let aa of orderd_specialOffersArr" >
-      <div style="display: flex;">
+    <div class="elementBg" *ngFor="let aa of filtered_specialOffersArr" >
+      
+      <div *ngIf="aa.venue_timing[dayNumber].start_hours != null" style="display: flex;">
         <img
           style="
             width: 134px;
@@ -226,7 +227,7 @@
 
             <div style="display: flex; align-items: center; margin-bottom: 10px">
               <img class="imm" style="height: 18px;" src="../../assets/imgs/icons/new_icons/CalanderIcon.png" />
-              <p class="date roboto">Dec 12 2024</p>
+              <p class="date roboto">{{getTodayDate()}}</p>
             </div>
 
             <!-- <div style="display: flex; align-items: center; margin-bottom: 8px">
@@ -324,9 +325,9 @@
 
         <p class="two roboto">{{detailObj.discount_percentage}}%</p>
       
-        <p class="one roboto">{{detailObj.discount_token}}</p>
+        <p class="one roboto">{{detailObj.discount_token}}</p> 
 
-        <div class="three roboto">Valid until {{getDate(detailObj.discount_claimed_date)}}</div>
+        <div class="three roboto">Valid until {{getTodayDate()}}</div>
         <!-- <div class="roboto token_num">{{discountToken}}</div> -->
         <!-- <div class="roboto token_info_one">All discounts can be found in your Profile</div> -->
         <!-- <div class="roboto token_info_two" >*its a one time code, save it</div> -->
