@@ -1,8 +1,8 @@
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true">
   <div class="bg paddingtop">
 
-  <!-- <div id='map' style='width: 400px; height: 300px;'></div> -->
-  <!-- <google-map 
+    <!-- <div id='map' style='width: 400px; height: 300px;'></div> -->
+    <!-- <google-map 
     height="100%"
     width="100%"
     #myGoogleMap
@@ -55,25 +55,23 @@
       [directions]="directionsResults">
     </map-directions-renderer>
   </google-map> -->
-  <div id="mapbox" style="position: absolute; top: 0; bottom: 0; width: 100%; height: 100%;"></div>
-  
-  <!-- (click)="startSpeechRecognition()" -->
-  <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map"   style="position: fixed;
+    <div id="mapbox" style="position: absolute; top: 0; bottom: 0; width: 100%; height: 100%;"></div>
+
+    <!-- (click)="startSpeechRecognition()" -->
+    <img [class.hide_ai]="aiToggleChecked == false" id="open-modal-map" style="position: fixed;
   z-index: 11;
   right: -12px;
   bottom: 59%;
   width: 105px;
-  border-radius: 100px;"  src="../../assets/imgs/icons/new_icons/map_icons/OraAIIcon.png" alt="">
+  border-radius: 100px;" src="../../assets/imgs/icons/new_icons/map_icons/OraAIIcon.png" alt="">
 
-  <ion-modal  trigger="open-modal-map" [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}" (ionModalDidPresent)="onModalDidPresent()"   (ionModalWillDismiss)="dismissModal()" >
-    <ng-template>
-      <div>
-        <div style="padding: 15px 15px 0px;display: flex;align-items: center;justify-content: space-between;">
-          <ion-toggle
-                [checked]="toggleThemeChecked"
-                (ionChange)="toggleTheme($event)"
-                mode="ios"
-                style="
+    <ion-modal trigger="open-modal-map"
+      [ngClass]="{'white_model_bg':!toggleThemeChecked ,'black_model_bg': toggleThemeChecked}"
+      (ionModalDidPresent)="onModalDidPresent()" (ionModalWillDismiss)="dismissModal()">
+      <ng-template>
+        <div>
+          <div style="padding: 15px 15px 0px;display: flex;align-items: center;justify-content: space-between;">
+            <ion-toggle [checked]="toggleThemeChecked" (ionChange)="toggleTheme($event)" mode="ios" style="
                   --handle-background-checked: white;
                   --background: #ac3dba;
                   --background-checked: #ac3dba;
@@ -82,135 +80,149 @@
                   --handle-height: 16px;
                   --handle-width: 13px;
                   width: 40px;
-                "
-          ></ion-toggle>
+                "></ion-toggle>
 
-          <ion-icon *ngIf="toggleThemeChecked" style="color: white;height: 20px;width: 20px;" name="moon"></ion-icon>
-          <ion-icon *ngIf="!toggleThemeChecked" style="color: black;height: 20px;width: 20px;" name="sunny"></ion-icon>
+            <ion-icon *ngIf="toggleThemeChecked" style="color: white;height: 20px;width: 20px;" name="moon"></ion-icon>
+            <ion-icon *ngIf="!toggleThemeChecked" style="color: black;height: 20px;width: 20px;"
+              name="sunny"></ion-icon>
 
-          <img *ngIf="toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
-          <img *ngIf="!toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close_black.svg" alt="">
+            <img *ngIf="toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close.svg" alt="">
+            <img *ngIf="!toggleThemeChecked" (click)="dismissModal()" src="../../assets/imgs/icons/ion_close_black.svg"
+              alt="">
 
-        </div>
-        
-        <div class="block">
-          <div></div>
-          <div style="margin: 15px;text-align: left;">
-            
-            
+          </div>
 
-            <!-- *ngIf="listening == true && yourVoiceInput== ''" -->
-            <!-- <div *ngIf="typedText=='' && yourVoiceInput==''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"  >
+          <div class="block">
+            <div></div>
+            <div style="margin: 15px;text-align: left;">
+
+
+
+              <!-- *ngIf="listening == true && yourVoiceInput== ''" -->
+              <!-- <div *ngIf="typedText=='' && yourVoiceInput==''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"  >
               Hey, how can I help?
             </div> -->
 
-            <div *ngIf="typedText=='' && yourVoiceInput=='' && !inputFeatureActive" class="center_text">
-              <div class="typewriter" >
-                <span #welcomeMessage [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></span>
+              <div *ngIf="typedText=='' && yourVoiceInput=='' && !inputFeatureActive" class="center_text">
+                <div class="typewriter">
+                  <span #welcomeMessage
+                    [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"></span>
+                </div>
               </div>
-            </div>
-            
 
-            <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
-              Listening...
-            </div>
-            
-            <div style="margin-top: 10px;" *ngIf="keyboardIsVisible == true && typedText== ''" [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" style="text-align: left;">
-            Start Typing...
-            </div>
 
-            <div [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}" *ngIf="yourVoiceInput != ''" >
-              {{yourVoiceInput}}
+              <div style="margin-top: 10px;" *ngIf="listening == true && yourVoiceInput== ''"
+                [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"
+                style="text-align: left;">
+                Listening...
+              </div>
+
+              <div style="margin-top: 10px;" *ngIf="keyboardIsVisible == true && typedText== ''"
+                [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"
+                style="text-align: left;">
+                Start Typing...
+              </div>
+
+              <div
+                [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}"
+                *ngIf="yourVoiceInput != ''">
+                {{yourVoiceInput}}
+              </div>
+
+              <div
+                [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}">
+                {{ typedText }}
+              </div>
+
             </div>
+            <div></div>
 
-            <div [ngClass]="{'modal_text_color_white':toggleThemeChecked,'modal_text_color_black':!toggleThemeChecked}">
-              {{ typedText }}
-            </div>
-
-          </div>
-          <div></div>
-
-          <!-- <video width="320" height="240" controls [ngClass]="{'hide_ai':!listening}" >
+            <!-- <video width="320" height="240" controls [ngClass]="{'hide_ai':!listening}" >
             <source src="../../assets/videos/ai_video.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video> -->
-          
-          <div style="text-align: center;" [ngClass]="{'hide_ai':!listening}">
-            <!-- [ngClass]="{'speech-gif':gettingInput}" -->
-            <img *ngIf="toggleThemeChecked"   style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif.gif" alt="">
-            <img *ngIf="!toggleThemeChecked"  style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif_white.gif" alt="">
-          </div>
-           <!-- ========================lottie======================= -->
-          <!-- <div [ngClass]="{'hide':!listening}">
+
+            <div style="text-align: center;" [ngClass]="{'hide_ai':!listening}">
+              <!-- [ngClass]="{'speech-gif':gettingInput}" -->
+              <img *ngIf="toggleThemeChecked" style="height: 250px;width: 250px;" src="../../assets/imgs/ai_gif.gif"
+                alt="">
+              <img *ngIf="!toggleThemeChecked" style="height: 250px;width: 250px;"
+                src="../../assets/imgs/ai_gif_white.gif" alt="">
+            </div>
+            <!-- ========================lottie======================= -->
+            <!-- <div [ngClass]="{'hide':!listening}">
             <ng-lottie [options]="lottieConfig"></ng-lottie>
           </div> -->
-          <!-- =====================lottie done=========================== -->
-          <div style="display: flex;
+            <!-- =====================lottie done=========================== -->
+            <div style="display: flex;
             align-items: center;
             justify-content: space-between;">
-            <img (click)="showKeyboard()" class="input_type_align" *ngIf="toggleThemeChecked " src="../../assets/imgs/icons/keyboard_white.svg" alt="">
-            <img (click)="showKeyboard()" class="input_type_align" *ngIf="!toggleThemeChecked" src="../../assets/imgs/icons/keyboard_black.svg" alt="">
-        
-            <ion-input style="opacity: 0;"  type="text" (ionBlur)="searchForAIInput($event)" (ionInput)="onInputForAI($event)" ></ion-input>
-            <!-- <img (click)="showKeyboard()" class="input_type_align" *ngIf="toggleThemeChecked && listening" src="../../assets/imgs/icons/keyboard_white.svg" alt="">
+              <img (click)="showKeyboard()" class="input_type_align" *ngIf="toggleThemeChecked "
+                src="../../assets/imgs/icons/keyboard_white.svg" alt="">
+              <img (click)="showKeyboard()" class="input_type_align" *ngIf="!toggleThemeChecked"
+                src="../../assets/imgs/icons/keyboard_black.svg" alt="">
+
+              <ion-input style="opacity: 0;" type="text" (ionBlur)="searchForAIInput($event)"
+                (ionInput)="onInputForAI($event)"></ion-input>
+              <!-- <img (click)="showKeyboard()" class="input_type_align" *ngIf="toggleThemeChecked && listening" src="../../assets/imgs/icons/keyboard_white.svg" alt="">
             <img (click)="showKeyboard()" class="input_type_align" *ngIf="!toggleThemeChecked && listening" src="../../assets/imgs/icons/keyboard_black.svg" alt=""> -->
-            <!-- <ion-input placeholder="Ask AI" [ngClass]="{'input_text_color_white':toggleThemeChecked,'input_text_color_black':!toggleThemeChecked}"  type="text" (ionBlur)="searchForAIInput($event)" (ionInput)="onInputForAI($event)" ></ion-input> -->
-            <div style="width: 75%;"></div>
-            <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening" >
-              <!-- <ion-icon class="white_mic" name="mic"></ion-icon>       -->
-               <img src="../../assets/imgs/icons/mic-fill-white-32.svg" alt="">
+              <!-- <ion-input placeholder="Ask AI" [ngClass]="{'input_text_color_white':toggleThemeChecked,'input_text_color_black':!toggleThemeChecked}"  type="text" (ionBlur)="searchForAIInput($event)" (ionInput)="onInputForAI($event)" ></ion-input> -->
+              <div style="width: 75%;"></div>
+              <div (click)="stopSpeechRecognition()" *ngIf="toggleThemeChecked && listening">
+                <!-- <ion-icon class="white_mic" name="mic"></ion-icon>       -->
+                <img src="../../assets/imgs/icons/mic-fill-white-32.svg" alt="">
+              </div>
+              <div (click)="stopSpeechRecognition()" *ngIf="!toggleThemeChecked && listening">
+                <!-- <ion-icon class="black_mic" name="mic"></ion-icon>   -->
+                <img src="../../assets/imgs/icons/mic-fill-gray-32.svg" alt="">
+              </div>
+              <div (click)="startSpeechRecognition()" *ngIf="toggleThemeChecked && !listening">
+                <!-- <ion-icon class="white_mic " name="mic-outline"></ion-icon> -->
+                <img src="../../assets/imgs/icons/mic-white-32.svg" alt="">
+              </div>
+              <div (click)="startSpeechRecognition()" *ngIf="!toggleThemeChecked && !listening">
+                <!-- <ion-icon class="black_mic " name="mic-outline"></ion-icon>   -->
+                <img src="../../assets/imgs/icons/mic-gray-32.svg" alt="">
+              </div>
+
             </div>
-            <div (click)="stopSpeechRecognition()" *ngIf="!toggleThemeChecked && listening" >
-              <!-- <ion-icon class="black_mic" name="mic"></ion-icon>   -->
-               <img src="../../assets/imgs/icons/mic-fill-gray-32.svg" alt="">
-            </div>
-            <div (click)="startSpeechRecognition()" *ngIf="toggleThemeChecked && !listening" >
-              <!-- <ion-icon class="white_mic " name="mic-outline"></ion-icon> -->
-              <img src="../../assets/imgs/icons/mic-white-32.svg" alt="">
-            </div>
-            <div (click)="startSpeechRecognition()" *ngIf="!toggleThemeChecked && !listening" >
-              <!-- <ion-icon class="black_mic " name="mic-outline"></ion-icon>   -->
-              <img src="../../assets/imgs/icons/mic-gray-32.svg" alt="">
-            </div>
-            
-          </div>
-          
-          
-          <!-- ========================lottie======================= -->
-          <!-- <div class="container_lottie">
+
+
+            <!-- ========================lottie======================= -->
+            <!-- <div class="container_lottie">
             <ng-lottie [options]="lottieConfig"></ng-lottie>
           </div> -->
-          <!-- =====================lottie done=========================== -->
-          
+            <!-- =====================lottie done=========================== -->
+
+          </div>
         </div>
-      </div>
-     
-    </ng-template>
-  </ion-modal>
 
-  <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
+      </ng-template>
+    </ion-modal>
+
+    <div *ngIf="showSideElements" (click)="toggleCategories()" style="position: absolute;
     right: 12px;
-    bottom: 51%; "
-    >
-    <div style="background: linear-gradient(180deg,#51086a,#670b7e,#710a81,#840c8e);border-radius: 50px;padding: 5px;height: 58px;width: 58px;">
+    bottom: 51%; ">
+      <div
+        style="background: linear-gradient(180deg,#51086a,#670b7e,#710a81,#840c8e);border-radius: 50px;padding: 5px;height: 58px;width: 58px;">
 
-      <img style="height: 31px;
+        <img style="height: 31px;
       width: 29px;
       margin: 8px 10px;" src="../../assets/imgs/icons/new_icons/map_icons/DrinkIcon.png" alt="">
-      
+
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="showCategories" class="categories_filter">
-    <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('bars')" >Bars</div>
-    <!-- (click)="setMarkersAgain()" -->
-    <div class="filter_btn roboto" (click)="selectedVenueCategory('restaurants')">Restaurants</div>
+    <div *ngIf="showCategories" class="categories_filter">
+      <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('bars')">Bars</div>
+      <!-- (click)="setMarkersAgain()" -->
+      <div class="filter_btn roboto" (click)="selectedVenueCategory('restaurants')">Restaurants</div>
 
-    <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('clubs')" >Clubs</div>
-    
-  </div>
+      <div class="filter_btn roboto mgb_16" (click)="selectedVenueCategory('clubs')">Clubs</div>
 
-  <div *ngIf="showSideElements" (click)="toggleCrowdFilter()" style="position: absolute;
+    </div>
+
+    <div *ngIf="showSideElements" (click)="toggleCrowdFilter()" style="position: absolute;
     right: 12px;
     bottom: 40%;
     background: linear-gradient(180deg,#51086a,#670b7e,#710a81,#840c8e);
@@ -220,19 +232,19 @@
     width: 58px;
     text-align: center;
     padding: 15px 0px;">
-    <img  style="height: 27px;width: 27px;" src="../../assets/imgs/icons/new_icons/map_icons/CrowdIcon.png" alt="">
-  </div>
+      <img style="height: 27px;width: 27px;" src="../../assets/imgs/icons/new_icons/map_icons/CrowdIcon.png" alt="">
+    </div>
 
-  <div *ngIf="showCrowdfilters" class="crowd_filter" >
-    <div class="filter_btn roboto" (click)="selectedCrowdFilter('Quiet')">Quiet</div>
-    
-    <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Busy')" >Busy</div>
-    
-    <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Very Busy')" >Very Busy</div>
-    
-  </div>
+    <div *ngIf="showCrowdfilters" class="crowd_filter">
+      <div class="filter_btn roboto" (click)="selectedCrowdFilter('Quiet')">Quiet</div>
 
-  <div *ngIf="showSideElements" (click)="toggleEventCategories()" style="position: absolute;
+      <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Busy')">Busy</div>
+
+      <div class="filter_btn roboto mgb_16" (click)="selectedCrowdFilter('Very Busy')">Very Busy</div>
+
+    </div>
+
+    <div *ngIf="showSideElements" (click)="toggleEventCategories()" style="position: absolute;
     right: 12px;
     bottom: 29%;
     background: #fafafa;
@@ -242,179 +254,159 @@
     width: 58px;
     text-align: center;
     padding: 15px 0px;">
-    <!-- (click)="getCurrentLocation()" -->
-    <img  style="height: 28px;width: 30px;" src="../../assets/imgs/icons/new_icons/map_icons/TicketIcon.png" alt="">
-    
-  </div>
+      <!-- (click)="getCurrentLocation()" -->
+      <img style="height: 28px;width: 30px;" src="../../assets/imgs/icons/new_icons/map_icons/TicketIcon.png" alt="">
 
-  <div *ngIf="showEventCategories" class="events_filter">
-    <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('bars')" >Bars</div>
-    
-    <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('promo')" >Promo</div>
-    <!-- (click)="setMarkersAgain()" -->
-    <div class="event_filter_btn roboto" (click)="selectedEventCategory('clubs')">Clubs</div>
-  </div>
-
-  
-  <div class="boxshadowww"></div>
-
-  <div  class="searchtop" style="width: 100%;
-  justify-content: center;">
-    <div
-      class="inputfieldtransparent top-90 top-65"
-      style="display: flex; height: 44px; width: 90%;
-      position: absolute;
-      border: 2px solid white;padding-right: 5px;"
-    >
-      <img
-        style="height: 24px;
-        margin: 8px 0px 8px 15px; "
-        src="../../assets/imgs/icons/menu_bar_icons/home_icon_select.png"
-      />        
-    
-      <ion-input #textInput
-        style="padding-left: 15px !important; margin-right: 8px;"
-        [readonly]="true"
-        (click)="openModal()"
-        class="input"
-        type="text"
-        placeholder="Search here"
-      ></ion-input>
-      <img 
-        (click)="goToProfile()"
-        style="margin-top: 8px; margin-right: 3px; height: 25px;"
-        src="../../assets/imgs/icons/new_icons/MyProfileIcon.png"
-      />
     </div>
-  </div>
 
-  <div style="position: relative;">
-    <div (click)="showWeatherFunc()" class="weather-badge"><img class="weather-icon" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt=""> 12 <sup style="opacity: 0.7;">o</sup></div>
+    <div *ngIf="showEventCategories" class="events_filter">
+      <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('bars')">Bars</div>
 
-  </div>
+      <div class="event_filter_btn roboto mgb_16" (click)="selectedEventCategory('promo')">Promo</div>
+      <!-- (click)="setMarkersAgain()" -->
+      <div class="event_filter_btn roboto" (click)="selectedEventCategory('clubs')">Clubs</div>
+    </div>
 
-  <ion-modal [isOpen]="showWeather" style="--background: #00000059" (ionModalDidDismiss)="closeNewModel()">
-    <ng-template>
-      <ion-content style="--background: #00000059">
-        <div
-          style="
+
+    <div class="boxshadowww"></div>
+
+    <div class="searchtop" style="width: 100%;
+  justify-content: center;">
+      <div class="inputfieldtransparent top-90 top-65" style="display: flex; height: 44px; width: 90%;
+      position: absolute;
+      border: 2px solid white;padding-right: 5px;">
+        <img style="height: 24px;
+        margin: 8px 0px 8px 15px; " src="../../assets/imgs/icons/menu_bar_icons/home_icon_select.png" />
+
+        <ion-input #textInput style="padding-left: 15px !important; margin-right: 8px;" [readonly]="true"
+          (click)="openModal()" class="input" type="text" placeholder="Search here"></ion-input>
+        <img (click)="goToProfile()" style="margin-top: 8px; margin-right: 3px; height: 25px;"
+          src="../../assets/imgs/icons/new_icons/MyProfileIcon.png" />
+      </div>
+    </div>
+
+    <div style="position: relative;">
+      <div (click)="showWeatherFunc()" class="weather-badge">
+        <!-- <img class="weather-icon" src="https://openweathermap.org/img/wn/{{currentWeather.weatherIcon}}@2x.png" alt=""> -->
+        <img *ngIf="currentWeather?.weatherIcon=='50d'" class="weather-icon"
+          src="https://openweathermap.org/img/wn/{{currentWeather?.weatherIcon}}@2x.png" alt="">
+        <img *ngIf="currentWeather?.weatherIcon!='50d'" class="weather-icon"
+          src="../../assets/imgs/icons/new_icons/weather_icons/{{currentWeather?.weatherIcon}}.png" alt="">
+        {{currentWeather.main.temp}} <sup style="opacity: 0.7;">o</sup>
+      </div>
+
+    </div>
+
+    <ion-modal [isOpen]="showWeather" style="--background: #00000059" (ionModalDidDismiss)="closeNewModel()">
+      <ng-template>
+        <ion-content style="--background: #00000059">
+          <div style="
             position: absolute;
             top: 19%;
             width: 100%;
             display: flex;
             justify-content: center;
-          "
-        >
-          <div
-            style="
+          ">
+            <div style="
               background: linear-gradient(135deg, #262626, #302f2f);
               padding: 20px 15px 20px 20px;
               border-radius: 10px;
               margin: 20px;
               border: 2px solid #848484;
               width: 85%;
-            "
-          >
-           <div class="weather_heading center_text roboto">Manchester</div>
-            <div class="weather_sub_heading center_text roboto">Heavy Showers</div>
-  
-            <div class="flex_center">
-              <div class="roboto">
-                <div class="weather_temp"><span class="main_temp">12</span>  <sup  class="font-w-100" style="color: white;font-size: 22px;">o</sup></div>
-                <div class="weather_detail">Feels like: <span class="font-bold">10</span>  <sup class="font-w-100">o</sup></div>
-                <div class="weather_detail"><span>High: <span class="font-bold">15</span> <sup class="font-w-100">o</sup> </span> <span style="margin-left: 4px;"> Low: <span class="font-bold">10</span> <sup class="font-w-100">o</sup></span></div>
-                <div class="weather_detail">Humidity: <span class="font-bold">25%</span></div>
-              </div>
-              <img class="weather_icon2" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt="">
-            </div>
-            
-            <div class="weather_detail_box">
-              <div class="flex_col_center">
-                <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/WindIcon.png" alt="">
-                <div class="weather_detail">Wind</div>
-                <div class="weather_detail">9km/h</div>
-              </div>
-              <div class="flex_col_center">
-                <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/WaterDropIcon.png" alt="">
-                <div class="weather_detail">Rain</div>
-                <div class="weather_detail">85%</div>
-              </div>
-              <div class="flex_col_center">
-                <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/VisionIcon.png" alt="">
-                <div class="weather_detail">Visibility</div>
-                <div class="weather_detail">Clear</div>
-              </div>
-            </div>
-            <ion-button
-              (click)="closeNewModel()"
-              style="margin-top: 20px; opacity: 1;--border-radius: 18px;"
-              class="btnsimple roboto"
-              >View More</ion-button
-            >
-      
-            <!-- <div class="footer_text">Terms and Conditions Apply.</div> -->
-            
-          </div>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+            ">
+              <div class="weather_heading center_text roboto">{{currentWeather.name}}</div>
+              <div class="weather_sub_heading center_text roboto">{{currentWeather.weather[0].main}}</div>
 
-  <p
-      *ngIf="filtertype != 'no' "
-      class="filtertextClear"
-      (click)="clearFilter()"
-    > 
+              <div class="flex_center">
+                <div class="roboto">
+                  <div class="weather_temp"><span class="main_temp">{{currentWeather.main.temp}}</span> <sup
+                      class="font-w-100" style="color: white;font-size: 22px;">o</sup></div>
+                  <div class="weather_detail">Feels like: <span
+                      class="font-bold">{{currentWeather.main.feels_like}}</span> <sup class="font-w-100">o</sup></div>
+                  <div class="weather_detail"><span>High: <span
+                        class="font-bold">{{currentWeather.main.temp_max}}</span> <sup class="font-w-100">o</sup>
+                    </span> <span style="margin-left: 4px;"> Low: <span
+                        class="font-bold">{{currentWeather.main.temp_min}}</span> <sup class="font-w-100">o</sup></span>
+                  </div>
+                  <div class="weather_detail">Humidity: <span class="font-bold">{{currentWeather.main.humidity}}%</span>
+                  </div>
+                </div>
+                <!-- <img class="weather_icon2" src="https://openweathermap.org/img/wn/{{currentWeather.weatherIcon}}@2x.png"
+                  alt=""> -->
+                <img *ngIf="currentWeather?.weatherIcon=='50d'" class="weather-icon2"
+                  src="https://openweathermap.org/img/wn/{{currentWeather?.weatherIcon}}@2x.png" alt="">
+                <img *ngIf="currentWeather?.weatherIcon!='50d'" class="weather-icon2" style="height: 118px;"
+                  src="../../assets/imgs/icons/new_icons/weather_icons/{{currentWeather?.weatherIcon}}.png" alt="">
+                <!-- <img class="weather_icon2" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt=""> -->
+              </div>
+              <!-- <div class="roboto info-text">Thank you, we will inform the venue.</div> -->
+
+              <div class="weather_detail_box">
+                <div class="flex_col_center">
+                  <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/WindIcon.png" alt="">
+                  <div class="weather_detail">Wind</div>
+                  <div class="weather_detail">{{currentWeather.windSpeedInKmph}}km/h</div>
+                </div>
+                <div class="flex_col_center">
+                  <!-- <img class="w_detail_icon"
+                    src="https://openweathermap.org/img/wn/{{currentWeather.weatherIcon}}@2x.png" alt=""> -->
+                  <img *ngIf="currentWeather?.weatherIcon=='50d'" class="w_detail_icon"
+                    src="https://openweathermap.org/img/wn/{{currentWeather?.weatherIcon}}@2x.png" alt="">
+                  <img *ngIf="currentWeather?.weatherIcon!='50d'" class="w_detail_icon"
+                    src="../../assets/imgs/icons/new_icons/weather_icons/{{currentWeather?.weatherIcon}}.png" alt="">
+                  <div class="weather_detail">{{currentWeather.weather[0].main}}</div>
+                  <div class="weather_detail">-</div>
+                </div>
+                <div class="flex_col_center">
+                  <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/VisionIcon.png"
+                    alt="">
+                  <div class="weather_detail">Visibility</div>
+                  <div class="weather_detail">{{currentWeather.visibilityStatus}}</div>
+                </div>
+              </div>
+              <ion-button (click)="closeNewModel()" style="margin-top: 20px; opacity: 1;--border-radius: 18px;"
+                class="btnsimple roboto">View More</ion-button>
+              <!-- <div class="footer_text">Terms and Conditions Apply.</div> -->
+
+            </div>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <p *ngIf="filtertype != 'no' " class="filtertextClear" (click)="clearFilter()">
       Clear Filter
     </p>
 
-    <div
-      class="loc_info"
-      *ngIf="searchObject"
-    >
+    <div class="loc_info" *ngIf="searchObject">
       <div *ngIf="searchObject.venues_id != null">
-        <img
-          (click)="getDirections()"
+        <img (click)="getVenueDirectionsOnMapbox()"
           style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
-          src="../../assets/imgs/icons/icon_nav.svg"
-        />
-        <img
-          (click)="likevenu()"
-          *ngIf="searchObject.likes == 0"
-          class="heart_icon"
-          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
-        />
-        <img
-          (click)="likeoutvenu()"
-          *ngIf="searchObject.likes != 0"
-          class="heart_icon"
-          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
-        />
+          src="../../assets/imgs/icons/icon_nav.svg" />
+        <img (click)="likevenu()" *ngIf="searchObject.likes == 0" class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png" />
+        <img (click)="likeoutvenu()" *ngIf="searchObject.likes != 0" class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png" />
       </div>
       <div *ngIf="showDetail" (click)="gotodetail()" style="width: 100%; display: flex;align-items: center;">
-        <img
-          style="
+        <img style="
             border-radius: 25px;
             height: 100px;
             width: 100px;
             padding: 10px;
             object-fit: cover;
-          "
-          src="{{searchObject.cover_images}}"
-        />
+          " src="{{searchObject.cover_images}}" />
 
         <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 50%;">
-          <p
-            style="
+          <p style="
               font-style: normal;
               font-weight: bold;
               font-size: 15px;
               line-height: 21px;
               color: #ffffff;
               
-            "
-            class="roboto"
-          >
+            " class="roboto">
             {{searchObject.name}}
           </p>
 
@@ -424,7 +416,7 @@
           height: 16px;
           width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
 
-          <ion-badge 
+          <ion-badge
             *ngIf="searchObject.discount_percentage != 0 && searchObject.discount_percentage != null  && searchObject.venues_id != null"
             style="
               font-size: 10px;
@@ -438,13 +430,9 @@
               background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
               font-weight: bold;
               width: 60px;
-            "
-            >{{searchObject.discount_percentage}}% off</ion-badge
-          >
+            ">{{searchObject.discount_percentage}}% off</ion-badge>
 
-          <ion-badge
-            *ngIf="searchObject.discount_percentage == 0 && searchObject.venues_id != null"
-            style="
+          <ion-badge *ngIf="searchObject.discount_percentage == 0 && searchObject.venues_id != null" style="
               font-size: 10px;
               padding: 8px 10px;
               position: absolute;
@@ -455,9 +443,7 @@
               /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
               background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
               font-weight: 500;
-            "
-            >No Discount</ion-badge
-          >
+            ">No Discount</ion-badge>
 
           <div style="display: flex; margin-top: 10px">
             <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
@@ -476,53 +462,34 @@
       </div>
     </div>
 
-    <div
-      class="loc_info"
-      *ngIf="searchEventObject" 
-    >
+    <div class="loc_info" *ngIf="searchEventObject">
       <div *ngIf="searchEventObject.events_id != null">
-        <img
-          (click)="getEventDirections()"
+        <img (click)="getEventDirectionsOnMapbox()"
           style="position: absolute; bottom: 11px; right: 54px; height: 20px;width: 20px;"
-          src="../../assets/imgs/icons/icon_nav.svg"
-        />
-        <img
-          (click)="likeevent()"
-          *ngIf="searchEventObject.likes == 0"
-          class="heart_icon"
-          src="../../assets/imgs/icons/new_icons/HeartIcon2.png"
-        />
-        <img
-          (click)="likeoutevent()"
-          *ngIf="searchEventObject.likes != 0"
-          class="heart_icon"
-          src="../../assets/imgs/icons/new_icons/HeartIcon1.png"
-        />
+          src="../../assets/imgs/icons/icon_nav.svg" />
+        <img (click)="likeevent()" *ngIf="searchEventObject.likes == 0" class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon2.png" />
+        <img (click)="likeoutevent()" *ngIf="searchEventObject.likes != 0" class="heart_icon"
+          src="../../assets/imgs/icons/new_icons/HeartIcon1.png" />
       </div>
       <div *ngIf="showEventDetail" (click)="gotoEventdetail()" style="width: 100%; display: flex;align-items: center;">
-        <img
-          style="
+        <img style="
             border-radius: 25px;
             height: 100px;
             width: 100px;
             padding: 10px;
             object-fit: cover;
-          "
-          src="{{this.rest.baseURLimg}}{{searchEventObject.cover_images}}"
-        />
+          " src="{{this.rest.baseURLimg}}{{searchEventObject.cover_images}}" />
 
         <div style="margin-top: 11px;padding-right: 10px;margin-bottom: 11px;width: 51%;">
-          <p
-            style="
+          <p style="
               font-style: normal;
               font-weight: bold;
               font-size: 15px;
               line-height: 21px;
               color: #ffffff;
               
-            "
-            class="roboto"
-          >
+            " class="roboto">
             {{searchEventObject.name}}
           </p>
 
@@ -532,7 +499,7 @@
           height: 16px;
           width: 16px;" src="../../assets/imgs/icons/ion_close.svg" alt=""> -->
 
-          <ion-badge 
+          <ion-badge
             *ngIf="searchEventObject.discount_percentage != 0 && searchEventObject.discount_percentage != null  && searchEventObject.events_id != null"
             style="
               font-size: 10px;
@@ -546,13 +513,9 @@
               background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
               font-weight: bold;
               width: 60px;
-            "
-            >{{searchEventObject.discount_percentage}}% off</ion-badge
-          >
+            ">{{searchEventObject.discount_percentage}}% off</ion-badge>
 
-          <ion-badge
-            *ngIf="searchEventObject.discount_percentage == 0 && searchEventObject.events_id != null"
-            style="
+          <ion-badge *ngIf="searchEventObject.discount_percentage == 0 && searchEventObject.events_id != null" style="
               font-size: 10px;
               padding: 8px 10px;
               position: absolute;
@@ -563,9 +526,7 @@
               /* background: linear-gradient(270deg, #AC3DBA 0%, #7825CB 100%); */
               background: radial-gradient(circle at 0% 0%, #ac2ac2, #5a0670);
               font-weight: 500;
-            "
-            >No Discount</ion-badge
-          >
+            ">No Discount</ion-badge>
 
           <div style="display: flex; margin-top: 10px">
             <img style="margin-right: 10px" src="assets/imgs/pinwhite.svg" />
@@ -585,8 +546,8 @@
     </div>
   </div>
 
-  
-  
+
+
 </ion-content>
 
 <ion-footer class="ion-no-border">

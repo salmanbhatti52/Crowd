@@ -50,6 +50,8 @@ export class RestService {
   discountedAmount: any;
   discountPercentage: any;
   venueDiscountToken: any;
+  currentWeather: any;
+  weatherForecast: any;
   profile_updated = false;
   deniedVoicePermissionCount = 0;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
@@ -131,6 +133,18 @@ export class RestService {
     });
 
     return this.http.get(`${this.baseURL}${action}`, {
+      headers: header,
+    });
+  }
+
+  getWeather(url:string){
+    let header;
+
+    header = new HttpHeaders({
+      // "Content-Type": "application/json",
+    });
+
+    return this.http.get(url, {
       headers: header,
     });
   }

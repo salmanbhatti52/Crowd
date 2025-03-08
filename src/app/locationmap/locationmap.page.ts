@@ -11,7 +11,7 @@ import {
   QueryList,
   // AfterViewInit,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import mapboxgl from 'mapbox-gl';
 import { IonModal, ModalController, Platform } from "@ionic/angular";
 import {
@@ -22,7 +22,7 @@ import {
   MapMarker,
   MapDirectionsService,
 } from "@angular/google-maps";
-import { Observable, map,of } from "rxjs";
+import { Observable, map, of } from "rxjs";
 import { Keyboard } from '@capacitor/keyboard';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SearchComponentComponent } from "../search-component/search-component.component";
@@ -31,7 +31,7 @@ import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import { format, getDay, isEqual, parse, parseISO } from "date-fns";
 // import  { Screenshot } from 'capacitor-screenshot';
 
-import {AnimationOptions  } from 'ngx-lottie';
+import { AnimationOptions } from 'ngx-lottie';
 import { environment } from "src/environments/environment";
 @Component({
   selector: "app-locationmap",
@@ -56,7 +56,7 @@ export class LocationmapPage implements OnInit {
   welcomeMessage!: ElementRef;
   @ViewChildren('markerElem') markerElems!: QueryList<MapMarker>;
 
-  foundVenue :any;
+  foundVenue: any;
 
   userID: any = "";
   userdata: any = "";
@@ -156,11 +156,11 @@ export class LocationmapPage implements OnInit {
     ],
   };
   renderOptions: google.maps.DirectionsRendererOptions = {
-    suppressMarkers:true,
+    suppressMarkers: true,
     polylineOptions: {
-      strokeColor: '#FFFFFF', 
+      strokeColor: '#FFFFFF',
       // strokeOpacity: 0.5,
-      strokeWeight:5
+      strokeWeight: 5
     }
   }
   // public styleDark = [
@@ -311,6 +311,7 @@ export class LocationmapPage implements OnInit {
   //   },
   // ];
 
+
   public defaultStyle = [];
   markers = [] as any;
   eventMarkers = [] as any;
@@ -318,8 +319,8 @@ export class LocationmapPage implements OnInit {
   //// angular map
   showCrowdfilters = false;
 
-  currentLatitude:any;
-  currentLongitude:any;
+  currentLatitude: any;
+  currentLongitude: any;
 
   title = "Title here";
   venuarr: any = "";
@@ -344,7 +345,7 @@ export class LocationmapPage implements OnInit {
   selectedVenueCat = '';
   selectedEventCat = '';
   selectedCrowdCat = '';
-  userLocation:any;
+  userLocation: any;
   directionsResults$!: Observable<google.maps.DirectionsResult | undefined>;
   showCategories = false;
   showEventCategories = false;
@@ -352,22 +353,22 @@ export class LocationmapPage implements OnInit {
   showEventDetail = false;
   yourVoiceInput = '';
   listener: boolean = false;
-  listeningStatus:string = '';
-  listening:boolean = false;
+  listeningStatus: string = '';
+  listening: boolean = false;
   ai = '';
   aiToggleChecked: boolean = false;
   isAnimating = false;
-  timeout:any;
+  timeout: any;
   inactivityDelay = 5000;
   deniedVoicePermissionCount = 0;
   toggleThemeChecked = true;
-  
-  venueKeywords: any = [];
-  eventKeywords:any = [];
 
-  dayTimeKeywords:string[] = ['until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
+  venueKeywords: any = [];
+  eventKeywords: any = [];
+
+  dayTimeKeywords: string[] = ['until', 'till', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'a.m.', 'p.m.', 'tonight'];
   // lottieConfig!: AnimationOptions;
-  typedText:any = '';
+  typedText: any = '';
 
   inputFeatureActive = false;
   keyboardIsVisible = false;
@@ -377,6 +378,8 @@ export class LocationmapPage implements OnInit {
   showWeather: boolean = false;
   // sffr:boolean =  Boolean();
   // showMicIcon = false;
+  currentWeather: any;
+  weatherForecast: any;
 
   constructor(
     public router: Router,
@@ -384,13 +387,16 @@ export class LocationmapPage implements OnInit {
     public modalCtrl: ModalController,
     private ngZone: NgZone,
     private geoCoder: MapGeocoder,
-    private platform:Platform,
+    private platform: Platform,
     private mapDirectionsService: MapDirectionsService,
     private changeDetectorRef: ChangeDetectorRef,
+    public activatedRoute:ActivatedRoute,
     // private mapDirectionsRenderer: MapDirectionsRenderer,
     private renderer: Renderer2
   ) {
     mapboxgl.accessToken = 'pk.eyJ1IjoiY3Jvd2RhcHAiLCJhIjoiY20zcjkxOTE0MDNneTJrc2FkaWtrMHNuYSJ9.Xqwl58YnNlk5HwP6UH4cfQ';
+    this.currentWeather = this.rest.currentWeather;
+    this.weatherForecast = this.rest.weatherForecast;
   }
 
 
@@ -401,7 +407,7 @@ export class LocationmapPage implements OnInit {
     const markerArray = this.markerElems.toArray();
 
     markerArray.forEach((markerElem, index) => {
-      
+
       const markerData = this.markers[index];
 
       if (markerData && markerData.name) {
@@ -414,21 +420,21 @@ export class LocationmapPage implements OnInit {
     console.log('markerElements:', this.markerElements);
   }
 
-  closeNewModel(){
+  closeNewModel() {
     this.showWeather = false;
     this.changeDetectorRef.detectChanges();
     this.router.navigate(['weather-detail']);
   }
 
-  showWeatherFunc(){
+  showWeatherFunc() {
     this.showWeather = true;
-    
+
   }
 
-  async clearSearchObject(){
+  async clearSearchObject() {
     this.searchObject = '';
     this.infoContent = '';
-    if(this.infoWindow){
+    if (this.infoWindow) {
       this.infoWindow.close();
     }
     // this.infoWindow.close();
@@ -437,10 +443,10 @@ export class LocationmapPage implements OnInit {
     // this.renderOptions
   }
 
-  async clearSearchEventObject(){
+  async clearSearchEventObject() {
     this.searchEventObject = '';
     this.infoContent = '';
-    if(this.infoWindow){
+    if (this.infoWindow) {
       this.infoWindow.close();
     }
     // this.infoWindow.close();
@@ -461,7 +467,7 @@ export class LocationmapPage implements OnInit {
     this.listening = false;
     this.yourVoiceInput = '';
     this.changeDetectorRef.detectChanges();
-    
+
 
 
     if (!this.welcomeMessage) {
@@ -485,127 +491,127 @@ export class LocationmapPage implements OnInit {
 
   onModalDidPresent() {
     this.markers = this.allVenueEventMarkers;
-    console.log('OnModalDidPresent Markers',this.markers);
-    
+    console.log('OnModalDidPresent Markers', this.markers);
+
     this.typeWriter();
 
   }
 
-  toggleTheme(ev:any){
+  toggleTheme(ev: any) {
     // this.typedText = '';
     console.log(ev);
-    
+
     this.toggleThemeChecked = !this.toggleThemeChecked;
     console.log(this.toggleThemeChecked);
-    
+
   }
 
-  showKeyboard(){
+  showKeyboard() {
     // console.log('show keyboard called, stop speech recognition');
     // this.listening = false;
     // SpeechRecognition.stop();
     // this.clearInactivityTimeout();
   }
 
-  onInputForAI(ev:any){
-    console.log("input event triggered",ev);
-    
+  onInputForAI(ev: any) {
+    console.log("input event triggered", ev);
+
     this.typedText = ev.target.value;
     console.log(this.typedText);
-    
+
   }
 
-  searchForAIInput(ev:any){
-    
+  searchForAIInput(ev: any) {
+
     // console.log('ion Blur input',ev);
     // if(this.typedText != ''){
     //   this.dismissModal();
     //   this.findResults(this.typedText);
     // }
-    
+
   }
 
-  getVenueAIKeywords(){
+  getVenueAIKeywords() {
     let data = {
-      "customer_id":this.userID
+      "customer_id": this.userID
     }
-    this.rest.sendRequest('venues_keywords',data).subscribe((res:any)=>{
+    this.rest.sendRequest('venues_keywords', data).subscribe((res: any) => {
       // console.log("venue_keywords are", res);
-      if(res.status == 'success'){
-        let venueKeywordsObj:any = {};
+      if (res.status == 'success') {
+        let venueKeywordsObj: any = {};
         venueKeywordsObj.budget = res.data[0].Budget;
         venueKeywordsObj.cuisine = res.data[0].Cuisine;
         venueKeywordsObj.food = res.data[0].Food;
         venueKeywordsObj.music = res.data[0].Music;
         venueKeywordsObj.types = res.data[0].Types;
-        venueKeywordsObj.payments = ['cash','card'];
-        venueKeywordsObj.checks = ['near me','in my area', 'quite', 'quiet', 'busy', 'very busy'];
+        venueKeywordsObj.payments = ['cash', 'card'];
+        venueKeywordsObj.checks = ['near me', 'in my area', 'quite', 'quiet', 'busy', 'very busy'];
         // 9:00 p.m. 12:00 p.m.
         // venueKeywordsObj.state = ['quite','quiet','busy','very busy'];
 
-        for(let i=0; i<venueKeywordsObj.budget.length; i++){
-         venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].budget_range;
-        //  venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].split(/\s+/)[0];
+        for (let i = 0; i < venueKeywordsObj.budget.length; i++) {
+          venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].budget_range;
+          //  venueKeywordsObj.budget[i] = venueKeywordsObj.budget[i].split(/\s+/)[0];
         }
-        for(let i=0; i<venueKeywordsObj.cuisine.length; i++){
+        for (let i = 0; i < venueKeywordsObj.cuisine.length; i++) {
           venueKeywordsObj.cuisine[i] = venueKeywordsObj.cuisine[i].cusine;
         }
-        for(let i=0; i<venueKeywordsObj.types.length; i++){
+        for (let i = 0; i < venueKeywordsObj.types.length; i++) {
           venueKeywordsObj.types[i] = venueKeywordsObj.types[i].venues_type_name;
         }
-        for(let i=0; i<venueKeywordsObj.music.length; i++){
+        for (let i = 0; i < venueKeywordsObj.music.length; i++) {
           venueKeywordsObj.music[i] = venueKeywordsObj.music[i].music_type;
           // venueKeywordsObj.music[i] = venueKeywordsObj.music[i].split(/\s+/)[0];
         }
 
-        for(let i=0; i<venueKeywordsObj.food.length; i++){
+        for (let i = 0; i < venueKeywordsObj.food.length; i++) {
           venueKeywordsObj.food[i] = venueKeywordsObj.food[i].food_type;
         }
         // console.log(venueKeywordsObj);
-        this.venueKeywords = [...venueKeywordsObj.budget, ...venueKeywordsObj.cuisine, ...venueKeywordsObj.types, ...venueKeywordsObj.music, ...venueKeywordsObj.food, ...venueKeywordsObj.payments, ...venueKeywordsObj.checks , ...this.dayTimeKeywords];
-      
+        this.venueKeywords = [...venueKeywordsObj.budget, ...venueKeywordsObj.cuisine, ...venueKeywordsObj.types, ...venueKeywordsObj.music, ...venueKeywordsObj.food, ...venueKeywordsObj.payments, ...venueKeywordsObj.checks, ...this.dayTimeKeywords];
+
         console.log('Venue Keywords:', this.venueKeywords);
         // this.findWords();
-      }      
+      }
     });
   }
 
-  getEventAIKeywords(){
+  getEventAIKeywords() {
     let data = {
-      "customer_id":this.userID
+      "customer_id": this.userID
     }
-    this.rest.sendRequest('event_keywords',data).subscribe((res:any)=>{
+    this.rest.sendRequest('event_keywords', data).subscribe((res: any) => {
       console.log("Event_keywords are", res);
-      if(res.status == 'success'){
-        let eventKeywordsObj:any = {};
-       
+      if (res.status == 'success') {
+        let eventKeywordsObj: any = {};
+
         eventKeywordsObj.music = res.data[0].Event_Music;
         eventKeywordsObj.types = res.data[0].Event_Exp;
-        eventKeywordsObj.negations = ['non','do not include'];
-        eventKeywordsObj.checks = ['near me','around me','in my area'];
+        eventKeywordsObj.negations = ['non', 'do not include'];
+        eventKeywordsObj.checks = ['near me', 'around me', 'in my area'];
         // 9:00 p.m. 12:00 p.m.
-       
 
-      
-        for(let i=0; i<eventKeywordsObj.types.length; i++){
+
+
+        for (let i = 0; i < eventKeywordsObj.types.length; i++) {
           eventKeywordsObj.types[i] = eventKeywordsObj.types[i].event_type;
         }
-        for(let i=0; i<eventKeywordsObj.music.length; i++){
+        for (let i = 0; i < eventKeywordsObj.music.length; i++) {
           eventKeywordsObj.music[i] = eventKeywordsObj.music[i].event_music;
           // venueKeywordsObj.music[i] = venueKeywordsObj.music[i].split(/\s+/)[0];
         }
 
-      
+
         // console.log(eventKeywordsObj);
-        this.eventKeywords = [...eventKeywordsObj.negations , ...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks, ...this.dayTimeKeywords];
-      
+        this.eventKeywords = [...eventKeywordsObj.negations, ...eventKeywordsObj.types, ...eventKeywordsObj.music, ...eventKeywordsObj.checks, ...this.dayTimeKeywords];
+
         console.log('Event Keywords:', this.eventKeywords);
 
-      }      
+      }
     });
   }
 
-  async requestPermissions(): Promise<string>{
+  async requestPermissions(): Promise<string> {
 
     try {
       const permissionStatus = await SpeechRecognition.requestPermissions();
@@ -618,32 +624,32 @@ export class LocationmapPage implements OnInit {
       console.error("Error requesting permissions: ", error);
       return 'denied';  // Ensure a string is always returned even in case of an error
     }
-   
-   
+
+
   }
 
-  async startSpeechRecognition(){
+  async startSpeechRecognition() {
     this.inputFeatureActive = true;
     // this.typedText = '';
     // this.listening = false;
-    
+
     // SpeechRecognition.stop();
     // this.yourVoiceInput = '';
 
     let checkPermissionsStatus = (await SpeechRecognition.checkPermissions()).speechRecognition;
-    console.log('checkPermissionsResult: ',checkPermissionsStatus);
+    console.log('checkPermissionsResult: ', checkPermissionsStatus);
 
-    if(checkPermissionsStatus!== "granted"){
-      if(!this.platform.is("mobileweb")){
+    if (checkPermissionsStatus !== "granted") {
+      if (!this.platform.is("mobileweb")) {
         console.log('Requesting permissions');
-        
-        let permissionStaus =  await this.requestPermissions();
-        console.log("PermissionStatus 2",permissionStaus);
-       
-        if(permissionStaus === 'granted'){
+
+        let permissionStaus = await this.requestPermissions();
+        console.log("PermissionStatus 2", permissionStaus);
+
+        if (permissionStaus === 'granted') {
           checkPermissionsStatus = 'granted';
         }
-        else{
+        else {
           this.rest.deniedVoicePermissionCount++;
         }
       }
@@ -652,92 +658,92 @@ export class LocationmapPage implements OnInit {
     this.venuarr = this.venuarrOrg;
     this.eventarr = this.eventArrOrg;
 
-    const {available} = await SpeechRecognition.available();
-    console.log('availability res: ',available);
+    const { available } = await SpeechRecognition.available();
+    console.log('availability res: ', available);
 
-    if( checkPermissionsStatus === 'granted' && available){
+    if (checkPermissionsStatus === 'granted' && available) {
 
       this.setInactivityTimeout();
       // ===========speech start try catch====================
-      
+
       try {
         SpeechRecognition.start({
           language: "en-US",
           popup: false,
-          partialResults:true,
+          partialResults: true,
         });
       } catch (error) {
-        console.log("Speech Start error: ",error);
+        console.log("Speech Start error: ", error);
       }
 
       this.listening = true;
       this.changeDetectorRef.detectChanges();
       // ===========partial results try catch====================
-      
+
       try {
         SpeechRecognition.addListener("partialResults", async (data: any) => {
           // console.log("partialResults was fired", data.matches);
-          if(data.matches && data.matches.length > 0){  
+          if (data.matches && data.matches.length > 0) {
             // if(this.listener == true){
-              this.yourVoiceInput = data.matches[0];
-              this.changeDetectorRef.detectChanges();
-              this.resetInactivityTimeout();
+            this.yourVoiceInput = data.matches[0];
+            this.changeDetectorRef.detectChanges();
+            this.resetInactivityTimeout();
             // }
           }
-          
+
         });
       } catch (error) {
-        console.log('partial results error:',error);
-      } 
+        console.log('partial results error:', error);
+      }
 
       // ===========listening state try catch====================
 
       try {
-        SpeechRecognition.addListener('listeningState',(data:{status: "started" | "stopped"})=>{
-          if(data.status == "started"){
+        SpeechRecognition.addListener('listeningState', (data: { status: "started" | "stopped" }) => {
+          if (data.status == "started") {
             this.listeningStatus = data.status;
-            console.log("listening Status: ",this.listeningStatus);
+            console.log("listening Status: ", this.listeningStatus);
             // this.listening = true;  
             // this.showAnimation();
           }
-          else{
-           
+          else {
+
             this.listeningStatus = data.status;
-            console.log("listening Status: ",this.listeningStatus);
+            console.log("listening Status: ", this.listeningStatus);
             // this.hideAnimation();
           }
         });
       } catch (error) {
-        console.log("Listening state error: ",error);
-        
+        console.log("Listening state error: ", error);
+
       }
 
-      let result  = SpeechRecognition.isListening();
-      console.log("isListening: ",result);
-      
+      let result = SpeechRecognition.isListening();
+      console.log("isListening: ", result);
+
     }
-    else{
-      if(this.rest.deniedVoicePermissionCount>=2){
+    else {
+      if (this.rest.deniedVoicePermissionCount >= 2) {
         this.rest.presentToast('Voice recording denied; reinstall app to enable AI feature.');
       }
       this.dismissModal();
     }
-    
+
   }
 
-  setInactivityTimeout(){
+  setInactivityTimeout() {
     this.clearInactivityTimeout();
     this.timeout = setTimeout(() => {
       this.stopSpeechRecognition();
     }, this.inactivityDelay);
   }
 
-  resetInactivityTimeout(){
+  resetInactivityTimeout() {
     this.setInactivityTimeout();
   }
 
-  clearInactivityTimeout(){
-    if(this.timeout){
+  clearInactivityTimeout() {
+    if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = null;
     }
@@ -751,50 +757,50 @@ export class LocationmapPage implements OnInit {
     this.isAnimating = false;
   }
 
-  async stopSpeechRecognition(){
-    this.searchObject= '';
+  async stopSpeechRecognition() {
+    this.searchObject = '';
     this.searchEventObject = '';
-   
+
     SpeechRecognition.stop();
     this.listening = false;
-    if(this.yourVoiceInput == ''){
+    if (this.yourVoiceInput == '') {
       this.inputFeatureActive = false;
     }
-    console.log('input feature active: ',this.inputFeatureActive);
-    
+    console.log('input feature active: ', this.inputFeatureActive);
+
     this.changeDetectorRef.detectChanges();
-    
+
     this.clearInactivityTimeout();
 
     // this.yourVoiceInput = 'Pizza shopp having 30% off';
-    if(this.yourVoiceInput !='' ){   
-      this.dismissModal();   
+    if (this.yourVoiceInput != '') {
+      this.dismissModal();
       this.findResults(this.yourVoiceInput);
     }
   }
 
 
-  findResults(userInput:string){
+  findResults(userInput: string) {
     this.typedText = '';
     this.yourVoiceInput = '';
-    console.log('userInput: ',userInput);
-    
+    console.log('userInput: ', userInput);
+
     userInput = userInput.toLowerCase();
     let tokens = userInput.split(/\s+/);
     console.log(tokens);
-    if(tokens.includes('venue') || tokens.includes('avenue')){
+    if (tokens.includes('venue') || tokens.includes('avenue')) {
       this.findVenueAndDiscount(tokens);
-    }else{
+    } else {
       this.findEventAndDiscount(tokens);
     }
-    
+
   }
 
-  findVenueAndDiscount = (inputTokens:string[]) => {
-    console.log('inputTokens: ',inputTokens);
-    
-    let filteredVenues:any[] = [];
-    
+  findVenueAndDiscount = (inputTokens: string[]) => {
+    console.log('inputTokens: ', inputTokens);
+
+    let filteredVenues: any[] = [];
+
     let findNearMe = false;
     let findAroundMe = false;
     let findInMyArea = false;
@@ -809,51 +815,51 @@ export class LocationmapPage implements OnInit {
     let foundDayTime = false;
 
     let foundVenueName = false;
-    let foundDiscount = false; 
+    let foundDiscount = false;
     let foundNamedLocation = false;
-    let foundSpecifiedChecks = false; 
-    
-    let venueName:string = '';
+    let foundSpecifiedChecks = false;
+
+    let venueName: string = '';
     let venueNameTokens: string[] = [];
-    let venueLocationName:string = '';
+    let venueLocationName: string = '';
     let venueLocationNameTokens: string[] = [];
     let venueDiscount = '';
     let dayTimeTokens: string[] = [];
-    let venueEndTime:string;
+    let venueEndTime: string;
 
 
     let foundWords = this.findWords(inputTokens);
-    console.log("foundWords for loop: ",foundWords);
-    
-    
-    if(foundWords.length > 0){
+    console.log("foundWords for loop: ", foundWords);
+
+
+    if (foundWords.length > 0) {
       findNearMe = foundWords.includes('near me');
       findAroundMe = foundWords.includes('around me');
       findInMyArea = foundWords.includes('in my area');
       dayTimeTokens = this.findCommonDayTimeTokens(foundWords);
-      console.log('dayTimeTokens: ',dayTimeTokens);
-      console.log('findNearMe: ',findNearMe);
-      console.log('findInMyArea: ',findInMyArea);
+      console.log('dayTimeTokens: ', dayTimeTokens);
+      console.log('findNearMe: ', findNearMe);
+      console.log('findInMyArea: ', findInMyArea);
 
-      if(dayTimeTokens.length >=3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) && 
-      (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.')) ){
+      if (dayTimeTokens.length >= 3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) &&
+        (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.'))) {
         findDayTime = true;
       }
 
 
-      if(foundWords.includes('busy') ){
+      if (foundWords.includes('busy')) {
         busyStatus = 'busy';
         findbusyStatus = true;
-      }else if(foundWords.includes('very busy')){
+      } else if (foundWords.includes('very busy')) {
         busyStatus = 'very busy';
         findbusyStatus = true;
-      }else if(foundWords.includes('quite') || foundWords.includes('quiet')){
+      } else if (foundWords.includes('quite') || foundWords.includes('quiet')) {
         busyStatus = 'quiet';
         findbusyStatus = true;
-      }else{}
+      } else { }
     }
 
-    
+
 
     for (let venueIndex = 0; venueIndex < this.venuarr.length; venueIndex++) {
       foundDiscount = false;
@@ -868,241 +874,241 @@ export class LocationmapPage implements OnInit {
 
       // ================= fetching data from venue data from next line =====================
 
-     
-      if(foundWords.length == 0){
-        
-        if(this.venuarr[venueIndex].discount_percentage != null){
+
+      if (foundWords.length == 0) {
+
+        if (this.venuarr[venueIndex].discount_percentage != null) {
           venueDiscount = this.venuarr[venueIndex].discount_percentage.toString() + '%';
-        }else{
+        } else {
           venueDiscount = '';
         }
         // console.log("venuDiscount: ",venuDiscount);
-        
+
         venueName = this.venuarr[venueIndex].name.toLowerCase();
         venueNameTokens = venueName.split(/\s+/);
-        
+
         // console.log(venuNameTokens);
 
         venueLocationName = this.venuarr[venueIndex].location.toLowerCase();
         venueLocationNameTokens = venueLocationName.split(/\s+/);
         // console.log(venueLocationNameTokens);
-      }else if(foundWords.length > 0){
-        
+      } else if (foundWords.length > 0) {
+
         venueLocationName = this.venuarr[venueIndex].location.toLowerCase();
         venueLocationNameTokens = venueLocationName.split(/\s+/);
         // console.log(venueLocationNameTokens);
-        
-      }else{}
+
+      } else { }
 
       // =========== finding required results from next line ===========================
-      
-      if(foundWords.length == 0){
+
+      if (foundWords.length == 0) {
         foundVenueName = this.filterVenuesForAI(inputTokens, venueNameTokens);
-        console.log('foundVenueName: ',foundVenueName);
-      
-        foundDiscount = this.filterVenuesForAI(inputTokens,venueDiscount.split(/\s+/));
-        console.log('foundDiscount: ',foundDiscount);
-        
-        foundNamedLocation = this.filterVenuesForAI(inputTokens, venueLocationNameTokens);
-        console.log('foundNamedLocation: ',foundNamedLocation);
-    
-      }else if(foundWords.length >0){
+        console.log('foundVenueName: ', foundVenueName);
+
+        foundDiscount = this.filterVenuesForAI(inputTokens, venueDiscount.split(/\s+/));
+        console.log('foundDiscount: ', foundDiscount);
 
         foundNamedLocation = this.filterVenuesForAI(inputTokens, venueLocationNameTokens);
-        console.log('foundNamedLocation: ',foundNamedLocation);
-    
-         // ---------------------looking for daytime match----------------------
-        
-         if(findDayTime){
+        console.log('foundNamedLocation: ', foundNamedLocation);
+
+      } else if (foundWords.length > 0) {
+
+        foundNamedLocation = this.filterVenuesForAI(inputTokens, venueLocationNameTokens);
+        console.log('foundNamedLocation: ', foundNamedLocation);
+
+        // ---------------------looking for daytime match----------------------
+
+        if (findDayTime) {
           // foundDayTime will be true for all events have matched time
           console.log('tonight not found');
-          
+
           let dayNumber = getDay(new Date());
-          if(this.venuarr[venueIndex].venue_timing[dayNumber].close_hours != null){
+          if (this.venuarr[venueIndex].venue_timing[dayNumber].close_hours != null) {
             venueEndTime = this.venuarr[venueIndex].venue_timing[dayNumber].close_hours;
-          }else{
+          } else {
             venueEndTime = '';
           }
 
-          if(venueEndTime != ''){
-            let requestedTime:string = '';
-          
-            if(dayTimeTokens[0] === 'until') { 
+          if (venueEndTime != '') {
+            let requestedTime: string = '';
+
+            if (dayTimeTokens[0] === 'until') {
               requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
-            }else if(dayTimeTokens[0] === 'till') {
+            } else if (dayTimeTokens[0] === 'till') {
               requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
             }
-  
-            if(this.isVenueClosingTimeMatch(venueEndTime,requestedTime, dayTimeTokens)){
+
+            if (this.isVenueClosingTimeMatch(venueEndTime, requestedTime, dayTimeTokens)) {
               foundDayTime = true;
-            }else{
+            } else {
               foundDayTime = false;
             }
 
-          }else{
+          } else {
             foundDayTime = false;
             console.log('venueEndTime not found');
-            
+
           }
 
-          console.log('foundDayTime:',foundDayTime);
-          
+          console.log('foundDayTime:', foundDayTime);
+
         }
 
         // -------------------------- till here --------------------------
-      }else{}
-       
-      if(foundWords.length > 0){
+      } else { }
+
+      if (foundWords.length > 0) {
         // if(this.venuarr[venueIndex].venue_keywords.length > 0 && foundWords.length > 0){
-          let venueKeywords =  this.venuarr[venueIndex].venue_keywords
-          foundSpecifiedChecks = this.filterVenuesForAIFeature(venueKeywords, foundWords);
-          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        let venueKeywords = this.venuarr[venueIndex].venue_keywords
+        foundSpecifiedChecks = this.filterVenuesForAIFeature(venueKeywords, foundWords);
+        console.log("foundSpecifiedChecks: ", foundSpecifiedChecks);
         // } 
-  
-        if(findbusyStatus){
-          if(this.venuarr[venueIndex].availability.toLowerCase() == busyStatus){
+
+        if (findbusyStatus) {
+          if (this.venuarr[venueIndex].availability.toLowerCase() == busyStatus) {
             foundbusyStatus = true;
-            console.log('foundbusyStatus: ',foundbusyStatus);
-            
+            console.log('foundbusyStatus: ', foundbusyStatus);
+
           }
         }
 
-        if(findNearMe){
-          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0){
+        if (findNearMe) {
+          if (Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0) {
             foundNearMe = true;
-            console.log("foundNearMe: ",findNearMe);
+            console.log("foundNearMe: ", findNearMe);
           }
         }
 
-        if(findAroundMe){
-          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0){
+        if (findAroundMe) {
+          if (Number.parseFloat(this.venuarr[venueIndex].distance) <= 1.0) {
             foundAroundMe = true;
-            console.log("findAroundMe: ",findAroundMe);
+            console.log("findAroundMe: ", findAroundMe);
           }
         }
         // else
-         if(findInMyArea){
-          if(Number.parseFloat(this.venuarr[venueIndex].distance) <= 2.1){
+        if (findInMyArea) {
+          if (Number.parseFloat(this.venuarr[venueIndex].distance) <= 2.1) {
             foundInMyArea = true;
-            console.log("foundInMyArea: ",foundInMyArea);
+            console.log("foundInMyArea: ", foundInMyArea);
           }
         }
         // else{}
-      }  
+      }
 
-        
+
 
       // ==================== time to count found results=====================
 
-      if(foundWords.length > 0){
+      if (foundWords.length > 0) {
 
-        if(findNearMe && findbusyStatus && foundSpecifiedChecks && findDayTime ){
-          if(foundNearMe && foundbusyStatus && foundDayTime){
+        if (findNearMe && findbusyStatus && foundSpecifiedChecks && findDayTime) {
+          if (foundNearMe && foundbusyStatus && foundDayTime) {
             console.log('adding venue by 1');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
 
-        else if(findAroundMe && findbusyStatus && foundSpecifiedChecks && findDayTime ){
-          if(foundAroundMe && foundbusyStatus && foundDayTime){
+        else if (findAroundMe && findbusyStatus && foundSpecifiedChecks && findDayTime) {
+          if (foundAroundMe && foundbusyStatus && foundDayTime) {
             console.log('adding venue by 1');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
-  
-        else if(findInMyArea && findbusyStatus && foundSpecifiedChecks && findDayTime ){
-          if(foundInMyArea && foundbusyStatus && foundDayTime){
+
+        else if (findInMyArea && findbusyStatus && foundSpecifiedChecks && findDayTime) {
+          if (foundInMyArea && foundbusyStatus && foundDayTime) {
             console.log('adding venue by 2');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
-        
-        else if(foundNamedLocation && findbusyStatus && foundSpecifiedChecks && findDayTime ){
-          if(foundbusyStatus && foundDayTime){
+
+        else if (foundNamedLocation && findbusyStatus && foundSpecifiedChecks && findDayTime) {
+          if (foundbusyStatus && foundDayTime) {
             console.log('adding venue by 3');
             filteredVenues.push(this.venuarr[venueIndex]);
           }
         }
 
-        else if(findNearMe && findbusyStatus  && findDayTime ){
-          if(foundNearMe && foundbusyStatus && foundDayTime){
+        else if (findNearMe && findbusyStatus && findDayTime) {
+          if (foundNearMe && foundbusyStatus && foundDayTime) {
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 4');
 
         }
 
-        else if(findAroundMe && findbusyStatus  && findDayTime ){
-          if(foundAroundMe && foundbusyStatus && foundDayTime){
+        else if (findAroundMe && findbusyStatus && findDayTime) {
+          if (foundAroundMe && foundbusyStatus && foundDayTime) {
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 4');
 
         }
-  
-        else if(findInMyArea && findbusyStatus  && findDayTime ){
-          if(foundInMyArea && foundbusyStatus && foundDayTime){
+
+        else if (findInMyArea && findbusyStatus && findDayTime) {
+          if (foundInMyArea && foundbusyStatus && foundDayTime) {
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 5');
 
         }
-        
-        else if(foundNamedLocation && findbusyStatus && findDayTime ){
-          if(foundbusyStatus && foundDayTime){
+
+        else if (foundNamedLocation && findbusyStatus && findDayTime) {
+          if (foundbusyStatus && foundDayTime) {
             filteredVenues.push(this.venuarr[venueIndex]);
           }
           console.log('adding venue by 6');
 
         }
 
-        else if(foundSpecifiedChecks && findDayTime){
-          if(foundDayTime){
+        else if (foundSpecifiedChecks && findDayTime) {
+          if (foundDayTime) {
             console.log('adding venue by 4');
             filteredVenues.push(this.venuarr[venueIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 4');
           }
         }
 
-        else if(findNearMe  && foundSpecifiedChecks){
-          if(foundNearMe){
+        else if (findNearMe && foundSpecifiedChecks) {
+          if (foundNearMe) {
             filteredVenues.push(this.venuarr[venueIndex]);
             console.log('adding venue by 7');
           }
 
         }
 
-        else if(findAroundMe  && foundSpecifiedChecks){
-          if(foundAroundMe){
+        else if (findAroundMe && foundSpecifiedChecks) {
+          if (foundAroundMe) {
             filteredVenues.push(this.venuarr[venueIndex]);
             console.log('adding venue by 7');
           }
 
         }
-  
-        else if(findInMyArea && foundSpecifiedChecks){
-          if(foundInMyArea){
+
+        else if (findInMyArea && foundSpecifiedChecks) {
+          if (foundInMyArea) {
             filteredVenues.push(this.venuarr[venueIndex]);
             console.log('adding venue by 8');
           }
         }
-  
-        else if(foundNamedLocation  && foundSpecifiedChecks){
+
+        else if (foundNamedLocation && foundSpecifiedChecks) {
           filteredVenues.push(this.venuarr[venueIndex]);
           console.log('adding venue by 8');
 
         }
-  
-        else if(findbusyStatus && foundSpecifiedChecks){
-          if(foundbusyStatus){
+
+        else if (findbusyStatus && foundSpecifiedChecks) {
+          if (foundbusyStatus) {
             filteredVenues.push(this.venuarr[venueIndex]);
             console.log('adding venue by 9');
 
           }
         }
 
-         //================== handling single cases====================
+        //================== handling single cases====================
 
         //  else if(!findNearMe && findbusyStatus){
         //   if(foundbusyStatus){
@@ -1111,7 +1117,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 1');
 
         // }
-  
+
         // else if(!findInMyArea && findbusyStatus){
         //   if(foundbusyStatus){
         //     filteredVenues.push(this.venuarr[venueIndex]);
@@ -1119,7 +1125,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 2');
 
         // }
-        
+
         // else if(!foundNamedLocation && findbusyStatus){
         //   if(foundbusyStatus){
         //     filteredVenues.push(this.venuarr[venueIndex]);
@@ -1135,7 +1141,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 4');
 
         // }
-  
+
         // else if(findInMyArea && !findbusyStatus){
         //   if(foundInMyArea){
         //     filteredVenues.push(this.venuarr[venueIndex]);
@@ -1144,43 +1150,43 @@ export class LocationmapPage implements OnInit {
 
         // }
 
-      
+
         // ============== single case done =================
-        
-        else if(foundSpecifiedChecks){
+
+        else if (foundSpecifiedChecks) {
           filteredVenues.push(this.venuarr[venueIndex]);
           console.log('adding venue by 10');
 
         }
-  
-        else{
-  
+
+        else {
+
         }
 
-      }else if(foundWords.length == 0){
-        if(foundVenueName || foundDiscount || foundNamedLocation){
-          console.log("foundVenueName: ",foundVenueName);
-          console.log("foundDiscount: ",foundDiscount);
+      } else if (foundWords.length == 0) {
+        if (foundVenueName || foundDiscount || foundNamedLocation) {
+          console.log("foundVenueName: ", foundVenueName);
+          console.log("foundDiscount: ", foundDiscount);
           console.log('foundNamedLocation: ', foundNamedLocation);
           console.log('adding venue by 11');
-          
+
           filteredVenues.push(this.venuarr[venueIndex]);
         }
-      }else{
+      } else {
 
       }
-      
+
     }
 
     this.filtertype = 'yes';
-    console.log("filteredVenues: ",filteredVenues)
+    console.log("filteredVenues: ", filteredVenues)
     this.venuarr = filteredVenues;
 
     this.setMarkersForFoundVenues(filteredVenues);
-    
+
   };
 
-  findEventAndDiscount = (inputTokens:string[]) => {
+  findEventAndDiscount = (inputTokens: string[]) => {
     // this.noevent = 0;
     let filteredEvents = [];
 
@@ -1188,7 +1194,7 @@ export class LocationmapPage implements OnInit {
     let findAroundMe = false;
     let findInMyArea = false;
     let findDayTime = false;
-   
+
     let foundNearMe = false;
     let foundAroundMe = false;
     let foundInMyArea = false;
@@ -1197,36 +1203,36 @@ export class LocationmapPage implements OnInit {
     let foundEventName = false;
     let foundDiscount = false;
     let foundNamedLocation = false;
-    let foundSpecifiedChecks = false; 
-    
-    
-    let eventName:string = '';
+    let foundSpecifiedChecks = false;
+
+
+    let eventName: string = '';
     let eventNameTokens: string[] = [];
-    let eventLocationName:string = '';
+    let eventLocationName: string = '';
     let eventLocationNameTokens: string[] = [];
     let eventDiscount = '';
     let dayTimeTokens: string[] = [];
-    let eventEndTime:string;
+    let eventEndTime: string;
     let eventDateStr: string;
 
     let foundWords = this.findWordsforEvents(inputTokens);
-    console.log("foundWords for loop: ",foundWords); 
+    console.log("foundWords for loop: ", foundWords);
     // let find
-    
-    if(foundWords.length > 0){
+
+    if (foundWords.length > 0) {
       findNearMe = foundWords.includes('near me');
       findAroundMe = foundWords.includes('around me');
       findInMyArea = foundWords.includes('in my area');
       dayTimeTokens = this.findCommonDayTimeTokens(foundWords);
-      console.log('dayTimeTokens: ',dayTimeTokens);
-      console.log('findNearMe: ',findNearMe);
-      console.log('findInMyArea: ',findInMyArea);
+      console.log('dayTimeTokens: ', dayTimeTokens);
+      console.log('findNearMe: ', findNearMe);
+      console.log('findInMyArea: ', findInMyArea);
 
-      if(dayTimeTokens.length >=3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) && 
-      (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.')) ){
+      if (dayTimeTokens.length >= 3 && (dayTimeTokens.includes('till') || dayTimeTokens.includes('until')) &&
+        (dayTimeTokens.includes('a.m.') || dayTimeTokens.includes('p.m.'))) {
         findDayTime = true;
       }
-    
+
     }
 
     for (let eventIndex = 0; eventIndex < this.eventarr.length; eventIndex++) {
@@ -1240,84 +1246,84 @@ export class LocationmapPage implements OnInit {
       foundDayTime = false;
 
       // ================= fetching data from venue data from next line =====================
-      
-     
-      if(foundWords.length == 0){
-        
-        if(this.eventarr[eventIndex].discount_percentage != null){
+
+
+      if (foundWords.length == 0) {
+
+        if (this.eventarr[eventIndex].discount_percentage != null) {
           eventDiscount = this.eventarr[eventIndex].discount_percentage.toString() + '%';
-        }else{
+        } else {
           eventDiscount = '';
         }
-       
+
         // console.log("eventDiscount: ",eventDiscount);
 
         eventName = this.eventarr[eventIndex].name.toLowerCase();
         eventNameTokens = eventName.split(/\s+/);
-  
+
         // console.log(eventNameTokens);
 
         eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
         eventLocationNameTokens = eventLocationName.split(/\s+/);
         // console.log(eventLocationNameTokens);
-      }else if(foundWords.length > 0){
-        
+      } else if (foundWords.length > 0) {
+
         eventLocationName = this.eventarr[eventIndex].location.toLowerCase();
         eventLocationNameTokens = eventLocationName.split(/\s+/);
         // console.log(eventLocationNameTokens);
 
 
-       
+
         // if(findDayTime){
         //   eventEndTime = this.eventarr[eventIndex].event_end_time;
         // }
         // if(findDayTime && dayTimeTokens.includes('tonight')){
         //   eventDateStr = this.eventarr[eventIndex].event_date;
         // }
-        
-      }else{}
+
+      } else { }
 
       // =========== finding required results from next line ===========================
-      
-      if(foundWords.length == 0){
+
+      if (foundWords.length == 0) {
         foundEventName = this.filterForAI(inputTokens, eventNameTokens);
-        console.log('foundEventName: ',foundEventName);
-      
-        foundDiscount = this.filterForAI(inputTokens,eventDiscount.split(/\s+/));
-        console.log('foundDiscount: ',foundDiscount);
-        
-        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
-        console.log('foundNamedLocation: ',foundNamedLocation);
-    
-      }else if(foundWords.length >0){
+        console.log('foundEventName: ', foundEventName);
+
+        foundDiscount = this.filterForAI(inputTokens, eventDiscount.split(/\s+/));
+        console.log('foundDiscount: ', foundDiscount);
 
         foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
-        console.log('foundNamedLocation: ',foundNamedLocation);
+        console.log('foundNamedLocation: ', foundNamedLocation);
+
+      } else if (foundWords.length > 0) {
+
+        foundNamedLocation = this.filterForAI(inputTokens, eventLocationNameTokens);
+        console.log('foundNamedLocation: ', foundNamedLocation);
 
         // ---------------------looking for daytime match----------------------
-        
-        if(findDayTime && !dayTimeTokens.includes('tonight')){
+
+        if (findDayTime && !dayTimeTokens.includes('tonight')) {
           // foundDayTime will be true for all events have matched time
           console.log('tonight not found');
-          
-          let requestedTime:string = '';
+
+          let requestedTime: string = '';
           eventEndTime = this.eventarr[eventIndex].event_end_time;
-          
-          if(dayTimeTokens[0] === 'until') { 
+
+          if (dayTimeTokens[0] === 'until') {
             requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
-          }else if(dayTimeTokens[0] === 'till') {
+          } else if (dayTimeTokens[0] === 'till') {
             requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
           }
 
-          if(this.isVenueClosingTimeMatch(eventEndTime,requestedTime, dayTimeTokens)){
+          if (this.isVenueClosingTimeMatch(eventEndTime, requestedTime, dayTimeTokens)) {
             foundDayTime = true;
-          }else{
+          } else {
             foundDayTime = false;
           }
 
-          console.log('foundDayTime:',foundDayTime);
-          
-          
+          console.log('foundDayTime:', foundDayTime);
+
+
           // try {
           //   let requestedTimeDate = new Date();
           //   let eventEndTimeDate; 
@@ -1332,7 +1338,7 @@ export class LocationmapPage implements OnInit {
           //   }
 
           //   console.log('requestedTimeDate: ',requestedTimeDate);
-            
+
           //   console.log('eventEndTimeDate: ',eventEndTimeDate);
 
           //   // Adjust date2 to next day if it's earlier than date1
@@ -1347,17 +1353,17 @@ export class LocationmapPage implements OnInit {
           //   // if(requestedTimeDate <= eventEndTimeDate){
 
           //   // }
-            
+
           // } catch (error) {
           //   console.log(error);
-            
+
           // }
         }
 
-        if(findDayTime && dayTimeTokens.includes('tonight')){
+        if (findDayTime && dayTimeTokens.includes('tonight')) {
           // foundDayTime will be true for only events have matched time and today date  
           console.log('tonight found');
-          
+
           let todayDate = new Date();
           eventDateStr = this.eventarr[eventIndex].event_date;
           const eventDate = parseISO(eventDateStr);
@@ -1365,148 +1371,148 @@ export class LocationmapPage implements OnInit {
           const formattedTodayDate = format(todayDate, 'yyyy-MM-dd');
           const formattedEventDate = format(eventDate, 'yyyy-MM-dd');
 
-          console.log('formattedTodayDate: ',formattedTodayDate);
-          console.log('formattedEventDate: ',formattedEventDate);
+          console.log('formattedTodayDate: ', formattedTodayDate);
+          console.log('formattedEventDate: ', formattedEventDate);
 
-          let requestedTime:string = '';
+          let requestedTime: string = '';
           eventEndTime = this.eventarr[eventIndex].event_end_time;
-          
-          if(dayTimeTokens[0] === 'until') { 
+
+          if (dayTimeTokens[0] === 'until') {
             requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
-          }else if(dayTimeTokens[0] === 'till') {
+          } else if (dayTimeTokens[0] === 'till') {
             requestedTime = `${this.standardizeHour(dayTimeTokens[1])} ${dayTimeTokens[2]}`;
           }
 
-          if(formattedTodayDate === formattedEventDate && this.isVenueClosingTimeMatch(eventEndTime,requestedTime, dayTimeTokens)){
+          if (formattedTodayDate === formattedEventDate && this.isVenueClosingTimeMatch(eventEndTime, requestedTime, dayTimeTokens)) {
             foundDayTime = true;
-          }else{
+          } else {
             foundDayTime = false;
           }
 
-          console.log('foundDayTime:',foundDayTime);
-          
-          
+          console.log('foundDayTime:', foundDayTime);
+
+
         }
 
         // -------------------------- till here --------------------------
-    
-      }else{}
-       
-      if(foundWords.length > 0){
+
+      } else { }
+
+      if (foundWords.length > 0) {
         // if(this.eventarr[eventIndex].venue_keywords.length > 0 && foundWords.length > 0){
-          let eventKeywords =  this.eventarr[eventIndex].event_keywords
-          foundSpecifiedChecks = this.filterEventsForAIFeature(eventKeywords, foundWords); 
-          console.log("foundSpecifiedChecks: ",foundSpecifiedChecks);
+        let eventKeywords = this.eventarr[eventIndex].event_keywords
+        foundSpecifiedChecks = this.filterEventsForAIFeature(eventKeywords, foundWords);
+        console.log("foundSpecifiedChecks: ", foundSpecifiedChecks);
         // } 
 
-        if(findNearMe){
-          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+        if (findNearMe) {
+          if (Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0) {
             foundNearMe = true;
-            console.log("foundNearMe: ",findNearMe);
+            console.log("foundNearMe: ", findNearMe);
           }
         }
 
-        if(findAroundMe){
-          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0){
+        if (findAroundMe) {
+          if (Number.parseFloat(this.eventarr[eventIndex].distance) <= 1.0) {
             foundAroundMe = true;
-            console.log("findAroundMe: ",findAroundMe);
+            console.log("findAroundMe: ", findAroundMe);
           }
         }
         // else
-        if(findInMyArea){
-          if(Number.parseFloat(this.eventarr[eventIndex].distance) <= 2.1){
+        if (findInMyArea) {
+          if (Number.parseFloat(this.eventarr[eventIndex].distance) <= 2.1) {
             foundInMyArea = true;
-            console.log("foundInMyArea: ",foundInMyArea);
+            console.log("foundInMyArea: ", foundInMyArea);
           }
         }
         // else{}
-      }  
+      }
 
-        
+
 
       // ==================== time to count found results=====================
 
-      if(foundWords.length > 0){
+      if (foundWords.length > 0) {
 
-        if(findNearMe && foundSpecifiedChecks && findDayTime){
-          if(foundNearMe && foundDayTime){
+        if (findNearMe && foundSpecifiedChecks && findDayTime) {
+          if (foundNearMe && foundDayTime) {
             console.log('adding venue by 1');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 1');
           }
         }
 
-        else if(findAroundMe &&  foundSpecifiedChecks && findDayTime){
-          if(foundAroundMe && foundDayTime){
+        else if (findAroundMe && foundSpecifiedChecks && findDayTime) {
+          if (foundAroundMe && foundDayTime) {
             console.log('adding venue by 1.1');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 1.1');
           }
         }
-  
-        else if(findInMyArea  && foundSpecifiedChecks && findDayTime){
-          if(foundInMyArea && foundDayTime){
+
+        else if (findInMyArea && foundSpecifiedChecks && findDayTime) {
+          if (foundInMyArea && foundDayTime) {
             console.log('adding venue by 2');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 2');
           }
         }
-        
-        else if(foundNamedLocation &&  foundSpecifiedChecks && findDayTime){
-          if(foundDayTime){
+
+        else if (foundNamedLocation && foundSpecifiedChecks && findDayTime) {
+          if (foundDayTime) {
             console.log('adding venue by 3');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 3');
           }
         }
 
-        else if(foundSpecifiedChecks && findDayTime){
-          if(foundDayTime){
+        else if (foundSpecifiedChecks && findDayTime) {
+          if (foundDayTime) {
             console.log('adding venue by 4');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 4');
           }
         }
 
-        else if(findNearMe &&  foundSpecifiedChecks  ){
-          if(foundNearMe){
+        else if (findNearMe && foundSpecifiedChecks) {
+          if (foundNearMe) {
             console.log('adding venue by 5');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 5');
           }
         }
 
-        else if(findAroundMe &&  foundSpecifiedChecks ){
-          if(foundAroundMe){
+        else if (findAroundMe && foundSpecifiedChecks) {
+          if (foundAroundMe) {
             console.log('adding venue by 6');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 6');
           }
         }
-  
-        else if(findInMyArea  && foundSpecifiedChecks ){
-          if(foundInMyArea){
+
+        else if (findInMyArea && foundSpecifiedChecks) {
+          if (foundInMyArea) {
             console.log('adding venue by 7');
             filteredEvents.push(this.eventarr[eventIndex]);
-          }else{
+          } else {
             console.log('No matching criteria found 7');
           }
-          
+
         }
-        
-        else if(foundNamedLocation &&  foundSpecifiedChecks ){
+
+        else if (foundNamedLocation && foundSpecifiedChecks) {
           console.log('adding venue by 3');
           filteredEvents.push(this.eventarr[eventIndex]);
         }
 
-        else if( foundSpecifiedChecks){
+        else if (foundSpecifiedChecks) {
           filteredEvents.push(this.eventarr[eventIndex]);
           console.log('adding venue by 9');
         }
@@ -1518,7 +1524,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by 4');
 
         // }
-  
+
         // else if(findInMyArea){
         //   if(foundInMyArea ){
         //     filteredEvents.push(this.eventarr[eventIndex]);
@@ -1526,13 +1532,13 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by 5');
 
         // }
-        
+
         // else if(foundNamedLocation){
         //   filteredEvents.push(this.eventarr[eventIndex]);
         //   console.log('adding venue by 6');
         // }
-  
-         //================== handling single cases====================
+
+        //================== handling single cases====================
 
         //  else if(!findNearMe && findbusyStatus){
         //   if(foundbusyStatus){
@@ -1541,7 +1547,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 1');
 
         // }
-  
+
         // else if(!findInMyArea && findbusyStatus){
         //   if(foundbusyStatus){
         //     filteredEvents.push(this.eventarr[eventIndex]);
@@ -1549,7 +1555,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 2');
 
         // }
-        
+
         // else if(!foundNamedLocation && findbusyStatus){
         //   if(foundbusyStatus){
         //     filteredEvents.push(this.eventarr[eventIndex]);
@@ -1565,7 +1571,7 @@ export class LocationmapPage implements OnInit {
         //   console.log('adding venue by single case 4');
 
         // }
-  
+
         // else if(findInMyArea && !findbusyStatus){
         //   if(foundInMyArea){
         //     filteredEvents.push(this.eventarr[eventIndex]);
@@ -1574,337 +1580,337 @@ export class LocationmapPage implements OnInit {
 
         // }
 
-      
+
         // ============== single case done =================
-  
-        else{
-  
+
+        else {
+
         }
 
-      }else if(foundWords.length == 0){
-        if(foundEventName || foundDiscount || foundNamedLocation){
-          console.log("foundEventName: ",foundEventName);
-          console.log("foundDiscount: ",foundDiscount);
+      } else if (foundWords.length == 0) {
+        if (foundEventName || foundDiscount || foundNamedLocation) {
+          console.log("foundEventName: ", foundEventName);
+          console.log("foundDiscount: ", foundDiscount);
           console.log('foundNamedLocation: ', foundNamedLocation);
           console.log('adding venue by 11');
-          
+
           filteredEvents.push(this.eventarr[eventIndex]);
         }
 
-      }else{
+      } else {
 
       }
-      
+
     }
 
     // this.filterTypeEv = 'yes';
     this.filtertype = 'yes';
-    console.log("filteredEvents: ",filteredEvents); 
+    console.log("filteredEvents: ", filteredEvents);
     this.eventarr = filteredEvents;
 
-    if(filteredEvents.length == 0){
+    if (filteredEvents.length == 0) {
       // this.noevent = 1;
-    }else{
+    } else {
       this.setMarkersForFoundEvents(filteredEvents);
       // this.noevent = 0;
     }
-    
+
   };
-  
-  findWords(inputTokens:string[]) {
-    let foundWords:string[] = [];
+
+  findWords(inputTokens: string[]) {
+    let foundWords: string[] = [];
     // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00
     let specialTimeCase = false;
     let specialTimeValue = '';
-    this.venueKeywords.forEach((keyword:string) => {
-      const formattedVenuKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+    this.venueKeywords.forEach((keyword: string) => {
+      const formattedVenuKeyword = keyword.toLowerCase().replace(/-/g, ' ').split(/\s+/);
       // console.log("formattedVenuKeyword: ",formattedVenuKeyword);
-      let result = formattedVenuKeyword.every((key:string)=>{
+      let result = formattedVenuKeyword.every((key: string) => {
         let res = false;
-        inputTokens.forEach((token:string)=>{
-          
-          if(token == 'rnb' && key == 'r&b'){
+        inputTokens.forEach((token: string) => {
+
+          if (token == 'rnb' && key == 'r&b') {
             res = true;
-          }else if(token.includes(':') && key.includes(':')){
+          } else if (token.includes(':') && key.includes(':')) {
             console.log("token is", token);
-           
+
             let splitToken = token.split(':');
             let splitKey = key.split(':');
-    
-            if(splitToken[0] === splitKey[0]){
-              console.log('splitToken:',splitToken);
+
+            if (splitToken[0] === splitKey[0]) {
+              console.log('splitToken:', splitToken);
               console.log('splitKey: ', splitKey);
               specialTimeCase = true;
               specialTimeValue = token;
               res = true;
             }
-           
-          }else{
-            if(token === key){
+
+          } else {
+            if (token === key) {
               res = true;
-            }else if(this.stemWord(token) === key ){
+            } else if (this.stemWord(token) === key) {
               res = true;
             }
-           
+
           }
-          
+
         });
         return res;
       });
       // console.log(result);
-      if(result){
-        if(specialTimeCase){
+      if (result) {
+        if (specialTimeCase) {
           foundWords.push(specialTimeValue);
           specialTimeCase = false;
-        }else{
+        } else {
           // console.log('Match found');
           foundWords.push(keyword);
         }
-        
-      } 
+
+      }
     });
     // console.log(foundWords);
     return foundWords;
-    
+
   }
 
-  findWordsforEvents(inputTokens:string[]) {
-    let foundWords:string[] = [];
+  findWordsforEvents(inputTokens: string[]) {
+    let foundWords: string[] = [];
     // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00
     let specialTimeCase = false;
     let specialTimeValue = '';
-    this.eventKeywords.forEach((keyword:string) => {
-      const formattedEventKeyword = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
+    this.eventKeywords.forEach((keyword: string) => {
+      const formattedEventKeyword = keyword.toLowerCase().replace(/-/g, ' ').split(/\s+/);
       // console.log("formattedEventKeyword: ",formattedEventKeyword);
-      let result = formattedEventKeyword.every((key:string)=>{
+      let result = formattedEventKeyword.every((key: string) => {
         let res = false;
-        inputTokens.forEach((token:string)=>{
-          
-          if(token == 'rnb' && key == 'r&b'){
+        inputTokens.forEach((token: string) => {
+
+          if (token == 'rnb' && key == 'r&b') {
             res = true;
           }
-          else if(token.includes(':') && key.includes(':')){
+          else if (token.includes(':') && key.includes(':')) {
             console.log("token is", token);
-           
+
             let splitToken = token.split(':');
             let splitKey = key.split(':');
-    
-            if(splitToken[0] === splitKey[0]){
-              console.log('splitToken:',splitToken);
+
+            if (splitToken[0] === splitKey[0]) {
+              console.log('splitToken:', splitToken);
               console.log('splitKey: ', splitKey);
               specialTimeCase = true;
               specialTimeValue = token;
               res = true;
             }
-           
+
           }
-          else{
-            if(token === key){
+          else {
+            if (token === key) {
               res = true;
-            }else if(this.stemWord(token) === key ){
+            } else if (this.stemWord(token) === key) {
               res = true;
             }
-           
+
           }
-          
+
         });
         return res;
       });
-      
+
       // console.log(result);
-      if(result){
-        if(specialTimeCase){
+      if (result) {
+        if (specialTimeCase) {
           foundWords.push(specialTimeValue);
           specialTimeCase = false;
-        }else{
+        } else {
           // console.log('Match found');
           foundWords.push(keyword);
         }
-      } 
+      }
     });
-    
+
     // console.log(foundWords);
     return foundWords;
-    
+
   }
 
-  stemWord(word:string){
-    if(word.endsWith('s')){
-      return word.slice(0,-1);
+  stemWord(word: string) {
+    if (word.endsWith('s')) {
+      return word.slice(0, -1);
     }
     return word;
   }
 
-  filterVenuesForAI(inputTokens:string[], targetTokens:string[]){
-    return targetTokens.some((token:any)=>{
-      if(token == '0%'){
-        if(inputTokens.includes('0%') || inputTokens.includes('zero')){
+  filterVenuesForAI(inputTokens: string[], targetTokens: string[]) {
+    return targetTokens.some((token: any) => {
+      if (token == '0%') {
+        if (inputTokens.includes('0%') || inputTokens.includes('zero')) {
           return true;
-        }else{
+        } else {
           return false;
         }
-      }else{
+      } else {
         return inputTokens.includes(token);
       }
-      
+
     });
   }
 
-  filterVenuesForAIFeature(keywords:any[], queryParams:string[]){
-    let otherKeys = ['near me','in my area','until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'quite', 'quiet', 'busy', 'very busy']
-    return queryParams.every((param:string)=>{
-      const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
-      console.log('New param is: ',paramKey);
-      
+  filterVenuesForAIFeature(keywords: any[], queryParams: string[]) {
+    let otherKeys = ['near me', 'in my area', 'until', 'till', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'a.m.', 'p.m.', 'quite', 'quiet', 'busy', 'very busy']
+    return queryParams.every((param: string) => {
+      const paramKey = param.toLowerCase().replace(/-/g, ' ').split(/\s+/);
+      console.log('New param is: ', paramKey);
+
       let res = false;
-     
-     
-        for(let i=0; i<keywords.length; i++){
-          let keyword = keywords[i].keyword_value;
-          const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
-          res = paramKey.every((pk:any)=>{
-            if(keys.includes(pk)){
+
+
+      for (let i = 0; i < keywords.length; i++) {
+        let keyword = keywords[i].keyword_value;
+        const keys = keyword.toLowerCase().replace(/-/g, ' ').split(/\s+/);
+        res = paramKey.every((pk: any) => {
+          if (keys.includes(pk)) {
+            return true;
+          } else if (!keys.includes(pk)) {
+            if (otherKeys.includes(param) || param.includes(':')) {
+              console.log('other keys');
+              console.log(param);
               return true;
-            }else if(!keys.includes(pk)){
-              if(otherKeys.includes(param) || param.includes(':')){
-                console.log('other keys');
-                console.log(param);
-                return true;
-              }else{
-                return false;
-              }
-              
-            }else{
+            } else {
               return false;
             }
-            
-          });
-          if(res){
-            console.log('Match found: ', res);
-            console.log('word is: ',paramKey);
-            console.log('key is: ',keys);
-            
-            break;
-          }
-        }
 
-        if(!res){
-          console.log('Result for this parma is:', res);
-          console.log('word is: ',paramKey);
+          } else {
+            return false;
+          }
+
+        });
+        if (res) {
+          console.log('Match found: ', res);
+          console.log('word is: ', paramKey);
+          console.log('key is: ', keys);
+
+          break;
         }
-       
+      }
+
+      if (!res) {
+        console.log('Result for this parma is:', res);
+        console.log('word is: ', paramKey);
+      }
+
       return res;
     });
   }
 
-  filterEventsForAIFeature(keywords:any[], queryParams:string[]){
-    let otherKeys = ['non','do not include','near me','around me','in my area', 'until','till','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00', '1','2','3','4','5','6','7','8','9','10','11','12', 'a.m.', 'p.m.', 'tonight'];
+  filterEventsForAIFeature(keywords: any[], queryParams: string[]) {
+    let otherKeys = ['non', 'do not include', 'near me', 'around me', 'in my area', 'until', 'till', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'a.m.', 'p.m.', 'tonight'];
     let negationKeyIndex: number | undefined = undefined;
-    return queryParams.every((param:string)=>{
-      const paramKey = param.toLowerCase().replace(/-/g,' ').split(/\s+/);
-      console.log('New param is: ',paramKey);
-      console.log('negationKeyIndex: ',negationKeyIndex);
-      
+    return queryParams.every((param: string) => {
+      const paramKey = param.toLowerCase().replace(/-/g, ' ').split(/\s+/);
+      console.log('New param is: ', paramKey);
+      console.log('negationKeyIndex: ', negationKeyIndex);
+
       let res = false;
-      
-      for(let i=0; i<keywords.length; i++){
+
+      for (let i = 0; i < keywords.length; i++) {
         let keyword = keywords[i].keyword_value;
-        const keys = keyword.toLowerCase().replace(/-/g,' ').split(/\s+/);
-        
-        
-        res = paramKey.every((pk:any,index)=>{
-          if(keys.includes(pk) && negationKeyIndex === undefined){
+        const keys = keyword.toLowerCase().replace(/-/g, ' ').split(/\s+/);
+
+
+        res = paramKey.every((pk: any, index) => {
+          if (keys.includes(pk) && negationKeyIndex === undefined) {
             // console.log('case 1');
-            console.log('keys: ',keys);
-            console.log('paramKey: ',paramKey);
+            console.log('keys: ', keys);
+            console.log('paramKey: ', paramKey);
             return true;
           }
-          else if(keys.includes(pk) && negationKeyIndex !== undefined){
+          else if (keys.includes(pk) && negationKeyIndex !== undefined) {
             // if(index === paramKey.length-1){
-              negationKeyIndex = undefined;
+            negationKeyIndex = undefined;
             // }
             // console.log('case 2');
-            console.log('keys: ',keys);
-            console.log('paramKey: ',paramKey);
+            console.log('keys: ', keys);
+            console.log('paramKey: ', paramKey);
             return false;
           }
-          else if(!keys.includes(pk) && negationKeyIndex === undefined){
+          else if (!keys.includes(pk) && negationKeyIndex === undefined) {
             // the following check param.includes(':') is to check if the param is a time range of special case.
             // specialCaseTimeValue 1:00, 1:01, 1:02 ..... 11:58, 11:59, 12:00 
-            if(otherKeys.includes(param) || param.includes(':')){
-            
-              if(param === 'non' || param === 'do not include'){
+            if (otherKeys.includes(param) || param.includes(':')) {
 
-                if(index === paramKey.length-1){
+              if (param === 'non' || param === 'do not include') {
+
+                if (index === paramKey.length - 1) {
                   negationKeyIndex = queryParams.indexOf(param);
 
                 }
                 console.log('other keys(negation)');
                 // console.log('case 4');
-                
+
                 console.log(param);
                 return true;
-                
-              }else{
+
+              } else {
                 // console.log('case 5');
 
                 console.log('other keys');
                 console.log(param);
                 return true;
               }
-           
-            }else{
+
+            } else {
               // console.log('case 6');
-              
+
               return false;
             }
-          } 
-          else{
+          }
+          else {
             // console.log('case 7');
             return false;
           }
         });
-        if(res){ 
+        if (res) {
           console.log('Match found: ', res);
-          console.log('word is: ',paramKey);
-          console.log('key is: ',keys);
-          
+          console.log('word is: ', paramKey);
+          console.log('key is: ', keys);
+
           break;
         }
       }
 
-      if(!res && negationKeyIndex !== undefined){
+      if (!res && negationKeyIndex !== undefined) {
         res = true;
         negationKeyIndex = undefined;
-      }else if(!res && negationKeyIndex === undefined){
+      } else if (!res && negationKeyIndex === undefined) {
         console.log('Result for this parma is:', res);
-        console.log('word is: ',paramKey);
+        console.log('word is: ', paramKey);
       }
-       
+
       return res;
     });
   }
 
-  filterForAI(inputTokens:string[], targetTokens:string[]){
-    return targetTokens.some((token:any)=>{
-      if(token == '0%'){
-        if(inputTokens.includes('0%') || inputTokens.includes('zero')){
+  filterForAI(inputTokens: string[], targetTokens: string[]) {
+    return targetTokens.some((token: any) => {
+      if (token == '0%') {
+        if (inputTokens.includes('0%') || inputTokens.includes('zero')) {
           return true;
-        }else{
+        } else {
           return false;
         }
-      }else{
+      } else {
         return inputTokens.includes(token);
       }
-      
+
     });
   }
 
-  isVenueClosingTimeMatch(eventEndTime:string, userRequestedTimeStr:string, dayTimeTokens:string[]) {
+  isVenueClosingTimeMatch(eventEndTime: string, userRequestedTimeStr: string, dayTimeTokens: string[]) {
 
     try {
       let requestedTimeDate = new Date();
-      let eventEndTimeDate; 
+      let eventEndTimeDate;
 
       // Parse the closing time string into a Date object
       eventEndTimeDate = parse(eventEndTime, 'HH:mm:ss', new Date());
@@ -1912,71 +1918,71 @@ export class LocationmapPage implements OnInit {
       // Parse the user requested time string into a Date object
       requestedTimeDate = parse(userRequestedTimeStr, 'h:mm aaaa', new Date());
 
-      console.log('requestedTimeDate: ',requestedTimeDate);
-      
-      console.log('eventEndTimeDate: ',eventEndTimeDate);
+      console.log('requestedTimeDate: ', requestedTimeDate);
 
-      if(isEqual(requestedTimeDate, eventEndTimeDate)){
+      console.log('eventEndTimeDate: ', eventEndTimeDate);
+
+      if (isEqual(requestedTimeDate, eventEndTimeDate)) {
         return true;
       }
 
       return false;
-      
+
     } catch (error) {
       console.log(error);
-      
-      return false;
-      
-    }
-    
 
-    
+      return false;
+
+    }
+
+
+
   }
 
-  
-  findCommonDayTimeTokens(foundWords:string[]){
-    let commonDayTimeTokens:string[] = [];
-    
-    for(let word of foundWords){
+
+  findCommonDayTimeTokens(foundWords: string[]) {
+    let commonDayTimeTokens: string[] = [];
+
+    for (let word of foundWords) {
       console.log('word: ', word);
-      for(let key of this.dayTimeKeywords){
+      for (let key of this.dayTimeKeywords) {
 
-       if(word.includes(':') && key.includes(':')){
-        console.log("word is", word);
-       
-        let splitWord = word.split(':');
-        let splitKey = key.split(':');
+        if (word.includes(':') && key.includes(':')) {
+          console.log("word is", word);
 
-        if(splitWord[0] === splitKey[0]){
-          console.log('splitToken:',splitWord);
-          console.log('splitKey: ', splitKey);
-          commonDayTimeTokens.push(word);
-          break;
-        }
-       
-        }else if(!word.includes(':') && !key.includes(':')){
-          if(word === key){
+          let splitWord = word.split(':');
+          let splitKey = key.split(':');
+
+          if (splitWord[0] === splitKey[0]) {
+            console.log('splitToken:', splitWord);
+            console.log('splitKey: ', splitKey);
+            commonDayTimeTokens.push(word);
+            break;
+          }
+
+        } else if (!word.includes(':') && !key.includes(':')) {
+          if (word === key) {
             commonDayTimeTokens.push(word);
             break;
           }
         }
 
       }
-      
+
     }
     return commonDayTimeTokens;
   }
 
-  standardizeHour(hour:string){
-    if(hour.includes(':')){
+  standardizeHour(hour: string) {
+    if (hour.includes(':')) {
       return hour;
-    }else{
+    } else {
       return `${hour}:00`;
     }
   }
 
-  setMarkersForFoundVenues = (foundVenues:any) => {
-    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+  setMarkersForFoundVenues = (foundVenues: any) => {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
     this.map.googleMap?.setZoom(13);
     this.center = {
@@ -1985,8 +1991,8 @@ export class LocationmapPage implements OnInit {
     };
     this.venuarr = [];
     this.markers = [];
-    console.log("Venuarr foundVenues: ",foundVenues);
-    
+    console.log("Venuarr foundVenues: ", foundVenues);
+
     for (var i = 0; i < foundVenues.length; i++) {
       var obj = {
         position: {
@@ -2013,13 +2019,13 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.venuarr;
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+    console.log("Venuarr : ", this.venuarr);
+    console.log("markersArr : ", this.markers);
     this.showCategories = false;
   }
 
-  setMarkersForFoundEvents = (foundEvents:any) => {
-    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+  setMarkersForFoundEvents = (foundEvents: any) => {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showEventDetail = false;
     this.map.googleMap?.setZoom(13);
     this.center = {
@@ -2028,8 +2034,8 @@ export class LocationmapPage implements OnInit {
     };
     this.eventarr = [];
     this.markers = [];
-    console.log("Eventarr founEvents: ",foundEvents);
-    
+    console.log("Eventarr founEvents: ", foundEvents);
+
     for (var i = 0; i < foundEvents.length; i++) {
       var obj = {
         position: {
@@ -2056,15 +2062,15 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.eventarr;
-    console.log("EventArr : ",this.eventarr);
-    console.log("markersArr : ",this.markers);
+    console.log("EventArr : ", this.eventarr);
+    console.log("markersArr : ", this.markers);
     this.showEventCategories = false;
   }
 
-  dismissModal(){
+  dismissModal() {
     console.log('stopSpeechRecognition');
-    this.showCrowdfilters= false;
-    this.showCategories= false;
+    this.showCrowdfilters = false;
+    this.showCategories = false;
     this.showEventCategories = false;
     SpeechRecognition.stop();
     this.modalCtrl.dismiss();
@@ -2081,19 +2087,19 @@ export class LocationmapPage implements OnInit {
 
     if (role === 'confirm') {
       this.foundVenue = data;
-      console.log("found venue:",this.foundVenue);
+      console.log("found venue:", this.foundVenue);
       this.setFoundVenue();
     }
   }
 
-  setFoundVenue(){
+  setFoundVenue() {
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
     this.map.googleMap?.setZoom(13);
-    
+
     // this.markers = [];
     this.venuarr = [];
-           
+
     var obj = {
       position: {
         lat: parseFloat(this.foundVenue.lattitude),
@@ -2118,83 +2124,146 @@ export class LocationmapPage implements OnInit {
     this.venuarr.push(obj);
 
     this.markers = this.venuarr;
-    this.openInfo(undefined,obj.title,obj);
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+    this.openInfo(undefined, obj.title, obj);
+    console.log("Venuarr : ", this.venuarr);
+    console.log("markersArr : ", this.markers);
   }
 
 
-  getDirections(){
-    if(this.mapbox == undefined){
-      const request: google.maps.DirectionsRequest = {
-        destination: {lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude},
-        origin: {lat: this.currentLatitude, lng: this.currentLongitude },
-        travelMode: google.maps.TravelMode.DRIVING,
-  
-      };
-      console.log(request.destination);
-      console.log(request.origin);
-      
-      
-      this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
-      this.rest.directionsResults$ = this.directionsResults$;
-      console.log("directionsResults: ",this.rest.directionsResults$);
-    }else{
-      console.log("mapbox venue");
-      const end = ['71.4689853', '30.2088837'];
-      this.getRoute(end);
-      // create a function to make a directions request
-      
 
-      // this.mapbox.on('load', () => {
-        
-        // make an initial directions request that
-        // starts and ends at the same location
-        // this.getRoute(start);
 
-        // Add starting point to the map
-        // this.mapbox.addLayer({
-        //   id: 'point',
-        //   type: 'circle',
-        //   source: {
-        //     type: 'geojson',
-        //     data: {
-        //       type: 'FeatureCollection',
-        //       features: [
-        //         {
-        //           type: 'Feature',
-        //           properties: {},
-        //           geometry: {
-        //             type: 'Point',
-        //             coordinates: start
-        //           }
-        //         }
-        //       ]
-        //     }
-        //   },
-        //   paint: {
-        //     'circle-radius': 10,
-        //     'circle-color': '#3887be'
-        //   }
-        // });
-        // this is where the code from the next step will go
-      // });
+  getDirections() {
+    const request: google.maps.DirectionsRequest = {
+      destination: { lat: +this.searchObject.lattitude, lng: +this.searchObject.longitude },
+      origin: { lat: this.currentLatitude, lng: this.currentLongitude },
+      travelMode: google.maps.TravelMode.DRIVING,
+
+    };
+    console.log(request.destination);
+    console.log(request.origin);
+
+
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response: any) => response.result));
+    this.rest.directionsResults$ = this.directionsResults$;
+    console.log("directionsResults: ", this.rest.directionsResults$);
+
+    this.router.navigate(["see-path"]);
+  }
+
+  // getVenueDirectionsOnMapbox() {
+  //   console.log("mapbox venue");
+  //   // this.searchEventObject = null; 
+  //   const end = [this.searchObject.longitude, this.searchObject.lattitude];
+  //   // const end = ['71.4689853', '30.2088837'];
+  //   this.getRoute(end);
+  // }
+
+  getVenueDirectionsOnMapbox() {
+    console.log("mapbox venue - searchObject:", this.searchObject);
+    if (!this.searchObject || !this.searchObject.longitude || !this.searchObject.lattitude) {
+      console.error("Venue data invalid:", this.searchObject);
+      return;
     }
-
-    
-    // this.router.navigate(["see-path"]);
+    const end = [this.searchObject.longitude, this.searchObject.lattitude];
+    console.log("Venue end coordinates:", end);
+    this.getRoute(end);
   }
 
-  async getRoute(end:any) {
-    // make a directions request using cycling profile
-    // an arbitrary start will always be the same
-    // only the end or destination will change
+  // getEventDirectionsOnMapbox() {
+  //   console.log("mapbox event");
+  //   // this.searchObject = null;
+  //   const end = [this.searchEventObject.longitude, this.searchEventObject.lattitude];
+  //   // const end = ['71.4689853', '30.2088837'];
+  //   this.getRoute(end);
+  // }
+
+  getEventDirectionsOnMapbox() {
+    console.log("mapbox event - searchEventObject:", this.searchEventObject);
+    if (!this.searchEventObject || !this.searchEventObject.longitude || !this.searchEventObject.lattitude) {
+      console.error("Event data invalid:", this.searchEventObject);
+      return;
+    }
+    const end = [this.searchEventObject.longitude, this.searchEventObject.lattitude];
+    console.log("Event end coordinates:", end);
+    this.getRoute(end);
+  }
+
+  // async getRoute(end: any) {
+  //   // make a directions request using cycling profile
+  //   // an arbitrary start will always be the same
+  //   // only the end or destination will change
+  //   const query = await fetch(
+  //     `https://api.mapbox.com/directions/v5/mapbox/driving/${this.currentLongitude},${this.currentLatitude};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${environment.mapboxgl.accessToken}`,
+  //     { method: 'GET' }
+  //   );
+  //   const json = await query.json();
+  //   const data = json.routes[0];
+  //   const route = data.geometry.coordinates;
+  //   const geojson: GeoJSON.Feature = {
+  //     type: 'Feature',
+  //     properties: {},
+  //     geometry: {
+  //       type: 'LineString',
+  //       coordinates: route
+  //     }
+  //   };
+  //   // if the route already exists on the map, we'll reset it using setData
+  //   if (this.mapbox.getSource('route')) {
+  //     // this.mapbox.removeSource('route');
+
+  //     (this.mapbox?.getSource('route') as mapboxgl.GeoJSONSource)?.setData(geojson);
+  //   }
+  //   // otherwise, we'll make a new request
+  //   else {
+
+  //     this.mapbox.addLayer({
+  //       id: 'route',
+  //       type: 'line',
+  //       source: {
+  //         type: 'geojson',
+  //         data: geojson
+  //       },
+  //       layout: {
+  //         'line-join': 'round',
+  //         'line-cap': 'round'
+  //       },
+  //       paint: {
+  //         'line-color': '#ffffff',
+  //         'line-width': 6,
+  //         "line-border-width": 10,
+  //         "line-border-color": "#ffffff",
+  //         'line-opacity': 1
+  //       },
+
+
+
+  //     });
+  //   }
+  //   // add turn instructions here at the end
+  // }
+  
+  async getRoute(end: any) {
+    console.log("getRoute called with end:", end, "start:", [this.currentLongitude, this.currentLatitude]);
+  
+    // Validate start coordinates
+    if (!this.currentLongitude || !this.currentLatitude) {
+      console.error("Invalid start coordinates:", this.currentLongitude, this.currentLatitude);
+      return;
+    }
+  
+    // Fetch directions
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${this.currentLongitude},${this.currentLatitude};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${environment.mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${this.currentLongitude},${this.currentLatitude};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
       { method: 'GET' }
     );
     const json = await query.json();
+    if (!json.routes || !json.routes[0]) {
+      console.error("No route found:", json);
+      return;
+    }
     const data = json.routes[0];
+    console.log("Route data:", data);
+  
     const route = data.geometry.coordinates;
     const geojson: GeoJSON.Feature = {
       type: 'Feature',
@@ -2204,71 +2273,80 @@ export class LocationmapPage implements OnInit {
         coordinates: route
       }
     };
-    // if the route already exists on the map, we'll reset it using setData
+  
+    // Clear existing route
+    if (this.mapbox.getLayer('route')) {
+      this.mapbox.removeLayer('route');
+      console.log("Removed route layer");
+    }
     if (this.mapbox.getSource('route')) {
-      (this.mapbox?.getSource('route') as mapboxgl.GeoJSONSource)?.setData(geojson);
+      this.mapbox.removeSource('route');
+      console.log("Removed route source");
     }
-    // otherwise, we'll make a new request
-    else {
-      this.mapbox.addLayer({
-        id: 'route',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: geojson
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#ffffff',
-          'line-width': 6,
-          "line-border-width": 10,
-          "line-border-color": "#ffffff",
-          'line-opacity': 1
-        },
+  
+    // Add new route
+    this.mapbox.addSource('route', {
+      type: 'geojson',
+      data: geojson
+    });
+    console.log("Added route source");
+    this.mapbox.addLayer({
+      id: 'route',
+      type: 'line',
+      source: 'route',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        // 'line-color': '#ffffff',
+        // 'line-width': 6,
+        // 'line-opacity': 1,
+        'line-color': '#ff5733', // Example: Bright orange (you can use hex, RGB, or named colors)
+        'line-width': 5,         // Adjust width for visibility
+        'line-opacity': 0.8
+      }
+    });
+    console.log("Added route layer");
+  
+    // Force map update
+    this.mapbox.resize();
+    console.log("Map resized");
+    this.changeDetectorRef.detectChanges();
 
-
-
-      });
-    }
-    // add turn instructions here at the end
   }
 
-  getEventDirections(){
-    if(this.mapbox == undefined){
-      const request: google.maps.DirectionsRequest = {
-        destination: {lat: +this.searchEventObject.lattitude, lng: +this.searchEventObject.longitude},
-        origin: {lat: this.currentLatitude, lng: this.currentLongitude },
-        travelMode: google.maps.TravelMode.DRIVING,
-  
-      };
-      console.log(request.destination);
-      console.log(request.origin);
-      
-      
-      this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response:any) => response.result));
-      this.rest.directionsResults$ = this.directionsResults$;
-      console.log("directionsResults: ",this.rest.directionsResults$);
-    }else {
-      console.log("mapbox event");
-    }
+  getEventDirections() {
+    const request: google.maps.DirectionsRequest = {
+      destination: { lat: +this.searchEventObject.lattitude, lng: +this.searchEventObject.longitude },
+      origin: { lat: this.currentLatitude, lng: this.currentLongitude },
+      travelMode: google.maps.TravelMode.DRIVING,
 
-    
+    };
+    console.log(request.destination);
+    console.log(request.origin);
+
+
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map((response: any) => response.result));
+    this.rest.directionsResults$ = this.directionsResults$;
+    console.log("directionsResults: ", this.rest.directionsResults$);
+
+
+
     // this.router.navigate(["see-path"]);
   }
 
   async ionViewWillEnter() {
-    
+
+
     await this.getCurrentLocation();
-    
+
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.a = localStorage.getItem("lattitude");
     this.b = localStorage.getItem("longitude");
     this.dbLati = parseFloat(this.a);
     this.dbLong = parseFloat(this.b);
-    console.log("this.rest.venuArrHome",this.rest.venuArrHome.length);
+    console.log("this.rest.venuArrHome", this.rest.venuArrHome.length);
     this.userdata = localStorage.getItem("userdata");
     this.ai = JSON.parse(this.userdata).ai_feature;
 
@@ -2277,19 +2355,31 @@ export class LocationmapPage implements OnInit {
     } else {
       this.aiToggleChecked = true;
     }
-    
+
     this.venuarrOrg = this.rest.venuArrHome;
     this.eventArrOrg = this.rest.eventArrHome;
-    console.log("this.venuarrOrg",this.venuarrOrg.length);
-    if(!this.map){
+    console.log("this.venuarrOrg", this.venuarrOrg.length);
+    if (!this.map) {
       this.buildMap2();
     }
     // this.makeMarkerArray();
-    this.makeMapboxVenueMarkerArray();
+    await this.makeMapboxVenueMarkerArray();
 
     // this.makeEventMarkerArray();
-    this.makeMapboxEventMarkerArray();
-    
+    await this.makeMapboxEventMarkerArray();
+
+    const value = this.activatedRoute.snapshot.queryParams['cardType'];
+    console.log("route value", value);
+    if(value == 'venue'){
+      const venueId = this.rest.detail.venues_id;
+      this.filterArrypin(venueId);
+    }
+    if(value == 'event'){
+      const eventId = this.rest.detail.events_id;
+      this.filterEventArrypin(eventId);
+    }
+    // this.openRequestedMarker();
+
     this.userdata = localStorage.getItem("userdata");
     this.userID = JSON.parse(this.userdata).users_customers_id;
     this.getVenueAIKeywords();
@@ -2297,14 +2387,14 @@ export class LocationmapPage implements OnInit {
     console.log("dbLati---------", this.dbLati);
     console.log("dbLong---------", this.dbLong);
     // this.map.googleMap?.setZoom(13);
-    
-    
-    
-  }
-  
-  buildMap2(){
 
-    if(this.mapbox == undefined){
+
+
+  }
+
+  buildMap2() {
+
+    if (this.mapbox == undefined) {
       this.mapbox = new mapboxgl.Map({
         container: 'mapbox',
         center: [this.currentLongitude, this.currentLatitude],
@@ -2317,11 +2407,11 @@ export class LocationmapPage implements OnInit {
         // minZoom: 15,
         // maxZoom: 16
       });
-  
+
       this.mapbox.on('style.load', () => {
         // Set the light preset to dusk mode
         (this.mapbox as any).setConfigProperty('basemap', 'lightPreset', 'dusk');
-  
+
         // Define the eraser source and model source
         this.mapbox.addSource('eraser', {
           type: 'geojson',
@@ -2347,7 +2437,7 @@ export class LocationmapPage implements OnInit {
             ]
           }
         });
-  
+
         this.mapbox.addSource('model', {
           type: 'geojson',
           data: {
@@ -2361,9 +2451,9 @@ export class LocationmapPage implements OnInit {
             }
           }
         });
-  
+
         // Add the clip layer
-        
+
         this.mapbox.addLayer({
           id: 'eraser',
           type: 'clip',
@@ -2373,7 +2463,7 @@ export class LocationmapPage implements OnInit {
             'clip-layer-scope': ['basemap']
           }
         });
-  
+
         // Add the model layer
         this.mapbox.addLayer({
           id: 'tower',
@@ -2394,26 +2484,26 @@ export class LocationmapPage implements OnInit {
           }
         });
       });
-  
-      this.mapbox.on('click',(event)=>{
-        
+
+      this.mapbox.on('click', (event) => {
+
       })
     }
-   
-    
+
+
     // add user location marker in mapbox map
-    console.log("lat,long",this.currentLatitude,this.currentLongitude);
+    console.log("lat,long", this.currentLatitude, this.currentLongitude);
     const el = document.createElement('div');
     el.className = 'marker';
     el.style.backgroundImage = `url(../../assets/imgs/icons/loc_pin_new.svg)`;
     el.style.width = `24px`;
     el.style.height = `24px`;
-    
-    new mapboxgl.Marker(el).setLngLat([this.currentLongitude,this.currentLatitude]).addTo(this.mapbox);
+
+    new mapboxgl.Marker(el).setLngLat([this.currentLongitude, this.currentLatitude]).addTo(this.mapbox);
     // done
 
   }
-  
+
   isIOS() {
     return this.platform.is('ios');
   }
@@ -2439,61 +2529,61 @@ export class LocationmapPage implements OnInit {
     this.HideFilter();
     this.router.navigate(["profile"]);
   }
-  hideExtraElements(){
+  hideExtraElements() {
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
     this.map.googleMap?.setZoom(13);
     // this.showSideElements = false;
     this.infoWindow.close();
   }
-  showHiddenElements(){
+  showHiddenElements() {
     // this.showSideElements = true;
   }
 
-  searchVenues(ev:any){
+  searchVenues(ev: any) {
     this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
     this.map.googleMap?.setZoom(13);
-    
+
     // this.markers = [];
     this.venuarr = [];
-    
+
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       if (
-            this.venuarrOrg[i].name
-              .toLowerCase()
-              .includes(ev.target.value.toLowerCase())
-          ) {
-            this.markers = [];
-            var obj = {
-              position: {
-                lat: parseFloat(this.venuarrOrg[i].lattitude),
-                lng: parseFloat(this.venuarrOrg[i].longitude),
+        this.venuarrOrg[i].name
+          .toLowerCase()
+          .includes(ev.target.value.toLowerCase())
+      ) {
+        this.markers = [];
+        var obj = {
+          position: {
+            lat: parseFloat(this.venuarrOrg[i].lattitude),
+            lng: parseFloat(this.venuarrOrg[i].longitude),
+          },
+          title: "" + this.venuarrOrg[i].availability_count,
+          name: this.venuarrOrg[i].name,
+          venueId: this.venuarrOrg[i].venues_id,
+          options: {
+            animation: google.maps.Animation.DROP,
+            draggable: false,
+            icon: {
+              url: "assets/imgs/locpin2.svg",
+              size: {
+                height: 48,
+                width: 48,
               },
-              title: "" + this.venuarrOrg[i].availability_count,
-              name: this.venuarrOrg[i].name,
-              venueId: this.venuarrOrg[i].venues_id,
-              options: {
-                animation: google.maps.Animation.DROP,
-                draggable: false,
-                icon: {
-                  url: "assets/imgs/locpin2.svg",
-                  size: {
-                    height: 48,
-                    width: 48,
-                  },
-                },
-              },
-            };
-      
-            this.venuarr.push(obj);
-          }
-      
+            },
+          },
+        };
+
+        this.venuarr.push(obj);
+      }
+
     }
 
     this.markers = this.venuarr;
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+    console.log("Venuarr : ", this.venuarr);
+    console.log("markersArr : ", this.markers);
   }
 
 
@@ -2505,7 +2595,7 @@ export class LocationmapPage implements OnInit {
     this.venuarr = this.venuarrOrg;
     // this.setMarkersAgain();
     // console.log("this.venuarr",this.venuarr);
-    
+
     // var newVenuArr = [];
     // for (var i = 0; i < this.venuarr.length; i++) {
     //   var obj = {
@@ -2534,17 +2624,17 @@ export class LocationmapPage implements OnInit {
     // this.venuarr = [];
     // this.venuarr = newVenuArr;
     // this.markers = this.venuarr;
-    
+
   }
 
-  
+
 
   async toggleCrowdFilter() {
-    
+
     this.showCrowdfilters = !this.showCrowdfilters;
     this.showCategories = false;
     this.showEventCategories = false;
-   
+
   }
 
   selectedCrowdFilter(item: any) {
@@ -2561,17 +2651,17 @@ export class LocationmapPage implements OnInit {
     this.searchAndFilterItems(item);
 
     // this.filtertype = item;
-   
+
   }
 
-  toggleCategories(){
-    
+  toggleCategories() {
+
     this.showCategories = !this.showCategories;
     this.showCrowdfilters = false;
     this.showEventCategories = false;
   }
 
-  selectedVenueCategory(val:any){
+  selectedVenueCategory(val: any) {
     console.log(val);
     this.selectedVenueCat = val;
     this.selectedCrowdCat = '';
@@ -2588,7 +2678,7 @@ export class LocationmapPage implements OnInit {
     // this.setMarkersAgain();
   }
 
-  toggleEventCategories(){
+  toggleEventCategories() {
     this.searchObject = "";
     this.searchEventObject = "";
     this.showEventCategories = !this.showEventCategories;
@@ -2596,7 +2686,7 @@ export class LocationmapPage implements OnInit {
     this.showCategories = false;
   }
 
-  selectedEventCategory(val:any){
+  selectedEventCategory(val: any) {
     console.log(val);
     this.selectedEventCat = val;
     this.selectedCrowdCat = '';
@@ -2612,19 +2702,19 @@ export class LocationmapPage implements OnInit {
     this.searchAndFilterEventItems(val);
     // this.setEventMarkersAgain();
   }
-  
+
   searchAndFilterItems(searchTerm: any) {
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      if(this.selectedVenueCat!=''){
+      if (this.selectedVenueCat != '') {
         if (
           this.venuarrOrg[i].availability.toLowerCase() ==
-          searchTerm.toLowerCase() &&  this.venuarrOrg[i].venue_genre.toLowerCase() ==
+          searchTerm.toLowerCase() && this.venuarrOrg[i].venue_genre.toLowerCase() ==
           this.selectedVenueCat.toLowerCase()
         ) {
           this.venuarr.push(this.venuarrOrg[i]);
         }
-      }else{
+      } else {
         if (
           this.venuarrOrg[i].availability.toLowerCase() ==
           searchTerm.toLowerCase()
@@ -2632,7 +2722,7 @@ export class LocationmapPage implements OnInit {
           this.venuarr.push(this.venuarrOrg[i]);
         }
       }
-      
+
     }
 
     var newVenuArr = [];
@@ -2662,16 +2752,16 @@ export class LocationmapPage implements OnInit {
 
     this.venuarr = [];
     this.venuarr = newVenuArr;
-    
+
     this.markers = this.venuarr;
-    console.log('results: ',this.markers);
-    
+    console.log('results: ', this.markers);
+
   }
 
   searchAndFilterVenuItems(searchTerm: any) {
     this.venuarr = [];
     for (var i = 0; i < this.venuarrOrg.length; i++) {
-      if(this.selectedCrowdCat!=''){
+      if (this.selectedCrowdCat != '') {
         if (
           this.venuarrOrg[i].venue_genre.toLowerCase() ==
           searchTerm.toLowerCase() && this.venuarrOrg[i].availability.toLowerCase() ==
@@ -2679,7 +2769,7 @@ export class LocationmapPage implements OnInit {
         ) {
           this.venuarr.push(this.venuarrOrg[i]);
         }
-      }else{
+      } else {
         if (
           this.venuarrOrg[i].venue_genre.toLowerCase() ==
           searchTerm.toLowerCase()
@@ -2687,7 +2777,7 @@ export class LocationmapPage implements OnInit {
           this.venuarr.push(this.venuarrOrg[i]);
         }
       }
-      
+
     }
 
     var newVenuArr = [];
@@ -2718,8 +2808,8 @@ export class LocationmapPage implements OnInit {
     this.venuarr = [];
     this.venuarr = newVenuArr;
     this.markers = this.venuarr;
-    console.log('results: ',this.markers);
-    
+    console.log('results: ', this.markers);
+
   }
 
   searchAndFilterEventItems(searchTerm: any) {
@@ -2761,18 +2851,18 @@ export class LocationmapPage implements OnInit {
     this.eventarr = [];
     this.eventarr = newEventArr;
     this.markers = this.eventarr;
-    console.log('results: ',this.markers);
-    
+    console.log('results: ', this.markers);
+
   }
 
-  getTime(val:any){
-    return val.substring(0,5);
+  getTime(val: any) {
+    return val.substring(0, 5);
   }
 
   makeMarkerArray() {
     this.venuarr = [];
-    console.log("Venuarr ORG: ",this.venuarrOrg);
-    
+    console.log("Venuarr ORG: ", this.venuarrOrg);
+
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
@@ -2781,8 +2871,8 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.venuarrOrg[i].availability_count,
         name: this.venuarrOrg[i].name,
-        venueId:this.venuarrOrg[i].venues_id,
-        
+        venueId: this.venuarrOrg[i].venues_id,
+
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
@@ -2800,68 +2890,74 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.venuarr;
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+    console.log("Venuarr : ", this.venuarr);
+    console.log("markersArr : ", this.markers);
   }
 
-  makeMapboxVenueMarkerArray(){
-    this.venuarr = [];
-    console.log("Venuarr ORG: ",this.venuarrOrg);
-    
-    for (let i = 0; i < this.venuarrOrg.length; i++) {
-      const eventInfo = this.venuarrOrg[i];
-      const popup = new mapboxgl.Popup().setHTML(
-        `<div style="display: flex;align-items: center;"><img
-          style="height: 24px; width: 24px; margin-right: 10px"
-          src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png"
-        /><p class="roboto" style="
-            font-weight: 600;
-            font-size: 15px;
-            color: #730899;
-            margin: 0px;
-          ">${this.venuarrOrg[i].availability_count}</p></div>`
-      );
+  async makeMapboxVenueMarkerArray(): Promise<void> {
 
-      // Create the marker DOM element and add a click event listener
-      // const el = document.createElement('div');
-      // el.className = 'marker';
-      // // Ensure the marker has a defined size
-      // el.style.height = '32px';
-      // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
+    return new Promise((resolve) => {
+      this.venuarr = [];
+      console.log("Venuarr ORG: ", this.venuarrOrg);
 
-      // Attach the click event directly to the element
-    
+      for (let i = 0; i < this.venuarrOrg.length; i++) {
+        const venueInfo = this.venuarrOrg[i];
+        const popup = new mapboxgl.Popup().setHTML(
+          `<div style="display: flex;align-items: center;"><img
+            style="height: 24px; width: 24px; margin-right: 10px"
+            src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png"
+          /><p class="roboto" style="
+              font-weight: 600;
+              font-size: 15px;
+              color: #730899;
+              margin: 0px;
+            ">${venueInfo.availability_count}</p></div>`
+        );
 
-      // Create the Mapbox marker using the custom element
-      const marker = new mapboxgl.Marker()
-      .setLngLat([eventInfo.longitude, eventInfo.lattitude])
-      .setPopup(popup)
-      .addTo(this.mapbox);
+        // Create the marker DOM element and add a click event listener
+        // const el = document.createElement('div');
+        // el.className = 'marker';
+        // // Ensure the marker has a defined size
+        // el.style.height = '32px';
+        // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
 
-      console.log("Marker adding ven id", eventInfo.venues_id);
-      
-      // done
-
-      marker.getElement().addEventListener('click',((eventData)=>()=>{
-        console.log("Marker clicked", this.venuarrOrg[i].venues_id);
-        this.filterArrypin(this.venuarrOrg[i].venues_id);
-      })(eventInfo));
-
-      this.venuarr.push(marker);
+        // Attach the click event directly to the element
 
 
-    }
+        // Create the Mapbox marker using the custom element
+        const marker = new mapboxgl.Marker()
+          .setLngLat([venueInfo.longitude, venueInfo.lattitude])
+          .setPopup(popup)
+          .addTo(this.mapbox);
 
-    this.markers = this.venuarr;
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+        console.log("Marker adding ven id", venueInfo.venues_id);
+
+        // done
+
+        marker.getElement().addEventListener('click', ((venueData) => () => {
+          console.log("Marker clicked", venueData.venues_id);
+          this.filterArrypin(venueData.venues_id);
+        })(venueInfo));
+
+        this.venuarr.push(marker);
+
+
+      }
+
+      this.markers = this.venuarr;
+      console.log("Venuarr : ", this.venuarr);
+      console.log("markersArr : ", this.markers);
+
+      resolve();
+    });
+
 
   }
 
   makeEventMarkerArray() {
     this.eventarr = [];
-    console.log("Eventarr ORG: ",this.eventArrOrg);
-    
+    console.log("Eventarr ORG: ", this.eventArrOrg);
+
     for (var i = 0; i < this.eventArrOrg.length; i++) {
       var obj = {
         position: {
@@ -2870,8 +2966,8 @@ export class LocationmapPage implements OnInit {
         },
         title: "" + this.eventArrOrg[i].availability_count,
         name: this.eventArrOrg[i].name,
-        eventId:this.eventArrOrg[i].events_id,
-        
+        eventId: this.eventArrOrg[i].events_id,
+
         options: {
           animation: google.maps.Animation.DROP,
           draggable: false,
@@ -2887,158 +2983,161 @@ export class LocationmapPage implements OnInit {
 
       this.eventarr.push(obj);
     }
-    
+
     for (let index = 0; index < this.eventarr.length; index++) {
       this.markers.push(this.eventarr[index]);
     }
-   
-    console.log("EventArr : ",this.eventarr);
-    console.log("markersArr : ",this.markers);
+
+    console.log("EventArr : ", this.eventarr);
+    console.log("markersArr : ", this.markers);
     this.allVenueEventMarkers = this.markers;
 
     // this.collectMarkers();
     // this.openRequestedMarker();
-    
-    
+
+
   }
 
-  makeMapboxEventMarkerArray(){
-    this.eventarr = [];
-    console.log("Eventarr ORG: ",this.eventArrOrg);
-    
-    for (let i = 0; i < this.eventArrOrg.length; i++) {
-      const eventInfo = this.eventArrOrg[i];
-     const popup = new mapboxgl.Popup().setHTML(
-    `<div style="display: flex; align-items: center;">
-      <img style="height: 24px; width: 24px; margin-right: 10px" src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png" />
-      <p class="roboto" style="
-            font-weight: 600;
-            font-size: 15px;
-            color: #730899;
-            margin: 0px;
-          ">${eventInfo.availability_count}</p>
-     </div>`
-    );
+  async makeMapboxEventMarkerArray(): Promise<void> {
+    return new Promise((resolve) => {
+      this.eventarr = [];
+      console.log("Eventarr ORG: ", this.eventArrOrg);
 
-    // Create the marker DOM element and add a click event listener
-    // const el = document.createElement('div');
-    // el.className = 'marker';
-    // el.style.height = '32px';
-    // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
+      for (let i = 0; i < this.eventArrOrg.length; i++) {
+        const eventInfo = this.eventArrOrg[i];
+        const popup = new mapboxgl.Popup().setHTML(
+          `<div style="display: flex; align-items: center;">
+        <img style="height: 24px; width: 24px; margin-right: 10px" src="assets/imgs/icons/new_icons/map_icons/PersonIcon.png" />
+        <p class="roboto" style="
+              font-weight: 600;
+              font-size: 15px;
+              color: #730899;
+              margin: 0px;
+            ">${eventInfo.availability_count}</p></div>`
+        );
 
-    // Attach the click event directly to the element
-    
+        // Create the marker DOM element and add a click event listener
+        // const el = document.createElement('div');
+        // el.className = 'marker';
+        // el.style.height = '32px';
+        // el.style.backgroundImage = "url('assets/imgs/locpin2.svg')"; // Add a background image if desired
 
-    // Create the Mapbox marker using the custom element
-    const marker = new mapboxgl.Marker()
-    .setLngLat([eventInfo.longitude, eventInfo.lattitude])
-    .setPopup(popup)
-    .addTo(this.mapbox);
+        // Attach the click event directly to the element
 
-    console.log("Marker adding event id", eventInfo.events_id);
 
-    // Add a click event listener directly to the Mapbox marker
-    marker.getElement().addEventListener('click', ((eventData) => () => {
-      console.log("Marker clicked", eventData.events_id); // Access the correct eventInfo object
-      this.filterEventArrypin(eventData.events_id);
-    })(eventInfo));  // Pass eventInfo as a parameter to an IIFE (Immediately Invoked Function Expression)
+        // Create the Mapbox marker using the custom element
+        const marker = new mapboxgl.Marker()
+          .setLngLat([eventInfo.longitude, eventInfo.lattitude])
+          .setPopup(popup)
+          .addTo(this.mapbox);
 
-      this.eventarr.push(marker);
-    }
-    
-    for (let index = 0; index < this.eventarr.length; index++) {
-      this.markers.push(this.eventarr[index]);
-    }
-   
-    console.log("EventArr : ",this.eventarr);
-    console.log("markersArr : ",this.markers);
-    this.allVenueEventMarkers = this.markers;
+        console.log("Marker adding event id", eventInfo.events_id);
 
-    // this.collectMarkers();
-    // this.openRequestedMarker();
-    
+        // Add a click event listener directly to the Mapbox marker
+        marker.getElement().addEventListener('click', ((eventData) => () => {
+          console.log("Marker clicked", eventData.events_id); // Access the correct eventInfo object
+          this.filterEventArrypin(eventData.events_id);
+        })(eventInfo));  // Pass eventInfo as a parameter to an IIFE (Immediately Invoked Function Expression)
+
+        this.eventarr.push(marker);
+      }
+
+      for (let index = 0; index < this.eventarr.length; index++) {
+        this.markers.push(this.eventarr[index]);
+      }
+
+      console.log("EventArr : ", this.eventarr);
+      console.log("markersArr : ", this.markers);
+      this.allVenueEventMarkers = this.markers;
+
+      // this.collectMarkers();
+      // this.openRequestedMarker();
+      resolve();
+    });
+
+
   }
 
   openRequestedMarker() {
-    if(this.rest.comingForLoc == true){
+    if (this.rest.comingForLoc == true) {
       this.detailObj = this.rest.detail;
-      console.log('detail object: ',this.detailObj);
+      console.log('detail object: ', this.detailObj);
       this.rest.comingForLoc = false;
 
-      if(this.detailObj.name){
+      if (this.detailObj.name) {
         const marker = this.markerElements.get(this.detailObj.name);
         const markerData = this.markers.find((m: { name: any; }) => m.name === this.detailObj.name);
         if (marker && markerData) {
-          console.log('found marker: ',marker);
-          console.log('found markerData: ',markerData);
+          console.log('found marker: ', marker);
+          console.log('found markerData: ', markerData);
 
           this.openInfo(marker, markerData.title, markerData);
-          if(this.detailObj.venues_id){
+          if (this.detailObj.venues_id) {
             this.getDirections();
-          }else if(this.detailObj.events_id){
+          } else if (this.detailObj.events_id) {
             this.getEventDirections();
-          }else{
-            
+          } else {
+
           }
         }
       }
-      
+
     }
   }
 
-  getCurrentLocation = async()=>{
+  getCurrentLocation = async () => {
     if (navigator.geolocation) {
       try {
         const position = await this.getPosition();
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-         this.currentLatitude = pos.lat;
-         this.currentLongitude = pos.lng;
-          
-          this.center = pos;
-          this.userLocation = {
-            position: {
-              lat: pos.lat,
-              lng: pos.lng,
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        this.currentLatitude = pos.lat;
+        this.currentLongitude = pos.lng;
+
+        this.center = pos;
+        this.userLocation = {
+          position: {
+            lat: pos.lat,
+            lng: pos.lng,
+          },
+
+          options: {
+            animation: google.maps.Animation.DROP,
+            draggable: false,
+            icon: {
+              url: "../../assets/imgs/icons/loc_pin_new.svg",
+
             },
-           
-            options: {
-              animation: google.maps.Animation.DROP,
-              draggable: false,
-              icon: {
-                url: "../../assets/imgs/icons/loc_pin_new.svg",
-                
-              },
-            },
-          };
-          // this.map.googleMap?.setZoom(13);
+          },
+        };
+        // this.map.googleMap?.setZoom(13);
       } catch (error) {
         console.error('Error getting position', error);
       }
-      
 
-      
+
+
 
     } else {
       // Browser doesn't support Geolocation
       // handleLocationError(false, infoWindow, map.getCenter()!);
     }
-    
+
     this.showCategories = false;
     this.showCrowdfilters = false;
     this.showEventCategories = false;
   }
 
-  getPosition():Promise<GeolocationPosition>{
-    return new Promise((resolve,reject)=>{
-      navigator.geolocation.getCurrentPosition(resolve,reject);
+  getPosition(): Promise<GeolocationPosition> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
     })
   }
 
-  setMarkersAgain(){
-    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+  setMarkersAgain() {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showDetail = false;
     this.map.googleMap?.setZoom(13);
     this.center = {
@@ -3047,8 +3146,8 @@ export class LocationmapPage implements OnInit {
     };
     this.venuarr = [];
     // this.markers = [];
-    console.log("Venuarr ORG: ",this.venuarrOrg);
-    
+    console.log("Venuarr ORG: ", this.venuarrOrg);
+
     for (var i = 0; i < this.venuarrOrg.length; i++) {
       var obj = {
         position: {
@@ -3075,13 +3174,13 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.venuarr;
-    console.log("Venuarr : ",this.venuarr);
-    console.log("markersArr : ",this.markers);
+    console.log("Venuarr : ", this.venuarr);
+    console.log("markersArr : ", this.markers);
     this.showCategories = false;
   }
 
-  setEventMarkersAgain(){
-    this.directionsResults$ =of<google.maps.DirectionsResult | undefined>(undefined);
+  setEventMarkersAgain() {
+    this.directionsResults$ = of<google.maps.DirectionsResult | undefined>(undefined);
     this.showEventDetail = false;
     this.map.googleMap?.setZoom(13);
     this.center = {
@@ -3090,8 +3189,8 @@ export class LocationmapPage implements OnInit {
     };
     this.eventarr = [];
     // this.markers = [];
-    console.log("EventArr ORG: ",this.eventArrOrg);
-    
+    console.log("EventArr ORG: ", this.eventArrOrg);
+
     for (var i = 0; i < this.eventArrOrg.length; i++) {
       var obj = {
         position: {
@@ -3118,13 +3217,13 @@ export class LocationmapPage implements OnInit {
     }
 
     this.markers = this.eventarr;
-    console.log("EventArr : ",this.eventarr);
-    console.log("markersArr : ",this.markers);
+    console.log("EventArr : ", this.eventarr);
+    console.log("markersArr : ", this.markers);
     this.showEventCategories = false;
   }
 
   async HideFilter() {
-    
+
     this.searchObject = "";
     this.searchEventObject = "";
     this.showCrowdfilters = false;
@@ -3151,31 +3250,31 @@ export class LocationmapPage implements OnInit {
       this.inputFeatureActive = true;
       this.keyboardIsVisible = true;
       this.listening = false;
-      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
-      console.log("listening: ",this.listening);
+      console.log("keyboardIsVisible: ", this.keyboardIsVisible);
+      console.log("listening: ", this.listening);
       this.changeDetectorRef.detectChanges();
-      
+
     });
 
     Keyboard.addListener('keyboardWillHide', () => {
       console.log('keyboard will hide');
       this.keyboardIsVisible = false;
-      console.log("keyboardIsVisible: ",this.keyboardIsVisible);
-      if(this.typedText == ''){
+      console.log("keyboardIsVisible: ", this.keyboardIsVisible);
+      if (this.typedText == '') {
         this.inputFeatureActive = false;
       }
-      console.log('input feature active: ',this.inputFeatureActive);
+      console.log('input feature active: ', this.inputFeatureActive);
 
       this.changeDetectorRef.detectChanges();
-      
+
       console.log(this.inputFeatureActive);
-      if(this.typedText != '' ){
+      if (this.typedText != '') {
         console.log('back button pressed 2');
         this.venuarr = this.venuarrOrg;
         this.dismissModal();
         this.findResults(this.typedText);
       }
-      
+
     });
   }
 
@@ -3234,14 +3333,14 @@ export class LocationmapPage implements OnInit {
       default:
         break;
     }
-  }           
+  }
 
   getAddress(latitude: any, longitude: any) {
     this.geoCoder
       .geocode({ location: { lat: latitude, lng: longitude } })
       .subscribe((addr: MapGeocoderResponse) => {
-        console.log("MapGeocoderResponse addr: ",addr);
-        
+        console.log("MapGeocoderResponse addr: ", addr);
+
         if (addr.status === "OK") {
           if (addr.results[0]) {
             this.zoom = 13;
@@ -3257,7 +3356,7 @@ export class LocationmapPage implements OnInit {
       });
   }
 
-  closeWindow(){
+  closeWindow() {
     this.infoWindow.close();
   }
 
@@ -3271,24 +3370,24 @@ export class LocationmapPage implements OnInit {
     // this.clearSearchEventObject();
     this.filtertype = 'yes';
     this.infoContent = content;
-    if(marker){
+    if (marker) {
       this.infoWindow.open(marker);
     }
-    console.log("Map Marker:",marker);
-    
+    console.log("Map Marker:", marker);
+
     console.log("markerobj-----------", markerobj);
     console.log("content title-----------", content);
-    if(markerobj.venueId){
+    if (markerobj.venueId) {
       this.searchEventObject = '';
       this.filterArrypin(markerobj.venueId);
-    }else{
+    } else {
       this.searchObject = '';
       this.filterEventArrypin(markerobj.eventId);
     }
   }
 
   async filterArrypin(searchTerm: any) {
-    if(this.filtertype != 'yes'){
+    if (this.filtertype != 'yes') {
       this.filtertype = 'yes';
     }
     for (var i = 0; i < this.venuarrOrg.length; i++) {
@@ -3297,8 +3396,8 @@ export class LocationmapPage implements OnInit {
         this.searchObject = this.venuarrOrg[i];
         let dayNumber = getDay(new Date());
         console.log(dayNumber);
-        if(this.searchObject.venue_timing[dayNumber].start_hours != null && this.searchObject.venue_timing[dayNumber].close_hours != null){
-      
+        if (this.searchObject.venue_timing[dayNumber].start_hours != null && this.searchObject.venue_timing[dayNumber].close_hours != null) {
+
           this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
           this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
 
@@ -3308,14 +3407,15 @@ export class LocationmapPage implements OnInit {
           //formated time
           this.searchObject.start_hours = format(this.searchObject.start_hours, 'h:mma');
           this.searchObject.close_hours = format(this.searchObject.close_hours, 'h:mma');
-        }else{
+        } else {
           this.searchObject.start_hours = null;
           this.searchObject.close_hours = null;
         }
 
       }
     }
-    console.log("this.searchObject: ",this.searchObject);
+    console.log("this.searchObject: ", this.searchObject);
+    this.searchEventObject = '';
     this.showDetail = true;
     this.showEventDetail = false;
     this.rest.pinobject = this.searchObject;
@@ -3326,9 +3426,10 @@ export class LocationmapPage implements OnInit {
   }
 
   async filterEventArrypin(searchTerm: any) {
-    if(this.filtertype != 'yes'){
+    if (this.filtertype != 'yes') {
       this.filtertype = 'yes';
     }
+
     for (var i = 0; i < this.eventArrOrg.length; i++) {
       // if (this.venuarrOrg[i].name.toLowerCase() == searchTerm.toLowerCase()) {
       if (this.eventArrOrg[i].events_id == searchTerm) {
@@ -3336,27 +3437,28 @@ export class LocationmapPage implements OnInit {
         // let dayNumber = getDay(new Date());
         // console.log(dayNumber);
         // if(this.searchObject.venue_timing[dayNumber].start_hours != null && this.searchObject.venue_timing[dayNumber].close_hours != null){
-      
-          // this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
-          // this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
 
-          // parsed time
-          // this.searchObject.start_hours = parse(this.searchObject.start_hours, 'HH:mm:ss', new Date());
-          // this.searchObject.close_hours = parse(this.searchObject.close_hours, 'HH:mm:ss', new Date());
-          this.searchEventObject.formatted_start_time = parse(this.searchEventObject.event_start_time, 'HH:mm:ss', new Date());
-          this.searchEventObject.formatted_end_time = parse(this.searchEventObject.event_end_time, 'HH:mm:ss', new Date());
-          //formated time
-          this.searchEventObject.formatted_start_time = format(this.searchEventObject.formatted_start_time, 'h:mma');
-          this.searchEventObject.formatted_end_time = format(this.searchEventObject.formatted_end_time, 'h:mma');
+        // this.searchObject.start_hours = this.searchObject.venue_timing[dayNumber].start_hours;
+        // this.searchObject.close_hours = this.searchObject.venue_timing[dayNumber].close_hours;
+
+        // parsed time
+        // this.searchObject.start_hours = parse(this.searchObject.start_hours, 'HH:mm:ss', new Date());
+        // this.searchObject.close_hours = parse(this.searchObject.close_hours, 'HH:mm:ss', new Date());
+        this.searchEventObject.formatted_start_time = parse(this.searchEventObject.event_start_time, 'HH:mm:ss', new Date());
+        this.searchEventObject.formatted_end_time = parse(this.searchEventObject.event_end_time, 'HH:mm:ss', new Date());
+        //formated time
+        this.searchEventObject.formatted_start_time = format(this.searchEventObject.formatted_start_time, 'h:mma');
+        this.searchEventObject.formatted_end_time = format(this.searchEventObject.formatted_end_time, 'h:mma');
         // }
         // else{
-          // this.searchObject.start_hours = null;
-          // this.searchObject.close_hours = null;
+        // this.searchObject.start_hours = null;
+        // this.searchObject.close_hours = null;
         // }
 
       }
     }
-    console.log("this.searchObject event: ",this.searchEventObject);
+    console.log("this.searchObject event: ", this.searchEventObject);
+    this.searchObject = '';
     this.showDetail = false;
     this.showEventDetail = true;
     this.rest.pinobject = this.searchEventObject;

@@ -60,9 +60,9 @@
   </div>
 
   <div style="width: 92%; margin: 4% auto">
-    <div (click)="showAllReviews()" class="roboto rating_text">4.5 <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
+    <!-- <div (click)="showAllReviews()" class="roboto rating_text">4.5 <img class="star-icon" src="../../assets/imgs/icons/new_icons/StarIcon.png" alt=""> 
       <span style="margin-left: 4px;margin-right: auto;">Exceptional</span>
-    </div>
+    </div> -->
     <p class="titlemain roboto">{{detailObj.name}} </p>
     <p class="titlesubmain roboto">{{detailObj.venue_name}}</p>
 
@@ -113,9 +113,11 @@
     </div> -->
 
     <div class="info_bar1">
-      <div class="roboto venue_type">Terrace <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <img style="height: 40px;margin-right: 10px;" *ngFor="let eventType of filteredEventTypes" src="{{rest.baseURLimg}}{{eventType.keyword_image}}" alt="">
+      <img style="height: 40px;margin-right: 10px;" *ngIf="detailObj.e_ticket=='yes'" src="../../assets/imgs/icons/venue_types/e-ticket.png" alt="">
+      <!-- <div class="roboto venue_type">Terrace <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
       <div class="roboto venue_type">Cocktails  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
-      <div class="roboto venue_type">Bar  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div>
+      <div class="roboto venue_type">Bar  <img class="small_icon" src="../../assets/imgs/icons/new_icons/DrinkIcon.png" alt=""></div> -->
       <ion-badge *ngIf="detailObj.discount_percentage > 0" class="bdg"
         >{{detailObj.discount_percentage}}% Off
       </ion-badge>

@@ -8,9 +8,7 @@ export const environment = {
     publishableKey: "pk_test_51MQ37qDFPlDlGxkdw91wUybcouQFM0EOUev6HlGRi86QjYCu3tITcy1KzcDJGrSncQ8G2rHYxPmiDAm4Y027ff6g00Es0yT7y1",
     secretKey:"sk_test_51MQ37qDFPlDlGxkdlXFzM1TSkhofxqUNM7UqGA9JgEkEIZPAmr172nVMGtsKRV0p7Iwz6rbByj5m2JlsWpfGNzD200gSyX7zYL"
   },
-  mapboxgl: {
-    accessToken: 'pk.eyJ1IjoiY3Jvd2RhcHAiLCJhIjoiY20zcjkxOTE0MDNneTJrc2FkaWtrMHNuYSJ9.Xqwl58YnNlk5HwP6UH4cfQ'
-  }
+  
   // api: 'https://192.168.1.3:3000/'
 };
 

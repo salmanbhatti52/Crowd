@@ -25,6 +25,7 @@ export class EventdetailPage implements OnInit {
   userID: any = "";
   availableTickets: any;
   allTicketsSold= false;
+  filteredEventTypes: any;
 
   constructor(
     public router: Router,
@@ -127,6 +128,8 @@ export class EventdetailPage implements OnInit {
     if(this.availableTickets < 1 ){
       this.allTicketsSold = true;
     }
+
+    this.filteredEventTypes = this.detailObj.event_keywords?.filter((keyword:any) => keyword.keyword_type == "event_type" && keyword.keyword_image != null).slice(0,1);
   }
 
   showAllReviews(){
@@ -206,7 +209,9 @@ export class EventdetailPage implements OnInit {
   public goLocation() {
     this.rest.detail = this.detailObj;
     this.rest.comingForLoc =true;
-    this.router.navigate(['/locationmap']);
+    this.router.navigate(['/locationmap'],{
+      queryParams:{'cardType': 'event'}
+    });
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
     // var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
 

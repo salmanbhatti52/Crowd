@@ -88,6 +88,9 @@ export class HomePage implements OnInit {
   // gettingInput = false;
   radiusInMeters = 10; // 10 meters
 
+  currentWeather: any;
+  weatherForecast: any;
+
   inputFeatureActive = false;
   // lottieConfig!: AnimationOptions;
   keyboardIsVisible = false;
@@ -121,6 +124,97 @@ export class HomePage implements OnInit {
 
   }
 
+  fetchWeather(){
+    this.rest.getWeather(`https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=8f909ca4b9ed672b84fb24657ab33e87`).subscribe({next:(res:any)=>{
+      console.log('weather res: ',res);
+      
+      this.currentWeather = res;
+      
+      if(this.currentWeather.main.temp){
+        const temp = this.currentWeather.main.temp - 273.15;
+        this.currentWeather.main.temp = Math.floor(temp);
+        
+        const feelsLike = this.currentWeather.main.feels_like - 273.15;
+        this.currentWeather.main.feels_like = Math.floor(feelsLike);
+
+        const tempMax = this.currentWeather.main.temp_max - 273.15;
+        this.currentWeather.main.temp_max = Math.floor(tempMax);
+        
+         const tempMin = this.currentWeather.main.temp_min - 273.15;
+        this.currentWeather.main.temp_min = Math.floor(tempMin);
+
+        this.currentWeather.weatherIcon = this.currentWeather.weather[0].icon;
+        this.currentWeather.weatherIcon = this.setWeatherIcon(this.currentWeather.weatherIcon);
+        const windSpeedInKmph = this.currentWeather.wind.speed * 3.6;
+        this.currentWeather.windSpeedInKmph = Math.floor(windSpeedInKmph);
+        this.currentWeather.visibilityStatus = this.getVisibilityStatus(this.currentWeather.visibility);
+        this.rest.currentWeather = res;
+      }
+    },
+    error:(err:any)=>{
+      console.log('weather err: ',err);
+    }
+
+    });
+  }
+
+  setWeatherIcon(weatherIcon:string):string{
+    if(weatherIcon === '01d' ){
+      return 'SunIcon';
+    }else if(weatherIcon === '01n'){
+      return 'NightIcon';
+    }else if(weatherIcon === '02d'){
+      return 'CloudySunIcon';
+    }else if(weatherIcon === '02n'){
+      return 'CloudyNightIcon';
+    }else if(weatherIcon === '03d' || weatherIcon === '03n' || weatherIcon === '04d' || weatherIcon === '04n'){
+      return 'CloudyIcon';
+    }else if(weatherIcon === '09d' || weatherIcon === '09n'){
+      return 'ShowersIcon';
+    }else if(weatherIcon === '10d' || weatherIcon === '10n'){
+      return 'LightRainIcon';
+    }else if(weatherIcon === '11d' || weatherIcon === '11n'){
+      return 'ThunderIcon';
+    }else if(weatherIcon === '13d' || weatherIcon === '13n'){
+      return 'FrostIcon';
+    }else if(weatherIcon === '50d' || weatherIcon === '50n'){
+      return '50d';
+    }else{
+      return '';
+    }
+    // else if(weatherIcon === '50d' || weatherIcon === '50n'){
+    // }
+
+
+  }
+
+  getVisibilityStatus(visibility: number): string {
+    if (visibility >= 10000) {
+        return "Excellent";
+    } else if (visibility >= 5000) {
+        return "Good";
+    } else if (visibility >= 2000) {
+        return "Moderate";
+    } else if (visibility >= 1000) {
+        return "Poor";
+    } else {
+        return "Very Poor";
+    }
+  }
+
+  fetchWeatherForecast(){
+    this.rest.getWeather(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.latitude}&lon=${this.longitude}&appid=8f909ca4b9ed672b84fb24657ab33e87`).subscribe({next:(res:any)=>{
+      console.log('weather forecast res: ',res);
+      this.rest.weatherForecast = res;
+      this.weatherForecast = res;   
+    },
+    error:(err:any)=>{
+      console.log('weather forecast err: ',err);
+    }
+
+    });
+  }
+
   closeNewModel() {
     this.showWeather = false;
     this.changeDetectorRef.detectChanges();
@@ -138,8 +232,6 @@ export class HomePage implements OnInit {
     this.listening = false;
     this.yourVoiceInput = '';
     this.changeDetectorRef.detectChanges();
-
-
 
     if (!this.welcomeMessage) {
       console.error('welcomeMessage ViewChild not yet initialized');
@@ -2722,6 +2814,9 @@ export class HomePage implements OnInit {
     //   console.log("time in minutes:",this.timeInMinutes);      
     // }
 
+    this.fetchWeather();
+    this.fetchWeatherForecast();
+    
     this.getClaimedVenues();
     this.getVenueAIKeywords();
     this.getEventAIKeywords();

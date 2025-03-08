@@ -1,75 +1,87 @@
-
-
 <ion-content style="--background: #282828">
-  
-  
 
-  <div
-    style="
+
+
+  <div style="
       background: radial-gradient(circle at 0% 0%, #373737, #222222, #222222);
       padding: 20px 15px 5px 20px;
       border-radius: 0px 0px 45px 45px;
     ">
 
-    <ion-row >
-      <ion-col size="2" style="display: flex;align-items: center;"
-        ><img
-          (click)="goBack()"
-          style="height: 25px; "
-          src="../../assets/imgs/icons/new_icons/BackIcon.png"
-        />
+    <ion-row>
+      <ion-col size="2" style="display: flex;align-items: center;"><img (click)="goBack()" style="height: 25px; "
+          src="../../assets/imgs/icons/new_icons/BackIcon.png" />
       </ion-col>
       <ion-col size="8" class="centerall">
-        <ion-title class="weather_heading roboto">Manchester</ion-title>
+        <ion-title class="weather_heading roboto">{{currentWeather.name}}</ion-title>
       </ion-col>
-      <ion-col  size="2"></ion-col>
+      <ion-col size="2"></ion-col>
     </ion-row>
-    
+
     <!-- <div class="weather_heading center_text roboto">Manchester</div> -->
-    <div class="weather_sub_heading center_text roboto">Heavy Showers</div>
+    <div class="weather_sub_heading center_text roboto">{{currentWeather.weather[0].main}}</div>
 
     <div class="flex_center">
       <div class="roboto">
-        <div class="weather_temp"><span class="main_temp">12</span>  <sup  class="font-w-100" style="color: white;font-size: 28px;">o</sup></div>
-        <div class="weather_detail">Feels like: <span class="font-bold">10</span>  <sup class="font-w-100">o</sup></div>
-        <div class="weather_detail"><span>High: <span class="font-bold">15</span> <sup class="font-w-100">o</sup> </span> <span style="margin-left: 4px;"> Low: <span class="font-bold">10</span> <sup class="font-w-100">o</sup></span></div>
-        <div class="weather_detail">Humidity: <span class="font-bold">25%</span></div>
+        <div class="weather_temp"><span class="main_temp">{{currentWeather.main.temp}}</span> <sup class="font-w-100"
+            style="color: white;font-size: 28px;">o</sup></div>
+        <div class="weather_detail">Feels like: <span class="font-bold">{{currentWeather.main.feels_like}}</span> <sup
+            class="font-w-100">o</sup></div>
+        <div class="weather_detail"><span>High: <span class="font-bold">{{currentWeather.main.temp_max}}</span> <sup
+              class="font-w-100">o</sup> </span> <span style="margin-left: 4px;"> Low: <span
+              class="font-bold">{{currentWeather.main.temp_min}}</span> <sup class="font-w-100">o</sup></span></div>
+        <div class="weather_detail">Humidity: <span class="font-bold">{{currentWeather.main.humidity}}%</span></div>
       </div>
-      <img class="weather_icon2" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt="">
+      <!-- <img class="weather_icon2" src="https://openweathermap.org/img/wn/{{currentWeather.weatherIcon}}@2x.png" alt=""> -->
+      <img *ngIf="currentWeather?.weatherIcon=='50d'" class="weather-icon2"
+        src="https://openweathermap.org/img/wn/{{currentWeather?.weatherIcon}}@2x.png" alt="">
+      <img *ngIf="currentWeather?.weatherIcon!='50d'" class="weather-icon2" style="height: 118px;"
+        src="../../assets/imgs/icons/new_icons/weather_icons/{{currentWeather?.weatherIcon}}.png" alt="">
     </div>
-    
+
     <div class="weather_detail_box">
       <div class="flex_col_center">
         <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/WindIcon.png" alt="">
         <div class="weather_detail">Wind</div>
-        <div class="weather_detail">9km/h</div>
+        <div class="weather_detail">{{currentWeather.windSpeedInKmph}}km/h</div>
       </div>
       <div class="flex_col_center">
-        <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/WaterDropIcon.png" alt="">
-        <div class="weather_detail">Rain</div>
-        <div class="weather_detail">85%</div>
+        <!-- <img class="w_detail_icon" src="https://openweathermap.org/img/wn/{{currentWeather.weatherIcon}}@2x.png" alt=""> -->
+        <img *ngIf="currentWeather?.weatherIcon=='50d'" class="w_detail_icon"
+          src="https://openweathermap.org/img/wn/{{currentWeather?.weatherIcon}}@2x.png" alt="">
+        <img *ngIf="currentWeather?.weatherIcon!='50d'" class="w_detail_icon"
+          src="../../assets/imgs/icons/new_icons/weather_icons/{{currentWeather?.weatherIcon}}.png" alt="">
+        <div class="weather_detail">{{currentWeather.weather[0].main}}</div>
+        <div class="weather_detail">-</div>
+        <!-- <div class="weather_detail">85%</div> -->
       </div>
       <div class="flex_col_center">
         <img class="w_detail_icon" src="../../assets/imgs/icons/new_icons/weather_icons/VisionIcon.png" alt="">
         <div class="weather_detail">Visibility</div>
-        <div class="weather_detail">Clear</div>
+        <div class="weather_detail">{{currentWeather.visibilityStatus}}</div>
       </div>
     </div>
-    
+
 
     <!-- <div class="footer_text">Terms and Conditions Apply.</div> -->
-    
+
   </div>
 
   <div style="padding:0px 20px;">
-    <div class="tile_heading">Today</div>
-    <div style="display: flex;justify-content: space-between;margin-top: 12px;">
-      <div class="flex_col_center info_tile_active">
-        <div class="weather_detail_12">9 AM</div>
-        <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt="">
-        <div class="weather_detail_12">12</div>
+    <div class="tile_heading">{{selectedDayInfo}}</div>
+    <div style="display: flex;margin-top: 12px;overflow: scroll;">
+      <div class="flex_col_center tile_size" *ngFor="let hour of selectedDayWeatherForecast; let i= index;"
+        [ngClass]="{'info_tile_active': i == 0,'info_tile': i != 0}">
+        <div class="weather_detail_12">{{hour?.weatherObj.dayTime}}</div>
+        <!-- <img class="weather_info_tile" src="https://openweathermap.org/img/wn/{{hour?.weatherObj.weatherIcon}}@2x.png"
+          alt=""> -->
+        <img *ngIf="hour?.weatherObj.weatherIcon=='50d'" class="weather_info_tile"
+          src="https://openweathermap.org/img/wn/{{hour?.weatherObj.weatherIcon}}@2x.png" alt="">
+        <img *ngIf="hour?.weatherObj.weatherIcon!='50d'" class="weather_info_tile"
+          src="../../assets/imgs/icons/new_icons/weather_icons/{{hour?.weatherObj.weatherIcon}}.png" alt="">
+        <div class="weather_detail_12">{{hour?.weatherObj.tempInCelcius}}</div>
       </div>
-      <div class="flex_col_center info_tile">
+      <!-- <div class="flex_col_center info_tile">
         <div class="weather_detail_12">10 AM</div>
         <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/ThunderIcon.png" alt="">
         <div class="weather_detail_12">12</div>
@@ -83,16 +95,23 @@
         <div class="weather_detail_12">12 AM</div>
         <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/SunIcon.png" alt="">
         <div class="weather_detail_12">12</div>
-      </div>
+      </div> -->
     </div>
     <div class="tile_heading">Weekly Report</div>
-    <div style="display: flex;justify-content: space-between;margin-top: 12px;">
-      <div class="flex_col_center info_tile_active">
-        <div class="weather_detail_12">THU</div>
-        <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/ShowersIcon.png" alt="">
-        <div class="weather_detail_12">12</div>
+    <div style="display: flex;overflow: scroll;margin-top: 12px;">
+      <div class="flex_col_center tile_size" *ngFor="let day of weeklyWeatherForecast"
+        (click)="findSelectedDayWeatherForecast(day?.formattedDate,day?.selectedDayInfo)"
+        [ngClass]="{'info_tile_active':day?.formattedDate == selectedWeatherDay,'info_tile':day?.formattedDate != selectedWeatherDay}">
+        <div class="weather_detail_12 capitalize">{{day?.weatherObj.dayName}}</div>
+        <!-- <img class="weather_info_tile" src="https://openweathermap.org/img/wn/{{day?.weatherObj.weatherIcon}}@2x.png"
+          alt=""> -->
+        <img *ngIf="day?.weatherObj.weatherIcon=='50d'" class="weather_info_tile"
+          src="https://openweathermap.org/img/wn/{{day?.weatherObj.weatherIcon}}@2x.png" alt="">
+        <img *ngIf="day?.weatherObj.weatherIcon!='50d'" class="weather_info_tile"
+          src="../../assets/imgs/icons/new_icons/weather_icons/{{day?.weatherObj.weatherIcon}}.png" alt="">
+        <div class="weather_detail_12">{{day?.weatherObj.tempInCelcius}}</div>
       </div>
-      <div class="flex_col_center info_tile">
+      <!-- <div class="flex_col_center info_tile">
         <div class="weather_detail_12">FRI</div>
         <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/ThunderIcon.png" alt="">
         <div class="weather_detail_12">12</div>
@@ -106,7 +125,7 @@
         <div class="weather_detail_12">SUN</div>
         <img class="weather_info_tile" src="../../assets/imgs/icons/new_icons/weather_icons/SunIcon.png" alt="">
         <div class="weather_detail_12">12</div>
-      </div>
+      </div> -->
     </div>
   </div>
 

@@ -201,7 +201,7 @@ export class VenuedetailPage implements OnInit{
       this.hideClaimDiscountButton = false;
     }
 
-     this.filteredVenueTypes = this.detailObj.venue_keywords?.filter((keyword:any) => keyword.keyword_type == "venues_type" && keyword.keyword_image != null).slice(0,2);
+    this.filteredVenueTypes = this.detailObj.venue_keywords?.filter((keyword:any) => keyword.keyword_type == "venues_type" && keyword.keyword_image != null).slice(0,2);
 
     console.log("filteredVenueTypes: ",this.filteredVenueTypes);
     
@@ -366,7 +366,9 @@ export class VenuedetailPage implements OnInit{
   public goLocation() {
     this.rest.detail = this.detailObj;
     this.rest.comingForLoc =true;
-    this.router.navigate(['/locationmap']);
+    this.router.navigate(['/locationmap'], {
+      queryParams:{'cardType': 'venue'},
+    });
     // window.open("https://www.google.com/maps/search/?api=1&query=6.424580,3.441100")
     // ----- show in google map-----------
     // var geocoords = this.detailObj.lattitude + "," + this.detailObj.longitude;
